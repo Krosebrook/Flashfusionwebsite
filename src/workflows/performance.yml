@@ -1,0 +1,142 @@
+name: ⚡ Performance & Monitoring
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    # Run performance tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  # ===== PERFORMANCE TESTING =====
+  performance:
+    name: ⚡ Performance Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: npm ci
+
+      - name: 🏗️ Build Production
+        run: npm run build:prod
+
+      - name: ⚡ Performance Test
+        run: npm run performance:test
+
+      - name: 📊 Bundle Size Analysis
+        run: |
+          echo "📦 Bundle Size Report:"
+          du -sh dist/* | sort -hr
+          echo ""
+          echo "📊 Detailed Analysis:"
+          ls -lah dist/
+
+  # ===== LIGHTHOUSE CI =====
+  lighthouse:
+    name: 🔍 Lighthouse CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: npm ci
+
+      - name: 🏗️ Build Production
+        run: npm run build:prod
+
+      - name: 🚀 Start Preview Server
+        run: |
+          npm run preview &
+          sleep 10
+
+      - name: 🔍 Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          configPath: './lighthouserc.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+  # ===== SECURITY MONITORING =====
+  security-monitor:
+    name: 🔒 Security Monitoring
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: npm ci
+
+      - name: 🔒 Security Scan
+        run: |
+          npm audit --audit-level moderate
+          npm run security:scan
+
+      - name: 🔍 Dependency Check
+        uses: actions/dependency-review-action@v3
+        if: github.event_name == 'pull_request'
+
+  # ===== UPTIME MONITORING =====
+  uptime-check:
+    name: 🌐 Uptime Check
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: 🌐 Check Production Site
+        run: |
+          echo "🌐 Checking FlashFusion production site..."
+          
+          # Check main site
+          if curl -f -s https://flashfusion.ai > /dev/null; then
+            echo "✅ Main site is up"
+          else
+            echo "❌ Main site is down"
+            exit 1
+          fi
+          
+          # Check API health
+          if curl -f -s https://flashfusion.ai/api/health > /dev/null; then
+            echo "✅ API is healthy"
+          else
+            echo "❌ API is down"
+            exit 1
+          fi
+          
+          echo "🎉 All systems operational!"
+
+      - name: 📊 Performance Check
+        run: |
+          echo "⚡ Checking page load times..."
+          
+          # Simple performance check
+          response_time=$(curl -o /dev/null -s -w '%{time_total}\n' https://flashfusion.ai)
+          echo "📊 Response time: ${response_time}s"
+          
+          # Alert if response time > 3 seconds
+          if (( $(echo "$response_time > 3" | bc -l) )); then
+            echo "⚠️ Site is responding slowly (${response_time}s)"
+          else
+            echo "✅ Site performance is good"
+          fi

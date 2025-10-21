@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@flashfusion/ui": ["../../packages/ui/src"],
+      "@flashfusion/utils": ["../../packages/utils/src"],
+      "@flashfusion/types": ["../../packages/types/src"],
+      "@flashfusion/services": ["../../packages/services/src"],
+      "@flashfusion/hooks": ["../../packages/hooks/src"],
+      "@flashfusion/config": ["../../packages/config/src"]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "../../packages/*/src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

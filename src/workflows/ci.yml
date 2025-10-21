@@ -1,0 +1,237 @@
+name: 🚀 FlashFusion CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  # ===== QUALITY CHECKS =====
+  quality:
+    name: 🔍 Quality Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: npm ci
+
+      - name: 🔍 TypeScript Check
+        run: npm run type-check
+
+      - name: ✨ Lint Check
+        run: npm run lint
+
+      - name: 🎨 FlashFusion Styling Check
+        run: npm run ff:validate-styling
+
+      - name: 🧪 Run Tests
+        run: npm run test
+
+  # ===== SECURITY SCAN =====
+  security:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: npm ci
+
+      - name: 🔒 Security Audit
+        run: npm audit --audit-level moderate
+
+      - name: 🔍 Security Scan
+        run: npm run security:scan
+        continue-on-error: true
+
+  # ===== BUILD =====
+  build:
+    name: 🏗️ Build Application
+    runs-on: ubuntu-latest
+    needs: [quality, security]
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: npm ci
+
+      - name: 🏗️ Build Production
+        run: npm run build:prod
+        env:
+          NODE_ENV: production
+          FF_ENVIRONMENT: production
+          FF_VERSION: ${{ github.sha }}
+
+      - name: 📊 Bundle Analysis
+        run: |
+          du -sh dist/*
+          echo "📦 Build size analysis:"
+          ls -lah dist/
+
+      - name: 📤 Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 30
+
+  # ===== HEALTH CHECK =====
+  health-check:
+    name: 🏥 Health Check
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: npm ci
+
+      - name: 📥 Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: 🏥 Production Health Check
+        run: node scripts/production-health-check.js
+
+  # ===== DEPLOY STAGING =====
+  deploy-staging:
+    name: 🚀 Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [health-check]
+    if: github.ref == 'refs/heads/develop'
+    environment:
+      name: staging
+      url: https://flashfusion-staging.vercel.app
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: npm ci
+
+      - name: 📥 Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: 🚀 Deploy to Vercel Staging
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./
+          alias-domains: flashfusion-staging.vercel.app
+
+  # ===== DEPLOY PRODUCTION =====
+  deploy-production:
+    name: 🌟 Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [health-check]
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://flashfusion.ai
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: npm ci
+
+      - name: 📥 Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: 🚀 Deploy to Vercel Production
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./
+
+      - name: 🏥 Post-Deploy Health Check
+        run: |
+          sleep 30  # Wait for deployment to be ready
+          curl -f https://flashfusion.ai/api/health || exit 1
+
+      - name: 📊 Deploy Analytics
+        run: |
+          echo "🎉 Deployment successful!"
+          echo "📊 Deployment metrics:"
+          echo "  - Commit: ${{ github.sha }}"
+          echo "  - Branch: ${{ github.ref_name }}"
+          echo "  - URL: https://flashfusion.ai"
+
+  # ===== NOTIFY =====
+  notify:
+    name: 📢 Notify Team
+    runs-on: ubuntu-latest
+    needs: [deploy-production, deploy-staging]
+    if: always()
+    steps:
+      - name: 📢 Success Notification
+        if: ${{ needs.deploy-production.result == 'success' || needs.deploy-staging.result == 'success' }}
+        run: |
+          echo "🎉 FlashFusion deployment successful!"
+          echo "Environment: ${{ github.ref_name == 'main' && 'Production' || 'Staging' }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Author: ${{ github.actor }}"
+
+      - name: ❌ Failure Notification
+        if: ${{ needs.deploy-production.result == 'failure' || needs.deploy-staging.result == 'failure' }}
+        run: |
+          echo "❌ FlashFusion deployment failed!"
+          echo "Environment: ${{ github.ref_name == 'main' && 'Production' || 'Staging' }}"
+          echo "Please check the logs and fix the issues."
+          exit 1

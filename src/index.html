@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Primary Meta Tags -->
+  <title>FlashFusion - AI Development Platform | 60+ Tools for Building Apps</title>
+  <meta name="title" content="FlashFusion - AI Development Platform | 60+ Tools for Building Apps" />
+  <meta name="description" content="Transform ideas into production-ready applications with FlashFusion's comprehensive AI development ecosystem. 60+ tools, multi-agent orchestration, one-click deployment." />
+  <meta name="keywords" content="AI development, code generation, app builder, artificial intelligence, development tools, multi-agent orchestration, deployment automation" />
+  <meta name="author" content="FlashFusion" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://flashfusion.ai/" />
+  <meta property="og:title" content="FlashFusion - AI Development Platform" />
+  <meta property="og:description" content="Transform ideas into production-ready applications with 60+ AI development tools and multi-agent orchestration." />
+  <meta property="og:image" content="https://flashfusion.ai/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="FlashFusion" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://flashfusion.ai/" />
+  <meta property="twitter:title" content="FlashFusion - AI Development Platform" />
+  <meta property="twitter:description" content="Transform ideas into production-ready applications with 60+ AI development tools and multi-agent orchestration." />
+  <meta property="twitter:image" content="https://flashfusion.ai/twitter-image.png" />
+  <meta property="twitter:creator" content="@flashfusion" />
+  
+  <!-- Favicons and Icons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF7B00" />
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+  
+  <!-- Theme Colors -->
+  <meta name="theme-color" content="#FF7B00" />
+  <meta name="msapplication-TileColor" content="#FF7B00" />
+  <meta name="msapplication-config" content="/browserconfig.xml" />
+  
+  <!-- Apple Specific -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="FlashFusion" />
+  
+  <!-- Microsoft Specific -->
+  <meta name="msapplication-starturl" content="/" />
+  
+  <!-- Security Headers -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()" />
+  
+  <!-- Preconnect for Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FlashFusion",
+    "description": "AI Development Platform with 60+ tools for building production-ready applications",
+    "url": "https://flashfusion.ai",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "FlashFusion",
+      "url": "https://flashfusion.ai"
+    },
+    "featureList": [
+      "AI Code Generation",
+      "Multi-Agent Orchestration", 
+      "One-Click Deployment",
+      "Real-time Collaboration",
+      "60+ Development Tools",
+      "Enterprise Security"
+    ]
+  }
+  </script>
+  
+  <!-- Critical CSS Inline -->
+  <style>
+    /* Critical loading styles */
+    .app-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0F172A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      color: #FFFFFF;
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 123, 0, 0.3);
+      border-top: 3px solid #FF7B00;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Font loading optimization */
+    .font-loading {
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="app-loading" class="app-loading">
+    <div style="text-align: center;">
+      <div class="loading-spinner"></div>
+      <div style="margin-top: 1rem; font-family: system-ui, sans-serif;">
+        <h2 style="margin: 0; font-size: 1.5rem; background: linear-gradient(135deg, #FF7B00 0%, #00B4D8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">FlashFusion</h2>
+        <p style="margin: 0.5rem 0 0; color: #94A3B8; font-size: 0.9rem;">Loading AI Development Platform...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Root -->
+  <div id="root"></div>
+  
+  <!-- Module Script -->
+  <script type="module" src="/main.tsx"></script>
+  
+  <!-- PWA Registration Script -->
+  <script>
+    // Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+        try {
+          const registration = await navigator.serviceWorker.register('/sw.js', {
+            scope: '/'
+          });
+          
+          console.log('FlashFusion SW registered:', registration.scope);
+          
+          // Listen for updates
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            if (newWorker) {
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // New version available
+                  if (confirm('New version of FlashFusion is available. Update now?')) {
+                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                    window.location.reload();
+                  }
+                }
+              });
+            }
+          });
+          
+        } catch (error) {
+          console.log('FlashFusion SW registration failed:', error);
+        }
+      });
+    }
+    
+    // PWA Install Prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // Show install button or banner
+      const installButton = document.createElement('button');
+      installButton.textContent = 'Install FlashFusion';
+      installButton.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #FF7B00 0%, #FF8F1F 100%);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        font-family: system-ui, sans-serif;
+      `;
+      
+      installButton.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log('PWA install prompt:', outcome);
+          deferredPrompt = null;
+          installButton.remove();
+        }
+      });
+      
+      document.body.appendChild(installButton);
+      
+      // Auto-hide after 10 seconds
+      setTimeout(() => {
+        if (installButton.parentNode) {
+          installButton.remove();
+        }
+      }, 10000);
+    });
+    
+    // App Installed Event
+    window.addEventListener('appinstalled', () => {
+      console.log('FlashFusion PWA installed successfully');
+      deferredPrompt = null;
+    });
+    
+    // Online/Offline Status
+    function updateOnlineStatus() {
+      const status = navigator.onLine ? 'online' : 'offline';
+      document.body.classList.toggle('offline', !navigator.onLine);
+      console.log('FlashFusion status:', status);
+    }
+    
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
+    
+    // Remove loading screen when app loads
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const loadingElement = document.getElementById('app-loading');
+        if (loadingElement) {
+          loadingElement.style.opacity = '0';
+          loadingElement.style.transition = 'opacity 0.3s ease';
+          setTimeout(() => {
+            loadingElement.remove();
+          }, 300);
+        }
+      }, 1000);
+    });
+    
+    // Performance monitoring
+    window.addEventListener('load', () => {
+      const perfData = performance.getEntriesByType('navigation')[0];
+      console.log('FlashFusion load time:', Math.round(perfData.loadEventEnd - perfData.fetchStart) + 'ms');
+    });
+    
+    // Error handling
+    window.addEventListener('error', (event) => {
+      console.error('FlashFusion error:', event.error);
+    });
+    
+    window.addEventListener('unhandledrejection', (event) => {
+      console.error('FlashFusion unhandled promise rejection:', event.reason);
+    });
+  </script>
+  
+  <!-- Analytics (placeholder) -->
+  <script>
+    // Placeholder for analytics
+    window.FlashFusionAnalytics = {
+      track: (event, properties) => {
+        console.log('Analytics:', event, properties);
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "paths": {
+      "@flashfusion/types": ["../types/src"],
+      "@flashfusion/services": ["../services/src"]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "../types/src/**/*",
+    "../services/src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

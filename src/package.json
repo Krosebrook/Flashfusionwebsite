@@ -1,0 +1,51 @@
+{
+  "name": "flashfusion-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FlashFusion - AI-powered creators hub platform with comprehensive toolset and gamification",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "quick-test": "node quick-component-test.js",
+    "workflow-test": "node run-complete-workflow-tests.js"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@radix-ui/react-slot": "^1.1.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0",
+    "lucide-react": "^0.400.0",
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "@turbo/gen": "^1.12.4",
+    "@types/node": "^20.11.5",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.5",
+    "turbo": "^1.12.4",
+    "typescript": "^5.3.3",
+    "vite": "^4.0.0",
+    "vitest": "^0.30.0"
+  },
+  "packageManager": "pnpm@8.15.1",
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

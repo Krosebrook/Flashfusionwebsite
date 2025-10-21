@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashFusion - Offline</title>
+    <link rel="icon" href="/icons/icon-192x192.png" type="image/png">
+    
+    <style>
+        :root {
+            --ff-primary: #FF7B00;
+            --ff-secondary: #00B4D8;
+            --ff-accent: #E91E63;
+            --ff-dark: #0F172A;
+            --ff-surface: #1E293B;
+            --ff-text-primary: #F8FAFC;
+            --ff-text-secondary: #CBD5E1;
+            --ff-text-muted: #64748B;
+            --border: #334155;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--ff-dark) 0%, var(--ff-surface) 100%);
+            color: var(--ff-text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .offline-container {
+            max-width: 600px;
+            text-align: center;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, var(--ff-primary), var(--ff-secondary));
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+        
+        .logo svg {
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .offline-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            opacity: 0.6;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--ff-primary), var(--ff-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--ff-text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .feature:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 1rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--ff-text-primary);
+        }
+        
+        .feature-desc {
+            font-size: 0.875rem;
+            color: var(--ff-text-muted);
+            line-height: 1.4;
+        }
+        
+        .retry-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .retry-btn {
+            background: linear-gradient(135deg, var(--ff-primary), var(--ff-secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 123, 0, 0.3);
+        }
+        
+        .secondary-btn {
+            background: transparent;
+            color: var(--ff-text-secondary);
+            border: 1px solid var(--border);
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--ff-primary);
+        }
+        
+        .connection-status {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .online {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        
+        .offline {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .tips {
+            margin-top: 2rem;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+        
+        .tips h3 {
+            color: var(--ff-primary);
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+        
+        .tips ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tips li {
+            margin-bottom: 0.75rem;
+            color: var(--ff-text-secondary);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .tips li::before {
+            content: "💡";
+            font-size: 1rem;
+            margin-top: -2px;
+        }
+        
+        @media (max-width: 640px) {
+            .offline-container {
+                padding: 2rem 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .retry-btn,
+            .secondary-btn {
+                display: block;
+                width: 100%;
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <!-- Logo -->
+        <div class="logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+        </div>
+        
+        <!-- Offline Icon -->
+        <div class="offline-icon">
+            <svg viewBox="0 0 120 120" fill="none">
+                <circle cx="60" cy="60" r="50" stroke="currentColor" stroke-width="2" stroke-dasharray="8 4" opacity="0.3"/>
+                <path d="M40 40L80 80M80 40L40 80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="60" cy="60" r="8" fill="currentColor" opacity="0.6"/>
+            </svg>
+        </div>
+        
+        <!-- Main Content -->
+        <h1>You're Offline</h1>
+        <p class="subtitle">
+            No internet connection detected. Don't worry, some features are still available!
+        </p>
+        
+        <!-- Available Features -->
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                    📝
+                </div>
+                <div class="feature-title">Cached Tools</div>
+                <div class="feature-desc">Continue working with recently used AI tools and generators</div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                    💾
+                </div>
+                <div class="feature-title">Local Storage</div>
+                <div class="feature-desc">Your work is automatically saved and will sync when online</div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                    🔄
+                </div>
+                <div class="feature-title">Auto Sync</div>
+                <div class="feature-desc">Changes will be synchronized automatically when connection returns</div>
+            </div>
+        </div>
+        
+        <!-- Connection Status -->
+        <div class="connection-status offline" id="connectionStatus">
+            <div class="status-dot offline" style="background: currentColor;"></div>
+            <span>Connection Status: Offline</span>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="retry-section">
+            <button class="retry-btn" onclick="retryConnection()">
+                🔄 Try Again
+            </button>
+            <a href="/tools" class="secondary-btn">
+                📱 Browse Offline Tools
+            </a>
+        </div>
+        
+        <!-- Tips -->
+        <div class="tips">
+            <h3>💡 Offline Tips</h3>
+            <ul>
+                <li>Check your internet connection and try refreshing the page</li>
+                <li>Some AI tools work offline using cached models and data</li>
+                <li>Your projects and settings are saved locally and will sync when online</li>
+                <li>Install FlashFusion as a PWA for better offline experience</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // Connection status monitoring
+        function updateConnectionStatus() {
+            const statusElement = document.getElementById('connectionStatus');
+            const isOnline = navigator.onLine;
+            
+            if (isOnline) {
+                statusElement.className = 'connection-status online';
+                statusElement.innerHTML = `
+                    <div class="status-dot online" style="background: currentColor;"></div>
+                    <span>Connection Status: Online</span>
+                `;
+                
+                // Auto redirect when online
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+            } else {
+                statusElement.className = 'connection-status offline';
+                statusElement.innerHTML = `
+                    <div class="status-dot offline" style="background: currentColor;"></div>
+                    <span>Connection Status: Offline</span>
+                `;
+            }
+        }
+        
+        // Retry connection
+        function retryConnection() {
+            updateConnectionStatus();
+            
+            if (navigator.onLine) {
+                window.location.href = '/';
+            } else {
+                // Show loading state
+                const button = event.target;
+                const originalText = button.innerHTML;
+                button.innerHTML = '🔄 Checking...';
+                button.disabled = true;
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    updateConnectionStatus();
+                }, 2000);
+            }
+        }
+        
+        // Event listeners for connection changes
+        window.addEventListener('online', updateConnectionStatus);
+        window.addEventListener('offline', updateConnectionStatus);
+        
+        // Initialize connection status
+        updateConnectionStatus();
+        
+        // Service Worker message handling
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('message', (event) => {
+                if (event.data.type === 'CACHE_UPDATED') {
+                    // Show notification that cached content is available
+                    console.log('Cache updated, offline content available');
+                }
+            });
+        }
+        
+        // Install PWA prompt
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show custom install prompt
+            const installBanner = document.createElement('div');
+            installBanner.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, var(--ff-primary), var(--ff-secondary));
+                    color: white;
+                    padding: 1rem;
+                    border-radius: 0.75rem;
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+                    z-index: 1000;
+                    cursor: pointer;
+                    font-size: 0.875rem;
+                    max-width: 300px;
+                ">
+                    <strong>📱 Install FlashFusion</strong><br>
+                    Get better offline experience!
+                    <div style="margin-top: 0.5rem;">
+                        <button onclick="installPWA()" style="
+                            background: rgba(255, 255, 255, 0.2);
+                            border: none;
+                            color: white;
+                            padding: 0.5rem 1rem;
+                            border-radius: 0.5rem;
+                            cursor: pointer;
+                            margin-right: 0.5rem;
+                        ">Install</button>
+                        <button onclick="this.parentElement.parentElement.remove()" style="
+                            background: transparent;
+                            border: 1px solid rgba(255, 255, 255, 0.3);
+                            color: white;
+                            padding: 0.5rem 1rem;
+                            border-radius: 0.5rem;
+                            cursor: pointer;
+                        ">Later</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(installBanner);
+        });
+        
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('PWA installation accepted');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+        
+        // Periodic connection check
+        setInterval(updateConnectionStatus, 30000); // Check every 30 seconds
+    </script>
+</body>
+</html>

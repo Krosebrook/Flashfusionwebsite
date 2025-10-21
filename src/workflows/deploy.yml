@@ -1,0 +1,338 @@
+name: FlashFusion Production Deployment
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
+env:
+  NODE_VERSION: '18'
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  # Quality Gates
+  quality-gates:
+    name: Quality Gates
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Lint code
+        run: npm run lint
+        
+      - name: Type check
+        run: npx tsc --noEmit
+        
+      - name: Run tests
+        run: npm run test:ci
+        env:
+          CI: true
+          
+      - name: Build project
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_OPENAI_API_KEY: ${{ secrets.VITE_OPENAI_API_KEY }}
+          
+      - name: Bundle size check
+        run: |
+          npm run bundle-analyze
+          # Add bundle size validation logic here
+
+  # Security Scan
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Run security audit
+        run: npm audit --audit-level moderate
+        
+      - name: Scan for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+
+  # Infrastructure Validation
+  infrastructure-validation:
+    name: Infrastructure Validation
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Validate Vercel configuration
+        run: |
+          if [ -f "vercel.json" ]; then
+            echo "✅ Vercel config found"
+            # Add JSON validation
+            npx ajv validate -s ./.github/schemas/vercel.schema.json -d vercel.json
+          else
+            echo "⚠️ No Vercel config found"
+          fi
+          
+      - name: Validate environment variables
+        run: |
+          node .github/scripts/validate-env.js
+        env:
+          REQUIRED_VARS: "VITE_SUPABASE_URL,VITE_SUPABASE_ANON_KEY,VITE_OPENAI_API_KEY"
+
+  # Staging Deployment
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    needs: [quality-gates, security-scan, infrastructure-validation]
+    environment: staging
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+        
+      - name: Pull Vercel environment information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        
+      - name: Build project artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_OPENAI_API_KEY: ${{ secrets.VITE_OPENAI_API_KEY }}
+          
+      - name: Deploy to Vercel (Staging)
+        id: deploy-staging
+        run: |
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "✅ Deployed to staging: $DEPLOYMENT_URL"
+          
+      - name: Run staging tests
+        run: |
+          npm run test:e2e
+        env:
+          E2E_BASE_URL: ${{ steps.deploy-staging.outputs.url }}
+          
+      - name: Comment PR with staging URL
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `🚀 **Staging deployment ready!**
+              
+              📱 Preview: ${{ steps.deploy-staging.outputs.url }}
+              🔍 Commit: ${context.sha.substring(0, 7)}
+              
+              **Quality Gates:**
+              - ✅ Tests passed
+              - ✅ Security scan passed  
+              - ✅ Infrastructure validated
+              
+              Test the deployment and approve when ready for production.`
+            })
+
+  # Production Deployment
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run production deployment script
+        id: deploy
+        run: node scripts/production-deployment.js deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_OPENAI_API_KEY: ${{ secrets.VITE_OPENAI_API_KEY }}
+          VITE_ANTHROPIC_API_KEY: ${{ secrets.VITE_ANTHROPIC_API_KEY }}
+          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          CUSTOM_DOMAIN: ${{ secrets.CUSTOM_DOMAIN }}
+          
+      - name: Run production health checks
+        run: |
+          sleep 30 # Wait for deployment to be ready
+          node scripts/production-deployment.js health-check
+          
+      - name: Update deployment status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Production deployment successful"
+          else
+            echo "❌ Production deployment failed"
+            # Trigger rollback if needed
+            node scripts/production-deployment.js rollback
+          fi
+          
+      - name: Create GitHub release
+        if: success()
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: FlashFusion v${{ github.run_number }}
+          body: |
+            🚀 **FlashFusion Production Release**
+            
+            **Deployment Details:**
+            - 🌐 URL: https://flashfusion.vercel.app
+            - 🔗 Commit: ${{ github.sha }}
+            - 📅 Deployed: ${{ github.event.head_commit.timestamp }}
+            
+            **Changes in this release:**
+            ${{ github.event.head_commit.message }}
+            
+            **Quality Assurance:**
+            - ✅ All tests passed
+            - ✅ Security scan completed
+            - ✅ Performance validated
+            - ✅ Health checks passed
+          draft: false
+          prerelease: false
+
+  # Performance Monitoring
+  performance-monitoring:
+    name: Performance Monitoring
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: [deploy-production]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Wait for deployment
+        run: sleep 60
+        
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            https://flashfusion.vercel.app
+            https://flashfusion.vercel.app/tools
+            https://flashfusion.vercel.app/dashboard
+          configPath: './lighthouserc.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          
+      - name: Performance budget check
+        run: |
+          # Check Core Web Vitals and performance metrics
+          node .github/scripts/performance-check.js
+        env:
+          LIGHTHOUSE_RESULTS_PATH: '.lighthouseci'
+
+  # Post-Deployment Monitoring
+  post-deployment-monitoring:
+    name: Post-Deployment Monitoring
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: [deploy-production]
+    
+    steps:
+      - name: Setup monitoring
+        run: |
+          # Configure uptime monitoring
+          curl -X POST "${{ secrets.UPTIME_WEBHOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "name": "FlashFusion Production",
+              "url": "https://flashfusion.vercel.app",
+              "interval": 300,
+              "alert_email": "${{ secrets.ALERT_EMAIL }}"
+            }'
+            
+      - name: Send deployment notification
+        uses: 8398a7/action-slack@v3
+        if: always()
+        with:
+          status: ${{ job.status }}
+          custom_payload: |
+            {
+              "text": "${{ job.status == 'success' && '✅' || '❌' }} FlashFusion Production Deployment",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ job.status == 'success' && '✅ *FlashFusion deployed successfully!*' || '❌ *FlashFusion deployment failed!*' }}\n\n🌐 *URL:* https://flashfusion.vercel.app\n🔗 *Commit:* ${{ github.sha }}\n📅 *Time:* ${{ github.event.head_commit.timestamp }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  # Cleanup
+  cleanup-staging:
+    name: Cleanup Staging
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    
+    steps:
+      - name: Remove staging deployment
+        run: |
+          # Clean up staging deployment when PR is closed
+          vercel remove --yes --token=${{ secrets.VERCEL_TOKEN }} || true

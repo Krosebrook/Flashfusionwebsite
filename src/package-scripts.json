@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "test:implementation": "node scripts/test-current-implementation.js",
+    "test:components": "npm run test -- --testPathPattern=components",
+    "test:integration": "npm run test -- --testPathPattern=integration",
+    "test:ai-models": "npm run test -- --testPathPattern=ai",
+    "test:supabase": "npm run test -- --testPathPattern=supabase",
+    "test:realtime": "npm run test -- --testPathPattern=realtime",
+    "dev:fast": "npm run dev -- --host 0.0.0.0",
+    "build:analyze": "npm run build && npx vite-bundle-analyzer dist",
+    "type-check": "tsc --noEmit",
+    "lint:fix": "npm run lint -- --fix",
+    "audit:performance": "npm run build && npx lighthouse http://localhost:4173 --view",
+    "audit:security": "npm audit && npm run type-check",
+    "start:production": "npm run build && npm run preview",
+    "deploy:test": "npm run build && echo 'Ready for deployment!'",
+    "health-check": "node scripts/health-check.js"
+  },
+  "description": "Enhanced npm scripts for FlashFusion development workflow"
+}
