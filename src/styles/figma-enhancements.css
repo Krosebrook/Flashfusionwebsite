@@ -1,0 +1,607 @@
+/**
+ * Figma Prototype Design Enhancements
+ * 
+ * This file contains exact color palette, animations, and interactive elements
+ * from the Figma prototype analysis at https://chase-shout-41724244.figma.site/
+ * 
+ * Based on: FIGMA_PROTOTYPE_COMPLETE_ANALYSIS.md Sections 2 & 3
+ * Implements: Dark theme, vibrant gradients, micro-interactions, parallax effects
+ */
+
+/* ============================================
+   Figma Prototype Colors - Exact Match
+   ============================================ */
+
+:root {
+  /* Base Dark Theme - Exact Figma Palette */
+  --figma-bg-dark-primary: #0D1321;
+  --figma-bg-dark-secondary: #0D1B2A;
+  --figma-surface-card: rgba(30, 41, 59, 0.6);
+  
+  /* Accent Colors - Exact Figma Match */
+  --figma-purple: #5E3DF5;
+  --figma-teal: #5DF9A4;
+  --figma-blue: #2D6FBE;
+  --figma-orange: #F47A34;
+  
+  /* Text Colors */
+  --figma-text-primary: #FFFFFF;
+  --figma-text-secondary: #CBD5E1;
+  --figma-text-muted: #94A3B8;
+  
+  /* Gradients - Exact Figma Implementation */
+  --figma-gradient-purple-teal: linear-gradient(135deg, #5E3DF5 0%, #5DF9A4 100%);
+  --figma-gradient-teal-blue: linear-gradient(135deg, #5DF9A4 0%, #2D6FBE 100%);
+  --figma-gradient-blue-orange: linear-gradient(135deg, #2D6FBE 0%, #F47A34 100%);
+  --figma-gradient-orange-purple: linear-gradient(135deg, #F47A34 0%, #5E3DF5 100%);
+}
+
+/* ============================================
+   Micro-Interactions - Figma Prototype Style
+   ============================================ */
+
+/* Card Hover Effect */
+@keyframes figma-card-hover {
+  0% { 
+    transform: translateY(0) scale(1); 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  100% { 
+    transform: translateY(-4px) scale(1.02); 
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  }
+}
+
+/* Button Ripple Effect */
+@keyframes figma-button-ripple {
+  0% { 
+    transform: scale(0); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: scale(4); 
+    opacity: 0; 
+  }
+}
+
+/* Progress Bar Fill */
+@keyframes figma-progress-fill {
+  0% { width: 0%; }
+  100% { width: var(--progress-value, 100%); }
+}
+
+/* Fade Slide Up */
+@keyframes figma-fade-slide-up {
+  0% { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Stagger Fade Animation */
+@keyframes figma-stagger-fade {
+  0% { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Checkmark Draw */
+@keyframes figma-checkmark-draw {
+  0% {
+    stroke-dashoffset: 50;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Pulse Glow Effect */
+@keyframes figma-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(94, 61, 245, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(94, 61, 245, 0.6);
+  }
+}
+
+/* Modal Slide In from Bottom */
+@keyframes figma-modal-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Shimmer Effect for Loading */
+@keyframes figma-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* ============================================
+   Utility Classes - Figma Style
+   ============================================ */
+
+/* Interactive Card */
+.figma-card-interactive {
+  transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--figma-surface-card);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+}
+
+.figma-card-interactive:hover {
+  animation: figma-card-hover 0.3s cubic-bezier(0, 0, 0.2, 1) forwards;
+  border-color: rgba(94, 61, 245, 0.3);
+}
+
+/* Button with Ripple Effect */
+.figma-btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.figma-btn-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+.figma-btn-ripple:active::after {
+  animation: figma-button-ripple 0.6s cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Fade Slide Up Animation */
+.figma-fade-slide-up {
+  animation: figma-fade-slide-up 0.6s cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Stagger Container */
+.figma-stagger-fade > * {
+  opacity: 0;
+  animation: figma-stagger-fade 0.6s cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+
+.figma-stagger-fade > *:nth-child(1) { animation-delay: 0.1s; }
+.figma-stagger-fade > *:nth-child(2) { animation-delay: 0.2s; }
+.figma-stagger-fade > *:nth-child(3) { animation-delay: 0.3s; }
+.figma-stagger-fade > *:nth-child(4) { animation-delay: 0.4s; }
+.figma-stagger-fade > *:nth-child(5) { animation-delay: 0.5s; }
+.figma-stagger-fade > *:nth-child(6) { animation-delay: 0.6s; }
+.figma-stagger-fade > *:nth-child(7) { animation-delay: 0.7s; }
+.figma-stagger-fade > *:nth-child(8) { animation-delay: 0.8s; }
+
+/* Gradient Text */
+.figma-text-gradient {
+  background: var(--figma-gradient-purple-teal);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow Effect */
+.figma-glow {
+  animation: figma-pulse-glow 2s ease-in-out infinite;
+}
+
+/* ============================================
+   Parallax & Scroll Effects
+   ============================================ */
+
+/* Parallax Background */
+.figma-parallax-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  will-change: transform;
+  filter: blur(8px) brightness(0.4);
+}
+
+/* Scroll Progress Indicator */
+.figma-scroll-progress {
+  position: fixed;
+  top: 0;
+  right: 8px;
+  width: 4px;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.figma-scroll-progress-fill {
+  width: 100%;
+  height: 0%;
+  background: var(--figma-orange);
+  transition: height 0.1s cubic-bezier(0, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(244, 122, 52, 0.5);
+}
+
+/* ============================================
+   Sticky Navigation
+   ============================================ */
+
+.figma-nav-sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.figma-nav-sticky.scrolled {
+  background: rgba(13, 19, 33, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* ============================================
+   Workflow Progress Indicator
+   ============================================ */
+
+.figma-workflow-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.figma-workflow-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.figma-workflow-step-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.figma-workflow-step-circle.completed {
+  background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+  color: white;
+}
+
+.figma-workflow-step-circle.active {
+  background: var(--figma-gradient-purple-teal);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(94, 61, 245, 0.4);
+}
+
+.figma-workflow-step-circle.upcoming {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.figma-workflow-step-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+.figma-workflow-connector {
+  height: 2px;
+  width: 64px;
+  background: rgba(255, 255, 255, 0.2);
+  transition: background 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.figma-workflow-connector.completed {
+  background: linear-gradient(90deg, #10B981 0%, #34D399 100%);
+}
+
+/* ============================================
+   Feature Cards with Gradients
+   ============================================ */
+
+.figma-feature-card {
+  position: relative;
+  padding: 24px;
+  border-radius: 16px;
+  background: var(--figma-surface-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.figma-feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(94, 61, 245, 0.5) 50%, 
+    transparent 100%);
+}
+
+.figma-feature-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(94, 61, 245, 0.3);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.figma-feature-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.figma-feature-icon.purple-teal {
+  background: var(--figma-gradient-purple-teal);
+}
+
+.figma-feature-icon.teal-blue {
+  background: var(--figma-gradient-teal-blue);
+}
+
+.figma-feature-icon.blue-orange {
+  background: var(--figma-gradient-blue-orange);
+}
+
+.figma-feature-icon.orange-purple {
+  background: var(--figma-gradient-orange-purple);
+}
+
+/* ============================================
+   Modal & Dialog Styles
+   ============================================ */
+
+.figma-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  animation: fade-in 0.2s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.figma-modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90vw;
+  max-height: 90vh;
+  background: var(--figma-bg-dark-secondary);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+  overflow: auto;
+  animation: figma-modal-slide-in 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* ============================================
+   Loading States
+   ============================================ */
+
+.figma-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: figma-shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+.figma-loader {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--figma-purple);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* ============================================
+   Progress Bars
+   ============================================ */
+
+.figma-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.figma-progress-fill {
+  height: 100%;
+  background: var(--figma-gradient-purple-teal);
+  border-radius: 9999px;
+  transition: width 0.3s cubic-bezier(0, 0, 0.2, 1);
+  position: relative;
+}
+
+.figma-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: figma-shimmer 2s infinite;
+}
+
+/* ============================================
+   Badges
+   ============================================ */
+
+.figma-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.figma-badge.purple-teal {
+  background: var(--figma-gradient-purple-teal);
+}
+
+.figma-badge.teal-blue {
+  background: var(--figma-gradient-teal-blue);
+}
+
+.figma-badge.blue-orange {
+  background: var(--figma-gradient-blue-orange);
+}
+
+.figma-badge.orange-purple {
+  background: var(--figma-gradient-orange-purple);
+}
+
+/* ============================================
+   Accessibility Enhancements
+   ============================================ */
+
+/* Focus Visible for Keyboard Navigation */
+.figma-card-interactive:focus-visible,
+.figma-btn-ripple:focus-visible {
+  outline: 2px solid var(--figma-purple);
+  outline-offset: 2px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .figma-parallax-bg {
+    transform: none !important;
+  }
+}
+
+/* Screen Reader Only */
+.figma-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================
+   Responsive Utilities
+   ============================================ */
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .figma-workflow-progress {
+    gap: 8px;
+  }
+  
+  .figma-workflow-step-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .figma-workflow-connector {
+    width: 32px;
+  }
+  
+  .figma-feature-card {
+    padding: 16px;
+  }
+  
+  .figma-feature-icon {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .figma-modal-content {
+    max-width: 95vw;
+    border-radius: 12px;
+  }
+}
+
+/* Tablet and Desktop */
+@media (min-width: 769px) {
+  .figma-card-interactive:hover {
+    transform: translateY(-4px) scale(1.02);
+  }
+}
+
+/* End of Figma Enhancements */
