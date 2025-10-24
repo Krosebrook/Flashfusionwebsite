@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import BackButton from '../../components/BackButton';
 import { Check, X, ArrowRight, Zap, Crown, Building2 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -152,32 +153,36 @@ export default function PricingPage() {
 
       {/* Hero Section */}
       <section className="py-20 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 
-            className="mb-6"
-            style={{
-              fontFamily: 'var(--ff-font-primary)',
-              fontSize: 'var(--ff-text-5xl)',
-              fontWeight: 'var(--ff-weight-extrabold)',
-              lineHeight: 'var(--ff-leading-tight)',
-              background: 'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}
-          >
-            Simple, Transparent Pricing
-          </h1>
-          <p 
-            className="text-xl max-w-2xl mx-auto"
-            style={{
-              color: 'var(--ff-text-secondary)',
-              fontFamily: 'var(--ff-font-secondary)',
-              lineHeight: 'var(--ff-leading-relaxed)'
-            }}
-          >
-            Choose the perfect plan for your needs. Start free, scale as you grow. Cancel anytime.
-          </p>
+        <div className="max-w-7xl mx-auto">
+          <BackButton href="/" label="Back to Home" className="mb-8" />
+          
+          <div className="text-center">
+            <h1 
+              className="mb-6"
+              style={{
+                fontFamily: 'var(--ff-font-primary)',
+                fontSize: 'var(--ff-text-5xl)',
+                fontWeight: 'var(--ff-weight-extrabold)',
+                lineHeight: 'var(--ff-leading-tight)',
+                background: 'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
+              Simple, Transparent Pricing
+            </h1>
+            <p 
+              className="text-xl max-w-2xl mx-auto"
+              style={{
+                color: 'var(--ff-text-secondary)',
+                fontFamily: 'var(--ff-font-secondary)',
+                lineHeight: 'var(--ff-leading-relaxed)'
+              }}
+            >
+              Choose the perfect plan for your needs. Start free, scale as you grow. Cancel anytime.
+            </p>
+          </div>
         </div>
       </section>
 

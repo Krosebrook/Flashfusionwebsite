@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import BackButton from '../../components/BackButton';
 import { 
   Zap, 
   Palette, 
@@ -146,6 +147,8 @@ export default function FeaturesPage() {
         }}
       >
         <div className="max-w-7xl mx-auto">
+          <BackButton href="/" label="Back to Home" className="mb-8" />
+          
           <div className="text-center max-w-3xl mx-auto mb-16 ff-fade-in-up">
             <h1 
               className="mb-6"
