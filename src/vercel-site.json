@@ -1,0 +1,112 @@
+{
+  "version": 2,
+  "name": "flashfusion-site",
+  "description": "FlashFusion Marketing Site - Next.js 15",
+  "framework": "nextjs",
+  "buildCommand": "cd ../.. && npx turbo run build --filter=site",
+  "outputDirectory": "apps/site/.next",
+  "installCommand": "npm install",
+  "devCommand": "cd apps/site && npm run dev",
+  "rootDirectory": "apps/site",
+  "public": true,
+  "regions": ["iad1"],
+  "functions": {
+    "apps/site/app/api/**/*.ts": {
+      "runtime": "nodejs20.x",
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
+  "env": {
+    "NEXT_PUBLIC_SITE_URL": "https://flashfusion.co",
+    "NEXT_PUBLIC_APP_URL": "https://app.flashfusion.co",
+    "NODE_ENV": "production"
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_SUPABASE_URL": "@supabase_url",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase_anon_key",
+      "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key",
+      "NEXT_PUBLIC_GA_ID": "@ga_id"
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/api/robots"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/app",
+      "destination": "/demo",
+      "permanent": false
+    },
+    {
+      "source": "/login",
+      "destination": "/signin",
+      "permanent": false
+    },
+    {
+      "source": "/register",
+      "destination": "/signup",
+      "permanent": false
+    }
+  ],
+  "trailingSlash": false,
+  "cleanUrls": true,
+  "github": {
+    "enabled": true,
+    "autoAlias": true,
+    "silent": true,
+    "autoJobCancelation": true
+  }
+}

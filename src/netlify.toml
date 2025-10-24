@@ -1,44 +1,72 @@
+# ====================================
+# FlashFusion Netlify Configuration
+# ====================================
+# Alternative deployment to Netlify if preferred over Vercel
+
+# Site App (Next.js)
 [build]
-  publish = "dist"
-  command = "npm run build"
+  command = "cd apps/site && npm run build"
+  publish = "apps/site/.next"
+  functions = "apps/site/netlify/functions"
 
 [build.environment]
-  NODE_ENV = "production"
-  VITE_APP_ENV = "production"
+  NODE_VERSION = "20"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+# Environment variables (set in Netlify UI)
+# NEXT_PUBLIC_SUPABASE_URL
+# NEXT_PUBLIC_SUPABASE_ANON_KEY
+# SUPABASE_SERVICE_ROLE_KEY
+# NEXT_PUBLIC_GA_ID
+
+# Redirects and rewrites
+[[redirects]]
+  from = "/app"
+  to = "/demo"
+  status = 302
 
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+  from = "/login"
+  to = "/signin"
+  status = 302
 
+[[redirects]]
+  from = "/register"
+  to = "/signup"
+  status = 302
+
+# SPA fallback (for client-side routing)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# Headers for security
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "origin-when-cross-origin"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
+# Cache static assets
 [[headers]]
   for = "/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
-  for = "*.js"
+  for = "/*.js"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
-  for = "*.css"
+  for = "/*.css"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-[functions]
-  directory = "netlify/functions"
+# Enable Next.js plugin
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

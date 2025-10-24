@@ -1,0 +1,63 @@
+# ====================================
+# FlashFusion Render Configuration
+# ====================================
+# Alternative deployment to Render.com
+
+services:
+  # Site App (Next.js)
+  - type: web
+    name: flashfusion-site
+    env: node
+    region: ohio
+    plan: starter
+    branch: main
+    buildCommand: cd apps/site && npm install && npm run build
+    startCommand: cd apps/site && npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        sync: false
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: NEXT_PUBLIC_GA_ID
+        sync: false
+    healthCheckPath: /
+    autoDeploy: true
+
+  # Web App (Vite)
+  - type: web
+    name: flashfusion-app
+    env: static
+    region: ohio
+    plan: starter
+    branch: main
+    buildCommand: cd apps/web && npm install && npm run build
+    staticPublishPath: apps/web/dist
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: NODE_ENV
+        value: production
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: X-XSS-Protection
+        value: 1; mode=block
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

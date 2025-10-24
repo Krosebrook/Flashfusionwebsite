@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "name": "flashfusion-app",
+  "description": "FlashFusion Full Platform - Vite Application",
+  "framework": "vite",
+  "buildCommand": "cd ../.. && npx turbo run build --filter=web",
+  "outputDirectory": "apps/web/dist",
+  "installCommand": "npm install",
+  "devCommand": "cd apps/web && npm run dev",
+  "rootDirectory": "apps/web",
+  "public": true,
+  "regions": ["iad1"],
+  "env": {
+    "NODE_ENV": "production",
+    "VITE_APP_NAME": "FlashFusion",
+    "VITE_APP_VERSION": "1.0.0"
+  },
+  "build": {
+    "env": {
+      "VITE_SUPABASE_URL": "@supabase_url",
+      "VITE_SUPABASE_ANON_KEY": "@supabase_anon_key",
+      "VITE_OPENAI_API_KEY": "@openai_api_key",
+      "VITE_ANTHROPIC_API_KEY": "@anthropic_api_key",
+      "VITE_GEMINI_API_KEY": "@gemini_api_key",
+      "VITE_STRIPE_PUBLISHABLE_KEY": "@stripe_pushable_key"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json|webp|avif))",
+      "dest": "/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "trailingSlash": false,
+  "cleanUrls": true,
+  "github": {
+    "enabled": true,
+    "autoAlias": true,
+    "silent": true,
+    "autoJobCancelation": true
+  }
+}
