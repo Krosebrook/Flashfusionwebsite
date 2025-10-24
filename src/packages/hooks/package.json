@@ -1,28 +1,31 @@
 {
   "name": "@flashfusion/hooks",
   "version": "1.0.0",
-  "private": true,
-  "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  },
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "lint": "eslint . --ext .ts,.tsx --quiet --fix",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "type-check": "tsc --noEmit",
-    "clean": "rm -rf dist .turbo node_modules"
+    "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "@flashfusion/types": "workspace:*",
-    "@flashfusion/services": "workspace:*",
-    "react": "^18.2.0"
+    "@flashfusion/types": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.2.48",
     "eslint": "^8.56.0",
+    "react": "^18.2.0",
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "react": ">=18.0.0"
+    "react": "^18.2.0"
   }
 }

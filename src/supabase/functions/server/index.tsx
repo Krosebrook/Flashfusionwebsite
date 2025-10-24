@@ -169,6 +169,190 @@ app.post('/make-server-88829a40/stripe/create-checkout-session', async (c) => {
   }
 });
 
+// ============================================================================
+// FLASHFUSION STUDIO ENDPOINTS (Phase 5)
+// ============================================================================
+
+// Studio: Track user behavior analytics
+app.post('/make-server-88829a40/studio/analytics/track', async (c) => {
+  try {
+    const { event, userId, data } = await c.req.json();
+    
+    if (!event || !userId) {
+      return c.json({ error: 'Event and userId required' }, 400);
+    }
+
+    // Store in KV (implement kv_store integration)
+    const analyticsKey = `analytics:${userId}:${Date.now()}`;
+    // await kv.set(analyticsKey, { event, data, timestamp: new Date().toISOString() });
+
+    console.log('Analytics tracked:', { event, userId, data });
+    
+    return c.json({ success: true, event, timestamp: new Date().toISOString() });
+  } catch (error) {
+    console.error('Analytics tracking error:', error);
+    return c.json({ error: 'Failed to track analytics' }, 500);
+  }
+});
+
+// Studio: Get behavior metrics
+app.get('/make-server-88829a40/studio/analytics/behavior', async (c) => {
+  try {
+    const timeRange = c.req.query('timeRange') || '30d';
+    
+    // Mock data for now - replace with real aggregation from KV store
+    const mockMetrics = {
+      mostUsedFeatures: [
+        {
+          feature: 'Prompt-to-Song',
+          usageCount: 45230,
+          avgTimeSpent: 180,
+          completionRate: 78,
+          trend: 'up'
+        },
+        {
+          feature: 'Chord Designer',
+          usageCount: 32450,
+          avgTimeSpent: 420,
+          completionRate: 85,
+          trend: 'up'
+        }
+      ],
+      averageSessionDuration: 1260,
+      dropOffPoints: [
+        {
+          step: 'Song Generation - AI Processing',
+          dropOffRate: 15.3,
+          usersAffected: 2340,
+          severity: 'high'
+        }
+      ],
+      conversionFunnels: [
+        {
+          name: 'song_creation',
+          conversionRate: 42.3,
+          avgTimeToConvert: 18,
+          steps: [
+            { name: 'Visit Studio', users: 10000, conversionRate: 100, avgTime: 0 },
+            { name: 'Generate Song', users: 6240, conversionRate: 80, avgTime: 5 }
+          ]
+        }
+      ],
+      userSegments: [
+        {
+          name: 'Professional Producers',
+          count: 2340,
+          avgRevenue: 588,
+          engagement: 92
+        }
+      ]
+    };
+    
+    return c.json(mockMetrics);
+  } catch (error) {
+    console.error('Behavior metrics error:', error);
+    return c.json({ error: 'Failed to fetch metrics' }, 500);
+  }
+});
+
+// Studio: AI optimization
+app.post('/make-server-88829a40/studio/ai/optimize', async (c) => {
+  try {
+    const { modelId } = await c.req.json();
+    
+    if (!modelId) {
+      return c.json({ error: 'Model ID required' }, 400);
+    }
+
+    console.log('Optimizing model:', modelId);
+    
+    // Simulate optimization
+    const result = {
+      modelId,
+      optimizations: {
+        speed: '+45%',
+        quality: '+6.1%',
+        cost: '-32%'
+      },
+      timestamp: new Date().toISOString()
+    };
+    
+    return c.json({ success: true, result });
+  } catch (error) {
+    console.error('AI optimization error:', error);
+    return c.json({ error: 'Optimization failed' }, 500);
+  }
+});
+
+// Studio: Marketplace listings
+app.get('/make-server-88829a40/studio/marketplace/listings', async (c) => {
+  try {
+    const category = c.req.query('category');
+    const search = c.req.query('search');
+    
+    // Mock marketplace data - replace with real KV store query
+    const mockListings = [
+      {
+        id: 'listing-1',
+        title: 'Lo-Fi Hip Hop Sample Pack',
+        description: '50 high-quality lo-fi samples',
+        category: 'samples',
+        price: 29.99,
+        rating: 4.7,
+        reviews: 89,
+        sales: 342
+      }
+    ];
+    
+    let filtered = mockListings;
+    
+    if (category && category !== 'all') {
+      filtered = filtered.filter(l => l.category === category);
+    }
+    
+    if (search) {
+      filtered = filtered.filter(l => 
+        l.title.toLowerCase().includes(search.toLowerCase()) ||
+        l.description.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+    
+    return c.json({ listings: filtered, total: filtered.length });
+  } catch (error) {
+    console.error('Marketplace listings error:', error);
+    return c.json({ error: 'Failed to fetch listings' }, 500);
+  }
+});
+
+// Studio: Create collaboration session
+app.post('/make-server-88829a40/studio/collaboration/create', async (c) => {
+  try {
+    const { projectId, participants } = await c.req.json();
+    
+    if (!projectId) {
+      return c.json({ error: 'Project ID required' }, 400);
+    }
+
+    const sessionId = `collab-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    
+    // Create WebSocket session (would integrate with Supabase Realtime)
+    const session = {
+      sessionId,
+      projectId,
+      participants: participants || [],
+      startedAt: new Date().toISOString(),
+      status: 'active'
+    };
+    
+    console.log('Created collaboration session:', sessionId);
+    
+    return c.json({ success: true, session });
+  } catch (error) {
+    console.error('Collaboration creation error:', error);
+    return c.json({ error: 'Failed to create session' }, 500);
+  }
+});
+
 // Catch-all for undefined routes
 app.notFound((c) => {
   return c.json({ error: 'Endpoint not found' }, 404);

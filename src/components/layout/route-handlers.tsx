@@ -189,6 +189,15 @@ export function renderSpecializedRoutes(currentPage: PageType, props: RouteProps
         />
       );
 
+    // FlashFusion Studio Routes
+    case 'studio-analytics-behavior':
+      const { default: StudioUserBehaviorTracker } = require('../studio/analytics/StudioUserBehaviorTracker');
+      return <StudioUserBehaviorTracker />;
+
+    case 'studio-ai-optimization':
+      const { default: AIModelOptimizationService } = require('../studio/ai/AIModelOptimizationService');
+      return <AIModelOptimizationService />;
+
     case 'gamification':
       const { GamificationHub } = require('../gamification/GamificationHub');
       const { dailyTasks } = props;
