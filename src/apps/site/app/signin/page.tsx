@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Eye, EyeOff, Mail, Lock, AlertCircle, CheckCircle, ArrowRight } from 'lucide-react';
+import BackButton from '../../components/BackButton';
+import { Eye, EyeOff, Mail, Lock, AlertCircle, CheckCircle, ArrowRight, Sparkles } from 'lucide-react';
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
@@ -31,14 +32,14 @@ export default function SignInPage() {
       return;
     }
 
-    // Simulate API call (replace with actual authentication)
+    // Simulate authentication
     setTimeout(() => {
-      // For demo purposes, accept any email/password
-      setSuccess('Sign in successful! Redirecting to dashboard...');
+      setSuccess('Welcome back! Taking you to the FlashFusion platform...');
+      setIsLoading(false);
       
-      // Redirect to main app
+      // Redirect to demo for now (until full app is deployed)
       setTimeout(() => {
-        window.location.href = 'https://app.flashfusion.co/dashboard';
+        window.location.href = '/demo';
       }, 1500);
     }, 1000);
   };
@@ -46,6 +47,8 @@ export default function SignInPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-6 py-12" style={{ background: 'var(--ff-bg-dark)' }}>
       <div className="w-full max-w-md">
+        <BackButton href="/" label="Back to Home" className="mb-8" />
+
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/">
@@ -72,6 +75,40 @@ export default function SignInPage() {
           >
             Sign in to your account
           </p>
+        </div>
+
+        {/* Beta Notice */}
+        <div 
+          className="mb-6 p-4 rounded-xl border flex items-start gap-3"
+          style={{
+            background: 'rgba(255, 123, 0, 0.1)',
+            borderColor: 'rgba(255, 123, 0, 0.3)'
+          }}
+        >
+          <Sparkles className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--ff-primary)' }} />
+          <div>
+            <p 
+              className="mb-1"
+              style={{
+                color: 'var(--ff-text-primary)',
+                fontFamily: 'var(--ff-font-primary)',
+                fontSize: 'var(--ff-text-sm)',
+                fontWeight: 'var(--ff-weight-semibold)'
+              }}
+            >
+              Beta Access Available
+            </p>
+            <p 
+              style={{
+                color: 'var(--ff-text-secondary)',
+                fontFamily: 'var(--ff-font-secondary)',
+                fontSize: 'var(--ff-text-sm)',
+                lineHeight: 'var(--ff-leading-relaxed)'
+              }}
+            >
+              FlashFusion is currently in private beta. Sign in with any email to explore our interactive demos and features.
+            </p>
+          </div>
         </div>
 
         {/* Sign In Card */}
@@ -108,10 +145,10 @@ export default function SignInPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="w-full pl-12 pr-4 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 transition-all"
+                  className="w-full pl-12 pr-4 py-3 rounded-lg border-2 focus:outline-none transition-all"
                   style={{
                     background: 'var(--ff-bg-dark)',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderColor: email ? 'var(--ff-primary)' : 'rgba(255, 255, 255, 0.1)',
                     color: 'var(--ff-text-primary)',
                     fontFamily: 'var(--ff-font-secondary)'
                   }}
@@ -136,6 +173,7 @@ export default function SignInPage() {
                 </label>
                 <Link
                   href="/reset-password"
+                  className="transition-colors hover:underline"
                   style={{
                     color: 'var(--ff-primary)',
                     fontFamily: 'var(--ff-font-secondary)',
@@ -156,10 +194,10 @@ export default function SignInPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-12 pr-12 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 transition-all"
+                  className="w-full pl-12 pr-12 py-3 rounded-lg border-2 focus:outline-none transition-all"
                   style={{
                     background: 'var(--ff-bg-dark)',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderColor: password ? 'var(--ff-primary)' : 'rgba(255, 255, 255, 0.1)',
                     color: 'var(--ff-text-primary)',
                     fontFamily: 'var(--ff-font-secondary)'
                   }}
@@ -168,7 +206,8 @@ export default function SignInPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" style={{ color: 'var(--ff-text-muted)' }} />
@@ -182,7 +221,7 @@ export default function SignInPage() {
             {/* Error Message */}
             {error && (
               <div 
-                className="flex items-center gap-2 p-3 rounded-lg"
+                className="flex items-center gap-2 p-3 rounded-lg animate-in fade-in"
                 style={{
                   background: 'rgba(239, 68, 68, 0.1)',
                   border: '1px solid rgba(239, 68, 68, 0.3)'
@@ -204,7 +243,7 @@ export default function SignInPage() {
             {/* Success Message */}
             {success && (
               <div 
-                className="flex items-center gap-2 p-3 rounded-lg"
+                className="flex items-center gap-2 p-3 rounded-lg animate-in fade-in"
                 style={{
                   background: 'rgba(16, 185, 129, 0.1)',
                   border: '1px solid rgba(16, 185, 129, 0.3)'
@@ -229,16 +268,16 @@ export default function SignInPage() {
               disabled={isLoading}
               className="w-full py-3 rounded-lg transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               style={{
-                background: 'var(--ff-gradient-primary)',
+                background: 'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
                 color: 'white',
                 fontFamily: 'var(--ff-font-primary)',
                 fontWeight: 'var(--ff-weight-semibold)',
-                boxShadow: 'var(--ff-glow)'
+                boxShadow: '0 10px 40px rgba(255, 123, 0, 0.3)'
               }}
             >
               {isLoading ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <Loader2 className="w-5 h-5 animate-spin" />
                   Signing in...
                 </>
               ) : (
@@ -254,8 +293,9 @@ export default function SignInPage() {
           <div className="relative my-6">
             <div 
               className="absolute inset-0 flex items-center"
-              style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}
-            />
+            >
+              <div className="w-full border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+            </div>
             <div className="relative flex justify-center">
               <span 
                 className="px-4"
@@ -275,6 +315,7 @@ export default function SignInPage() {
           <div className="grid grid-cols-2 gap-4 mb-6">
             <button
               type="button"
+              onClick={() => setError('Social login coming soon in full release')}
               className="py-3 px-4 rounded-lg border-2 transition-all hover:scale-105"
               style={{
                 borderColor: 'rgba(255, 255, 255, 0.1)',
@@ -287,6 +328,7 @@ export default function SignInPage() {
             </button>
             <button
               type="button"
+              onClick={() => setError('Social login coming soon in full release')}
               className="py-3 px-4 rounded-lg border-2 transition-all hover:scale-105"
               style={{
                 borderColor: 'rgba(255, 255, 255, 0.1)',
@@ -311,28 +353,49 @@ export default function SignInPage() {
               Don't have an account?{' '}
               <Link
                 href="/signup"
+                className="transition-colors hover:underline"
                 style={{
                   color: 'var(--ff-primary)',
                   fontWeight: 'var(--ff-weight-semibold)'
                 }}
               >
-                Sign up
+                Sign up for free
               </Link>
             </p>
           </div>
         </div>
 
-        {/* Back to Home */}
-        <div className="text-center mt-6">
-          <Link
-            href="/"
+        {/* Quick Access */}
+        <div 
+          className="mt-6 p-4 rounded-xl border text-center"
+          style={{
+            background: 'var(--ff-surface)',
+            borderColor: 'rgba(255, 255, 255, 0.1)'
+          }}
+        >
+          <p 
+            className="mb-3"
             style={{
-              color: 'var(--ff-text-muted)',
+              color: 'var(--ff-text-secondary)',
               fontFamily: 'var(--ff-font-secondary)',
               fontSize: 'var(--ff-text-sm)'
             }}
           >
-            ← Back to home
+            Want to explore first?
+          </p>
+          <Link
+            href="/demo"
+            className="inline-flex items-center gap-2 px-6 py-2 rounded-lg border-2 transition-all hover:scale-105"
+            style={{
+              borderColor: 'var(--ff-primary)',
+              color: 'var(--ff-primary)',
+              fontFamily: 'var(--ff-font-primary)',
+              fontSize: 'var(--ff-text-sm)',
+              fontWeight: 'var(--ff-weight-semibold)'
+            }}
+          >
+            Try Interactive Demos
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </div>

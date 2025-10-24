@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import BackButton from '../../../components/BackButton';
 import { ArrowLeft, Play, Pause, RotateCcw, Check, Loader2, Code, Sparkles, Layout, Eye } from 'lucide-react';
 
 interface Step {
@@ -245,18 +246,7 @@ export default function AICreationDemo() {
         }}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link
-            href="/demo"
-            className="inline-flex items-center gap-2 transition-colors hover:opacity-80"
-            style={{
-              color: 'var(--ff-text-secondary)',
-              fontFamily: 'var(--ff-font-secondary)',
-              fontSize: 'var(--ff-text-sm)'
-            }}
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Workflows
-          </Link>
+          <BackButton href="/demo" label="Back to Workflows" />
 
           <div className="flex items-center gap-4">
             {!isRunning && completedSteps.length === 0 && (

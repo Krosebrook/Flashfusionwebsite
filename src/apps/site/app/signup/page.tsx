@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Eye, EyeOff, Mail, Lock, User, AlertCircle, CheckCircle, ArrowRight } from 'lucide-react';
+import BackButton from '../../components/BackButton';
+import { Eye, EyeOff, Mail, Lock, User, AlertCircle, CheckCircle, ArrowRight, Sparkles, Check } from 'lucide-react';
 
 export default function SignUpPage() {
   const [name, setName] = useState('');
@@ -45,30 +46,23 @@ export default function SignUpPage() {
       return;
     }
 
-    // Simulate API call (replace with actual authentication)
+    // Simulate successful signup
     setTimeout(() => {
-      setSuccess('Account created successfully! Redirecting to dashboard...');
+      setSuccess('Welcome to FlashFusion! Taking you to the platform...');
+      setIsLoading(false);
       
-      // Redirect to main app
+      // Redirect to demo for now (until full app is deployed)
       setTimeout(() => {
-        window.location.href = 'https://app.flashfusion.co/onboarding';
+        window.location.href = '/demo';
       }, 1500);
     }, 1000);
   };
 
-  const passwordStrength = () => {
-    if (password.length === 0) return { strength: 0, label: '' };
-    if (password.length < 6) return { strength: 25, label: 'Weak', color: 'var(--ff-error)' };
-    if (password.length < 10) return { strength: 50, label: 'Fair', color: 'var(--ff-warning)' };
-    if (password.length < 12) return { strength: 75, label: 'Good', color: 'var(--ff-secondary)' };
-    return { strength: 100, label: 'Strong', color: 'var(--ff-success)' };
-  };
-
-  const strength = passwordStrength();
-
   return (
     <div className="min-h-screen flex items-center justify-center px-6 py-12" style={{ background: 'var(--ff-bg-dark)' }}>
       <div className="w-full max-w-md">
+        <BackButton href="/" label="Back to Home" className="mb-8" />
+
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/">
@@ -95,6 +89,42 @@ export default function SignUpPage() {
           >
             Create your account
           </p>
+        </div>
+
+        {/* Beta Offer */}
+        <div 
+          className="mb-6 p-4 rounded-xl border"
+          style={{
+            background: 'rgba(255, 123, 0, 0.1)',
+            borderColor: 'rgba(255, 123, 0, 0.3)'
+          }}
+        >
+          <div className="flex items-start gap-3">
+            <Sparkles className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--ff-primary)' }} />
+            <div>
+              <p 
+                className="mb-1"
+                style={{
+                  color: 'var(--ff-text-primary)',
+                  fontFamily: 'var(--ff-font-primary)',
+                  fontSize: 'var(--ff-text-sm)',
+                  fontWeight: 'var(--ff-weight-semibold)'
+                }}
+              >
+                🎉 Early Access - 50% OFF!
+              </p>
+              <p 
+                style={{
+                  color: 'var(--ff-text-secondary)',
+                  fontFamily: 'var(--ff-font-secondary)',
+                  fontSize: 'var(--ff-text-sm)',
+                  lineHeight: 'var(--ff-leading-relaxed)'
+                }}
+              >
+                Join our beta program and get lifetime 50% discount on all plans
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Sign Up Card */}
@@ -131,10 +161,10 @@ export default function SignUpPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="John Doe"
-                  className="w-full pl-12 pr-4 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 transition-all"
+                  className="w-full pl-12 pr-4 py-3 rounded-lg border-2 focus:outline-none transition-all"
                   style={{
                     background: 'var(--ff-bg-dark)',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderColor: name ? 'var(--ff-primary)' : 'rgba(255, 255, 255, 0.1)',
                     color: 'var(--ff-text-primary)',
                     fontFamily: 'var(--ff-font-secondary)'
                   }}
@@ -168,10 +198,10 @@ export default function SignUpPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="w-full pl-12 pr-4 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 transition-all"
+                  className="w-full pl-12 pr-4 py-3 rounded-lg border-2 focus:outline-none transition-all"
                   style={{
                     background: 'var(--ff-bg-dark)',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderColor: email ? 'var(--ff-primary)' : 'rgba(255, 255, 255, 0.1)',
                     color: 'var(--ff-text-primary)',
                     fontFamily: 'var(--ff-font-secondary)'
                   }}
@@ -204,20 +234,22 @@ export default function SignUpPage() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full pl-12 pr-12 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 transition-all"
+                  placeholder="At least 8 characters"
+                  className="w-full pl-12 pr-12 py-3 rounded-lg border-2 focus:outline-none transition-all"
                   style={{
                     background: 'var(--ff-bg-dark)',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderColor: password ? 'var(--ff-primary)' : 'rgba(255, 255, 255, 0.1)',
                     color: 'var(--ff-text-primary)',
                     fontFamily: 'var(--ff-font-secondary)'
                   }}
                   required
+                  minLength={8}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" style={{ color: 'var(--ff-text-muted)' }} />
@@ -226,76 +258,60 @@ export default function SignUpPage() {
                   )}
                 </button>
               </div>
-
-              {/* Password Strength Indicator */}
-              {password.length > 0 && (
-                <div className="mt-2">
-                  <div className="flex items-center justify-between mb-1">
-                    <span 
-                      style={{
-                        color: strength.color,
-                        fontFamily: 'var(--ff-font-secondary)',
-                        fontSize: 'var(--ff-text-xs)',
-                        fontWeight: 'var(--ff-weight-semibold)'
-                      }}
-                    >
-                      {strength.label}
-                    </span>
-                    <span 
-                      style={{
-                        color: 'var(--ff-text-muted)',
-                        fontFamily: 'var(--ff-font-secondary)',
-                        fontSize: 'var(--ff-text-xs)'
-                      }}
-                    >
-                      {password.length} characters
-                    </span>
-                  </div>
-                  <div 
-                    className="h-1 rounded-full overflow-hidden"
-                    style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-                  >
-                    <div 
-                      className="h-full transition-all duration-300"
-                      style={{
-                        width: `${strength.strength}%`,
-                        background: strength.color
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
+              <p 
+                className="mt-2"
+                style={{
+                  color: 'var(--ff-text-muted)',
+                  fontFamily: 'var(--ff-font-secondary)',
+                  fontSize: 'var(--ff-text-xs)'
+                }}
+              >
+                Must be at least 8 characters with a mix of letters and numbers
+              </p>
             </div>
 
             {/* Terms Checkbox */}
             <div className="flex items-start gap-3">
-              <input
-                type="checkbox"
-                id="terms"
-                checked={agreedToTerms}
-                onChange={(e) => setAgreedToTerms(e.target.checked)}
-                className="mt-1"
+              <button
+                type="button"
+                onClick={() => setAgreedToTerms(!agreedToTerms)}
+                className="flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-all"
                 style={{
-                  width: '18px',
-                  height: '18px',
-                  accentColor: 'var(--ff-primary)'
+                  borderColor: agreedToTerms ? 'var(--ff-primary)' : 'rgba(255, 255, 255, 0.1)',
+                  background: agreedToTerms ? 'var(--ff-primary)' : 'transparent'
                 }}
-              />
+                aria-label="Agree to terms"
+              >
+                {agreedToTerms && <Check className="h-3 w-3 text-white" />}
+              </button>
               <label 
-                htmlFor="terms"
                 style={{
                   color: 'var(--ff-text-secondary)',
                   fontFamily: 'var(--ff-font-secondary)',
                   fontSize: 'var(--ff-text-sm)',
-                  lineHeight: '1.5'
+                  lineHeight: 'var(--ff-leading-relaxed)'
                 }}
               >
                 I agree to the{' '}
-                <Link href="/terms" style={{ color: 'var(--ff-primary)' }}>
+                <Link
+                  href="/terms"
+                  className="transition-colors hover:underline"
+                  style={{
+                    color: 'var(--ff-primary)',
+                    fontWeight: 'var(--ff-weight-semibold)'
+                  }}
+                >
                   Terms of Service
                 </Link>
                 {' '}and{' '}
-                <Link href="/privacy" style={{ color: 'var(--ff-primary)' }}>
+                <Link
+                  href="/privacy"
+                  className="transition-colors hover:underline"
+                  style={{
+                    color: 'var(--ff-primary)',
+                    fontWeight: 'var(--ff-weight-semibold)'
+                  }}
+                >
                   Privacy Policy
                 </Link>
               </label>
@@ -304,7 +320,7 @@ export default function SignUpPage() {
             {/* Error Message */}
             {error && (
               <div 
-                className="flex items-center gap-2 p-3 rounded-lg"
+                className="flex items-center gap-2 p-3 rounded-lg animate-in fade-in"
                 style={{
                   background: 'rgba(239, 68, 68, 0.1)',
                   border: '1px solid rgba(239, 68, 68, 0.3)'
@@ -326,7 +342,7 @@ export default function SignUpPage() {
             {/* Success Message */}
             {success && (
               <div 
-                className="flex items-center gap-2 p-3 rounded-lg"
+                className="flex items-center gap-2 p-3 rounded-lg animate-in fade-in"
                 style={{
                   background: 'rgba(16, 185, 129, 0.1)',
                   border: '1px solid rgba(16, 185, 129, 0.3)'
@@ -351,11 +367,11 @@ export default function SignUpPage() {
               disabled={isLoading}
               className="w-full py-3 rounded-lg transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               style={{
-                background: 'var(--ff-gradient-primary)',
+                background: 'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
                 color: 'white',
                 fontFamily: 'var(--ff-font-primary)',
                 fontWeight: 'var(--ff-weight-semibold)',
-                boxShadow: 'var(--ff-glow)'
+                boxShadow: '0 10px 40px rgba(255, 123, 0, 0.3)'
               }}
             >
               {isLoading ? (
@@ -374,10 +390,9 @@ export default function SignUpPage() {
 
           {/* Divider */}
           <div className="relative my-6">
-            <div 
-              className="absolute inset-0 flex items-center"
-              style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}
-            />
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+            </div>
             <div className="relative flex justify-center">
               <span 
                 className="px-4"
@@ -397,6 +412,7 @@ export default function SignUpPage() {
           <div className="grid grid-cols-2 gap-4 mb-6">
             <button
               type="button"
+              onClick={() => setError('Social signup coming soon in full release')}
               className="py-3 px-4 rounded-lg border-2 transition-all hover:scale-105"
               style={{
                 borderColor: 'rgba(255, 255, 255, 0.1)',
@@ -409,6 +425,7 @@ export default function SignUpPage() {
             </button>
             <button
               type="button"
+              onClick={() => setError('Social signup coming soon in full release')}
               className="py-3 px-4 rounded-lg border-2 transition-all hover:scale-105"
               style={{
                 borderColor: 'rgba(255, 255, 255, 0.1)',
@@ -433,6 +450,7 @@ export default function SignUpPage() {
               Already have an account?{' '}
               <Link
                 href="/signin"
+                className="transition-colors hover:underline"
                 style={{
                   color: 'var(--ff-primary)',
                   fontWeight: 'var(--ff-weight-semibold)'
@@ -444,18 +462,47 @@ export default function SignUpPage() {
           </div>
         </div>
 
-        {/* Back to Home */}
-        <div className="text-center mt-6">
-          <Link
-            href="/"
+        {/* What's Included */}
+        <div 
+          className="mt-6 p-6 rounded-xl border"
+          style={{
+            background: 'var(--ff-surface)',
+            borderColor: 'rgba(255, 255, 255, 0.1)'
+          }}
+        >
+          <p 
+            className="mb-4"
             style={{
-              color: 'var(--ff-text-muted)',
-              fontFamily: 'var(--ff-font-secondary)',
-              fontSize: 'var(--ff-text-sm)'
+              color: 'var(--ff-text-primary)',
+              fontFamily: 'var(--ff-font-primary)',
+              fontSize: 'var(--ff-text-sm)',
+              fontWeight: 'var(--ff-weight-semibold)'
             }}
           >
-            ← Back to home
-          </Link>
+            Your free account includes:
+          </p>
+          <ul className="space-y-2">
+            {[
+              '5 projects with unlimited iterations',
+              '10 AI generations per month',
+              'Access to all workflow demos',
+              'Community support',
+              'Basic deployment options'
+            ].map((item, index) => (
+              <li key={index} className="flex items-center gap-2">
+                <Check className="h-4 w-4 flex-shrink-0" style={{ color: 'var(--ff-success)' }} />
+                <span 
+                  style={{
+                    color: 'var(--ff-text-secondary)',
+                    fontFamily: 'var(--ff-font-secondary)',
+                    fontSize: 'var(--ff-text-sm)'
+                  }}
+                >
+                  {item}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

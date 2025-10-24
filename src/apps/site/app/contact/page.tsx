@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import BackButton from '../../components/BackButton';
 import { Mail, Send, CheckCircle, AlertCircle, MessageSquare, Phone, MapPin } from 'lucide-react';
 
 export default function ContactPage() {
@@ -58,32 +59,36 @@ export default function ContactPage() {
           background: 'linear-gradient(135deg, rgba(255, 123, 0, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)'
         }}
       >
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 
-            className="mb-6"
-            style={{
-              fontFamily: 'var(--ff-font-primary)',
-              fontSize: 'var(--ff-text-5xl)',
-              fontWeight: 'var(--ff-weight-extrabold)',
-              lineHeight: 'var(--ff-leading-tight)',
-              background: 'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}
-          >
-            Get in Touch
-          </h1>
-          <p 
-            className="text-xl max-w-2xl mx-auto"
-            style={{
-              color: 'var(--ff-text-secondary)',
-              fontFamily: 'var(--ff-font-secondary)',
-              lineHeight: 'var(--ff-leading-relaxed)'
-            }}
-          >
-            Have questions? We're here to help. Send us a message and we'll respond as soon as possible.
-          </p>
+        <div className="max-w-7xl mx-auto">
+          <BackButton href="/" label="Back to Home" className="mb-8" />
+          
+          <div className="text-center">
+            <h1 
+              className="mb-6"
+              style={{
+                fontFamily: 'var(--ff-font-primary)',
+                fontSize: 'var(--ff-text-5xl)',
+                fontWeight: 'var(--ff-weight-extrabold)',
+                lineHeight: 'var(--ff-leading-tight)',
+                background: 'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
+              Get in Touch
+            </h1>
+            <p 
+              className="text-xl max-w-2xl mx-auto"
+              style={{
+                color: 'var(--ff-text-secondary)',
+                fontFamily: 'var(--ff-font-secondary)',
+                lineHeight: 'var(--ff-leading-relaxed)'
+              }}
+            >
+              Have questions? We're here to help. Send us a message and we'll respond as soon as possible.
+            </p>
+          </div>
         </div>
       </section>
 

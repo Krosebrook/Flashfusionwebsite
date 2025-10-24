@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import BackButton from '../../components/BackButton';
 import { Play, Code, Rocket, DollarSign, ArrowLeft, ArrowRight, Pause, RotateCcw, Check } from 'lucide-react';
 
 interface Workflow {
@@ -55,18 +56,7 @@ export default function DemoPage() {
         }}
       >
         <div className="max-w-7xl mx-auto">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 mb-8 transition-colors hover:opacity-80"
-            style={{
-              color: 'var(--ff-text-secondary)',
-              fontFamily: 'var(--ff-font-secondary)',
-              fontSize: 'var(--ff-text-sm)'
-            }}
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
-          </Link>
+          <BackButton href="/" label="Back to Home" className="mb-8" />
 
           <div className="text-center max-w-3xl mx-auto">
             <h1 
