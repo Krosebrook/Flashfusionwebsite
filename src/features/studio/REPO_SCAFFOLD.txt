@@ -1,0 +1,675 @@
+# FlashFusion Studio - Repository Scaffold
+
+## Monorepo Structure (Turborepo)
+
+```
+flashfusion-studio/
+│
+├── .github/
+│   ├── workflows/
+│   │   ├── ci.yml                    # Continuous Integration
+│   │   ├── deploy-staging.yml        # Staging deployment
+│   │   ├── deploy-production.yml     # Production deployment
+│   │   ├── security-scan.yml         # Weekly security scans
+│   │   └── performance-audit.yml     # Lighthouse CI
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.yml
+│   │   ├── feature_request.yml
+│   │   └── security_vulnerability.yml
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── dependabot.yml                # Automated dependency updates
+│
+├── apps/
+│   ├── web/                          # Next.js 14 App (Main Studio App)
+│   │   ├── app/
+│   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx
+│   │   │   ├── studio/
+│   │   │   │   ├── layout.tsx
+│   │   │   │   ├── page.tsx          # Dashboard
+│   │   │   │   ├── new/
+│   │   │   │   │   └── page.tsx      # New Project Wizard
+│   │   │   │   ├── projects/
+│   │   │   │   │   ├── page.tsx      # Projects Library
+│   │   │   │   │   └── [id]/
+│   │   │   │   │       └── page.tsx  # Project Editor
+│   │   │   │   ├── prompt-to-song/
+│   │   │   │   │   ├── page.tsx
+│   │   │   │   │   └── [id]/
+│   │   │   │   │       └── page.tsx
+│   │   │   │   ├── chords/
+│   │   │   │   │   ├── page.tsx      # Chord Designer
+│   │   │   │   │   └── [id]/
+│   │   │   │   │       └── page.tsx  # Edit Progression
+│   │   │   │   ├── mixer/
+│   │   │   │   │   ├── page.tsx      # Mixing Console
+│   │   │   │   │   └── [id]/
+│   │   │   │   │       └── page.tsx  # Mixer Session
+│   │   │   │   ├── lyrics/
+│   │   │   │   │   ├── page.tsx      # Lyric Generator
+│   │   │   │   │   └── [id]/
+│   │   │   │   │       └── page.tsx  # Lyric Editor
+│   │   │   │   ├── publish/
+│   │   │   │   │   ├── page.tsx      # Publishing Hub
+│   │   │   │   │   └── [id]/
+│   │   │   │   │       └── page.tsx  # Publishing Wizard
+│   │   │   │   ├── market/
+│   │   │   │   │   ├── page.tsx      # Marketplace
+│   │   │   │   │   ├── new/
+│   │   │   │   │   │   └── page.tsx  # List Item for Sale
+│   │   │   │   │   └── [id]/
+│   │   │   │   │       └── page.tsx  # Item Detail
+│   │   │   │   ├── profile/
+│   │   │   │   │   └── page.tsx      # User Profile
+│   │   │   │   ├── collaborate/
+│   │   │   │   │   └── [projectId]/
+│   │   │   │   │       └── page.tsx  # Real-time Collaboration
+│   │   │   │   ├── subscription/
+│   │   │   │   │   └── page.tsx      # Manage Subscription
+│   │   │   │   └── usage/
+│   │   │   │       └── page.tsx      # Usage Analytics
+│   │   │   └── api/
+│   │   │       └── studio/
+│   │   │           ├── generate-song/
+│   │   │           │   └── route.ts
+│   │   │           ├── suggest-chord/
+│   │   │           │   └── route.ts
+│   │   │           ├── auto-mix/
+│   │   │           │   └── route.ts
+│   │   │           ├── export-mix/
+│   │   │           │   └── route.ts
+│   │   │           ├── generate-lyrics/
+│   │   │           │   └── route.ts
+│   │   │           ├── publish/
+│   │   │           │   └── route.ts
+│   │   │           └── marketplace/
+│   │   │               ├── purchase/
+│   │   │               │   └── route.ts
+│   │   │               └── download/
+│   │   │                   └── route.ts
+│   │   ├── components/
+│   │   │   ├── studio/
+│   │   │   │   ├── PromptToSongInterface.tsx
+│   │   │   │   ├── ChordProgressionCanvas.tsx
+│   │   │   │   ├── MixerTrackStrip.tsx
+│   │   │   │   ├── AudioWaveform.tsx
+│   │   │   │   ├── MIDIEditor.tsx
+│   │   │   │   ├── LyricEditor.tsx
+│   │   │   │   ├── PublishingPlatformCard.tsx
+│   │   │   │   └── MarketplaceItemCard.tsx
+│   │   │   ├── ui/                   # Imported from @studio/ui package
+│   │   │   └── shared/               # Shared components
+│   │   ├── lib/
+│   │   │   ├── audio/
+│   │   │   │   ├── audio-engine.ts   # Web Audio API wrapper
+│   │   │   │   ├── waveform.ts       # Waveform generation
+│   │   │   │   └── midi.ts           # MIDI handling
+│   │   │   ├── supabase/
+│   │   │   │   ├── client.ts
+│   │   │   │   └── server.ts
+│   │   │   └── utils.ts
+│   │   ├── public/
+│   │   │   ├── sw.js                 # Service Worker
+│   │   │   ├── manifest.json         # PWA Manifest
+│   │   │   ├── offline.html
+│   │   │   ├── icons/                # PWA icons
+│   │   │   └── screenshots/          # App screenshots
+│   │   ├── styles/
+│   │   │   └── globals.css
+│   │   ├── .env.local
+│   │   ├── .env.example
+│   │   ├── next.config.js
+│   │   ├── tailwind.config.ts
+│   │   ├── tsconfig.json
+│   │   └── package.json
+│   │
+│   └── mobile/                       # React Native App (Future Phase)
+│       ├── ios/
+│       ├── android/
+│       ├── src/
+│       ├── App.tsx
+│       └── package.json
+│
+├── packages/
+│   ├── ui/                           # Shared React Components
+│   │   ├── src/
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── dialog.tsx
+│   │   │   ├── audio-player.tsx     # Custom audio player
+│   │   │   ├── waveform-display.tsx # Waveform visualization
+│   │   │   ├── midi-piano-roll.tsx  # MIDI editor component
+│   │   │   └── index.ts
+│   │   ├── tailwind.config.ts
+│   │   ├── tsconfig.json
+│   │   └── package.json
+│   │
+│   ├── config/                       # Shared Configs
+│   │   ├── eslint-config/
+│   │   │   ├── index.js
+│   │   │   └── package.json
+│   │   ├── prettier-config/
+│   │   │   ├── index.js
+│   │   │   └── package.json
+│   │   ├── tsconfig/
+│   │   │   ├── base.json
+│   │   │   ├── nextjs.json
+│   │   │   ├── react.json
+│   │   │   └── package.json
+│   │   └── tailwind-config/
+│   │       ├── index.js
+│   │       └── package.json
+│   │
+│   ├── analytics/                    # Segment Client Wrappers
+│   │   ├── src/
+│   │   │   ├── track.ts             # analytics.track()
+│   │   │   ├── identify.ts          # analytics.identify()
+│   │   │   ├── page.ts              # analytics.page()
+│   │   │   ├── studio-events.ts     # Studio-specific events
+│   │   │   └── index.ts
+│   │   ├── tsconfig.json
+│   │   └── package.json
+│   │
+│   ├── types/                        # Shared TypeScript Types
+│   │   ├── src/
+│   │   │   ├── studio.ts            # Studio domain types
+│   │   │   ├── audio.ts             # Audio-related types
+│   │   │   ├── user.ts              # User types
+│   │   │   ├── subscription.ts      # Subscription types
+│   │   │   └── index.ts
+│   │   ├── tsconfig.json
+│   │   └── package.json
+│   │
+│   ├── audio-engine/                 # Audio Processing Library
+│   │   ├── src/
+│   │   │   ├── engine.ts            # Core audio engine
+│   │   │   ├── effects/
+│   │   │   │   ├── eq.ts
+│   │   │   │   ├── compressor.ts
+│   │   │   │   ├── reverb.ts
+│   │   │   │   └── delay.ts
+│   │   │   ├── analysis/
+│   │   │   │   ├── waveform.ts
+│   │   │   │   ├── spectrum.ts
+│   │   │   │   └── peaks.ts
+│   │   │   ├── midi/
+│   │   │   │   ├── parser.ts
+│   │   │   │   ├── player.ts
+│   │   │   │   └── generator.ts
+│   │   │   └── index.ts
+│   │   ├── tsconfig.json
+│   │   └── package.json
+│   │
+│   └── music-theory/                 # Music Theory Library
+│       ├── src/
+│       │   ├── chords/
+│       │   │   ├── chord.ts
+│       │   │   ├── progression.ts
+│       │   │   ├── analyzer.ts
+│       │   │   └── suggestions.ts
+│       │   ├── scales/
+│       │   │   ├── scale.ts
+│       │   │   └── modes.ts
+│       │   ├── keys/
+│       │   │   ├── key.ts
+│       │   │   └── circle-of-fifths.ts
+│       │   └── index.ts
+│       ├── tsconfig.json
+│       └── package.json
+│
+├── infra/                            # Infrastructure as Code
+│   ├── terraform/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   ├── modules/
+│   │   │   ├── compute/
+│   │   │   │   ├── main.tf          # EC2/ECS for audio processing
+│   │   │   │   └── variables.tf
+│   │   │   ├── storage/
+│   │   │   │   ├── main.tf          # S3 for audio files
+│   │   │   │   └── variables.tf
+│   │   │   ├── database/
+│   │   │   │   ├── main.tf          # RDS/Supabase config
+│   │   │   │   └── variables.tf
+│   │   │   ├── networking/
+│   │   │   │   ├── main.tf          # VPC, subnets, security groups
+│   │   │   │   └── variables.tf
+│   │   │   └── monitoring/
+│   │   │       ├── main.tf          # CloudWatch, Datadog
+│   │   │       └── variables.tf
+│   │   ├── environments/
+│   │   │   ├── dev/
+│   │   │   │   └── terraform.tfvars
+│   │   │   ├── staging/
+│   │   │   │   └── terraform.tfvars
+│   │   │   └── production/
+│   │   │       └── terraform.tfvars
+│   │   └── backend.tf               # Terraform backend config
+│   │
+│   ├── docker/
+│   │   ├── Dockerfile.web           # Next.js app
+│   │   ├── Dockerfile.audio         # Audio processing service
+│   │   ├── Dockerfile.worker        # Background jobs
+│   │   └── docker-compose.yml       # Local development
+│   │
+│   ├── kubernetes/                   # K8s manifests (if using K8s)
+│   │   ├── base/
+│   │   │   ├── deployment.yaml
+│   │   │   ├── service.yaml
+│   │   │   └── ingress.yaml
+│   │   └── overlays/
+│   │       ├── dev/
+│   │       ├── staging/
+│   │       └── production/
+│   │
+│   └── scripts/
+│       ├── setup-aws.sh             # AWS initial setup
+│       ├── deploy.sh                # Deployment script
+│       └── rollback.sh              # Rollback script
+│
+├── docs/
+│   ├── API.md                        # API documentation
+│   ├── ARCHITECTURE.md               # System architecture
+│   ├── CONTRIBUTING.md               # Contribution guidelines
+│   ├── DEPLOYMENT.md                 # Deployment guide
+│   ├── DEVELOPMENT.md                # Development setup
+│   ├── SECURITY.md                   # Security policies
+│   ├── USER_GUIDE.md                 # End-user guide
+│   ├── ONBOARDING.md                 # New team member onboarding
+│   └── adr/                          # Architecture Decision Records
+│       ├── 001-choose-nextjs.md
+│       ├── 002-web-audio-api.md
+│       ├── 003-supabase-backend.md
+│       └── 004-monorepo-turborepo.md
+│
+├── scripts/
+│   ├── setup-dev.sh                  # Developer environment setup
+│   ├── generate-types.js             # Codegen from Supabase schema
+│   ├── seed-database.ts              # Database seeding
+│   ├── analyze-bundle.js             # Bundle size analysis
+│   ├── test-all.sh                   # Run all tests
+│   └── check-security.sh             # Security audit
+│
+├── supabase/
+│   ├── functions/
+│   │   └── studio-server/
+│   │       ├── index.ts             # Main server entry point
+│   │       ├── routes/
+│   │       │   ├── generate-song.ts
+│   │       │   ├── chords.ts
+│   │       │   ├── lyrics.ts
+│   │       │   ├── publish.ts
+│   │       │   └── marketplace.ts
+│   │       ├── middleware/
+│   │       │   ├── auth.ts
+│   │       │   ├── rate-limit.ts
+│   │       │   └── cors.ts
+│   │       ├── services/
+│   │       │   ├── ai-music-service.ts
+│   │       │   ├── audio-processor.ts
+│   │       │   └── storage-service.ts
+│   │       └── utils/
+│   │           ├── logger.ts
+│   │           └── error-handler.ts
+│   ├── migrations/
+│   │   ├── 001_initial_schema.sql
+│   │   ├── 002_projects_table.sql
+│   │   ├── 003_marketplace_tables.sql
+│   │   └── 004_analytics_tables.sql
+│   ├── seed.sql
+│   └── config.toml
+│
+├── tests/
+│   ├── e2e/                          # Playwright end-to-end tests
+│   │   ├── studio-dashboard.spec.ts
+│   │   ├── song-generation.spec.ts
+│   │   ├── chord-designer.spec.ts
+│   │   ├── mixer.spec.ts
+│   │   ├── publishing.spec.ts
+│   │   └── marketplace.spec.ts
+│   ├── integration/                  # Integration tests
+│   │   ├── api/
+│   │   │   ├── generate-song.test.ts
+│   │   │   ├── chords.test.ts
+│   │   │   └── publish.test.ts
+│   │   └── database/
+│   │       ├── projects.test.ts
+│   │       └── users.test.ts
+│   ├── unit/                         # Unit tests
+│   │   ├── components/
+│   │   │   ├── ChordCanvas.test.tsx
+│   │   │   └── AudioPlayer.test.tsx
+│   │   └── utils/
+│   │       ├── audio-engine.test.ts
+│   │       └── chord-analyzer.test.ts
+│   ├── fixtures/                     # Test data
+│   │   ├── audio/
+│   │   │   ├── sample-1.mp3
+│   │   │   └── sample-2.wav
+│   │   ├── midi/
+│   │   │   └── test-progression.mid
+│   │   └── json/
+│   │       └── test-project.json
+│   └── setup.ts
+│
+├── .vscode/                          # VS Code settings
+│   ├── settings.json
+│   ├── launch.json
+│   ├── extensions.json
+│   └── tasks.json
+│
+├── .husky/                           # Git hooks
+│   ├── pre-commit                    # Lint and format
+│   ├── pre-push                      # Run tests
+│   └── commit-msg                    # Validate commit messages
+│
+├── .gitignore
+├── .gitattributes
+├── .env.example
+├── .eslintrc.js
+├── .prettierrc.js
+├── .editorconfig
+├── turbo.json                        # Turborepo config
+├── pnpm-workspace.yaml               # PNPM workspaces
+├── package.json                      # Root package.json
+├── tsconfig.json                     # Root TypeScript config
+├── LICENSE                           # MIT/Proprietary
+├── README.md                         # Project README
+└── CHANGELOG.md                      # Version changelog
+```
+
+---
+
+## Package.json Structure
+
+### Root package.json
+
+```json
+{
+  "name": "flashfusion-studio",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "deploy:staging": "./scripts/deploy.sh staging",
+    "deploy:production": "./scripts/deploy.sh production"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.0",
+    "turbo": "^1.10.0",
+    "typescript": "^5.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.10.0"
+}
+```
+
+---
+
+## Development Commands
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start development server
+pnpm dev
+
+# Build for production
+pnpm build
+
+# Run tests
+pnpm test
+
+# Run E2E tests
+pnpm test:e2e
+
+# Lint code
+pnpm lint
+
+# Format code
+pnpm format
+
+# Type check
+pnpm type-check
+
+# Clean all builds and node_modules
+pnpm clean
+
+# Deploy to staging
+pnpm deploy:staging
+
+# Deploy to production
+pnpm deploy:production
+```
+
+---
+
+## Environment Variables
+
+### Required Environment Variables
+
+```bash
+# .env.example
+
+# App
+NEXT_PUBLIC_APP_URL=https://app.flashfusion.co
+NODE_ENV=production
+
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
+SUPABASE_SERVICE_ROLE_KEY=xxx
+
+# AI Services
+MUSIC_GENERATION_API_KEY=xxx
+LYRIC_GENERATION_API_KEY=xxx
+
+# Distribution Platforms
+SPOTIFY_CLIENT_ID=xxx
+SPOTIFY_CLIENT_SECRET=xxx
+APPLE_MUSIC_API_KEY=xxx
+SOUNDCLOUD_CLIENT_ID=xxx
+
+# Payment Processing
+STRIPE_SECRET_KEY=xxx
+STRIPE_PUBLISHABLE_KEY=xxx
+STRIPE_WEBHOOK_SECRET=xxx
+
+# Storage
+AWS_S3_BUCKET=flashfusion-studio-audio
+AWS_ACCESS_KEY_ID=xxx
+AWS_SECRET_ACCESS_KEY=xxx
+AWS_REGION=us-east-1
+
+# Monitoring
+SENTRY_DSN=xxx
+SEGMENT_WRITE_KEY=xxx
+
+# Email
+SENDGRID_API_KEY=xxx
+FROM_EMAIL=noreply@flashfusion.co
+```
+
+---
+
+## Git Workflow
+
+### Branch Strategy
+
+```
+main
+├── develop
+│   ├── feature/song-generation
+│   ├── feature/chord-designer
+│   ├── feature/mixer
+│   ├── feature/lyrics
+│   ├── feature/publishing
+│   └── feature/marketplace
+├── release/v1.0.0
+└── hotfix/critical-bug-fix
+```
+
+### Commit Convention
+
+```
+feat(chords): add chord suggestion algorithm
+fix(mixer): resolve audio glitch on track solo
+docs(api): update song generation endpoint docs
+test(e2e): add publishing workflow tests
+chore(deps): update dependencies
+refactor(audio): optimize waveform rendering
+perf(cache): improve cache invalidation strategy
+```
+
+---
+
+## CI/CD Pipeline
+
+### GitHub Actions Workflow
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm lint
+      - run: pnpm type-check
+      - run: pnpm test
+      - run: pnpm test:e2e
+      
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v3
+      - run: pnpm build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: apps/web/.next
+```
+
+---
+
+## Deployment
+
+### Vercel Deployment (Recommended)
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy to preview
+vercel
+
+# Deploy to production
+vercel --prod
+```
+
+### Docker Deployment
+
+```bash
+# Build image
+docker build -f infra/docker/Dockerfile.web -t flashfusion-studio:latest .
+
+# Run container
+docker run -p 3000:3000 --env-file .env flashfusion-studio:latest
+```
+
+---
+
+## Database Schema Management
+
+```bash
+# Generate TypeScript types from Supabase schema
+pnpm run generate:types
+
+# Create new migration
+supabase migration new add_projects_table
+
+# Apply migrations
+supabase db push
+
+# Reset database (dev only)
+supabase db reset
+```
+
+---
+
+## Monitoring & Observability
+
+```typescript
+// Sentry error tracking
+import * as Sentry from '@sentry/nextjs';
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  environment: process.env.NODE_ENV,
+  tracesSampleRate: 1.0,
+});
+
+// Segment analytics
+import { Analytics } from '@studio/analytics';
+
+Analytics.track('studio_song_generated', {
+  genre: 'pop',
+  duration: 180,
+});
+```
+
+---
+
+## Security Scanning
+
+```bash
+# Audit dependencies
+pnpm audit
+
+# Scan for vulnerabilities
+pnpm run check-security
+
+# SAST (Static Application Security Testing)
+# Configure in .github/workflows/security-scan.yml
+```
+
+---
+
+**Document Version:** 1.0  
+**Last Updated:** January 2025  
+**Scaffold Type:** Monorepo (Turborepo + PNPM)  
+**Target Deployment:** Vercel (frontend) + Supabase (backend)

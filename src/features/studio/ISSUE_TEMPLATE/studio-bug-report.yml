@@ -1,0 +1,163 @@
+name: 🐛 Studio Bug Report
+description: Report a bug in FlashFusion Studio
+title: "[Studio Bug]: "
+labels: ["bug", "studio", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug in FlashFusion Studio!
+        Please fill out this form as completely as possible.
+
+  - type: dropdown
+    id: studio-feature
+    attributes:
+      label: Studio Feature
+      description: Which Studio feature is affected?
+      options:
+        - Prompt-to-Song Generation
+        - Chord Progression Designer
+        - Mixing Console
+        - Lyric Generator
+        - Publishing Hub
+        - Marketplace
+        - Real-time Collaboration
+        - Dashboard
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of the bug
+      placeholder: "When I try to generate a song, the audio doesn't play..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Go to Prompt-to-Song
+        2. Enter prompt "upbeat pop song"
+        3. Click Generate
+        4. Audio player shows error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What should happen?
+      placeholder: "The generated song should play automatically..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: What actually happens?
+      placeholder: "Error message appears: 'Failed to load audio'"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      description: Which browser are you using?
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: browser-version
+    attributes:
+      label: Browser Version
+      placeholder: "e.g., Chrome 120.0.6099.109"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device
+      description: What device are you using?
+      options:
+        - Desktop (Windows)
+        - Desktop (macOS)
+        - Desktop (Linux)
+        - Mobile (iOS)
+        - Mobile (Android)
+        - Tablet (iOS)
+        - Tablet (Android)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: subscription-tier
+    attributes:
+      label: Subscription Tier
+      description: What subscription tier are you on?
+      options:
+        - Free
+        - Pro
+        - Studio
+        - Enterprise
+    validations:
+      required: true
+
+  - type: textarea
+    id: console-logs
+    attributes:
+      label: Console Logs
+      description: If applicable, paste any browser console errors
+      render: shell
+      placeholder: |
+        Error: Failed to load audio file
+        at AudioPlayer.tsx:45
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Add screenshots to help explain the problem
+      placeholder: "Drag and drop images here or paste image URLs"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information that might be helpful
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please verify the following before submitting
+      options:
+        - label: I have searched for existing issues
+          required: true
+        - label: I have cleared my browser cache and tried again
+          required: true
+        - label: This issue is reproducible
+          required: true

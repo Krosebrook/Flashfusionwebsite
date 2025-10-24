@@ -1,0 +1,160 @@
+name: ✨ Studio Feature Request
+description: Suggest a new feature for FlashFusion Studio
+title: "[Studio Feature]: "
+labels: ["enhancement", "studio", "needs-review"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature for FlashFusion Studio!
+        We value your input and will review all feature requests.
+
+  - type: dropdown
+    id: feature-area
+    attributes:
+      label: Feature Area
+      description: Which area of Studio would this feature enhance?
+      options:
+        - Song Generation
+        - Chord Designer
+        - Mixing Console
+        - Lyrics
+        - Publishing
+        - Marketplace
+        - Collaboration
+        - User Experience
+        - Performance
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve?
+      placeholder: "As a producer, I struggle to find the right tempo for my tracks..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: Describe your ideal solution
+      placeholder: "Add an AI-powered tempo suggestion based on genre and mood..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User Story
+      description: Describe the feature from a user's perspective
+      placeholder: |
+        As a [role],
+        I want to [action],
+        So that [benefit].
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: What alternatives have you considered?
+      placeholder: "Manually testing different tempos, using external BPM detection tools..."
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Critical (blocking my workflow)
+        - High (would significantly improve workflow)
+        - Medium (nice to have)
+        - Low (minor enhancement)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: user-segment
+    attributes:
+      label: User Segment
+      description: Which user segment would benefit most?
+      options:
+        - Professional Producers
+        - Singer-Songwriters
+        - Hobbyists & Creators
+        - Educators & Students
+        - All Users
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples or Mockups
+      description: Provide examples, mockups, or links to similar features
+      placeholder: "Similar to Spotify's AI DJ feature..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: technical-considerations
+    attributes:
+      label: Technical Considerations
+      description: Any technical details or constraints to consider?
+      placeholder: "Would require integration with Spotify Web API..."
+    validations:
+      required: false
+
+  - type: dropdown
+    id: subscription-tier
+    attributes:
+      label: Should this be available in...
+      description: Which subscription tier should have access?
+      options:
+        - Free tier
+        - Pro tier and above
+        - Studio tier and above
+        - Enterprise only
+        - Not sure
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: willingness-to-contribute
+    attributes:
+      label: Contribution
+      description: Would you be willing to contribute to this feature?
+      options:
+        - label: I can provide detailed requirements
+        - label: I can help with design/UX
+        - label: I can help with development
+        - label: I can help with testing
+        - label: I can provide funding/sponsorship
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information that might be helpful
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please verify the following
+      options:
+        - label: I have searched for similar feature requests
+          required: true
+        - label: This feature aligns with Studio's vision
+          required: true
