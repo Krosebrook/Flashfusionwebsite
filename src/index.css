@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 /*! tailwindcss v4.1.3 | MIT License | https://tailwindcss.com */
 @layer properties {
   @supports (((-webkit-hyphens: none)) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
@@ -4667,11 +4668,6 @@
     border-color: var(--ring);
   }
 
-  .focus-visible\:ring-1:focus-visible {
-    --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
-    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
-
   .focus-visible\:ring-2:focus-visible {
     --tw-ring-shadow: var(--tw-ring-inset, ) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -5204,13 +5200,6 @@
     }
   }
 
-  @media (width >= 48rem) {
-    .md\:text-sm {
-      font-size: var(--text-sm);
-      line-height: var(--tw-leading, var(--text-sm--line-height));
-    }
-  }
-
   @media (width >= 64rem) {
     .lg\:col-span-1 {
       grid-column: span 1 / span 1;
@@ -5479,6 +5468,18 @@
   }
 
   @media (hover: hover) {
+    a.\[a\&\]\:hover\:bg-accent\/90:hover {
+      background-color: var(--accent);
+    }
+
+    @supports (color: color-mix(in lab, red, red)) {
+      a.\[a\&\]\:hover\:bg-accent\/90:hover {
+        background-color: color-mix(in oklab, var(--accent) 90%, transparent);
+      }
+    }
+  }
+
+  @media (hover: hover) {
     a.\[a\&\]\:hover\:bg-destructive\/90:hover {
       background-color: var(--destructive);
     }
@@ -5515,9 +5516,134 @@
   }
 
   @media (hover: hover) {
+    a.\[a\&\]\:hover\:bg-success\/90:hover {
+      background-color: var(--success);
+    }
+
+    @supports (color: color-mix(in lab, red, red)) {
+      a.\[a\&\]\:hover\:bg-success\/90:hover {
+        background-color: color-mix(in oklab, var(--success) 90%, transparent);
+      }
+    }
+  }
+
+  @media (hover: hover) {
+    a.\[a\&\]\:hover\:bg-warning\/90:hover {
+      background-color: var(--warning);
+    }
+
+    @supports (color: color-mix(in lab, red, red)) {
+      a.\[a\&\]\:hover\:bg-warning\/90:hover {
+        background-color: color-mix(in oklab, var(--warning) 90%, transparent);
+      }
+    }
+  }
+
+  @media (hover: hover) {
     a.\[a\&\]\:hover\:text-accent-foreground:hover {
       color: var(--accent-foreground);
     }
+  }
+
+  .ff-text-gradient {
+    background: linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%);
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .ff-btn-primary {
+    background: var(--ff-primary);
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: .75rem;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    padding: .875rem 2rem;
+    font-family: Sora, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all .3s;
+    display: inline-flex;
+  }
+
+  .ff-btn-primary:hover {
+    background: #e67000;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px #ff7b004d;
+  }
+
+  .ff-btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .ff-btn-secondary {
+    color: var(--ff-text-primary);
+    cursor: pointer;
+    background: none;
+    border: 2px solid #fff3;
+    border-radius: .75rem;
+    padding: .875rem 2rem;
+    font-family: Sora, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all .3s;
+  }
+
+  .ff-btn-secondary:hover {
+    border-color: var(--ff-primary);
+    background: #ff7b001a;
+  }
+
+  .ff-card {
+    background: var(--ff-surface);
+    border: 1px solid #ffffff1a;
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: all .3s;
+  }
+
+  .ff-card:hover {
+    border-color: #ff7b004d;
+    box-shadow: 0 8px 32px #ff7b0026;
+  }
+
+  .ff-input {
+    width: 100%;
+    color: var(--ff-text-primary);
+    background: #0f172a80;
+    border: 1px solid #ffffff1a;
+    border-radius: .75rem;
+    padding: .875rem 1rem;
+    font-family: Inter, sans-serif;
+    font-size: 1rem;
+    transition: all .3s;
+  }
+
+  .ff-input:focus {
+    border-color: var(--ff-primary);
+    background: #0f172acc;
+    outline: none;
+    box-shadow: 0 0 0 3px #ff7b001a;
+  }
+
+  .ff-input::placeholder {
+    color: var(--ff-text-muted);
+  }
+
+  .ff-container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .ff-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
 }
 
@@ -6396,6 +6522,119 @@ label {
   top: 50%;
   left: 8px;
   transform: translateY(-50%);
+}
+
+
+:root {
+  --ff-primary: #ff7b00;
+  --ff-secondary: #00b4d8;
+  --ff-accent: #e91e63;
+  --ff-bg-dark: #0f172a;
+  --ff-surface: #1e293b;
+  --ff-text-primary: #fff;
+  --ff-text-secondary: #cbd5e1;
+  --ff-text-muted: #94a3b8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--ff-bg-dark);
+  color: var(--ff-text-primary);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  font-family: Sora, sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  font-family: Sora, sans-serif;
+  font-weight: 600;
+}
+
+input, textarea, select {
+  font-family: Inter, sans-serif;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: .6s ease-out fadeIn;
+}
+
+@media (width <= 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  .ff-btn-primary, .ff-btn-secondary {
+    padding: .75rem 1.5rem;
+    font-size: .9375rem;
+  }
+
+  .ff-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
 }
 
 :root {

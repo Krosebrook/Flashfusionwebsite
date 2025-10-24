@@ -1,0 +1,78 @@
+name: Site - Visual Regression Tests
+
+on:
+  pull_request:
+    paths:
+      - 'apps/site/**'
+      - '.github/workflows/site-visual.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'apps/site/**'
+
+jobs:
+  visual-tests:
+    name: Run Visual Regression Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Build site
+        run: pnpm -F site build
+        env:
+          NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      
+      - name: Install Playwright browsers
+        run: pnpm -F site exec playwright install --with-deps chromium
+      
+      - name: Run Playwright tests
+        run: pnpm -F site test
+        env:
+          PREVIEW_URL: http://localhost:3001
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/site/playwright-report/
+          retention-days: 30
+      
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-screenshots
+          path: apps/site/test-results/
+          retention-days: 7
+      
+      - name: Comment on PR (if tests fail)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '📸 **Visual regression tests failed!**\n\nPlease review the screenshot differences in the artifacts.\n\nDownload the test results to see what changed.'
+            });

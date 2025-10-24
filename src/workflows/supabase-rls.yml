@@ -1,0 +1,48 @@
+name: Supabase RLS Tests
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+jobs:
+  rls-tests:
+    name: Test Row-Level Security
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      
+      - name: Install RLS test dependencies
+        run: pnpm -C supabase/tests/postgrest install
+      
+      - name: Run RLS tests
+        run: pnpm -C supabase/tests/postgrest test
+        env:
+          CI_SUPABASE_URL: ${{ secrets.CI_SUPABASE_URL }}
+          CI_SUPABASE_ANON_KEY: ${{ secrets.CI_SUPABASE_ANON_KEY }}
+      
+      - name: Comment on PR (if tests fail)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ **Supabase RLS tests failed!**\n\nRow-Level Security policies may be incorrectly configured. Please review the test results.\n\nRun locally: `cd supabase/tests/postgrest && pnpm test`'
+            });

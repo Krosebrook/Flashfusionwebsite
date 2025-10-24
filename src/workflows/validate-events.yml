@@ -1,0 +1,45 @@
+name: Validate Analytics Events Contract
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+jobs:
+  validate:
+    name: Validate Events Contract
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm add -D ts-node typescript
+      
+      - name: Run events validator
+        run: pnpm run validate:events
+      
+      - name: Comment on PR (if validation fails)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '📊 **Analytics events validation failed!**\n\nUnknown or malformed analytics events were detected.\n\n**Fix:**\n1. Add new events to `docs/events.contract.json`\n2. Remove any PII from event parameters\n3. Run `pnpm validate:events` locally to test\n\n**Why this matters:**\n- Ensures consistent analytics across the platform\n- Prevents tracking of personally identifiable information\n- Maintains event naming standards'
+            });

@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* FlashFusion CSS Variables */
+:root {
+  --ff-primary: #FF7B00;
+  --ff-secondary: #00B4D8;
+  --ff-accent: #E91E63;
+  --ff-bg-dark: #0F172A;
+  --ff-surface: #1E293B;
+  --ff-text-primary: #FFFFFF;
+  --ff-text-secondary: #CBD5E1;
+  --ff-text-muted: #94A3B8;
+}
+
+/* Base Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--ff-bg-dark);
+  color: var(--ff-text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Typography - Explicit overrides */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+button {
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+
+input, textarea, select {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Utility Classes */
+@layer utilities {
+  .ff-text-gradient {
+    background: linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .ff-btn-primary {
+    background: var(--ff-primary);
+    color: white;
+    padding: 0.875rem 2rem;
+    border-radius: 0.75rem;
+    font-family: 'Sora', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .ff-btn-primary:hover {
+    background: #e67000;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 123, 0, 0.3);
+  }
+
+  .ff-btn-primary:active {
+    transform: translateY(0);
+  }
+  
+  .ff-btn-secondary {
+    background: transparent;
+    color: var(--ff-text-primary);
+    padding: 0.875rem 2rem;
+    border-radius: 0.75rem;
+    font-family: 'Sora', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .ff-btn-secondary:hover {
+    border-color: var(--ff-primary);
+    background: rgba(255, 123, 0, 0.1);
+  }
+  
+  .ff-card {
+    background: var(--ff-surface);
+    border-radius: 1rem;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .ff-card:hover {
+    border-color: rgba(255, 123, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(255, 123, 0, 0.15);
+  }
+
+  .ff-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.5);
+    color: var(--ff-text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .ff-input:focus {
+    outline: none;
+    border-color: var(--ff-primary);
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 3px rgba(255, 123, 0, 0.1);
+  }
+
+  .ff-input::placeholder {
+    color: var(--ff-text-muted);
+  }
+
+  .ff-container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .ff-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  .ff-btn-primary,
+  .ff-btn-secondary {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .ff-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@flashfusion/rls-tests",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Row-Level Security tests for FlashFusion Supabase database",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:ui": "vitest --ui"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.46.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "typescript": "^5.3.3",
+    "vitest": "^2.1.3"
+  }
+}

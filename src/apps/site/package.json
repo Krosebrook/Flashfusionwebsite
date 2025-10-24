@@ -1,0 +1,55 @@
+{
+  "name": "site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FlashFusion marketing site - Next.js 15",
+  "flashfusion": {
+    "owner": "Kyle Rosebrook",
+    "purpose": "SEO-optimized marketing site with lead generation and analytics",
+    "deploy_target": "Vercel",
+    "env_keys": [
+      "NEXT_PUBLIC_GA_ID",
+      "NEXT_PUBLIC_SUPABASE_URL",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "SUPABASE_URL",
+      "SUPABASE_SERVICE_ROLE_KEY"
+    ],
+    "data_access": "service-role (server actions only)",
+    "telemetry_events": [
+      "cta_click",
+      "scroll_depth",
+      "lead_submit",
+      "pricing_view",
+      "waitlist_confirmed"
+    ]
+  },
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "typecheck": "tsc --noEmit",
+    "lint": "next lint",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "clean": "rm -rf .next out"
+  },
+  "dependencies": {
+    "next": "15.0.3",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "@supabase/supabase-js": "^2.46.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.2",
+    "@types/node": "^20.11.5",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^9.12.0",
+    "eslint-config-next": "15.0.3",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.6.3"
+  }
+}

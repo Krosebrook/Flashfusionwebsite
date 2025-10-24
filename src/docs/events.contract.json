@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "flashfusion-analytics-events-contract",
+  "version": "1.0.0",
+  "description": "Contract for all analytics events emitted across FlashFusion platform",
+  "lastUpdated": "2025-01-24",
+  "events": {
+    "cta_click": {
+      "description": "User clicked a call-to-action button",
+      "params": {
+        "label": "string"
+      },
+      "required": ["label"],
+      "examples": [
+        { "label": "hero_primary" },
+        { "label": "footer_cta" },
+        { "label": "pricing_upgrade" }
+      ]
+    },
+    "scroll_depth": {
+      "description": "User scrolled to a specific depth on page",
+      "params": {
+        "percent": "number(25|50|75|100)"
+      },
+      "required": ["percent"],
+      "examples": [
+        { "percent": 25 },
+        { "percent": 50 },
+        { "percent": 75 },
+        { "percent": 100 }
+      ]
+    },
+    "lead_submit": {
+      "description": "User submitted lead/waitlist form",
+      "params": {
+        "source": "string",
+        "plan": "string?"
+      },
+      "required": ["source"],
+      "examples": [
+        { "source": "next_site", "plan": "free" },
+        { "source": "cta_footer", "plan": "pro" }
+      ]
+    },
+    "pricing_view": {
+      "description": "User viewed pricing page",
+      "params": {},
+      "required": [],
+      "examples": [{}]
+    },
+    "waitlist_confirmed": {
+      "description": "User confirmed their waitlist signup",
+      "params": {
+        "source": "string"
+      },
+      "required": ["source"],
+      "examples": [
+        { "source": "email_link" },
+        { "source": "app_notification" }
+      ]
+    },
+    "page_view": {
+      "description": "User viewed a page",
+      "params": {
+        "page": "string",
+        "referrer": "string?"
+      },
+      "required": ["page"],
+      "examples": [
+        { "page": "/", "referrer": "https://google.com" },
+        { "page": "/pricing" }
+      ]
+    },
+    "feature_interaction": {
+      "description": "User interacted with a specific feature",
+      "params": {
+        "feature": "string",
+        "action": "string"
+      },
+      "required": ["feature", "action"],
+      "examples": [
+        { "feature": "code_generator", "action": "generate" },
+        { "feature": "ai_chat", "action": "send_message" }
+      ]
+    },
+    "error_occurred": {
+      "description": "An error occurred in the application",
+      "params": {
+        "error_type": "string",
+        "error_message": "string",
+        "component": "string?"
+      },
+      "required": ["error_type", "error_message"],
+      "examples": [
+        { "error_type": "validation", "error_message": "Invalid email format", "component": "LeadForm" }
+      ]
+    }
+  },
+  "validation_rules": {
+    "event_naming": "snake_case only",
+    "param_naming": "snake_case only",
+    "max_params": 10,
+    "forbidden_pii": [
+      "email",
+      "phone",
+      "address",
+      "credit_card",
+      "ssn",
+      "password"
+    ]
+  }
+}

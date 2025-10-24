@@ -4,21 +4,21 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "./utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md ff-text-sm font-semibold font-sora transition-all ff-focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md ff-text-sm font-semibold transition-all ff-focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "ff-btn-primary",
+          "ff-btn-primary ff-hover-glow",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 ff-hover-scale",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground ff-hover-scale",
+          "border-2 border-input bg-transparent hover:bg-accent hover:text-accent-foreground ff-hover-scale",
         secondary:
-          "ff-btn-secondary",
+          "ff-btn-secondary ff-hover-glow",
         ghost: "hover:bg-accent hover:text-accent-foreground ff-hover-scale",
         link: "text-primary underline-offset-4 hover:underline",
-        accent: "ff-btn-accent",
+        accent: "ff-btn-accent ff-hover-glow",
       },
       size: {
         default: "h-9 px-4 py-2",

@@ -1,0 +1,68 @@
+name: Security - Dependency Audit
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+  schedule:
+    # Run daily at 02:00 UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  audit:
+    name: npm Audit (High/Critical)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Run pnpm audit
+        run: pnpm audit --audit-level=high
+        continue-on-error: true
+        id: audit
+      
+      - name: Create audit report
+        if: failure() || steps.audit.outcome == 'failure'
+        run: |
+          echo "# Dependency Audit Report" > audit-report.md
+          echo "" >> audit-report.md
+          echo "The following vulnerabilities were found:" >> audit-report.md
+          echo "" >> audit-report.md
+          pnpm audit --json >> audit-report.json || true
+      
+      - name: Upload audit report
+        if: failure() || steps.audit.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-report
+          path: |
+            audit-report.md
+            audit-report.json
+      
+      - name: Comment on PR (if vulnerabilities found)
+        if: (failure() || steps.audit.outcome == 'failure') && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ **High/Critical vulnerabilities found in dependencies!**\n\nPlease review the audit report and update vulnerable dependencies.\n\nRun `pnpm audit` locally for details.'
+            });

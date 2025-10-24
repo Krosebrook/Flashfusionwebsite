@@ -1,0 +1,89 @@
+{
+  "$id": "repo-inventory.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FlashFusion Repository Inventory Schema",
+  "description": "Schema for tracking all packages in the FlashFusion monorepo with ownership and deployment metadata",
+  "type": "object",
+  "required": ["monorepo", "packages"],
+  "properties": {
+    "monorepo": {
+      "type": "string",
+      "description": "Name of the monorepo"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when inventory was generated"
+    },
+    "packages": {
+      "type": "array",
+      "description": "List of all packages in the monorepo",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "path",
+          "owner",
+          "purpose",
+          "deploy_target",
+          "env_keys",
+          "data_access",
+          "telemetry_events"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Package name (e.g., @flashfusion/web)"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path from repo root"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Team or person responsible for this package"
+          },
+          "purpose": {
+            "type": "string",
+            "description": "What this package does"
+          },
+          "deploy_target": {
+            "type": "string",
+            "description": "Where this package deploys (Vercel, Supabase, npm, etc.)"
+          },
+          "env_keys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Environment variables this package requires"
+          },
+          "data_access": {
+            "type": "string",
+            "description": "What data this package accesses (none, anon, service-role, etc.)"
+          },
+          "telemetry_events": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Analytics events this package emits"
+          },
+          "version": {
+            "type": "string",
+            "description": "Package version"
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Workspace packages this depends on"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}

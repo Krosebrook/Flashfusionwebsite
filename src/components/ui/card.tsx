@@ -13,7 +13,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         ref={ref}
         data-slot="card"
         className={cn(
-          "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border transition-all",
+          "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border transition-all shadow-sm",
           interactive && "ff-card-interactive ff-hover-lift cursor-pointer",
           className,
         )}
@@ -41,13 +41,25 @@ const CardHeader = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>
 );
 CardHeader.displayName = "CardHeader";
 
-const CardTitle = React.forwardRef<HTMLHeadingElement, React.ComponentProps<"h4">>(
-  ({ className, ...props }, ref) => {
+interface CardTitleProps extends React.ComponentProps<"h4"> {
+  gradient?: boolean;
+}
+
+const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
+  ({ className, gradient = false, ...props }, ref) => {
     return (
       <h4
         ref={ref}
         data-slot="card-title"
-        className={cn("ff-text-lg font-semibold font-sora leading-none", className)}
+        className={cn(
+          "ff-text-lg font-semibold font-sora leading-none",
+          gradient && "ff-text-gradient",
+          className
+        )}
+        style={{
+          fontFamily: 'var(--ff-font-primary)',
+          fontWeight: 'var(--ff-weight-semibold)'
+        }}
         {...props}
       />
     );
