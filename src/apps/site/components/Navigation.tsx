@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Download } from 'lucide-react';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,6 +57,18 @@ export default function Navigation() {
               }}
             >
               Pricing
+            </Link>
+            <Link 
+              href="/download"
+              className="transition-colors hover:text-white flex items-center gap-1"
+              style={{
+                color: 'var(--ff-text-secondary)',
+                fontFamily: 'Sora, sans-serif',
+                fontWeight: 500
+              }}
+            >
+              <Download className="h-4 w-4" />
+              Download
             </Link>
             <Link 
               href="/faq"
@@ -129,6 +141,19 @@ export default function Navigation() {
                 }}
               >
                 Pricing
+              </Link>
+              <Link 
+                href="/download"
+                onClick={() => setIsOpen(false)}
+                className="py-2 transition-colors hover:text-white flex items-center gap-2"
+                style={{
+                  color: 'var(--ff-text-secondary)',
+                  fontFamily: 'Sora, sans-serif',
+                  fontWeight: 500
+                }}
+              >
+                <Download className="h-4 w-4" />
+                Download
               </Link>
               <Link 
                 href="/faq"
