@@ -1,0 +1,264 @@
+{
+  "refactoring": {
+    "phase": "Prompt 6: Enforce Linting, Formatting & Type Hygiene",
+    "date": "2025-10-26",
+    "branch": "claude/general-refactoring-011CUWcE92TD4U8argM1HhWS",
+    "status": "CONFIGS_CREATED",
+    "executedBy": "Claude Code Refactoring Agent"
+  },
+  "summary": {
+    "eslintConfigCreated": true,
+    "prettierConfigCreated": true,
+    "lintRulesEnforced": 25,
+    "importOrderEnforced": true,
+    "typeImportsEnforced": true
+  },
+  "configsCreated": {
+    "eslint": {
+      "file": ".eslintrc.cjs",
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:import/recommended",
+        "prettier"
+      ],
+      "keyRules": {
+        "noUnusedVars": "error (with _ prefix exception)",
+        "noExplicitAny": "warn",
+        "consistentTypeImports": "error (prefer type imports)",
+        "importOrder": "error (alphabetized groups)",
+        "noConsole": "warn (allow warn/error/info)",
+        "reactHooksRulesOfHooks": "error",
+        "reactHooksExhaustiveDeps": "warn"
+      },
+      "ignored": [
+        "dist",
+        "build",
+        "node_modules",
+        "internal/debug/**",
+        "archive/**"
+      ]
+    },
+    "prettier": {
+      "file": ".prettierrc",
+      "settings": {
+        "semi": true,
+        "singleQuote": true,
+        "tabWidth": 2,
+        "printWidth": 100,
+        "trailingComma": "es5",
+        "endOfLine": "lf"
+      },
+      "overrides": {
+        "markdown": "printWidth 80, proseWrap always",
+        "json": "printWidth 120"
+      }
+    }
+  },
+  "enforcedStandards": {
+    "typeImports": {
+      "rule": "@typescript-eslint/consistent-type-imports",
+      "before": "import { User } from './types';",
+      "after": "import type { User } from './types';",
+      "benefit": "Clearer distinction between values and types, better tree-shaking"
+    },
+    "importOrder": {
+      "rule": "import/order",
+      "groups": [
+        "builtin (node modules)",
+        "external (npm packages)",
+        "internal (src/)",
+        "parent (../)",
+        "sibling (./)",
+        "index (./index)",
+        "type (import type)"
+      ],
+      "alphabetized": true,
+      "benefit": "Consistent, predictable import organization"
+    },
+    "noUnusedVars": {
+      "rule": "@typescript-eslint/no-unused-vars",
+      "allowPattern": "^_",
+      "benefit": "Catch dead code, allow intentional unused with _ prefix"
+    },
+    "noExplicitAny": {
+      "level": "warn",
+      "rationale": "Warn (not error) to allow gradual type improvement",
+      "goal": "Eliminate all explicit any types over time"
+    }
+  },
+  "typeExportHygiene": {
+    "current": "Mixed - some files use export type, others don't",
+    "target": "Consistent use of export type for type-only exports",
+    "recommendation": {
+      "valueExports": "export { Component } from './Component';",
+      "typeExports": "export type { Props } from './Component';",
+      "benefit": "Better code splitting, clear intent, improved bundling"
+    },
+    "exampleRefactor": {
+      "before": "export { User, fetchUser } from './user';",
+      "after": [
+        "export type { User } from './user';",
+        "export { fetchUser } from './user';"
+      ]
+    }
+  },
+  "ciIntegration": {
+    "recommended": {
+      "lintCheck": "npm run lint",
+      "typeCheck": "npm run type-check",
+      "format": "npm run format",
+      "formatCheck": "npm run format:check"
+    },
+    "githubActions": {
+      "step": "Lint and Type Check",
+      "command": "pnpm run lint && pnpm run type-check"
+    },
+    "preCommitHook": {
+      "tool": "husky + lint-staged",
+      "config": {
+        "*.{ts,tsx}": [
+          "eslint --fix",
+          "prettier --write"
+        ],
+        "*.{json,md}": [
+          "prettier --write"
+        ]
+      }
+    }
+  },
+  "gradualAdoption": {
+    "phase1": {
+      "title": "Enable configs (current)",
+      "status": "COMPLETED",
+      "changes": [
+        "Created .eslintrc.cjs",
+        "Created .prettierrc",
+        "Created .prettierignore"
+      ]
+    },
+    "phase2": {
+      "title": "Fix auto-fixable issues",
+      "status": "PENDING",
+      "command": "npx eslint . --ext .ts,.tsx --fix",
+      "estimatedIssues": "500-1000 auto-fixable",
+      "effort": "2-3 hours (mostly automated)"
+    },
+    "phase3": {
+      "title": "Fix manual issues",
+      "status": "PENDING",
+      "focus": [
+        "Unused variables",
+        "Explicit any types",
+        "Missing dependencies in hooks"
+      ],
+      "effort": "8-12 hours"
+    },
+    "phase4": {
+      "title": "Enable CI gates",
+      "status": "PENDING",
+      "actions": [
+        "Add lint check to CI",
+        "Add type check to CI",
+        "Fail PRs on violations"
+      ],
+      "effort": "1 hour"
+    },
+    "phase5": {
+      "title": "Add pre-commit hooks",
+      "status": "PENDING",
+      "tools": "husky + lint-staged",
+      "effort": "2 hours"
+    }
+  },
+  "estimatedImpact": {
+    "beforeState": {
+      "lintConfig": "None",
+      "formatConfig": "None",
+      "typeImports": "Inconsistent",
+      "importOrder": "Random",
+      "codeStyle": "Inconsistent across files"
+    },
+    "afterState": {
+      "lintConfig": "Comprehensive ESLint with TypeScript",
+      "formatConfig": "Prettier with consistent rules",
+      "typeImports": "Enforced via eslint rule",
+      "importOrder": "Alphabetized, grouped consistently",
+      "codeStyle": "100% consistent, auto-formatted"
+    },
+    "benefits": [
+      "Catch bugs before runtime (unused vars, exhaustive deps)",
+      "Consistent code style across team",
+      "Easier code reviews (no style discussions)",
+      "Better tree-shaking (type imports)",
+      "Improved maintainability",
+      "Reduced cognitive load (predictable structure)"
+    ]
+  },
+  "filesCreated": [
+    ".eslintrc.cjs",
+    ".prettierrc",
+    ".prettierignore",
+    "reports/lint-type-hygiene.json"
+  ],
+  "recommendedPackages": {
+    "devDependencies": [
+      "eslint",
+      "@typescript-eslint/parser",
+      "@typescript-eslint/eslint-plugin",
+      "eslint-plugin-react",
+      "eslint-plugin-react-hooks",
+      "eslint-plugin-import",
+      "eslint-import-resolver-typescript",
+      "eslint-config-prettier",
+      "prettier",
+      "husky",
+      "lint-staged"
+    ],
+    "installCommand": "pnpm add -D <packages>"
+  },
+  "acceptanceCriteria": {
+    "completed": [
+      "Created comprehensive .eslintrc.cjs with 25+ rules",
+      "Created .prettierrc with consistent formatting",
+      "Created .prettierignore to skip generated files",
+      "Enforced type imports via eslint rule",
+      "Enforced import ordering via eslint rule",
+      "Excluded debug/archive dirs from linting",
+      "Documented gradual adoption strategy"
+    ],
+    "remaining": [
+      "Install required npm packages",
+      "Run eslint --fix to auto-fix issues",
+      "Manually fix remaining lint errors",
+      "Run prettier --write to format codebase",
+      "Add lint/type-check to CI pipeline",
+      "Install husky + lint-staged for pre-commit hooks",
+      "Achieve zero lint errors",
+      "Achieve zero type errors"
+    ]
+  },
+  "nextSteps": [
+    {
+      "task": "Install linting packages",
+      "command": "pnpm add -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-import eslint-config-prettier prettier",
+      "effort": "5 minutes"
+    },
+    {
+      "task": "Run eslint --fix",
+      "command": "npx eslint . --ext .ts,.tsx --fix",
+      "effort": "2-3 hours (review changes)"
+    },
+    {
+      "task": "Format codebase",
+      "command": "npx prettier --write \"src/**/*.{ts,tsx,json,md}\"",
+      "effort": "10 minutes"
+    },
+    {
+      "task": "Fix remaining lint errors manually",
+      "effort": "8-12 hours"
+    }
+  ]
+}
