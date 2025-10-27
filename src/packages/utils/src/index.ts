@@ -1,5 +1,5 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -8,8 +8,9 @@ export function cn(...inputs: ClassValue[]) {
 // Performance utilities
 export * from './performance';
 
-// File utilities  
-export * from './file-generators';
+// File utilities
+// Note: File generators have been moved to src/utils/generators/
+// Import directly from 'src/utils/generators' if needed
 
 // Creator utilities
 export * from './creator-content-pipeline';

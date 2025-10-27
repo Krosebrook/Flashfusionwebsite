@@ -24,9 +24,9 @@ export function XPNotificationSystem() {
   const addNotification = (notification: Omit<XPNotification, 'id'>) => {
     const id = `notification_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const newNotification = { ...notification, id };
-    
-    setNotifications(prev => [...prev, newNotification]);
-    
+
+    setNotifications((prev) => [...prev, newNotification]);
+
     // Auto-remove after duration
     const duration = notification.duration || 3000;
     setTimeout(() => {
@@ -36,7 +36,7 @@ export function XPNotificationSystem() {
 
   // Remove notification
   const removeNotification = (id: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
   // Listen for XP changes and show notifications
@@ -44,7 +44,7 @@ export function XPNotificationSystem() {
     // This would be triggered by gamification events
     // For now, we'll create a global notification system
     window.showXPNotification = addNotification;
-    
+
     return () => {
       delete window.showXPNotification;
     };
@@ -52,7 +52,7 @@ export function XPNotificationSystem() {
 
   const getNotificationIcon = (type: string, icon?: React.ReactNode) => {
     if (icon) return icon;
-    
+
     switch (type) {
       case 'xp_gain':
         return <Star className="h-5 w-5 text-warning" />;
@@ -91,10 +91,10 @@ export function XPNotificationSystem() {
             initial={{ opacity: 0, x: 100, scale: 0.8 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 100, scale: 0.8 }}
-            transition={{ 
-              type: "spring", 
-              stiffness: 300, 
-              damping: 30 
+            transition={{
+              type: 'spring',
+              stiffness: 300,
+              damping: 30,
             }}
             className={`
               p-4 rounded-lg border backdrop-blur-sm shadow-lg cursor-pointer
@@ -107,12 +107,10 @@ export function XPNotificationSystem() {
               <div className="flex-shrink-0 mt-0.5">
                 {getNotificationIcon(notification.type, notification.icon)}
               </div>
-              
+
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <h4 className="font-semibold text-sm text-foreground">
-                    {notification.title}
-                  </h4>
+                  <h4 className="font-semibold text-sm text-foreground">{notification.title}</h4>
                   {notification.points && (
                     <Badge variant="secondary" className="text-xs">
                       +{notification.points} XP
@@ -124,20 +122,20 @@ export function XPNotificationSystem() {
                     </Badge>
                   )}
                 </div>
-                
-                <p className="text-xs text-muted-foreground">
-                  {notification.description}
-                </p>
-                
+
+                <p className="text-xs text-muted-foreground">{notification.description}</p>
+
                 {/* Show XP progress if user stats available */}
                 {userStats && notification.type === 'xp_gain' && (
                   <div className="mt-2">
                     <div className="flex justify-between text-xs text-muted-foreground mb-1">
                       <span>Level {userStats.level}</span>
-                      <span>{userStats.current_level_xp}/{userStats.next_level_xp} XP</span>
+                      <span>
+                        {userStats.current_level_xp}/{userStats.next_level_xp} XP
+                      </span>
                     </div>
-                    <Progress 
-                      value={(userStats.current_level_xp / userStats.next_level_xp) * 100} 
+                    <Progress
+                      value={(userStats.current_level_xp / userStats.next_level_xp) * 100}
                       className="h-1"
                     />
                   </div>
@@ -147,7 +145,7 @@ export function XPNotificationSystem() {
           </motion.div>
         ))}
       </AnimatePresence>
-      
+
       {/* Mini XP counter */}
       {userStats && !error && (
         <motion.div
@@ -162,18 +160,22 @@ export function XPNotificationSystem() {
             <Crown className="h-4 w-4 text-primary" />
             <span className="font-semibold text-sm">Level {userStats.level}</span>
           </div>
-          
+
           <div className="space-y-1">
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>{userStats.current_level_xp} XP</span>
               <span>{userStats.next_level_xp} XP</span>
             </div>
-            <Progress 
-              value={userStats.next_level_xp > 0 ? (userStats.current_level_xp / userStats.next_level_xp) * 100 : 0} 
+            <Progress
+              value={
+                userStats.next_level_xp > 0
+                  ? (userStats.current_level_xp / userStats.next_level_xp) * 100
+                  : 0
+              }
               className="h-1"
             />
           </div>
-          
+
           <div className="flex justify-between text-xs text-muted-foreground mt-2">
             <div className="flex items-center gap-1">
               <Zap className="h-3 w-3" />
@@ -184,11 +186,9 @@ export function XPNotificationSystem() {
               <span>{userStats.achievements_unlocked?.length || 0}</span>
             </div>
           </div>
-          
+
           {/* Offline mode indicator */}
-          <div className="mt-1 text-xs text-muted-foreground opacity-60">
-            Demo Mode
-          </div>
+          <div className="mt-1 text-xs text-muted-foreground opacity-60">Demo Mode</div>
         </motion.div>
       )}
     </div>
@@ -203,7 +203,7 @@ export const showXPGain = (points: number, action: string) => {
       title: `+${points} XP`,
       description: action,
       points,
-      duration: 2000
+      duration: 2000,
     });
   }
 };
@@ -215,7 +215,7 @@ export const showLevelUp = (newLevel: number) => {
       title: 'Level Up!',
       description: `You reached level ${newLevel}!`,
       level: newLevel,
-      duration: 5000
+      duration: 5000,
     });
   }
 };
@@ -226,7 +226,7 @@ export const showAchievementUnlock = (name: string, description: string) => {
       type: 'achievement',
       title: 'Achievement Unlocked!',
       description: `${name}: ${description}`,
-      duration: 6000
+      duration: 6000,
     });
   }
 };
@@ -237,7 +237,7 @@ export const showStreakBonus = (days: number) => {
       type: 'streak',
       title: 'Streak Bonus!',
       description: `${days} day streak maintained`,
-      duration: 3000
+      duration: 3000,
     });
   }
 };

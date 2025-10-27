@@ -4,7 +4,7 @@ import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Switch } from '../ui/switch';
-import { 
+import {
   Plus,
   Settings,
   CheckCircle,
@@ -20,14 +20,21 @@ import {
   Mail,
   Video,
   Palette,
-  Shield
+  Shield,
 } from 'lucide-react';
 
 interface Integration {
   id: string;
   name: string;
   description: string;
-  category: 'development' | 'commerce' | 'analytics' | 'communication' | 'design' | 'ai' | 'security';
+  category:
+    | 'development'
+    | 'commerce'
+    | 'analytics'
+    | 'communication'
+    | 'design'
+    | 'ai'
+    | 'security';
   icon: React.ComponentType<{ className?: string }>;
   brandColor: string;
   status: 'connected' | 'disconnected' | 'error' | 'pending';
@@ -55,7 +62,7 @@ const AVAILABLE_INTEGRATIONS: Integration[] = [
     features: ['Payment Processing', 'Subscriptions', 'Analytics', 'Webhooks'],
     lastSync: '2 minutes ago',
     plan: 'Pro',
-    usage: { current: 847, limit: 1000, unit: 'transactions' }
+    usage: { current: 847, limit: 1000, unit: 'transactions' },
   },
   {
     id: 'shopify',
@@ -69,7 +76,7 @@ const AVAILABLE_INTEGRATIONS: Integration[] = [
     features: ['Product Sync', 'Order Management', 'Inventory', 'Customer Data'],
     lastSync: '15 minutes ago',
     plan: 'Plus',
-    usage: { current: 234, limit: 500, unit: 'products' }
+    usage: { current: 234, limit: 500, unit: 'products' },
   },
   {
     id: 'claude',
@@ -83,7 +90,7 @@ const AVAILABLE_INTEGRATIONS: Integration[] = [
     features: ['Content Generation', 'Code Analysis', 'Data Processing', 'Creative Writing'],
     lastSync: '30 seconds ago',
     plan: 'Pro',
-    usage: { current: 15420, limit: 25000, unit: 'tokens' }
+    usage: { current: 15420, limit: 25000, unit: 'tokens' },
   },
   {
     id: 'google-analytics',
@@ -97,7 +104,7 @@ const AVAILABLE_INTEGRATIONS: Integration[] = [
     features: ['Traffic Analysis', 'User Behavior', 'Conversion Tracking', 'Custom Reports'],
     lastSync: '1 hour ago',
     plan: 'GA4',
-    usage: { current: 95000, limit: 100000, unit: 'events' }
+    usage: { current: 95000, limit: 100000, unit: 'events' },
   },
   {
     id: 'figma',
@@ -110,7 +117,7 @@ const AVAILABLE_INTEGRATIONS: Integration[] = [
     isActive: false,
     features: ['Design Import', 'Asset Sync', 'Component Library', 'Collaboration'],
     lastSync: '3 hours ago',
-    plan: 'Professional'
+    plan: 'Professional',
   },
   {
     id: 'aws',
@@ -124,7 +131,7 @@ const AVAILABLE_INTEGRATIONS: Integration[] = [
     features: ['S3 Storage', 'Lambda Functions', 'CloudFront CDN', 'Database'],
     lastSync: '5 minutes ago',
     plan: 'Pay-as-you-go',
-    usage: { current: 12.4, limit: 100, unit: 'GB storage' }
+    usage: { current: 12.4, limit: 100, unit: 'GB storage' },
   },
   {
     id: 'sendgrid',
@@ -136,7 +143,7 @@ const AVAILABLE_INTEGRATIONS: Integration[] = [
     status: 'disconnected',
     isActive: false,
     features: ['Transactional Email', 'Marketing Campaigns', 'Analytics', 'Templates'],
-    plan: 'Free'
+    plan: 'Free',
   },
   {
     id: 'zoom',
@@ -149,7 +156,7 @@ const AVAILABLE_INTEGRATIONS: Integration[] = [
     isActive: false,
     features: ['Video Meetings', 'Webinars', 'Recording', 'Screen Share'],
     lastSync: 'Failed 2 hours ago',
-    plan: 'Pro'
+    plan: 'Pro',
   },
   {
     id: 'auth0',
@@ -161,8 +168,8 @@ const AVAILABLE_INTEGRATIONS: Integration[] = [
     status: 'pending',
     isActive: false,
     features: ['Single Sign-On', 'Multi-factor Auth', 'User Management', 'Social Login'],
-    plan: 'Developer'
-  }
+    plan: 'Developer',
+  },
 ];
 
 const CATEGORY_CONFIG = {
@@ -172,7 +179,7 @@ const CATEGORY_CONFIG = {
   communication: { label: 'Communication', color: '#667eea' },
   design: { label: 'Design', color: '#764ba2' },
   ai: { label: 'AI & ML', color: '#2a5298' },
-  security: { label: 'Security', color: '#ef4444' }
+  security: { label: 'Security', color: '#ef4444' },
 };
 
 export function CrossPlatformIntegrationHub() {
@@ -180,17 +187,18 @@ export function CrossPlatformIntegrationHub() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showConnected, setShowConnected] = useState(false);
 
-  const filteredIntegrations = AVAILABLE_INTEGRATIONS.filter(integration => {
+  const filteredIntegrations = AVAILABLE_INTEGRATIONS.filter((integration) => {
     const matchesCategory = selectedCategory === 'all' || integration.category === selectedCategory;
-    const matchesSearch = integration.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         integration.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch =
+      integration.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      integration.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = !showConnected || integration.status === 'connected';
-    
+
     return matchesCategory && matchesSearch && matchesStatus;
   });
 
-  const connectedCount = AVAILABLE_INTEGRATIONS.filter(i => i.status === 'connected').length;
-  const activeCount = AVAILABLE_INTEGRATIONS.filter(i => i.isActive).length;
+  const connectedCount = AVAILABLE_INTEGRATIONS.filter((i) => i.status === 'connected').length;
+  const activeCount = AVAILABLE_INTEGRATIONS.filter((i) => i.isActive).length;
 
   const getStatusColor = (status: Integration['status']) => {
     switch (status) {
@@ -230,18 +238,19 @@ export function CrossPlatformIntegrationHub() {
         exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.3 }}
       >
-        <Card 
+        <Card
           className="relative overflow-hidden transition-all duration-300 cursor-pointer hover:shadow-lg"
           style={{
             background: 'rgba(255, 255, 255, 0.95)',
             backdropFilter: 'blur(10px)',
-            border: integration.status === 'connected' 
-              ? `1px solid ${integration.brandColor}30`
-              : '1px solid rgba(255, 255, 255, 0.2)'
+            border:
+              integration.status === 'connected'
+                ? `1px solid ${integration.brandColor}30`
+                : '1px solid rgba(255, 255, 255, 0.2)',
           }}
         >
           {/* Status indicator line */}
-          <div 
+          <div
             className="absolute top-0 left-0 right-0 h-1"
             style={{ backgroundColor: getStatusColor(integration.status) }}
           />
@@ -250,29 +259,24 @@ export function CrossPlatformIntegrationHub() {
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <div 
+                <div
                   className="w-12 h-12 rounded-xl flex items-center justify-center"
-                  style={{ 
+                  style={{
                     backgroundColor: `${integration.brandColor}15`,
-                    border: `2px solid ${integration.brandColor}30`
+                    border: `2px solid ${integration.brandColor}30`,
                   }}
                 >
-                  <integration.icon 
-                    className="h-6 w-6" 
-                    style={{ color: integration.brandColor }}
-                  />
+                  <integration.icon className="h-6 w-6" style={{ color: integration.brandColor }} />
                 </div>
-                
+
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-gray-900 truncate">
-                    {integration.name}
-                  </h3>
-                  <Badge 
-                    variant="outline" 
+                  <h3 className="font-semibold text-gray-900 truncate">{integration.name}</h3>
+                  <Badge
+                    variant="outline"
                     className="text-xs mt-1"
-                    style={{ 
+                    style={{
                       borderColor: categoryConfig.color,
-                      color: categoryConfig.color
+                      color: categoryConfig.color,
                     }}
                   >
                     {categoryConfig.label}
@@ -281,17 +285,17 @@ export function CrossPlatformIntegrationHub() {
               </div>
 
               <div className="flex flex-col items-end space-y-2">
-                <StatusIcon 
-                  className="h-5 w-5" 
+                <StatusIcon
+                  className="h-5 w-5"
                   style={{ color: getStatusColor(integration.status) }}
                 />
-                
+
                 {integration.status === 'connected' && (
-                  <Switch 
-                    checked={integration.isActive} 
+                  <Switch
+                    checked={integration.isActive}
                     size="sm"
                     style={{
-                      background: integration.isActive ? integration.brandColor : undefined
+                      background: integration.isActive ? integration.brandColor : undefined,
                     }}
                   />
                 )}
@@ -299,19 +303,13 @@ export function CrossPlatformIntegrationHub() {
             </div>
 
             {/* Description */}
-            <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-              {integration.description}
-            </p>
+            <p className="text-gray-600 text-sm mb-4 leading-relaxed">{integration.description}</p>
 
             {/* Features */}
             <div className="mb-4">
               <div className="flex flex-wrap gap-1">
-                {integration.features.slice(0, 3).map(feature => (
-                  <Badge 
-                    key={feature} 
-                    variant="outline" 
-                    className="text-xs border-gray-200"
-                  >
+                {integration.features.slice(0, 3).map((feature) => (
+                  <Badge key={feature} variant="outline" className="text-xs border-gray-200">
                     {feature}
                   </Badge>
                 ))}
@@ -329,15 +327,16 @@ export function CrossPlatformIntegrationHub() {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-xs text-gray-500">Usage</span>
                   <span className="text-xs font-semibold text-gray-700">
-                    {integration.usage.current.toLocaleString()} / {integration.usage.limit.toLocaleString()} {integration.usage.unit}
+                    {integration.usage.current.toLocaleString()} /{' '}
+                    {integration.usage.limit.toLocaleString()} {integration.usage.unit}
                   </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
+                  <div
                     className="h-2 rounded-full transition-all duration-300"
-                    style={{ 
+                    style={{
                       backgroundColor: integration.brandColor,
-                      width: `${(integration.usage.current / integration.usage.limit) * 100}%`
+                      width: `${(integration.usage.current / integration.usage.limit) * 100}%`,
                     }}
                   />
                 </div>
@@ -346,22 +345,20 @@ export function CrossPlatformIntegrationHub() {
 
             {/* Last sync */}
             {integration.lastSync && (
-              <div className="text-xs text-gray-400 mb-4">
-                Last sync: {integration.lastSync}
-              </div>
+              <div className="text-xs text-gray-400 mb-4">Last sync: {integration.lastSync}</div>
             )}
 
             {/* Actions */}
             <div className="flex space-x-2">
               {integration.status === 'connected' ? (
                 <>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     className="flex-1"
-                    style={{ 
+                    style={{
                       borderColor: integration.brandColor,
-                      color: integration.brandColor
+                      color: integration.brandColor,
                     }}
                   >
                     <Settings className="h-3 w-3 mr-1" />
@@ -372,8 +369,8 @@ export function CrossPlatformIntegrationHub() {
                   </Button>
                 </>
               ) : integration.status === 'error' ? (
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   className="flex-1"
                   style={{ backgroundColor: integration.brandColor }}
                 >
@@ -381,18 +378,13 @@ export function CrossPlatformIntegrationHub() {
                   Reconnect
                 </Button>
               ) : integration.status === 'pending' ? (
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="flex-1"
-                  disabled
-                >
+                <Button variant="outline" size="sm" className="flex-1" disabled>
                   <Globe className="h-3 w-3 mr-1 animate-spin" />
                   Connecting...
                 </Button>
               ) : (
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   className="flex-1"
                   style={{ backgroundColor: integration.brandColor }}
                 >
@@ -404,9 +396,7 @@ export function CrossPlatformIntegrationHub() {
 
             {/* Plan info */}
             {integration.plan && (
-              <div className="text-xs text-gray-400 mt-2 text-center">
-                {integration.plan} plan
-              </div>
+              <div className="text-xs text-gray-400 mt-2 text-center">{integration.plan} plan</div>
             )}
           </div>
         </Card>
@@ -426,10 +416,10 @@ export function CrossPlatformIntegrationHub() {
             Connect and manage third-party services with FlashFusion
           </p>
         </div>
-        
+
         <div className="flex items-center space-x-4">
           <div className="text-sm text-gray-600">
-            <span className="font-semibold text-green-600">{connectedCount}</span> connected • 
+            <span className="font-semibold text-green-600">{connectedCount}</span> connected •
             <span className="font-semibold text-blue-600 ml-1">{activeCount}</span> active
           </div>
           <Button className="bg-gradient-to-r from-primary to-secondary">
@@ -459,35 +449,27 @@ export function CrossPlatformIntegrationHub() {
                 style={{
                   backgroundColor: selectedCategory === key ? config.color : undefined,
                   borderColor: config.color,
-                  color: selectedCategory === key ? 'white' : config.color
+                  color: selectedCategory === key ? 'white' : config.color,
                 }}
               >
                 {config.label}
               </Button>
             ))}
           </div>
-          
+
           <div className="flex items-center space-x-3 lg:ml-auto">
             <div className="flex items-center space-x-2">
-              <label className="text-sm font-medium text-gray-700">
-                Connected only
-              </label>
-              <Switch 
-                checked={showConnected}
-                onCheckedChange={setShowConnected}
-              />
+              <label className="text-sm font-medium text-gray-700">Connected only</label>
+              <Switch checked={showConnected} onCheckedChange={setShowConnected} />
             </div>
           </div>
         </div>
       </Card>
 
       {/* Integrations Grid */}
-      <motion.div 
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        layout
-      >
+      <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" layout>
         <AnimatePresence mode="popLayout">
-          {filteredIntegrations.map(integration => (
+          {filteredIntegrations.map((integration) => (
             <IntegrationCard key={integration.id} integration={integration} />
           ))}
         </AnimatePresence>
@@ -496,13 +478,11 @@ export function CrossPlatformIntegrationHub() {
       {filteredIntegrations.length === 0 && (
         <Card className="p-12 text-center bg-white/95 backdrop-blur-[10px] border border-white/20">
           <Globe className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            No integrations found
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">No integrations found</h3>
           <p className="text-gray-600 mb-4">
             Try adjusting your filters or search for specific services
           </p>
-          <Button 
+          <Button
             className="bg-gradient-to-r from-primary to-secondary"
             onClick={() => {
               setSelectedCategory('all');

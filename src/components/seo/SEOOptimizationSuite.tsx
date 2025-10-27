@@ -8,12 +8,12 @@ import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Search, 
-  TrendingUp, 
-  Target, 
-  Globe, 
-  CheckCircle, 
+import {
+  Search,
+  TrendingUp,
+  Target,
+  Globe,
+  CheckCircle,
   AlertTriangle,
   ExternalLink,
   Copy,
@@ -30,7 +30,7 @@ import {
   BarChart3,
   MessageSquare,
   Lightbulb,
-  Award
+  Award,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import { analyticsService } from '../../services/AnalyticsService';
@@ -103,7 +103,7 @@ export function SEOOptimizationSuite() {
     ogImage: '',
     twitterTitle: '',
     twitterDescription: '',
-    canonicalUrl: ''
+    canonicalUrl: '',
   });
   const [contentOptimization, setContentOptimization] = useState<ContentOptimization | null>(null);
   const [technicalSEO, setTechnicalSEO] = useState<TechnicalSEO | null>(null);
@@ -128,7 +128,7 @@ export function SEOOptimizationSuite() {
             status: 'pass',
             impact: 'high',
             score: 85,
-            recommendation: 'Include primary keyword within first 60 characters'
+            recommendation: 'Include primary keyword within first 60 characters',
           },
           {
             id: 'meta-descriptions',
@@ -139,7 +139,7 @@ export function SEOOptimizationSuite() {
             impact: 'medium',
             score: 72,
             recommendation: 'Optimize meta descriptions to 150-160 characters with call-to-action',
-            implementation: 'Update meta description tags in HTML head section'
+            implementation: 'Update meta description tags in HTML head section',
           },
           {
             id: 'heading-structure',
@@ -148,7 +148,7 @@ export function SEOOptimizationSuite() {
             description: 'Proper H1-H6 hierarchy for better content organization',
             status: 'pass',
             impact: 'medium',
-            score: 90
+            score: 90,
           },
           {
             id: 'page-speed',
@@ -159,7 +159,7 @@ export function SEOOptimizationSuite() {
             impact: 'high',
             score: 78,
             recommendation: 'Optimize images and implement lazy loading',
-            implementation: 'Compress images, minify CSS/JS, enable browser caching'
+            implementation: 'Compress images, minify CSS/JS, enable browser caching',
           },
           {
             id: 'mobile-friendly',
@@ -168,7 +168,7 @@ export function SEOOptimizationSuite() {
             description: 'Mobile-responsive design and usability',
             status: 'pass',
             impact: 'critical',
-            score: 92
+            score: 92,
           },
           {
             id: 'ssl-certificate',
@@ -177,7 +177,7 @@ export function SEOOptimizationSuite() {
             description: 'HTTPS encryption for security and trust',
             status: 'pass',
             impact: 'critical',
-            score: 100
+            score: 100,
           },
           {
             id: 'structured-data',
@@ -188,7 +188,7 @@ export function SEOOptimizationSuite() {
             impact: 'medium',
             score: 35,
             recommendation: 'Implement schema.org markup for better search visibility',
-            implementation: 'Add JSON-LD structured data for products, reviews, and organization'
+            implementation: 'Add JSON-LD structured data for products, reviews, and organization',
           },
           {
             id: 'internal-linking',
@@ -198,7 +198,7 @@ export function SEOOptimizationSuite() {
             status: 'warning',
             impact: 'medium',
             score: 68,
-            recommendation: 'Increase internal links with descriptive anchor text'
+            recommendation: 'Increase internal links with descriptive anchor text',
           },
           {
             id: 'social-meta',
@@ -208,7 +208,8 @@ export function SEOOptimizationSuite() {
             status: 'warning',
             impact: 'medium',
             score: 74,
-            recommendation: 'Optimize social sharing previews with compelling images and descriptions'
+            recommendation:
+              'Optimize social sharing previews with compelling images and descriptions',
           },
           {
             id: 'image-optimization',
@@ -217,8 +218,8 @@ export function SEOOptimizationSuite() {
             description: 'Alt text, file names, and image compression',
             status: 'pass',
             impact: 'medium',
-            score: 86
-          }
+            score: 86,
+          },
         ];
 
         const mockKeywords: KeywordData[] = [
@@ -230,7 +231,7 @@ export function SEOOptimizationSuite() {
             currentRank: 12,
             targetRank: 3,
             traffic: 1200,
-            competition: 'medium'
+            competition: 'medium',
           },
           {
             keyword: 'no-code app builder',
@@ -240,7 +241,7 @@ export function SEOOptimizationSuite() {
             currentRank: 8,
             targetRank: 1,
             traffic: 2100,
-            competition: 'high'
+            competition: 'high',
           },
           {
             keyword: 'AI code generator',
@@ -250,7 +251,7 @@ export function SEOOptimizationSuite() {
             currentRank: 15,
             targetRank: 5,
             traffic: 890,
-            competition: 'high'
+            competition: 'high',
           },
           {
             keyword: 'full stack development tools',
@@ -259,7 +260,7 @@ export function SEOOptimizationSuite() {
             opportunity: 88,
             targetRank: 2,
             traffic: 650,
-            competition: 'medium'
+            competition: 'medium',
           },
           {
             keyword: 'automated deployment platform',
@@ -269,20 +270,29 @@ export function SEOOptimizationSuite() {
             currentRank: 7,
             targetRank: 3,
             traffic: 420,
-            competition: 'medium'
-          }
+            competition: 'medium',
+          },
         ];
 
         const mockMetaData: MetaData = {
           title: 'FlashFusion - AI Development Assistant Platform | Build Apps 10x Faster',
-          description: 'Transform ideas into production-ready applications with FlashFusion\'s 60+ AI tools. Full-stack development, deployment automation, and team collaboration in one platform.',
-          keywords: ['AI development', 'no-code', 'app builder', 'automated deployment', 'full-stack tools'],
+          description:
+            "Transform ideas into production-ready applications with FlashFusion's 60+ AI tools. Full-stack development, deployment automation, and team collaboration in one platform.",
+          keywords: [
+            'AI development',
+            'no-code',
+            'app builder',
+            'automated deployment',
+            'full-stack tools',
+          ],
           ogTitle: 'FlashFusion - AI Development Assistant Platform',
-          ogDescription: 'Build production-ready apps 10x faster with AI assistance. 60+ tools for full-stack development, deployment, and collaboration.',
+          ogDescription:
+            'Build production-ready apps 10x faster with AI assistance. 60+ tools for full-stack development, deployment, and collaboration.',
           ogImage: '/images/og-image-flashfusion.png',
           twitterTitle: 'FlashFusion - AI Development Assistant Platform',
-          twitterDescription: 'Transform ideas into apps with AI. 60+ development tools in one platform.',
-          canonicalUrl: 'https://flashfusion.dev'
+          twitterDescription:
+            'Transform ideas into apps with AI. 60+ development tools in one platform.',
+          canonicalUrl: 'https://flashfusion.dev',
         };
 
         const mockContentOptimization: ContentOptimization = {
@@ -292,7 +302,7 @@ export function SEOOptimizationSuite() {
           internalLinks: 23,
           imageOptimization: 72,
           contentLength: 2400,
-          uniqueness: 94
+          uniqueness: 94,
         };
 
         const mockTechnicalSEO: TechnicalSEO = {
@@ -303,7 +313,7 @@ export function SEOOptimizationSuite() {
           structuredData: 45,
           sitemapStatus: true,
           robotsTxtStatus: true,
-          sslStatus: true
+          sslStatus: true,
         };
 
         setSeoAudit(mockAudit);
@@ -315,7 +325,6 @@ export function SEOOptimizationSuite() {
         // Calculate overall score
         const avgScore = mockAudit.reduce((sum, item) => sum + item.score, 0) / mockAudit.length;
         setOverallScore(avgScore);
-
       } catch (error) {
         console.error('Failed to load SEO data:', error);
       } finally {
@@ -328,21 +337,22 @@ export function SEOOptimizationSuite() {
 
   const runSEOAnalysis = useCallback(async () => {
     setIsAnalyzing(true);
-    
+
     try {
       // Simulate SEO analysis
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
       // Update some audit items
-      setSeoAudit(prev => prev.map(item => ({
-        ...item,
-        score: Math.min(100, item.score + Math.random() * 10),
-        status: Math.random() > 0.3 ? 'pass' : item.status
-      })));
-      
+      setSeoAudit((prev) =>
+        prev.map((item) => ({
+          ...item,
+          score: Math.min(100, item.score + Math.random() * 10),
+          status: Math.random() > 0.3 ? 'pass' : item.status,
+        }))
+      );
+
       toast.success('SEO analysis completed!');
       analyticsService.trackSEOAudit('full-analysis', overallScore);
-      
     } catch (error) {
       toast.error('SEO analysis failed');
     } finally {
@@ -386,30 +396,30 @@ export function SEOOptimizationSuite() {
 
   const generateStructuredData = useCallback(() => {
     const structuredData = {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "FlashFusion",
-      "description": metaData.description,
-      "url": metaData.canonicalUrl,
-      "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "Web Browser",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: 'FlashFusion',
+      description: metaData.description,
+      url: metaData.canonicalUrl,
+      applicationCategory: 'DeveloperApplication',
+      operatingSystem: 'Web Browser',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
       },
-      "creator": {
-        "@type": "Organization",
-        "name": "FlashFusion",
-        "url": metaData.canonicalUrl
+      creator: {
+        '@type': 'Organization',
+        name: 'FlashFusion',
+        url: metaData.canonicalUrl,
       },
-      "featureList": [
-        "AI-powered development tools",
-        "Full-stack application builder",
-        "Automated deployment",
-        "Team collaboration",
-        "60+ specialized AI tools"
-      ]
+      featureList: [
+        'AI-powered development tools',
+        'Full-stack application builder',
+        'Automated deployment',
+        'Team collaboration',
+        '60+ specialized AI tools',
+      ],
     };
 
     const jsonLd = `<script type="application/ld+json">
@@ -429,35 +439,53 @@ ${JSON.stringify(structuredData, null, 2)}
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'pass': return 'text-green-500';
-      case 'warning': return 'text-yellow-500';
-      case 'fail': return 'text-red-500';
-      case 'pending': return 'text-blue-500';
-      default: return 'text-muted-foreground';
+      case 'pass':
+        return 'text-green-500';
+      case 'warning':
+        return 'text-yellow-500';
+      case 'fail':
+        return 'text-red-500';
+      case 'pending':
+        return 'text-blue-500';
+      default:
+        return 'text-muted-foreground';
     }
   };
 
   const getImpactColor = (impact: string) => {
     switch (impact) {
-      case 'critical': return 'bg-red-500/10 text-red-500 border-red-500/20';
-      case 'high': return 'bg-orange-500/10 text-orange-500 border-orange-500/20';
-      case 'medium': return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20';
-      case 'low': return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
-      default: return 'bg-muted text-muted-foreground';
+      case 'critical':
+        return 'bg-red-500/10 text-red-500 border-red-500/20';
+      case 'high':
+        return 'bg-orange-500/10 text-orange-500 border-orange-500/20';
+      case 'medium':
+        return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20';
+      case 'low':
+        return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
+      default:
+        return 'bg-muted text-muted-foreground';
     }
   };
 
   const getCompetitionColor = (competition: string) => {
     switch (competition) {
-      case 'low': return 'text-green-500';
-      case 'medium': return 'text-yellow-500';
-      case 'high': return 'text-red-500';
-      default: return 'text-muted-foreground';
+      case 'low':
+        return 'text-green-500';
+      case 'medium':
+        return 'text-yellow-500';
+      case 'high':
+        return 'text-red-500';
+      default:
+        return 'text-muted-foreground';
     }
   };
 
-  const criticalIssues = seoAudit.filter(item => item.status === 'fail' && item.impact === 'critical').length;
-  const highImpactIssues = seoAudit.filter(item => item.status !== 'pass' && (item.impact === 'critical' || item.impact === 'high')).length;
+  const criticalIssues = seoAudit.filter(
+    (item) => item.status === 'fail' && item.impact === 'critical'
+  ).length;
+  const highImpactIssues = seoAudit.filter(
+    (item) => item.status !== 'pass' && (item.impact === 'critical' || item.impact === 'high')
+  ).length;
 
   if (isLoading) {
     return (
@@ -489,7 +517,7 @@ ${JSON.stringify(structuredData, null, 2)}
             Maximize organic reach and discoverability for launch success
           </p>
         </div>
-        
+
         <div className="flex items-center gap-3">
           <div className="text-center">
             <div className="flex items-center gap-2">
@@ -502,12 +530,8 @@ ${JSON.stringify(structuredData, null, 2)}
               </span>
             </div>
           </div>
-          
-          <Button
-            onClick={runSEOAnalysis}
-            disabled={isAnalyzing}
-            className="ff-btn-primary"
-          >
+
+          <Button onClick={runSEOAnalysis} disabled={isAnalyzing} className="ff-btn-primary">
             <BarChart3 className="h-4 w-4 mr-2" />
             {isAnalyzing ? 'Analyzing...' : 'Run SEO Audit'}
           </Button>
@@ -520,7 +544,8 @@ ${JSON.stringify(structuredData, null, 2)}
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle className="text-destructive">Critical SEO Issues</AlertTitle>
           <AlertDescription>
-            {criticalIssues} critical issue{criticalIssues === 1 ? '' : 's'} found that could significantly impact search rankings.
+            {criticalIssues} critical issue{criticalIssues === 1 ? '' : 's'} found that could
+            significantly impact search rankings.
             <Button size="sm" variant="destructive" className="ml-3" onClick={runSEOAnalysis}>
               Fix Issues
             </Button>
@@ -542,7 +567,8 @@ ${JSON.stringify(structuredData, null, 2)}
               {overallScore.toFixed(0)}/100
             </p>
             <p className="text-sm text-muted-foreground">
-              {seoAudit.filter(item => item.status === 'pass').length}/{seoAudit.length} checks passed
+              {seoAudit.filter((item) => item.status === 'pass').length}/{seoAudit.length} checks
+              passed
             </p>
           </CardContent>
         </Card>
@@ -557,7 +583,7 @@ ${JSON.stringify(structuredData, null, 2)}
             </div>
             <p className="text-2xl font-bold">{keywords.length}</p>
             <p className="text-sm text-muted-foreground">
-              {keywords.filter(k => k.currentRank && k.currentRank <= 10).length} in top 10
+              {keywords.filter((k) => k.currentRank && k.currentRank <= 10).length} in top 10
             </p>
           </CardContent>
         </Card>
@@ -585,7 +611,9 @@ ${JSON.stringify(structuredData, null, 2)}
               </div>
               <h3 className="font-medium">Issues</h3>
             </div>
-            <p className={`text-2xl font-bold ${highImpactIssues > 0 ? 'text-red-500' : 'text-green-500'}`}>
+            <p
+              className={`text-2xl font-bold ${highImpactIssues > 0 ? 'text-red-500' : 'text-green-500'}`}
+            >
               {highImpactIssues}
             </p>
             <p className="text-sm text-muted-foreground">High impact issues</p>
@@ -619,19 +647,24 @@ ${JSON.stringify(structuredData, null, 2)}
               <Card key={item.id} className={`ff-card-interactive ${getImpactColor(item.impact)}`}>
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
-                    <div className={`p-2 rounded-lg ${
-                      item.status === 'pass' ? 'bg-green-500/10' :
-                      item.status === 'warning' ? 'bg-yellow-500/10' :
-                      item.status === 'fail' ? 'bg-red-500/10' :
-                      'bg-blue-500/10'
-                    }`}>
+                    <div
+                      className={`p-2 rounded-lg ${
+                        item.status === 'pass'
+                          ? 'bg-green-500/10'
+                          : item.status === 'warning'
+                            ? 'bg-yellow-500/10'
+                            : item.status === 'fail'
+                              ? 'bg-red-500/10'
+                              : 'bg-blue-500/10'
+                      }`}
+                    >
                       {item.status === 'pass' ? (
                         <CheckCircle className={`h-5 w-5 ${getStatusColor(item.status)}`} />
                       ) : (
                         <AlertTriangle className={`h-5 w-5 ${getStatusColor(item.status)}`} />
                       )}
                     </div>
-                    
+
                     <div className="flex-1 space-y-3">
                       <div>
                         <div className="flex items-center justify-between mb-2">
@@ -647,16 +680,16 @@ ${JSON.stringify(structuredData, null, 2)}
                         </div>
                         <p className="text-sm text-muted-foreground">{item.description}</p>
                       </div>
-                      
+
                       <Progress value={item.score} className="h-2" />
-                      
+
                       {item.recommendation && item.status !== 'pass' && (
                         <div className="space-y-2">
                           <div className="p-3 bg-muted/30 rounded-lg">
                             <p className="text-xs font-medium mb-1">Recommendation:</p>
                             <p className="text-xs text-muted-foreground">{item.recommendation}</p>
                           </div>
-                          
+
                           {item.implementation && (
                             <div className="p-3 bg-blue-500/5 rounded-lg">
                               <p className="text-xs font-medium mb-1">Implementation:</p>
@@ -700,7 +733,7 @@ ${JSON.stringify(structuredData, null, 2)}
                             </Badge>
                           )}
                         </div>
-                        
+
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
                           <div>
                             <span className="text-muted-foreground">Volume:</span>
@@ -728,17 +761,19 @@ ${JSON.stringify(structuredData, null, 2)}
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="ml-4">
                         <div className="text-center">
-                          <div className={`text-lg font-bold ${getScoreColor(keyword.opportunity)}`}>
+                          <div
+                            className={`text-lg font-bold ${getScoreColor(keyword.opportunity)}`}
+                          >
                             {keyword.opportunity}
                           </div>
                           <p className="text-xs text-muted-foreground">Opportunity</p>
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="mt-3">
                       <div className="flex justify-between text-xs mb-1">
                         <span>Opportunity Score</span>
@@ -758,11 +793,21 @@ ${JSON.stringify(structuredData, null, 2)}
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Meta Tags Optimization</h3>
               <div className="flex gap-2">
-                <Button size="sm" variant="outline" onClick={generateMetaTags} className="ff-focus-ring">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={generateMetaTags}
+                  className="ff-focus-ring"
+                >
                   <Copy className="h-4 w-4 mr-2" />
                   Copy Meta Tags
                 </Button>
-                <Button size="sm" variant="outline" onClick={generateStructuredData} className="ff-focus-ring">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={generateStructuredData}
+                  className="ff-focus-ring"
+                >
                   <FileText className="h-4 w-4 mr-2" />
                   Generate Schema
                 </Button>
@@ -776,10 +821,12 @@ ${JSON.stringify(structuredData, null, 2)}
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Title Tag ({metaData.title.length}/60)</label>
+                    <label className="text-sm font-medium">
+                      Title Tag ({metaData.title.length}/60)
+                    </label>
                     <Input
                       value={metaData.title}
-                      onChange={(e) => setMetaData(prev => ({ ...prev, title: e.target.value }))}
+                      onChange={(e) => setMetaData((prev) => ({ ...prev, title: e.target.value }))}
                       className="ff-focus-ring"
                       maxLength={60}
                     />
@@ -787,10 +834,14 @@ ${JSON.stringify(structuredData, null, 2)}
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Meta Description ({metaData.description.length}/160)</label>
+                    <label className="text-sm font-medium">
+                      Meta Description ({metaData.description.length}/160)
+                    </label>
                     <Textarea
                       value={metaData.description}
-                      onChange={(e) => setMetaData(prev => ({ ...prev, description: e.target.value }))}
+                      onChange={(e) =>
+                        setMetaData((prev) => ({ ...prev, description: e.target.value }))
+                      }
                       className="ff-focus-ring resize-none"
                       rows={3}
                       maxLength={160}
@@ -802,7 +853,9 @@ ${JSON.stringify(structuredData, null, 2)}
                     <label className="text-sm font-medium">Canonical URL</label>
                     <Input
                       value={metaData.canonicalUrl}
-                      onChange={(e) => setMetaData(prev => ({ ...prev, canonicalUrl: e.target.value }))}
+                      onChange={(e) =>
+                        setMetaData((prev) => ({ ...prev, canonicalUrl: e.target.value }))
+                      }
                       className="ff-focus-ring"
                     />
                   </div>
@@ -818,7 +871,9 @@ ${JSON.stringify(structuredData, null, 2)}
                     <label className="text-sm font-medium">Open Graph Title</label>
                     <Input
                       value={metaData.ogTitle}
-                      onChange={(e) => setMetaData(prev => ({ ...prev, ogTitle: e.target.value }))}
+                      onChange={(e) =>
+                        setMetaData((prev) => ({ ...prev, ogTitle: e.target.value }))
+                      }
                       className="ff-focus-ring"
                     />
                   </div>
@@ -827,7 +882,9 @@ ${JSON.stringify(structuredData, null, 2)}
                     <label className="text-sm font-medium">Open Graph Description</label>
                     <Textarea
                       value={metaData.ogDescription}
-                      onChange={(e) => setMetaData(prev => ({ ...prev, ogDescription: e.target.value }))}
+                      onChange={(e) =>
+                        setMetaData((prev) => ({ ...prev, ogDescription: e.target.value }))
+                      }
                       className="ff-focus-ring resize-none"
                       rows={2}
                     />
@@ -837,7 +894,9 @@ ${JSON.stringify(structuredData, null, 2)}
                     <label className="text-sm font-medium">Open Graph Image URL</label>
                     <Input
                       value={metaData.ogImage}
-                      onChange={(e) => setMetaData(prev => ({ ...prev, ogImage: e.target.value }))}
+                      onChange={(e) =>
+                        setMetaData((prev) => ({ ...prev, ogImage: e.target.value }))
+                      }
                       className="ff-focus-ring"
                       placeholder="https://example.com/image.jpg"
                     />
@@ -868,14 +927,20 @@ ${JSON.stringify(structuredData, null, 2)}
                     <div className="border rounded bg-white p-3 max-w-md">
                       <div className="w-full h-32 bg-gray-200 rounded mb-2 flex items-center justify-center">
                         {metaData.ogImage ? (
-                          <img src={metaData.ogImage} alt="OG" className="w-full h-full object-cover rounded" />
+                          <img
+                            src={metaData.ogImage}
+                            alt="OG"
+                            className="w-full h-full object-cover rounded"
+                          />
                         ) : (
                           <Image className="h-8 w-8 text-gray-400" />
                         )}
                       </div>
                       <h5 className="font-medium text-sm">{metaData.ogTitle}</h5>
                       <p className="text-gray-600 text-xs mt-1">{metaData.ogDescription}</p>
-                      <p className="text-gray-500 text-xs mt-1">{new URL(metaData.canonicalUrl || 'https://example.com').hostname}</p>
+                      <p className="text-gray-500 text-xs mt-1">
+                        {new URL(metaData.canonicalUrl || 'https://example.com').hostname}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -895,7 +960,9 @@ ${JSON.stringify(structuredData, null, 2)}
                         <FileText className="h-5 w-5 text-primary" />
                         <h3 className="font-medium">Readability</h3>
                       </div>
-                      <p className={`text-2xl font-bold ${getScoreColor(contentOptimization.readabilityScore)}`}>
+                      <p
+                        className={`text-2xl font-bold ${getScoreColor(contentOptimization.readabilityScore)}`}
+                      >
                         {contentOptimization.readabilityScore}/100
                       </p>
                       <Progress value={contentOptimization.readabilityScore} className="h-2" />
@@ -911,10 +978,15 @@ ${JSON.stringify(structuredData, null, 2)}
                         <Target className="h-5 w-5 text-secondary" />
                         <h3 className="font-medium">Keyword Density</h3>
                       </div>
-                      <p className={`text-2xl font-bold ${getScoreColor(contentOptimization.keywordDensity < 3 ? 85 : 60)}`}>
+                      <p
+                        className={`text-2xl font-bold ${getScoreColor(contentOptimization.keywordDensity < 3 ? 85 : 60)}`}
+                      >
                         {contentOptimization.keywordDensity}%
                       </p>
-                      <Progress value={(contentOptimization.keywordDensity / 5) * 100} className="h-2" />
+                      <Progress
+                        value={(contentOptimization.keywordDensity / 5) * 100}
+                        className="h-2"
+                      />
                       <p className="text-xs text-muted-foreground">Target: 1-3%</p>
                     </div>
                   </CardContent>
@@ -928,7 +1000,10 @@ ${JSON.stringify(structuredData, null, 2)}
                         <h3 className="font-medium">Internal Links</h3>
                       </div>
                       <p className="text-2xl font-bold">{contentOptimization.internalLinks}</p>
-                      <Progress value={Math.min(100, (contentOptimization.internalLinks / 30) * 100)} className="h-2" />
+                      <Progress
+                        value={Math.min(100, (contentOptimization.internalLinks / 30) * 100)}
+                        className="h-2"
+                      />
                       <p className="text-xs text-muted-foreground">Links to other pages</p>
                     </div>
                   </CardContent>
@@ -941,7 +1016,9 @@ ${JSON.stringify(structuredData, null, 2)}
                         <Eye className="h-5 w-5 text-green-500" />
                         <h3 className="font-medium">Heading Structure</h3>
                       </div>
-                      <p className={`text-2xl font-bold ${getScoreColor(contentOptimization.headingStructure)}`}>
+                      <p
+                        className={`text-2xl font-bold ${getScoreColor(contentOptimization.headingStructure)}`}
+                      >
                         {contentOptimization.headingStructure}/100
                       </p>
                       <Progress value={contentOptimization.headingStructure} className="h-2" />
@@ -957,7 +1034,9 @@ ${JSON.stringify(structuredData, null, 2)}
                         <Image className="h-5 w-5 text-blue-500" />
                         <h3 className="font-medium">Image SEO</h3>
                       </div>
-                      <p className={`text-2xl font-bold ${getScoreColor(contentOptimization.imageOptimization)}`}>
+                      <p
+                        className={`text-2xl font-bold ${getScoreColor(contentOptimization.imageOptimization)}`}
+                      >
                         {contentOptimization.imageOptimization}/100
                       </p>
                       <Progress value={contentOptimization.imageOptimization} className="h-2" />
@@ -973,7 +1052,9 @@ ${JSON.stringify(structuredData, null, 2)}
                         <Award className="h-5 w-5 text-purple-500" />
                         <h3 className="font-medium">Content Uniqueness</h3>
                       </div>
-                      <p className={`text-2xl font-bold ${getScoreColor(contentOptimization.uniqueness)}`}>
+                      <p
+                        className={`text-2xl font-bold ${getScoreColor(contentOptimization.uniqueness)}`}
+                      >
                         {contentOptimization.uniqueness}%
                       </p>
                       <Progress value={contentOptimization.uniqueness} className="h-2" />
@@ -994,11 +1075,12 @@ ${JSON.stringify(structuredData, null, 2)}
                       <div>
                         <p className="font-medium text-sm">Optimize Content Length</p>
                         <p className="text-xs text-muted-foreground">
-                          Current: {contentOptimization.contentLength} words. Target: 2000-3000 words for better rankings.
+                          Current: {contentOptimization.contentLength} words. Target: 2000-3000
+                          words for better rankings.
                         </p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-3 p-3 bg-yellow-500/5 rounded-lg">
                       <Target className="h-5 w-5 text-yellow-500" />
                       <div>
@@ -1008,7 +1090,7 @@ ${JSON.stringify(structuredData, null, 2)}
                         </p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-3 p-3 bg-green-500/5 rounded-lg">
                       <Link className="h-5 w-5 text-green-500" />
                       <div>
@@ -1052,7 +1134,9 @@ ${JSON.stringify(structuredData, null, 2)}
                         <Smartphone className="h-5 w-5 text-secondary" />
                         <h3 className="font-medium">Mobile Friendly</h3>
                       </div>
-                      <p className={`text-2xl font-bold ${getScoreColor(technicalSEO.mobileOptimization)}`}>
+                      <p
+                        className={`text-2xl font-bold ${getScoreColor(technicalSEO.mobileOptimization)}`}
+                      >
                         {technicalSEO.mobileOptimization}/100
                       </p>
                       <Progress value={technicalSEO.mobileOptimization} className="h-2" />
@@ -1068,7 +1152,9 @@ ${JSON.stringify(structuredData, null, 2)}
                         <Search className="h-5 w-5 text-accent" />
                         <h3 className="font-medium">Crawlability</h3>
                       </div>
-                      <p className={`text-2xl font-bold ${getScoreColor(technicalSEO.crawlability)}`}>
+                      <p
+                        className={`text-2xl font-bold ${getScoreColor(technicalSEO.crawlability)}`}
+                      >
                         {technicalSEO.crawlability}/100
                       </p>
                       <Progress value={technicalSEO.crawlability} className="h-2" />
@@ -1084,7 +1170,9 @@ ${JSON.stringify(structuredData, null, 2)}
                         <Globe className="h-5 w-5 text-green-500" />
                         <h3 className="font-medium">Indexability</h3>
                       </div>
-                      <p className={`text-2xl font-bold ${getScoreColor(technicalSEO.indexability)}`}>
+                      <p
+                        className={`text-2xl font-bold ${getScoreColor(technicalSEO.indexability)}`}
+                      >
                         {technicalSEO.indexability}/100
                       </p>
                       <Progress value={technicalSEO.indexability} className="h-2" />
@@ -1100,7 +1188,9 @@ ${JSON.stringify(structuredData, null, 2)}
                         <FileText className="h-5 w-5 text-blue-500" />
                         <h3 className="font-medium">Structured Data</h3>
                       </div>
-                      <p className={`text-2xl font-bold ${getScoreColor(technicalSEO.structuredData)}`}>
+                      <p
+                        className={`text-2xl font-bold ${getScoreColor(technicalSEO.structuredData)}`}
+                      >
                         {technicalSEO.structuredData}/100
                       </p>
                       <Progress value={technicalSEO.structuredData} className="h-2" />
@@ -1119,19 +1209,29 @@ ${JSON.stringify(structuredData, null, 2)}
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span>Sitemap</span>
-                          <span className={technicalSEO.sitemapStatus ? 'text-green-500' : 'text-red-500'}>
+                          <span
+                            className={
+                              technicalSEO.sitemapStatus ? 'text-green-500' : 'text-red-500'
+                            }
+                          >
                             {technicalSEO.sitemapStatus ? '✓' : '✗'}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span>Robots.txt</span>
-                          <span className={technicalSEO.robotsTxtStatus ? 'text-green-500' : 'text-red-500'}>
+                          <span
+                            className={
+                              technicalSEO.robotsTxtStatus ? 'text-green-500' : 'text-red-500'
+                            }
+                          >
                             {technicalSEO.robotsTxtStatus ? '✓' : '✗'}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span>SSL Certificate</span>
-                          <span className={technicalSEO.sslStatus ? 'text-green-500' : 'text-red-500'}>
+                          <span
+                            className={technicalSEO.sslStatus ? 'text-green-500' : 'text-red-500'}
+                          >
                             {technicalSEO.sslStatus ? '✓' : '✗'}
                           </span>
                         </div>
@@ -1156,17 +1256,18 @@ ${JSON.stringify(structuredData, null, 2)}
                         </p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-3 p-3 bg-yellow-500/5 rounded-lg">
                       <Clock className="h-5 w-5 text-yellow-500" />
                       <div>
                         <p className="font-medium text-sm">Optimize Page Speed</p>
                         <p className="text-xs text-muted-foreground">
-                          Compress images, minify CSS/JS, and implement caching for better performance.
+                          Compress images, minify CSS/JS, and implement caching for better
+                          performance.
                         </p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-3 p-3 bg-blue-500/5 rounded-lg">
                       <Globe className="h-5 w-5 text-blue-500" />
                       <div>

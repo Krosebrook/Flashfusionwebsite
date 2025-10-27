@@ -5,13 +5,13 @@ import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
-import { 
-  Rocket, 
-  CheckCircle, 
-  AlertTriangle, 
-  Clock, 
-  Activity, 
-  Users, 
+import {
+  Rocket,
+  CheckCircle,
+  AlertTriangle,
+  Clock,
+  Activity,
+  Users,
   TrendingUp,
   Server,
   Database,
@@ -24,7 +24,7 @@ import {
   PlayCircle,
   StopCircle,
   Timer,
-  Monitor
+  Monitor,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
@@ -79,7 +79,9 @@ export function LaunchDayCommand() {
   const [launchChecklist, setLaunchChecklist] = useState<LaunchChecklist[]>([]);
   const [systemMetrics, setSystemMetrics] = useState<SystemMetrics[]>([]);
   const [launchGoals, setLaunchGoals] = useState<LaunchGoal[]>([]);
-  const [launchStatus, setLaunchStatus] = useState<'preparing' | 'launching' | 'launched' | 'monitoring'>('preparing');
+  const [launchStatus, setLaunchStatus] = useState<
+    'preparing' | 'launching' | 'launched' | 'monitoring'
+  >('preparing');
   const [countdownTime, setCountdownTime] = useState<number>(0);
   const [isLiveMonitoring, setIsLiveMonitoring] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -102,7 +104,7 @@ export function LaunchDayCommand() {
             assignee: 'DevOps Team',
             deadline: Date.now() - 3600000,
             estimatedTime: 30,
-            automatable: true
+            automatable: true,
           },
           {
             id: 'load-testing',
@@ -114,7 +116,7 @@ export function LaunchDayCommand() {
             assignee: 'QA Team',
             deadline: Date.now() + 1800000,
             estimatedTime: 120,
-            automatable: true
+            automatable: true,
           },
           {
             id: 'monitoring-setup',
@@ -126,8 +128,8 @@ export function LaunchDayCommand() {
             assignee: 'DevOps Team',
             deadline: Date.now() - 600000,
             estimatedTime: 60,
-            automatable: false
-          }
+            automatable: false,
+          },
         ];
 
         const mockGoals: LaunchGoal[] = [
@@ -139,7 +141,7 @@ export function LaunchDayCommand() {
             unit: 'users',
             category: 'user',
             priority: 'critical',
-            deadline: launchDate + 86400000
+            deadline: launchDate + 86400000,
           },
           {
             id: 'response-time',
@@ -149,8 +151,8 @@ export function LaunchDayCommand() {
             unit: 'ms',
             category: 'performance',
             priority: 'high',
-            deadline: launchDate + 3600000
-          }
+            deadline: launchDate + 3600000,
+          },
         ];
 
         const mockMetrics: SystemMetrics[] = Array.from({ length: 10 }, (_, i) => ({
@@ -160,26 +162,25 @@ export function LaunchDayCommand() {
             throughput: Math.random() * 200 + 800,
             errorRate: Math.random() * 2,
             cpuUsage: Math.random() * 30 + 20,
-            memoryUsage: Math.random() * 40 + 40
+            memoryUsage: Math.random() * 40 + 40,
           },
           users: {
             active: Math.floor(Math.random() * 50) + 100,
             signups: Math.floor(Math.random() * 10) + 5,
             conversions: Math.floor(Math.random() * 3) + 1,
-            churnRate: Math.random() * 2 + 1
+            churnRate: Math.random() * 2 + 1,
           },
           business: {
             revenue: Math.random() * 1000 + 500,
             subscriptions: Math.floor(Math.random() * 20) + 10,
             supportTickets: Math.floor(Math.random() * 5) + 1,
-            satisfactionScore: Math.random() * 1 + 4
-          }
+            satisfactionScore: Math.random() * 1 + 4,
+          },
         }));
 
         setLaunchChecklist(mockChecklist);
         setLaunchGoals(mockGoals);
         setSystemMetrics(mockMetrics);
-
       } catch (error) {
         console.error('Failed to load launch data:', error);
       } finally {
@@ -195,7 +196,7 @@ export function LaunchDayCommand() {
     const interval = setInterval(() => {
       const now = Date.now();
       const timeUntilLaunch = launchDate - now;
-      
+
       if (timeUntilLaunch <= 0) {
         setCountdownTime(0);
         if (launchStatus === 'preparing') {
@@ -229,12 +230,12 @@ export function LaunchDayCommand() {
 
   const overallProgress = useMemo(() => {
     const total = launchChecklist.length;
-    const completed = launchChecklist.filter(item => item.status === 'completed').length;
+    const completed = launchChecklist.filter((item) => item.status === 'completed').length;
     return total > 0 ? (completed / total) * 100 : 0;
   }, [launchChecklist]);
 
   const criticalItemsRemaining = launchChecklist.filter(
-    item => item.priority === 'critical' && item.status !== 'completed'
+    (item) => item.priority === 'critical' && item.status !== 'completed'
   ).length;
 
   const currentMetrics = systemMetrics[systemMetrics.length - 1];
@@ -269,7 +270,7 @@ export function LaunchDayCommand() {
             Mission control for FlashFusion's successful launch to 500+ users
           </p>
         </div>
-        
+
         <div className="flex items-center gap-4">
           <div className="text-center">
             <div className="flex items-center gap-2">
@@ -278,15 +279,19 @@ export function LaunchDayCommand() {
             </div>
             <p className="text-xs text-muted-foreground">Until Launch</p>
           </div>
-          
-          <Badge 
+
+          <Badge
             variant={launchStatus === 'launched' ? 'default' : 'secondary'}
             className={`font-medium ${launchStatus === 'launched' ? 'ff-badge-glow' : ''}`}
           >
             <Activity className={`h-3 w-3 mr-1 ${isLiveMonitoring ? 'animate-pulse' : ''}`} />
-            {launchStatus === 'preparing' ? 'Preparing' :
-             launchStatus === 'launching' ? 'Launching' :
-             launchStatus === 'launched' ? 'Launched' : 'Monitoring'}
+            {launchStatus === 'preparing'
+              ? 'Preparing'
+              : launchStatus === 'launching'
+                ? 'Launching'
+                : launchStatus === 'launched'
+                  ? 'Launched'
+                  : 'Monitoring'}
           </Badge>
         </div>
       </div>
@@ -297,7 +302,8 @@ export function LaunchDayCommand() {
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle className="text-destructive">Critical Items Pending</AlertTitle>
           <AlertDescription>
-            {criticalItemsRemaining} critical checklist item{criticalItemsRemaining === 1 ? '' : 's'} must be completed before launch.
+            {criticalItemsRemaining} critical checklist item
+            {criticalItemsRemaining === 1 ? '' : 's'} must be completed before launch.
           </AlertDescription>
         </Alert>
       )}
@@ -316,7 +322,8 @@ export function LaunchDayCommand() {
               <div className="flex justify-between">
                 <span className="text-2xl font-bold">{overallProgress.toFixed(0)}%</span>
                 <span className="text-sm text-muted-foreground">
-                  {launchChecklist.filter(item => item.status === 'completed').length}/{launchChecklist.length}
+                  {launchChecklist.filter((item) => item.status === 'completed').length}/
+                  {launchChecklist.length}
                 </span>
               </div>
               <Progress value={overallProgress} className="h-2" />
@@ -349,7 +356,9 @@ export function LaunchDayCommand() {
                   </div>
                   <h3 className="font-medium">Performance</h3>
                 </div>
-                <p className="text-2xl font-bold">{currentMetrics.performance.responseTime.toFixed(0)}ms</p>
+                <p className="text-2xl font-bold">
+                  {currentMetrics.performance.responseTime.toFixed(0)}ms
+                </p>
                 <p className="text-sm text-muted-foreground">
                   {currentMetrics.performance.errorRate.toFixed(1)}% error rate
                 </p>
@@ -382,7 +391,8 @@ export function LaunchDayCommand() {
               <h3 className="font-medium">Goals Progress</h3>
             </div>
             <p className="text-2xl font-bold">
-              {launchGoals.filter(goal => (goal.current / goal.target) >= 1).length}/{launchGoals.length}
+              {launchGoals.filter((goal) => goal.current / goal.target >= 1).length}/
+              {launchGoals.length}
             </p>
             <p className="text-sm text-muted-foreground">Goals achieved</p>
           </CardContent>
@@ -398,34 +408,30 @@ export function LaunchDayCommand() {
                 <Monitor className="h-5 w-5 text-primary" />
                 <span className="font-medium">Live Monitoring</span>
                 {isLiveMonitoring && (
-                  <Badge variant="default" className="animate-pulse">LIVE</Badge>
+                  <Badge variant="default" className="animate-pulse">
+                    LIVE
+                  </Badge>
                 )}
               </div>
-              
+
               <div className="text-sm text-muted-foreground">
                 Real-time system monitoring and alerting
               </div>
             </div>
-            
+
             <div className="flex gap-2">
               {!isLiveMonitoring ? (
-                <Button
-                  onClick={handleStartLiveMonitoring}
-                  className="ff-btn-primary"
-                >
+                <Button onClick={handleStartLiveMonitoring} className="ff-btn-primary">
                   <PlayCircle className="h-4 w-4 mr-2" />
                   Start Monitoring
                 </Button>
               ) : (
-                <Button
-                  onClick={handleStopLiveMonitoring}
-                  variant="destructive"
-                >
+                <Button onClick={handleStopLiveMonitoring} variant="destructive">
                   <StopCircle className="h-4 w-4 mr-2" />
                   Stop Monitoring
                 </Button>
               )}
-              
+
               <Button variant="outline" className="ff-focus-ring">
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh
@@ -439,7 +445,8 @@ export function LaunchDayCommand() {
       <Tabs defaultValue="checklist" className="space-y-4">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="checklist" className="ff-focus-ring">
-            Checklist ({launchChecklist.filter(item => item.status === 'completed').length}/{launchChecklist.length})
+            Checklist ({launchChecklist.filter((item) => item.status === 'completed').length}/
+            {launchChecklist.length})
           </TabsTrigger>
           <TabsTrigger value="metrics" className="ff-focus-ring">
             Live Metrics
@@ -452,25 +459,33 @@ export function LaunchDayCommand() {
         <TabsContent value="checklist" className="space-y-4">
           <div className="grid grid-cols-1 gap-4">
             {launchChecklist.map((item) => (
-              <Card 
-                key={item.id} 
+              <Card
+                key={item.id}
                 className={`ff-card-interactive ${
-                  item.status === 'completed' ? 'bg-green-500/5 border-green-500/20' :
-                  item.status === 'in-progress' ? 'bg-yellow-500/5 border-yellow-500/20' :
-                  item.status === 'failed' ? 'bg-red-500/5 border-red-500/20' :
-                  'hover:bg-muted/50'
+                  item.status === 'completed'
+                    ? 'bg-green-500/5 border-green-500/20'
+                    : item.status === 'in-progress'
+                      ? 'bg-yellow-500/5 border-yellow-500/20'
+                      : item.status === 'failed'
+                        ? 'bg-red-500/5 border-red-500/20'
+                        : 'hover:bg-muted/50'
                 }`}
               >
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="space-y-3 flex-1">
                       <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${
-                          item.status === 'completed' ? 'bg-green-500/10' :
-                          item.status === 'in-progress' ? 'bg-yellow-500/10' :
-                          item.status === 'failed' ? 'bg-red-500/10' :
-                          'bg-muted'
-                        }`}>
+                        <div
+                          className={`p-2 rounded-lg ${
+                            item.status === 'completed'
+                              ? 'bg-green-500/10'
+                              : item.status === 'in-progress'
+                                ? 'bg-yellow-500/10'
+                                : item.status === 'failed'
+                                  ? 'bg-red-500/10'
+                                  : 'bg-muted'
+                          }`}
+                        >
                           {item.status === 'completed' ? (
                             <CheckCircle className="h-5 w-5 text-green-500" />
                           ) : item.status === 'in-progress' ? (
@@ -481,22 +496,27 @@ export function LaunchDayCommand() {
                             <Clock className="h-5 w-5 text-muted-foreground" />
                           )}
                         </div>
-                        
+
                         <div>
                           <h4 className="font-medium">{item.title}</h4>
                           <p className="text-sm text-muted-foreground">{item.description}</p>
                         </div>
                       </div>
-                      
+
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                         <div>
                           <span className="text-muted-foreground">Priority:</span>
-                          <p className={`font-medium capitalize ${
-                            item.priority === 'critical' ? 'text-red-500' :
-                            item.priority === 'high' ? 'text-orange-500' :
-                            item.priority === 'medium' ? 'text-yellow-500' :
-                            'text-blue-500'
-                          }`}>
+                          <p
+                            className={`font-medium capitalize ${
+                              item.priority === 'critical'
+                                ? 'text-red-500'
+                                : item.priority === 'high'
+                                  ? 'text-orange-500'
+                                  : item.priority === 'medium'
+                                    ? 'text-yellow-500'
+                                    : 'text-blue-500'
+                            }`}
+                          >
                             {item.priority}
                           </p>
                         </div>
@@ -514,17 +534,22 @@ export function LaunchDayCommand() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex flex-col gap-2">
-                      <Badge variant={
-                        item.status === 'completed' ? 'default' :
-                        item.status === 'in-progress' ? 'secondary' :
-                        item.status === 'failed' ? 'destructive' :
-                        'outline'
-                      }>
+                      <Badge
+                        variant={
+                          item.status === 'completed'
+                            ? 'default'
+                            : item.status === 'in-progress'
+                              ? 'secondary'
+                              : item.status === 'failed'
+                                ? 'destructive'
+                                : 'outline'
+                        }
+                      >
                         {item.status.replace('-', ' ')}
                       </Badge>
-                      
+
                       {item.automatable && item.status !== 'completed' && (
                         <Button size="sm" variant="outline" className="ff-focus-ring">
                           <Zap className="h-3 w-3 mr-1" />
@@ -553,19 +578,27 @@ export function LaunchDayCommand() {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Response Time</span>
-                      <span className="font-medium">{currentMetrics.performance.responseTime.toFixed(0)}ms</span>
+                      <span className="font-medium">
+                        {currentMetrics.performance.responseTime.toFixed(0)}ms
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Throughput</span>
-                      <span className="font-medium">{currentMetrics.performance.throughput.toFixed(0)}/min</span>
+                      <span className="font-medium">
+                        {currentMetrics.performance.throughput.toFixed(0)}/min
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Error Rate</span>
-                      <span className="font-medium">{currentMetrics.performance.errorRate.toFixed(2)}%</span>
+                      <span className="font-medium">
+                        {currentMetrics.performance.errorRate.toFixed(2)}%
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">CPU Usage</span>
-                      <span className="font-medium">{currentMetrics.performance.cpuUsage.toFixed(0)}%</span>
+                      <span className="font-medium">
+                        {currentMetrics.performance.cpuUsage.toFixed(0)}%
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -594,7 +627,9 @@ export function LaunchDayCommand() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Churn Rate</span>
-                      <span className="font-medium">{currentMetrics.users.churnRate.toFixed(1)}%</span>
+                      <span className="font-medium">
+                        {currentMetrics.users.churnRate.toFixed(1)}%
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -611,7 +646,9 @@ export function LaunchDayCommand() {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Revenue</span>
-                      <span className="font-medium">${currentMetrics.business.revenue.toFixed(0)}</span>
+                      <span className="font-medium">
+                        ${currentMetrics.business.revenue.toFixed(0)}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Subscriptions</span>
@@ -623,7 +660,9 @@ export function LaunchDayCommand() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Satisfaction</span>
-                      <span className="font-medium">{currentMetrics.business.satisfactionScore.toFixed(1)}/5</span>
+                      <span className="font-medium">
+                        {currentMetrics.business.satisfactionScore.toFixed(1)}/5
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -634,7 +673,9 @@ export function LaunchDayCommand() {
               <CardContent className="p-8 text-center">
                 <Activity className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
                 <h3 className="font-medium mb-2">No Metrics Available</h3>
-                <p className="text-muted-foreground">Start live monitoring to see real-time metrics.</p>
+                <p className="text-muted-foreground">
+                  Start live monitoring to see real-time metrics.
+                </p>
               </CardContent>
             </Card>
           )}
@@ -646,31 +687,38 @@ export function LaunchDayCommand() {
               const progress = (goal.current / goal.target) * 100;
               const isCompleted = progress >= 100;
               const daysLeft = Math.max(0, Math.ceil((goal.deadline - Date.now()) / 86400000));
-              
+
               return (
-                <Card key={goal.id} className={`ff-card-interactive ${isCompleted ? 'border-green-500/20 bg-green-500/5' : ''}`}>
+                <Card
+                  key={goal.id}
+                  className={`ff-card-interactive ${isCompleted ? 'border-green-500/20 bg-green-500/5' : ''}`}
+                >
                   <CardContent className="p-6">
                     <div className="space-y-4">
                       <div className="flex items-start justify-between">
                         <div className="space-y-2">
                           <div className="flex items-center gap-3">
                             <h4 className="font-medium text-lg">{goal.metric}</h4>
-                            <Badge variant={
-                              goal.priority === 'critical' ? 'destructive' :
-                              goal.priority === 'high' ? 'default' :
-                              'secondary'
-                            }>
+                            <Badge
+                              variant={
+                                goal.priority === 'critical'
+                                  ? 'destructive'
+                                  : goal.priority === 'high'
+                                    ? 'default'
+                                    : 'secondary'
+                              }
+                            >
                               {goal.priority}
                             </Badge>
-                            {isCompleted && (
-                              <CheckCircle className="h-5 w-5 text-green-500" />
-                            )}
+                            {isCompleted && <CheckCircle className="h-5 w-5 text-green-500" />}
                           </div>
-                          
+
                           <div className="grid grid-cols-2 gap-4 text-sm">
                             <div>
                               <span className="text-muted-foreground">Target:</span>
-                              <p className="font-medium">{goal.target.toLocaleString()} {goal.unit}</p>
+                              <p className="font-medium">
+                                {goal.target.toLocaleString()} {goal.unit}
+                              </p>
                             </div>
                             <div>
                               <span className="text-muted-foreground">Category:</span>
@@ -678,9 +726,11 @@ export function LaunchDayCommand() {
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="text-right">
-                          <div className={`text-2xl font-bold ${isCompleted ? 'text-green-500' : 'text-primary'}`}>
+                          <div
+                            className={`text-2xl font-bold ${isCompleted ? 'text-green-500' : 'text-primary'}`}
+                          >
                             {goal.current.toLocaleString()}
                           </div>
                           <p className="text-sm text-muted-foreground">
@@ -688,11 +738,13 @@ export function LaunchDayCommand() {
                           </p>
                         </div>
                       </div>
-                      
+
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span>Progress: {progress.toFixed(0)}%</span>
-                          <span className={`${daysLeft <= 1 ? 'text-red-500' : daysLeft <= 3 ? 'text-yellow-500' : 'text-muted-foreground'}`}>
+                          <span
+                            className={`${daysLeft <= 1 ? 'text-red-500' : daysLeft <= 3 ? 'text-yellow-500' : 'text-muted-foreground'}`}
+                          >
                             {daysLeft} days left
                           </span>
                         </div>

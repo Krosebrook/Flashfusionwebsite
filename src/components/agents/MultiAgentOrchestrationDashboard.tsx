@@ -5,12 +5,12 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Play, 
-  Pause, 
-  RotateCcw, 
-  Mic, 
-  MicOff, 
+import {
+  Play,
+  Pause,
+  RotateCcw,
+  Mic,
+  MicOff,
   Zap,
   Brain,
   AlertTriangle,
@@ -23,10 +23,15 @@ import {
   Share2,
   Maximize2,
   Eye,
-  EyeOff
+  EyeOff,
 } from 'lucide-react';
 import { cn } from '../ui/utils';
-import { Agent, ProjectRisk, VoiceCommand, AgentInteraction } from '../../types/multi-agent-orchestration';
+import {
+  Agent,
+  ProjectRisk,
+  VoiceCommand,
+  AgentInteraction,
+} from '../../types/multi-agent-orchestration';
 import { AGENT_DEFINITIONS, CANVAS_DIMENSIONS } from '../../constants/multi-agent-orchestration';
 import { LiveCollaborationCanvas } from './LiveCollaborationCanvas';
 import { AgentPersonalityPanel } from './AgentPersonalityPanel';
@@ -46,7 +51,7 @@ interface MultiAgentOrchestrationDashboardProps {
 export function MultiAgentOrchestrationDashboard({
   projectId,
   userStats,
-  setCurrentPage
+  setCurrentPage,
 }: MultiAgentOrchestrationDashboardProps) {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [activeTab, setActiveTab] = useState('canvas');
@@ -56,13 +61,15 @@ export function MultiAgentOrchestrationDashboard({
   const [risks, setRisks] = useState<ProjectRisk[]>([]);
   const [interactions, setInteractions] = useState<AgentInteraction[]>([]);
   const [voiceCommands, setVoiceCommands] = useState<VoiceCommand[]>([]);
-  const [canvasMode, setCanvasMode] = useState<'collaboration' | 'conflict' | 'performance'>('collaboration');
+  const [canvasMode, setCanvasMode] = useState<'collaboration' | 'conflict' | 'performance'>(
+    'collaboration'
+  );
   const [showStakeholderView, setShowStakeholderView] = useState(false);
   const [orchestrationStats, setOrchestrationStats] = useState({
     activeAgents: 0,
     completedTasks: 0,
     efficiency: 0,
-    collaborationScore: 0
+    collaborationScore: 0,
   });
 
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -74,26 +81,28 @@ export function MultiAgentOrchestrationDashboard({
   }, [projectId]);
 
   const initializeAgents = () => {
-    const initialAgents: Agent[] = Object.entries(AGENT_DEFINITIONS).map(([role, definition], index) => ({
-      id: `agent-${role}`,
-      name: definition.name,
-      role: role as any,
-      status: index < 6 ? 'active' : 'idle',
-      personality: definition.defaultPersonality,
-      workload: Math.floor(Math.random() * 80) + 20,
-      efficiency: Math.floor(Math.random() * 30) + 70,
-      location: {
-        x: (index % 4) * 200 + 100,
-        y: Math.floor(index / 4) * 200 + 100
-      },
-      avatar: `agent-${role}.png`,
-      capabilities: definition.capabilities,
-      connectedAgents: [],
-      lastActive: new Date(),
-      totalTasksCompleted: Math.floor(Math.random() * 50) + 10,
-      averageTaskTime: Math.floor(Math.random() * 120) + 30,
-      expertise: Math.floor(Math.random() * 30) + 70
-    }));
+    const initialAgents: Agent[] = Object.entries(AGENT_DEFINITIONS).map(
+      ([role, definition], index) => ({
+        id: `agent-${role}`,
+        name: definition.name,
+        role: role as any,
+        status: index < 6 ? 'active' : 'idle',
+        personality: definition.defaultPersonality,
+        workload: Math.floor(Math.random() * 80) + 20,
+        efficiency: Math.floor(Math.random() * 30) + 70,
+        location: {
+          x: (index % 4) * 200 + 100,
+          y: Math.floor(index / 4) * 200 + 100,
+        },
+        avatar: `agent-${role}.png`,
+        capabilities: definition.capabilities,
+        connectedAgents: [],
+        lastActive: new Date(),
+        totalTasksCompleted: Math.floor(Math.random() * 50) + 10,
+        averageTaskTime: Math.floor(Math.random() * 120) + 30,
+        expertise: Math.floor(Math.random() * 30) + 70,
+      })
+    );
 
     setAgents(initialAgents);
   };
@@ -110,22 +119,24 @@ export function MultiAgentOrchestrationDashboard({
   };
 
   const updateAgentStatuses = () => {
-    setAgents(prev => prev.map(agent => ({
-      ...agent,
-      workload: Math.max(0, Math.min(100, agent.workload + (Math.random() - 0.5) * 20)),
-      efficiency: Math.max(50, Math.min(100, agent.efficiency + (Math.random() - 0.5) * 10)),
-      status: Math.random() > 0.8 ? getRandomStatus() : agent.status,
-      lastActive: agent.status === 'active' ? new Date() : agent.lastActive
-    })));
+    setAgents((prev) =>
+      prev.map((agent) => ({
+        ...agent,
+        workload: Math.max(0, Math.min(100, agent.workload + (Math.random() - 0.5) * 20)),
+        efficiency: Math.max(50, Math.min(100, agent.efficiency + (Math.random() - 0.5) * 10)),
+        status: Math.random() > 0.8 ? getRandomStatus() : agent.status,
+        lastActive: agent.status === 'active' ? new Date() : agent.lastActive,
+      }))
+    );
   };
 
   const generateRandomInteractions = () => {
     if (Math.random() > 0.7) {
-      const activeAgents = agents.filter(a => a.status === 'active');
+      const activeAgents = agents.filter((a) => a.status === 'active');
       if (activeAgents.length >= 2) {
         const from = activeAgents[Math.floor(Math.random() * activeAgents.length)];
         const to = activeAgents[Math.floor(Math.random() * activeAgents.length)];
-        
+
         if (from.id !== to.id) {
           const interaction: AgentInteraction = {
             id: `interaction-${Date.now()}`,
@@ -135,25 +146,25 @@ export function MultiAgentOrchestrationDashboard({
             content: `${from.name} is collaborating with ${to.name}`,
             timestamp: new Date(),
             status: 'in_progress',
-            priority: getRandomPriority()
+            priority: getRandomPriority(),
           };
-          
-          setInteractions(prev => [interaction, ...prev].slice(0, 10));
+
+          setInteractions((prev) => [interaction, ...prev].slice(0, 10));
         }
       }
     }
   };
 
   const updateOrchestrationStats = () => {
-    const activeAgents = agents.filter(a => a.status === 'active').length;
+    const activeAgents = agents.filter((a) => a.status === 'active').length;
     const avgEfficiency = agents.reduce((sum, a) => sum + a.efficiency, 0) / agents.length;
     const totalTasks = agents.reduce((sum, a) => sum + a.totalTasksCompleted, 0);
-    
+
     setOrchestrationStats({
       activeAgents,
       completedTasks: totalTasks,
       efficiency: Math.round(avgEfficiency),
-      collaborationScore: Math.round(interactions.length * 10 + Math.random() * 20)
+      collaborationScore: Math.round(interactions.length * 10 + Math.random() * 20),
     });
   };
 
@@ -178,7 +189,7 @@ export function MultiAgentOrchestrationDashboard({
   };
 
   const handleVoiceCommand = (command: VoiceCommand) => {
-    setVoiceCommands(prev => [command, ...prev].slice(0, 5));
+    setVoiceCommands((prev) => [command, ...prev].slice(0, 5));
     // Process the voice command
     processVoiceCommand(command);
   };
@@ -194,9 +205,9 @@ export function MultiAgentOrchestrationDashboard({
       interactions,
       risks,
       stats: orchestrationStats,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
-    
+
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -229,13 +240,13 @@ export function MultiAgentOrchestrationDashboard({
           <div className="flex items-center gap-4">
             <Button
               onClick={() => setShowStakeholderView(!showStakeholderView)}
-              variant={showStakeholderView ? "default" : "outline"}
+              variant={showStakeholderView ? 'default' : 'outline'}
               className="flex items-center gap-2"
             >
               {showStakeholderView ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               {showStakeholderView ? 'Dev View' : 'Stakeholder View'}
             </Button>
-            
+
             <Button
               onClick={exportOrchestrationData}
               variant="outline"
@@ -248,8 +259,8 @@ export function MultiAgentOrchestrationDashboard({
             <Button
               onClick={toggleOrchestration}
               className={cn(
-                "flex items-center gap-2",
-                isOrchestrationActive ? "ff-btn-accent" : "ff-btn-primary"
+                'flex items-center gap-2',
+                isOrchestrationActive ? 'ff-btn-accent' : 'ff-btn-primary'
               )}
             >
               {isOrchestrationActive ? (
@@ -283,7 +294,9 @@ export function MultiAgentOrchestrationDashboard({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Efficiency</p>
-                <p className="text-2xl font-bold text-secondary">{orchestrationStats.efficiency}%</p>
+                <p className="text-2xl font-bold text-secondary">
+                  {orchestrationStats.efficiency}%
+                </p>
               </div>
               <Zap className="h-6 w-6 text-secondary" />
             </div>
@@ -293,7 +306,9 @@ export function MultiAgentOrchestrationDashboard({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Tasks Completed</p>
-                <p className="text-2xl font-bold text-accent">{orchestrationStats.completedTasks}</p>
+                <p className="text-2xl font-bold text-accent">
+                  {orchestrationStats.completedTasks}
+                </p>
               </div>
               <BarChart3 className="h-6 w-6 text-accent" />
             </div>
@@ -303,7 +318,9 @@ export function MultiAgentOrchestrationDashboard({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Collaboration Score</p>
-                <p className="text-2xl font-bold text-primary">{orchestrationStats.collaborationScore}</p>
+                <p className="text-2xl font-bold text-primary">
+                  {orchestrationStats.collaborationScore}
+                </p>
               </div>
               <Brain className="h-6 w-6 text-primary" />
             </div>
@@ -370,9 +387,9 @@ export function MultiAgentOrchestrationDashboard({
               selectedAgent={selectedAgent}
               onAgentSelect={setSelectedAgent}
               onPersonalityUpdate={(agentId, personality) => {
-                setAgents(prev => prev.map(a => 
-                  a.id === agentId ? { ...a, personality } : a
-                ));
+                setAgents((prev) =>
+                  prev.map((a) => (a.id === agentId ? { ...a, personality } : a))
+                );
               }}
             />
           </TabsContent>

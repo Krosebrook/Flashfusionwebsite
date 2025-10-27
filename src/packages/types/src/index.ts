@@ -129,14 +129,14 @@ export interface Notification {
 }
 
 // Page types - Updated to include Multi-Agent Orchestration
-export type PageType = 
+export type PageType =
   | 'home'
   | 'dashboard'
   | 'projects'
   | 'tools'
   | 'tool-detail'
   | 'creator-content-pipeline'
-  | 'multi-agent-orchestration'  // New page type
+  | 'multi-agent-orchestration' // New page type
   | 'templates'
   | 'deployments'
   | 'analytics'

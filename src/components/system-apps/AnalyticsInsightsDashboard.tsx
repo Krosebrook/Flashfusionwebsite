@@ -4,10 +4,24 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { 
-  BarChart3, TrendingUp, Users, Zap, Calendar, Download,
-  Eye, Clock, Target, DollarSign, Activity, Layers,
-  ArrowUp, ArrowDown, X, Filter, RefreshCw
+import {
+  BarChart3,
+  TrendingUp,
+  Users,
+  Zap,
+  Calendar,
+  Download,
+  Eye,
+  Clock,
+  Target,
+  DollarSign,
+  Activity,
+  Layers,
+  ArrowUp,
+  ArrowDown,
+  X,
+  Filter,
+  RefreshCw,
 } from 'lucide-react';
 
 interface AnalyticsInsightsDashboardProps {
@@ -40,7 +54,7 @@ const mockMetrics: MetricCard[] = [
     changeType: 'increase',
     icon: <Users className="w-6 h-6" />,
     trend: [100, 120, 135, 145, 160, 175, 190],
-    description: 'Active users across all tools'
+    description: 'Active users across all tools',
   },
   {
     id: 'tools-used',
@@ -50,7 +64,7 @@ const mockMetrics: MetricCard[] = [
     changeType: 'increase',
     icon: <Zap className="w-6 h-6" />,
     trend: [80, 95, 110, 125, 140, 155, 178],
-    description: 'AI tools generated this month'
+    description: 'AI tools generated this month',
   },
   {
     id: 'revenue',
@@ -60,7 +74,7 @@ const mockMetrics: MetricCard[] = [
     changeType: 'increase',
     icon: <DollarSign className="w-6 h-6" />,
     trend: [70, 82, 88, 95, 103, 108, 115],
-    description: 'Subscription and usage revenue'
+    description: 'Subscription and usage revenue',
   },
   {
     id: 'success-rate',
@@ -70,7 +84,7 @@ const mockMetrics: MetricCard[] = [
     changeType: 'increase',
     icon: <Target className="w-6 h-6" />,
     trend: [85, 87, 90, 92, 93, 94, 94.2],
-    description: 'Tool generation success rate'
+    description: 'Tool generation success rate',
   },
   {
     id: 'avg-session',
@@ -80,7 +94,7 @@ const mockMetrics: MetricCard[] = [
     changeType: 'decrease',
     icon: <Clock className="w-6 h-6" />,
     trend: [30, 28, 26, 25.5, 25, 24.8, 24.5],
-    description: 'Average user session duration'
+    description: 'Average user session duration',
   },
   {
     id: 'deployment-success',
@@ -90,8 +104,8 @@ const mockMetrics: MetricCard[] = [
     changeType: 'increase',
     icon: <Layers className="w-6 h-6" />,
     trend: [75, 78, 82, 85, 86, 87.5, 87.9],
-    description: 'Successful deployments rate'
-  }
+    description: 'Successful deployments rate',
+  },
 ];
 
 const mockChartData: ChartData[] = [
@@ -101,7 +115,7 @@ const mockChartData: ChartData[] = [
   { name: 'Apr', value: 4500, change: 8 },
   { name: 'May', value: 6000, change: 25 },
   { name: 'Jun', value: 5500, change: 15 },
-  { name: 'Jul', value: 7000, change: 30 }
+  { name: 'Jul', value: 7000, change: 30 },
 ];
 
 const toolUsageData = [
@@ -123,11 +137,11 @@ export function AnalyticsInsightsDashboard({ onClose }: AnalyticsInsightsDashboa
   };
 
   const totalUsers = useMemo(() => {
-    return mockMetrics.find(m => m.id === 'total-users')?.value || '0';
+    return mockMetrics.find((m) => m.id === 'total-users')?.value || '0';
   }, []);
 
   const totalRevenue = useMemo(() => {
-    return mockMetrics.find(m => m.id === 'revenue')?.value || '$0';
+    return mockMetrics.find((m) => m.id === 'revenue')?.value || '$0';
   }, []);
 
   return (
@@ -168,9 +182,9 @@ export function AnalyticsInsightsDashboard({ onClose }: AnalyticsInsightsDashboa
               </SelectContent>
             </Select>
 
-            <Button 
-              size="sm" 
-              variant="outline" 
+            <Button
+              size="sm"
+              variant="outline"
               onClick={handleRefresh}
               disabled={isLoading}
               className="h-8"
@@ -200,19 +214,19 @@ export function AnalyticsInsightsDashboard({ onClose }: AnalyticsInsightsDashboa
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {mockMetrics.map((metric, index) => (
-                <Card 
-                  key={metric.id} 
+                <Card
+                  key={metric.id}
                   className="ff-card-interactive"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                        {metric.icon}
-                      </div>
-                      <div className={`flex items-center gap-1 text-sm ${
-                        metric.changeType === 'increase' ? 'text-success' : 'text-destructive'
-                      }`}>
+                      <div className="p-2 rounded-lg bg-primary/10 text-primary">{metric.icon}</div>
+                      <div
+                        className={`flex items-center gap-1 text-sm ${
+                          metric.changeType === 'increase' ? 'text-success' : 'text-destructive'
+                        }`}
+                      >
                         {metric.changeType === 'increase' ? (
                           <ArrowUp className="w-3 h-3" />
                         ) : (
@@ -221,7 +235,7 @@ export function AnalyticsInsightsDashboard({ onClose }: AnalyticsInsightsDashboa
                         {Math.abs(metric.change)}%
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <h3 className="text-2xl font-bold">{metric.value}</h3>
                       <p className="text-sm font-medium text-foreground">{metric.title}</p>
@@ -236,7 +250,8 @@ export function AnalyticsInsightsDashboard({ onClose }: AnalyticsInsightsDashboa
                           className="flex-1 bg-primary/20 rounded-sm transition-all duration-300"
                           style={{
                             height: `${(value / Math.max(...metric.trend)) * 100}%`,
-                            backgroundColor: i === metric.trend.length - 1 ? 'var(--ff-primary)' : undefined
+                            backgroundColor:
+                              i === metric.trend.length - 1 ? 'var(--ff-primary)' : undefined,
                           }}
                         />
                       ))}
@@ -266,8 +281,8 @@ export function AnalyticsInsightsDashboard({ onClose }: AnalyticsInsightsDashboa
                             <div
                               className="bg-primary rounded-full h-2 transition-all duration-500"
                               style={{
-                                width: `${(data.value / Math.max(...mockChartData.map(d => d.value))) * 100}%`,
-                                animationDelay: `${index * 100}ms`
+                                width: `${(data.value / Math.max(...mockChartData.map((d) => d.value))) * 100}%`,
+                                animationDelay: `${index * 100}ms`,
                               }}
                             />
                           </div>
@@ -275,10 +290,16 @@ export function AnalyticsInsightsDashboard({ onClose }: AnalyticsInsightsDashboa
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-medium">{data.value.toLocaleString()}</span>
                           {data.change && (
-                            <span className={`text-xs flex items-center gap-1 ${
-                              data.change > 0 ? 'text-success' : 'text-destructive'
-                            }`}>
-                              {data.change > 0 ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />}
+                            <span
+                              className={`text-xs flex items-center gap-1 ${
+                                data.change > 0 ? 'text-success' : 'text-destructive'
+                              }`}
+                            >
+                              {data.change > 0 ? (
+                                <ArrowUp className="w-3 h-3" />
+                              ) : (
+                                <ArrowDown className="w-3 h-3" />
+                              )}
                               {Math.abs(data.change)}%
                             </span>
                           )}
@@ -316,7 +337,7 @@ export function AnalyticsInsightsDashboard({ onClose }: AnalyticsInsightsDashboa
                             className="bg-gradient-to-r from-secondary to-primary rounded-full h-2 transition-all duration-700"
                             style={{
                               width: `${tool.usage}%`,
-                              animationDelay: `${index * 150}ms`
+                              animationDelay: `${index * 150}ms`,
                             }}
                           />
                         </div>

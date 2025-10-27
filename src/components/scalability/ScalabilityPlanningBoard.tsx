@@ -4,11 +4,11 @@
  * @category performance-scalability
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Comprehensive scalability planning board for database optimization, CDN configuration,
  * auto-scaling policies, performance monitoring, and capacity planning with team
  * assignment and task tracking capabilities.
- * 
+ *
  * Features:
  * - Database optimization tracking
  * - CDN configuration management
@@ -26,10 +26,10 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Database, 
-  Globe, 
-  TrendingUp, 
+import {
+  Database,
+  Globe,
+  TrendingUp,
   Activity,
   Users,
   Server,
@@ -79,7 +79,7 @@ import {
   RotateCcw,
   Play,
   Pause,
-  Square
+  Square,
 } from 'lucide-react';
 
 // Scalability planning data
@@ -102,7 +102,7 @@ const scalabilityTasks = {
         actualHours: 14,
         dueDate: '2024-12-15',
         completedDate: '2024-12-14',
-        tags: ['performance', 'sql', 'optimization']
+        tags: ['performance', 'sql', 'optimization'],
       },
       {
         id: 'db-2',
@@ -115,7 +115,7 @@ const scalabilityTasks = {
         actualHours: 18,
         dueDate: '2024-12-22',
         completedDate: null,
-        tags: ['indexing', 'performance', 'database']
+        tags: ['indexing', 'performance', 'database'],
       },
       {
         id: 'db-3',
@@ -128,7 +128,7 @@ const scalabilityTasks = {
         actualHours: 0,
         dueDate: '2024-12-28',
         completedDate: null,
-        tags: ['connections', 'pooling', 'infrastructure']
+        tags: ['connections', 'pooling', 'infrastructure'],
       },
       {
         id: 'db-4',
@@ -141,7 +141,7 @@ const scalabilityTasks = {
         actualHours: 0,
         dueDate: '2025-01-15',
         completedDate: null,
-        tags: ['sharding', 'scaling', 'architecture']
+        tags: ['sharding', 'scaling', 'architecture'],
       },
       {
         id: 'db-5',
@@ -154,9 +154,9 @@ const scalabilityTasks = {
         actualHours: 8,
         dueDate: '2025-01-05',
         completedDate: null,
-        tags: ['replicas', 'scaling', 'reads']
-      }
-    ]
+        tags: ['replicas', 'scaling', 'reads'],
+      },
+    ],
   },
   cdnConfiguration: {
     name: 'CDN Configuration',
@@ -176,7 +176,7 @@ const scalabilityTasks = {
         actualHours: 14,
         dueDate: '2024-12-10',
         completedDate: '2024-12-09',
-        tags: ['cdn', 'global', 'deployment']
+        tags: ['cdn', 'global', 'deployment'],
       },
       {
         id: 'cdn-2',
@@ -189,7 +189,7 @@ const scalabilityTasks = {
         actualHours: 22,
         dueDate: '2024-12-18',
         completedDate: '2024-12-17',
-        tags: ['caching', 'optimization', 'performance']
+        tags: ['caching', 'optimization', 'performance'],
       },
       {
         id: 'cdn-3',
@@ -202,7 +202,7 @@ const scalabilityTasks = {
         actualHours: 24,
         dueDate: '2024-12-30',
         completedDate: null,
-        tags: ['edge', 'computing', 'cdn']
+        tags: ['edge', 'computing', 'cdn'],
       },
       {
         id: 'cdn-4',
@@ -215,9 +215,9 @@ const scalabilityTasks = {
         actualHours: 0,
         dueDate: '2025-01-10',
         completedDate: null,
-        tags: ['analytics', 'monitoring', 'cdn']
-      }
-    ]
+        tags: ['analytics', 'monitoring', 'cdn'],
+      },
+    ],
   },
   autoScalingPolicies: {
     name: 'Auto-scaling Policies',
@@ -237,7 +237,7 @@ const scalabilityTasks = {
         actualHours: 26,
         dueDate: '2024-12-12',
         completedDate: '2024-12-11',
-        tags: ['horizontal', 'scaling', 'metrics']
+        tags: ['horizontal', 'scaling', 'metrics'],
       },
       {
         id: 'scale-2',
@@ -250,7 +250,7 @@ const scalabilityTasks = {
         actualHours: 12,
         dueDate: '2024-12-25',
         completedDate: null,
-        tags: ['vertical', 'scaling', 'automation']
+        tags: ['vertical', 'scaling', 'automation'],
       },
       {
         id: 'scale-3',
@@ -263,7 +263,7 @@ const scalabilityTasks = {
         actualHours: 0,
         dueDate: '2025-01-05',
         completedDate: null,
-        tags: ['load-balancer', 'health-checks', 'networking']
+        tags: ['load-balancer', 'health-checks', 'networking'],
       },
       {
         id: 'scale-4',
@@ -276,7 +276,7 @@ const scalabilityTasks = {
         actualHours: 0,
         dueDate: '2025-01-15',
         completedDate: null,
-        tags: ['cost', 'optimization', 'finops']
+        tags: ['cost', 'optimization', 'finops'],
       },
       {
         id: 'scale-5',
@@ -289,9 +289,9 @@ const scalabilityTasks = {
         actualHours: 0,
         dueDate: '2025-01-20',
         completedDate: null,
-        tags: ['ml', 'predictive', 'algorithms']
-      }
-    ]
+        tags: ['ml', 'predictive', 'algorithms'],
+      },
+    ],
   },
   performanceMonitoring: {
     name: 'Performance Monitoring',
@@ -311,7 +311,7 @@ const scalabilityTasks = {
         actualHours: 18,
         dueDate: '2024-12-08',
         completedDate: '2024-12-08',
-        tags: ['apm', 'monitoring', 'performance']
+        tags: ['apm', 'monitoring', 'performance'],
       },
       {
         id: 'perf-2',
@@ -324,7 +324,7 @@ const scalabilityTasks = {
         actualHours: 20,
         dueDate: '2024-12-15',
         completedDate: '2024-12-14',
-        tags: ['dashboard', 'metrics', 'visualization']
+        tags: ['dashboard', 'metrics', 'visualization'],
       },
       {
         id: 'perf-3',
@@ -337,7 +337,7 @@ const scalabilityTasks = {
         actualHours: 14,
         dueDate: '2024-12-22',
         completedDate: null,
-        tags: ['alerting', 'thresholds', 'notifications']
+        tags: ['alerting', 'thresholds', 'notifications'],
       },
       {
         id: 'perf-4',
@@ -350,9 +350,9 @@ const scalabilityTasks = {
         actualHours: 0,
         dueDate: '2024-12-28',
         completedDate: null,
-        tags: ['real-time', 'analytics', 'streaming']
-      }
-    ]
+        tags: ['real-time', 'analytics', 'streaming'],
+      },
+    ],
   },
   capacityPlanning: {
     name: 'Capacity Planning',
@@ -372,7 +372,7 @@ const scalabilityTasks = {
         actualHours: 35,
         dueDate: '2024-12-20',
         completedDate: '2024-12-19',
-        tags: ['analysis', 'patterns', 'forecasting']
+        tags: ['analysis', 'patterns', 'forecasting'],
       },
       {
         id: 'cap-2',
@@ -385,7 +385,7 @@ const scalabilityTasks = {
         actualHours: 16,
         dueDate: '2025-01-10',
         completedDate: null,
-        tags: ['modeling', 'projections', 'growth']
+        tags: ['modeling', 'projections', 'growth'],
       },
       {
         id: 'cap-3',
@@ -398,7 +398,7 @@ const scalabilityTasks = {
         actualHours: 0,
         dueDate: '2025-01-25',
         completedDate: null,
-        tags: ['allocation', 'optimization', 'automation']
+        tags: ['allocation', 'optimization', 'automation'],
       },
       {
         id: 'cap-4',
@@ -411,7 +411,7 @@ const scalabilityTasks = {
         actualHours: 0,
         dueDate: '2025-02-05',
         completedDate: null,
-        tags: ['cost', 'forecasting', 'finance']
+        tags: ['cost', 'forecasting', 'finance'],
       },
       {
         id: 'cap-5',
@@ -424,20 +424,62 @@ const scalabilityTasks = {
         actualHours: 0,
         dueDate: '2025-02-15',
         completedDate: null,
-        tags: ['alerts', 'thresholds', 'capacity']
-      }
-    ]
-  }
+        tags: ['alerts', 'thresholds', 'capacity'],
+      },
+    ],
+  },
 };
 
 // Team members
 const teamMembers = [
-  { id: '1', name: 'Sarah Chen', role: 'Database Engineer', avatar: 'SC', workload: 85, skills: ['PostgreSQL', 'MySQL', 'Redis'] },
-  { id: '2', name: 'Marcus Rodriguez', role: 'Senior DBA', avatar: 'MR', workload: 90, skills: ['Oracle', 'MongoDB', 'Cassandra'] },
-  { id: '3', name: 'Aisha Patel', role: 'DevOps Engineer', avatar: 'AP', workload: 75, skills: ['Docker', 'Kubernetes', 'Terraform'] },
-  { id: '4', name: 'David Kim', role: 'Solutions Architect', avatar: 'DK', workload: 70, skills: ['AWS', 'Architecture', 'Microservices'] },
-  { id: '5', name: 'Elena Vasquez', role: 'Infrastructure Engineer', avatar: 'EV', workload: 80, skills: ['CDN', 'Networking', 'Security'] },
-  { id: '6', name: 'James Wilson', role: 'Performance Engineer', avatar: 'JW', workload: 88, skills: ['Optimization', 'Caching', 'Monitoring'] }
+  {
+    id: '1',
+    name: 'Sarah Chen',
+    role: 'Database Engineer',
+    avatar: 'SC',
+    workload: 85,
+    skills: ['PostgreSQL', 'MySQL', 'Redis'],
+  },
+  {
+    id: '2',
+    name: 'Marcus Rodriguez',
+    role: 'Senior DBA',
+    avatar: 'MR',
+    workload: 90,
+    skills: ['Oracle', 'MongoDB', 'Cassandra'],
+  },
+  {
+    id: '3',
+    name: 'Aisha Patel',
+    role: 'DevOps Engineer',
+    avatar: 'AP',
+    workload: 75,
+    skills: ['Docker', 'Kubernetes', 'Terraform'],
+  },
+  {
+    id: '4',
+    name: 'David Kim',
+    role: 'Solutions Architect',
+    avatar: 'DK',
+    workload: 70,
+    skills: ['AWS', 'Architecture', 'Microservices'],
+  },
+  {
+    id: '5',
+    name: 'Elena Vasquez',
+    role: 'Infrastructure Engineer',
+    avatar: 'EV',
+    workload: 80,
+    skills: ['CDN', 'Networking', 'Security'],
+  },
+  {
+    id: '6',
+    name: 'James Wilson',
+    role: 'Performance Engineer',
+    avatar: 'JW',
+    workload: 88,
+    skills: ['Optimization', 'Caching', 'Monitoring'],
+  },
 ];
 
 // Resource utilization data
@@ -446,7 +488,7 @@ const resourceUtilization = {
   memory: { current: 73, average: 70, peak: 92, threshold: 85 },
   storage: { current: 56, average: 52, peak: 78, threshold: 90 },
   network: { current: 42, average: 38, peak: 67, threshold: 75 },
-  database: { current: 71, average: 68, peak: 94, threshold: 80 }
+  database: { current: 71, average: 68, peak: 94, threshold: 80 },
 };
 
 interface ScalabilityPlanningBoardProps {
@@ -471,12 +513,12 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
 
   // Calculate task statistics
   const taskStats = useMemo(() => {
-    const allTasks = Object.values(scalabilityTasks).flatMap(category => category.tasks);
+    const allTasks = Object.values(scalabilityTasks).flatMap((category) => category.tasks);
     return {
       total: allTasks.length,
-      completed: allTasks.filter(task => task.status === 'completed').length,
-      inProgress: allTasks.filter(task => task.status === 'in-progress').length,
-      pending: allTasks.filter(task => task.status === 'pending').length
+      completed: allTasks.filter((task) => task.status === 'completed').length,
+      inProgress: allTasks.filter((task) => task.status === 'in-progress').length,
+      pending: allTasks.filter((task) => task.status === 'pending').length,
     };
   }, []);
 
@@ -485,41 +527,54 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
     const category = scalabilityTasks[selectedCategory as keyof typeof scalabilityTasks];
     if (!category) return [];
 
-    return category.tasks.filter(task => {
-      const matchesSearch = task.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           task.description.toLowerCase().includes(searchTerm.toLowerCase());
+    return category.tasks.filter((task) => {
+      const matchesSearch =
+        task.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        task.description.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesStatus = filterStatus === 'all' || task.status === filterStatus;
       const matchesPriority = filterPriority === 'all' || task.priority === filterPriority;
       const matchesAssignee = selectedAssignee === 'all' || task.assignee.name === selectedAssignee;
-      
+
       return matchesSearch && matchesStatus && matchesPriority && matchesAssignee;
     });
   }, [selectedCategory, searchTerm, filterStatus, filterPriority, selectedAssignee]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'var(--ff-success)';
-      case 'in-progress': return 'var(--ff-warning)';
-      case 'pending': return 'var(--ff-text-muted)';
-      default: return 'var(--ff-text-muted)';
+      case 'completed':
+        return 'var(--ff-success)';
+      case 'in-progress':
+        return 'var(--ff-warning)';
+      case 'pending':
+        return 'var(--ff-text-muted)';
+      default:
+        return 'var(--ff-text-muted)';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed': return CheckCircle;
-      case 'in-progress': return Clock;
-      case 'pending': return AlertTriangle;
-      default: return XCircle;
+      case 'completed':
+        return CheckCircle;
+      case 'in-progress':
+        return Clock;
+      case 'pending':
+        return AlertTriangle;
+      default:
+        return XCircle;
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'var(--ff-error)';
-      case 'medium': return 'var(--ff-warning)';
-      case 'low': return 'var(--ff-secondary)';
-      default: return 'var(--ff-text-muted)';
+      case 'high':
+        return 'var(--ff-error)';
+      case 'medium':
+        return 'var(--ff-warning)';
+      case 'low':
+        return 'var(--ff-secondary)';
+      default:
+        return 'var(--ff-text-muted)';
     }
   };
 
@@ -530,24 +585,27 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--ff-bg-dark)]" style={{ fontFamily: 'var(--ff-font-secondary)' }}>
+    <div
+      className="min-h-screen bg-[var(--ff-bg-dark)]"
+      style={{ fontFamily: 'var(--ff-font-secondary)' }}
+    >
       <div className="max-w-7xl mx-auto p-6 space-y-8">
-        
         {/* Header */}
         <div className="text-center space-y-4 ff-fade-in-up">
           <Badge className="ff-badge-primary mb-4">
             <TrendingUp className="w-4 h-4 mr-2" />
             Performance & Scalability
           </Badge>
-          
+
           <h1 className="ff-text-display">
             Scalability
             <span className="ff-text-gradient"> Planning</span>
           </h1>
-          
+
           <p className="ff-text-body max-w-3xl mx-auto">
             Comprehensive scalability planning board for database optimization, CDN configuration,
-            auto-scaling policies, performance monitoring, and capacity planning with team assignment.
+            auto-scaling policies, performance monitoring, and capacity planning with team
+            assignment.
           </p>
         </div>
 
@@ -558,7 +616,10 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
               <div className="w-12 h-12 bg-[var(--ff-primary)]/20 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Target className="w-6 h-6 text-[var(--ff-primary)]" />
               </div>
-              <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+              <div
+                className="ff-text-2xl text-[var(--ff-text-primary)]"
+                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+              >
                 {overallProgress.toFixed(1)}%
               </div>
               <div className="ff-text-sm text-[var(--ff-text-muted)]">Overall Progress</div>
@@ -571,11 +632,17 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
               <div className="w-12 h-12 bg-[var(--ff-success)]/20 rounded-full flex items-center justify-center mx-auto mb-3">
                 <CheckCircle className="w-6 h-6 text-[var(--ff-success)]" />
               </div>
-              <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+              <div
+                className="ff-text-2xl text-[var(--ff-text-primary)]"
+                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+              >
                 {taskStats.completed}/{taskStats.total}
               </div>
               <div className="ff-text-sm text-[var(--ff-text-muted)]">Tasks Completed</div>
-              <Progress value={(taskStats.completed / taskStats.total) * 100} className="mt-2 h-2" />
+              <Progress
+                value={(taskStats.completed / taskStats.total) * 100}
+                className="mt-2 h-2"
+              />
             </CardContent>
           </Card>
 
@@ -584,7 +651,10 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
               <div className="w-12 h-12 bg-[var(--ff-warning)]/20 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Clock className="w-6 h-6 text-[var(--ff-warning)]" />
               </div>
-              <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+              <div
+                className="ff-text-2xl text-[var(--ff-text-primary)]"
+                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+              >
                 {taskStats.inProgress}
               </div>
               <div className="ff-text-sm text-[var(--ff-text-muted)]">In Progress</div>
@@ -599,12 +669,18 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
               <div className="w-12 h-12 bg-[var(--ff-secondary)]/20 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Users className="w-6 h-6 text-[var(--ff-secondary)]" />
               </div>
-              <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+              <div
+                className="ff-text-2xl text-[var(--ff-text-primary)]"
+                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+              >
                 {teamMembers.length}
               </div>
               <div className="ff-text-sm text-[var(--ff-text-muted)]">Team Members</div>
               <div className="ff-text-xs text-[var(--ff-text-muted)] mt-1">
-                {Math.round(teamMembers.reduce((sum, member) => sum + member.workload, 0) / teamMembers.length)}% avg workload
+                {Math.round(
+                  teamMembers.reduce((sum, member) => sum + member.workload, 0) / teamMembers.length
+                )}
+                % avg workload
               </div>
             </CardContent>
           </Card>
@@ -646,13 +722,19 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="text-center">
-                        <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                        <div
+                          className="ff-text-lg text-[var(--ff-text-primary)]"
+                          style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                        >
                           {data.current}%
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="ff-text-sm text-[var(--ff-text-primary)] capitalize" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                  <div
+                    className="ff-text-sm text-[var(--ff-text-primary)] capitalize"
+                    style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                  >
                     {resource}
                   </div>
                   <div className="ff-text-xs text-[var(--ff-text-muted)]">
@@ -695,7 +777,7 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
                   </TabsTrigger>
                 </TabsList>
               </div>
-              
+
               {/* Filters and Controls */}
               <div className="p-6 border-b border-[var(--border)]">
                 <div className="flex flex-wrap items-center gap-4">
@@ -711,7 +793,7 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
                       />
                     </div>
                   </div>
-                  
+
                   <select
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
@@ -722,7 +804,7 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
                     <option value="in-progress">In Progress</option>
                     <option value="pending">Pending</option>
                   </select>
-                  
+
                   <select
                     value={filterPriority}
                     onChange={(e) => setFilterPriority(e.target.value)}
@@ -733,18 +815,20 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
                     <option value="medium">Medium</option>
                     <option value="low">Low</option>
                   </select>
-                  
+
                   <select
                     value={selectedAssignee}
                     onChange={(e) => setSelectedAssignee(e.target.value)}
                     className="px-3 py-2 bg-[var(--ff-surface)] border border-[var(--border)] rounded-lg text-[var(--ff-text-primary)] focus:outline-none focus:border-[var(--ff-primary)]"
                   >
                     <option value="all">All Assignees</option>
-                    {teamMembers.map(member => (
-                      <option key={member.id} value={member.name}>{member.name}</option>
+                    {teamMembers.map((member) => (
+                      <option key={member.id} value={member.name}>
+                        {member.name}
+                      </option>
                     ))}
                   </select>
-                  
+
                   <Button className="ff-btn-primary">
                     <Plus className="w-4 h-4 mr-2" />
                     Add Task
@@ -758,114 +842,146 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="ff-text-title">{category.name}</h3>
-                      <p className="ff-text-sm text-[var(--ff-text-muted)] mt-1">{category.description}</p>
+                      <p className="ff-text-sm text-[var(--ff-text-muted)] mt-1">
+                        {category.description}
+                      </p>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                        <div
+                          className="ff-text-lg text-[var(--ff-text-primary)]"
+                          style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                        >
                           {category.progress}%
                         </div>
                         <div className="ff-text-xs text-[var(--ff-text-muted)]">Complete</div>
                       </div>
                       <Progress value={category.progress} className="w-24 h-2" />
-                      <Badge className={`ff-badge-${category.priority === 'high' ? 'error' : category.priority === 'medium' ? 'warning' : 'secondary'}`}>
+                      <Badge
+                        className={`ff-badge-${category.priority === 'high' ? 'error' : category.priority === 'medium' ? 'warning' : 'secondary'}`}
+                      >
                         {category.priority} priority
                       </Badge>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-4">
-                    {(categoryKey === selectedCategory ? filteredTasks : category.tasks).map((task) => {
-                      const StatusIcon = getStatusIcon(task.status);
-                      
-                      return (
-                        <Card key={task.id} className="ff-card border border-[var(--border)] hover:border-[var(--ff-primary)]/30 transition-colors">
-                          <CardContent className="p-4">
-                            <div className="flex items-start gap-4">
-                              <div className="flex-shrink-0">
-                                <StatusIcon 
-                                  className="w-5 h-5 mt-1" 
-                                  style={{ color: getStatusColor(task.status) }}
-                                />
-                              </div>
-                              
-                              <div className="flex-1 space-y-3">
-                                <div className="flex items-start justify-between">
-                                  <div>
-                                    <h4 className="ff-text-base text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
-                                      {task.name}
-                                    </h4>
-                                    <p className="ff-text-sm text-[var(--ff-text-muted)] mt-1">
-                                      {task.description}
-                                    </p>
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                    <Badge 
-                                      className={`ff-badge-${task.priority === 'high' ? 'error' : task.priority === 'medium' ? 'warning' : 'secondary'}`}
-                                    >
-                                      {task.priority}
-                                    </Badge>
-                                    <Badge 
-                                      className={`ff-badge-${task.status === 'completed' ? 'success' : task.status === 'in-progress' ? 'warning' : 'secondary'}`}
-                                    >
-                                      {task.status.replace('-', ' ')}
-                                    </Badge>
-                                  </div>
+                    {(categoryKey === selectedCategory ? filteredTasks : category.tasks).map(
+                      (task) => {
+                        const StatusIcon = getStatusIcon(task.status);
+
+                        return (
+                          <Card
+                            key={task.id}
+                            className="ff-card border border-[var(--border)] hover:border-[var(--ff-primary)]/30 transition-colors"
+                          >
+                            <CardContent className="p-4">
+                              <div className="flex items-start gap-4">
+                                <div className="flex-shrink-0">
+                                  <StatusIcon
+                                    className="w-5 h-5 mt-1"
+                                    style={{ color: getStatusColor(task.status) }}
+                                  />
                                 </div>
-                                
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center gap-4">
+
+                                <div className="flex-1 space-y-3">
+                                  <div className="flex items-start justify-between">
+                                    <div>
+                                      <h4
+                                        className="ff-text-base text-[var(--ff-text-primary)]"
+                                        style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                                      >
+                                        {task.name}
+                                      </h4>
+                                      <p className="ff-text-sm text-[var(--ff-text-muted)] mt-1">
+                                        {task.description}
+                                      </p>
+                                    </div>
                                     <div className="flex items-center gap-2">
-                                      <div className="w-8 h-8 bg-[var(--ff-primary)] rounded-full flex items-center justify-center text-white text-sm" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
-                                        {task.assignee.avatar}
-                                      </div>
-                                      <div>
-                                        <div className="ff-text-sm text-[var(--ff-text-primary)]">{task.assignee.name}</div>
-                                        <div className="ff-text-xs text-[var(--ff-text-muted)]">{task.assignee.role}</div>
-                                      </div>
-                                    </div>
-                                    
-                                    <div className="text-center">
-                                      <div className="ff-text-sm text-[var(--ff-text-primary)]">
-                                        {task.actualHours}h / {task.estimatedHours}h
-                                      </div>
-                                      <div className="ff-text-xs text-[var(--ff-text-muted)]">Hours</div>
-                                    </div>
-                                    
-                                    <div className="text-center">
-                                      <div className="ff-text-sm text-[var(--ff-text-primary)]">
-                                        {new Date(task.dueDate).toLocaleDateString()}
-                                      </div>
-                                      <div className="ff-text-xs text-[var(--ff-text-muted)]">Due Date</div>
-                                    </div>
-                                  </div>
-                                  
-                                  <div className="flex items-center gap-2">
-                                    <Progress 
-                                      value={task.status === 'completed' ? 100 : task.status === 'in-progress' ? (task.actualHours / task.estimatedHours) * 100 : 0} 
-                                      className="w-20 h-2" 
-                                    />
-                                    <Button size="sm" className="ff-btn-outline">
-                                      <Edit className="w-4 h-4" />
-                                    </Button>
-                                  </div>
-                                </div>
-                                
-                                {task.tags.length > 0 && (
-                                  <div className="flex items-center gap-2">
-                                    {task.tags.map((tag, index) => (
-                                      <Badge key={index} className="ff-badge-secondary text-xs">
-                                        {tag}
+                                      <Badge
+                                        className={`ff-badge-${task.priority === 'high' ? 'error' : task.priority === 'medium' ? 'warning' : 'secondary'}`}
+                                      >
+                                        {task.priority}
                                       </Badge>
-                                    ))}
+                                      <Badge
+                                        className={`ff-badge-${task.status === 'completed' ? 'success' : task.status === 'in-progress' ? 'warning' : 'secondary'}`}
+                                      >
+                                        {task.status.replace('-', ' ')}
+                                      </Badge>
+                                    </div>
                                   </div>
-                                )}
+
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-4">
+                                      <div className="flex items-center gap-2">
+                                        <div
+                                          className="w-8 h-8 bg-[var(--ff-primary)] rounded-full flex items-center justify-center text-white text-sm"
+                                          style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                                        >
+                                          {task.assignee.avatar}
+                                        </div>
+                                        <div>
+                                          <div className="ff-text-sm text-[var(--ff-text-primary)]">
+                                            {task.assignee.name}
+                                          </div>
+                                          <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                                            {task.assignee.role}
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div className="text-center">
+                                        <div className="ff-text-sm text-[var(--ff-text-primary)]">
+                                          {task.actualHours}h / {task.estimatedHours}h
+                                        </div>
+                                        <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                                          Hours
+                                        </div>
+                                      </div>
+
+                                      <div className="text-center">
+                                        <div className="ff-text-sm text-[var(--ff-text-primary)]">
+                                          {new Date(task.dueDate).toLocaleDateString()}
+                                        </div>
+                                        <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                                          Due Date
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-2">
+                                      <Progress
+                                        value={
+                                          task.status === 'completed'
+                                            ? 100
+                                            : task.status === 'in-progress'
+                                              ? (task.actualHours / task.estimatedHours) * 100
+                                              : 0
+                                        }
+                                        className="w-20 h-2"
+                                      />
+                                      <Button size="sm" className="ff-btn-outline">
+                                        <Edit className="w-4 h-4" />
+                                      </Button>
+                                    </div>
+                                  </div>
+
+                                  {task.tags.length > 0 && (
+                                    <div className="flex items-center gap-2">
+                                      {task.tags.map((tag, index) => (
+                                        <Badge key={index} className="ff-badge-secondary text-xs">
+                                          {tag}
+                                        </Badge>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      );
-                    })}
+                            </CardContent>
+                          </Card>
+                        );
+                      }
+                    )}
                   </div>
                 </TabsContent>
               ))}
@@ -887,34 +1003,48 @@ export function ScalabilityPlanningBoard({}: ScalabilityPlanningBoardProps) {
                 <Card key={member.id} className="ff-card">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-[var(--ff-primary)] rounded-full flex items-center justify-center text-white" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                      <div
+                        className="w-10 h-10 bg-[var(--ff-primary)] rounded-full flex items-center justify-center text-white"
+                        style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                      >
                         {member.avatar}
                       </div>
                       <div>
-                        <div className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                        <div
+                          className="ff-text-sm text-[var(--ff-text-primary)]"
+                          style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                        >
                           {member.name}
                         </div>
                         <div className="ff-text-xs text-[var(--ff-text-muted)]">{member.role}</div>
                       </div>
                     </div>
-                    
+
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="ff-text-sm text-[var(--ff-text-secondary)]">Workload</span>
-                        <span className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                        <span
+                          className="ff-text-sm text-[var(--ff-text-primary)]"
+                          style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                        >
                           {member.workload}%
                         </span>
                       </div>
-                      <Progress 
-                        value={member.workload} 
+                      <Progress
+                        value={member.workload}
                         className="h-2"
-                        style={{
-                          '--progress-background': member.workload > 90 ? 'var(--ff-error)' : 
-                                                member.workload > 80 ? 'var(--ff-warning)' : 
-                                                'var(--ff-success)'
-                        } as React.CSSProperties}
+                        style={
+                          {
+                            '--progress-background':
+                              member.workload > 90
+                                ? 'var(--ff-error)'
+                                : member.workload > 80
+                                  ? 'var(--ff-warning)'
+                                  : 'var(--ff-success)',
+                          } as React.CSSProperties
+                        }
                       />
-                      
+
                       <div className="flex flex-wrap gap-1">
                         {member.skills.map((skill, index) => (
                           <Badge key={index} className="ff-badge-secondary text-xs">

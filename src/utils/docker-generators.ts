@@ -366,7 +366,7 @@ jobs:
 
 export function generateDockerCompose(stack: AppStack): string {
   const hasDatabase = stack.database && stack.database !== 'none';
-  
+
   return `version: '3.8'
 
 services:
@@ -391,8 +391,12 @@ services:
       - "3001:3001"
     environment:
       - NODE_ENV=production
-      - PORT=3001${hasDatabase ? `
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/${stack.name}` : ''}
+      - PORT=3001${
+        hasDatabase
+          ? `
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/${stack.name}`
+          : ''
+      }
     ${hasDatabase ? 'depends_on:\n      - postgres' : ''}
     restart: unless-stopped
     healthcheck:
@@ -401,7 +405,9 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-${hasDatabase ? `
+${
+  hasDatabase
+    ? `
   postgres:
     image: postgres:15
     environment:
@@ -420,7 +426,9 @@ ${hasDatabase ? `
       retries: 5
 
 volumes:
-  postgres_data:` : ''}
+  postgres_data:`
+    : ''
+}
 
 networks:
   default:

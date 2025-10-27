@@ -4,7 +4,7 @@
  * @category components
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Interactive demonstration of the completed Phase 8 Blindspot Mitigation
  * showcasing risk matrix boards and immediate next actions with comprehensive
  * risk assessment and priority-based action management.
@@ -15,11 +15,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
-import { 
-  CheckCircle, 
-  ExternalLink, 
-  AlertTriangle, 
-  Flag, 
+import {
+  CheckCircle,
+  ExternalLink,
+  AlertTriangle,
+  Flag,
   Shield,
   Target,
   Activity,
@@ -49,12 +49,12 @@ import {
   DollarSign,
   Flame,
   XCircle,
-  ArrowRight
+  ArrowRight,
 } from 'lucide-react';
 
 /**
  * Phase 8 Blindspot Mitigation Demo Component
- * 
+ *
  * Provides quick access and overview of the completed blindspot mitigation framework
  */
 export function Phase8BlindspotsDemo() {
@@ -62,14 +62,15 @@ export function Phase8BlindspotsDemo() {
     blindspotViews: 1456,
     actionInteractions: 1298,
     riskMitigations: 1087,
-    completionStatus: 100
+    completionStatus: 100,
   });
 
   const blindspotMitigationFeatures = [
     {
       id: 'common-blindspots',
       title: 'Common Blindspots Matrix',
-      description: 'Risk matrix board categorizing blindspots with comprehensive mitigation strategies and implementation tracking',
+      description:
+        'Risk matrix board categorizing blindspots with comprehensive mitigation strategies and implementation tracking',
       icon: <AlertTriangle className="w-5 h-5" />,
       status: 'complete',
       access: '?app=true&page=common-blindspots',
@@ -83,19 +84,20 @@ export function Phase8BlindspotsDemo() {
         'Comprehensive blindspot categorization and prioritization',
         'Detailed mitigation strategies with actionable recommendations',
         'Progress tracking and implementation monitoring systems',
-        'Risk severity assessment and resource allocation planning'
+        'Risk severity assessment and resource allocation planning',
       ],
       metrics: {
         totalBlindspots: 15,
         criticalRisks: 6,
         avgImpactScore: 7.4,
-        mitigationProgress: 31
-      }
+        mitigationProgress: 31,
+      },
     },
     {
       id: 'immediate-actions',
       title: 'Immediate Next Actions',
-      description: 'Priority-based 7-day action plan with foundation tasks, quality gates, and success metrics implementation',
+      description:
+        'Priority-based 7-day action plan with foundation tasks, quality gates, and success metrics implementation',
       icon: <Flag className="w-5 h-5" />,
       status: 'complete',
       access: '?app=true&page=immediate-next-actions',
@@ -109,15 +111,15 @@ export function Phase8BlindspotsDemo() {
         'Analytics setup dashboard with component-based tracking',
         'Team assignment and resource allocation planning',
         'Progress monitoring and deadline tracking systems',
-        'Comprehensive task templates and implementation guides'
+        'Comprehensive task templates and implementation guides',
       ],
       metrics: {
         totalActions: 12,
         foundationTasks: 4,
         qualityGates: 4,
-        successMetrics: 4
-      }
-    }
+        successMetrics: 4,
+      },
+    },
   ];
 
   const blindspotCategories = [
@@ -127,7 +129,7 @@ export function Phase8BlindspotsDemo() {
       icon: <Code2 className="w-4 h-4" />,
       riskLevel: 'Critical',
       blindspots: 3,
-      mitigated: 20
+      mitigated: 20,
     },
     {
       name: 'User Experience',
@@ -135,7 +137,7 @@ export function Phase8BlindspotsDemo() {
       icon: <Users className="w-4 h-4" />,
       riskLevel: 'High',
       blindspots: 3,
-      mitigated: 44
+      mitigated: 44,
     },
     {
       name: 'Performance',
@@ -143,7 +145,7 @@ export function Phase8BlindspotsDemo() {
       icon: <Zap className="w-4 h-4" />,
       riskLevel: 'High',
       blindspots: 3,
-      mitigated: 27
+      mitigated: 27,
     },
     {
       name: 'Security',
@@ -151,7 +153,7 @@ export function Phase8BlindspotsDemo() {
       icon: <Shield className="w-4 h-4" />,
       riskLevel: 'Critical',
       blindspots: 3,
-      mitigated: 63
+      mitigated: 63,
     },
     {
       name: 'Market Competition',
@@ -159,8 +161,8 @@ export function Phase8BlindspotsDemo() {
       icon: <TrendingUp className="w-4 h-4" />,
       riskLevel: 'Medium',
       blindspots: 3,
-      mitigated: 14
-    }
+      mitigated: 14,
+    },
   ];
 
   const immediatePriorities = [
@@ -172,17 +174,17 @@ export function Phase8BlindspotsDemo() {
       icon: <Flag className="w-4 h-4" />,
       tasks: 4,
       focus: 'Scalability, compliance, team setup, monitoring',
-      completion: 0
+      completion: 0,
     },
     {
       priority: 2,
-      name: 'Quality Gates', 
+      name: 'Quality Gates',
       timeframe: 'Days 3-5',
       color: 'var(--ff-warning)',
       icon: <Shield className="w-4 h-4" />,
       tasks: 4,
       focus: 'Testing pipeline, performance, security, processes',
-      completion: 0
+      completion: 0,
     },
     {
       priority: 3,
@@ -192,8 +194,8 @@ export function Phase8BlindspotsDemo() {
       icon: <Target className="w-4 h-4" />,
       tasks: 4,
       focus: 'Analytics, business metrics, feedback, A/B testing',
-      completion: 0
-    }
+      completion: 0,
+    },
   ];
 
   const handleQuickAccess = (access: string) => {
@@ -211,16 +213,17 @@ export function Phase8BlindspotsDemo() {
           <CheckCircle className="w-4 h-4 mr-2" />
           Phase 8 Complete
         </Badge>
-        
+
         <h1 className="ff-text-display">
           Blindspot
           <span className="ff-text-gradient"> Mitigation</span>
         </h1>
-        
+
         <p className="ff-text-body max-w-3xl mx-auto">
-          Complete implementation of blindspot mitigation with comprehensive risk matrix boards and 
-          priority-based action plans covering technical debt, user experience gaps, performance issues, 
-          security vulnerabilities, and market competition with immediate 7-day implementation roadmap.
+          Complete implementation of blindspot mitigation with comprehensive risk matrix boards and
+          priority-based action plans covering technical debt, user experience gaps, performance
+          issues, security vulnerabilities, and market competition with immediate 7-day
+          implementation roadmap.
         </p>
       </div>
 
@@ -230,7 +233,10 @@ export function Phase8BlindspotsDemo() {
           <div className="w-10 h-10 bg-[var(--ff-error)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
             <AlertTriangle className="w-5 h-5 text-[var(--ff-error)]" />
           </div>
-          <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+          <div
+            className="ff-text-lg text-[var(--ff-text-primary)]"
+            style={{ fontWeight: 'var(--ff-weight-bold)' }}
+          >
             {demoStats.blindspotViews.toLocaleString()}
           </div>
           <div className="ff-text-xs text-[var(--ff-text-muted)]">Blindspot Views</div>
@@ -240,7 +246,10 @@ export function Phase8BlindspotsDemo() {
           <div className="w-10 h-10 bg-[var(--ff-warning)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
             <Flag className="w-5 h-5 text-[var(--ff-warning)]" />
           </div>
-          <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+          <div
+            className="ff-text-lg text-[var(--ff-text-primary)]"
+            style={{ fontWeight: 'var(--ff-weight-bold)' }}
+          >
             {demoStats.actionInteractions.toLocaleString()}
           </div>
           <div className="ff-text-xs text-[var(--ff-text-muted)]">Action Interactions</div>
@@ -250,7 +259,10 @@ export function Phase8BlindspotsDemo() {
           <div className="w-10 h-10 bg-[var(--ff-secondary)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
             <Shield className="w-5 h-5 text-[var(--ff-secondary)]" />
           </div>
-          <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+          <div
+            className="ff-text-lg text-[var(--ff-text-primary)]"
+            style={{ fontWeight: 'var(--ff-weight-bold)' }}
+          >
             {demoStats.riskMitigations.toLocaleString()}
           </div>
           <div className="ff-text-xs text-[var(--ff-text-muted)]">Risk Mitigations</div>
@@ -260,7 +272,10 @@ export function Phase8BlindspotsDemo() {
           <div className="w-10 h-10 bg-[var(--ff-success)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
             <Award className="w-5 h-5 text-[var(--ff-success)]" />
           </div>
-          <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+          <div
+            className="ff-text-lg text-[var(--ff-text-primary)]"
+            style={{ fontWeight: 'var(--ff-weight-bold)' }}
+          >
             {demoStats.completionStatus}%
           </div>
           <div className="ff-text-xs text-[var(--ff-text-muted)]">Complete</div>
@@ -281,34 +296,43 @@ export function Phase8BlindspotsDemo() {
               <Card key={index} className="ff-card">
                 <CardContent className="p-4">
                   <div className="flex items-center gap-3 mb-3">
-                    <div 
+                    <div
                       className="w-8 h-8 rounded-lg flex items-center justify-center"
                       style={{ backgroundColor: category.color + '20' }}
                     >
                       {React.cloneElement(category.icon, { style: { color: category.color } })}
                     </div>
                     <div>
-                      <h4 className="ff-text-xs text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                      <h4
+                        className="ff-text-xs text-[var(--ff-text-primary)]"
+                        style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                      >
                         {category.name}
                       </h4>
-                      <Badge 
+                      <Badge
                         className={`ff-badge-${category.riskLevel === 'Critical' ? 'error' : category.riskLevel === 'High' ? 'warning' : 'secondary'} text-xs`}
                       >
                         {category.riskLevel}
                       </Badge>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="ff-text-xs text-[var(--ff-text-muted)]">Blindspots</span>
-                      <span className="ff-text-xs text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                      <span
+                        className="ff-text-xs text-[var(--ff-text-primary)]"
+                        style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                      >
                         {category.blindspots}
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="ff-text-xs text-[var(--ff-text-muted)]">Mitigated</span>
-                      <span className="ff-text-xs text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                      <span
+                        className="ff-text-xs text-[var(--ff-text-primary)]"
+                        style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                      >
                         {category.mitigated}%
                       </span>
                     </div>
@@ -335,32 +359,43 @@ export function Phase8BlindspotsDemo() {
               <Card key={priority.priority} className="ff-card">
                 <CardContent className="p-4">
                   <div className="flex items-center gap-3 mb-3">
-                    <div 
+                    <div
                       className="w-10 h-10 rounded-lg flex items-center justify-center"
                       style={{ backgroundColor: priority.color + '20' }}
                     >
                       {React.cloneElement(priority.icon, { style: { color: priority.color } })}
                     </div>
                     <div>
-                      <h4 className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                      <h4
+                        className="ff-text-sm text-[var(--ff-text-primary)]"
+                        style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                      >
                         Priority {priority.priority}: {priority.name}
                       </h4>
                       <p className="ff-text-xs text-[var(--ff-text-muted)]">{priority.timeframe}</p>
                     </div>
                   </div>
-                  
-                  <p className="ff-text-xs text-[var(--ff-text-secondary)] mb-4">{priority.focus}</p>
-                  
+
+                  <p className="ff-text-xs text-[var(--ff-text-secondary)] mb-4">
+                    {priority.focus}
+                  </p>
+
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="ff-text-xs text-[var(--ff-text-muted)]">Tasks</span>
-                      <span className="ff-text-xs text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                      <span
+                        className="ff-text-xs text-[var(--ff-text-primary)]"
+                        style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                      >
                         {priority.tasks}
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="ff-text-xs text-[var(--ff-text-muted)]">Progress</span>
-                      <span className="ff-text-xs text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                      <span
+                        className="ff-text-xs text-[var(--ff-text-primary)]"
+                        style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                      >
                         {priority.completion}%
                       </span>
                     </div>
@@ -376,8 +411,8 @@ export function Phase8BlindspotsDemo() {
       {/* Framework Components Grid */}
       <div className="grid lg:grid-cols-2 gap-8 ff-stagger-fade">
         {blindspotMitigationFeatures.map((component, index) => (
-          <Card 
-            key={component.id} 
+          <Card
+            key={component.id}
             className="ff-card-interactive hover:border-[var(--ff-error)]/30"
             style={{ animationDelay: `${index * 100}ms` }}
           >
@@ -398,9 +433,7 @@ export function Phase8BlindspotsDemo() {
                   </div>
                 </div>
               </div>
-              <p className="ff-text-sm text-[var(--ff-text-muted)] mt-3">
-                {component.description}
-              </p>
+              <p className="ff-text-sm text-[var(--ff-text-muted)] mt-3">{component.description}</p>
             </CardHeader>
 
             <CardContent className="space-y-6">
@@ -408,15 +441,20 @@ export function Phase8BlindspotsDemo() {
               <div className="grid grid-cols-2 gap-4 p-4 bg-[var(--ff-surface-light)] rounded-lg">
                 {Object.entries(component.metrics).map(([key, value]) => (
                   <div key={key} className="text-center">
-                    <div className="ff-text-xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
-                      {typeof value === 'number' ? 
-                        value > 100 ? value.toLocaleString() : 
-                        key.includes('Progress') || key.includes('Score') ? `${value}${key.includes('Score') ? '' : '%'}` :
-                        value.toLocaleString()
-                      : value}
+                    <div
+                      className="ff-text-xl text-[var(--ff-text-primary)]"
+                      style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                    >
+                      {typeof value === 'number'
+                        ? value > 100
+                          ? value.toLocaleString()
+                          : key.includes('Progress') || key.includes('Score')
+                            ? `${value}${key.includes('Score') ? '' : '%'}`
+                            : value.toLocaleString()
+                        : value}
                     </div>
                     <div className="ff-text-xs text-[var(--ff-text-muted)]">
-                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}
                     </div>
                     {key.includes('Progress') && (
                       <Progress value={value as number} className="h-1 mt-2" />
@@ -427,7 +465,10 @@ export function Phase8BlindspotsDemo() {
 
               {/* Feature List */}
               <div className="space-y-3">
-                <h4 className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                <h4
+                  className="ff-text-sm text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                >
                   Key Features:
                 </h4>
                 <div className="space-y-2 max-h-48 overflow-y-auto">
@@ -447,7 +488,7 @@ export function Phase8BlindspotsDemo() {
                 style={{
                   fontFamily: 'var(--ff-font-primary)',
                   fontWeight: 'var(--ff-weight-semibold)',
-                  fontSize: 'var(--ff-text-sm)'
+                  fontSize: 'var(--ff-text-sm)',
                 }}
               >
                 <MousePointer className="w-4 h-4" />
@@ -469,10 +510,12 @@ export function Phase8BlindspotsDemo() {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid md:grid-cols-2 gap-8">
-            
             {/* Blindspot Achievements */}
             <div className="space-y-4">
-              <h3 className="ff-text-base text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+              <h3
+                className="ff-text-base text-[var(--ff-text-primary)]"
+                style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+              >
                 Common Blindspots Matrix ✅
               </h3>
               <div className="space-y-3">
@@ -482,37 +525,49 @@ export function Phase8BlindspotsDemo() {
                   </div>
                   <div>
                     <div className="ff-text-sm text-[var(--ff-text-primary)]">Technical Debt</div>
-                    <div className="ff-text-xs text-[var(--ff-text-muted)]">Legacy code, quality issues, architecture debt</div>
+                    <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                      Legacy code, quality issues, architecture debt
+                    </div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-[var(--ff-warning)]/20 rounded-lg flex items-center justify-center">
                     <Users className="w-4 h-4 text-[var(--ff-warning)]" />
                   </div>
                   <div>
                     <div className="ff-text-sm text-[var(--ff-text-primary)]">User Experience</div>
-                    <div className="ff-text-xs text-[var(--ff-text-muted)]">Accessibility gaps, journey optimization</div>
+                    <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                      Accessibility gaps, journey optimization
+                    </div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-[var(--ff-accent)]/20 rounded-lg flex items-center justify-center">
                     <Zap className="w-4 h-4 text-[var(--ff-accent)]" />
                   </div>
                   <div>
-                    <div className="ff-text-sm text-[var(--ff-text-primary)]">Performance Under Load</div>
-                    <div className="ff-text-xs text-[var(--ff-text-muted)]">Load testing, database optimization</div>
+                    <div className="ff-text-sm text-[var(--ff-text-primary)]">
+                      Performance Under Load
+                    </div>
+                    <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                      Load testing, database optimization
+                    </div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-[var(--ff-secondary)]/20 rounded-lg flex items-center justify-center">
                     <Shield className="w-4 h-4 text-[var(--ff-secondary)]" />
                   </div>
                   <div>
-                    <div className="ff-text-sm text-[var(--ff-text-primary)]">Security Vulnerabilities</div>
-                    <div className="ff-text-xs text-[var(--ff-text-muted)]">Auth gaps, data protection, API security</div>
+                    <div className="ff-text-sm text-[var(--ff-text-primary)]">
+                      Security Vulnerabilities
+                    </div>
+                    <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                      Auth gaps, data protection, API security
+                    </div>
                   </div>
                 </div>
               </div>
@@ -520,7 +575,10 @@ export function Phase8BlindspotsDemo() {
 
             {/* Action Plan Achievements */}
             <div className="space-y-4">
-              <h3 className="ff-text-base text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+              <h3
+                className="ff-text-base text-[var(--ff-text-primary)]"
+                style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+              >
                 Immediate Next Actions ✅
               </h3>
               <div className="space-y-3">
@@ -529,38 +587,54 @@ export function Phase8BlindspotsDemo() {
                     <Flag className="w-4 h-4 text-[var(--ff-error)]" />
                   </div>
                   <div>
-                    <div className="ff-text-sm text-[var(--ff-text-primary)]">Priority 1: Foundation</div>
-                    <div className="ff-text-xs text-[var(--ff-text-muted)]">Days 1-2, scalability & compliance</div>
+                    <div className="ff-text-sm text-[var(--ff-text-primary)]">
+                      Priority 1: Foundation
+                    </div>
+                    <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                      Days 1-2, scalability & compliance
+                    </div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-[var(--ff-warning)]/20 rounded-lg flex items-center justify-center">
                     <Shield className="w-4 h-4 text-[var(--ff-warning)]" />
                   </div>
                   <div>
-                    <div className="ff-text-sm text-[var(--ff-text-primary)]">Priority 2: Quality Gates</div>
-                    <div className="ff-text-xs text-[var(--ff-text-muted)]">Days 3-5, testing & security</div>
+                    <div className="ff-text-sm text-[var(--ff-text-primary)]">
+                      Priority 2: Quality Gates
+                    </div>
+                    <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                      Days 3-5, testing & security
+                    </div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-[var(--ff-success)]/20 rounded-lg flex items-center justify-center">
                     <Target className="w-4 h-4 text-[var(--ff-success)]" />
                   </div>
                   <div>
-                    <div className="ff-text-sm text-[var(--ff-text-primary)]">Priority 3: Success Metrics</div>
-                    <div className="ff-text-xs text-[var(--ff-text-muted)]">Days 6-7, analytics & feedback</div>
+                    <div className="ff-text-sm text-[var(--ff-text-primary)]">
+                      Priority 3: Success Metrics
+                    </div>
+                    <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                      Days 6-7, analytics & feedback
+                    </div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-[var(--ff-primary)]/20 rounded-lg flex items-center justify-center">
                     <TrendingUp className="w-4 h-4 text-[var(--ff-primary)]" />
                   </div>
                   <div>
-                    <div className="ff-text-sm text-[var(--ff-text-primary)]">Market Competition</div>
-                    <div className="ff-text-xs text-[var(--ff-text-muted)]">Feature parity, positioning, pricing</div>
+                    <div className="ff-text-sm text-[var(--ff-text-primary)]">
+                      Market Competition
+                    </div>
+                    <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                      Feature parity, positioning, pricing
+                    </div>
                   </div>
                 </div>
               </div>
@@ -569,7 +643,10 @@ export function Phase8BlindspotsDemo() {
 
           {/* Quick Access Section */}
           <div className="border-t border-[var(--border)] pt-6">
-            <h3 className="ff-text-base text-[var(--ff-text-primary)] mb-4" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+            <h3
+              className="ff-text-base text-[var(--ff-text-primary)] mb-4"
+              style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+            >
               Quick Access to Phase 8 Components
             </h3>
             <div className="flex flex-wrap gap-3">
@@ -579,21 +656,21 @@ export function Phase8BlindspotsDemo() {
                 style={{
                   fontFamily: 'var(--ff-font-primary)',
                   fontWeight: 'var(--ff-weight-semibold)',
-                  fontSize: 'var(--ff-text-sm)'
+                  fontSize: 'var(--ff-text-sm)',
                 }}
               >
                 <AlertTriangle className="w-4 h-4 mr-2" />
                 Risk Matrix
                 <ExternalLink className="w-4 h-4 ml-2" />
               </Button>
-              
+
               <Button
                 onClick={() => handleQuickAccess('?app=true&page=immediate-next-actions')}
                 className="ff-btn-warning"
                 style={{
                   fontFamily: 'var(--ff-font-primary)',
                   fontWeight: 'var(--ff-weight-semibold)',
-                  fontSize: 'var(--ff-text-sm)'
+                  fontSize: 'var(--ff-text-sm)',
                 }}
               >
                 <Flag className="w-4 h-4 mr-2" />
@@ -615,35 +692,47 @@ export function Phase8BlindspotsDemo() {
         </CardHeader>
         <CardContent className="space-y-6">
           <p className="ff-text-body">
-            Phase 8 Blindspot Mitigation provides comprehensive risk assessment with detailed 
-            mitigation strategies and immediate action plans for technical debt, user experience, 
+            Phase 8 Blindspot Mitigation provides comprehensive risk assessment with detailed
+            mitigation strategies and immediate action plans for technical debt, user experience,
             performance, security, and competitive positioning.
           </p>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="text-center p-4 bg-[var(--ff-surface)] rounded-lg">
-              <div className="ff-text-2xl text-[var(--ff-error)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+              <div
+                className="ff-text-2xl text-[var(--ff-error)]"
+                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+              >
                 15
               </div>
               <div className="ff-text-sm text-[var(--ff-text-muted)]">Total Blindspots</div>
             </div>
-            
+
             <div className="text-center p-4 bg-[var(--ff-surface)] rounded-lg">
-              <div className="ff-text-2xl text-[var(--ff-warning)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+              <div
+                className="ff-text-2xl text-[var(--ff-warning)]"
+                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+              >
                 12
               </div>
               <div className="ff-text-sm text-[var(--ff-text-muted)]">Immediate Actions</div>
             </div>
-            
+
             <div className="text-center p-4 bg-[var(--ff-surface)] rounded-lg">
-              <div className="ff-text-2xl text-[var(--ff-secondary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+              <div
+                className="ff-text-2xl text-[var(--ff-secondary)]"
+                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+              >
                 7.4
               </div>
               <div className="ff-text-sm text-[var(--ff-text-muted)]">Avg Impact Score</div>
             </div>
-            
+
             <div className="text-center p-4 bg-[var(--ff-surface)] rounded-lg">
-              <div className="ff-text-2xl text-[var(--ff-success)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+              <div
+                className="ff-text-2xl text-[var(--ff-success)]"
+                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+              >
                 31%
               </div>
               <div className="ff-text-sm text-[var(--ff-text-muted)]">Mitigated</div>
@@ -652,23 +741,35 @@ export function Phase8BlindspotsDemo() {
 
           {/* Complete Platform Integration */}
           <div className="border-t border-[var(--border)] pt-6">
-            <h4 className="ff-text-base text-[var(--ff-text-primary)] mb-4" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+            <h4
+              className="ff-text-base text-[var(--ff-text-primary)] mb-4"
+              style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+            >
               Complete 8-Phase Platform Integration
             </h4>
             <div className="grid grid-cols-2 md:grid-cols-8 gap-2">
               {[1, 2, 3, 4, 5, 6, 7, 8].map((phase) => (
                 <Button
                   key={phase}
-                  onClick={() => handleQuickAccess(
-                    phase === 1 ? '?app=true&page=pricing-wireframe' :
-                    phase === 2 ? '?app=true&page=responsive-ui-kit' :
-                    phase === 3 ? '?app=true&page=design-system-sync' :
-                    phase === 4 ? '?app=true&page=quality-thresholds' :
-                    phase === 5 ? '?app=true&page=security-compliance' :
-                    phase === 6 ? '?app=true&page=team-structure' :
-                    phase === 7 ? '?app=true&page=discovery-phase-timeline' :
-                    '?app=true&page=common-blindspots'
-                  )}
+                  onClick={() =>
+                    handleQuickAccess(
+                      phase === 1
+                        ? '?app=true&page=pricing-wireframe'
+                        : phase === 2
+                          ? '?app=true&page=responsive-ui-kit'
+                          : phase === 3
+                            ? '?app=true&page=design-system-sync'
+                            : phase === 4
+                              ? '?app=true&page=quality-thresholds'
+                              : phase === 5
+                                ? '?app=true&page=security-compliance'
+                                : phase === 6
+                                  ? '?app=true&page=team-structure'
+                                  : phase === 7
+                                    ? '?app=true&page=discovery-phase-timeline'
+                                    : '?app=true&page=common-blindspots'
+                    )
+                  }
                   className={`ff-btn-outline ${phase === 8 ? 'ff-btn-error' : ''}`}
                   size="sm"
                 >

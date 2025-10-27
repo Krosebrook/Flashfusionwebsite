@@ -2,16 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { 
-  Download, 
-  Apple, 
-  Smartphone, 
-  Monitor, 
-  CheckCircle, 
+import {
+  Download,
+  Apple,
+  Smartphone,
+  Monitor,
+  CheckCircle,
   ExternalLink,
   ChevronDown,
   Linux,
-  Chrome
+  Chrome,
 } from 'lucide-react';
 
 interface Platform {
@@ -58,27 +58,30 @@ export default function DownloadPage() {
     windows: {
       name: 'Windows',
       icon: Monitor,
-      downloadUrl: 'https://github.com/flashfusion/desktop/releases/download/v1.0.0/FlashFusion-Setup-1.0.0.exe',
+      downloadUrl:
+        'https://github.com/flashfusion/desktop/releases/download/v1.0.0/FlashFusion-Setup-1.0.0.exe',
       fileSize: '85 MB',
       version: '1.0.0',
-      requirements: 'Windows 10 or later (64-bit)'
+      requirements: 'Windows 10 or later (64-bit)',
     },
     macos: {
       name: 'macOS',
       icon: Apple,
-      downloadUrl: 'https://github.com/flashfusion/desktop/releases/download/v1.0.0/FlashFusion-1.0.0.dmg',
+      downloadUrl:
+        'https://github.com/flashfusion/desktop/releases/download/v1.0.0/FlashFusion-1.0.0.dmg',
       fileSize: '92 MB',
       version: '1.0.0',
-      requirements: 'macOS 11 (Big Sur) or later'
+      requirements: 'macOS 11 (Big Sur) or later',
     },
     linux: {
       name: 'Linux',
       icon: Linux,
-      downloadUrl: 'https://github.com/flashfusion/desktop/releases/download/v1.0.0/FlashFusion-1.0.0.AppImage',
+      downloadUrl:
+        'https://github.com/flashfusion/desktop/releases/download/v1.0.0/FlashFusion-1.0.0.AppImage',
       fileSize: '88 MB',
       version: '1.0.0',
-      requirements: 'Ubuntu 20.04+ / Fedora 35+ or equivalent'
-    }
+      requirements: 'Ubuntu 20.04+ / Fedora 35+ or equivalent',
+    },
   };
 
   const mobilePlatforms: Record<string, Platform> = {
@@ -88,7 +91,7 @@ export default function DownloadPage() {
       downloadUrl: 'https://apps.apple.com/app/flashfusion/id1234567890',
       fileSize: 'Varies',
       version: '1.0.0',
-      requirements: 'iOS 15.0 or later'
+      requirements: 'iOS 15.0 or later',
     },
     android: {
       name: 'Android',
@@ -96,8 +99,8 @@ export default function DownloadPage() {
       downloadUrl: 'https://play.google.com/store/apps/details?id=co.flashfusion.app',
       fileSize: 'Varies',
       version: '1.0.0',
-      requirements: 'Android 8.0 or later'
-    }
+      requirements: 'Android 8.0 or later',
+    },
   };
 
   const handleDownload = (url: string) => {
@@ -118,24 +121,25 @@ export default function DownloadPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section 
+      <section
         className="py-20 px-6"
         style={{
-          background: 'linear-gradient(135deg, rgba(255, 123, 0, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)'
+          background:
+            'linear-gradient(135deg, rgba(255, 123, 0, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)',
         }}
       >
         <div className="max-w-7xl mx-auto text-center">
-          <div 
+          <div
             className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6"
             style={{
               background: 'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
-              boxShadow: '0 10px 40px rgba(255, 123, 0, 0.3)'
+              boxShadow: '0 10px 40px rgba(255, 123, 0, 0.3)',
             }}
           >
             <Download className="h-10 w-10 text-white" />
           </div>
 
-          <h1 
+          <h1
             className="mb-6"
             style={{
               fontFamily: 'var(--ff-font-primary)',
@@ -145,32 +149,33 @@ export default function DownloadPage() {
               background: 'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
+              backgroundClip: 'text',
             }}
           >
             Download FlashFusion
           </h1>
-          
-          <p 
+
+          <p
             className="text-xl max-w-2xl mx-auto mb-4"
             style={{
               color: 'var(--ff-text-secondary)',
               fontFamily: 'var(--ff-font-secondary)',
-              lineHeight: 'var(--ff-leading-relaxed)'
+              lineHeight: 'var(--ff-leading-relaxed)',
             }}
           >
-            Build faster with native desktop and mobile apps. Available for Windows, macOS, Linux, iOS, and Android.
+            Build faster with native desktop and mobile apps. Available for Windows, macOS, Linux,
+            iOS, and Android.
           </p>
 
           {detectedOS && (
-            <p 
+            <p
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
               style={{
                 background: 'rgba(16, 185, 129, 0.1)',
                 border: '1px solid rgba(16, 185, 129, 0.3)',
                 color: 'var(--ff-success)',
                 fontFamily: 'var(--ff-font-secondary)',
-                fontSize: 'var(--ff-text-sm)'
+                fontSize: 'var(--ff-text-sm)',
               }}
             >
               <CheckCircle className="h-4 w-4" />
@@ -183,41 +188,42 @@ export default function DownloadPage() {
       {/* Recommended Download */}
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto">
-          <div 
+          <div
             className="p-10 rounded-2xl border-2 text-center"
             style={{
-              background: 'linear-gradient(135deg, rgba(255, 123, 0, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)',
-              borderColor: 'var(--ff-primary)'
+              background:
+                'linear-gradient(135deg, rgba(255, 123, 0, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)',
+              borderColor: 'var(--ff-primary)',
             }}
           >
-            <div 
+            <div
               className="w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4"
               style={{
                 background: 'var(--ff-primary)',
-                color: 'white'
+                color: 'white',
               }}
             >
               <recommendedPlatform.icon className="h-8 w-8" />
             </div>
 
-            <h2 
+            <h2
               className="mb-2"
               style={{
                 fontFamily: 'var(--ff-font-primary)',
                 fontSize: 'var(--ff-text-3xl)',
                 fontWeight: 'var(--ff-weight-bold)',
-                color: 'var(--ff-text-primary)'
+                color: 'var(--ff-text-primary)',
               }}
             >
               FlashFusion for {recommendedPlatform.name}
             </h2>
 
-            <p 
+            <p
               className="mb-6"
               style={{
                 color: 'var(--ff-text-secondary)',
                 fontFamily: 'var(--ff-font-secondary)',
-                fontSize: 'var(--ff-text-base)'
+                fontSize: 'var(--ff-text-base)',
               }}
             >
               Version {recommendedPlatform.version} • {recommendedPlatform.fileSize}
@@ -227,12 +233,13 @@ export default function DownloadPage() {
               onClick={() => handleDownload(recommendedPlatform.downloadUrl)}
               className="inline-flex items-center gap-3 px-10 py-5 rounded-xl transition-all hover:scale-105 mb-6"
               style={{
-                background: 'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
+                background:
+                  'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
                 color: 'white',
                 fontFamily: 'var(--ff-font-primary)',
                 fontSize: 'var(--ff-text-lg)',
                 fontWeight: 'var(--ff-weight-semibold)',
-                boxShadow: '0 10px 40px rgba(255, 123, 0, 0.3)'
+                boxShadow: '0 10px 40px rgba(255, 123, 0, 0.3)',
               }}
             >
               <Download className="h-6 w-6" />
@@ -240,20 +247,20 @@ export default function DownloadPage() {
             </button>
 
             <div className="space-y-2">
-              <p 
+              <p
                 style={{
                   color: 'var(--ff-text-muted)',
                   fontFamily: 'var(--ff-font-secondary)',
-                  fontSize: 'var(--ff-text-sm)'
+                  fontSize: 'var(--ff-text-sm)',
                 }}
               >
                 <strong>System Requirements:</strong> {recommendedPlatform.requirements}
               </p>
-              <p 
+              <p
                 style={{
                   color: 'var(--ff-text-muted)',
                   fontFamily: 'var(--ff-font-secondary)',
-                  fontSize: 'var(--ff-text-xs)'
+                  fontSize: 'var(--ff-text-xs)',
                 }}
               >
                 Free for all users • No credit card required • Automatic updates
@@ -270,11 +277,11 @@ export default function DownloadPage() {
                 borderColor: 'rgba(255, 255, 255, 0.1)',
                 color: 'var(--ff-text-secondary)',
                 fontFamily: 'var(--ff-font-primary)',
-                fontWeight: 'var(--ff-weight-semibold)'
+                fontWeight: 'var(--ff-weight-semibold)',
               }}
             >
               {showAllPlatforms ? 'Hide' : 'Show'} all platforms
-              <ChevronDown 
+              <ChevronDown
                 className={`h-4 w-4 transition-transform ${showAllPlatforms ? 'rotate-180' : ''}`}
               />
             </button>
@@ -288,13 +295,13 @@ export default function DownloadPage() {
           <div className="max-w-7xl mx-auto">
             {/* Desktop Apps */}
             <div className="mb-12">
-              <h3 
+              <h3
                 className="mb-6 flex items-center gap-3"
                 style={{
                   fontFamily: 'var(--ff-font-primary)',
                   fontSize: 'var(--ff-text-2xl)',
                   fontWeight: 'var(--ff-weight-bold)',
-                  color: 'var(--ff-text-primary)'
+                  color: 'var(--ff-text-primary)',
                 }}
               >
                 <Monitor className="h-6 w-6" style={{ color: 'var(--ff-primary)' }} />
@@ -308,48 +315,47 @@ export default function DownloadPage() {
                     className="p-6 rounded-xl border transition-all hover:scale-105"
                     style={{
                       background: 'var(--ff-surface)',
-                      borderColor: selectedPlatform === key 
-                        ? 'var(--ff-primary)' 
-                        : 'rgba(255, 255, 255, 0.1)'
+                      borderColor:
+                        selectedPlatform === key ? 'var(--ff-primary)' : 'rgba(255, 255, 255, 0.1)',
                     }}
                   >
-                    <div 
+                    <div
                       className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
                       style={{
                         background: `${selectedPlatform === key ? 'var(--ff-primary)' : 'rgba(255, 255, 255, 0.1)'}`,
-                        color: selectedPlatform === key ? 'white' : 'var(--ff-text-secondary)'
+                        color: selectedPlatform === key ? 'white' : 'var(--ff-text-secondary)',
                       }}
                     >
                       <platform.icon className="h-6 w-6" />
                     </div>
 
-                    <h4 
+                    <h4
                       className="mb-2"
                       style={{
                         fontFamily: 'var(--ff-font-primary)',
                         fontSize: 'var(--ff-text-xl)',
                         fontWeight: 'var(--ff-weight-semibold)',
-                        color: 'var(--ff-text-primary)'
+                        color: 'var(--ff-text-primary)',
                       }}
                     >
                       {platform.name}
                     </h4>
 
                     <div className="mb-4 space-y-1">
-                      <p 
+                      <p
                         style={{
                           color: 'var(--ff-text-muted)',
                           fontFamily: 'var(--ff-font-secondary)',
-                          fontSize: 'var(--ff-text-sm)'
+                          fontSize: 'var(--ff-text-sm)',
                         }}
                       >
                         v{platform.version} • {platform.fileSize}
                       </p>
-                      <p 
+                      <p
                         style={{
                           color: 'var(--ff-text-muted)',
                           fontFamily: 'var(--ff-font-secondary)',
-                          fontSize: 'var(--ff-text-xs)'
+                          fontSize: 'var(--ff-text-xs)',
                         }}
                       >
                         {platform.requirements}
@@ -360,18 +366,14 @@ export default function DownloadPage() {
                       onClick={() => handleDownload(platform.downloadUrl)}
                       className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-all hover:scale-105"
                       style={{
-                        background: selectedPlatform === key 
-                          ? 'var(--ff-gradient-primary)' 
-                          : 'transparent',
-                        border: selectedPlatform === key 
-                          ? 'none' 
-                          : '2px solid rgba(255, 255, 255, 0.1)',
-                        color: selectedPlatform === key 
-                          ? 'white' 
-                          : 'var(--ff-text-primary)',
+                        background:
+                          selectedPlatform === key ? 'var(--ff-gradient-primary)' : 'transparent',
+                        border:
+                          selectedPlatform === key ? 'none' : '2px solid rgba(255, 255, 255, 0.1)',
+                        color: selectedPlatform === key ? 'white' : 'var(--ff-text-primary)',
                         fontFamily: 'var(--ff-font-primary)',
                         fontWeight: 'var(--ff-weight-semibold)',
-                        fontSize: 'var(--ff-text-sm)'
+                        fontSize: 'var(--ff-text-sm)',
                       }}
                     >
                       <Download className="h-4 w-4" />
@@ -384,13 +386,13 @@ export default function DownloadPage() {
 
             {/* Mobile Apps */}
             <div>
-              <h3 
+              <h3
                 className="mb-6 flex items-center gap-3"
                 style={{
                   fontFamily: 'var(--ff-font-primary)',
                   fontSize: 'var(--ff-text-2xl)',
                   fontWeight: 'var(--ff-weight-bold)',
-                  color: 'var(--ff-text-primary)'
+                  color: 'var(--ff-text-primary)',
                 }}
               >
                 <Smartphone className="h-6 w-6" style={{ color: 'var(--ff-secondary)' }} />
@@ -404,43 +406,45 @@ export default function DownloadPage() {
                     className="p-6 rounded-xl border transition-all hover:scale-105"
                     style={{
                       background: 'var(--ff-surface)',
-                      borderColor: selectedPlatform === key 
-                        ? 'var(--ff-secondary)' 
-                        : 'rgba(255, 255, 255, 0.1)'
+                      borderColor:
+                        selectedPlatform === key
+                          ? 'var(--ff-secondary)'
+                          : 'rgba(255, 255, 255, 0.1)',
                     }}
                   >
                     <div className="flex items-start gap-4">
-                      <div 
+                      <div
                         className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
                         style={{
-                          background: selectedPlatform === key 
-                            ? 'var(--ff-secondary)' 
-                            : 'rgba(255, 255, 255, 0.1)',
-                          color: selectedPlatform === key ? 'white' : 'var(--ff-text-secondary)'
+                          background:
+                            selectedPlatform === key
+                              ? 'var(--ff-secondary)'
+                              : 'rgba(255, 255, 255, 0.1)',
+                          color: selectedPlatform === key ? 'white' : 'var(--ff-text-secondary)',
                         }}
                       >
                         <platform.icon className="h-6 w-6" />
                       </div>
 
                       <div className="flex-1">
-                        <h4 
+                        <h4
                           className="mb-1"
                           style={{
                             fontFamily: 'var(--ff-font-primary)',
                             fontSize: 'var(--ff-text-xl)',
                             fontWeight: 'var(--ff-weight-semibold)',
-                            color: 'var(--ff-text-primary)'
+                            color: 'var(--ff-text-primary)',
                           }}
                         >
                           {platform.name}
                         </h4>
 
-                        <p 
+                        <p
                           className="mb-3"
                           style={{
                             color: 'var(--ff-text-muted)',
                             fontFamily: 'var(--ff-font-secondary)',
-                            fontSize: 'var(--ff-text-sm)'
+                            fontSize: 'var(--ff-text-sm)',
                           }}
                         >
                           {platform.requirements}
@@ -450,18 +454,16 @@ export default function DownloadPage() {
                           onClick={() => handleDownload(platform.downloadUrl)}
                           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all hover:scale-105"
                           style={{
-                            background: selectedPlatform === key 
-                              ? 'var(--ff-secondary)' 
-                              : 'transparent',
-                            border: selectedPlatform === key 
-                              ? 'none' 
-                              : '2px solid rgba(255, 255, 255, 0.1)',
-                            color: selectedPlatform === key 
-                              ? 'white' 
-                              : 'var(--ff-text-primary)',
+                            background:
+                              selectedPlatform === key ? 'var(--ff-secondary)' : 'transparent',
+                            border:
+                              selectedPlatform === key
+                                ? 'none'
+                                : '2px solid rgba(255, 255, 255, 0.1)',
+                            color: selectedPlatform === key ? 'white' : 'var(--ff-text-primary)',
                             fontFamily: 'var(--ff-font-primary)',
                             fontWeight: 'var(--ff-weight-semibold)',
-                            fontSize: 'var(--ff-text-sm)'
+                            fontSize: 'var(--ff-text-sm)',
                           }}
                         >
                           {key === 'ios' ? 'App Store' : 'Play Store'}
@@ -478,41 +480,41 @@ export default function DownloadPage() {
       )}
 
       {/* Web App Option */}
-      <section 
+      <section
         className="py-16 px-6"
         style={{
-          background: 'linear-gradient(180deg, transparent 0%, rgba(255, 123, 0, 0.05) 100%)'
+          background: 'linear-gradient(180deg, transparent 0%, rgba(255, 123, 0, 0.05) 100%)',
         }}
       >
         <div className="max-w-4xl mx-auto text-center">
-          <div 
+          <div
             className="w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4"
             style={{
               background: 'rgba(233, 30, 99, 0.1)',
-              color: 'var(--ff-accent)'
+              color: 'var(--ff-accent)',
             }}
           >
             <Chrome className="h-8 w-8" />
           </div>
 
-          <h3 
+          <h3
             className="mb-4"
             style={{
               fontFamily: 'var(--ff-font-primary)',
               fontSize: 'var(--ff-text-3xl)',
               fontWeight: 'var(--ff-weight-bold)',
-              color: 'var(--ff-text-primary)'
+              color: 'var(--ff-text-primary)',
             }}
           >
             Prefer to use FlashFusion in your browser?
           </h3>
 
-          <p 
+          <p
             className="mb-6"
             style={{
               color: 'var(--ff-text-secondary)',
               fontFamily: 'var(--ff-font-secondary)',
-              fontSize: 'var(--ff-text-lg)'
+              fontSize: 'var(--ff-text-lg)',
             }}
           >
             Access all features instantly without downloading anything
@@ -525,7 +527,7 @@ export default function DownloadPage() {
               background: 'var(--ff-accent)',
               color: 'white',
               fontFamily: 'var(--ff-font-primary)',
-              fontWeight: 'var(--ff-weight-semibold)'
+              fontWeight: 'var(--ff-weight-semibold)',
             }}
           >
             Launch Web App
@@ -537,13 +539,13 @@ export default function DownloadPage() {
       {/* Features Section */}
       <section className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <h3 
+          <h3
             className="text-center mb-12"
             style={{
               fontFamily: 'var(--ff-font-primary)',
               fontSize: 'var(--ff-text-3xl)',
               fontWeight: 'var(--ff-weight-bold)',
-              color: 'var(--ff-text-primary)'
+              color: 'var(--ff-text-primary)',
             }}
           >
             Why Download the Native App?
@@ -553,61 +555,64 @@ export default function DownloadPage() {
             {[
               {
                 title: 'Offline Access',
-                description: 'Continue working on your projects even without an internet connection',
-                icon: '🔌'
+                description:
+                  'Continue working on your projects even without an internet connection',
+                icon: '🔌',
               },
               {
                 title: 'Better Performance',
-                description: 'Native apps are optimized for speed and responsiveness on your device',
-                icon: '⚡'
+                description:
+                  'Native apps are optimized for speed and responsiveness on your device',
+                icon: '⚡',
               },
               {
                 title: 'System Integration',
-                description: 'Deep integration with your OS for file management, notifications, and more',
-                icon: '🔗'
+                description:
+                  'Deep integration with your OS for file management, notifications, and more',
+                icon: '🔗',
               },
               {
                 title: 'Auto Updates',
                 description: 'Get the latest features and security updates automatically',
-                icon: '🔄'
+                icon: '🔄',
               },
               {
                 title: 'Keyboard Shortcuts',
                 description: 'Access powerful keyboard shortcuts for faster workflow',
-                icon: '⌨️'
+                icon: '⌨️',
               },
               {
                 title: 'Local Storage',
                 description: 'Store your projects locally for faster access and privacy',
-                icon: '💾'
-              }
+                icon: '💾',
+              },
             ].map((feature, index) => (
               <div
                 key={index}
                 className="p-6 rounded-xl border"
                 style={{
                   background: 'var(--ff-surface)',
-                  borderColor: 'rgba(255, 255, 255, 0.1)'
+                  borderColor: 'rgba(255, 255, 255, 0.1)',
                 }}
               >
                 <div className="text-4xl mb-4">{feature.icon}</div>
-                <h4 
+                <h4
                   className="mb-2"
                   style={{
                     fontFamily: 'var(--ff-font-primary)',
                     fontSize: 'var(--ff-text-lg)',
                     fontWeight: 'var(--ff-weight-semibold)',
-                    color: 'var(--ff-text-primary)'
+                    color: 'var(--ff-text-primary)',
                   }}
                 >
                   {feature.title}
                 </h4>
-                <p 
+                <p
                   style={{
                     color: 'var(--ff-text-secondary)',
                     fontFamily: 'var(--ff-font-secondary)',
                     fontSize: 'var(--ff-text-sm)',
-                    lineHeight: 'var(--ff-leading-relaxed)'
+                    lineHeight: 'var(--ff-leading-relaxed)',
                   }}
                 >
                   {feature.description}
@@ -621,13 +626,13 @@ export default function DownloadPage() {
       {/* FAQ Section */}
       <section className="py-16 px-6">
         <div className="max-w-3xl mx-auto">
-          <h3 
+          <h3
             className="text-center mb-12"
             style={{
               fontFamily: 'var(--ff-font-primary)',
               fontSize: 'var(--ff-text-3xl)',
               fontWeight: 'var(--ff-weight-bold)',
-              color: 'var(--ff-text-primary)'
+              color: 'var(--ff-text-primary)',
             }}
           >
             Download FAQs
@@ -637,50 +642,50 @@ export default function DownloadPage() {
             {[
               {
                 q: 'Is the app free?',
-                a: 'Yes! FlashFusion apps are free to download and use. Premium features require a subscription.'
+                a: 'Yes! FlashFusion apps are free to download and use. Premium features require a subscription.',
               },
               {
                 q: 'How do I install the desktop app?',
-                a: 'Download the installer for your OS, run it, and follow the on-screen instructions. Installation takes less than 2 minutes.'
+                a: 'Download the installer for your OS, run it, and follow the on-screen instructions. Installation takes less than 2 minutes.',
               },
               {
                 q: 'Can I use the same account on multiple devices?',
-                a: 'Absolutely! Sign in with your FlashFusion account on any device and your projects will sync automatically.'
+                a: 'Absolutely! Sign in with your FlashFusion account on any device and your projects will sync automatically.',
               },
               {
                 q: 'Are my projects stored locally or in the cloud?',
-                a: 'Both! Projects are stored in the cloud for sync across devices, with local caching for offline access.'
+                a: 'Both! Projects are stored in the cloud for sync across devices, with local caching for offline access.',
               },
               {
                 q: 'How do I update the app?',
-                a: 'Desktop apps auto-update when you restart. Mobile apps update through the App Store or Play Store.'
-              }
+                a: 'Desktop apps auto-update when you restart. Mobile apps update through the App Store or Play Store.',
+              },
             ].map((faq, index) => (
               <div
                 key={index}
                 className="p-6 rounded-lg border"
                 style={{
                   background: 'var(--ff-surface)',
-                  borderColor: 'rgba(255, 255, 255, 0.1)'
+                  borderColor: 'rgba(255, 255, 255, 0.1)',
                 }}
               >
-                <h4 
+                <h4
                   className="mb-2"
                   style={{
                     fontFamily: 'var(--ff-font-primary)',
                     fontSize: 'var(--ff-text-base)',
                     fontWeight: 'var(--ff-weight-semibold)',
-                    color: 'var(--ff-text-primary)'
+                    color: 'var(--ff-text-primary)',
                   }}
                 >
                   {faq.q}
                 </h4>
-                <p 
+                <p
                   style={{
                     color: 'var(--ff-text-secondary)',
                     fontFamily: 'var(--ff-font-secondary)',
                     fontSize: 'var(--ff-text-sm)',
-                    lineHeight: 'var(--ff-leading-relaxed)'
+                    lineHeight: 'var(--ff-leading-relaxed)',
                   }}
                 >
                   {faq.a}
@@ -696,7 +701,7 @@ export default function DownloadPage() {
                 color: 'var(--ff-primary)',
                 fontFamily: 'var(--ff-font-primary)',
                 fontWeight: 'var(--ff-weight-semibold)',
-                fontSize: 'var(--ff-text-sm)'
+                fontSize: 'var(--ff-text-sm)',
               }}
             >
               View all FAQs →

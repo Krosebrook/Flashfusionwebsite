@@ -12,16 +12,16 @@ import { Button } from '../../../ui/button';
 import { Badge } from '../../../ui/badge';
 import { ScrollArea } from '../../../ui/scroll-area';
 import { Separator } from '../../../ui/separator';
-import { 
-  History, 
-  RefreshCw, 
-  Trash2, 
-  Clock, 
+import {
+  History,
+  RefreshCw,
+  Trash2,
+  Clock,
   DollarSign,
   Eye,
   Star,
   Copy,
-  Download
+  Download,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import { type GenerationHistoryEntry } from '../../../../types/image-generation';
@@ -35,12 +35,12 @@ interface GenerationHistoryProps {
 export function GenerationHistory({
   history,
   onClearHistory,
-  onRegenerateFromHistory
+  onRegenerateFromHistory,
 }: GenerationHistoryProps): JSX.Element {
   const [expandedEntries, setExpandedEntries] = useState<Set<string>>(new Set());
 
   const toggleExpanded = (entryId: string) => {
-    setExpandedEntries(prev => {
+    setExpandedEntries((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(entryId)) {
         newSet.delete(entryId);
@@ -74,7 +74,8 @@ export function GenerationHistory({
 
   const totalCost = history.reduce((sum, entry) => sum + entry.totalCost, 0);
   const totalImages = history.reduce((sum, entry) => sum + entry.images.length, 0);
-  const avgSuccessRate = history.reduce((sum, entry) => sum + entry.successRate, 0) / history.length;
+  const avgSuccessRate =
+    history.reduce((sum, entry) => sum + entry.successRate, 0) / history.length;
 
   return (
     <div className="space-y-6">
@@ -84,7 +85,9 @@ export function GenerationHistory({
           <CardContent className="pt-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-[var(--ff-text-secondary)]">Total Sessions</p>
+                <p className="text-sm font-medium text-[var(--ff-text-secondary)]">
+                  Total Sessions
+                </p>
                 <p className="text-2xl font-bold text-[var(--ff-text-primary)]">{history.length}</p>
               </div>
               <History className="h-8 w-8 text-[var(--ff-primary)]" />
@@ -96,7 +99,9 @@ export function GenerationHistory({
           <CardContent className="pt-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-[var(--ff-text-secondary)]">Images Created</p>
+                <p className="text-sm font-medium text-[var(--ff-text-secondary)]">
+                  Images Created
+                </p>
                 <p className="text-2xl font-bold text-[var(--ff-text-primary)]">{totalImages}</p>
               </div>
               <Eye className="h-8 w-8 text-[var(--ff-secondary)]" />
@@ -141,7 +146,7 @@ export function GenerationHistory({
               <History className="h-5 w-5 text-[var(--ff-secondary)]" />
               Generation History
             </CardTitle>
-            
+
             <Button
               variant="outline"
               size="sm"
@@ -153,16 +158,19 @@ export function GenerationHistory({
             </Button>
           </div>
         </CardHeader>
-        
+
         <CardContent>
           <ScrollArea className="h-[600px] w-full">
             <div className="space-y-4">
               {history.map((entry, index) => {
                 const isExpanded = expandedEntries.has(entry.id);
                 const hasNotes = entry.notes && entry.notes.trim().length > 0;
-                
+
                 return (
-                  <Card key={entry.id} className="bg-[var(--ff-surface-light)]/30 border-[var(--border)]">
+                  <Card
+                    key={entry.id}
+                    className="bg-[var(--ff-surface-light)]/30 border-[var(--border)]"
+                  >
                     <CardContent className="p-4">
                       <div className="space-y-3">
                         {/* Header */}
@@ -183,19 +191,21 @@ export function GenerationHistory({
                                 {new Date(entry.timestamp).toLocaleDateString()}
                               </div>
                             </div>
-                            
+
                             <p className="text-sm text-[var(--ff-text-primary)] line-clamp-2">
                               {entry.request.prompt}
                             </p>
                           </div>
-                          
+
                           <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => toggleExpanded(entry.id)}
                             className="ml-2"
                           >
-                            <Eye className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                            <Eye
+                              className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                            />
                           </Button>
                         </div>
 
@@ -219,7 +229,7 @@ export function GenerationHistory({
                               <span>{(entry.successRate * 100).toFixed(0)}%</span>
                             </div>
                           </div>
-                          
+
                           <div className="flex items-center gap-1">
                             <Button
                               variant="ghost"
@@ -272,7 +282,9 @@ export function GenerationHistory({
                                 </h5>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                                   <div className="text-xs">
-                                    <span className="text-[var(--ff-text-muted)]">Aspect Ratio:</span>
+                                    <span className="text-[var(--ff-text-muted)]">
+                                      Aspect Ratio:
+                                    </span>
                                     <div className="font-medium">{entry.request.aspectRatio}</div>
                                   </div>
                                   <div className="text-xs">
@@ -298,7 +310,9 @@ export function GenerationHistory({
                                   {entry.request.guidanceScale && (
                                     <div className="text-xs">
                                       <span className="text-[var(--ff-text-muted)]">Guidance:</span>
-                                      <div className="font-medium">{entry.request.guidanceScale}</div>
+                                      <div className="font-medium">
+                                        {entry.request.guidanceScale}
+                                      </div>
                                     </div>
                                   )}
                                 </div>
@@ -397,7 +411,7 @@ export function GenerationHistory({
                                   <RefreshCw className="h-4 w-4 mr-2" />
                                   Regenerate
                                 </Button>
-                                
+
                                 <Button
                                   variant="outline"
                                   size="sm"

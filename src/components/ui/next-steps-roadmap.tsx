@@ -4,16 +4,16 @@ import { Badge } from './badge';
 import { Button } from './button';
 import { Progress } from './progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
-import { 
-  CheckCircle, 
-  Circle, 
-  ArrowRight, 
-  Target, 
-  Users, 
+import {
+  CheckCircle,
+  Circle,
+  ArrowRight,
+  Target,
+  Users,
   Zap,
   Sparkles,
   Shield,
-  Calendar
+  Calendar,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
@@ -36,7 +36,8 @@ export function NextStepsRoadmap() {
     {
       id: 'step-1',
       title: 'Complete Full-Stack App Builder',
-      description: 'Real AI-powered code generation with downloadable outputs and gamification integration',
+      description:
+        'Real AI-powered code generation with downloadable outputs and gamification integration',
       status: 'complete',
       priority: 'high',
       estimatedTime: 'Completed',
@@ -46,9 +47,9 @@ export function NextStepsRoadmap() {
         'ZIP download system with proper file organization',
         'Gamification integration with XP tracking',
         'Real-time code preview with syntax highlighting',
-        'Multiple framework support (React, Vue, Next.js, etc.)'
+        'Multiple framework support (React, Vue, Next.js, etc.)',
       ],
-      icon: <CheckCircle className="h-5 w-5 text-success" />
+      icon: <CheckCircle className="h-5 w-5 text-success" />,
     },
     {
       id: 'step-2',
@@ -63,10 +64,10 @@ export function NextStepsRoadmap() {
         'Leaderboard system with real-time updates',
         'Streak tracking and bonus multipliers',
         'Level progression with unlock rewards',
-        'Social sharing of achievements'
+        'Social sharing of achievements',
       ],
       dependencies: ['step-1'],
-      icon: <Zap className="h-5 w-5 text-warning" />
+      icon: <Zap className="h-5 w-5 text-warning" />,
     },
     {
       id: 'step-3',
@@ -81,10 +82,10 @@ export function NextStepsRoadmap() {
         'Workflow pipeline with status tracking',
         'Inter-agent communication system',
         'Predictive failure detection and recovery',
-        'Voice command interface for agent control'
+        'Voice command interface for agent control',
       ],
       dependencies: ['step-1', 'step-2'],
-      icon: <Users className="h-5 w-5 text-info" />
+      icon: <Users className="h-5 w-5 text-info" />,
     },
     {
       id: 'step-4',
@@ -99,10 +100,10 @@ export function NextStepsRoadmap() {
         'Brand kit integration and consistency',
         'Content calendar and scheduling',
         'Performance analytics and optimization',
-        'Cross-platform publishing automation'
+        'Cross-platform publishing automation',
       ],
       dependencies: ['step-3'],
-      icon: <Sparkles className="h-5 w-5 text-accent" />
+      icon: <Sparkles className="h-5 w-5 text-accent" />,
     },
     {
       id: 'step-5',
@@ -117,24 +118,24 @@ export function NextStepsRoadmap() {
         'Technical feasibility assessment',
         'Risk analysis and mitigation strategies',
         'Go-to-market strategy recommendations',
-        'Real-time validation scoring and feedback'
+        'Real-time validation scoring and feedback',
       ],
       dependencies: ['step-3'],
-      icon: <Shield className="h-5 w-5 text-success" />
-    }
+      icon: <Shield className="h-5 w-5 text-success" />,
+    },
   ];
 
-  const completedSteps = steps.filter(step => step.status === 'complete').length;
+  const completedSteps = steps.filter((step) => step.status === 'complete').length;
   const totalSteps = steps.length;
   const progressPercentage = (completedSteps / totalSteps) * 100;
 
   const handleStartStep = (stepId: string) => {
-    const step = steps.find(s => s.id === stepId);
+    const step = steps.find((s) => s.id === stepId);
     if (step) {
       toast.success(`🚀 Ready to implement: ${step.title}`);
       toast.info(`Estimated time: ${step.estimatedTime}`, {
         description: 'This step will add significant value to the FlashFusion platform',
-        duration: 4000
+        duration: 4000,
       });
     }
   };
@@ -144,7 +145,9 @@ export function NextStepsRoadmap() {
       case 'complete':
         return <CheckCircle className="h-4 w-4 text-success" />;
       case 'in-progress':
-        return <div className="h-4 w-4 rounded-full border-2 border-primary bg-primary/20 animate-pulse" />;
+        return (
+          <div className="h-4 w-4 rounded-full border-2 border-primary bg-primary/20 animate-pulse" />
+        );
       case 'planned':
         return <Circle className="h-4 w-4 text-muted-foreground" />;
       default:
@@ -188,10 +191,12 @@ export function NextStepsRoadmap() {
           </CardTitle>
           <div className="text-right">
             <div className="text-sm text-muted-foreground">Overall Progress</div>
-            <div className="text-2xl font-bold text-primary">{completedSteps}/{totalSteps}</div>
+            <div className="text-2xl font-bold text-primary">
+              {completedSteps}/{totalSteps}
+            </div>
           </div>
         </div>
-        
+
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span>Implementation Progress</span>
@@ -212,16 +217,14 @@ export function NextStepsRoadmap() {
             {steps.map((step, index) => (
               <div
                 key={step.id}
-                className={`p-4 border rounded-lg transition-all duration-300 hover:shadow-md ${
-                  getPriorityColor(step.priority)
-                } ${selectedStep === step.id ? 'ring-2 ring-primary' : ''}`}
+                className={`p-4 border rounded-lg transition-all duration-300 hover:shadow-md ${getPriorityColor(
+                  step.priority
+                )} ${selectedStep === step.id ? 'ring-2 ring-primary' : ''}`}
                 onClick={() => setSelectedStep(selectedStep === step.id ? null : step.id)}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-3 flex-1">
-                    <div className="flex-shrink-0 mt-0.5">
-                      {step.icon}
-                    </div>
+                    <div className="flex-shrink-0 mt-0.5">{step.icon}</div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className="font-semibold">{step.title}</h3>
@@ -333,13 +336,13 @@ export function NextStepsRoadmap() {
             </div>
             <div className="space-y-1">
               <div className="text-2xl font-bold text-primary">
-                {steps.filter(s => s.status === 'in-progress').length}
+                {steps.filter((s) => s.status === 'in-progress').length}
               </div>
               <div className="text-xs text-muted-foreground">In Progress</div>
             </div>
             <div className="space-y-1">
               <div className="text-2xl font-bold text-warning">
-                {steps.filter(s => s.status === 'planned').length}
+                {steps.filter((s) => s.status === 'planned').length}
               </div>
               <div className="text-xs text-muted-foreground">Planned</div>
             </div>

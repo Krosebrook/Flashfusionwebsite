@@ -8,11 +8,29 @@ import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Separator } from '../ui/separator';
-import { 
-  Bell, Activity, Settings, Filter, Search, MoreHorizontal,
-  Clock, CheckCircle, AlertTriangle, Info, X, Star,
-  Users, Code, Rocket, Shield, Zap, TrendingUp,
-  MessageSquare, GitBranch, Database, Globe
+import {
+  Bell,
+  Activity,
+  Settings,
+  Filter,
+  Search,
+  MoreHorizontal,
+  Clock,
+  CheckCircle,
+  AlertTriangle,
+  Info,
+  X,
+  Star,
+  Users,
+  Code,
+  Rocket,
+  Shield,
+  Zap,
+  TrendingUp,
+  MessageSquare,
+  GitBranch,
+  Database,
+  Globe,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -58,7 +76,7 @@ const mockNotifications: Notification[] = [
     priority: 'high',
     actionable: true,
     actionUrl: '/deployments',
-    actionLabel: 'View Deployment'
+    actionLabel: 'View Deployment',
   },
   {
     id: '2',
@@ -70,7 +88,7 @@ const mockNotifications: Notification[] = [
     priority: 'medium',
     actionable: true,
     actionUrl: '/achievements',
-    actionLabel: 'View Badge'
+    actionLabel: 'View Badge',
   },
   {
     id: '3',
@@ -82,7 +100,7 @@ const mockNotifications: Notification[] = [
     priority: 'low',
     actionable: true,
     actionUrl: '/team',
-    actionLabel: 'View Team'
+    actionLabel: 'View Team',
   },
   {
     id: '4',
@@ -92,7 +110,7 @@ const mockNotifications: Notification[] = [
     timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000),
     read: true,
     priority: 'medium',
-    actionable: false
+    actionable: false,
   },
   {
     id: '5',
@@ -104,7 +122,7 @@ const mockNotifications: Notification[] = [
     priority: 'urgent',
     actionable: true,
     actionUrl: '/projects/react-dashboard/builds',
-    actionLabel: 'View Errors'
+    actionLabel: 'View Errors',
   },
   {
     id: '6',
@@ -116,8 +134,8 @@ const mockNotifications: Notification[] = [
     priority: 'high',
     actionable: true,
     actionUrl: '/security/sessions',
-    actionLabel: 'Review Session'
-  }
+    actionLabel: 'Review Session',
+  },
 ];
 
 const mockActivities: ActivityEvent[] = [
@@ -130,7 +148,7 @@ const mockActivities: ActivityEvent[] = [
     timestamp: new Date(Date.now() - 10 * 60 * 1000),
     details: 'Created a UI component library with 15 components',
     icon: '⚛️',
-    color: 'text-primary'
+    color: 'text-primary',
   },
   {
     id: '2',
@@ -141,7 +159,7 @@ const mockActivities: ActivityEvent[] = [
     timestamp: new Date(Date.now() - 25 * 60 * 1000),
     details: 'Successfully deployed to production on Vercel',
     icon: '🚀',
-    color: 'text-success'
+    color: 'text-success',
   },
   {
     id: '3',
@@ -152,7 +170,7 @@ const mockActivities: ActivityEvent[] = [
     timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000),
     details: 'Daily backup completed successfully - 2.3 GB archived',
     icon: '💾',
-    color: 'text-info'
+    color: 'text-info',
   },
   {
     id: '4',
@@ -163,7 +181,7 @@ const mockActivities: ActivityEvent[] = [
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
     details: 'Code repositories synced with latest commits',
     icon: '🔄',
-    color: 'text-secondary'
+    color: 'text-secondary',
   },
   {
     id: '5',
@@ -174,8 +192,8 @@ const mockActivities: ActivityEvent[] = [
     timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
     details: 'Improved API response times by 40% using caching',
     icon: '⚡',
-    color: 'text-warning'
-  }
+    color: 'text-warning',
+  },
 ];
 
 export function NotificationActivityCenter({ onClose }: NotificationActivityCenterProps) {
@@ -198,20 +216,21 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
 
     // Apply search filter
     if (searchQuery) {
-      filtered = filtered.filter(notification =>
-        notification.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        notification.message.toLowerCase().includes(searchQuery.toLowerCase())
+      filtered = filtered.filter(
+        (notification) =>
+          notification.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          notification.message.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
     // Apply type filter
     if (selectedFilter !== 'all') {
       if (selectedFilter === 'unread') {
-        filtered = filtered.filter(notification => !notification.read);
+        filtered = filtered.filter((notification) => !notification.read);
       } else if (selectedFilter === 'actionable') {
-        filtered = filtered.filter(notification => notification.actionable);
+        filtered = filtered.filter((notification) => notification.actionable);
       } else {
-        filtered = filtered.filter(notification => notification.type === selectedFilter);
+        filtered = filtered.filter((notification) => notification.type === selectedFilter);
       }
     }
 
@@ -223,10 +242,11 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
     let filtered = activities;
 
     if (searchQuery) {
-      filtered = filtered.filter(activity =>
-        activity.action.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        activity.target.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        activity.details.toLowerCase().includes(searchQuery.toLowerCase())
+      filtered = filtered.filter(
+        (activity) =>
+          activity.action.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          activity.target.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          activity.details.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -234,48 +254,54 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
   }, [activities, searchQuery]);
 
   const unreadCount = useMemo(() => {
-    return notifications.filter(n => !n.read).length;
+    return notifications.filter((n) => !n.read).length;
   }, [notifications]);
 
   const urgentCount = useMemo(() => {
-    return notifications.filter(n => !n.read && n.priority === 'urgent').length;
+    return notifications.filter((n) => !n.read && n.priority === 'urgent').length;
   }, [notifications]);
 
   const markAsRead = useCallback((notificationId: string) => {
-    setNotifications(prev => prev.map(notification =>
-      notification.id === notificationId 
-        ? { ...notification, read: true }
-        : notification
-    ));
+    setNotifications((prev) =>
+      prev.map((notification) =>
+        notification.id === notificationId ? { ...notification, read: true } : notification
+      )
+    );
   }, []);
 
   const markAllAsRead = useCallback(() => {
-    setNotifications(prev => prev.map(notification => ({ ...notification, read: true })));
+    setNotifications((prev) => prev.map((notification) => ({ ...notification, read: true })));
     toast.success('All notifications marked as read');
   }, []);
 
   const deleteNotification = useCallback((notificationId: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== notificationId));
+    setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
     toast.success('Notification deleted');
   }, []);
 
-  const handleAction = useCallback((notification: Notification) => {
-    if (notification.actionUrl) {
-      // In a real app, this would navigate to the action URL
-      console.log('Navigating to:', notification.actionUrl);
-      toast.success(`Opening ${notification.actionLabel}`);
-    }
-    markAsRead(notification.id);
-  }, [markAsRead]);
+  const handleAction = useCallback(
+    (notification: Notification) => {
+      if (notification.actionUrl) {
+        // In a real app, this would navigate to the action URL
+        console.log('Navigating to:', notification.actionUrl);
+        toast.success(`Opening ${notification.actionLabel}`);
+      }
+      markAsRead(notification.id);
+    },
+    [markAsRead]
+  );
 
   const getNotificationIcon = (type: Notification['type'], priority: Notification['priority']) => {
     const iconProps = {
       className: `w-5 h-5 ${
-        priority === 'urgent' ? 'text-destructive' :
-        priority === 'high' ? 'text-warning' :
-        priority === 'medium' ? 'text-info' :
-        'text-muted-foreground'
-      }`
+        priority === 'urgent'
+          ? 'text-destructive'
+          : priority === 'high'
+            ? 'text-warning'
+            : priority === 'medium'
+              ? 'text-info'
+              : 'text-muted-foreground'
+      }`,
     };
 
     switch (type) {
@@ -314,7 +340,7 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
   const formatTimestamp = (timestamp: Date) => {
     const now = new Date();
     const diff = now.getTime() - timestamp.getTime();
-    
+
     if (diff < 60 * 1000) return 'Just now';
     if (diff < 60 * 60 * 1000) return `${Math.floor(diff / (60 * 1000))}m ago`;
     if (diff < 24 * 60 * 60 * 1000) return `${Math.floor(diff / (60 * 60 * 1000))}h ago`;
@@ -369,7 +395,9 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
           <CardContent className="space-y-4 pt-0">
             <div className="grid grid-cols-2 gap-4">
               <div className="flex items-center justify-between">
-                <Label htmlFor="email-notifications" className="text-sm">Email Notifications</Label>
+                <Label htmlFor="email-notifications" className="text-sm">
+                  Email Notifications
+                </Label>
                 <Switch
                   id="email-notifications"
                   checked={emailNotifications}
@@ -377,7 +405,9 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
                 />
               </div>
               <div className="flex items-center justify-between">
-                <Label htmlFor="push-notifications" className="text-sm">Push Notifications</Label>
+                <Label htmlFor="push-notifications" className="text-sm">
+                  Push Notifications
+                </Label>
                 <Switch
                   id="push-notifications"
                   checked={pushNotifications}
@@ -385,7 +415,7 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label className="text-sm">Digest Frequency</Label>
@@ -401,7 +431,7 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="space-y-2">
                 <Label className="text-sm">Minimum Priority</Label>
                 <Select value={priorityFilter} onValueChange={setPriorityFilter}>
@@ -433,7 +463,7 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
               className="pl-9 h-9 ff-focus-ring"
             />
           </div>
-          
+
           <Select value={selectedFilter} onValueChange={setSelectedFilter}>
             <SelectTrigger className="w-[140px] h-9">
               <Filter className="w-4 h-4 mr-2" />
@@ -457,12 +487,7 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
         {/* Quick Actions */}
         {unreadCount > 0 && (
           <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={markAllAsRead}
-              className="ff-hover-scale"
-            >
+            <Button size="sm" variant="outline" onClick={markAllAsRead} className="ff-hover-scale">
               <CheckCircle className="w-4 h-4 mr-2" />
               Mark all as read ({unreadCount})
             </Button>
@@ -497,9 +522,9 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
               filteredNotifications.map((notification) => (
                 <Card
                   key={notification.id}
-                  className={`border-l-4 transition-all duration-200 ff-hover-lift cursor-pointer ${
-                    getPriorityColor(notification.priority)
-                  } ${!notification.read ? 'bg-muted/30' : ''}`}
+                  className={`border-l-4 transition-all duration-200 ff-hover-lift cursor-pointer ${getPriorityColor(
+                    notification.priority
+                  )} ${!notification.read ? 'bg-muted/30' : ''}`}
                   onClick={() => !notification.read && markAsRead(notification.id)}
                 >
                   <CardContent className="p-4">
@@ -508,23 +533,25 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
                         <div className="flex-shrink-0 mt-0.5">
                           {getNotificationIcon(notification.type, notification.priority)}
                         </div>
-                        
+
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <h4 className={`text-sm font-medium truncate ${
-                              !notification.read ? 'text-foreground' : 'text-muted-foreground'
-                            }`}>
+                            <h4
+                              className={`text-sm font-medium truncate ${
+                                !notification.read ? 'text-foreground' : 'text-muted-foreground'
+                              }`}
+                            >
                               {notification.title}
                             </h4>
                             {!notification.read && (
                               <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
                             )}
                           </div>
-                          
+
                           <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
                             {notification.message}
                           </p>
-                          
+
                           <div className="flex items-center gap-3 text-xs text-muted-foreground">
                             <div className="flex items-center gap-1">
                               <Clock className="w-3 h-3" />
@@ -536,9 +563,11 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
                             {notification.priority !== 'low' && (
                               <Badge
                                 variant={
-                                  notification.priority === 'urgent' ? 'destructive' :
-                                  notification.priority === 'high' ? 'destructive' :
-                                  'secondary'
+                                  notification.priority === 'urgent'
+                                    ? 'destructive'
+                                    : notification.priority === 'high'
+                                      ? 'destructive'
+                                      : 'secondary'
                                 }
                                 className="text-xs h-5"
                               >
@@ -563,7 +592,7 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
                             {notification.actionLabel || 'View'}
                           </Button>
                         )}
-                        
+
                         <Button
                           size="sm"
                           variant="ghost"
@@ -597,18 +626,16 @@ export function NotificationActivityCenter({ onClose }: NotificationActivityCent
                       <div className={`text-lg flex-shrink-0 ${activity.color}`}>
                         {activity.icon}
                       </div>
-                      
+
                       <div className="flex-1 min-w-0">
                         <div className="text-sm mb-1">
                           <span className="font-medium">{activity.actor}</span>
                           <span className="text-muted-foreground"> {activity.action} </span>
                           <span className="font-medium">{activity.target}</span>
                         </div>
-                        
-                        <p className="text-sm text-muted-foreground mb-2">
-                          {activity.details}
-                        </p>
-                        
+
+                        <p className="text-sm text-muted-foreground mb-2">{activity.details}</p>
+
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <Clock className="w-3 h-3" />
                           {formatTimestamp(activity.timestamp)}

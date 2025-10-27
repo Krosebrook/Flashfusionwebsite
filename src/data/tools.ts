@@ -10,7 +10,7 @@ export const FEATURED_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 98,
     usageCount: 2847,
-    featured: true
+    featured: true,
   },
   {
     id: 'next-app-generator',
@@ -21,7 +21,7 @@ export const FEATURED_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 95,
     usageCount: 12543,
-    featured: true
+    featured: true,
   },
   {
     id: 'react-component-builder',
@@ -32,7 +32,7 @@ export const FEATURED_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 92,
     usageCount: 8932,
-    featured: true
+    featured: true,
   },
   {
     id: 'ai-design-system',
@@ -43,7 +43,7 @@ export const FEATURED_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 89,
     usageCount: 5621,
-    featured: true
+    featured: true,
   },
   {
     id: 'seo-optimizer',
@@ -54,19 +54,19 @@ export const FEATURED_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 87,
     usageCount: 7234,
-    featured: true
+    featured: true,
   },
   {
     id: 'performance-analyzer',
     name: 'Performance Analyzer',
-    description: 'Analyze and optimize your application\'s performance with detailed insights',
+    description: "Analyze and optimize your application's performance with detailed insights",
     category: 'analysis',
     icon: '📊',
     tier: 'pro',
     popularity: 85,
     usageCount: 4532,
-    featured: true
-  }
+    featured: true,
+  },
 ];
 
 export const ALL_TOOLS: Tool[] = [
@@ -81,7 +81,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 78,
     usageCount: 3421,
-    featured: false
+    featured: false,
   },
   {
     id: 'svelte-app-generator',
@@ -92,7 +92,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 72,
     usageCount: 2187,
-    featured: false
+    featured: false,
   },
   {
     id: 'angular-app-generator',
@@ -103,7 +103,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 69,
     usageCount: 1943,
-    featured: false
+    featured: false,
   },
   {
     id: 'api-generator',
@@ -114,7 +114,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 84,
     usageCount: 6754,
-    featured: false
+    featured: false,
   },
   {
     id: 'graphql-generator',
@@ -125,7 +125,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 76,
     usageCount: 3892,
-    featured: false
+    featured: false,
   },
 
   // Design Tools
@@ -138,7 +138,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 91,
     usageCount: 9876,
-    featured: false
+    featured: false,
   },
   {
     id: 'color-palette-generator',
@@ -149,7 +149,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 88,
     usageCount: 11234,
-    featured: false
+    featured: false,
   },
   {
     id: 'icon-generator',
@@ -160,7 +160,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 82,
     usageCount: 4567,
-    featured: false
+    featured: false,
   },
   {
     id: 'mockup-generator',
@@ -171,7 +171,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 79,
     usageCount: 3211,
-    featured: false
+    featured: false,
   },
 
   // Optimization Tools
@@ -184,7 +184,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 83,
     usageCount: 5432,
-    featured: false
+    featured: false,
   },
   {
     id: 'image-optimizer',
@@ -195,7 +195,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 90,
     usageCount: 8765,
-    featured: false
+    featured: false,
   },
   {
     id: 'code-splitter',
@@ -206,7 +206,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 75,
     usageCount: 3456,
-    featured: false
+    featured: false,
   },
   {
     id: 'lazy-loader',
@@ -217,20 +217,20 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 81,
     usageCount: 4321,
-    featured: false
+    featured: false,
   },
 
   // Analysis Tools
   {
     id: 'accessibility-checker',
     name: 'Accessibility Checker',
-    description: 'Analyze and improve your application\'s accessibility',
+    description: "Analyze and improve your application's accessibility",
     category: 'analysis',
     icon: '♿',
     tier: 'free',
     popularity: 86,
     usageCount: 6543,
-    featured: false
+    featured: false,
   },
   {
     id: 'security-scanner',
@@ -241,7 +241,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 77,
     usageCount: 2987,
-    featured: false
+    featured: false,
   },
   {
     id: 'code-quality-analyzer',
@@ -252,7 +252,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 74,
     usageCount: 3654,
-    featured: false
+    featured: false,
   },
   {
     id: 'lighthouse-runner',
@@ -263,7 +263,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 88,
     usageCount: 7890,
-    featured: false
+    featured: false,
   },
 
   // Automation Tools
@@ -276,7 +276,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 80,
     usageCount: 4123,
-    featured: false
+    featured: false,
   },
   {
     id: 'testing-automation',
@@ -287,7 +287,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 73,
     usageCount: 2876,
-    featured: false
+    featured: false,
   },
   {
     id: 'backup-automation',
@@ -298,7 +298,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'enterprise',
     popularity: 68,
     usageCount: 1532,
-    featured: false
+    featured: false,
   },
   {
     id: 'monitoring-setup',
@@ -309,7 +309,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 76,
     usageCount: 3789,
-    featured: false
+    featured: false,
   },
 
   // Collaboration Tools
@@ -322,7 +322,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'pro',
     popularity: 82,
     usageCount: 4567,
-    featured: false
+    featured: false,
   },
   {
     id: 'documentation-generator',
@@ -333,7 +333,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 85,
     usageCount: 6789,
-    featured: false
+    featured: false,
   },
   {
     id: 'changelog-generator',
@@ -344,7 +344,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 79,
     usageCount: 4321,
-    featured: false
+    featured: false,
   },
   {
     id: 'readme-generator',
@@ -355,7 +355,7 @@ export const ALL_TOOLS: Tool[] = [
     tier: 'free',
     popularity: 87,
     usageCount: 8901,
-    featured: false
+    featured: false,
   },
 
   // Coming Soon
@@ -369,7 +369,7 @@ export const ALL_TOOLS: Tool[] = [
     popularity: 0,
     usageCount: 0,
     featured: false,
-    comingSoon: true
+    comingSoon: true,
   },
   {
     id: 'react-native-generator',
@@ -381,7 +381,7 @@ export const ALL_TOOLS: Tool[] = [
     popularity: 0,
     usageCount: 0,
     featured: false,
-    comingSoon: true
+    comingSoon: true,
   },
   {
     id: 'blockchain-generator',
@@ -393,7 +393,7 @@ export const ALL_TOOLS: Tool[] = [
     popularity: 0,
     usageCount: 0,
     featured: false,
-    comingSoon: true
+    comingSoon: true,
   },
   {
     id: 'ai-chatbot-builder',
@@ -405,40 +405,71 @@ export const ALL_TOOLS: Tool[] = [
     popularity: 0,
     usageCount: 0,
     featured: false,
-    comingSoon: true
+    comingSoon: true,
   },
 ];
 
 export const TOOL_CATEGORIES = [
-  { id: 'generation', name: 'Generation', icon: '⚡', count: ALL_TOOLS.filter(t => t.category === 'generation').length },
-  { id: 'design', name: 'Design', icon: '🎨', count: ALL_TOOLS.filter(t => t.category === 'design').length },
-  { id: 'optimization', name: 'Optimization', icon: '🚀', count: ALL_TOOLS.filter(t => t.category === 'optimization').length },
-  { id: 'analysis', name: 'Analysis', icon: '📊', count: ALL_TOOLS.filter(t => t.category === 'analysis').length },
-  { id: 'automation', name: 'Automation', icon: '🤖', count: ALL_TOOLS.filter(t => t.category === 'automation').length },
-  { id: 'collaboration', name: 'Collaboration', icon: '👥', count: ALL_TOOLS.filter(t => t.category === 'collaboration').length },
+  {
+    id: 'generation',
+    name: 'Generation',
+    icon: '⚡',
+    count: ALL_TOOLS.filter((t) => t.category === 'generation').length,
+  },
+  {
+    id: 'design',
+    name: 'Design',
+    icon: '🎨',
+    count: ALL_TOOLS.filter((t) => t.category === 'design').length,
+  },
+  {
+    id: 'optimization',
+    name: 'Optimization',
+    icon: '🚀',
+    count: ALL_TOOLS.filter((t) => t.category === 'optimization').length,
+  },
+  {
+    id: 'analysis',
+    name: 'Analysis',
+    icon: '📊',
+    count: ALL_TOOLS.filter((t) => t.category === 'analysis').length,
+  },
+  {
+    id: 'automation',
+    name: 'Automation',
+    icon: '🤖',
+    count: ALL_TOOLS.filter((t) => t.category === 'automation').length,
+  },
+  {
+    id: 'collaboration',
+    name: 'Collaboration',
+    icon: '👥',
+    count: ALL_TOOLS.filter((t) => t.category === 'collaboration').length,
+  },
 ];
 
 export const getToolById = (id: string): Tool | undefined => {
-  return ALL_TOOLS.find(tool => tool.id === id);
+  return ALL_TOOLS.find((tool) => tool.id === id);
 };
 
 export const getToolsByCategory = (category: string): Tool[] => {
-  return ALL_TOOLS.filter(tool => tool.category === category);
+  return ALL_TOOLS.filter((tool) => tool.category === category);
 };
 
 export const getFeaturedTools = (): Tool[] => {
-  return ALL_TOOLS.filter(tool => tool.featured);
+  return ALL_TOOLS.filter((tool) => tool.featured);
 };
 
 export const getToolsByTier = (tier: 'free' | 'pro' | 'enterprise'): Tool[] => {
-  return ALL_TOOLS.filter(tool => tool.tier === tier);
+  return ALL_TOOLS.filter((tool) => tool.tier === tier);
 };
 
 export const searchTools = (query: string): Tool[] => {
   const lowercaseQuery = query.toLowerCase();
-  return ALL_TOOLS.filter(tool =>
-    tool.name.toLowerCase().includes(lowercaseQuery) ||
-    tool.description.toLowerCase().includes(lowercaseQuery) ||
-    tool.category.toLowerCase().includes(lowercaseQuery)
+  return ALL_TOOLS.filter(
+    (tool) =>
+      tool.name.toLowerCase().includes(lowercaseQuery) ||
+      tool.description.toLowerCase().includes(lowercaseQuery) ||
+      tool.category.toLowerCase().includes(lowercaseQuery)
   );
 };

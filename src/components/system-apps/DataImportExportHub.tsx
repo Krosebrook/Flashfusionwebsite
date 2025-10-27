@@ -4,32 +4,30 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Input } from '../ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { 
-  Database, Upload, Download, FileText, X, Plus
-} from 'lucide-react';
+import { Database, Upload, Download, FileText, X, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
 // Import types and constants
-import type { 
-  DataImportExportHubProps, 
-  ImportJob, 
-  ExportJob, 
+import type {
+  DataImportExportHubProps,
+  ImportJob,
+  ExportJob,
   DataSource,
-  DataTemplate 
+  DataTemplate,
 } from '../../types/data-import-export';
 
-import { 
-  MOCK_IMPORT_JOBS, 
-  MOCK_EXPORT_JOBS, 
-  MOCK_DATA_SOURCES, 
+import {
+  MOCK_IMPORT_JOBS,
+  MOCK_EXPORT_JOBS,
+  MOCK_DATA_SOURCES,
   MOCK_TEMPLATES,
-  JOB_STATUS_OPTIONS 
+  JOB_STATUS_OPTIONS,
 } from '../../constants/data-import-export';
 
-import { 
+import {
   filterJobsByQuery,
   sortJobsByStatus,
-  getJobStatistics
+  getJobStatistics,
 } from '../../utils/data-import-export';
 
 // Import sub-components
@@ -41,13 +39,13 @@ export function DataImportExportHub({ onClose }: DataImportExportHubProps) {
   const [activeTab, setActiveTab] = useState('import');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('all');
-  
+
   // State for jobs and data sources
   const [importJobs, setImportJobs] = useState(MOCK_IMPORT_JOBS);
   const [exportJobs, setExportJobs] = useState(MOCK_EXPORT_JOBS);
   const [dataSources, setDataSources] = useState(MOCK_DATA_SOURCES);
   const [templates] = useState(MOCK_TEMPLATES);
-  
+
   // Modal states
   const [selectedJob, setSelectedJob] = useState<ImportJob | ExportJob | null>(null);
   const [selectedSource, setSelectedSource] = useState<DataSource | null>(null);
@@ -62,7 +60,7 @@ export function DataImportExportHub({ onClose }: DataImportExportHubProps) {
     }
 
     if (selectedStatus !== 'all') {
-      filtered = filtered.filter(job => job.status === selectedStatus);
+      filtered = filtered.filter((job) => job.status === selectedStatus);
     }
 
     return sortJobsByStatus(filtered) as ImportJob[];
@@ -76,49 +74,57 @@ export function DataImportExportHub({ onClose }: DataImportExportHubProps) {
     }
 
     if (selectedStatus !== 'all') {
-      filtered = filtered.filter(job => job.status === selectedStatus);
+      filtered = filtered.filter((job) => job.status === selectedStatus);
     }
 
     return sortJobsByStatus(filtered) as ExportJob[];
   }, [exportJobs, searchQuery, selectedStatus]);
 
   // Statistics
-  const connectedSources = useMemo(() => dataSources.filter(s => s.connected), [dataSources]);
+  const connectedSources = useMemo(() => dataSources.filter((s) => s.connected), [dataSources]);
   const importStats = useMemo(() => getJobStatistics(importJobs), [importJobs]);
   const exportStats = useMemo(() => getJobStatistics(exportJobs), [exportJobs]);
 
   // Event handlers
   const handleCancelJob = useCallback((jobId: string, type: 'import' | 'export') => {
     if (type === 'import') {
-      setImportJobs(prev => prev.map(job =>
-        job.id === jobId ? { ...job, status: 'cancelled' as const } : job
-      ));
+      setImportJobs((prev) =>
+        prev.map((job) => (job.id === jobId ? { ...job, status: 'cancelled' as const } : job))
+      );
     } else {
-      setExportJobs(prev => prev.map(job =>
-        job.id === jobId ? { ...job, status: 'cancelled' as const } : job
-      ));
+      setExportJobs((prev) =>
+        prev.map((job) => (job.id === jobId ? { ...job, status: 'cancelled' as const } : job))
+      );
     }
     toast.success('Job cancelled successfully');
   }, []);
 
   const handleRetryJob = useCallback((jobId: string, type: 'import' | 'export') => {
     if (type === 'import') {
-      setImportJobs(prev => prev.map(job =>
-        job.id === jobId ? { 
-          ...job, 
-          status: 'pending' as const, 
-          progress: 0,
-          errors: []
-        } : job
-      ));
+      setImportJobs((prev) =>
+        prev.map((job) =>
+          job.id === jobId
+            ? {
+                ...job,
+                status: 'pending' as const,
+                progress: 0,
+                errors: [],
+              }
+            : job
+        )
+      );
     } else {
-      setExportJobs(prev => prev.map(job =>
-        job.id === jobId ? { 
-          ...job, 
-          status: 'pending' as const, 
-          progress: 0
-        } : job
-      ));
+      setExportJobs((prev) =>
+        prev.map((job) =>
+          job.id === jobId
+            ? {
+                ...job,
+                status: 'pending' as const,
+                progress: 0,
+              }
+            : job
+        )
+      );
     }
     toast.success('Job queued for retry');
   }, []);
@@ -130,20 +136,24 @@ export function DataImportExportHub({ onClose }: DataImportExportHubProps) {
   }, []);
 
   const handleConnectSource = useCallback((sourceId: string) => {
-    setDataSources(prev => prev.map(source =>
-      source.id === sourceId 
-        ? { ...source, connected: true, syncStatus: 'active' as const, lastSync: new Date() }
-        : source
-    ));
+    setDataSources((prev) =>
+      prev.map((source) =>
+        source.id === sourceId
+          ? { ...source, connected: true, syncStatus: 'active' as const, lastSync: new Date() }
+          : source
+      )
+    );
     toast.success('Data source connected successfully!');
   }, []);
 
   const handleDisconnectSource = useCallback((sourceId: string) => {
-    setDataSources(prev => prev.map(source =>
-      source.id === sourceId 
-        ? { ...source, connected: false, syncStatus: 'inactive' as const }
-        : source
-    ));
+    setDataSources((prev) =>
+      prev.map((source) =>
+        source.id === sourceId
+          ? { ...source, connected: false, syncStatus: 'inactive' as const }
+          : source
+      )
+    );
     toast.success('Data source disconnected');
   }, []);
 
@@ -229,7 +239,7 @@ export function DataImportExportHub({ onClose }: DataImportExportHubProps) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {JOB_STATUS_OPTIONS.map(option => (
+                    {JOB_STATUS_OPTIONS.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
                       </SelectItem>
@@ -249,7 +259,9 @@ export function DataImportExportHub({ onClose }: DataImportExportHubProps) {
                 <div className="text-center py-12">
                   <Upload className="w-12 h-12 mx-auto mb-4 text-muted-foreground opacity-50" />
                   <h3 className="text-lg font-semibold mb-2">No import jobs found</h3>
-                  <p className="text-muted-foreground mb-4">Start by creating your first data import</p>
+                  <p className="text-muted-foreground mb-4">
+                    Start by creating your first data import
+                  </p>
                   <Button className="ff-btn-primary">
                     <Upload className="w-4 h-4 mr-2" />
                     Create Import Job
@@ -289,7 +301,7 @@ export function DataImportExportHub({ onClose }: DataImportExportHubProps) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {JOB_STATUS_OPTIONS.map(option => (
+                    {JOB_STATUS_OPTIONS.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
                       </SelectItem>
@@ -309,7 +321,9 @@ export function DataImportExportHub({ onClose }: DataImportExportHubProps) {
                 <div className="text-center py-12">
                   <Download className="w-12 h-12 mx-auto mb-4 text-muted-foreground opacity-50" />
                   <h3 className="text-lg font-semibold mb-2">No export jobs found</h3>
-                  <p className="text-muted-foreground mb-4">Start by creating your first data export</p>
+                  <p className="text-muted-foreground mb-4">
+                    Start by creating your first data export
+                  </p>
                   <Button className="ff-btn-primary">
                     <Download className="w-4 h-4 mr-2" />
                     Create Export Job

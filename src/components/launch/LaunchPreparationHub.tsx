@@ -4,7 +4,7 @@
  * @category marketing
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Comprehensive launch preparation system with documentation generation,
  * marketing materials, support systems, and legal compliance tools.
  */
@@ -23,7 +23,7 @@ import { Progress } from '../ui/progress';
 import { Separator } from '../ui/separator';
 import { ScrollArea } from '../ui/scroll-area';
 import { Switch } from '../ui/switch';
-import { 
+import {
   Rocket,
   BookOpen,
   Users,
@@ -61,192 +61,52 @@ import {
   PieChart,
   BarChart3,
   Calendar,
-  Loader2
+  Loader2,
 } from 'lucide-react';
+import type {
+  LaunchAsset,
+  MarketingCampaign,
+  SupportChannel,
+} from './LaunchPreparationHub.types';
+import {
+  LAUNCH_CHECKLIST,
+  INITIAL_ASSETS,
+  INITIAL_CAMPAIGNS,
+  INITIAL_SUPPORT_CHANNELS,
+  CONTENT_REQUESTS,
+} from '../../fixtures/launch/launch-preparation-fixtures';
 
-interface LaunchAsset {
-  id: string;
-  type: 'documentation' | 'video' | 'image' | 'press-kit' | 'legal' | 'tutorial';
-  title: string;
-  description: string;
-  status: 'draft' | 'review' | 'approved' | 'published';
-  priority: 'low' | 'medium' | 'high' | 'critical';
-  progress: number;
-  dueDate?: Date;
-  assignee?: string;
-  tags: string[];
-}
-
-interface MarketingCampaign {
-  id: string;
-  name: string;
-  type: 'social' | 'email' | 'press' | 'influencer' | 'content';
-  status: 'planning' | 'created' | 'scheduled' | 'active' | 'completed';
-  reach: number;
-  engagement: number;
-  budget: number;
-  roi: number;
-  startDate: Date;
-  endDate: Date;
-}
-
-interface SupportChannel {
-  id: string;
-  name: string;
-  type: 'email' | 'chat' | 'phone' | 'docs' | 'community' | 'video';
-  status: 'active' | 'setup' | 'testing';
-  responseTime: string;
-  satisfaction: number;
-  volume: number;
-}
-
-const LAUNCH_CHECKLIST = [
-  {
-    category: 'Documentation',
-    items: [
-      'User Manual and Getting Started Guide',
-      'API Documentation and Reference', 
-      'Video Tutorials and Walkthroughs',
-      'FAQ and Troubleshooting Guide',
-      'Developer Documentation',
-      'Release Notes and Changelog'
-    ]
-  },
-  {
-    category: 'Marketing',
-    items: [
-      'Landing Page Optimization',
-      'Social Media Campaign',
-      'Press Release and Media Kit',
-      'Influencer Outreach Program',
-      'Email Marketing Sequence',
-      'SEO and Content Strategy'
-    ]
-  },
-  {
-    category: 'Legal & Compliance',
-    items: [
-      'Terms of Service',
-      'Privacy Policy',
-      'GDPR Compliance Documentation',
-      'Security and Data Protection',
-      'Intellectual Property Review',
-      'Compliance Certifications'
-    ]
-  },
-  {
-    category: 'Support Systems',
-    items: [
-      'Help Desk Setup',
-      'Community Forum Launch',
-      'Knowledge Base Creation',
-      'Support Team Training',
-      'Escalation Procedures',
-      'Feedback Collection System'
-    ]
-  }
-];
+// Re-export types for backward compatibility
+export type {
+  LaunchAsset,
+  MarketingCampaign,
+  SupportChannel,
+} from './LaunchPreparationHub.types';
 
 export function LaunchPreparationHub() {
-  const [assets, setAssets] = useState<LaunchAsset[]>([
-    {
-      id: 'user-manual',
-      type: 'documentation',
-      title: 'Complete User Manual',
-      description: 'Comprehensive guide covering all FlashFusion features',
-      status: 'approved',
-      priority: 'critical',
-      progress: 95,
-      tags: ['documentation', 'user-guide']
-    },
-    {
-      id: 'api-docs',
-      type: 'documentation', 
-      title: 'API Documentation',
-      description: 'Developer-focused API reference and examples',
-      status: 'review',
-      priority: 'high',
-      progress: 80,
-      tags: ['api', 'developers']
-    },
-    {
-      id: 'launch-video',
-      type: 'video',
-      title: 'Product Launch Video',
-      description: '2-minute product demonstration and overview',
-      status: 'draft',
-      priority: 'high',
-      progress: 60,
-      tags: ['marketing', 'video']
-    },
-    {
-      id: 'press-kit',
-      type: 'press-kit',
-      title: 'Media Press Kit',
-      description: 'Complete press kit with assets and information',
-      status: 'approved',
-      priority: 'medium',
-      progress: 100,
-      tags: ['press', 'media']
-    }
-  ]);
+  const [assets, setAssets] = useState<LaunchAsset[]>(INITIAL_ASSETS as LaunchAsset[]);
 
   const [campaigns, setCampaigns] = useState<MarketingCampaign[]>([
-    {
-      id: 'social-launch',
-      name: 'Social Media Launch Campaign',
-      type: 'social',
-      status: 'scheduled',
-      reach: 50000,
-      engagement: 3.2,
-      budget: 5000,
+    ...INITIAL_CAMPAIGNS.map(c => ({
+      ...c,
+      type: c.platform === 'multi' ? 'social' as const : 'influencer' as const,
+      status: c.status as MarketingCampaign['status'],
+      engagement: c.engagement / 100, // Convert to percentage
       roi: 145,
       startDate: new Date(Date.now() + 86400000),
-      endDate: new Date(Date.now() + 604800000)
-    },
-    {
-      id: 'email-sequence',
-      name: 'Launch Email Sequence',
-      type: 'email',
-      status: 'created',
-      reach: 15000,
-      engagement: 12.5,
-      budget: 1200,
-      roi: 280,
-      startDate: new Date(Date.now() + 172800000),
-      endDate: new Date(Date.now() + 1209600000)
-    }
+      endDate: new Date(Date.now() + 604800000),
+    })),
   ]);
 
-  const [supportChannels, setSupportChannels] = useState<SupportChannel[]>([
-    {
-      id: 'email-support',
-      name: 'Email Support',
-      type: 'email',
-      status: 'active',
-      responseTime: '< 4 hours',
-      satisfaction: 4.7,
-      volume: 150
-    },
-    {
-      id: 'live-chat',
-      name: 'Live Chat',
-      type: 'chat',
-      status: 'testing',
-      responseTime: '< 2 minutes',
-      satisfaction: 4.9,
-      volume: 89
-    },
-    {
-      id: 'docs-portal',
-      name: 'Documentation Portal',
-      type: 'docs',
-      status: 'active',
-      responseTime: 'Instant',
-      satisfaction: 4.5,
-      volume: 2400
-    }
-  ]);
+  const [supportChannels, setSupportChannels] = useState<SupportChannel[]>(
+    INITIAL_SUPPORT_CHANNELS.map(c => ({
+      ...c,
+      type: c.type === 'forum' ? 'community' as const : c.type as SupportChannel['type'],
+      status: c.status === 'beta' ? 'testing' as const : c.status as SupportChannel['status'],
+      responseTime: `< ${c.responseTime} ${c.responseTime === 1 ? 'hour' : 'hours'}`,
+      satisfaction: c.satisfaction / 20, // Convert 0-100 scale to 0-5 scale
+    }))
+  );
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
@@ -254,25 +114,26 @@ export function LaunchPreparationHub() {
   const [launchReadiness, setLaunchReadiness] = useState(78);
 
   // Generate comprehensive documentation
-  const generateDocumentation = useCallback(async (type: 'user-manual' | 'api-docs' | 'tutorials' | 'faq') => {
-    setIsGenerating(true);
-    setGenerationProgress(0);
+  const generateDocumentation = useCallback(
+    async (type: 'user-manual' | 'api-docs' | 'tutorials' | 'faq') => {
+      setIsGenerating(true);
+      setGenerationProgress(0);
 
-    try {
-      const progressSteps = [20, 40, 60, 80, 100];
-      
-      for (let i = 0; i < progressSteps.length; i++) {
-        setGenerationProgress(progressSteps[i]);
-        await new Promise(resolve => setTimeout(resolve, 800));
-      }
+      try {
+        const progressSteps = [20, 40, 60, 80, 100];
 
-      let content = '';
-      let filename = '';
+        for (let i = 0; i < progressSteps.length; i++) {
+          setGenerationProgress(progressSteps[i]);
+          await new Promise((resolve) => setTimeout(resolve, 800));
+        }
 
-      switch (type) {
-        case 'user-manual':
-          filename = 'FlashFusion-User-Manual.md';
-          content = `# FlashFusion User Manual
+        let content = '';
+        let filename = '';
+
+        switch (type) {
+          case 'user-manual':
+            filename = 'FlashFusion-User-Manual.md';
+            content = `# FlashFusion User Manual
 *Complete Guide to AI-Powered Development*
 
 ## Table of Contents
@@ -497,11 +358,11 @@ FlashFusion provides a comprehensive API for programmatic access:
 
 For the most current information, visit our [online documentation](https://docs.flashfusion.ai).
 `;
-          break;
+            break;
 
-        case 'api-docs':
-          filename = 'FlashFusion-API-Documentation.md';
-          content = `# FlashFusion API Documentation
+          case 'api-docs':
+            filename = 'FlashFusion-API-Documentation.md';
+            content = `# FlashFusion API Documentation
 *Developer Reference Guide*
 
 ## Overview
@@ -798,11 +659,11 @@ const results = await Promise.all(
 
 For support, contact: api-support@flashfusion.ai
 `;
-          break;
+            break;
 
-        case 'tutorials':
-          filename = 'FlashFusion-Video-Tutorials-Script.md';
-          content = `# FlashFusion Video Tutorials - Production Scripts
+          case 'tutorials':
+            filename = 'FlashFusion-Video-Tutorials-Script.md';
+            content = `# FlashFusion Video Tutorials - Production Scripts
 
 ## Tutorial 1: Getting Started (5 minutes)
 
@@ -1013,11 +874,11 @@ For support, contact: api-support@flashfusion.ai
 *Scripts Version: 1.0.0*
 *Total Runtime: ~27 minutes across 5 tutorials*
 `;
-          break;
+            break;
 
-        case 'faq':
-          filename = 'FlashFusion-FAQ-and-Troubleshooting.md';
-          content = `# FlashFusion FAQ & Troubleshooting Guide
+          case 'faq':
+            filename = 'FlashFusion-FAQ-and-Troubleshooting.md';
+            content = `# FlashFusion FAQ & Troubleshooting Guide
 
 ## Frequently Asked Questions
 
@@ -1271,28 +1132,30 @@ For critical production issues:
 
 Still need help? Contact our support team at support@flashfusion.ai
 `;
-          break;
+            break;
+        }
+
+        // Create download
+        const blob = new Blob([content], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        console.log(`✅ Generated ${type} documentation successfully`);
+      } catch (error) {
+        console.error(`❌ Failed to generate ${type} documentation:`, error);
+      } finally {
+        setIsGenerating(false);
+        setGenerationProgress(0);
       }
-
-      // Create download
-      const blob = new Blob([content], { type: 'text/markdown' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      console.log(`✅ Generated ${type} documentation successfully`);
-    } catch (error) {
-      console.error(`❌ Failed to generate ${type} documentation:`, error);
-    } finally {
-      setIsGenerating(false);
-      setGenerationProgress(0);
-    }
-  }, []);
+    },
+    []
+  );
 
   // Generate press kit
   const generatePressKit = useCallback(() => {
@@ -1357,7 +1220,10 @@ https://flashfusion.ai/press-kit
 
   // Calculate overall launch readiness
   useEffect(() => {
-    const totalChecks = LAUNCH_CHECKLIST.reduce((total, category) => total + category.items.length, 0);
+    const totalChecks = LAUNCH_CHECKLIST.reduce(
+      (total, category) => total + category.items.length,
+      0
+    );
     const completedChecks = Math.floor(totalChecks * 0.78); // 78% completion
     setLaunchReadiness(Math.round((completedChecks / totalChecks) * 100));
   }, []);
@@ -1366,12 +1232,16 @@ https://flashfusion.ai/press-kit
     <div className="space-y-6" style={{ fontFamily: 'var(--ff-font-secondary)' }}>
       <Card className="bg-[var(--ff-surface)] border-[var(--border)]">
         <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
+          <CardTitle
+            className="flex items-center gap-3 text-[var(--ff-text-primary)]"
+            style={{ fontFamily: 'var(--ff-font-primary)' }}
+          >
             <Rocket className="w-6 h-6 text-[var(--ff-primary)]" />
             Launch Preparation Hub
           </CardTitle>
           <CardDescription className="text-[var(--ff-text-secondary)]">
-            Comprehensive launch preparation with documentation generation, marketing materials, support systems, and legal compliance tools.
+            Comprehensive launch preparation with documentation generation, marketing materials,
+            support systems, and legal compliance tools.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -1381,10 +1251,23 @@ https://flashfusion.ai/press-kit
             <AlertDescription className="text-[var(--ff-text-secondary)]">
               <div className="flex items-center justify-between">
                 <div>
-                  <strong className="text-[var(--ff-primary)]">Launch Readiness:</strong> {launchReadiness}% complete
+                  <strong className="text-[var(--ff-primary)]">Launch Readiness:</strong>{' '}
+                  {launchReadiness}% complete
                 </div>
-                <Badge variant={launchReadiness >= 80 ? 'default' : launchReadiness >= 60 ? 'secondary' : 'destructive'}>
-                  {launchReadiness >= 80 ? 'Ready' : launchReadiness >= 60 ? 'In Progress' : 'Needs Work'}
+                <Badge
+                  variant={
+                    launchReadiness >= 80
+                      ? 'default'
+                      : launchReadiness >= 60
+                        ? 'secondary'
+                        : 'destructive'
+                  }
+                >
+                  {launchReadiness >= 80
+                    ? 'Ready'
+                    : launchReadiness >= 60
+                      ? 'In Progress'
+                      : 'Needs Work'}
                 </Badge>
               </div>
               <Progress value={launchReadiness} className="h-2 mt-2" />
@@ -1419,7 +1302,9 @@ https://flashfusion.ai/press-kit
               <Alert className="border-[var(--ff-secondary)] bg-[var(--ff-secondary)]/10">
                 <FileText className="h-4 w-4 text-[var(--ff-secondary)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-secondary)]">Documentation Generation:</strong> Create comprehensive user guides, API documentation, tutorials, and troubleshooting resources.
+                  <strong className="text-[var(--ff-secondary)]">Documentation Generation:</strong>{' '}
+                  Create comprehensive user guides, API documentation, tutorials, and
+                  troubleshooting resources.
                 </AlertDescription>
               </Alert>
 
@@ -1492,17 +1377,11 @@ https://flashfusion.ai/press-kit
                       <FileText className="w-4 h-4 mr-2" />
                       Generate API Documentation
                     </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full border-[var(--border)]"
-                    >
+                    <Button variant="outline" className="w-full border-[var(--border)]">
                       <Code className="w-4 h-4 mr-2" />
                       SDK Documentation
                     </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full border-[var(--border)]"
-                    >
+                    <Button variant="outline" className="w-full border-[var(--border)]">
                       <Terminal className="w-4 h-4 mr-2" />
                       CLI Documentation
                     </Button>
@@ -1514,7 +1393,9 @@ https://flashfusion.ai/press-kit
                 <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-[var(--ff-text-primary)]">Generating documentation...</span>
+                      <span className="text-[var(--ff-text-primary)]">
+                        Generating documentation...
+                      </span>
                       <span className="text-[var(--ff-text-muted)]">{generationProgress}%</span>
                     </div>
                     <Progress value={generationProgress} className="h-2" />
@@ -1526,24 +1407,40 @@ https://flashfusion.ai/press-kit
               )}
 
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {assets.filter(asset => asset.type === 'documentation').map((asset) => (
-                  <Card key={asset.id} className="bg-[var(--ff-surface)] border-[var(--border)]">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <Badge variant={asset.status === 'approved' ? 'default' : asset.status === 'review' ? 'secondary' : 'outline'}>
-                          {asset.status}
-                        </Badge>
-                        <Badge variant="outline" className="text-xs">
-                          {asset.priority}
-                        </Badge>
-                      </div>
-                      <h4 className="text-sm font-semibold text-[var(--ff-text-primary)] mb-1">{asset.title}</h4>
-                      <p className="text-xs text-[var(--ff-text-muted)] mb-3">{asset.description}</p>
-                      <Progress value={asset.progress} className="h-1 mb-2" />
-                      <p className="text-xs text-[var(--ff-text-muted)]">{asset.progress}% complete</p>
-                    </CardContent>
-                  </Card>
-                ))}
+                {assets
+                  .filter((asset) => asset.type === 'documentation')
+                  .map((asset) => (
+                    <Card key={asset.id} className="bg-[var(--ff-surface)] border-[var(--border)]">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <Badge
+                            variant={
+                              asset.status === 'approved'
+                                ? 'default'
+                                : asset.status === 'review'
+                                  ? 'secondary'
+                                  : 'outline'
+                            }
+                          >
+                            {asset.status}
+                          </Badge>
+                          <Badge variant="outline" className="text-xs">
+                            {asset.priority}
+                          </Badge>
+                        </div>
+                        <h4 className="text-sm font-semibold text-[var(--ff-text-primary)] mb-1">
+                          {asset.title}
+                        </h4>
+                        <p className="text-xs text-[var(--ff-text-muted)] mb-3">
+                          {asset.description}
+                        </p>
+                        <Progress value={asset.progress} className="h-1 mb-2" />
+                        <p className="text-xs text-[var(--ff-text-muted)]">
+                          {asset.progress}% complete
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
               </div>
             </TabsContent>
 
@@ -1551,7 +1448,11 @@ https://flashfusion.ai/press-kit
               <Alert className="border-[var(--ff-accent)] bg-[var(--ff-accent)]/10">
                 <Megaphone className="h-4 w-4 text-[var(--ff-accent)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-accent)]">Marketing Campaign Management:</strong> Create and manage launch campaigns across multiple channels with performance tracking.
+                  <strong className="text-[var(--ff-accent)]">
+                    Marketing Campaign Management:
+                  </strong>{' '}
+                  Create and manage launch campaigns across multiple channels with performance
+                  tracking.
                 </AlertDescription>
               </Alert>
 
@@ -1572,7 +1473,7 @@ https://flashfusion.ai/press-kit
                       <Camera className="w-4 h-4 mr-2" />
                       Screenshots
                     </Button>
-                    <Button 
+                    <Button
                       onClick={generatePressKit}
                       className="w-full bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white"
                     >
@@ -1630,34 +1531,57 @@ https://flashfusion.ai/press-kit
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-[var(--ff-text-primary)]">Active Campaigns</h3>
+                <h3 className="text-lg font-semibold text-[var(--ff-text-primary)]">
+                  Active Campaigns
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {campaigns.map((campaign) => (
-                    <Card key={campaign.id} className="bg-[var(--ff-surface)] border-[var(--border)]">
+                    <Card
+                      key={campaign.id}
+                      className="bg-[var(--ff-surface)] border-[var(--border)]"
+                    >
                       <CardContent className="p-4">
                         <div className="flex items-center justify-between mb-3">
-                          <h4 className="font-semibold text-[var(--ff-text-primary)]">{campaign.name}</h4>
-                          <Badge variant={campaign.status === 'active' ? 'default' : campaign.status === 'scheduled' ? 'secondary' : 'outline'}>
+                          <h4 className="font-semibold text-[var(--ff-text-primary)]">
+                            {campaign.name}
+                          </h4>
+                          <Badge
+                            variant={
+                              campaign.status === 'active'
+                                ? 'default'
+                                : campaign.status === 'scheduled'
+                                  ? 'secondary'
+                                  : 'outline'
+                            }
+                          >
                             {campaign.status}
                           </Badge>
                         </div>
-                        
+
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
                             <p className="text-[var(--ff-text-muted)]">Reach</p>
-                            <p className="text-[var(--ff-text-primary)] font-semibold">{campaign.reach.toLocaleString()}</p>
+                            <p className="text-[var(--ff-text-primary)] font-semibold">
+                              {campaign.reach.toLocaleString()}
+                            </p>
                           </div>
                           <div>
                             <p className="text-[var(--ff-text-muted)]">Engagement</p>
-                            <p className="text-[var(--ff-text-primary)] font-semibold">{campaign.engagement}%</p>
+                            <p className="text-[var(--ff-text-primary)] font-semibold">
+                              {campaign.engagement}%
+                            </p>
                           </div>
                           <div>
                             <p className="text-[var(--ff-text-muted)]">Budget</p>
-                            <p className="text-[var(--ff-text-primary)] font-semibold">${campaign.budget.toLocaleString()}</p>
+                            <p className="text-[var(--ff-text-primary)] font-semibold">
+                              ${campaign.budget.toLocaleString()}
+                            </p>
                           </div>
                           <div>
                             <p className="text-[var(--ff-text-muted)]">ROI</p>
-                            <p className="text-[var(--ff-text-primary)] font-semibold">{campaign.roi}%</p>
+                            <p className="text-[var(--ff-text-primary)] font-semibold">
+                              {campaign.roi}%
+                            </p>
                           </div>
                         </div>
 
@@ -1682,31 +1606,50 @@ https://flashfusion.ai/press-kit
               <Alert className="border-[var(--ff-warning)] bg-[var(--ff-warning)]/10">
                 <Users className="h-4 w-4 text-[var(--ff-warning)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-warning)]">Support Systems:</strong> Configure help desk, community forums, knowledge base, and customer success tools for post-launch support.
+                  <strong className="text-[var(--ff-warning)]">Support Systems:</strong> Configure
+                  help desk, community forums, knowledge base, and customer success tools for
+                  post-launch support.
                 </AlertDescription>
               </Alert>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {supportChannels.map((channel) => (
-                  <Card key={channel.id} className="bg-[var(--ff-surface-light)] border-[var(--border)]">
+                  <Card
+                    key={channel.id}
+                    className="bg-[var(--ff-surface-light)] border-[var(--border)]"
+                  >
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-semibold text-[var(--ff-text-primary)]">{channel.name}</h4>
-                        <Badge variant={channel.status === 'active' ? 'default' : channel.status === 'testing' ? 'secondary' : 'outline'}>
+                        <h4 className="font-semibold text-[var(--ff-text-primary)]">
+                          {channel.name}
+                        </h4>
+                        <Badge
+                          variant={
+                            channel.status === 'active'
+                              ? 'default'
+                              : channel.status === 'testing'
+                                ? 'secondary'
+                                : 'outline'
+                          }
+                        >
                           {channel.status}
                         </Badge>
                       </div>
-                      
+
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                           <span className="text-[var(--ff-text-muted)]">Response Time</span>
-                          <span className="text-[var(--ff-text-primary)]">{channel.responseTime}</span>
+                          <span className="text-[var(--ff-text-primary)]">
+                            {channel.responseTime}
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-[var(--ff-text-muted)]">Satisfaction</span>
                           <div className="flex items-center gap-1">
                             <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                            <span className="text-[var(--ff-text-primary)]">{channel.satisfaction}</span>
+                            <span className="text-[var(--ff-text-primary)]">
+                              {channel.satisfaction}
+                            </span>
                           </div>
                         </div>
                         <div className="flex justify-between">
@@ -1726,7 +1669,9 @@ https://flashfusion.ai/press-kit
 
               <Card className="bg-[var(--ff-surface)] border-[var(--border)]">
                 <CardHeader>
-                  <CardTitle className="text-[var(--ff-text-primary)]">Support Configuration</CardTitle>
+                  <CardTitle className="text-[var(--ff-text-primary)]">
+                    Support Configuration
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1764,15 +1709,15 @@ https://flashfusion.ai/press-kit
 
                   <div className="space-y-2">
                     <Label className="text-[var(--ff-text-primary)]">Support Team Email</Label>
-                    <Input 
-                      defaultValue="support@flashfusion.ai" 
+                    <Input
+                      defaultValue="support@flashfusion.ai"
                       className="bg-[var(--input-background)] border-[var(--border)]"
                     />
                   </div>
 
                   <div className="space-y-2">
                     <Label className="text-[var(--ff-text-primary)]">Auto-Response Message</Label>
-                    <Textarea 
+                    <Textarea
                       defaultValue="Thank you for contacting FlashFusion support. We've received your message and will respond within 4 hours."
                       className="bg-[var(--input-background)] border-[var(--border)]"
                       rows={3}
@@ -1786,7 +1731,9 @@ https://flashfusion.ai/press-kit
               <Alert className="border-[var(--ff-error)] bg-[var(--ff-error)]/10">
                 <Shield className="h-4 w-4 text-[var(--ff-error)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-error)]">Legal Compliance:</strong> Ensure all legal documents, privacy policies, and compliance requirements are properly configured before launch.
+                  <strong className="text-[var(--ff-error)]">Legal Compliance:</strong> Ensure all
+                  legal documents, privacy policies, and compliance requirements are properly
+                  configured before launch.
                 </AlertDescription>
               </Alert>
 
@@ -1798,11 +1745,15 @@ https://flashfusion.ai/press-kit
                   <CardContent className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-[var(--ff-text-primary)]">Terms of Service</span>
-                      <Badge variant="default" className="bg-[var(--ff-success)] text-white">Complete</Badge>
+                      <Badge variant="default" className="bg-[var(--ff-success)] text-white">
+                        Complete
+                      </Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-[var(--ff-text-primary)]">Privacy Policy</span>
-                      <Badge variant="default" className="bg-[var(--ff-success)] text-white">Complete</Badge>
+                      <Badge variant="default" className="bg-[var(--ff-success)] text-white">
+                        Complete
+                      </Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-[var(--ff-text-primary)]">Cookie Policy</span>
@@ -1810,10 +1761,14 @@ https://flashfusion.ai/press-kit
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-[var(--ff-text-primary)]">GDPR Compliance</span>
-                      <Badge variant="default" className="bg-[var(--ff-success)] text-white">Complete</Badge>
+                      <Badge variant="default" className="bg-[var(--ff-success)] text-white">
+                        Complete
+                      </Badge>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-[var(--ff-text-primary)]">Data Processing Agreement</span>
+                      <span className="text-[var(--ff-text-primary)]">
+                        Data Processing Agreement
+                      </span>
                       <Badge variant="outline">Draft</Badge>
                     </div>
                   </CardContent>
@@ -1821,12 +1776,16 @@ https://flashfusion.ai/press-kit
 
                 <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
                   <CardHeader>
-                    <CardTitle className="text-[var(--ff-text-primary)]">Compliance & Security</CardTitle>
+                    <CardTitle className="text-[var(--ff-text-primary)]">
+                      Compliance & Security
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-[var(--ff-text-primary)]">SOC 2 Type II</span>
-                      <Badge variant="default" className="bg-[var(--ff-success)] text-white">Certified</Badge>
+                      <Badge variant="default" className="bg-[var(--ff-success)] text-white">
+                        Certified
+                      </Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-[var(--ff-text-primary)]">ISO 27001</span>
@@ -1834,7 +1793,9 @@ https://flashfusion.ai/press-kit
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-[var(--ff-text-primary)]">CCPA Compliance</span>
-                      <Badge variant="default" className="bg-[var(--ff-success)] text-white">Complete</Badge>
+                      <Badge variant="default" className="bg-[var(--ff-success)] text-white">
+                        Complete
+                      </Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-[var(--ff-text-primary)]">PCI DSS</span>
@@ -1842,7 +1803,9 @@ https://flashfusion.ai/press-kit
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-[var(--ff-text-primary)]">Security Audit</span>
-                      <Badge variant="default" className="bg-[var(--ff-success)] text-white">Passed</Badge>
+                      <Badge variant="default" className="bg-[var(--ff-success)] text-white">
+                        Passed
+                      </Badge>
                     </div>
                   </CardContent>
                 </Card>
@@ -1850,14 +1813,16 @@ https://flashfusion.ai/press-kit
 
               <Card className="bg-[var(--ff-surface)] border-[var(--border)]">
                 <CardHeader>
-                  <CardTitle className="text-[var(--ff-text-primary)]">Legal Configuration</CardTitle>
+                  <CardTitle className="text-[var(--ff-text-primary)]">
+                    Legal Configuration
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label className="text-[var(--ff-text-primary)]">Company Legal Name</Label>
-                      <Input 
-                        defaultValue="FlashFusion, Inc." 
+                      <Input
+                        defaultValue="FlashFusion, Inc."
                         className="bg-[var(--input-background)] border-[var(--border)]"
                       />
                     </div>
@@ -1878,16 +1843,18 @@ https://flashfusion.ai/press-kit
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-[var(--ff-text-primary)]">Data Protection Officer Email</Label>
-                    <Input 
-                      defaultValue="dpo@flashfusion.ai" 
+                    <Label className="text-[var(--ff-text-primary)]">
+                      Data Protection Officer Email
+                    </Label>
+                    <Input
+                      defaultValue="dpo@flashfusion.ai"
                       className="bg-[var(--input-background)] border-[var(--border)]"
                     />
                   </div>
 
                   <div className="space-y-2">
                     <Label className="text-[var(--ff-text-primary)]">Legal Contact Address</Label>
-                    <Textarea 
+                    <Textarea
                       defaultValue="123 Innovation Drive, San Francisco, CA 94105, USA"
                       className="bg-[var(--input-background)] border-[var(--border)]"
                       rows={3}
@@ -1901,13 +1868,18 @@ https://flashfusion.ai/press-kit
               <Alert className="border-[var(--ff-success)] bg-[var(--ff-success)]/10">
                 <CheckCircle className="h-4 w-4 text-[var(--ff-success)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-success)]">Launch Checklist:</strong> Track completion of all essential launch preparation tasks across documentation, marketing, support, and legal requirements.
+                  <strong className="text-[var(--ff-success)]">Launch Checklist:</strong> Track
+                  completion of all essential launch preparation tasks across documentation,
+                  marketing, support, and legal requirements.
                 </AlertDescription>
               </Alert>
 
               <div className="space-y-6">
                 {LAUNCH_CHECKLIST.map((category, categoryIndex) => (
-                  <Card key={categoryIndex} className="bg-[var(--ff-surface)] border-[var(--border)]">
+                  <Card
+                    key={categoryIndex}
+                    className="bg-[var(--ff-surface)] border-[var(--border)]"
+                  >
                     <CardHeader>
                       <CardTitle className="text-[var(--ff-text-primary)] flex items-center gap-2">
                         {categoryIndex === 0 && <BookOpen className="w-5 h-5" />}
@@ -1933,7 +1905,12 @@ https://flashfusion.ai/press-kit
                             <span className="text-[var(--ff-text-primary)]">{item}</span>
                             <div className="ml-auto">
                               {Math.random() > 0.3 && (
-                                <Badge variant="default" className="bg-[var(--ff-success)] text-white">Done</Badge>
+                                <Badge
+                                  variant="default"
+                                  className="bg-[var(--ff-success)] text-white"
+                                >
+                                  Done
+                                </Badge>
                               )}
                               {Math.random() > 0.7 && (
                                 <Badge variant="secondary">In Progress</Badge>

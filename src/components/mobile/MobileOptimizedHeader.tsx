@@ -2,7 +2,7 @@
  * @fileoverview Mobile Optimized Header Component
  * @category mobile
  * @version 1.0.0
- * 
+ *
  * Optimized header component specifically designed for mobile devices
  * with better touch targets, simplified navigation, and improved UX.
  */
@@ -10,17 +10,17 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import { 
-  Menu, 
-  X, 
-  Play, 
-  LogIn, 
-  UserPlus, 
+import {
+  Menu,
+  X,
+  Play,
+  LogIn,
+  UserPlus,
   Home,
   Zap,
   Settings,
   HelpCircle,
-  ChevronRight 
+  ChevronRight,
 } from 'lucide-react';
 
 interface MobileOptimizedHeaderProps {
@@ -38,7 +38,7 @@ export const MobileOptimizedHeader: React.FC<MobileOptimizedHeaderProps> = ({
   onSignIn,
   onSignUp,
   currentRoute = 'home',
-  onNavigate
+  onNavigate,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -48,7 +48,7 @@ export const MobileOptimizedHeader: React.FC<MobileOptimizedHeaderProps> = ({
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       // Only hide/show if scrolled more than 10px to avoid jitter
       if (Math.abs(currentScrollY - lastScrollY) > 10) {
         setIsVisible(currentScrollY < lastScrollY || currentScrollY < 100);
@@ -86,7 +86,7 @@ export const MobileOptimizedHeader: React.FC<MobileOptimizedHeaderProps> = ({
     { id: 'home', label: 'Home', icon: <Home className="w-5 h-5" /> },
     { id: 'features', label: 'Features', icon: <Zap className="w-5 h-5" /> },
     { id: 'pricing', label: 'Pricing', icon: <Settings className="w-5 h-5" /> },
-    { id: 'help', label: 'Help & FAQ', icon: <HelpCircle className="w-5 h-5" /> }
+    { id: 'help', label: 'Help & FAQ', icon: <HelpCircle className="w-5 h-5" /> },
   ];
 
   const handleMenuItemClick = (itemId: string) => {
@@ -105,19 +105,18 @@ export const MobileOptimizedHeader: React.FC<MobileOptimizedHeaderProps> = ({
   return (
     <>
       {/* Main Header */}
-      <header 
+      <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isVisible ? 'translate-y-0' : '-translate-y-full'
         } ${
-          isScrolled 
-            ? 'bg-[var(--ff-bg-dark)]/95 backdrop-blur-lg border-b border-white/10' 
+          isScrolled
+            ? 'bg-[var(--ff-bg-dark)]/95 backdrop-blur-lg border-b border-white/10'
             : 'bg-transparent'
         }`}
         style={{ fontFamily: 'var(--ff-font-primary)' }}
       >
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            
             {/* Logo */}
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-br from-[var(--ff-primary)] to-[var(--ff-secondary)] rounded-lg flex items-center justify-center">
@@ -135,7 +134,7 @@ export const MobileOptimizedHeader: React.FC<MobileOptimizedHeaderProps> = ({
 
               {/* Try Demo Button */}
               {onTryDemo && (
-                <Button 
+                <Button
                   onClick={onTryDemo}
                   size="sm"
                   variant="ghost"
@@ -163,17 +162,16 @@ export const MobileOptimizedHeader: React.FC<MobileOptimizedHeaderProps> = ({
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
           onClick={() => setIsMenuOpen(false)}
         >
           {/* Menu Panel */}
-          <div 
+          <div
             className="fixed top-16 left-0 right-0 bg-[var(--ff-bg-dark)] border-b border-white/10 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="max-w-6xl mx-auto">
-              
               {/* Navigation Items */}
               <div className="px-4 py-6">
                 <nav className="space-y-2">
@@ -201,7 +199,7 @@ export const MobileOptimizedHeader: React.FC<MobileOptimizedHeaderProps> = ({
               <div className="px-4 pb-6 space-y-3 border-t border-white/10 pt-6">
                 {/* Try Demo */}
                 {onTryDemo && (
-                  <Button 
+                  <Button
                     onClick={() => {
                       setIsMenuOpen(false);
                       onTryDemo();
@@ -216,7 +214,7 @@ export const MobileOptimizedHeader: React.FC<MobileOptimizedHeaderProps> = ({
 
                 {/* Sign In */}
                 {onSignIn && (
-                  <Button 
+                  <Button
                     onClick={() => {
                       setIsMenuOpen(false);
                       onSignIn();
@@ -231,7 +229,7 @@ export const MobileOptimizedHeader: React.FC<MobileOptimizedHeaderProps> = ({
 
                 {/* Sign Up with Promo */}
                 {onSignUp && (
-                  <Button 
+                  <Button
                     onClick={() => {
                       setIsMenuOpen(false);
                       onSignUp();
@@ -254,7 +252,9 @@ export const MobileOptimizedHeader: React.FC<MobileOptimizedHeaderProps> = ({
               <div className="px-4 pb-4">
                 <div className="bg-gradient-to-r from-[var(--ff-accent)]/20 to-[var(--ff-primary)]/20 border border-[var(--ff-accent)]/30 rounded-lg p-4 text-center">
                   <div className="text-sm text-white mb-1">🎉 Limited Time Offer</div>
-                  <div className="text-lg font-bold text-[var(--ff-accent)]">50% OFF for 4 months</div>
+                  <div className="text-lg font-bold text-[var(--ff-accent)]">
+                    50% OFF for 4 months
+                  </div>
                   <div className="text-xs text-white/70">Limited spots available</div>
                 </div>
               </div>

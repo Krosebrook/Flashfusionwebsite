@@ -4,10 +4,22 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Progress } from '../ui/progress';
-import { 
-  Layers, Users, Zap, Globe, Calendar, Clock, 
-  Plus, MoreHorizontal, Play, Pause, Settings,
-  TrendingUp, AlertCircle, CheckCircle, X
+import {
+  Layers,
+  Users,
+  Zap,
+  Globe,
+  Calendar,
+  Clock,
+  Plus,
+  MoreHorizontal,
+  Play,
+  Pause,
+  Settings,
+  TrendingUp,
+  AlertCircle,
+  CheckCircle,
+  X,
 } from 'lucide-react';
 
 interface CrossAppWorkspaceDashboardProps {
@@ -50,29 +62,29 @@ const mockTeam: TeamMember[] = [
     name: 'Alex Johnson',
     avatar: '',
     role: 'Lead Developer',
-    status: 'online'
+    status: 'online',
   },
   {
     id: '2',
     name: 'Sarah Chen',
     avatar: '',
     role: 'Designer',
-    status: 'online'
+    status: 'online',
   },
   {
     id: '3',
     name: 'Mike Rodriguez',
     avatar: '',
     role: 'Product Manager',
-    status: 'away'
+    status: 'away',
   },
   {
     id: '4',
     name: 'Emma Wilson',
     avatar: '',
     role: 'Developer',
-    status: 'offline'
-  }
+    status: 'offline',
+  },
 ];
 
 const mockProjects: Project[] = [
@@ -86,7 +98,7 @@ const mockProjects: Project[] = [
     lastActivity: new Date(Date.now() - 30 * 60 * 1000),
     tools: ['Full-Stack Builder', 'Payment Gateway', 'Logo Generator'],
     priority: 'high',
-    dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   },
   {
     id: '2',
@@ -97,7 +109,7 @@ const mockProjects: Project[] = [
     team: mockTeam.slice(0, 2),
     lastActivity: new Date(Date.now() - 2 * 60 * 60 * 1000),
     tools: ['Content Generator', 'Database Builder', 'API Generator'],
-    priority: 'medium'
+    priority: 'medium',
   },
   {
     id: '3',
@@ -108,7 +120,7 @@ const mockProjects: Project[] = [
     team: [mockTeam[1], mockTeam[3]],
     lastActivity: new Date(Date.now() - 24 * 60 * 60 * 1000),
     tools: ['Website Builder', 'SEO Optimizer', 'Analytics'],
-    priority: 'low'
+    priority: 'low',
   },
   {
     id: '4',
@@ -119,8 +131,8 @@ const mockProjects: Project[] = [
     team: mockTeam.slice(2, 4),
     lastActivity: new Date(Date.now() - 4 * 60 * 60 * 1000),
     tools: ['Mobile Builder', 'UI Components', 'Design System'],
-    priority: 'medium'
-  }
+    priority: 'medium',
+  },
 ];
 
 const mockActivities: Activity[] = [
@@ -130,7 +142,7 @@ const mockActivities: Activity[] = [
     action: 'deployed',
     target: 'E-commerce Platform v2.1',
     timestamp: new Date(Date.now() - 15 * 60 * 1000),
-    type: 'deploy'
+    type: 'deploy',
   },
   {
     id: '2',
@@ -138,7 +150,7 @@ const mockActivities: Activity[] = [
     action: 'updated design system for',
     target: 'Marketing Landing Page',
     timestamp: new Date(Date.now() - 45 * 60 * 1000),
-    type: 'update'
+    type: 'update',
   },
   {
     id: '3',
@@ -146,7 +158,7 @@ const mockActivities: Activity[] = [
     action: 'created new project',
     target: 'Customer Portal',
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-    type: 'create'
+    type: 'create',
   },
   {
     id: '4',
@@ -154,27 +166,24 @@ const mockActivities: Activity[] = [
     action: 'started collaboration on',
     target: 'API Documentation',
     timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
-    type: 'collaborate'
-  }
+    type: 'collaborate',
+  },
 ];
 
 export function CrossAppWorkspaceDashboard({ onClose }: CrossAppWorkspaceDashboardProps) {
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
 
-  const activeProjects = useMemo(() => 
-    mockProjects.filter(p => p.status === 'active' || p.status === 'planning'), 
+  const activeProjects = useMemo(
+    () => mockProjects.filter((p) => p.status === 'active' || p.status === 'planning'),
     []
   );
 
-  const completedProjects = useMemo(() => 
-    mockProjects.filter(p => p.status === 'completed').length, 
+  const completedProjects = useMemo(
+    () => mockProjects.filter((p) => p.status === 'completed').length,
     []
   );
 
-  const onlineTeamMembers = useMemo(() => 
-    mockTeam.filter(m => m.status === 'online').length, 
-    []
-  );
+  const onlineTeamMembers = useMemo(() => mockTeam.filter((m) => m.status === 'online').length, []);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -360,14 +369,14 @@ export function CrossAppWorkspaceDashboard({ onClose }: CrossAppWorkspaceDashboa
 
             <div className="space-y-4">
               {activeProjects.map((project, index) => (
-                <Card 
-                  key={project.id} 
+                <Card
+                  key={project.id}
                   className={`ff-card-interactive cursor-pointer transition-all duration-200 ${
                     selectedProject === project.id ? 'ring-2 ring-primary/20 bg-primary/5' : ''
                   }`}
-                  onClick={() => setSelectedProject(
-                    selectedProject === project.id ? null : project.id
-                  )}
+                  onClick={() =>
+                    setSelectedProject(selectedProject === project.id ? null : project.id)
+                  }
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <CardContent className="p-6">
@@ -383,9 +392,7 @@ export function CrossAppWorkspaceDashboard({ onClose }: CrossAppWorkspaceDashboa
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <Badge className={getStatusColor(project.status)}>
-                          {project.status}
-                        </Badge>
+                        <Badge className={getStatusColor(project.status)}>{project.status}</Badge>
                         <Badge className={getPriorityColor(project.priority)}>
                           {project.priority}
                         </Badge>
@@ -408,10 +415,16 @@ export function CrossAppWorkspaceDashboard({ onClose }: CrossAppWorkspaceDashboa
                         <div className="flex items-center gap-2">
                           <div className="flex -space-x-2">
                             {project.team.slice(0, 3).map((member) => (
-                              <Avatar key={member.id} className="w-6 h-6 border-2 border-background">
+                              <Avatar
+                                key={member.id}
+                                className="w-6 h-6 border-2 border-background"
+                              >
                                 <AvatarImage src={member.avatar} />
                                 <AvatarFallback className="text-xs">
-                                  {member.name.split(' ').map(n => n[0]).join('')}
+                                  {member.name
+                                    .split(' ')
+                                    .map((n) => n[0])
+                                    .join('')}
                                 </AvatarFallback>
                               </Avatar>
                             ))}
@@ -441,7 +454,7 @@ export function CrossAppWorkspaceDashboard({ onClose }: CrossAppWorkspaceDashboa
                       </div>
 
                       <div className="flex flex-wrap gap-2">
-                        {project.tools.map(tool => (
+                        {project.tools.map((tool) => (
                           <Badge key={tool} variant="outline" className="text-xs">
                             {tool}
                           </Badge>
@@ -471,25 +484,34 @@ export function CrossAppWorkspaceDashboard({ onClose }: CrossAppWorkspaceDashboa
                       <Avatar className="w-8 h-8">
                         <AvatarImage src={member.avatar} />
                         <AvatarFallback className="text-xs">
-                          {member.name.split(' ').map(n => n[0]).join('')}
+                          {member.name
+                            .split(' ')
+                            .map((n) => n[0])
+                            .join('')}
                         </AvatarFallback>
                       </Avatar>
-                      <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background ${
-                        member.status === 'online' ? 'bg-success' :
-                        member.status === 'away' ? 'bg-warning' :
-                        'bg-muted-foreground'
-                      }`} />
+                      <div
+                        className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background ${
+                          member.status === 'online'
+                            ? 'bg-success'
+                            : member.status === 'away'
+                              ? 'bg-warning'
+                              : 'bg-muted-foreground'
+                        }`}
+                      />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">{member.name}</p>
                       <p className="text-xs text-muted-foreground truncate">{member.role}</p>
                     </div>
-                    <Badge 
-                      variant="outline" 
+                    <Badge
+                      variant="outline"
                       className={`text-xs ${
-                        member.status === 'online' ? 'border-success/20 text-success' :
-                        member.status === 'away' ? 'border-warning/20 text-warning' :
-                        'border-muted text-muted-foreground'
+                        member.status === 'online'
+                          ? 'border-success/20 text-success'
+                          : member.status === 'away'
+                            ? 'border-warning/20 text-warning'
+                            : 'border-muted text-muted-foreground'
                       }`}
                     >
                       {member.status}
@@ -510,15 +532,11 @@ export function CrossAppWorkspaceDashboard({ onClose }: CrossAppWorkspaceDashboa
               <CardContent className="space-y-4">
                 {mockActivities.map((activity) => (
                   <div key={activity.id} className="flex items-start gap-3">
-                    <div className="text-lg mt-0.5">
-                      {getActivityIcon(activity.type)}
-                    </div>
+                    <div className="text-lg mt-0.5">{getActivityIcon(activity.type)}</div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm">
-                        <span className="font-medium">{activity.user}</span>
-                        {' '}
-                        <span className="text-muted-foreground">{activity.action}</span>
-                        {' '}
+                        <span className="font-medium">{activity.user}</span>{' '}
+                        <span className="text-muted-foreground">{activity.action}</span>{' '}
                         <span className="font-medium">{activity.target}</span>
                       </p>
                       <p className="text-xs text-muted-foreground">

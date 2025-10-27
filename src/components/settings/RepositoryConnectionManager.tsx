@@ -8,7 +8,18 @@ import { Switch } from '../ui/switch';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Alert, AlertDescription } from '../ui/alert';
-import { Loader2, Github, GitBranch, Lock, Unlock, CheckCircle, XCircle, RefreshCw, Link, Unlink } from 'lucide-react';
+import {
+  Loader2,
+  Github,
+  GitBranch,
+  Lock,
+  Unlock,
+  CheckCircle,
+  XCircle,
+  RefreshCw,
+  Link,
+  Unlink,
+} from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import { AIService, type RepositoryInfo } from '../../services/AIService';
 
@@ -32,7 +43,7 @@ export function RepositoryConnectionManager() {
     branch: 'main',
     accessToken: '',
     provider: 'github' as 'github' | 'gitlab' | 'bitbucket',
-    isPrivate: false
+    isPrivate: false,
   });
   const [selectedRepo, setSelectedRepo] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -72,8 +83,9 @@ export function RepositoryConnectionManager() {
 
     try {
       // Extract repository name from URL
-      const repoName = newRepoForm.url.split('/').pop()?.replace('.git', '') || 'Unknown Repository';
-      
+      const repoName =
+        newRepoForm.url.split('/').pop()?.replace('.git', '') || 'Unknown Repository';
+
       const newRepo: ConnectedRepository = {
         id: `repo_${Date.now()}`,
         name: repoName,
@@ -83,7 +95,7 @@ export function RepositoryConnectionManager() {
         provider: newRepoForm.provider,
         isPrivate: newRepoForm.isPrivate,
         status: 'connected',
-        lastAnalyzed: new Date().toISOString()
+        lastAnalyzed: new Date().toISOString(),
       };
 
       // Test connection by analyzing the repository
@@ -96,7 +108,7 @@ export function RepositoryConnectionManager() {
       newRepo.analysisResult = {
         technologies: analysisResult.technologies,
         summary: analysisResult.codebase_summary,
-        recommendations: analysisResult.recommendations
+        recommendations: analysisResult.recommendations,
       };
 
       const updatedRepos = [...repositories, newRepo];
@@ -108,20 +120,22 @@ export function RepositoryConnectionManager() {
         branch: 'main',
         accessToken: '',
         provider: 'github',
-        isPrivate: false
+        isPrivate: false,
       });
 
       toast.success(`Successfully connected ${repoName}`);
     } catch (error) {
       console.error('Failed to connect repository:', error);
-      toast.error(`Failed to connect repository: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      toast.error(
+        `Failed to connect repository: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       setIsConnecting(false);
     }
   };
 
   const handleDisconnectRepository = (repoId: string) => {
-    const updatedRepos = repositories.filter(repo => repo.id !== repoId);
+    const updatedRepos = repositories.filter((repo) => repo.id !== repoId);
     saveRepositories(updatedRepos);
     toast.success('Repository disconnected');
   };
@@ -136,8 +150,8 @@ export function RepositoryConnectionManager() {
         repo.accessToken || undefined
       );
 
-      const updatedRepos = repositories.map(r => 
-        r.id === repo.id 
+      const updatedRepos = repositories.map((r) =>
+        r.id === repo.id
           ? {
               ...r,
               status: 'connected' as const,
@@ -145,8 +159,8 @@ export function RepositoryConnectionManager() {
               analysisResult: {
                 technologies: analysisResult.technologies,
                 summary: analysisResult.codebase_summary,
-                recommendations: analysisResult.recommendations
-              }
+                recommendations: analysisResult.recommendations,
+              },
             }
           : r
       );
@@ -155,12 +169,12 @@ export function RepositoryConnectionManager() {
       toast.success('Repository re-analyzed successfully');
     } catch (error) {
       console.error('Failed to reanalyze repository:', error);
-      
-      const updatedRepos = repositories.map(r => 
+
+      const updatedRepos = repositories.map((r) =>
         r.id === repo.id ? { ...r, status: 'error' as const } : r
       );
       saveRepositories(updatedRepos);
-      
+
       toast.error('Failed to reanalyze repository');
     } finally {
       setIsAnalyzing(false);
@@ -225,14 +239,13 @@ export function RepositoryConnectionManager() {
                   <Github className="h-8 w-8 text-ff-text-muted" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-ff-text-primary mb-2">No repositories connected</h3>
+                  <h3 className="font-semibold text-ff-text-primary mb-2">
+                    No repositories connected
+                  </h3>
                   <p className="text-ff-text-muted mb-4">
                     Connect your first repository to enable AI-powered code analysis
                   </p>
-                  <Button 
-                    onClick={() => setSelectedRepo('connect')}
-                    className="ff-btn-primary"
-                  >
+                  <Button onClick={() => setSelectedRepo('connect')} className="ff-btn-primary">
                     Connect Repository
                   </Button>
                 </div>
@@ -262,7 +275,7 @@ export function RepositoryConnectionManager() {
                       </div>
                     </div>
                   </CardHeader>
-                  
+
                   <CardContent className="space-y-4">
                     <div className="flex items-center justify-between text-sm">
                       <div className="flex items-center space-x-4">
@@ -277,8 +290,8 @@ export function RepositoryConnectionManager() {
                         )}
                       </div>
                       <div className="flex space-x-2">
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="outline"
                           onClick={() => handleReanalyzeRepository(repo)}
                           disabled={isAnalyzing}
@@ -291,8 +304,8 @@ export function RepositoryConnectionManager() {
                           )}
                           Re-analyze
                         </Button>
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="destructive"
                           onClick={() => handleDisconnectRepository(repo.id)}
                           className="ff-hover-scale"
@@ -348,17 +361,19 @@ export function RepositoryConnectionManager() {
             <CardHeader>
               <CardTitle className="ff-text-gradient">Connect New Repository</CardTitle>
               <p className="text-ff-text-secondary">
-                Add a repository to enable AI-powered code analysis and generation with full codebase context.
+                Add a repository to enable AI-powered code analysis and generation with full
+                codebase context.
               </p>
             </CardHeader>
-            
+
             <CardContent className="space-y-6">
               <Alert>
                 <Github className="h-4 w-4" />
                 <AlertDescription>
                   <strong>Supported platforms:</strong> GitHub, GitLab (more coming soon)
                   <br />
-                  <strong>Privacy:</strong> Repository access tokens are stored locally and never sent to our servers.
+                  <strong>Privacy:</strong> Repository access tokens are stored locally and never
+                  sent to our servers.
                 </AlertDescription>
               </Alert>
 
@@ -369,7 +384,7 @@ export function RepositoryConnectionManager() {
                     id="repo-url"
                     placeholder="https://github.com/username/repository"
                     value={newRepoForm.url}
-                    onChange={(e) => setNewRepoForm(prev => ({ ...prev, url: e.target.value }))}
+                    onChange={(e) => setNewRepoForm((prev) => ({ ...prev, url: e.target.value }))}
                     className="ff-focus-ring"
                   />
                 </div>
@@ -377,10 +392,10 @@ export function RepositoryConnectionManager() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="provider">Platform</Label>
-                    <Select 
-                      value={newRepoForm.provider} 
-                      onValueChange={(value: 'github' | 'gitlab' | 'bitbucket') => 
-                        setNewRepoForm(prev => ({ ...prev, provider: value }))
+                    <Select
+                      value={newRepoForm.provider}
+                      onValueChange={(value: 'github' | 'gitlab' | 'bitbucket') =>
+                        setNewRepoForm((prev) => ({ ...prev, provider: value }))
                       }
                     >
                       <SelectTrigger className="ff-focus-ring">
@@ -409,7 +424,9 @@ export function RepositoryConnectionManager() {
                       id="branch"
                       placeholder="main"
                       value={newRepoForm.branch}
-                      onChange={(e) => setNewRepoForm(prev => ({ ...prev, branch: e.target.value }))}
+                      onChange={(e) =>
+                        setNewRepoForm((prev) => ({ ...prev, branch: e.target.value }))
+                      }
                       className="ff-focus-ring"
                     />
                   </div>
@@ -419,10 +436,16 @@ export function RepositoryConnectionManager() {
                   <Switch
                     id="private-repo"
                     checked={newRepoForm.isPrivate}
-                    onCheckedChange={(checked) => setNewRepoForm(prev => ({ ...prev, isPrivate: checked }))}
+                    onCheckedChange={(checked) =>
+                      setNewRepoForm((prev) => ({ ...prev, isPrivate: checked }))
+                    }
                   />
                   <Label htmlFor="private-repo" className="flex items-center gap-2">
-                    {newRepoForm.isPrivate ? <Lock className="h-4 w-4" /> : <Unlock className="h-4 w-4" />}
+                    {newRepoForm.isPrivate ? (
+                      <Lock className="h-4 w-4" />
+                    ) : (
+                      <Unlock className="h-4 w-4" />
+                    )}
                     Private Repository
                   </Label>
                 </div>
@@ -435,7 +458,9 @@ export function RepositoryConnectionManager() {
                       type="password"
                       placeholder="Enter your personal access token"
                       value={newRepoForm.accessToken}
-                      onChange={(e) => setNewRepoForm(prev => ({ ...prev, accessToken: e.target.value }))}
+                      onChange={(e) =>
+                        setNewRepoForm((prev) => ({ ...prev, accessToken: e.target.value }))
+                      }
                       className="ff-focus-ring"
                     />
                     <p className="text-xs text-ff-text-muted mt-1">
@@ -444,8 +469,8 @@ export function RepositoryConnectionManager() {
                   </div>
                 )}
 
-                <Button 
-                  onClick={handleConnectRepository} 
+                <Button
+                  onClick={handleConnectRepository}
                   disabled={isConnecting || !newRepoForm.url}
                   className="ff-btn-primary w-full"
                 >

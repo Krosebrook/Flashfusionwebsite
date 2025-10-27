@@ -13,9 +13,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  BookOpen, Lightbulb, TrendingUp, Users, Award, 
-  BarChart3, Download, Share2, History, Settings
+import {
+  BookOpen,
+  Lightbulb,
+  TrendingUp,
+  Users,
+  Award,
+  BarChart3,
+  Download,
+  Share2,
+  History,
+  Settings,
 } from 'lucide-react';
 
 interface EducationPageProps {
@@ -40,60 +48,60 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
     totalUsers: 1250,
     popularTools: [
       'Differentiated Lesson Plans',
-      'AI Slide Deck Creator', 
+      'AI Slide Deck Creator',
       'Quiz & Test Generator',
-      'Study Path Generator'
+      'Study Path Generator',
     ],
     recentActivity: [
       { action: 'Generated lesson plan', tool: 'Lesson Planning', time: '2 hours ago' },
       { action: 'Created assessment', tool: 'Quiz Generator', time: '4 hours ago' },
       { action: 'Built study guide', tool: 'Study Materials', time: '6 hours ago' },
-    ]
+    ],
   };
 
   return (
-    <div 
+    <div
       className="min-h-screen"
       style={{
         backgroundColor: 'var(--ff-bg-dark)',
-        fontFamily: 'var(--ff-font-secondary)'
+        fontFamily: 'var(--ff-font-secondary)',
       }}
     >
       {/* Navigation Header */}
-      <div 
+      <div
         className="border-b p-6"
         style={{
           borderColor: 'rgba(255, 255, 255, 0.1)',
-          backgroundColor: 'var(--ff-surface)'
+          backgroundColor: 'var(--ff-surface)',
         }}
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
-              <div 
+              <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center"
                 style={{
-                  background: 'linear-gradient(135deg, var(--ff-primary), var(--ff-secondary))'
+                  background: 'linear-gradient(135deg, var(--ff-primary), var(--ff-secondary))',
                 }}
               >
                 <BookOpen className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 
+                <h1
                   style={{
                     fontFamily: 'var(--ff-font-primary)',
                     fontSize: 'var(--ff-text-2xl)',
                     fontWeight: 'var(--ff-weight-bold)',
                     color: 'var(--ff-text-primary)',
-                    lineHeight: 'var(--ff-leading-tight)'
+                    lineHeight: 'var(--ff-leading-tight)',
                   }}
                 >
                   Educational AI Studio
                 </h1>
-                <p 
+                <p
                   style={{
                     fontSize: 'var(--ff-text-sm)',
-                    color: 'var(--ff-text-secondary)'
+                    color: 'var(--ff-text-secondary)',
                   }}
                 >
                   Comprehensive AI-powered educational content creation platform
@@ -104,60 +112,60 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
             {/* Quick Stats */}
             <div className="hidden lg:flex items-center gap-6">
               <div className="text-center">
-                <div 
+                <div
                   style={{
                     fontSize: 'var(--ff-text-xl)',
                     fontWeight: 'var(--ff-weight-bold)',
                     color: 'var(--ff-primary)',
-                    fontFamily: 'var(--ff-font-primary)'
+                    fontFamily: 'var(--ff-font-primary)',
                   }}
                 >
                   {mockAnalyticsData.totalContent}
                 </div>
-                <div 
+                <div
                   style={{
                     fontSize: 'var(--ff-text-xs)',
-                    color: 'var(--ff-text-muted)'
+                    color: 'var(--ff-text-muted)',
                   }}
                 >
                   Content Created
                 </div>
               </div>
               <div className="text-center">
-                <div 
+                <div
                   style={{
                     fontSize: 'var(--ff-text-xl)',
                     fontWeight: 'var(--ff-weight-bold)',
                     color: 'var(--ff-secondary)',
-                    fontFamily: 'var(--ff-font-primary)'
+                    fontFamily: 'var(--ff-font-primary)',
                   }}
                 >
                   65+
                 </div>
-                <div 
+                <div
                   style={{
                     fontSize: 'var(--ff-text-xs)',
-                    color: 'var(--ff-text-muted)'
+                    color: 'var(--ff-text-muted)',
                   }}
                 >
                   AI Tools
                 </div>
               </div>
               <div className="text-center">
-                <div 
+                <div
                   style={{
                     fontSize: 'var(--ff-text-xl)',
                     fontWeight: 'var(--ff-weight-bold)',
                     color: 'var(--ff-accent)',
-                    fontFamily: 'var(--ff-font-primary)'
+                    fontFamily: 'var(--ff-font-primary)',
                   }}
                 >
                   24/7
                 </div>
-                <div 
+                <div
                   style={{
                     fontSize: 'var(--ff-text-xs)',
-                    color: 'var(--ff-text-muted)'
+                    color: 'var(--ff-text-muted)',
                   }}
                 >
                   Available
@@ -168,16 +176,16 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
 
           {/* Navigation Tabs */}
           <Tabs value={activeView} onValueChange={setActiveView} className="w-full">
-            <TabsList 
+            <TabsList
               className="grid w-full grid-cols-3 max-w-md"
               style={{
                 background: 'var(--ff-bg-dark)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: 'var(--ff-radius-lg)',
-                padding: 'var(--ff-space-1)'
+                padding: 'var(--ff-space-1)',
               }}
             >
-              <TabsTrigger 
+              <TabsTrigger
                 value="studio"
                 className="flex items-center gap-2"
                 style={{
@@ -185,14 +193,15 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
                   fontSize: 'var(--ff-text-sm)',
                   fontWeight: 'var(--ff-weight-semibold)',
                   color: activeView === 'studio' ? 'var(--ff-primary)' : 'var(--ff-text-muted)',
-                  backgroundColor: activeView === 'studio' ? 'rgba(255, 123, 0, 0.1)' : 'transparent',
-                  borderRadius: 'var(--ff-radius)'
+                  backgroundColor:
+                    activeView === 'studio' ? 'rgba(255, 123, 0, 0.1)' : 'transparent',
+                  borderRadius: 'var(--ff-radius)',
                 }}
               >
                 <Lightbulb className="w-4 h-4" />
                 Studio
               </TabsTrigger>
-              <TabsTrigger 
+              <TabsTrigger
                 value="tools"
                 className="flex items-center gap-2"
                 style={{
@@ -200,14 +209,15 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
                   fontSize: 'var(--ff-text-sm)',
                   fontWeight: 'var(--ff-weight-semibold)',
                   color: activeView === 'tools' ? 'var(--ff-primary)' : 'var(--ff-text-muted)',
-                  backgroundColor: activeView === 'tools' ? 'rgba(255, 123, 0, 0.1)' : 'transparent',
-                  borderRadius: 'var(--ff-radius)'
+                  backgroundColor:
+                    activeView === 'tools' ? 'rgba(255, 123, 0, 0.1)' : 'transparent',
+                  borderRadius: 'var(--ff-radius)',
                 }}
               >
                 <BookOpen className="w-4 h-4" />
                 Tools
               </TabsTrigger>
-              <TabsTrigger 
+              <TabsTrigger
                 value="analytics"
                 className="flex items-center gap-2"
                 style={{
@@ -215,8 +225,9 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
                   fontSize: 'var(--ff-text-sm)',
                   fontWeight: 'var(--ff-weight-semibold)',
                   color: activeView === 'analytics' ? 'var(--ff-primary)' : 'var(--ff-text-muted)',
-                  backgroundColor: activeView === 'analytics' ? 'rgba(255, 123, 0, 0.1)' : 'transparent',
-                  borderRadius: 'var(--ff-radius)'
+                  backgroundColor:
+                    activeView === 'analytics' ? 'rgba(255, 123, 0, 0.1)' : 'transparent',
+                  borderRadius: 'var(--ff-radius)',
                 }}
               >
                 <BarChart3 className="w-4 h-4" />
@@ -245,25 +256,26 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
             <div className="max-w-7xl mx-auto">
               {/* Analytics Header */}
               <div className="text-center space-y-4 mb-8">
-                <h2 
+                <h2
                   style={{
                     fontFamily: 'var(--ff-font-primary)',
                     fontSize: 'var(--ff-text-3xl)',
                     fontWeight: 'var(--ff-weight-bold)',
-                    color: 'var(--ff-text-primary)'
+                    color: 'var(--ff-text-primary)',
                   }}
                 >
                   Educational Content Analytics
                 </h2>
-                <p 
+                <p
                   style={{
                     fontSize: 'var(--ff-text-lg)',
                     color: 'var(--ff-text-secondary)',
                     maxWidth: '600px',
-                    margin: '0 auto'
+                    margin: '0 auto',
                   }}
                 >
-                  Track your content creation progress, popular tools, and educational impact metrics.
+                  Track your content creation progress, popular tools, and educational impact
+                  metrics.
                 </p>
               </div>
 
@@ -275,77 +287,77 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
                     value: mockAnalyticsData.totalContent,
                     change: '+12%',
                     icon: BookOpen,
-                    color: 'var(--ff-primary)'
+                    color: 'var(--ff-primary)',
                   },
                   {
                     title: 'Active Users',
                     value: mockAnalyticsData.totalUsers,
                     change: '+8%',
                     icon: Users,
-                    color: 'var(--ff-secondary)'
+                    color: 'var(--ff-secondary)',
                   },
                   {
                     title: 'Success Rate',
                     value: '94%',
                     change: '+2%',
                     icon: Award,
-                    color: 'var(--ff-success)'
+                    color: 'var(--ff-success)',
                   },
                   {
                     title: 'Avg. Rating',
                     value: '4.8',
                     change: '+0.1',
                     icon: TrendingUp,
-                    color: 'var(--ff-accent)'
-                  }
+                    color: 'var(--ff-accent)',
+                  },
                 ].map((metric, index) => (
-                  <Card 
+                  <Card
                     key={index}
                     className="ff-card-interactive text-center"
                     style={{
                       background: 'var(--ff-gradient-surface)',
                       border: '1px solid rgba(255, 255, 255, 0.1)',
-                      borderRadius: 'var(--ff-radius-lg)'
+                      borderRadius: 'var(--ff-radius-lg)',
                     }}
                   >
                     <CardContent className="p-6">
-                      <div 
+                      <div
                         className="w-12 h-12 mx-auto mb-4 rounded-xl flex items-center justify-center"
                         style={{
-                          background: `linear-gradient(135deg, ${metric.color}, ${metric.color}99)`
+                          background: `linear-gradient(135deg, ${metric.color}, ${metric.color}99)`,
                         }}
                       >
                         <metric.icon className="w-6 h-6 text-white" />
                       </div>
-                      
-                      <div 
+
+                      <div
                         style={{
                           fontSize: 'var(--ff-text-3xl)',
                           fontWeight: 'var(--ff-weight-bold)',
                           color: 'var(--ff-text-primary)',
                           fontFamily: 'var(--ff-font-primary)',
-                          marginBottom: 'var(--ff-space-1)'
+                          marginBottom: 'var(--ff-space-1)',
                         }}
                       >
                         {metric.value}
                       </div>
-                      
-                      <div 
+
+                      <div
                         style={{
                           fontSize: 'var(--ff-text-sm)',
                           color: 'var(--ff-text-secondary)',
-                          marginBottom: 'var(--ff-space-2)'
+                          marginBottom: 'var(--ff-space-2)',
                         }}
                       >
                         {metric.title}
                       </div>
-                      
-                      <Badge 
+
+                      <Badge
                         style={{
                           backgroundColor: 'rgba(16, 185, 129, 0.1)',
                           color: 'var(--ff-success)',
                           border: '1px solid rgba(16, 185, 129, 0.2)',
-                          fontSize: 'var(--ff-text-xs)'
+                          fontSize: 'var(--ff-text-xs)',
                         }}
                       >
                         {metric.change} this month
@@ -358,21 +370,21 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
               {/* Popular Tools and Recent Activity */}
               <div className="grid lg:grid-cols-2 gap-8">
                 {/* Popular Tools */}
-                <Card 
+                <Card
                   style={{
                     background: 'var(--ff-gradient-surface)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: 'var(--ff-radius-lg)'
+                    borderRadius: 'var(--ff-radius-lg)',
                   }}
                 >
                   <CardHeader>
-                    <CardTitle 
+                    <CardTitle
                       className="flex items-center gap-3"
                       style={{
                         fontFamily: 'var(--ff-font-primary)',
                         fontSize: 'var(--ff-text-xl)',
                         fontWeight: 'var(--ff-weight-semibold)',
-                        color: 'var(--ff-text-primary)'
+                        color: 'var(--ff-text-primary)',
                       }}
                     >
                       <TrendingUp style={{ color: 'var(--ff-primary)' }} className="w-5 h-5" />
@@ -381,16 +393,16 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {mockAnalyticsData.popularTools.map((tool, index) => (
-                      <div 
+                      <div
                         key={index}
                         className="flex items-center justify-between p-3 rounded-lg"
                         style={{
                           background: 'rgba(255, 255, 255, 0.02)',
-                          border: '1px solid rgba(255, 255, 255, 0.05)'
+                          border: '1px solid rgba(255, 255, 255, 0.05)',
                         }}
                       >
                         <div className="flex items-center gap-3">
-                          <div 
+                          <div
                             style={{
                               width: '24px',
                               height: '24px',
@@ -401,45 +413,45 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
                               justifyContent: 'center',
                               fontSize: 'var(--ff-text-xs)',
                               fontWeight: 'var(--ff-weight-bold)',
-                              color: 'white'
+                              color: 'white',
                             }}
                           >
                             {index + 1}
                           </div>
-                          <span 
+                          <span
                             style={{
                               fontSize: 'var(--ff-text-sm)',
                               color: 'var(--ff-text-primary)',
-                              fontWeight: 'var(--ff-weight-medium)'
+                              fontWeight: 'var(--ff-weight-medium)',
                             }}
                           >
                             {tool}
                           </span>
                         </div>
-                        
+
                         <div className="flex items-center gap-2">
-                          <div 
+                          <div
                             style={{
                               width: '60px',
                               height: '4px',
                               borderRadius: '2px',
-                              backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                              backgroundColor: 'rgba(255, 255, 255, 0.1)',
                             }}
                           >
-                            <div 
+                            <div
                               style={{
                                 width: `${90 - index * 15}%`,
                                 height: '100%',
                                 borderRadius: '2px',
-                                backgroundColor: 'var(--ff-primary)'
+                                backgroundColor: 'var(--ff-primary)',
                               }}
                             />
                           </div>
-                          <span 
+                          <span
                             style={{
                               fontSize: 'var(--ff-text-xs)',
                               color: 'var(--ff-text-muted)',
-                              minWidth: '30px'
+                              minWidth: '30px',
                             }}
                           >
                             {90 - index * 15}%
@@ -451,21 +463,21 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
                 </Card>
 
                 {/* Recent Activity */}
-                <Card 
+                <Card
                   style={{
                     background: 'var(--ff-gradient-surface)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: 'var(--ff-radius-lg)'
+                    borderRadius: 'var(--ff-radius-lg)',
                   }}
                 >
                   <CardHeader>
-                    <CardTitle 
+                    <CardTitle
                       className="flex items-center gap-3"
                       style={{
                         fontFamily: 'var(--ff-font-primary)',
                         fontSize: 'var(--ff-text-xl)',
                         fontWeight: 'var(--ff-weight-semibold)',
-                        color: 'var(--ff-text-primary)'
+                        color: 'var(--ff-text-primary)',
                       }}
                     >
                       <History style={{ color: 'var(--ff-secondary)' }} className="w-5 h-5" />
@@ -474,49 +486,50 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {mockAnalyticsData.recentActivity.map((activity, index) => (
-                      <div 
+                      <div
                         key={index}
                         className="flex items-start gap-3 p-3 rounded-lg"
                         style={{
                           background: 'rgba(255, 255, 255, 0.02)',
-                          border: '1px solid rgba(255, 255, 255, 0.05)'
+                          border: '1px solid rgba(255, 255, 255, 0.05)',
                         }}
                       >
-                        <div 
+                        <div
                           className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
                           style={{
-                            background: 'linear-gradient(135deg, var(--ff-secondary), var(--ff-accent))'
+                            background:
+                              'linear-gradient(135deg, var(--ff-secondary), var(--ff-accent))',
                           }}
                         >
                           <BookOpen className="w-4 h-4 text-white" />
                         </div>
-                        
+
                         <div className="flex-1">
-                          <div 
+                          <div
                             style={{
                               fontSize: 'var(--ff-text-sm)',
                               color: 'var(--ff-text-primary)',
                               fontWeight: 'var(--ff-weight-medium)',
-                              marginBottom: 'var(--ff-space-1)'
+                              marginBottom: 'var(--ff-space-1)',
                             }}
                           >
                             {activity.action}
                           </div>
                           <div className="flex items-center gap-2">
-                            <Badge 
+                            <Badge
                               style={{
                                 backgroundColor: 'rgba(0, 180, 216, 0.1)',
                                 color: 'var(--ff-secondary)',
                                 border: '1px solid rgba(0, 180, 216, 0.2)',
-                                fontSize: 'var(--ff-text-xs)'
+                                fontSize: 'var(--ff-text-xs)',
                               }}
                             >
                               {activity.tool}
                             </Badge>
-                            <span 
+                            <span
                               style={{
                                 fontSize: 'var(--ff-text-xs)',
-                                color: 'var(--ff-text-muted)'
+                                color: 'var(--ff-text-muted)',
                               }}
                             >
                               {activity.time}
@@ -541,13 +554,13 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
                     fontWeight: 'var(--ff-weight-semibold)',
                     padding: 'var(--ff-space-3) var(--ff-space-6)',
                     borderRadius: 'var(--ff-radius-lg)',
-                    border: 'none'
+                    border: 'none',
                   }}
                 >
                   <Download className="w-4 h-4 mr-2" />
                   Export Report
                 </Button>
-                
+
                 <Button
                   variant="outline"
                   style={{
@@ -558,7 +571,7 @@ function EducationPage({ initialView = 'studio' }: EducationPageProps) {
                     fontSize: 'var(--ff-text-base)',
                     fontWeight: 'var(--ff-weight-semibold)',
                     padding: 'var(--ff-space-3) var(--ff-space-6)',
-                    borderRadius: 'var(--ff-radius-lg)'
+                    borderRadius: 'var(--ff-radius-lg)',
                   }}
                 >
                   <Share2 className="w-4 h-4 mr-2" />

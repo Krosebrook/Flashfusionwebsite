@@ -7,17 +7,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Progress } from '../ui/progress';
-import { 
-  GitBranch, 
-  Play, 
-  CheckCircle, 
-  XCircle, 
+import {
+  GitBranch,
+  Play,
+  CheckCircle,
+  XCircle,
   Clock,
   ExternalLink,
   Settings,
   Monitor,
   Rocket,
-  AlertTriangle
+  AlertTriangle,
 } from 'lucide-react';
 import { projectId, publicAnonKey } from '../../utils/supabase/info';
 
@@ -52,13 +52,13 @@ function CICDPipelineIntegration() {
     { value: 'digitalocean', label: 'DigitalOcean', icon: '🌊' },
     { value: 'railway', label: 'Railway', icon: '🚂' },
     { value: 'render', label: 'Render', icon: '🎨' },
-    { value: 'firebase', label: 'Firebase', icon: '🔥' }
+    { value: 'firebase', label: 'Firebase', icon: '🔥' },
   ];
 
   const mockProjects = [
     { id: '1', name: 'My React App', framework: 'react' },
     { id: '2', name: 'Next.js Store', framework: 'nextjs' },
-    { id: '3', name: 'Vue Dashboard', framework: 'vue' }
+    { id: '3', name: 'Vue Dashboard', framework: 'vue' },
   ];
 
   const handleDeploy = async () => {
@@ -72,23 +72,26 @@ function CICDPipelineIntegration() {
 
     try {
       const accessToken = localStorage.getItem('ff-auth-token');
-      
-      const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-88829a40/cicd/deploy`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken || publicAnonKey}`
-        },
-        body: JSON.stringify({
-          projectId: selectedProject,
-          platform: selectedPlatform,
-          config: {
-            buildCommand: 'npm run build',
-            outputDirectory: 'dist',
-            nodeVersion: '18.x'
-          }
-        })
-      });
+
+      const response = await fetch(
+        `https://${projectId}.supabase.co/functions/v1/make-server-88829a40/cicd/deploy`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken || publicAnonKey}`,
+          },
+          body: JSON.stringify({
+            projectId: selectedProject,
+            platform: selectedPlatform,
+            config: {
+              buildCommand: 'npm run build',
+              outputDirectory: 'dist',
+              nodeVersion: '18.x',
+            },
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -96,10 +99,9 @@ function CICDPipelineIntegration() {
       }
 
       const { deploymentId } = await response.json();
-      
+
       // Start polling for deployment status
       startPollingDeployment(deploymentId);
-      
     } catch (error) {
       console.error('Deployment error:', error);
       setError(error instanceof Error ? error.message : 'Failed to start deployment');
@@ -110,19 +112,22 @@ function CICDPipelineIntegration() {
   const startPollingDeployment = (deploymentId: string) => {
     const pollInterval = setInterval(async () => {
       try {
-        const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-88829a40/cicd/deployments/${deploymentId}`, {
-          headers: {
-            'Authorization': `Bearer ${publicAnonKey}`
+        const response = await fetch(
+          `https://${projectId}.supabase.co/functions/v1/make-server-88829a40/cicd/deployments/${deploymentId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${publicAnonKey}`,
+            },
           }
-        });
+        );
 
         if (response.ok) {
           const { deployment } = await response.json();
-          
-          setDeployments(prev => {
-            const existing = prev.find(d => d.id === deploymentId);
+
+          setDeployments((prev) => {
+            const existing = prev.find((d) => d.id === deploymentId);
             if (existing) {
-              return prev.map(d => d.id === deploymentId ? deployment : d);
+              return prev.map((d) => (d.id === deploymentId ? deployment : d));
             } else {
               return [deployment, ...prev];
             }
@@ -256,7 +261,7 @@ function CICDPipelineIntegration() {
                   </div>
                 )}
 
-                <Button 
+                <Button
                   onClick={handleDeploy}
                   disabled={isDeploying || !selectedProject || !selectedPlatform}
                   className="w-full ff-btn-primary"
@@ -287,7 +292,7 @@ function CICDPipelineIntegration() {
               <CardContent>
                 <div className="grid gap-4">
                   {platforms.slice(0, 4).map((platform) => (
-                    <div 
+                    <div
                       key={platform.value}
                       className={`p-4 border rounded-lg cursor-pointer transition-all ${
                         selectedPlatform === platform.value
@@ -301,17 +306,27 @@ function CICDPipelineIntegration() {
                         <div>
                           <h4 className="font-semibold">{platform.label}</h4>
                           <p className="text-sm text-muted-foreground">
-                            {platform.value === 'vercel' && 'Edge functions, automatic SSL, global CDN'}
-                            {platform.value === 'netlify' && 'Form handling, split testing, edge functions'}
-                            {platform.value === 'heroku' && 'Add-ons, buildpacks, horizontal scaling'}
-                            {platform.value === 'aws' && 'Full AWS integration, auto-scaling, CloudFront'}
+                            {platform.value === 'vercel' &&
+                              'Edge functions, automatic SSL, global CDN'}
+                            {platform.value === 'netlify' &&
+                              'Form handling, split testing, edge functions'}
+                            {platform.value === 'heroku' &&
+                              'Add-ons, buildpacks, horizontal scaling'}
+                            {platform.value === 'aws' &&
+                              'Full AWS integration, auto-scaling, CloudFront'}
                           </p>
                         </div>
                       </div>
                       <div className="flex gap-1">
-                        <Badge variant="outline" className="text-xs">Auto Deploy</Badge>
-                        <Badge variant="outline" className="text-xs">SSL</Badge>
-                        <Badge variant="outline" className="text-xs">CDN</Badge>
+                        <Badge variant="outline" className="text-xs">
+                          Auto Deploy
+                        </Badge>
+                        <Badge variant="outline" className="text-xs">
+                          SSL
+                        </Badge>
+                        <Badge variant="outline" className="text-xs">
+                          CDN
+                        </Badge>
                       </div>
                     </div>
                   ))}
@@ -328,7 +343,9 @@ function CICDPipelineIntegration() {
                 <CardContent className="text-center py-12">
                   <GitBranch className="h-12 w-12 mx-auto mb-4 opacity-50" />
                   <p className="text-muted-foreground">No deployments yet</p>
-                  <p className="text-sm text-muted-foreground">Deploy your first application to get started</p>
+                  <p className="text-sm text-muted-foreground">
+                    Deploy your first application to get started
+                  </p>
                 </CardContent>
               </Card>
             ) : (
@@ -340,7 +357,8 @@ function CICDPipelineIntegration() {
                         {getStatusIcon(deployment.status)}
                         <div>
                           <h3 className="font-semibold">
-                            {mockProjects.find(p => p.id === deployment.projectId)?.name || 'Unknown Project'}
+                            {mockProjects.find((p) => p.id === deployment.projectId)?.name ||
+                              'Unknown Project'}
                           </h3>
                           <p className="text-sm text-muted-foreground">
                             Deploying to {deployment.platform}
@@ -356,9 +374,13 @@ function CICDPipelineIntegration() {
                       <div className="space-y-2 mb-4">
                         <div className="flex justify-between text-sm">
                           <span>Progress</span>
-                          <span>{deployment.currentStep + 1} of {deployment.steps.length}</span>
+                          <span>
+                            {deployment.currentStep + 1} of {deployment.steps.length}
+                          </span>
                         </div>
-                        <Progress value={(deployment.currentStep + 1) / deployment.steps.length * 100} />
+                        <Progress
+                          value={((deployment.currentStep + 1) / deployment.steps.length) * 100}
+                        />
                         <p className="text-sm text-muted-foreground">
                           {deployment.steps[deployment.currentStep]}
                         </p>
@@ -368,9 +390,7 @@ function CICDPipelineIntegration() {
                     {deployment.status === 'completed' && deployment.url && (
                       <div className="flex items-center gap-2 mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
                         <CheckCircle className="h-5 w-5 text-green-600" />
-                        <span className="text-sm text-green-800">
-                          Deployment successful! 
-                        </span>
+                        <span className="text-sm text-green-800">Deployment successful!</span>
                         <Button size="sm" variant="outline" className="ml-auto">
                           <ExternalLink className="h-4 w-4 mr-2" />
                           View Site
@@ -387,11 +407,15 @@ function CICDPipelineIntegration() {
                               <span className="text-gray-500">
                                 {new Date(log.timestamp).toLocaleTimeString()}
                               </span>
-                              <span className={
-                                log.level === 'error' ? 'text-red-400' :
-                                log.level === 'warning' ? 'text-yellow-400' :
-                                'text-green-400'
-                              }>
+                              <span
+                                className={
+                                  log.level === 'error'
+                                    ? 'text-red-400'
+                                    : log.level === 'warning'
+                                      ? 'text-yellow-400'
+                                      : 'text-green-400'
+                                }
+                              >
                                 {log.message}
                               </span>
                             </div>
@@ -411,7 +435,7 @@ function CICDPipelineIntegration() {
             {[
               { name: 'Frontend Pipeline', status: 'active', builds: 24, success: 95 },
               { name: 'API Pipeline', status: 'active', builds: 18, success: 100 },
-              { name: 'Mobile Pipeline', status: 'paused', builds: 8, success: 87 }
+              { name: 'Mobile Pipeline', status: 'paused', builds: 8, success: 87 },
             ].map((pipeline) => (
               <Card key={pipeline.name} className="ff-card-interactive">
                 <CardContent className="p-6">
@@ -454,7 +478,7 @@ function CICDPipelineIntegration() {
               { label: 'Uptime', value: '99.9%', status: 'good' },
               { label: 'Response Time', value: '245ms', status: 'good' },
               { label: 'Error Rate', value: '0.1%', status: 'good' },
-              { label: 'Deployments', value: '12', status: 'warning' }
+              { label: 'Deployments', value: '12', status: 'warning' },
             ].map((metric) => (
               <Card key={metric.label}>
                 <CardContent className="p-6">

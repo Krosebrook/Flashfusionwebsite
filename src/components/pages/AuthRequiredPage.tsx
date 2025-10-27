@@ -25,7 +25,8 @@ export default function AuthRequiredPage({ onPageChange }: AuthRequiredPageProps
             </div>
             <h1 className="text-3xl font-bold ff-text-gradient">Authentication Required</h1>
             <p className="text-muted-foreground max-w-md mx-auto">
-              Please sign in or create an account to access FlashFusion's powerful AI tools and features.
+              Please sign in or create an account to access FlashFusion's powerful AI tools and
+              features.
             </p>
           </div>
 
@@ -35,9 +36,7 @@ export default function AuthRequiredPage({ onPageChange }: AuthRequiredPageProps
               <CardHeader className="text-center">
                 <LogIn className="w-8 h-8 text-primary mx-auto mb-2" />
                 <CardTitle>Sign In</CardTitle>
-                <CardDescription>
-                  Already have an account? Sign in to continue.
-                </CardDescription>
+                <CardDescription>Already have an account? Sign in to continue.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Button className="w-full ff-btn-primary">
@@ -110,26 +109,15 @@ export default function AuthRequiredPage({ onPageChange }: AuthRequiredPageProps
 
           {/* Alternative Actions */}
           <div className="text-center space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Want to explore first?
-            </p>
+            <p className="text-sm text-muted-foreground">Want to explore first?</p>
             <div className="flex justify-center space-x-4">
-              <Button 
-                variant="ghost" 
-                onClick={() => onPageChange('demo')}
-              >
+              <Button variant="ghost" onClick={() => onPageChange('demo')}>
                 View Demo
               </Button>
-              <Button 
-                variant="ghost" 
-                onClick={() => onPageChange('features')}
-              >
+              <Button variant="ghost" onClick={() => onPageChange('features')}>
                 See Features
               </Button>
-              <Button 
-                variant="ghost" 
-                onClick={() => onPageChange('pricing')}
-              >
+              <Button variant="ghost" onClick={() => onPageChange('pricing')}>
                 View Pricing
               </Button>
             </div>

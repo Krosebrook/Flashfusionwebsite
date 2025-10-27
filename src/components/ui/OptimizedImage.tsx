@@ -1,13 +1,13 @@
 /**
  * Optimized Image Component
- * 
+ *
  * Features:
  * - WebP/AVIF with fallbacks
  * - Lazy loading
  * - Responsive sizes
  * - Blur placeholders
  * - Performance optimized
- * 
+ *
  * Follows FlashFusion Guidelines for image handling
  */
 
@@ -41,18 +41,18 @@ function generateOptimizedUrls(src: string, quality: number = 85) {
     url.searchParams.set('fm', 'webp');
     url.searchParams.set('q', quality.toString());
     url.searchParams.set('auto', 'format');
-    
+
     return {
       webp: url.toString(),
       avif: url.toString().replace('fm=webp', 'fm=avif'),
       original: src,
     };
   }
-  
+
   // For local images, assume optimized versions exist
   const extension = src.split('.').pop();
   const basePath = src.replace(`.${extension}`, '');
-  
+
   return {
     webp: `${basePath}.webp`,
     avif: `${basePath}.avif`,
@@ -65,19 +65,19 @@ function generateOptimizedUrls(src: string, quality: number = 85) {
  */
 function generateSrcSet(src: string, width?: number): string {
   if (!width) return '';
-  
+
   const sizes = [0.5, 0.75, 1, 1.5, 2];
-  
+
   return sizes
     .map((multiplier) => {
       const scaledWidth = Math.round(width * multiplier);
-      
+
       if (src.includes('unsplash.com')) {
         const url = new URL(src);
         url.searchParams.set('w', scaledWidth.toString());
         return `${url.toString()} ${scaledWidth}w`;
       }
-      
+
       return `${src}?w=${scaledWidth} ${scaledWidth}w`;
     })
     .join(', ');
@@ -111,32 +111,33 @@ export function OptimizedImage({
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
-  
+
   // Determine loading strategy
   const loading = loadingProp || (priority ? 'eager' : 'lazy');
-  
+
   // Generate optimized URLs
   const urls = generateOptimizedUrls(src, quality);
-  
+
   // Generate srcSet for responsive images
   const srcSet = width ? generateSrcSet(src, width) : undefined;
-  
+
   // Generate blur placeholder
-  const blurPlaceholder = blurDataURL || (placeholder === 'blur' ? generateBlurPlaceholder(src) : undefined);
-  
+  const blurPlaceholder =
+    blurDataURL || (placeholder === 'blur' ? generateBlurPlaceholder(src) : undefined);
+
   // Intersection Observer for lazy loading (fallback for older browsers)
   useEffect(() => {
     if (loading === 'eager' || !imgRef.current) return;
-    
+
     const img = imgRef.current;
-    
+
     // Check if IntersectionObserver is supported
     if (!('IntersectionObserver' in window)) {
       // Fallback: load immediately
       setIsLoaded(true);
       return;
     }
-    
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -150,52 +151,40 @@ export function OptimizedImage({
         rootMargin: '50px', // Start loading 50px before visible
       }
     );
-    
+
     observer.observe(img);
-    
+
     return () => {
       observer.disconnect();
     };
   }, [loading]);
-  
+
   // Handle image load
   const handleLoad = () => {
     setIsLoaded(true);
     setHasError(false);
     onLoad?.();
   };
-  
+
   // Handle image error
   const handleError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     setHasError(true);
     onError?.(new Error(`Failed to load image: ${src}`));
   };
-  
+
   // Accessibility: Ensure alt text is provided
   if (!alt && process.env.NODE_ENV === 'development') {
     console.warn(`OptimizedImage: Missing alt text for image: ${src}`);
   }
-  
+
   return (
     <picture className={`ff-optimized-image ${className}`}>
       {/* AVIF format (best compression, modern browsers) */}
-      {urls.avif && (
-        <source
-          type="image/avif"
-          srcSet={urls.avif}
-          sizes={sizes}
-        />
-      )}
-      
+      {urls.avif && <source type="image/avif" srcSet={urls.avif} sizes={sizes} />}
+
       {/* WebP format (good compression, wide support) */}
-      {urls.webp && (
-        <source
-          type="image/webp"
-          srcSet={urls.webp}
-          sizes={sizes}
-        />
-      )}
-      
+      {urls.webp && <source type="image/webp" srcSet={urls.webp} sizes={sizes} />}
+
       {/* Fallback to original format */}
       <img
         ref={imgRef}
@@ -221,7 +210,7 @@ export function OptimizedImage({
           height: height ? `${height}px` : undefined,
         }}
       />
-      
+
       {/* Blur placeholder (shown while loading) */}
       {!isLoaded && blurPlaceholder && !hasError && (
         <img
@@ -239,7 +228,7 @@ export function OptimizedImage({
           }}
         />
       )}
-      
+
       {/* Error fallback */}
       {hasError && (
         <div
@@ -292,13 +281,13 @@ export function OptimizedBackgroundImage({
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const urls = generateOptimizedUrls(src, quality);
-  
+
   useEffect(() => {
     const img = new Image();
     img.src = urls.webp || urls.original;
     img.onload = () => setIsLoaded(true);
   }, [urls]);
-  
+
   return (
     <div
       className={`ff-optimized-bg-image ${className} transition-opacity duration-300 ${
@@ -337,7 +326,7 @@ export function preloadImages(urls: string[]): Promise<void[]> {
 
 /**
  * Usage Examples:
- * 
+ *
  * // Basic usage
  * <OptimizedImage
  *   src="/hero-image.jpg"
@@ -345,7 +334,7 @@ export function preloadImages(urls: string[]): Promise<void[]> {
  *   width={1200}
  *   height={600}
  * />
- * 
+ *
  * // Priority image (above fold)
  * <OptimizedImage
  *   src="/hero.jpg"
@@ -354,7 +343,7 @@ export function preloadImages(urls: string[]): Promise<void[]> {
  *   width={1920}
  *   height={1080}
  * />
- * 
+ *
  * // Responsive image
  * <OptimizedImage
  *   src="/product.jpg"
@@ -363,7 +352,7 @@ export function preloadImages(urls: string[]): Promise<void[]> {
  *   height={600}
  *   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
  * />
- * 
+ *
  * // With custom blur placeholder
  * <OptimizedImage
  *   src="/photo.jpg"
@@ -372,7 +361,7 @@ export function preloadImages(urls: string[]): Promise<void[]> {
  *   height={300}
  *   blurDataURL="data:image/jpeg;base64,..."
  * />
- * 
+ *
  * // Background image
  * <OptimizedBackgroundImage
  *   src="/background.jpg"

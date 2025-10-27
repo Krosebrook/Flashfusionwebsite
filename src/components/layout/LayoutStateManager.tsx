@@ -29,16 +29,13 @@ interface LayoutStateManagerProps {
  * Layout state manager that provides centralized state management
  * for all layout-related concerns in FlashFusion
  */
-export function LayoutStateManager({ 
-  children, 
-  initialPage = 'home' 
-}: LayoutStateManagerProps) {
+export function LayoutStateManager({ children, initialPage = 'home' }: LayoutStateManagerProps) {
   const [currentPage, setCurrentPage] = useState<PageType>(initialPage);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showWizard, setShowWizard] = useState(false);
   const [selectedTool, setSelectedTool] = useState<string>('');
 
-  const toggleSidebar = () => setSidebarOpen(prev => !prev);
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
 
   const contextValue: LayoutContextValue = {
     // State
@@ -54,11 +51,7 @@ export function LayoutStateManager({
     toggleSidebar,
   };
 
-  return (
-    <LayoutContext.Provider value={contextValue}>
-      {children}
-    </LayoutContext.Provider>
-  );
+  return <LayoutContext.Provider value={contextValue}>{children}</LayoutContext.Provider>;
 }
 
 /**

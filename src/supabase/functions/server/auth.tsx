@@ -4,7 +4,7 @@
  * @category api
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Real authentication endpoints using Supabase Auth with email verification
  */
 
@@ -16,11 +16,14 @@ import { createClient } from 'npm:@supabase/supabase-js';
 const auth = new Hono();
 
 // CORS and logging
-auth.use('*', cors({
-  origin: '*',
-  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'Authorization'],
-}));
+auth.use(
+  '*',
+  cors({
+    origin: '*',
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 auth.use('*', logger(console.log));
 
 // Initialize Supabase client
@@ -39,27 +42,36 @@ auth.post('/make-server-88829a40/auth/signup', async (c) => {
 
     // Validate required fields
     if (!email || !password || !name) {
-      return c.json({ 
-        success: false, 
-        message: 'Name, email, and password are required' 
-      }, 400);
+      return c.json(
+        {
+          success: false,
+          message: 'Name, email, and password are required',
+        },
+        400
+      );
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return c.json({ 
-        success: false, 
-        message: 'Please enter a valid email address' 
-      }, 400);
+      return c.json(
+        {
+          success: false,
+          message: 'Please enter a valid email address',
+        },
+        400
+      );
     }
 
     // Validate password strength
     if (password.length < 8) {
-      return c.json({ 
-        success: false, 
-        message: 'Password must be at least 8 characters long' 
-      }, 400);
+      return c.json(
+        {
+          success: false,
+          message: 'Password must be at least 8 characters long',
+        },
+        400
+      );
     }
 
     console.log('🔐 Creating user account for:', email);
@@ -68,43 +80,47 @@ auth.post('/make-server-88829a40/auth/signup', async (c) => {
     const { data, error } = await supabase.auth.admin.createUser({
       email,
       password,
-      user_metadata: { 
+      user_metadata: {
         name,
         created_via: 'flashfusion_signup',
-        signup_timestamp: new Date().toISOString()
+        signup_timestamp: new Date().toISOString(),
       },
       // Automatically confirm email for development - set to false in production
-      email_confirm: false // Set to false to require email verification
+      email_confirm: false, // Set to false to require email verification
     });
 
     if (error) {
       console.error('❌ Signup error:', error);
-      return c.json({ 
-        success: false, 
-        message: error.message || 'Failed to create account' 
-      }, 400);
+      return c.json(
+        {
+          success: false,
+          message: error.message || 'Failed to create account',
+        },
+        400
+      );
     }
 
     if (!data.user) {
-      return c.json({ 
-        success: false, 
-        message: 'Failed to create user account' 
-      }, 500);
+      return c.json(
+        {
+          success: false,
+          message: 'Failed to create user account',
+        },
+        500
+      );
     }
 
     console.log('✅ User created successfully:', data.user.id);
 
     // Store additional user profile data in database
-    const { error: profileError } = await supabase
-      .from('user_profiles')
-      .insert({
-        id: data.user.id,
-        email: data.user.email,
-        name,
-        created_at: new Date().toISOString(),
-        subscription_tier: 'free',
-        onboarding_completed: false
-      });
+    const { error: profileError } = await supabase.from('user_profiles').insert({
+      id: data.user.id,
+      email: data.user.email,
+      name,
+      created_at: new Date().toISOString(),
+      subscription_tier: 'free',
+      onboarding_completed: false,
+    });
 
     if (profileError) {
       console.warn('⚠️ Profile creation warning:', profileError.message);
@@ -118,16 +134,18 @@ auth.post('/make-server-88829a40/auth/signup', async (c) => {
         id: data.user.id,
         email: data.user.email,
         name,
-        email_confirmed: data.user.email_confirmed_at !== null
-      }
+        email_confirmed: data.user.email_confirmed_at !== null,
+      },
     });
-
   } catch (error) {
     console.error('❌ Signup endpoint error:', error);
-    return c.json({ 
-      success: false, 
-      message: 'Internal server error during signup' 
-    }, 500);
+    return c.json(
+      {
+        success: false,
+        message: 'Internal server error during signup',
+      },
+      500
+    );
   }
 });
 
@@ -141,10 +159,13 @@ auth.post('/make-server-88829a40/auth/login', async (c) => {
 
     // Validate required fields
     if (!email || !password) {
-      return c.json({ 
-        success: false, 
-        message: 'Email and password are required' 
-      }, 400);
+      return c.json(
+        {
+          success: false,
+          message: 'Email and password are required',
+        },
+        400
+      );
     }
 
     console.log('🔐 Login attempt for:', email);
@@ -152,30 +173,40 @@ auth.post('/make-server-88829a40/auth/login', async (c) => {
     // Authenticate with Supabase
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
-      password
+      password,
     });
 
     if (error) {
       console.error('❌ Login error:', error);
-      return c.json({ 
-        success: false, 
-        message: error.message || 'Invalid email or password' 
-      }, 401);
+      return c.json(
+        {
+          success: false,
+          message: error.message || 'Invalid email or password',
+        },
+        401
+      );
     }
 
     if (!data.user) {
-      return c.json({ 
-        success: false, 
-        message: 'Authentication failed' 
-      }, 401);
+      return c.json(
+        {
+          success: false,
+          message: 'Authentication failed',
+        },
+        401
+      );
     }
 
     // Check if email is verified
     if (!data.user.email_confirmed_at) {
-      return c.json({ 
-        success: false, 
-        message: 'Please verify your email address before signing in. Check your inbox for a verification link.' 
-      }, 403);
+      return c.json(
+        {
+          success: false,
+          message:
+            'Please verify your email address before signing in. Check your inbox for a verification link.',
+        },
+        403
+      );
     }
 
     // Get user profile
@@ -197,17 +228,19 @@ auth.post('/make-server-88829a40/auth/login', async (c) => {
         avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.user.email}`,
         role: profile?.role || 'user',
         subscription: profile?.subscription_tier || 'free',
-        onboarding_completed: profile?.onboarding_completed || false
+        onboarding_completed: profile?.onboarding_completed || false,
       },
-      token: data.session?.access_token || ''
+      token: data.session?.access_token || '',
     });
-
   } catch (error) {
     console.error('❌ Login endpoint error:', error);
-    return c.json({ 
-      success: false, 
-      message: 'Internal server error during login' 
-    }, 500);
+    return c.json(
+      {
+        success: false,
+        message: 'Internal server error during login',
+      },
+      500
+    );
   }
 });
 
@@ -220,40 +253,48 @@ auth.post('/make-server-88829a40/auth/forgot-password', async (c) => {
     const { email } = await c.req.json();
 
     if (!email) {
-      return c.json({ 
-        success: false, 
-        message: 'Email address is required' 
-      }, 400);
+      return c.json(
+        {
+          success: false,
+          message: 'Email address is required',
+        },
+        400
+      );
     }
 
     console.log('🔑 Password reset request for:', email);
 
     // Send password reset email
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${Deno.env.get('SITE_URL') || 'http://localhost:3000'}/reset-password`
+      redirectTo: `${Deno.env.get('SITE_URL') || 'http://localhost:3000'}/reset-password`,
     });
 
     if (error) {
       console.error('❌ Password reset error:', error);
-      return c.json({ 
-        success: false, 
-        message: error.message || 'Failed to send reset email' 
-      }, 400);
+      return c.json(
+        {
+          success: false,
+          message: error.message || 'Failed to send reset email',
+        },
+        400
+      );
     }
 
     console.log('✅ Password reset email sent to:', email);
 
     return c.json({
       success: true,
-      message: 'Password reset email sent! Please check your inbox and follow the instructions.'
+      message: 'Password reset email sent! Please check your inbox and follow the instructions.',
     });
-
   } catch (error) {
     console.error('❌ Password reset endpoint error:', error);
-    return c.json({ 
-      success: false, 
-      message: 'Internal server error during password reset' 
-    }, 500);
+    return c.json(
+      {
+        success: false,
+        message: 'Internal server error during password reset',
+      },
+      500
+    );
   }
 });
 
@@ -266,10 +307,13 @@ auth.post('/make-server-88829a40/auth/resend-verification', async (c) => {
     const { email } = await c.req.json();
 
     if (!email) {
-      return c.json({ 
-        success: false, 
-        message: 'Email address is required' 
-      }, 400);
+      return c.json(
+        {
+          success: false,
+          message: 'Email address is required',
+        },
+        400
+      );
     }
 
     console.log('📧 Resending verification email to:', email);
@@ -279,31 +323,36 @@ auth.post('/make-server-88829a40/auth/resend-verification', async (c) => {
       type: 'signup',
       email,
       options: {
-        emailRedirectTo: `${Deno.env.get('SITE_URL') || 'http://localhost:3000'}/verify-email`
-      }
+        emailRedirectTo: `${Deno.env.get('SITE_URL') || 'http://localhost:3000'}/verify-email`,
+      },
     });
 
     if (error) {
       console.error('❌ Resend verification error:', error);
-      return c.json({ 
-        success: false, 
-        message: error.message || 'Failed to resend verification email' 
-      }, 400);
+      return c.json(
+        {
+          success: false,
+          message: error.message || 'Failed to resend verification email',
+        },
+        400
+      );
     }
 
     console.log('✅ Verification email resent to:', email);
 
     return c.json({
       success: true,
-      message: 'Verification email resent! Please check your inbox.'
+      message: 'Verification email resent! Please check your inbox.',
     });
-
   } catch (error) {
     console.error('❌ Resend verification endpoint error:', error);
-    return c.json({ 
-      success: false, 
-      message: 'Internal server error during email resend' 
-    }, 500);
+    return c.json(
+      {
+        success: false,
+        message: 'Internal server error during email resend',
+      },
+      500
+    );
   }
 });
 
@@ -316,7 +365,7 @@ auth.get('/make-server-88829a40/auth/health', (c) => {
     status: 'healthy',
     service: 'FlashFusion Auth API',
     timestamp: new Date().toISOString(),
-    version: '1.0.0'
+    version: '1.0.0',
   });
 });
 

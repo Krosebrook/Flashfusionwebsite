@@ -25,9 +25,9 @@ export async function analyzeGitHubRepository(repoUrl: string, accessToken?: str
     // Get repository information
     const repoResponse = await fetch(`https://api.github.com/repos/${owner}/${cleanRepo}`, {
       headers: {
-        'Authorization': `Bearer ${githubToken}`,
-        'Accept': 'application/vnd.github.v3+json'
-      }
+        Authorization: `Bearer ${githubToken}`,
+        Accept: 'application/vnd.github.v3+json',
+      },
     });
 
     if (!repoResponse.ok) {
@@ -37,22 +37,28 @@ export async function analyzeGitHubRepository(repoUrl: string, accessToken?: str
     const repoData = await repoResponse.json();
 
     // Get repository contents
-    const contentsResponse = await fetch(`https://api.github.com/repos/${owner}/${cleanRepo}/contents`, {
-      headers: {
-        'Authorization': `Bearer ${githubToken}`,
-        'Accept': 'application/vnd.github.v3+json'
+    const contentsResponse = await fetch(
+      `https://api.github.com/repos/${owner}/${cleanRepo}/contents`,
+      {
+        headers: {
+          Authorization: `Bearer ${githubToken}`,
+          Accept: 'application/vnd.github.v3+json',
+        },
       }
-    });
+    );
 
     const contents = contentsResponse.ok ? await contentsResponse.json() : [];
 
     // Get file structure
-    const treeResponse = await fetch(`https://api.github.com/repos/${owner}/${cleanRepo}/git/trees/${repoData.default_branch}?recursive=1`, {
-      headers: {
-        'Authorization': `Bearer ${githubToken}`,
-        'Accept': 'application/vnd.github.v3+json'
+    const treeResponse = await fetch(
+      `https://api.github.com/repos/${owner}/${cleanRepo}/git/trees/${repoData.default_branch}?recursive=1`,
+      {
+        headers: {
+          Authorization: `Bearer ${githubToken}`,
+          Accept: 'application/vnd.github.v3+json',
+        },
       }
-    });
+    );
 
     const fileStructure = treeResponse.ok ? await treeResponse.json() : { tree: [] };
 
@@ -60,12 +66,15 @@ export async function analyzeGitHubRepository(repoUrl: string, accessToken?: str
     const technologies = await analyzeRepositoryTechnologies(contents, fileStructure.tree);
 
     // Get recent commits
-    const commitsResponse = await fetch(`https://api.github.com/repos/${owner}/${cleanRepo}/commits?per_page=10`, {
-      headers: {
-        'Authorization': `Bearer ${githubToken}`,
-        'Accept': 'application/vnd.github.v3+json'
+    const commitsResponse = await fetch(
+      `https://api.github.com/repos/${owner}/${cleanRepo}/commits?per_page=10`,
+      {
+        headers: {
+          Authorization: `Bearer ${githubToken}`,
+          Accept: 'application/vnd.github.v3+json',
+        },
       }
-    });
+    );
 
     const commits = commitsResponse.ok ? await commitsResponse.json() : [];
 
@@ -81,10 +90,9 @@ export async function analyzeGitHubRepository(repoUrl: string, accessToken?: str
         packageManager: detectPackageManager(contents),
         hasDocumentation: hasDocumentation(contents),
         testSetup: detectTestSetup(technologies),
-        cicdSetup: detectCICD(contents)
-      }
+        cicdSetup: detectCICD(contents),
+      },
     };
-
   } catch (error) {
     console.error('GitHub repository analysis error:', error);
     throw error;
@@ -102,8 +110,8 @@ export async function deployToVercel(projectData: any, accessToken?: string) {
     const deploymentResponse = await fetch('https://api.vercel.com/v13/deployments', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${vercelToken}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${vercelToken}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name: projectData.name,
@@ -112,10 +120,10 @@ export async function deployToVercel(projectData: any, accessToken?: string) {
           framework: projectData.framework,
           buildCommand: projectData.buildCommand,
           outputDirectory: projectData.outputDirectory,
-          installCommand: projectData.installCommand
+          installCommand: projectData.installCommand,
         },
-        target: 'production'
-      })
+        target: 'production',
+      }),
     });
 
     if (!deploymentResponse.ok) {
@@ -131,19 +139,22 @@ export async function deployToVercel(projectData: any, accessToken?: string) {
     const maxAttempts = 60; // 5 minutes max wait
 
     while (status === 'BUILDING' && attempts < maxAttempts) {
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      
-      const statusResponse = await fetch(`https://api.vercel.com/v13/deployments/${deployment.id}`, {
-        headers: {
-          'Authorization': `Bearer ${vercelToken}`
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+
+      const statusResponse = await fetch(
+        `https://api.vercel.com/v13/deployments/${deployment.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${vercelToken}`,
+          },
         }
-      });
+      );
 
       if (statusResponse.ok) {
         const statusData = await statusResponse.json();
         status = statusData.readyState;
       }
-      
+
       attempts++;
     }
 
@@ -151,9 +162,8 @@ export async function deployToVercel(projectData: any, accessToken?: string) {
       ...deployment,
       status,
       url: `https://${deployment.url}`,
-      readyState: status
+      readyState: status,
     };
-
   } catch (error) {
     console.error('Vercel deployment error:', error);
     throw error;
@@ -172,16 +182,16 @@ export async function deployToNetlify(projectData: any, accessToken?: string) {
     const siteResponse = await fetch('https://api.netlify.com/api/v1/sites', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${netlifyToken}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${netlifyToken}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name: projectData.name,
         build_settings: {
           cmd: projectData.buildCommand || 'npm run build',
-          dir: projectData.outputDirectory || 'dist'
-        }
-      })
+          dir: projectData.outputDirectory || 'dist',
+        },
+      }),
     });
 
     if (!siteResponse.ok) {
@@ -194,10 +204,10 @@ export async function deployToNetlify(projectData: any, accessToken?: string) {
     const deployResponse = await fetch(`https://api.netlify.com/api/v1/sites/${site.id}/deploys`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${netlifyToken}`,
-        'Content-Type': 'application/zip'
+        Authorization: `Bearer ${netlifyToken}`,
+        'Content-Type': 'application/zip',
       },
-      body: await createDeploymentZip(projectData.files)
+      body: await createDeploymentZip(projectData.files),
     });
 
     if (!deployResponse.ok) {
@@ -210,9 +220,8 @@ export async function deployToNetlify(projectData: any, accessToken?: string) {
       site,
       deploy,
       url: `https://${site.default_domain || site.name}.netlify.app`,
-      status: deploy.state
+      status: deploy.state,
     };
-
   } catch (error) {
     console.error('Netlify deployment error:', error);
     throw error;
@@ -220,7 +229,11 @@ export async function deployToNetlify(projectData: any, accessToken?: string) {
 }
 
 // Stripe payment processing
-export async function createPaymentIntent(amount: number, currency: string = 'usd', metadata: any = {}) {
+export async function createPaymentIntent(
+  amount: number,
+  currency: string = 'usd',
+  metadata: any = {}
+) {
   const stripeKey = Deno.env.get('stripe_secret_api_key');
   if (!stripeKey) {
     throw new Error('Stripe secret key not available');
@@ -230,8 +243,8 @@ export async function createPaymentIntent(amount: number, currency: string = 'us
     const response = await fetch('https://api.stripe.com/v1/payment_intents', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${stripeKey}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
+        Authorization: `Bearer ${stripeKey}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({
         amount: amount.toString(),
@@ -240,8 +253,8 @@ export async function createPaymentIntent(amount: number, currency: string = 'us
         'metadata[platform]': 'flashfusion',
         ...Object.fromEntries(
           Object.entries(metadata).map(([key, value]) => [`metadata[${key}]`, String(value)])
-        )
-      })
+        ),
+      }),
     });
 
     if (!response.ok) {
@@ -256,7 +269,11 @@ export async function createPaymentIntent(amount: number, currency: string = 'us
 }
 
 // OpenAI integration
-export async function generateWithOpenAI(prompt: string, model: string = 'gpt-4-turbo', systemPrompt?: string) {
+export async function generateWithOpenAI(
+  prompt: string,
+  model: string = 'gpt-4-turbo',
+  systemPrompt?: string
+) {
   const openaiKey = Deno.env.get('Openai_api_key');
   if (!openaiKey) {
     throw new Error('OpenAI API key not available');
@@ -266,18 +283,18 @@ export async function generateWithOpenAI(prompt: string, model: string = 'gpt-4-
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${openaiKey}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${openaiKey}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model,
         messages: [
           ...(systemPrompt ? [{ role: 'system', content: systemPrompt }] : []),
-          { role: 'user', content: prompt }
+          { role: 'user', content: prompt },
         ],
         max_tokens: 4000,
-        temperature: 0.1
-      })
+        temperature: 0.1,
+      }),
     });
 
     if (!response.ok) {
@@ -293,7 +310,11 @@ export async function generateWithOpenAI(prompt: string, model: string = 'gpt-4-
 }
 
 // Anthropic Claude integration
-export async function generateWithClaude(prompt: string, model: string = 'claude-3-5-sonnet-20241022', systemPrompt?: string) {
+export async function generateWithClaude(
+  prompt: string,
+  model: string = 'claude-3-5-sonnet-20241022',
+  systemPrompt?: string
+) {
   const anthropicKey = Deno.env.get('Anthropic');
   if (!anthropicKey) {
     throw new Error('Anthropic API key not available');
@@ -305,17 +326,15 @@ export async function generateWithClaude(prompt: string, model: string = 'claude
       headers: {
         'x-api-key': anthropicKey,
         'Content-Type': 'application/json',
-        'anthropic-version': '2023-06-01'
+        'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
         model,
         max_tokens: 4000,
         temperature: 0.1,
         system: systemPrompt || '',
-        messages: [
-          { role: 'user', content: prompt }
-        ]
-      })
+        messages: [{ role: 'user', content: prompt }],
+      }),
     });
 
     if (!response.ok) {
@@ -338,23 +357,30 @@ export async function generateWithGemini(prompt: string, systemPrompt?: string) 
   }
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${geminiKey}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: (systemPrompt ? `${systemPrompt}\n\n` : '') + prompt
-          }]
-        }],
-        generationConfig: {
-          temperature: 0.1,
-          maxOutputTokens: 4000
-        }
-      })
-    });
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${geminiKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: (systemPrompt ? `${systemPrompt}\n\n` : '') + prompt,
+                },
+              ],
+            },
+          ],
+          generationConfig: {
+            temperature: 0.1,
+            maxOutputTokens: 4000,
+          },
+        }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Gemini API error: ${response.statusText}`);
@@ -376,29 +402,32 @@ export async function generateImageWithLeap(prompt: string, style?: string) {
   }
 
   try {
-    const response = await fetch('https://api.tryleap.ai/api/v1/images/models/26a1a203-3a46-42cb-8cfa-f4de075907d8/inferences', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${leapKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        prompt: `${prompt}${style ? ` in ${style} style` : ''}`,
-        steps: 50,
-        width: 1024,
-        height: 1024,
-        numberOfImages: 1,
-        promptStrength: 7,
-        seed: Math.floor(Math.random() * 1000000)
-      })
-    });
+    const response = await fetch(
+      'https://api.tryleap.ai/api/v1/images/models/26a1a203-3a46-42cb-8cfa-f4de075907d8/inferences',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${leapKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: `${prompt}${style ? ` in ${style} style` : ''}`,
+          steps: 50,
+          width: 1024,
+          height: 1024,
+          numberOfImages: 1,
+          promptStrength: 7,
+          seed: Math.floor(Math.random() * 1000000),
+        }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Leap AI error: ${response.statusText}`);
     }
 
     const data = await response.json();
-    
+
     // Poll for completion
     const inferenceId = data.id;
     let status = 'processing';
@@ -406,23 +435,26 @@ export async function generateImageWithLeap(prompt: string, style?: string) {
     const maxAttempts = 30;
 
     while (status === 'processing' && attempts < maxAttempts) {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const statusResponse = await fetch(`https://api.tryleap.ai/api/v1/images/models/26a1a203-3a46-42cb-8cfa-f4de075907d8/inferences/${inferenceId}`, {
-        headers: {
-          'Authorization': `Bearer ${leapKey}`
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      const statusResponse = await fetch(
+        `https://api.tryleap.ai/api/v1/images/models/26a1a203-3a46-42cb-8cfa-f4de075907d8/inferences/${inferenceId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${leapKey}`,
+          },
         }
-      });
+      );
 
       if (statusResponse.ok) {
         const statusData = await statusResponse.json();
         status = statusData.state;
-        
+
         if (status === 'finished') {
           return statusData.images[0]?.uri || null;
         }
       }
-      
+
       attempts++;
     }
 
@@ -434,7 +466,10 @@ export async function generateImageWithLeap(prompt: string, style?: string) {
 }
 
 // ElevenLabs voice synthesis
-export async function generateVoiceWithElevenLabs(text: string, voiceId: string = 'EXAVITQu4vr4xnSDxMaL') {
+export async function generateVoiceWithElevenLabs(
+  text: string,
+  voiceId: string = 'EXAVITQu4vr4xnSDxMaL'
+) {
   const elevenlabsKey = Deno.env.get('Elevellabs_api_key');
   if (!elevenlabsKey) {
     throw new Error('ElevenLabs API key not available');
@@ -444,18 +479,18 @@ export async function generateVoiceWithElevenLabs(text: string, voiceId: string 
     const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
       method: 'POST',
       headers: {
-        'Accept': 'audio/mpeg',
+        Accept: 'audio/mpeg',
         'Content-Type': 'application/json',
-        'xi-api-key': elevenlabsKey
+        'xi-api-key': elevenlabsKey,
       },
       body: JSON.stringify({
         text,
         model_id: 'eleven_monolingual_v1',
         voice_settings: {
           stability: 0.5,
-          similarity_boost: 0.5
-        }
-      })
+          similarity_boost: 0.5,
+        },
+      }),
     });
 
     if (!response.ok) {
@@ -473,11 +508,11 @@ export async function generateVoiceWithElevenLabs(text: string, voiceId: string 
 // Helper functions
 function analyzeRepositoryTechnologies(contents: any[], fileStructure: any[]): string[] {
   const technologies: string[] = [];
-  const filenames = contents.map(item => item.name?.toLowerCase() || '');
-  const allFiles = fileStructure.map(item => item.path?.toLowerCase() || '');
+  const filenames = contents.map((item) => item.name?.toLowerCase() || '');
+  const allFiles = fileStructure.map((item) => item.path?.toLowerCase() || '');
 
   // Detect technologies based on files
-  if (filenames.includes('package.json') || allFiles.some(f => f.includes('package.json'))) {
+  if (filenames.includes('package.json') || allFiles.some((f) => f.includes('package.json'))) {
     technologies.push('Node.js');
   }
   if (filenames.includes('yarn.lock')) technologies.push('Yarn');
@@ -513,7 +548,7 @@ function detectBuildTool(technologies: string[]): string {
 }
 
 function detectPackageManager(contents: any[]): string {
-  const filenames = contents.map(item => item.name?.toLowerCase() || '');
+  const filenames = contents.map((item) => item.name?.toLowerCase() || '');
   if (filenames.includes('pnpm-lock.yaml')) return 'pnpm';
   if (filenames.includes('yarn.lock')) return 'yarn';
   if (filenames.includes('package-lock.json')) return 'npm';
@@ -521,7 +556,7 @@ function detectPackageManager(contents: any[]): string {
 }
 
 function hasDocumentation(contents: any[]): boolean {
-  const filenames = contents.map(item => item.name?.toLowerCase() || '');
+  const filenames = contents.map((item) => item.name?.toLowerCase() || '');
   return filenames.includes('readme.md') || filenames.includes('docs');
 }
 
@@ -531,8 +566,12 @@ function detectTestSetup(technologies: string[]): string {
 }
 
 function detectCICD(contents: any[]): boolean {
-  const filenames = contents.map(item => item.name?.toLowerCase() || '');
-  return filenames.includes('.github') || filenames.includes('.gitlab-ci.yml') || filenames.includes('.travis.yml');
+  const filenames = contents.map((item) => item.name?.toLowerCase() || '');
+  return (
+    filenames.includes('.github') ||
+    filenames.includes('.gitlab-ci.yml') ||
+    filenames.includes('.travis.yml')
+  );
 }
 
 async function createDeploymentZip(files: Record<string, string>): Promise<Uint8Array> {

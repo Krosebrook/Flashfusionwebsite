@@ -5,12 +5,12 @@ import { Button } from '../ui/button';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Check, 
-  CreditCard, 
-  Star, 
-  Zap, 
-  Crown, 
+import {
+  Check,
+  CreditCard,
+  Star,
+  Zap,
+  Crown,
   Building2,
   Users,
   Infinity,
@@ -26,7 +26,7 @@ import {
   Award,
   Target,
   AlertCircle,
-  Calendar
+  Calendar,
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -51,7 +51,7 @@ const pricingPlans = [
       { name: 'Priority Support', included: false },
       { name: 'Custom Integrations', included: false },
       { name: 'Team Collaboration', included: false },
-      { name: 'White-label Solutions', included: false }
+      { name: 'White-label Solutions', included: false },
     ],
     modules: {
       development: 'Basic',
@@ -61,7 +61,7 @@ const pricingPlans = [
       mobile: 'Limited',
       deployment: 'Standard',
       ai: 'Basic',
-      analytics: 'Basic'
+      analytics: 'Basic',
     },
     limits: {
       projects: 1,
@@ -69,8 +69,8 @@ const pricingPlans = [
       storage: '5GB',
       teamMembers: 1,
       aiModels: 3,
-      deployments: 5
-    }
+      deployments: 5,
+    },
   },
   {
     id: 'professional',
@@ -92,7 +92,7 @@ const pricingPlans = [
       { name: 'Priority Support', included: true },
       { name: 'Basic Integrations', included: true },
       { name: '5 Team Members', included: true },
-      { name: 'White-label Solutions', included: false }
+      { name: 'White-label Solutions', included: false },
     ],
     modules: {
       development: 'Advanced',
@@ -102,7 +102,7 @@ const pricingPlans = [
       mobile: 'Standard',
       deployment: 'Advanced',
       ai: 'Advanced',
-      analytics: 'Advanced'
+      analytics: 'Advanced',
     },
     limits: {
       projects: 10,
@@ -110,8 +110,8 @@ const pricingPlans = [
       storage: '50GB',
       teamMembers: 5,
       aiModels: 6,
-      deployments: 25
-    }
+      deployments: 25,
+    },
   },
   {
     id: 'enterprise',
@@ -133,7 +133,7 @@ const pricingPlans = [
       { name: 'Dedicated Support', included: true },
       { name: 'Custom Integrations', included: true },
       { name: 'Unlimited Team Members', included: true },
-      { name: 'White-label Solutions', included: true }
+      { name: 'White-label Solutions', included: true },
     ],
     modules: {
       development: 'Enterprise',
@@ -143,7 +143,7 @@ const pricingPlans = [
       mobile: 'Enterprise',
       deployment: 'Enterprise',
       ai: 'Enterprise',
-      analytics: 'Enterprise'
+      analytics: 'Enterprise',
     },
     limits: {
       projects: 'Unlimited',
@@ -151,9 +151,9 @@ const pricingPlans = [
       storage: '500GB',
       teamMembers: 'Unlimited',
       aiModels: 8,
-      deployments: 'Unlimited'
-    }
-  }
+      deployments: 'Unlimited',
+    },
+  },
 ];
 
 const addOns = [
@@ -161,48 +161,76 @@ const addOns = [
     name: 'Extra AI Generations',
     description: '1000 additional generations per month',
     price: 19,
-    icon: Bot
+    icon: Bot,
   },
   {
     name: 'Premium Storage',
     description: '100GB additional storage',
     price: 15,
-    icon: Database
+    icon: Database,
   },
   {
     name: 'Dedicated Support',
     description: 'Dedicated support agent',
     price: 99,
-    icon: HeadphonesIcon
+    icon: HeadphonesIcon,
   },
   {
     name: 'Custom AI Model',
     description: 'Train a custom AI model for your use case',
     price: 299,
-    icon: Sparkles
-  }
+    icon: Sparkles,
+  },
 ];
 
 const enterpriseFeatures = [
   {
     category: 'Security & Compliance',
-    features: ['SOC 2 Type II Compliance', 'GDPR Compliance', 'Custom SSO Integration', 'Advanced Audit Logs', 'Data Residency Options']
+    features: [
+      'SOC 2 Type II Compliance',
+      'GDPR Compliance',
+      'Custom SSO Integration',
+      'Advanced Audit Logs',
+      'Data Residency Options',
+    ],
   },
   {
     category: 'Custom Development',
-    features: ['Custom AI Model Training', 'Bespoke Integrations', 'White-label Solutions', 'Custom Deployment Options', 'Dedicated Infrastructure']
+    features: [
+      'Custom AI Model Training',
+      'Bespoke Integrations',
+      'White-label Solutions',
+      'Custom Deployment Options',
+      'Dedicated Infrastructure',
+    ],
   },
   {
     category: 'Support & Training',
-    features: ['Dedicated Customer Success Manager', 'Custom Training Programs', 'On-site Implementation', 'Priority Feature Requests', '99.9% SLA Guarantee']
-  }
+    features: [
+      'Dedicated Customer Success Manager',
+      'Custom Training Programs',
+      'On-site Implementation',
+      'Priority Feature Requests',
+      '99.9% SLA Guarantee',
+    ],
+  },
 ];
 
-const PricingCard = ({ plan, isYearly, isPopular }: { plan: any, isYearly: boolean, isPopular?: boolean }) => {
+const PricingCard = ({
+  plan,
+  isYearly,
+  isPopular,
+}: {
+  plan: any;
+  isYearly: boolean;
+  isPopular?: boolean;
+}) => {
   const Icon = plan.icon;
   const price = isYearly ? plan.price.yearly : plan.price.monthly;
   const monthlyPrice = isYearly ? price / 12 : price;
-  const savings = isYearly ? Math.round((1 - plan.price.yearly / (plan.price.monthly * 12)) * 100) : 0;
+  const savings = isYearly
+    ? Math.round((1 - plan.price.yearly / (plan.price.monthly * 12)) * 100)
+    : 0;
 
   return (
     <motion.div
@@ -211,37 +239,35 @@ const PricingCard = ({ plan, isYearly, isPopular }: { plan: any, isYearly: boole
       className={`relative ${isPopular ? 'z-10 scale-105' : ''}`}
     >
       {plan.badge && (
-        <div className={`absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 rounded-full text-white text-sm font-medium ${plan.badgeColor}`}>
+        <div
+          className={`absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 rounded-full text-white text-sm font-medium ${plan.badgeColor}`}
+        >
           {plan.badge}
         </div>
       )}
-      
-      <Card className={`ff-card-interactive h-full ${isPopular ? 'ring-2 ring-primary shadow-xl' : ''}`}>
+
+      <Card
+        className={`ff-card-interactive h-full ${isPopular ? 'ring-2 ring-primary shadow-xl' : ''}`}
+      >
         <CardHeader className="text-center pb-8">
           <div className="flex items-center justify-center mb-4">
             <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl flex items-center justify-center">
               <Icon className="w-8 h-8 text-primary" />
             </div>
           </div>
-          
-          <CardTitle className="text-2xl ff-text-gradient mb-2">
-            {plan.name}
-          </CardTitle>
-          
+
+          <CardTitle className="text-2xl ff-text-gradient mb-2">{plan.name}</CardTitle>
+
           <CardDescription className="text-muted-foreground mb-6">
             {plan.description}
           </CardDescription>
-          
+
           <div className="space-y-2">
             <div className="flex items-baseline justify-center space-x-1">
-              <span className="text-4xl font-bold text-primary">
-                ${Math.round(monthlyPrice)}
-              </span>
-              <span className="text-muted-foreground">
-                /month
-              </span>
+              <span className="text-4xl font-bold text-primary">${Math.round(monthlyPrice)}</span>
+              <span className="text-muted-foreground">/month</span>
             </div>
-            
+
             {isYearly && savings > 0 && (
               <div className="flex items-center justify-center space-x-2">
                 <Badge variant="secondary" className="text-xs">
@@ -252,15 +278,13 @@ const PricingCard = ({ plan, isYearly, isPopular }: { plan: any, isYearly: boole
                 </span>
               </div>
             )}
-            
+
             {isYearly && (
-              <div className="text-sm text-muted-foreground">
-                Billed annually (${price})
-              </div>
+              <div className="text-sm text-muted-foreground">Billed annually (${price})</div>
             )}
           </div>
         </CardHeader>
-        
+
         <CardContent className="space-y-6">
           {/* Key Limits */}
           <div className="bg-muted/50 rounded-lg p-4 space-y-3">
@@ -281,38 +305,40 @@ const PricingCard = ({ plan, isYearly, isPopular }: { plan: any, isYearly: boole
               <span className="font-medium">{plan.limits.storage}</span>
             </div>
           </div>
-          
+
           {/* Features */}
           <div className="space-y-3">
             {plan.features.slice(0, 8).map((feature: any, index: number) => (
               <div key={index} className="flex items-center space-x-3">
-                <Check 
+                <Check
                   className={`w-4 h-4 flex-shrink-0 ${
                     feature.included ? 'text-green-500' : 'text-muted-foreground/30'
-                  }`} 
+                  }`}
                 />
-                <span className={`text-sm ${
-                  feature.included ? 'text-foreground' : 'text-muted-foreground line-through'
-                }`}>
+                <span
+                  className={`text-sm ${
+                    feature.included ? 'text-foreground' : 'text-muted-foreground line-through'
+                  }`}
+                >
                   {feature.name}
                 </span>
               </div>
             ))}
           </div>
-          
-          <Button 
-            size="lg" 
-            className={`w-full ${
-              isPopular 
-                ? 'ff-btn-primary ff-hover-glow' 
-                : 'ff-btn-secondary'
-            }`}
+
+          <Button
+            size="lg"
+            className={`w-full ${isPopular ? 'ff-btn-primary ff-hover-glow' : 'ff-btn-secondary'}`}
           >
             {plan.id === 'enterprise' ? 'Contact Sales' : 'Start Free Trial'}
           </Button>
-          
+
           <div className="text-center">
-            <Button variant="ghost" size="sm" className="text-xs text-muted-foreground hover:text-primary">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-xs text-muted-foreground hover:text-primary"
+            >
               View All Features
             </Button>
           </div>
@@ -340,7 +366,11 @@ const ComparisonTable = ({ isYearly }: { isYearly: boolean }) => (
                 <span className="text-sm text-muted-foreground">/mo</span>
               </div>
             </div>
-            <Button size="sm" variant={plan.id === 'professional' ? 'default' : 'outline'} className="w-full">
+            <Button
+              size="sm"
+              variant={plan.id === 'professional' ? 'default' : 'outline'}
+              className="w-full"
+            >
               {plan.id === 'enterprise' ? 'Contact Sales' : 'Get Started'}
             </Button>
           </div>
@@ -361,9 +391,12 @@ const ComparisonTable = ({ isYearly }: { isYearly: boolean }) => (
               'Project Limits',
               'Team Members',
               'Storage Space',
-              'Email Support'
+              'Email Support',
             ].map((feature) => (
-              <div key={feature} className="grid grid-cols-4 gap-4 items-center py-2 border-b border-muted last:border-0">
+              <div
+                key={feature}
+                className="grid grid-cols-4 gap-4 items-center py-2 border-b border-muted last:border-0"
+              >
                 <div className="text-sm text-muted-foreground">{feature}</div>
                 <div className="text-center text-sm">5 tools, 50/mo</div>
                 <div className="text-center text-sm">25 tools, 500/mo</div>
@@ -386,9 +419,12 @@ const ComparisonTable = ({ isYearly }: { isYearly: boolean }) => (
               'Custom Integrations',
               'Team Collaboration',
               'White-label Solutions',
-              'Enterprise Security'
+              'Enterprise Security',
             ].map((feature) => (
-              <div key={feature} className="grid grid-cols-4 gap-4 items-center py-2 border-b border-muted last:border-0">
+              <div
+                key={feature}
+                className="grid grid-cols-4 gap-4 items-center py-2 border-b border-muted last:border-0"
+              >
                 <div className="text-sm text-muted-foreground">{feature}</div>
                 <div className="text-center">
                   <AlertCircle className="w-4 h-4 text-muted-foreground/30 mx-auto" />
@@ -415,32 +451,33 @@ export default function PricingPage() {
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-12 ff-stagger-fade">
       {/* Hero Section */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-6 py-12"
       >
         <div className="flex items-center justify-center space-x-3 mb-4">
           <CreditCard className="w-10 h-10 text-primary" />
-          <h1 className="ff-text-gradient text-4xl font-bold">
-            Pricing Plans
-          </h1>
+          <h1 className="ff-text-gradient text-4xl font-bold">Pricing Plans</h1>
         </div>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-          Choose the perfect plan for your needs. From individual creators to enterprise teams, we have transparent pricing for everyone.
+          Choose the perfect plan for your needs. From individual creators to enterprise teams, we
+          have transparent pricing for everyone.
         </p>
-        
+
         {/* Billing Toggle */}
         <div className="flex items-center justify-center space-x-4 mt-8">
-          <Label htmlFor="billing-toggle" className={!isYearly ? 'text-primary font-semibold' : 'text-muted-foreground'}>
+          <Label
+            htmlFor="billing-toggle"
+            className={!isYearly ? 'text-primary font-semibold' : 'text-muted-foreground'}
+          >
             Monthly
           </Label>
-          <Switch
-            id="billing-toggle"
-            checked={isYearly}
-            onCheckedChange={setIsYearly}
-          />
-          <Label htmlFor="billing-toggle" className={isYearly ? 'text-primary font-semibold' : 'text-muted-foreground'}>
+          <Switch id="billing-toggle" checked={isYearly} onCheckedChange={setIsYearly} />
+          <Label
+            htmlFor="billing-toggle"
+            className={isYearly ? 'text-primary font-semibold' : 'text-muted-foreground'}
+          >
             Yearly
           </Label>
           <Badge variant="secondary" className="ml-2">
@@ -460,12 +497,7 @@ export default function PricingPage() {
           {/* Pricing Cards */}
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mt-8">
             {pricingPlans.map((plan, index) => (
-              <PricingCard 
-                key={plan.id}
-                plan={plan}
-                isYearly={isYearly}
-                isPopular={index === 1}
-              />
+              <PricingCard key={plan.id} plan={plan} isYearly={isYearly} isPopular={index === 1} />
             ))}
           </div>
 
@@ -492,14 +524,10 @@ export default function PricingPage() {
                         <Icon className="w-6 h-6 text-primary" />
                       </div>
                       <CardTitle className="text-lg">{addon.name}</CardTitle>
-                      <CardDescription className="text-sm">
-                        {addon.description}
-                      </CardDescription>
+                      <CardDescription className="text-sm">{addon.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold text-primary mb-4">
-                        ${addon.price}/mo
-                      </div>
+                      <div className="text-2xl font-bold text-primary mb-4">${addon.price}/mo</div>
                       <Button size="sm" variant="outline" className="w-full">
                         Add to Plan
                       </Button>
@@ -523,7 +551,7 @@ export default function PricingPage() {
                 Compare all features across our pricing plans to find what works best for you.
               </p>
             </div>
-            
+
             <Card className="ff-card-interactive">
               <CardContent className="p-6">
                 <ComparisonTable isYearly={isYearly} />
@@ -544,7 +572,8 @@ export default function PricingPage() {
                 <h2 className="text-3xl font-bold ff-text-gradient">Enterprise Solutions</h2>
               </div>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Custom solutions for large organizations with specific requirements and compliance needs.
+                Custom solutions for large organizations with specific requirements and compliance
+                needs.
               </p>
             </div>
 
@@ -580,7 +609,7 @@ export default function PricingPage() {
                       Let's discuss how FlashFusion can transform your enterprise workflows.
                     </p>
                   </div>
-                  
+
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Button size="lg" className="ff-btn-primary ff-hover-glow">
                       <Building2 className="w-5 h-5 mr-2" />
@@ -591,7 +620,7 @@ export default function PricingPage() {
                       Schedule Demo
                     </Button>
                   </div>
-                  
+
                   <div className="grid grid-cols-3 gap-8 pt-6 border-t border-muted">
                     <div className="text-center">
                       <div className="text-2xl font-bold text-primary">99.9%</div>
@@ -630,28 +659,34 @@ export default function PricingPage() {
           {[
             {
               question: 'Can I change plans at any time?',
-              answer: 'Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately and billing is prorated.'
+              answer:
+                'Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately and billing is prorated.',
             },
             {
               question: 'What happens if I exceed my limits?',
-              answer: 'We\'ll notify you when approaching limits. You can upgrade or purchase add-ons to continue uninterrupted service.'
+              answer:
+                "We'll notify you when approaching limits. You can upgrade or purchase add-ons to continue uninterrupted service.",
             },
             {
               question: 'Is there a free trial?',
-              answer: 'Yes, all plans include a 14-day free trial with full access to features. No credit card required.'
+              answer:
+                'Yes, all plans include a 14-day free trial with full access to features. No credit card required.',
             },
             {
               question: 'Do you offer refunds?',
-              answer: 'We offer a 30-day money-back guarantee for all plans. Cancel within 30 days for a full refund.'
+              answer:
+                'We offer a 30-day money-back guarantee for all plans. Cancel within 30 days for a full refund.',
             },
             {
               question: 'Can I use my own AI models?',
-              answer: 'Enterprise plans support custom AI model integration. Professional plans include access to select external models.'
+              answer:
+                'Enterprise plans support custom AI model integration. Professional plans include access to select external models.',
             },
             {
               question: 'Is my data secure?',
-              answer: 'Yes, we\'re SOC 2 Type II compliant with end-to-end encryption and enterprise-grade security measures.'
-            }
+              answer:
+                "Yes, we're SOC 2 Type II compliant with end-to-end encryption and enterprise-grade security measures.",
+            },
           ].map((faq, index) => (
             <Card key={index} className="ff-card-interactive">
               <CardHeader>

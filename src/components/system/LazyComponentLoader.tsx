@@ -2,30 +2,22 @@
  * @fileoverview Progressive Loading System with Memory-Aware Lazy Loading
  * @category Build Mode - Progressive Loading Implementation
  * @version 1.0.0
- * 
+ *
  * Advanced lazy loading system with preloading, error boundaries,
  * memory optimization, and loading state management.
  */
 
-import React, { 
-  Suspense, 
-  lazy, 
-  useEffect, 
-  useState, 
-  useRef, 
-  useCallback, 
-  useMemo 
-} from 'react';
+import React, { Suspense, lazy, useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { LoadingState } from '../core/app-states/LoadingState';
 import { ErrorState } from '../core/app-states/ErrorState';
 
 // Loading Priority Levels
 export enum LoadingPriority {
-  CRITICAL = 'critical',     // Load immediately
-  HIGH = 'high',            // Load after critical
-  NORMAL = 'normal',        // Load on demand
-  LOW = 'low',              // Load when idle
-  BACKGROUND = 'background' // Preload in background
+  CRITICAL = 'critical', // Load immediately
+  HIGH = 'high', // Load after critical
+  NORMAL = 'normal', // Load on demand
+  LOW = 'low', // Load when idle
+  BACKGROUND = 'background', // Preload in background
 }
 
 // Component Configuration
@@ -72,7 +64,7 @@ class LazyComponentRegistry {
   }
 
   private initializeLoadingQueue() {
-    Object.values(LoadingPriority).forEach(priority => {
+    Object.values(LoadingPriority).forEach((priority) => {
       this.loadingQueue.set(priority as LoadingPriority, new Set());
     });
   }
@@ -81,7 +73,7 @@ class LazyComponentRegistry {
    * Register a lazy component
    */
   register(
-    id: string, 
+    id: string,
     loader: () => Promise<{ default: React.ComponentType<any> }>,
     config: LazyComponentConfig = { priority: LoadingPriority.NORMAL }
   ) {
@@ -92,8 +84,8 @@ class LazyComponentRegistry {
         timeout: 10000,
         errorBoundary: true,
         memoryThreshold: 50, // 50MB default
-        ...config
-      }
+        ...config,
+      },
     };
 
     this.registry.set(id, entry);
@@ -178,24 +170,20 @@ class LazyComponentRegistry {
         });
 
         // Race between loader and timeout
-        const module = await Promise.race([
-          entry.loader(),
-          timeoutPromise
-        ]);
+        const module = await Promise.race([entry.loader(), timeoutPromise]);
 
         entry.component = module.default;
         entry.loading = false;
 
         console.log(`✅ Component loaded: ${id}`);
         return entry.component;
-
       } catch (error) {
         lastError = error as Error;
         console.error(`❌ Component load failed ${id} (attempt ${attempt}):`, error);
 
         // Wait before retry (exponential backoff)
         if (attempt < maxRetries) {
-          await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+          await new Promise((resolve) => setTimeout(resolve, Math.pow(2, attempt) * 1000));
         }
       }
     }
@@ -203,7 +191,7 @@ class LazyComponentRegistry {
     // All retries failed
     entry.loading = false;
     entry.error = lastError || new Error('Unknown loading error');
-    
+
     throw entry.error;
   }
 
@@ -246,7 +234,7 @@ class LazyComponentRegistry {
         }
 
         // Yield to prevent blocking
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await new Promise((resolve) => setTimeout(resolve, 0));
       }
     };
 
@@ -272,11 +260,7 @@ class LazyComponentRegistry {
     let cleanedCount = 0;
 
     for (const [id, entry] of this.registry.entries()) {
-      if (
-        entry.component &&
-        entry.lastUsed &&
-        (now - entry.lastUsed) > CLEANUP_THRESHOLD
-      ) {
+      if (entry.component && entry.lastUsed && now - entry.lastUsed > CLEANUP_THRESHOLD) {
         // Keep critical components
         if (entry.config.priority === LoadingPriority.CRITICAL) continue;
 
@@ -288,7 +272,7 @@ class LazyComponentRegistry {
 
     if (cleanedCount > 0) {
       console.log(`🧹 Cleaned up ${cleanedCount} unused components`);
-      
+
       // Force garbage collection if available
       if ('gc' in window && typeof (window as any).gc === 'function') {
         (window as any).gc();
@@ -326,7 +310,7 @@ class MemoryMonitor {
         used: memory.usedJSHeapSize / 1024 / 1024, // MB
         total: memory.totalJSHeapSize / 1024 / 1024, // MB
         limit: memory.jsHeapSizeLimit / 1024 / 1024, // MB
-        usedPercent: (memory.usedJSHeapSize / memory.jsHeapSizeLimit) * 100
+        usedPercent: (memory.usedJSHeapSize / memory.jsHeapSizeLimit) * 100,
       };
     }
 
@@ -334,7 +318,7 @@ class MemoryMonitor {
       used: 0,
       total: 0,
       limit: 0,
-      usedPercent: 0
+      usedPercent: 0,
     };
   }
 }
@@ -353,7 +337,7 @@ export const LazyWrapper: React.FC<LazyWrapperProps> = ({
   componentId,
   fallback,
   errorFallback,
-  children
+  children,
 }) => {
   const [Component, setComponent] = useState<React.ComponentType<any> | null>(null);
   const [loading, setLoading] = useState(true);
@@ -405,7 +389,7 @@ export const LazyWrapper: React.FC<LazyWrapperProps> = ({
  * Default Error Fallback Component
  */
 const DefaultErrorFallback: React.FC<{ error: Error; retry: () => void }> = ({ error, retry }) => (
-  <ErrorState 
+  <ErrorState
     error={error.message}
     mode="component"
     onRetry={retry}
@@ -454,7 +438,7 @@ export function createLazyComponent(
 ) {
   const registry = LazyComponentRegistry.getInstance();
   const componentId = `lazy_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  
+
   registry.register(componentId, loader, config);
 
   return React.forwardRef<any, any>((props, ref) => (
@@ -487,7 +471,7 @@ export const LazyLoadingDebugPanel: React.FC = () => {
   return (
     <div className="fixed bottom-4 right-4 bg-black/90 text-white p-4 rounded-lg text-xs z-50 max-w-sm">
       <h3 className="font-semibold mb-2">📦 Lazy Loading Debug</h3>
-      
+
       <div className="space-y-1 mb-3">
         <div>Total: {stats.total}</div>
         <div>Loaded: {stats.loaded}</div>
@@ -500,10 +484,13 @@ export const LazyLoadingDebugPanel: React.FC = () => {
         <div>Used: {memoryInfo.used.toFixed(1)}MB</div>
         <div>Usage: {memoryInfo.usedPercent.toFixed(1)}%</div>
         <div className={`h-2 bg-gray-700 rounded overflow-hidden`}>
-          <div 
+          <div
             className={`h-full transition-all duration-300 ${
-              memoryInfo.usedPercent > 80 ? 'bg-red-500' :
-              memoryInfo.usedPercent > 60 ? 'bg-yellow-500' : 'bg-green-500'
+              memoryInfo.usedPercent > 80
+                ? 'bg-red-500'
+                : memoryInfo.usedPercent > 60
+                  ? 'bg-yellow-500'
+                  : 'bg-green-500'
             }`}
             style={{ width: `${Math.min(memoryInfo.usedPercent, 100)}%` }}
           />

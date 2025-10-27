@@ -4,10 +4,10 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Users, 
-  CheckCircle, 
-  AlertTriangle, 
+import {
+  Users,
+  CheckCircle,
+  AlertTriangle,
   XCircle,
   RefreshCw,
   Shield,
@@ -31,7 +31,7 @@ import {
   BarChart3,
   Network,
   UserPlus,
-  UserMinus
+  UserMinus,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -95,7 +95,7 @@ export function CollaborationTrustManager() {
     totalParticipants: 156,
     conflictsResolved: 12,
     permissionViolations: 3,
-    realTimeSyncHealth: 94
+    realTimeSyncHealth: 94,
   });
 
   // Initialize data
@@ -114,7 +114,7 @@ export function CollaborationTrustManager() {
             lastSeen: 'now',
             activeRegion: 'Header Section',
             conflictCount: 0,
-            trustLevel: 'high'
+            trustLevel: 'high',
           },
           {
             id: 'user-2',
@@ -124,7 +124,7 @@ export function CollaborationTrustManager() {
             lastSeen: '2 minutes ago',
             activeRegion: 'Features Section',
             conflictCount: 1,
-            trustLevel: 'high'
+            trustLevel: 'high',
           },
           {
             id: 'user-3',
@@ -133,14 +133,14 @@ export function CollaborationTrustManager() {
             isOnline: false,
             lastSeen: '15 minutes ago',
             conflictCount: 0,
-            trustLevel: 'medium'
-          }
+            trustLevel: 'medium',
+          },
         ],
         status: 'active',
         lastActivity: '30 seconds ago',
         conflictCount: 1,
         trustScore: 92,
-        type: 'design'
+        type: 'design',
       },
       {
         id: 'session-2',
@@ -155,7 +155,7 @@ export function CollaborationTrustManager() {
             lastSeen: 'now',
             activeRegion: 'API Reference',
             conflictCount: 0,
-            trustLevel: 'high'
+            trustLevel: 'high',
           },
           {
             id: 'user-5',
@@ -165,14 +165,14 @@ export function CollaborationTrustManager() {
             lastSeen: '1 minute ago',
             activeRegion: 'Implementation Guide',
             conflictCount: 2,
-            trustLevel: 'medium'
-          }
+            trustLevel: 'medium',
+          },
         ],
         status: 'conflict',
         lastActivity: '5 minutes ago',
         conflictCount: 3,
         trustScore: 76,
-        type: 'document'
+        type: 'document',
       },
       {
         id: 'session-3',
@@ -186,7 +186,7 @@ export function CollaborationTrustManager() {
             isOnline: true,
             lastSeen: 'now',
             conflictCount: 0,
-            trustLevel: 'high'
+            trustLevel: 'high',
           },
           {
             id: 'user-7',
@@ -195,15 +195,15 @@ export function CollaborationTrustManager() {
             isOnline: false,
             lastSeen: '1 hour ago',
             conflictCount: 0,
-            trustLevel: 'high'
-          }
+            trustLevel: 'high',
+          },
         ],
         status: 'idle',
         lastActivity: '45 minutes ago',
         conflictCount: 0,
         trustScore: 98,
-        type: 'project'
-      }
+        type: 'project',
+      },
     ];
 
     const initialPermissions: PermissionCheck[] = [
@@ -215,7 +215,7 @@ export function CollaborationTrustManager() {
         action: 'download',
         permission: 'granted',
         timestamp: '2 minutes ago',
-        riskLevel: 'low'
+        riskLevel: 'low',
       },
       {
         id: 'perm-2',
@@ -226,7 +226,7 @@ export function CollaborationTrustManager() {
         permission: 'denied',
         reason: 'Insufficient privileges',
         timestamp: '5 minutes ago',
-        riskLevel: 'high'
+        riskLevel: 'high',
       },
       {
         id: 'perm-3',
@@ -237,8 +237,8 @@ export function CollaborationTrustManager() {
         permission: 'pending',
         reason: 'Awaiting approval',
         timestamp: '8 minutes ago',
-        riskLevel: 'medium'
-      }
+        riskLevel: 'medium',
+      },
     ];
 
     const initialConflicts: ConflictResolution[] = [
@@ -250,7 +250,7 @@ export function CollaborationTrustManager() {
         participants: ['Alex Kim', 'Jordan Liu'],
         status: 'pending',
         strategy: 'collaborative-resolve',
-        createdAt: '3 minutes ago'
+        createdAt: '3 minutes ago',
       },
       {
         id: 'conflict-2',
@@ -261,8 +261,8 @@ export function CollaborationTrustManager() {
         status: 'resolved',
         strategy: 'auto-merge',
         createdAt: '15 minutes ago',
-        resolvedAt: '12 minutes ago'
-      }
+        resolvedAt: '12 minutes ago',
+      },
     ];
 
     setCollaborationSessions(initialSessions);
@@ -276,20 +276,22 @@ export function CollaborationTrustManager() {
 
     // Simulate validation process
     for (let i = 0; i <= 100; i += 4) {
-      await new Promise(resolve => setTimeout(resolve, 120));
+      await new Promise((resolve) => setTimeout(resolve, 120));
       setValidationProgress(i);
     }
 
     // Update some results after validation
-    setCollaborationSessions(prev => prev.map(session => ({
-      ...session,
-      lastActivity: 'just now',
-      trustScore: Math.min(100, session.trustScore + Math.floor(Math.random() * 8) - 2)
-    })));
+    setCollaborationSessions((prev) =>
+      prev.map((session) => ({
+        ...session,
+        lastActivity: 'just now',
+        trustScore: Math.min(100, session.trustScore + Math.floor(Math.random() * 8) - 2),
+      }))
+    );
 
-    setTrustMetrics(prev => ({
+    setTrustMetrics((prev) => ({
       ...prev,
-      overallTrustScore: Math.min(100, prev.overallTrustScore + Math.floor(Math.random() * 6) - 1)
+      overallTrustScore: Math.min(100, prev.overallTrustScore + Math.floor(Math.random() * 6) - 1),
     }));
 
     setIsRunningValidation(false);
@@ -343,14 +345,20 @@ export function CollaborationTrustManager() {
     }
   };
 
-  const activeSessionsCount = collaborationSessions.filter(session => session.status === 'active').length;
-  const conflictSessionsCount = collaborationSessions.filter(session => session.status === 'conflict').length;
-  const totalConflicts = conflictResolutions.filter(conflict => conflict.status === 'pending').length;
+  const activeSessionsCount = collaborationSessions.filter(
+    (session) => session.status === 'active'
+  ).length;
+  const conflictSessionsCount = collaborationSessions.filter(
+    (session) => session.status === 'conflict'
+  ).length;
+  const totalConflicts = conflictResolutions.filter(
+    (conflict) => conflict.status === 'pending'
+  ).length;
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Header */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -360,12 +368,13 @@ export function CollaborationTrustManager() {
           <h1 className="ff-text-gradient">Collaboration Trust Manager</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Real-time collaboration validation with permissions integrity, conflict resolution monitoring, and trust scoring for seamless team productivity.
+          Real-time collaboration validation with permissions integrity, conflict resolution
+          monitoring, and trust scoring for seamless team productivity.
         </p>
       </motion.div>
 
       {/* Trust Metrics Overview */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
@@ -380,10 +389,11 @@ export function CollaborationTrustManager() {
                     {trustMetrics.overallTrustScore}
                   </span>
                 </div>
-                <div className="absolute inset-0 rounded-full border-4 border-primary" 
-                     style={{ 
-                       background: `conic-gradient(from 0deg, var(--ff-primary) 0deg, var(--ff-primary) ${trustMetrics.overallTrustScore * 3.6}deg, transparent ${trustMetrics.overallTrustScore * 3.6}deg)`
-                     }}
+                <div
+                  className="absolute inset-0 rounded-full border-4 border-primary"
+                  style={{
+                    background: `conic-gradient(from 0deg, var(--ff-primary) 0deg, var(--ff-primary) ${trustMetrics.overallTrustScore * 3.6}deg, transparent ${trustMetrics.overallTrustScore * 3.6}deg)`,
+                  }}
                 />
               </div>
               <div>
@@ -421,7 +431,9 @@ export function CollaborationTrustManager() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Participants</p>
-                <p className="text-2xl font-bold text-secondary">{trustMetrics.totalParticipants}</p>
+                <p className="text-2xl font-bold text-secondary">
+                  {trustMetrics.totalParticipants}
+                </p>
               </div>
               <Users className="w-8 h-8 text-secondary" />
             </div>
@@ -455,7 +467,9 @@ export function CollaborationTrustManager() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Sync Health</p>
-                <p className="text-2xl font-bold text-primary">{trustMetrics.realTimeSyncHealth}%</p>
+                <p className="text-2xl font-bold text-primary">
+                  {trustMetrics.realTimeSyncHealth}%
+                </p>
               </div>
               <RefreshCw className="w-8 h-8 text-primary" />
             </div>
@@ -475,8 +489,8 @@ export function CollaborationTrustManager() {
         transition={{ delay: 0.2 }}
         className="flex flex-wrap gap-4"
       >
-        <Button 
-          onClick={runCollaborationValidation} 
+        <Button
+          onClick={runCollaborationValidation}
           disabled={isRunningValidation}
           className="ff-btn-primary"
           size="lg"
@@ -571,20 +585,26 @@ export function CollaborationTrustManager() {
                             <div className="flex items-center space-x-3 mb-2">
                               {getStatusIcon(session.status)}
                               <h4 className="font-medium">{session.documentName}</h4>
-                              <Badge variant="outline">
-                                Trust: {session.trustScore}
-                              </Badge>
+                              <Badge variant="outline">Trust: {session.trustScore}</Badge>
                             </div>
                             <p className="text-sm text-muted-foreground mb-3">
-                              Last activity: {session.lastActivity} • {session.conflictCount} conflicts
+                              Last activity: {session.lastActivity} • {session.conflictCount}{' '}
+                              conflicts
                             </p>
-                            
+
                             <div className="flex flex-wrap gap-2 mb-4">
                               {session.participants.map((participant) => (
-                                <div key={participant.id} className="flex items-center space-x-2 bg-muted/30 rounded-lg p-2">
-                                  <div className={`w-2 h-2 rounded-full ${participant.isOnline ? 'bg-green-500' : 'bg-gray-500'}`} />
+                                <div
+                                  key={participant.id}
+                                  className="flex items-center space-x-2 bg-muted/30 rounded-lg p-2"
+                                >
+                                  <div
+                                    className={`w-2 h-2 rounded-full ${participant.isOnline ? 'bg-green-500' : 'bg-gray-500'}`}
+                                  />
                                   <span className="text-sm font-medium">{participant.name}</span>
-                                  <Badge className={`text-xs ${getTrustLevelColor(participant.trustLevel)}`}>
+                                  <Badge
+                                    className={`text-xs ${getTrustLevelColor(participant.trustLevel)}`}
+                                  >
                                     {participant.role}
                                   </Badge>
                                   {participant.activeRegion && (
@@ -597,7 +617,7 @@ export function CollaborationTrustManager() {
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="flex space-x-2">
                           <Button size="sm" variant="outline">
                             <Eye className="w-3 h-3 mr-1" />
@@ -611,12 +631,14 @@ export function CollaborationTrustManager() {
                           )}
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center justify-between text-sm text-muted-foreground">
                         <div className="flex items-center space-x-4">
                           <span>Type: {session.type}</span>
                           <span>Participants: {session.participants.length}</span>
-                          <span>Online: {session.participants.filter(p => p.isOnline).length}</span>
+                          <span>
+                            Online: {session.participants.filter((p) => p.isOnline).length}
+                          </span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <Shield className="w-3 h-3" />
@@ -640,11 +662,15 @@ export function CollaborationTrustManager() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className={`ff-card-interactive ${
-                    check.permission === 'denied' ? 'border-red-500/20 bg-red-500/5' :
-                    check.permission === 'pending' ? 'border-yellow-500/20 bg-yellow-500/5' :
-                    'border-green-500/20 bg-green-500/5'
-                  }`}>
+                  <Card
+                    className={`ff-card-interactive ${
+                      check.permission === 'denied'
+                        ? 'border-red-500/20 bg-red-500/5'
+                        : check.permission === 'pending'
+                          ? 'border-yellow-500/20 bg-yellow-500/5'
+                          : 'border-green-500/20 bg-green-500/5'
+                    }`}
+                  >
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between">
                         <div className="flex items-start space-x-4">
@@ -652,28 +678,31 @@ export function CollaborationTrustManager() {
                           <div className="flex-1">
                             <div className="flex items-center space-x-3 mb-2">
                               <h4 className="font-medium">{check.userName}</h4>
-                              <Badge className={
-                                check.riskLevel === 'high' ? 'bg-red-500/10 text-red-500 border-red-500/20' :
-                                check.riskLevel === 'medium' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
-                                'bg-green-500/10 text-green-500 border-green-500/20'
-                              }>
+                              <Badge
+                                className={
+                                  check.riskLevel === 'high'
+                                    ? 'bg-red-500/10 text-red-500 border-red-500/20'
+                                    : check.riskLevel === 'medium'
+                                      ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'
+                                      : 'bg-green-500/10 text-green-500 border-green-500/20'
+                                }
+                              >
                                 {check.riskLevel.toUpperCase()} RISK
                               </Badge>
                             </div>
                             <p className="text-sm text-muted-foreground mb-2">
-                              Attempting to <strong>{check.action}</strong> on <strong>{check.resource}</strong>
+                              Attempting to <strong>{check.action}</strong> on{' '}
+                              <strong>{check.resource}</strong>
                             </p>
                             {check.reason && (
                               <div className="p-3 bg-muted/50 rounded-lg mb-3">
                                 <p className="text-sm">{check.reason}</p>
                               </div>
                             )}
-                            <div className="text-xs text-muted-foreground">
-                              {check.timestamp}
-                            </div>
+                            <div className="text-xs text-muted-foreground">{check.timestamp}</div>
                           </div>
                         </div>
-                        
+
                         <div className="flex space-x-2">
                           <Button size="sm" variant="outline">
                             <Eye className="w-3 h-3 mr-1" />
@@ -704,23 +733,34 @@ export function CollaborationTrustManager() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className={`ff-card-interactive ${
-                    conflict.status === 'escalated' ? 'border-red-500/20 bg-red-500/5' :
-                    conflict.status === 'pending' ? 'border-yellow-500/20 bg-yellow-500/5' :
-                    'border-green-500/20 bg-green-500/5'
-                  }`}>
+                  <Card
+                    className={`ff-card-interactive ${
+                      conflict.status === 'escalated'
+                        ? 'border-red-500/20 bg-red-500/5'
+                        : conflict.status === 'pending'
+                          ? 'border-yellow-500/20 bg-yellow-500/5'
+                          : 'border-green-500/20 bg-green-500/5'
+                    }`}
+                  >
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-start space-x-3">
                           {getStatusIcon(conflict.status)}
                           <div>
                             <div className="flex items-center space-x-2 mb-2">
-                              <h4 className="font-medium">{conflict.type.charAt(0).toUpperCase() + conflict.type.slice(1)} Conflict</h4>
-                              <Badge variant={conflict.status === 'resolved' ? "outline" : "destructive"}>
+                              <h4 className="font-medium">
+                                {conflict.type.charAt(0).toUpperCase() + conflict.type.slice(1)}{' '}
+                                Conflict
+                              </h4>
+                              <Badge
+                                variant={conflict.status === 'resolved' ? 'outline' : 'destructive'}
+                              >
                                 {conflict.status.toUpperCase()}
                               </Badge>
                             </div>
-                            <p className="text-sm text-muted-foreground mb-3">{conflict.description}</p>
+                            <p className="text-sm text-muted-foreground mb-3">
+                              {conflict.description}
+                            </p>
                           </div>
                         </div>
                         <div className="flex space-x-2">
@@ -736,7 +776,7 @@ export function CollaborationTrustManager() {
                           )}
                         </div>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <div className="p-3 bg-muted/50 rounded-lg">
                           <p className="text-sm font-medium mb-1">Strategy</p>
@@ -750,7 +790,12 @@ export function CollaborationTrustManager() {
                           <p className="text-sm font-medium mb-1">Timeline</p>
                           <p className="text-sm">
                             Created: {conflict.createdAt}
-                            {conflict.resolvedAt && <><br />Resolved: {conflict.resolvedAt}</>}
+                            {conflict.resolvedAt && (
+                              <>
+                                <br />
+                                Resolved: {conflict.resolvedAt}
+                              </>
+                            )}
                           </p>
                         </div>
                       </div>
@@ -763,7 +808,9 @@ export function CollaborationTrustManager() {
                 <div className="text-center py-12">
                   <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
                   <h3 className="font-medium mb-2">No Active Conflicts</h3>
-                  <p className="text-muted-foreground">All collaboration conflicts have been resolved</p>
+                  <p className="text-muted-foreground">
+                    All collaboration conflicts have been resolved
+                  </p>
                 </div>
               )}
             </div>

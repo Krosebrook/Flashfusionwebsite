@@ -6,7 +6,7 @@ import { motion } from 'motion/react';
 export default function CreatorContentPipelinePage() {
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -16,7 +16,8 @@ export default function CreatorContentPipelinePage() {
           <h1 className="ff-text-gradient">Creator Content Pipeline</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Streamline your content creation workflow with AI-powered tools and automated publishing pipelines.
+          Streamline your content creation workflow with AI-powered tools and automated publishing
+          pipelines.
         </p>
       </motion.div>
 
@@ -30,13 +31,12 @@ export default function CreatorContentPipelinePage() {
             <Zap className="w-12 h-12 text-primary mx-auto mb-4" />
             <CardTitle>Content Pipeline Coming Soon</CardTitle>
             <CardDescription>
-              We're building an advanced content creation pipeline that will revolutionize how creators produce and distribute content.
+              We're building an advanced content creation pipeline that will revolutionize how
+              creators produce and distribute content.
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center">
-            <Badge className="ff-badge-glow">
-              In Development
-            </Badge>
+            <Badge className="ff-badge-glow">In Development</Badge>
           </CardContent>
         </Card>
       </motion.div>

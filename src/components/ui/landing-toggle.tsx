@@ -14,7 +14,7 @@ interface LandingToggleProps {
 export function LandingToggle({ className = '' }: LandingToggleProps) {
   const toggleLandingPage = () => {
     const currentUrl = new URL(window.location.href);
-    
+
     if (currentUrl.searchParams.has('landing')) {
       // Remove landing parameter
       currentUrl.searchParams.delete('landing');
@@ -22,7 +22,7 @@ export function LandingToggle({ className = '' }: LandingToggleProps) {
       // Add landing parameter
       currentUrl.searchParams.set('landing', 'true');
     }
-    
+
     window.location.href = currentUrl.toString();
   };
 

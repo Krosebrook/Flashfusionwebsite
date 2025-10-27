@@ -14,7 +14,10 @@ interface OptimizationSuggestionsProps {
   onImplement: (suggestionId: string) => void;
 }
 
-export function OptimizationSuggestions({ suggestions, onImplement }: OptimizationSuggestionsProps) {
+export function OptimizationSuggestions({
+  suggestions,
+  onImplement,
+}: OptimizationSuggestionsProps) {
   const [implementingId, setImplementingId] = useState<string | null>(null);
   const prioritizedSuggestions = prioritizeSuggestions(suggestions);
 
@@ -27,7 +30,7 @@ export function OptimizationSuggestions({ suggestions, onImplement }: Optimizati
     setImplementingId(suggestion.id);
     try {
       // Simulate implementation process
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       onImplement(suggestion.id);
       toast.success(`${suggestion.title} implemented successfully!`);
     } catch (error) {
@@ -38,7 +41,7 @@ export function OptimizationSuggestions({ suggestions, onImplement }: Optimizati
   };
 
   const getImplementationProgress = () => {
-    const implemented = suggestions.filter(s => s.isImplemented).length;
+    const implemented = suggestions.filter((s) => s.isImplemented).length;
     return (implemented / suggestions.length) * 100;
   };
 
@@ -52,7 +55,7 @@ export function OptimizationSuggestions({ suggestions, onImplement }: Optimizati
             Optimization Progress
           </h3>
           <Badge variant="outline">
-            {suggestions.filter(s => s.isImplemented).length} / {suggestions.length} Complete
+            {suggestions.filter((s) => s.isImplemented).length} / {suggestions.length} Complete
           </Badge>
         </div>
         <div className="space-y-2">
@@ -73,11 +76,13 @@ export function OptimizationSuggestions({ suggestions, onImplement }: Optimizati
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card className={`p-6 transition-all duration-300 ${
-              suggestion.isImplemented 
-                ? 'border-green-500/20 bg-green-500/5' 
-                : 'ff-card-interactive'
-            }`}>
+            <Card
+              className={`p-6 transition-all duration-300 ${
+                suggestion.isImplemented
+                  ? 'border-green-500/20 bg-green-500/5'
+                  : 'ff-card-interactive'
+              }`}
+            >
               <div className="space-y-4">
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-3">
@@ -91,22 +96,20 @@ export function OptimizationSuggestions({ suggestions, onImplement }: Optimizati
                           <CheckCircle className="h-4 w-4 text-green-500" />
                         )}
                       </h4>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {suggestion.description}
-                      </p>
+                      <p className="text-sm text-muted-foreground mt-1">{suggestion.description}</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  <Badge 
-                    variant="outline" 
+                  <Badge
+                    variant="outline"
                     className={`text-xs ${getImpactColor(suggestion.impact)}`}
                   >
                     {suggestion.impact} impact
                   </Badge>
-                  <Badge 
-                    variant="outline" 
+                  <Badge
+                    variant="outline"
                     className={`text-xs ${getEffortColor(suggestion.effort)}`}
                   >
                     {suggestion.effort} effort
@@ -169,12 +172,14 @@ export function OptimizationSuggestions({ suggestions, onImplement }: Optimizati
       <Card className="p-6">
         <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="h-auto p-4 flex flex-col items-start gap-2"
             onClick={() => {
-              const autoFixable = suggestions.filter(s => !s.isImplemented && s.autoImplementable);
-              autoFixable.forEach(s => handleImplement(s));
+              const autoFixable = suggestions.filter(
+                (s) => !s.isImplemented && s.autoImplementable
+              );
+              autoFixable.forEach((s) => handleImplement(s));
             }}
           >
             <div className="flex items-center gap-2 w-full">
@@ -182,14 +187,13 @@ export function OptimizationSuggestions({ suggestions, onImplement }: Optimizati
               <span className="font-medium">Auto-fix All</span>
             </div>
             <span className="text-sm text-muted-foreground text-left">
-              Automatically implement {suggestions.filter(s => !s.isImplemented && s.autoImplementable).length} optimizations
+              Automatically implement{' '}
+              {suggestions.filter((s) => !s.isImplemented && s.autoImplementable).length}{' '}
+              optimizations
             </span>
           </Button>
 
-          <Button 
-            variant="outline" 
-            className="h-auto p-4 flex flex-col items-start gap-2"
-          >
+          <Button variant="outline" className="h-auto p-4 flex flex-col items-start gap-2">
             <div className="flex items-center gap-2 w-full">
               <ArrowRight className="h-5 w-5 text-secondary" />
               <span className="font-medium">View Guide</span>
@@ -199,10 +203,7 @@ export function OptimizationSuggestions({ suggestions, onImplement }: Optimizati
             </span>
           </Button>
 
-          <Button 
-            variant="outline" 
-            className="h-auto p-4 flex flex-col items-start gap-2"
-          >
+          <Button variant="outline" className="h-auto p-4 flex flex-col items-start gap-2">
             <div className="flex items-center gap-2 w-full">
               <CheckCircle className="h-5 w-5 text-green-500" />
               <span className="font-medium">Run Audit</span>

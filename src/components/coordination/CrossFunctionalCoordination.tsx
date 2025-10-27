@@ -4,11 +4,11 @@
  * @category cross-functional-coordination
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Comprehensive schedule and calendar view for cross-functional team coordination
  * including daily stand-ups, weekly cross-team sync meetings, bi-weekly sprint
  * planning and retrospectives, monthly all-hands meetings, and quarterly OKR planning.
- * 
+ *
  * Features:
  * - Interactive calendar with meeting scheduling
  * - Color-coded meeting types and priorities
@@ -24,10 +24,10 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Calendar, 
-  Clock, 
-  Users, 
+import {
+  Calendar,
+  Clock,
+  Users,
   Target,
   MessageSquare,
   BarChart3,
@@ -67,7 +67,7 @@ import {
   PieChart,
   LineChart,
   Globe,
-  Smartphone
+  Smartphone,
 } from 'lucide-react';
 
 // Meeting types and configurations
@@ -79,10 +79,10 @@ const meetingTypes = {
     frequency: 'daily',
     participants: ['Engineering Team', 'Product Manager', 'UI/UX Designer'],
     template: {
-      agenda: ['Yesterday\'s progress', 'Today\'s plan', 'Blockers/impediments'],
+      agenda: ["Yesterday's progress", "Today's plan", 'Blockers/impediments'],
       format: 'Round-robin updates',
-      tools: ['Slack', 'Jira', 'GitHub']
-    }
+      tools: ['Slack', 'Jira', 'GitHub'],
+    },
   },
   'weekly-sync': {
     name: 'Weekly Cross-Team Sync',
@@ -91,10 +91,15 @@ const meetingTypes = {
     frequency: 'weekly',
     participants: ['All Department Leads', 'Product Manager', 'CEO'],
     template: {
-      agenda: ['Department updates', 'Cross-team dependencies', 'Risk assessment', 'Resource allocation'],
+      agenda: [
+        'Department updates',
+        'Cross-team dependencies',
+        'Risk assessment',
+        'Resource allocation',
+      ],
       format: 'Structured discussion',
-      tools: ['Zoom', 'Miro', 'Notion']
-    }
+      tools: ['Zoom', 'Miro', 'Notion'],
+    },
   },
   'sprint-planning': {
     name: 'Sprint Planning',
@@ -105,8 +110,8 @@ const meetingTypes = {
     template: {
       agenda: ['Sprint goal setting', 'Story estimation', 'Task breakdown', 'Capacity planning'],
       format: 'Planning poker & discussion',
-      tools: ['Jira', 'Miro', 'Figma']
-    }
+      tools: ['Jira', 'Miro', 'Figma'],
+    },
   },
   'sprint-retro': {
     name: 'Sprint Retrospective',
@@ -115,10 +120,10 @@ const meetingTypes = {
     frequency: 'bi-weekly',
     participants: ['Engineering Team', 'Product Manager', 'UI/UX Designer'],
     template: {
-      agenda: ['What went well', 'What didn\'t work', 'Action items', 'Process improvements'],
+      agenda: ['What went well', "What didn't work", 'Action items', 'Process improvements'],
       format: 'Start-Stop-Continue',
-      tools: ['Miro', 'FunRetro', 'Slack']
-    }
+      tools: ['Miro', 'FunRetro', 'Slack'],
+    },
   },
   'all-hands': {
     name: 'All-Hands Meeting',
@@ -129,8 +134,8 @@ const meetingTypes = {
     template: {
       agenda: ['Company updates', 'Product roadmap', 'Team achievements', 'Q&A session'],
       format: 'Presentation & discussion',
-      tools: ['Zoom', 'Slides', 'Slack']
-    }
+      tools: ['Zoom', 'Slides', 'Slack'],
+    },
   },
   'okr-planning': {
     name: 'OKR Planning',
@@ -141,33 +146,103 @@ const meetingTypes = {
     template: {
       agenda: ['Quarterly review', 'OKR setting', 'Resource planning', 'Alignment check'],
       format: 'Strategic planning session',
-      tools: ['Lattice', 'Miro', 'Google Sheets']
-    }
-  }
+      tools: ['Lattice', 'Miro', 'Google Sheets'],
+    },
+  },
 };
 
 // Sample calendar data
 const sampleCalendar = {
   '2024-12-16': [
-    { id: '1', type: 'daily-standup', time: '09:00', title: 'Engineering Daily Standup', attendees: 6, status: 'scheduled' },
-    { id: '2', type: 'weekly-sync', time: '14:00', title: 'Cross-Team Weekly Sync', attendees: 8, status: 'scheduled' }
+    {
+      id: '1',
+      type: 'daily-standup',
+      time: '09:00',
+      title: 'Engineering Daily Standup',
+      attendees: 6,
+      status: 'scheduled',
+    },
+    {
+      id: '2',
+      type: 'weekly-sync',
+      time: '14:00',
+      title: 'Cross-Team Weekly Sync',
+      attendees: 8,
+      status: 'scheduled',
+    },
   ],
   '2024-12-17': [
-    { id: '3', type: 'daily-standup', time: '09:00', title: 'Engineering Daily Standup', attendees: 6, status: 'scheduled' },
-    { id: '4', type: 'sprint-planning', time: '10:00', title: 'Sprint 15 Planning', attendees: 7, status: 'scheduled' }
+    {
+      id: '3',
+      type: 'daily-standup',
+      time: '09:00',
+      title: 'Engineering Daily Standup',
+      attendees: 6,
+      status: 'scheduled',
+    },
+    {
+      id: '4',
+      type: 'sprint-planning',
+      time: '10:00',
+      title: 'Sprint 15 Planning',
+      attendees: 7,
+      status: 'scheduled',
+    },
   ],
   '2024-12-18': [
-    { id: '5', type: 'daily-standup', time: '09:00', title: 'Engineering Daily Standup', attendees: 6, status: 'scheduled' },
-    { id: '6', type: 'all-hands', time: '15:00', title: 'December All-Hands', attendees: 15, status: 'scheduled' }
+    {
+      id: '5',
+      type: 'daily-standup',
+      time: '09:00',
+      title: 'Engineering Daily Standup',
+      attendees: 6,
+      status: 'scheduled',
+    },
+    {
+      id: '6',
+      type: 'all-hands',
+      time: '15:00',
+      title: 'December All-Hands',
+      attendees: 15,
+      status: 'scheduled',
+    },
   ],
   '2024-12-19': [
-    { id: '7', type: 'daily-standup', time: '09:00', title: 'Engineering Daily Standup', attendees: 6, status: 'scheduled' },
-    { id: '8', type: 'sprint-retro', time: '13:00', title: 'Sprint 14 Retrospective', attendees: 7, status: 'scheduled' }
+    {
+      id: '7',
+      type: 'daily-standup',
+      time: '09:00',
+      title: 'Engineering Daily Standup',
+      attendees: 6,
+      status: 'scheduled',
+    },
+    {
+      id: '8',
+      type: 'sprint-retro',
+      time: '13:00',
+      title: 'Sprint 14 Retrospective',
+      attendees: 7,
+      status: 'scheduled',
+    },
   ],
   '2024-12-20': [
-    { id: '9', type: 'daily-standup', time: '09:00', title: 'Engineering Daily Standup', attendees: 6, status: 'scheduled' },
-    { id: '10', type: 'okr-planning', time: '10:00', title: 'Q1 2025 OKR Planning', attendees: 12, status: 'scheduled' }
-  ]
+    {
+      id: '9',
+      type: 'daily-standup',
+      time: '09:00',
+      title: 'Engineering Daily Standup',
+      attendees: 6,
+      status: 'scheduled',
+    },
+    {
+      id: '10',
+      type: 'okr-planning',
+      time: '10:00',
+      title: 'Q1 2025 OKR Planning',
+      attendees: 12,
+      status: 'scheduled',
+    },
+  ],
 };
 
 // Team availability and metrics
@@ -177,12 +252,12 @@ const teamMetrics = {
   meetingEfficiency: 78.5,
   crossTeamCollaboration: 92.1,
   weeklyHours: {
-    'Engineering': 4.5,
-    'Product': 6.2,
-    'Design': 3.8,
-    'QA': 2.1,
-    'DevOps': 1.9,
-    'Leadership': 8.7
+    Engineering: 4.5,
+    Product: 6.2,
+    Design: 3.8,
+    QA: 2.1,
+    DevOps: 1.9,
+    Leadership: 8.7,
   },
   meetingDistribution: {
     'daily-standup': 35,
@@ -190,8 +265,8 @@ const teamMetrics = {
     'sprint-planning': 15,
     'sprint-retro': 10,
     'all-hands': 8,
-    'okr-planning': 12
-  }
+    'okr-planning': 12,
+  },
 };
 
 // Meeting templates and best practices
@@ -202,8 +277,8 @@ const meetingBestPractices = [
       'Send agenda 24 hours in advance',
       'Include relevant documents and context',
       'Set clear objectives and expected outcomes',
-      'Invite only necessary participants'
-    ]
+      'Invite only necessary participants',
+    ],
   },
   {
     category: 'Execution',
@@ -211,8 +286,8 @@ const meetingBestPractices = [
       'Start and end on time',
       'Follow the agenda structure',
       'Encourage active participation',
-      'Document decisions and action items'
-    ]
+      'Document decisions and action items',
+    ],
   },
   {
     category: 'Follow-up',
@@ -220,9 +295,9 @@ const meetingBestPractices = [
       'Send meeting notes within 2 hours',
       'Track action items and ownership',
       'Schedule follow-up meetings if needed',
-      'Collect feedback for improvement'
-    ]
-  }
+      'Collect feedback for improvement',
+    ],
+  },
 ];
 
 // Cross-team dependencies
@@ -234,7 +309,7 @@ const crossTeamDependencies = [
     description: 'UI mockups for new dashboard features',
     priority: 'high',
     dueDate: '2024-12-22',
-    status: 'in-progress'
+    status: 'in-progress',
   },
   {
     id: 'dep-2',
@@ -243,7 +318,7 @@ const crossTeamDependencies = [
     description: 'Feature requirements for user onboarding',
     priority: 'critical',
     dueDate: '2024-12-20',
-    status: 'completed'
+    status: 'completed',
   },
   {
     id: 'dep-3',
@@ -252,7 +327,7 @@ const crossTeamDependencies = [
     description: 'Test environment configuration',
     priority: 'medium',
     dueDate: '2024-12-25',
-    status: 'pending'
+    status: 'pending',
   },
   {
     id: 'dep-4',
@@ -261,8 +336,8 @@ const crossTeamDependencies = [
     description: 'Feature launch timeline coordination',
     priority: 'high',
     dueDate: '2024-12-30',
-    status: 'in-progress'
-  }
+    status: 'in-progress',
+  },
 ];
 
 interface CrossFunctionalCoordinationProps {
@@ -293,10 +368,10 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
   // Filter meetings by type
   const filteredCalendar = useMemo(() => {
     if (filterType === 'all') return sampleCalendar;
-    
+
     const filtered: typeof sampleCalendar = {};
     Object.entries(sampleCalendar).forEach(([date, meetings]) => {
-      const filteredMeetings = meetings.filter(meeting => meeting.type === filterType);
+      const filteredMeetings = meetings.filter((meeting) => meeting.type === filterType);
       if (filteredMeetings.length > 0) {
         filtered[date] = filteredMeetings;
       }
@@ -315,50 +390,67 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'var(--ff-success)';
-      case 'in-progress': return 'var(--ff-warning)';
-      case 'pending': return 'var(--ff-text-muted)';
-      case 'scheduled': return 'var(--ff-secondary)';
-      default: return 'var(--ff-text-muted)';
+      case 'completed':
+        return 'var(--ff-success)';
+      case 'in-progress':
+        return 'var(--ff-warning)';
+      case 'pending':
+        return 'var(--ff-text-muted)';
+      case 'scheduled':
+        return 'var(--ff-secondary)';
+      default:
+        return 'var(--ff-text-muted)';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed': return CheckCircle;
-      case 'in-progress': return Clock;
-      case 'pending': return AlertTriangle;
-      case 'scheduled': return Calendar;
-      default: return XCircle;
+      case 'completed':
+        return CheckCircle;
+      case 'in-progress':
+        return Clock;
+      case 'pending':
+        return AlertTriangle;
+      case 'scheduled':
+        return Calendar;
+      default:
+        return XCircle;
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'critical': return 'var(--ff-error)';
-      case 'high': return 'var(--ff-warning)';
-      case 'medium': return 'var(--ff-secondary)';
-      case 'low': return 'var(--ff-success)';
-      default: return 'var(--ff-text-muted)';
+      case 'critical':
+        return 'var(--ff-error)';
+      case 'high':
+        return 'var(--ff-warning)';
+      case 'medium':
+        return 'var(--ff-secondary)';
+      case 'low':
+        return 'var(--ff-success)';
+      default:
+        return 'var(--ff-text-muted)';
     }
   };
 
   return (
-    <div className="min-h-screen bg-[var(--ff-bg-dark)]" style={{ fontFamily: 'var(--ff-font-secondary)' }}>
+    <div
+      className="min-h-screen bg-[var(--ff-bg-dark)]"
+      style={{ fontFamily: 'var(--ff-font-secondary)' }}
+    >
       <div className="max-w-7xl mx-auto p-6 space-y-8">
-        
         {/* Header */}
         <div className="text-center space-y-4 ff-fade-in-up">
           <Badge className="ff-badge-secondary mb-4">
             <MessageSquare className="w-4 h-4 mr-2" />
             Cross-Functional Coordination
           </Badge>
-          
+
           <h1 className="ff-text-display">
             Team
             <span className="ff-text-gradient"> Coordination</span>
           </h1>
-          
+
           <p className="ff-text-body max-w-3xl mx-auto">
             Comprehensive scheduling and coordination system for daily stand-ups, weekly syncs,
             sprint planning, retrospectives, all-hands meetings, and quarterly OKR planning with
@@ -384,7 +476,9 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                   >
                     <option value="all">All Meetings</option>
                     {Object.entries(meetingTypes).map(([key, type]) => (
-                      <option key={key} value={key}>{type.name}</option>
+                      <option key={key} value={key}>
+                        {type.name}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -420,37 +514,49 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                 <div className="w-12 h-12 bg-[var(--ff-primary)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
                   <Calendar className="w-6 h-6 text-[var(--ff-primary)]" />
                 </div>
-                <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                <div
+                  className="ff-text-2xl text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                >
                   {teamMetrics.totalMeetings}
                 </div>
                 <div className="ff-text-sm text-[var(--ff-text-muted)]">Total Meetings</div>
               </div>
-              
+
               <div className="text-center p-4 bg-[var(--ff-surface)] rounded-lg">
                 <div className="w-12 h-12 bg-[var(--ff-success)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
                   <Users className="w-6 h-6 text-[var(--ff-success)]" />
                 </div>
-                <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                <div
+                  className="ff-text-2xl text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                >
                   {teamMetrics.averageAttendance}%
                 </div>
                 <div className="ff-text-sm text-[var(--ff-text-muted)]">Avg Attendance</div>
               </div>
-              
+
               <div className="text-center p-4 bg-[var(--ff-surface)] rounded-lg">
                 <div className="w-12 h-12 bg-[var(--ff-warning)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
                   <Target className="w-6 h-6 text-[var(--ff-warning)]" />
                 </div>
-                <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                <div
+                  className="ff-text-2xl text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                >
                   {teamMetrics.meetingEfficiency}%
                 </div>
                 <div className="ff-text-sm text-[var(--ff-text-muted)]">Efficiency Score</div>
               </div>
-              
+
               <div className="text-center p-4 bg-[var(--ff-surface)] rounded-lg">
                 <div className="w-12 h-12 bg-[var(--ff-secondary)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
                   <MessageSquare className="w-6 h-6 text-[var(--ff-secondary)]" />
                 </div>
-                <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                <div
+                  className="ff-text-2xl text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                >
                   {teamMetrics.crossTeamCollaboration}%
                 </div>
                 <div className="ff-text-sm text-[var(--ff-text-muted)]">Collaboration</div>
@@ -484,22 +590,27 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                     {currentWeek.map((date) => {
                       const dayMeetings = filteredCalendar[date] || [];
                       const isSelected = date === selectedDate;
-                      const dayName = new Date(date).toLocaleDateString('en-US', { weekday: 'short' });
+                      const dayName = new Date(date).toLocaleDateString('en-US', {
+                        weekday: 'short',
+                      });
                       const dayNumber = new Date(date).getDate();
-                      
+
                       return (
                         <div
                           key={date}
                           className={`p-3 rounded-lg cursor-pointer transition-all duration-200 ${
-                            isSelected 
-                              ? 'bg-[var(--ff-primary)]/20 border border-[var(--ff-primary)]' 
+                            isSelected
+                              ? 'bg-[var(--ff-primary)]/20 border border-[var(--ff-primary)]'
                               : 'bg-[var(--ff-surface)] hover:bg-[var(--ff-surface-light)]'
                           }`}
                           onClick={() => setSelectedDate(date)}
                         >
                           <div className="text-center">
                             <div className="ff-text-xs text-[var(--ff-text-muted)]">{dayName}</div>
-                            <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                            <div
+                              className="ff-text-lg text-[var(--ff-text-primary)]"
+                              style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                            >
                               {dayNumber}
                             </div>
                             <div className="mt-2 space-y-1">
@@ -528,10 +639,10 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
               <Card className="ff-card">
                 <CardHeader>
                   <CardTitle className="ff-text-base">
-                    {new Date(selectedDate).toLocaleDateString('en-US', { 
-                      weekday: 'long', 
-                      month: 'long', 
-                      day: 'numeric' 
+                    {new Date(selectedDate).toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      month: 'long',
+                      day: 'numeric',
                     })}
                   </CardTitle>
                 </CardHeader>
@@ -539,22 +650,26 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                   {selectedDateMeetings.length === 0 ? (
                     <div className="text-center py-8">
                       <Calendar className="w-12 h-12 text-[var(--ff-text-muted)] mx-auto mb-4" />
-                      <p className="ff-text-sm text-[var(--ff-text-muted)]">No meetings scheduled for this day</p>
+                      <p className="ff-text-sm text-[var(--ff-text-muted)]">
+                        No meetings scheduled for this day
+                      </p>
                     </div>
                   ) : (
                     <div className="space-y-4">
                       {selectedDateMeetings.map((meeting) => {
                         const meetingType = meetingTypes[meeting.type as keyof typeof meetingTypes];
-                        
+
                         return (
-                          <Card 
-                            key={meeting.id} 
+                          <Card
+                            key={meeting.id}
                             className={`ff-card cursor-pointer transition-all duration-200 ${
-                              selectedMeeting === meeting.id 
-                                ? 'border-[var(--ff-primary)] bg-[var(--ff-surface-light)]' 
+                              selectedMeeting === meeting.id
+                                ? 'border-[var(--ff-primary)] bg-[var(--ff-surface-light)]'
                                 : 'hover:border-[var(--ff-primary)]/30'
                             }`}
-                            onClick={() => setSelectedMeeting(selectedMeeting === meeting.id ? null : meeting.id)}
+                            onClick={() =>
+                              setSelectedMeeting(selectedMeeting === meeting.id ? null : meeting.id)
+                            }
                           >
                             <CardContent className="p-4">
                               <div className="flex items-start justify-between">
@@ -564,11 +679,15 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                                     style={{ backgroundColor: getMeetingTypeColor(meeting.type) }}
                                   />
                                   <div>
-                                    <h3 className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                                    <h3
+                                      className="ff-text-sm text-[var(--ff-text-primary)]"
+                                      style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                                    >
                                       {meeting.title}
                                     </h3>
                                     <p className="ff-text-xs text-[var(--ff-text-muted)]">
-                                      {meeting.time} • {meetingType?.duration}min • {meeting.attendees} attendees
+                                      {meeting.time} • {meetingType?.duration}min •{' '}
+                                      {meeting.attendees} attendees
                                     </p>
                                   </div>
                                 </div>
@@ -577,16 +696,19 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                                     {meetingType?.name}
                                   </Badge>
                                   {React.createElement(getStatusIcon(meeting.status), {
-                                    className: "w-4 h-4",
-                                    style: { color: getStatusColor(meeting.status) }
+                                    className: 'w-4 h-4',
+                                    style: { color: getStatusColor(meeting.status) },
                                   })}
                                 </div>
                               </div>
-                              
+
                               {selectedMeeting === meeting.id && meetingType && (
                                 <div className="mt-4 pt-4 border-t border-[var(--border)] space-y-3">
                                   <div>
-                                    <h4 className="ff-text-xs text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                                    <h4
+                                      className="ff-text-xs text-[var(--ff-text-primary)]"
+                                      style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                                    >
                                       Participants
                                     </h4>
                                     <div className="flex flex-wrap gap-1 mt-1">
@@ -597,21 +719,29 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                                       ))}
                                     </div>
                                   </div>
-                                  
+
                                   <div>
-                                    <h4 className="ff-text-xs text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                                    <h4
+                                      className="ff-text-xs text-[var(--ff-text-primary)]"
+                                      style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                                    >
                                       Agenda
                                     </h4>
                                     <ul className="mt-1 space-y-1">
-                                      {meetingType.template.agenda.slice(0, 3).map((item, index) => (
-                                        <li key={index} className="ff-text-xs text-[var(--ff-text-muted)] flex items-start gap-1">
-                                          <span className="w-1 h-1 bg-[var(--ff-primary)] rounded-full mt-1.5 flex-shrink-0"></span>
-                                          {item}
-                                        </li>
-                                      ))}
+                                      {meetingType.template.agenda
+                                        .slice(0, 3)
+                                        .map((item, index) => (
+                                          <li
+                                            key={index}
+                                            className="ff-text-xs text-[var(--ff-text-muted)] flex items-start gap-1"
+                                          >
+                                            <span className="w-1 h-1 bg-[var(--ff-primary)] rounded-full mt-1.5 flex-shrink-0"></span>
+                                            {item}
+                                          </li>
+                                        ))}
                                     </ul>
                                   </div>
-                                  
+
                                   <div className="flex items-center gap-2">
                                     <Button size="sm" className="ff-btn-primary">
                                       <Video className="w-3 h-3 mr-1" />
@@ -648,7 +778,10 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                         style={{ backgroundColor: type.color }}
                       />
                       <div className="flex-1">
-                        <div className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                        <div
+                          className="ff-text-sm text-[var(--ff-text-primary)]"
+                          style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                        >
                           {type.name}
                         </div>
                         <div className="ff-text-xs text-[var(--ff-text-muted)]">
@@ -697,7 +830,10 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                       <div key={team} className="space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="ff-text-sm text-[var(--ff-text-primary)]">{team}</span>
-                          <span className="ff-text-sm text-[var(--ff-text-secondary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                          <span
+                            className="ff-text-sm text-[var(--ff-text-secondary)]"
+                            style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                          >
                             {hours}h
                           </span>
                         </div>
@@ -716,7 +852,7 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                   <div className="space-y-4">
                     {Object.entries(teamMetrics.meetingDistribution).map(([type, percentage]) => {
                       const meetingType = meetingTypes[type as keyof typeof meetingTypes];
-                      
+
                       return (
                         <div key={type} className="space-y-2">
                           <div className="flex items-center justify-between">
@@ -729,7 +865,10 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                                 {meetingType?.name}
                               </span>
                             </div>
-                            <span className="ff-text-sm text-[var(--ff-text-secondary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                            <span
+                              className="ff-text-sm text-[var(--ff-text-secondary)]"
+                              style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                            >
                               {percentage}%
                             </span>
                           </div>
@@ -751,12 +890,18 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                 <div className="grid md:grid-cols-3 gap-6">
                   {meetingBestPractices.map((category, index) => (
                     <div key={index} className="space-y-3">
-                      <h3 className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                      <h3
+                        className="ff-text-sm text-[var(--ff-text-primary)]"
+                        style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                      >
                         {category.category}
                       </h3>
                       <ul className="space-y-2">
                         {category.practices.map((practice, i) => (
-                          <li key={i} className="ff-text-xs text-[var(--ff-text-muted)] flex items-start gap-2">
+                          <li
+                            key={i}
+                            className="ff-text-xs text-[var(--ff-text-muted)] flex items-start gap-2"
+                          >
                             <CheckCircle className="w-3 h-3 text-[var(--ff-success)] mt-0.5 flex-shrink-0" />
                             {practice}
                           </li>
@@ -781,7 +926,7 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                 <div className="space-y-4">
                   {crossTeamDependencies.map((dependency) => {
                     const StatusIcon = getStatusIcon(dependency.status);
-                    
+
                     return (
                       <Card key={dependency.id} className="ff-card">
                         <CardContent className="p-4">
@@ -789,21 +934,28 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                             <div className="flex-1">
                               <div className="flex items-center gap-3 mb-2">
                                 <div className="flex items-center gap-2">
-                                  <Badge className="ff-badge-primary text-xs">{dependency.from}</Badge>
+                                  <Badge className="ff-badge-primary text-xs">
+                                    {dependency.from}
+                                  </Badge>
                                   <ArrowRight className="w-3 h-3 text-[var(--ff-text-muted)]" />
-                                  <Badge className="ff-badge-secondary text-xs">{dependency.to}</Badge>
+                                  <Badge className="ff-badge-secondary text-xs">
+                                    {dependency.to}
+                                  </Badge>
                                 </div>
-                                <Badge 
+                                <Badge
                                   className={`ff-badge-${dependency.priority === 'critical' ? 'error' : dependency.priority === 'high' ? 'warning' : 'secondary'} text-xs`}
                                 >
                                   {dependency.priority}
                                 </Badge>
                               </div>
-                              
-                              <p className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+
+                              <p
+                                className="ff-text-sm text-[var(--ff-text-primary)]"
+                                style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                              >
                                 {dependency.description}
                               </p>
-                              
+
                               <div className="flex items-center gap-4 mt-2">
                                 <div className="flex items-center gap-1">
                                   <Calendar className="w-3 h-3 text-[var(--ff-text-muted)]" />
@@ -812,7 +964,10 @@ export function CrossFunctionalCoordination({}: CrossFunctionalCoordinationProps
                                   </span>
                                 </div>
                                 <div className="flex items-center gap-1">
-                                  <StatusIcon className="w-3 h-3" style={{ color: getStatusColor(dependency.status) }} />
+                                  <StatusIcon
+                                    className="w-3 h-3"
+                                    style={{ color: getStatusColor(dependency.status) }}
+                                  />
                                   <span className="ff-text-xs text-[var(--ff-text-muted)] capitalize">
                                     {dependency.status.replace('-', ' ')}
                                   </span>

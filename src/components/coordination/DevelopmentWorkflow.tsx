@@ -4,10 +4,10 @@
  * @category workflow
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Two-week sprint board with comprehensive task management across all development phases
  * from design review through production deployment.
- * 
+ *
  * Features:
  * - Kanban-style sprint board
  * - Drag-and-drop task management
@@ -23,11 +23,11 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Avatar, AvatarFallback } from '../ui/avatar';
-import { 
-  Calendar, 
-  Clock, 
-  User, 
-  Users, 
+import {
+  Calendar,
+  Clock,
+  User,
+  Users,
   CheckCircle,
   AlertTriangle,
   Play,
@@ -57,7 +57,7 @@ import {
   Edit,
   Archive,
   Download,
-  Upload
+  Upload,
 } from 'lucide-react';
 
 // Task interfaces
@@ -97,14 +97,42 @@ const sprintData = {
   totalCapacity: 320, // total team hours
   allocatedHours: 285,
   completedHours: 142,
-  burndownRate: 0.68
+  burndownRate: 0.68,
 };
 
 const teamMembers: TeamMember[] = [
-  { id: 'alex', name: 'Alex Chen', role: 'Lead Developer', avatar: 'AC', capacity: 80, allocated: 75 },
-  { id: 'sarah', name: 'Sarah Kim', role: 'UI/UX Designer', avatar: 'SK', capacity: 80, allocated: 68 },
-  { id: 'mike', name: 'Mike Rodriguez', role: 'Backend Engineer', avatar: 'MR', capacity: 80, allocated: 72 },
-  { id: 'emma', name: 'Emma Watson', role: 'QA Engineer', avatar: 'EW', capacity: 80, allocated: 70 }
+  {
+    id: 'alex',
+    name: 'Alex Chen',
+    role: 'Lead Developer',
+    avatar: 'AC',
+    capacity: 80,
+    allocated: 75,
+  },
+  {
+    id: 'sarah',
+    name: 'Sarah Kim',
+    role: 'UI/UX Designer',
+    avatar: 'SK',
+    capacity: 80,
+    allocated: 68,
+  },
+  {
+    id: 'mike',
+    name: 'Mike Rodriguez',
+    role: 'Backend Engineer',
+    avatar: 'MR',
+    capacity: 80,
+    allocated: 72,
+  },
+  {
+    id: 'emma',
+    name: 'Emma Watson',
+    role: 'QA Engineer',
+    avatar: 'EW',
+    capacity: 80,
+    allocated: 70,
+  },
 ];
 
 const sprintTasks: Task[] = [
@@ -125,7 +153,7 @@ const sprintTasks: Task[] = [
     column: 'design-review',
     dependencies: [],
     comments: 5,
-    attachments: 3
+    attachments: 3,
   },
   {
     id: 'DR-002',
@@ -143,9 +171,9 @@ const sprintTasks: Task[] = [
     column: 'design-review',
     dependencies: ['DR-001'],
     comments: 2,
-    attachments: 4
+    attachments: 4,
   },
-  
+
   // Implementation Column
   {
     id: 'IMP-001',
@@ -163,7 +191,7 @@ const sprintTasks: Task[] = [
     column: 'implementation',
     dependencies: [],
     comments: 8,
-    attachments: 2
+    attachments: 2,
   },
   {
     id: 'IMP-002',
@@ -181,7 +209,7 @@ const sprintTasks: Task[] = [
     column: 'implementation',
     dependencies: ['IMP-001'],
     comments: 15,
-    attachments: 6
+    attachments: 6,
   },
   {
     id: 'IMP-003',
@@ -199,9 +227,9 @@ const sprintTasks: Task[] = [
     column: 'implementation',
     dependencies: [],
     comments: 3,
-    attachments: 1
+    attachments: 1,
   },
-  
+
   // Testing Column
   {
     id: 'TEST-001',
@@ -219,7 +247,7 @@ const sprintTasks: Task[] = [
     column: 'testing',
     dependencies: ['IMP-001'],
     comments: 4,
-    attachments: 2
+    attachments: 2,
   },
   {
     id: 'TEST-002',
@@ -237,9 +265,9 @@ const sprintTasks: Task[] = [
     column: 'testing',
     dependencies: ['IMP-002'],
     comments: 2,
-    attachments: 1
+    attachments: 1,
   },
-  
+
   // QA Column
   {
     id: 'QA-001',
@@ -257,7 +285,7 @@ const sprintTasks: Task[] = [
     column: 'qa',
     dependencies: ['TEST-001'],
     comments: 6,
-    attachments: 3
+    attachments: 3,
   },
   {
     id: 'QA-002',
@@ -275,9 +303,9 @@ const sprintTasks: Task[] = [
     column: 'qa',
     dependencies: ['QA-001'],
     comments: 1,
-    attachments: 0
+    attachments: 0,
   },
-  
+
   // Deployment Column
   {
     id: 'DEP-001',
@@ -295,9 +323,9 @@ const sprintTasks: Task[] = [
     column: 'deployment',
     dependencies: ['QA-002'],
     comments: 3,
-    attachments: 2
+    attachments: 2,
   },
-  
+
   // Done Column
   {
     id: 'DONE-001',
@@ -315,7 +343,7 @@ const sprintTasks: Task[] = [
     column: 'done',
     dependencies: [],
     comments: 12,
-    attachments: 4
+    attachments: 4,
   },
   {
     id: 'DONE-002',
@@ -333,8 +361,8 @@ const sprintTasks: Task[] = [
     column: 'done',
     dependencies: [],
     comments: 8,
-    attachments: 5
-  }
+    attachments: 5,
+  },
 ];
 
 const columns = [
@@ -343,7 +371,7 @@ const columns = [
   { id: 'testing', title: 'Testing', color: 'var(--ff-secondary)', limit: 4 },
   { id: 'qa', title: 'QA', color: 'var(--ff-warning)', limit: 3 },
   { id: 'deployment', title: 'Deployment', color: 'var(--ff-success)', limit: 2 },
-  { id: 'done', title: 'Done', color: 'var(--ff-neutral-600)', limit: null }
+  { id: 'done', title: 'Done', color: 'var(--ff-neutral-600)', limit: null },
 ];
 
 interface DevelopmentWorkflowProps {
@@ -360,7 +388,7 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
 
   // Filter tasks based on current filters
   const filteredTasks = useMemo(() => {
-    return sprintTasks.filter(task => {
+    return sprintTasks.filter((task) => {
       if (filterPriority !== 'all' && task.priority !== filterPriority) return false;
       if (filterAssignee !== 'all' && task.assignee !== filterAssignee) return false;
       return true;
@@ -370,38 +398,43 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
   // Group tasks by column
   const tasksByColumn = useMemo(() => {
     const grouped: Record<string, Task[]> = {};
-    columns.forEach(column => {
-      grouped[column.id] = filteredTasks.filter(task => task.column === column.id);
+    columns.forEach((column) => {
+      grouped[column.id] = filteredTasks.filter((task) => task.column === column.id);
     });
     return grouped;
   }, [filteredTasks]);
 
   // Get team member by ID
   const getTeamMember = (id: string) => {
-    return teamMembers.find(member => member.id === id);
+    return teamMembers.find((member) => member.id === id);
   };
 
   // Calculate sprint progress
   const sprintProgress = useMemo(() => {
     const totalTasks = sprintTasks.length;
-    const completedTasks = sprintTasks.filter(task => task.column === 'done').length;
-    const inProgressTasks = sprintTasks.filter(task => task.status === 'in-progress').length;
-    
+    const completedTasks = sprintTasks.filter((task) => task.column === 'done').length;
+    const inProgressTasks = sprintTasks.filter((task) => task.status === 'in-progress').length;
+
     return {
       completed: Math.round((completedTasks / totalTasks) * 100),
       inProgress: Math.round((inProgressTasks / totalTasks) * 100),
-      remaining: Math.round(((totalTasks - completedTasks - inProgressTasks) / totalTasks) * 100)
+      remaining: Math.round(((totalTasks - completedTasks - inProgressTasks) / totalTasks) * 100),
     };
   }, []);
 
   // Priority color mapping
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'critical': return 'var(--ff-error)';
-      case 'high': return 'var(--ff-warning)';
-      case 'medium': return 'var(--ff-secondary)';
-      case 'low': return 'var(--ff-neutral-400)';
-      default: return 'var(--ff-neutral-400)';
+      case 'critical':
+        return 'var(--ff-error)';
+      case 'high':
+        return 'var(--ff-warning)';
+      case 'medium':
+        return 'var(--ff-secondary)';
+      case 'low':
+        return 'var(--ff-neutral-400)';
+      default:
+        return 'var(--ff-neutral-400)';
     }
   };
 
@@ -410,9 +443,9 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
     const assignee = getTeamMember(task.assignee);
     const isSelected = selectedTask === task.id;
     const isOverdue = new Date(task.dueDate) < new Date() && task.status !== 'done';
-    
+
     return (
-      <Card 
+      <Card
         className={`ff-card-interactive cursor-pointer transition-all duration-200 ${
           isSelected ? 'border-[var(--ff-primary)] ring-2 ring-[var(--ff-primary)]/20' : ''
         } ${isOverdue ? 'border-[var(--ff-error)]/50' : ''}`}
@@ -423,15 +456,21 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
           <div className="flex items-start justify-between">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="ff-text-xs text-[var(--ff-text-muted)]" style={{ fontFamily: 'var(--ff-font-mono)' }}>
+                <span
+                  className="ff-text-xs text-[var(--ff-text-muted)]"
+                  style={{ fontFamily: 'var(--ff-font-mono)' }}
+                >
                   {task.id}
                 </span>
-                <div 
+                <div
                   className="w-2 h-2 rounded-full"
                   style={{ backgroundColor: getPriorityColor(task.priority) }}
                 />
               </div>
-              <h4 className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+              <h4
+                className="ff-text-sm text-[var(--ff-text-primary)]"
+                style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+              >
                 {task.title}
               </h4>
             </div>
@@ -439,16 +478,14 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
               <MoreHorizontal className="w-3 h-3" />
             </Button>
           </div>
-          
+
           {/* Task Description */}
-          <p className="ff-text-xs text-[var(--ff-text-muted)] line-clamp-2">
-            {task.description}
-          </p>
-          
+          <p className="ff-text-xs text-[var(--ff-text-muted)] line-clamp-2">{task.description}</p>
+
           {/* Labels */}
           {task.labels.length > 0 && (
             <div className="flex flex-wrap gap-1">
-              {task.labels.slice(0, 2).map(label => (
+              {task.labels.slice(0, 2).map((label) => (
                 <Badge key={label} variant="outline" className="ff-text-xs px-1 py-0">
                   {label}
                 </Badge>
@@ -460,7 +497,7 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
               )}
             </div>
           )}
-          
+
           {/* Progress Bar */}
           <div className="space-y-1">
             <div className="flex justify-between">
@@ -469,27 +506,22 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
                 {task.spent}h / {task.estimate}h
               </span>
             </div>
-            <Progress 
-              value={(task.spent / task.estimate) * 100} 
-              className="h-1"
-            />
+            <Progress value={(task.spent / task.estimate) * 100} className="h-1" />
           </div>
-          
+
           {/* Task Footer */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               {assignee && (
                 <Avatar className="w-6 h-6">
-                  <AvatarFallback className="ff-text-xs">
-                    {assignee.avatar}
-                  </AvatarFallback>
+                  <AvatarFallback className="ff-text-xs">{assignee.avatar}</AvatarFallback>
                 </Avatar>
               )}
               <span className="ff-text-xs text-[var(--ff-text-muted)]">
                 Due {new Date(task.dueDate).toLocaleDateString()}
               </span>
             </div>
-            
+
             <div className="flex items-center gap-1">
               {task.comments > 0 && (
                 <div className="flex items-center gap-1">
@@ -505,14 +537,15 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
               )}
             </div>
           </div>
-          
+
           {/* Dependencies */}
           {task.dependencies.length > 0 && (
             <div className="border-t border-[var(--border)] pt-2">
               <div className="flex items-center gap-1">
                 <GitBranch className="w-3 h-3 text-[var(--ff-text-muted)]" />
                 <span className="ff-text-xs text-[var(--ff-text-muted)]">
-                  Depends on {task.dependencies.length} task{task.dependencies.length > 1 ? 's' : ''}
+                  Depends on {task.dependencies.length} task
+                  {task.dependencies.length > 1 ? 's' : ''}
                 </span>
               </div>
             </div>
@@ -523,24 +556,26 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--ff-bg-dark)]" style={{ fontFamily: 'var(--ff-font-secondary)' }}>
+    <div
+      className="min-h-screen bg-[var(--ff-bg-dark)]"
+      style={{ fontFamily: 'var(--ff-font-secondary)' }}
+    >
       <div className="max-w-full mx-auto p-6 space-y-6">
-        
         {/* Header */}
         <div className="text-center space-y-4 ff-fade-in-up">
           <Badge className="ff-badge-secondary mb-4">
             <Activity className="w-4 h-4 mr-2" />
             Development Workflow
           </Badge>
-          
+
           <h1 className="ff-text-display">
             Sprint
             <span className="ff-text-gradient"> {sprintData.sprintNumber}</span>
           </h1>
-          
+
           <p className="ff-text-body max-w-3xl mx-auto">
-            Two-week sprint board managing development workflow from design review 
-            through production deployment with real-time progress tracking.
+            Two-week sprint board managing development workflow from design review through
+            production deployment with real-time progress tracking.
           </p>
         </div>
 
@@ -554,7 +589,8 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
               </CardTitle>
               <div className="flex items-center gap-2">
                 <Badge className="ff-badge-success">
-                  {new Date(sprintData.startDate).toLocaleDateString()} - {new Date(sprintData.endDate).toLocaleDateString()}
+                  {new Date(sprintData.startDate).toLocaleDateString()} -{' '}
+                  {new Date(sprintData.endDate).toLocaleDateString()}
                 </Badge>
                 <Button variant="outline" size="sm" className="ff-btn-outline">
                   <Bell className="w-4 h-4 mr-2" />
@@ -571,39 +607,54 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span className="ff-text-sm text-[var(--ff-text-secondary)]">Completed</span>
-                    <span className="ff-text-sm text-[var(--ff-success)]">{sprintProgress.completed}%</span>
+                    <span className="ff-text-sm text-[var(--ff-success)]">
+                      {sprintProgress.completed}%
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="ff-text-sm text-[var(--ff-text-secondary)]">In Progress</span>
-                    <span className="ff-text-sm text-[var(--ff-primary)]">{sprintProgress.inProgress}%</span>
+                    <span className="ff-text-sm text-[var(--ff-primary)]">
+                      {sprintProgress.inProgress}%
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="ff-text-sm text-[var(--ff-text-secondary)]">Remaining</span>
-                    <span className="ff-text-sm text-[var(--ff-text-muted)]">{sprintProgress.remaining}%</span>
+                    <span className="ff-text-sm text-[var(--ff-text-muted)]">
+                      {sprintProgress.remaining}%
+                    </span>
                   </div>
                 </div>
                 <Progress value={sprintProgress.completed} className="h-2" />
               </div>
-              
+
               {/* Capacity */}
               <div className="space-y-4">
                 <h4 className="ff-text-sm text-[var(--ff-text-muted)]">Capacity</h4>
                 <div className="space-y-2">
-                  <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                  <div
+                    className="ff-text-2xl text-[var(--ff-text-primary)]"
+                    style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                  >
                     {sprintData.allocatedHours}h
                   </div>
                   <div className="ff-text-sm text-[var(--ff-text-muted)]">
                     of {sprintData.totalCapacity}h allocated
                   </div>
-                  <Progress value={(sprintData.allocatedHours / sprintData.totalCapacity) * 100} className="h-2" />
+                  <Progress
+                    value={(sprintData.allocatedHours / sprintData.totalCapacity) * 100}
+                    className="h-2"
+                  />
                 </div>
               </div>
-              
+
               {/* Burndown */}
               <div className="space-y-4">
                 <h4 className="ff-text-sm text-[var(--ff-text-muted)]">Burndown Rate</h4>
                 <div className="space-y-2">
-                  <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                  <div
+                    className="ff-text-2xl text-[var(--ff-text-primary)]"
+                    style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                  >
                     {Math.round(sprintData.burndownRate * 100)}%
                   </div>
                   <div className="ff-text-sm text-[var(--ff-text-muted)]">
@@ -612,16 +663,14 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
                   <Progress value={sprintData.burndownRate * 100} className="h-2" />
                 </div>
               </div>
-              
+
               {/* Team */}
               <div className="space-y-4">
                 <h4 className="ff-text-sm text-[var(--ff-text-muted)]">Team</h4>
                 <div className="flex -space-x-2">
-                  {teamMembers.map(member => (
+                  {teamMembers.map((member) => (
                     <Avatar key={member.id} className="w-8 h-8 border-2 border-[var(--ff-surface)]">
-                      <AvatarFallback className="ff-text-xs">
-                        {member.avatar}
-                      </AvatarFallback>
+                      <AvatarFallback className="ff-text-xs">{member.avatar}</AvatarFallback>
                     </Avatar>
                   ))}
                 </div>
@@ -638,7 +687,7 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Filter className="w-4 h-4 text-[var(--ff-text-muted)]" />
-              <select 
+              <select
                 value={filterPriority}
                 onChange={(e) => setFilterPriority(e.target.value)}
                 className="ff-input bg-[var(--ff-surface)] border border-[var(--border)] rounded px-3 py-1 text-sm"
@@ -650,22 +699,24 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
                 <option value="low">Low</option>
               </select>
             </div>
-            
+
             <div className="flex items-center gap-2">
               <Users className="w-4 h-4 text-[var(--ff-text-muted)]" />
-              <select 
+              <select
                 value={filterAssignee}
                 onChange={(e) => setFilterAssignee(e.target.value)}
                 className="ff-input bg-[var(--ff-surface)] border border-[var(--border)] rounded px-3 py-1 text-sm"
               >
                 <option value="all">All Assignees</option>
-                {teamMembers.map(member => (
-                  <option key={member.id} value={member.id}>{member.name}</option>
+                {teamMembers.map((member) => (
+                  <option key={member.id} value={member.id}>
+                    {member.name}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" className="ff-btn-outline">
               <Search className="w-4 h-4 mr-2" />
@@ -680,20 +731,23 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
 
         {/* Sprint Board */}
         <div className="grid grid-cols-1 lg:grid-cols-6 gap-6">
-          {columns.map(column => {
+          {columns.map((column) => {
             const tasks = tasksByColumn[column.id] || [];
             const isAtLimit = column.limit && tasks.length >= column.limit;
-            
+
             return (
               <div key={column.id} className="space-y-4">
                 {/* Column Header */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div 
+                    <div
                       className="w-3 h-3 rounded-full"
                       style={{ backgroundColor: column.color }}
                     />
-                    <h3 className="ff-text-base text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                    <h3
+                      className="ff-text-base text-[var(--ff-text-primary)]"
+                      style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                    >
                       {column.title}
                     </h3>
                     <Badge variant="outline" className="ff-text-xs">
@@ -701,22 +755,22 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
                       {column.limit && `/${column.limit}`}
                     </Badge>
                   </div>
-                  
-                  {isAtLimit && (
-                    <AlertTriangle className="w-4 h-4 text-[var(--ff-warning)]" />
-                  )}
+
+                  {isAtLimit && <AlertTriangle className="w-4 h-4 text-[var(--ff-warning)]" />}
                 </div>
-                
+
                 {/* Column Content */}
-                <div className={`space-y-3 min-h-[200px] p-3 rounded-lg border-2 border-dashed transition-colors ${
-                  isAtLimit 
-                    ? 'border-[var(--ff-warning)]/30 bg-[var(--ff-warning)]/5' 
-                    : 'border-[var(--border)] bg-[var(--ff-surface)]/30'
-                }`}>
-                  {tasks.map(task => (
+                <div
+                  className={`space-y-3 min-h-[200px] p-3 rounded-lg border-2 border-dashed transition-colors ${
+                    isAtLimit
+                      ? 'border-[var(--ff-warning)]/30 bg-[var(--ff-warning)]/5'
+                      : 'border-[var(--border)] bg-[var(--ff-surface)]/30'
+                  }`}
+                >
+                  {tasks.map((task) => (
                     <TaskCard key={task.id} task={task} />
                   ))}
-                  
+
                   {tasks.length === 0 && (
                     <div className="flex items-center justify-center h-32 text-[var(--ff-text-muted)]">
                       <div className="text-center">
@@ -741,22 +795,23 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {teamMembers.map(member => (
+              {teamMembers.map((member) => (
                 <div key={member.id} className="space-y-3">
                   <div className="flex items-center gap-3">
                     <Avatar className="w-10 h-10">
-                      <AvatarFallback className="ff-text-sm">
-                        {member.avatar}
-                      </AvatarFallback>
+                      <AvatarFallback className="ff-text-sm">{member.avatar}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <div className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                      <div
+                        className="ff-text-sm text-[var(--ff-text-primary)]"
+                        style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                      >
                         {member.name}
                       </div>
                       <div className="ff-text-xs text-[var(--ff-text-muted)]">{member.role}</div>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span className="ff-text-sm text-[var(--ff-text-muted)]">Allocated</span>
@@ -764,14 +819,12 @@ export function DevelopmentWorkflow({}: DevelopmentWorkflowProps) {
                         {member.allocated}h / {member.capacity}h
                       </span>
                     </div>
-                    <Progress 
-                      value={(member.allocated / member.capacity) * 100} 
-                      className="h-2"
-                    />
+                    <Progress value={(member.allocated / member.capacity) * 100} className="h-2" />
                   </div>
-                  
+
                   <div className="ff-text-xs text-[var(--ff-text-muted)]">
-                    {Math.round(((member.capacity - member.allocated) / member.capacity) * 100)}% available
+                    {Math.round(((member.capacity - member.allocated) / member.capacity) * 100)}%
+                    available
                   </div>
                 </div>
               ))}

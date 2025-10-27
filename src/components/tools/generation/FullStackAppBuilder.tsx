@@ -8,10 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../ui/tabs';
 import { Label } from '../../ui/label';
 import { Switch } from '../../ui/switch';
 import { Progress } from '../../ui/progress';
-import { 
-  Layers, CloudUpload, Download, Monitor, Settings,
-  Loader2, Zap
-} from 'lucide-react';
+import { Layers, CloudUpload, Download, Monitor, Settings, Loader2, Zap } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
 // Import constants and types
@@ -22,13 +19,10 @@ import {
   AUTH_PROVIDERS,
   DEPLOYMENT_PLATFORMS,
   APP_TYPES,
-  FEATURES
+  FEATURES,
 } from '../../../constants/full-stack-builder';
 
-import type {
-  GeneratedApp,
-  AppStack
-} from '../../../types/full-stack-builder';
+import type { GeneratedApp, AppStack } from '../../../types/full-stack-builder';
 
 // Import utility functions
 import {
@@ -39,7 +33,7 @@ import {
   generateBackendApp,
   generateUserRoutes,
   generateAuthConfig,
-  generateAuthMiddleware
+  generateAuthMiddleware,
 } from '../../../utils/full-stack-code-generators';
 
 // Import AI Service for real code generation
@@ -53,13 +47,13 @@ import {
   generateEnvExample,
   generateProjectReadme,
   generateAPIEndpoints,
-  generateDeploymentConfig
+  generateDeploymentConfig,
 } from '../../../utils/full-stack-config-generators';
 
 import {
   generateFrontendDockerfile,
   generateBackendDockerfile,
-  generateGitHubActions
+  generateGitHubActions,
 } from '../../../utils/docker-generators';
 
 // Additional generator functions for enhanced file creation
@@ -688,34 +682,38 @@ coverage/
 };
 
 const generateRootPackageJson = (appName: string, appDescription: string): string => {
-  return JSON.stringify({
-    name: appName.toLowerCase().replace(/\s+/g, '-'),
-    version: '1.0.0',
-    description: appDescription,
-    private: true,
-    workspaces: ['frontend', 'backend'],
-    scripts: {
-      dev: 'concurrently "npm run dev:backend" "npm run dev:frontend"',
-      'dev:frontend': 'cd frontend && npm run dev',
-      'dev:backend': 'cd backend && npm run dev',
-      build: 'npm run build:backend && npm run build:frontend',
-      'build:frontend': 'cd frontend && npm run build',
-      'build:backend': 'cd backend && npm run build',
-      start: 'npm run start:backend',
-      'start:backend': 'cd backend && npm start',
-      test: 'npm run test:frontend && npm run test:backend',
-      'test:frontend': 'cd frontend && npm test',
-      'test:backend': 'cd backend && npm test',
-      setup: 'npm install && cd frontend && npm install && cd ../backend && npm install'
+  return JSON.stringify(
+    {
+      name: appName.toLowerCase().replace(/\s+/g, '-'),
+      version: '1.0.0',
+      description: appDescription,
+      private: true,
+      workspaces: ['frontend', 'backend'],
+      scripts: {
+        dev: 'concurrently "npm run dev:backend" "npm run dev:frontend"',
+        'dev:frontend': 'cd frontend && npm run dev',
+        'dev:backend': 'cd backend && npm run dev',
+        build: 'npm run build:backend && npm run build:frontend',
+        'build:frontend': 'cd frontend && npm run build',
+        'build:backend': 'cd backend && npm run build',
+        start: 'npm run start:backend',
+        'start:backend': 'cd backend && npm start',
+        test: 'npm run test:frontend && npm run test:backend',
+        'test:frontend': 'cd frontend && npm test',
+        'test:backend': 'cd backend && npm test',
+        setup: 'npm install && cd frontend && npm install && cd ../backend && npm install',
+      },
+      devDependencies: {
+        concurrently: '^8.2.0',
+      },
+      engines: {
+        node: '>=18.0.0',
+        npm: '>=8.0.0',
+      },
     },
-    devDependencies: {
-      concurrently: '^8.2.0'
-    },
-    engines: {
-      node: '>=18.0.0',
-      npm: '>=8.0.0'
-    }
-  }, null, 2);
+    null,
+    2
+  );
 };
 
 // Import sub-components
@@ -745,7 +743,7 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
     localStorage.setItem('user_id', newUserId); // Backwards compatibility
     return newUserId;
   });
-  
+
   // Configuration state
   const [appName, setAppName] = useState('');
   const [appDescription, setAppDescription] = useState('');
@@ -758,38 +756,35 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([
     'User Authentication & Authorization',
     'Admin Dashboard',
-    'API Documentation'
+    'API Documentation',
   ]);
-  
+
   // Generated state
   const [generatedApp, setGeneratedApp] = useState<GeneratedApp | null>(null);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
-  const handleFeatureToggle = useCallback((feature: string) => {
-    setSelectedFeatures(prev => {
-      const wasSelected = prev.includes(feature);
-      const newFeatures = wasSelected 
-        ? prev.filter(f => f !== feature)
-        : [...prev, feature];
-      
-      // Award XP for feature selection (non-blocking)
-      if (!wasSelected) {
-        GamificationService.addXP(
-          userId,
-          5,
-          'tool_usage',
-          `Selected feature: ${feature}`,
-          { feature_name: feature }
-        ).catch(() => {});
-      }
-      
-      return newFeatures;
-    });
-  }, [userId]);
+  const handleFeatureToggle = useCallback(
+    (feature: string) => {
+      setSelectedFeatures((prev) => {
+        const wasSelected = prev.includes(feature);
+        const newFeatures = wasSelected ? prev.filter((f) => f !== feature) : [...prev, feature];
+
+        // Award XP for feature selection (non-blocking)
+        if (!wasSelected) {
+          GamificationService.addXP(userId, 5, 'tool_usage', `Selected feature: ${feature}`, {
+            feature_name: feature,
+          }).catch(() => {});
+        }
+
+        return newFeatures;
+      });
+    },
+    [userId]
+  );
 
   const generateFullStackApp = useCallback(async (): Promise<GeneratedApp> => {
     const stack: AppStack = { frontend, backend, database, auth, deployment };
-    
+
     // Check if AI service is available
     const currentModel = AIService.getCurrentModel();
     if (!currentModel) {
@@ -801,7 +796,7 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
       GamificationService.recordToolUsage(userId, 'Full-Stack App Builder', false).catch(() => {
         // Silently handle gamification errors
       });
-      
+
       // Generate files using AI for critical components
       const [
         frontendHomePage,
@@ -809,7 +804,7 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
         backendApp,
         userRoutes,
         authConfigContent,
-        authMiddlewareContent
+        authMiddlewareContent,
       ] = await Promise.all([
         // Generate frontend home page with AI
         AIService.generateCode({
@@ -837,8 +832,8 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
           options: {
             includeTypeScript: true,
             includeDocumentation: true,
-            optimizeForPerformance: true
-          }
+            optimizeForPerformance: true,
+          },
         }),
 
         // Generate layout component with AI
@@ -871,8 +866,8 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
             Export as default TypeScript React component.`,
           options: {
             includeTypeScript: true,
-            includeDocumentation: true
-          }
+            includeDocumentation: true,
+          },
         }),
 
         // Generate backend app with AI
@@ -913,8 +908,8 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
           options: {
             includeTypeScript: true,
             includeDocumentation: true,
-            optimizeForPerformance: true
-          }
+            optimizeForPerformance: true,
+          },
         }),
 
         // Generate user routes with AI
@@ -948,8 +943,8 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
             Add comprehensive logging and monitoring.`,
           options: {
             includeTypeScript: true,
-            includeDocumentation: true
-          }
+            includeDocumentation: true,
+          },
         }),
 
         // Generate auth config
@@ -981,8 +976,8 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
             Export proper configuration object with TypeScript types.`,
           options: {
             includeTypeScript: true,
-            includeDocumentation: true
-          }
+            includeDocumentation: true,
+          },
         }),
 
         // Generate auth middleware
@@ -1021,235 +1016,242 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
             Export middleware functions with proper TypeScript types.`,
           options: {
             includeTypeScript: true,
-            includeDocumentation: true
-          }
-        })
+            includeDocumentation: true,
+          },
+        }),
       ]);
 
       // Award XP for each major code generation milestone (non-blocking)
-      GamificationService.addXP(userId, 100, 'tool_usage', 'Generated frontend components', { component_count: 2 }).catch(() => {});
-      GamificationService.addXP(userId, 100, 'tool_usage', 'Generated backend API', { endpoint_count: 4 }).catch(() => {});
-      
+      GamificationService.addXP(userId, 100, 'tool_usage', 'Generated frontend components', {
+        component_count: 2,
+      }).catch(() => {});
+      GamificationService.addXP(userId, 100, 'tool_usage', 'Generated backend API', {
+        endpoint_count: 4,
+      }).catch(() => {});
+
       const files = [
         // Frontend files (AI-generated)
         {
           path: 'frontend/package.json',
           content: generateFrontendPackageJson(appName, frontend, selectedFeatures),
           type: 'frontend' as const,
-          size: new Blob([generateFrontendPackageJson(appName, frontend, selectedFeatures)]).size
+          size: new Blob([generateFrontendPackageJson(appName, frontend, selectedFeatures)]).size,
         },
         {
           path: 'frontend/src/pages/index.tsx',
           content: frontendHomePage,
           type: 'frontend' as const,
-          size: new Blob([frontendHomePage]).size
+          size: new Blob([frontendHomePage]).size,
         },
         {
           path: 'frontend/src/components/Layout.tsx',
           content: layoutComponent,
           type: 'frontend' as const,
-          size: new Blob([layoutComponent]).size
+          size: new Blob([layoutComponent]).size,
         },
         {
           path: 'frontend/src/lib/auth.ts',
           content: authConfigContent,
           type: 'frontend' as const,
-          size: new Blob([authConfigContent]).size
+          size: new Blob([authConfigContent]).size,
         },
         {
           path: 'frontend/src/components/ui/Button.tsx',
           content: generateUIComponent('Button', frontend),
           type: 'frontend' as const,
-          size: 1024
+          size: 1024,
         },
         {
           path: 'frontend/src/components/ui/Input.tsx',
           content: generateUIComponent('Input', frontend),
           type: 'frontend' as const,
-          size: 768
+          size: 768,
         },
         {
           path: 'frontend/src/hooks/useAuth.ts',
           content: generateAuthHook(auth),
           type: 'frontend' as const,
-          size: 512
+          size: 512,
         },
         {
           path: 'frontend/src/services/api.ts',
           content: generateAPIService(backend),
           type: 'frontend' as const,
-          size: 1536
+          size: 1536,
         },
         {
           path: 'frontend/tailwind.config.js',
           content: generateTailwindConfig(),
           type: 'frontend' as const,
-          size: 512
+          size: 512,
         },
         {
           path: 'frontend/vite.config.ts',
           content: generateViteConfig(),
           type: 'frontend' as const,
-          size: 384
+          size: 384,
         },
-        
+
         // Backend files (AI-generated)
         {
           path: 'backend/package.json',
           content: generateBackendPackageJson(appName, backend, selectedFeatures),
           type: 'backend' as const,
-          size: new Blob([generateBackendPackageJson(appName, backend, selectedFeatures)]).size
+          size: new Blob([generateBackendPackageJson(appName, backend, selectedFeatures)]).size,
         },
         {
           path: 'backend/src/app.ts',
           content: backendApp,
           type: 'backend' as const,
-          size: new Blob([backendApp]).size
+          size: new Blob([backendApp]).size,
         },
         {
           path: 'backend/src/routes/auth.ts',
           content: userRoutes,
           type: 'backend' as const,
-          size: new Blob([userRoutes]).size
+          size: new Blob([userRoutes]).size,
         },
         {
           path: 'backend/src/middleware/auth.ts',
           content: authMiddlewareContent,
           type: 'backend' as const,
-          size: new Blob([authMiddlewareContent]).size
+          size: new Blob([authMiddlewareContent]).size,
         },
         {
           path: 'backend/src/middleware/cors.ts',
           content: generateCORSMiddleware(),
           type: 'backend' as const,
-          size: 384
+          size: 384,
         },
         {
           path: 'backend/src/models/User.ts',
           content: generateUserModel(database),
           type: 'backend' as const,
-          size: 768
+          size: 768,
         },
         {
           path: 'backend/src/utils/validation.ts',
           content: generateValidationUtils(),
           type: 'backend' as const,
-          size: 512
+          size: 512,
         },
         {
           path: 'backend/src/config/database.ts',
           content: generateDatabaseConfig(database),
           type: 'backend' as const,
-          size: 640
+          size: 640,
         },
         {
           path: 'backend/tsconfig.json',
           content: generateBackendTSConfig(),
           type: 'backend' as const,
-          size: 256
+          size: 256,
         },
-        
+
         // Database files (enhanced)
         {
           path: 'database/schema.sql',
           content: generateDatabaseSchema(database, selectedFeatures),
           type: 'database' as const,
-          size: new Blob([generateDatabaseSchema(database, selectedFeatures)]).size
+          size: new Blob([generateDatabaseSchema(database, selectedFeatures)]).size,
         },
         {
           path: 'database/migrations/001_initial.sql',
           content: generateInitialMigration(selectedFeatures),
           type: 'database' as const,
-          size: new Blob([generateInitialMigration(selectedFeatures)]).size
+          size: new Blob([generateInitialMigration(selectedFeatures)]).size,
         },
         {
           path: 'database/seeds/users.sql',
           content: generateUserSeeds(),
           type: 'database' as const,
-          size: 384
+          size: 384,
         },
-        
+
         // Configuration files (enhanced)
         {
           path: 'docker-compose.yml',
           content: generateDockerCompose(stack, selectedFeatures),
           type: 'config' as const,
-          size: new Blob([generateDockerCompose(stack, selectedFeatures)]).size
+          size: new Blob([generateDockerCompose(stack, selectedFeatures)]).size,
         },
         {
           path: 'docker-compose.prod.yml',
           content: generateProductionDockerCompose(stack),
           type: 'config' as const,
-          size: 1024
+          size: 1024,
         },
         {
           path: '.env.example',
           content: generateEnvExample(stack),
           type: 'config' as const,
-          size: new Blob([generateEnvExample(stack)]).size
+          size: new Blob([generateEnvExample(stack)]).size,
         },
         {
           path: 'README.md',
           content: generateProjectReadme(appName, appDescription, stack, selectedFeatures),
           type: 'config' as const,
-          size: new Blob([generateProjectReadme(appName, appDescription, stack, selectedFeatures)]).size
+          size: new Blob([generateProjectReadme(appName, appDescription, stack, selectedFeatures)])
+            .size,
         },
         {
           path: '.gitignore',
           content: generateGitIgnore(),
           type: 'config' as const,
-          size: 768
+          size: 768,
         },
         {
           path: 'package.json',
           content: generateRootPackageJson(appName, appDescription),
           type: 'config' as const,
-          size: 512
+          size: 512,
         },
       ];
 
-    // Add CI/CD files if selected
-    if (selectedFeatures.includes('CI/CD Pipeline')) {
-      files.push({
-        path: '.github/workflows/deploy.yml',
-        content: generateGitHubActions(stack),
-        type: 'config' as const,
-        size: 1024
-      });
-    }
-
-    // Add Docker files if selected
-    if (selectedFeatures.includes('Docker Containerization')) {
-      files.push(
-        {
-          path: 'frontend/Dockerfile',
-          content: generateFrontendDockerfile(frontend),
+      // Add CI/CD files if selected
+      if (selectedFeatures.includes('CI/CD Pipeline')) {
+        files.push({
+          path: '.github/workflows/deploy.yml',
+          content: generateGitHubActions(stack),
           type: 'config' as const,
-          size: 512
-        },
-        {
-          path: 'backend/Dockerfile',
-          content: generateBackendDockerfile(backend),
-          type: 'config' as const,
-          size: 512
-        }
-      );
-    }
+          size: 1024,
+        });
+      }
 
-    const endpoints = generateAPIEndpoints(selectedFeatures);
+      // Add Docker files if selected
+      if (selectedFeatures.includes('Docker Containerization')) {
+        files.push(
+          {
+            path: 'frontend/Dockerfile',
+            content: generateFrontendDockerfile(frontend),
+            type: 'config' as const,
+            size: 512,
+          },
+          {
+            path: 'backend/Dockerfile',
+            content: generateBackendDockerfile(backend),
+            type: 'config' as const,
+            size: 512,
+          }
+        );
+      }
 
-    return {
-      name: appName,
-      description: appDescription,
-      stack,
+      const endpoints = generateAPIEndpoints(selectedFeatures);
+
+      return {
+        name: appName,
+        description: appDescription,
+        stack,
         files,
         features: selectedFeatures,
         endpoints,
-        deploymentConfig: generateDeploymentConfig(stack)
+        deploymentConfig: generateDeploymentConfig(stack),
       };
     } catch (error) {
       console.error('AI-powered generation failed:', error);
-      throw new Error(`Failed to generate application: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to generate application: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     }
   }, [appName, appDescription, frontend, backend, database, auth, deployment, selectedFeatures]);
 
@@ -1284,7 +1286,7 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
 
       // Update progress with shorter delays since AI generation takes time
       const progressInterval = setInterval(() => {
-        const currentStep = progressSteps.find(step => step.progress > generationProgress);
+        const currentStep = progressSteps.find((step) => step.progress > generationProgress);
         if (currentStep && generationProgress < 90) {
           setGenerationProgress(currentStep.progress);
           toast.info(currentStep.message);
@@ -1292,40 +1294,48 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
       }, 800);
 
       const app = await generateFullStackApp();
-      
+
       clearInterval(progressInterval);
       setGenerationProgress(100);
-      
+
       setGeneratedApp(app);
       setSelectedFile(app.files[0]?.path || null);
       setActiveTab('preview');
-      
+
       // Award XP for full-stack app generation (non-blocking)
       GamificationService.recordProjectCompletion(userId, appName, 'full_stack').catch(() => {});
-      
+
       // Award bonus XP for using advanced features
       let bonusXP = 0;
       if (selectedFeatures.includes('Multi-Agent Orchestration')) bonusXP += 100;
       if (selectedFeatures.includes('Real-time Collaboration')) bonusXP += 75;
       if (selectedFeatures.includes('Advanced Analytics')) bonusXP += 50;
-      
+
       if (bonusXP > 0) {
         GamificationService.addXP(
           userId,
           bonusXP,
           'tool_usage',
-          `Advanced Full-Stack App: ${selectedFeatures.filter(f => 
-            ['Multi-Agent Orchestration', 'Real-time Collaboration', 'Advanced Analytics'].includes(f)
-          ).join(', ')}`,
+          `Advanced Full-Stack App: ${selectedFeatures
+            .filter((f) =>
+              [
+                'Multi-Agent Orchestration',
+                'Real-time Collaboration',
+                'Advanced Analytics',
+              ].includes(f)
+            )
+            .join(', ')}`,
           { app_name: appName, features: selectedFeatures }
         ).catch(() => {});
       }
-      
+
       toast.success('🎉 Your AI-generated full-stack application is ready!');
       toast.info(`Generated using ${currentModel.name} - Check the preview tab to see your code`);
     } catch (error) {
       console.error('AI-powered generation failed:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to generate application. Please try again.');
+      toast.error(
+        error instanceof Error ? error.message : 'Failed to generate application. Please try again.'
+      );
     } finally {
       setIsGenerating(false);
       setGenerationProgress(0);
@@ -1338,25 +1348,25 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
     try {
       // Show loading toast
       const loadingToast = toast.loading('Generating project files...');
-      
+
       // Create a ZIP file with all the generated files
       const JSZip = (await import('jszip')).default;
       const zip = new JSZip();
-      
+
       // Add all generated files to the ZIP
-      generatedApp.files.forEach(file => {
+      generatedApp.files.forEach((file) => {
         const folderPath = file.path.split('/').slice(0, -1).join('/');
         const fileName = file.path.split('/').pop() || 'file';
-        
+
         if (folderPath) {
           zip.folder(folderPath)?.file(fileName, file.content);
         } else {
           zip.file(fileName, file.content);
         }
       });
-      
+
       // Add package.json files if they don't exist
-      if (!generatedApp.files.find(f => f.path === 'package.json')) {
+      if (!generatedApp.files.find((f) => f.path === 'package.json')) {
         const rootPackageJson = {
           name: generatedApp.name.toLowerCase().replace(/\s+/g, '-'),
           version: '1.0.0',
@@ -1369,14 +1379,14 @@ export function FullStackAppBuilder({ onBack }: FullStackAppBuilderProps) {
             'build:frontend': 'cd frontend && npm run build',
             'build:backend': 'cd backend && npm run build',
             start: 'npm run start:backend',
-            'start:backend': 'cd backend && npm start'
+            'start:backend': 'cd backend && npm start',
           },
           dependencies: {},
-          devDependencies: {}
+          devDependencies: {},
         };
         zip.file('package.json', JSON.stringify(rootPackageJson, null, 2));
       }
-      
+
       // Add README.md
       const readmeContent = `# ${generatedApp.name}
 
@@ -1392,7 +1402,7 @@ ${generatedApp.description}
 
 ## Features
 
-${generatedApp.features.map(feature => `- ${feature}`).join('\n')}
+${generatedApp.features.map((feature) => `- ${feature}`).join('\n')}
 
 ## Getting Started
 
@@ -1424,17 +1434,20 @@ ${generatedApp.features.map(feature => `- ${feature}`).join('\n')}
 
 ## API Endpoints
 
-${generatedApp.endpoints?.map(endpoint => 
-  `- **${endpoint.method}** \`${endpoint.path}\` - ${endpoint.description}`
-).join('\n') || 'No API endpoints documented.'}
+${
+  generatedApp.endpoints
+    ?.map((endpoint) => `- **${endpoint.method}** \`${endpoint.path}\` - ${endpoint.description}`)
+    .join('\n') || 'No API endpoints documented.'
+}
 
 ## Deployment
 
 This application is configured for deployment to ${generatedApp.stack.deployment}.
 
-${generatedApp.deploymentConfig ? 
-  `### Deployment Configuration\n\n\`\`\`json\n${JSON.stringify(generatedApp.deploymentConfig, null, 2)}\n\`\`\`` :
-  'See deployment configuration files for setup instructions.'
+${
+  generatedApp.deploymentConfig
+    ? `### Deployment Configuration\n\n\`\`\`json\n${JSON.stringify(generatedApp.deploymentConfig, null, 2)}\n\`\`\``
+    : 'See deployment configuration files for setup instructions.'
 }
 
 ## Contributing
@@ -1448,9 +1461,9 @@ ${generatedApp.deploymentConfig ?
 
 This project was generated using FlashFusion AI Platform.
 `;
-      
+
       zip.file('README.md', readmeContent);
-      
+
       // Add .gitignore
       const gitignoreContent = `# Dependencies
 node_modules/
@@ -1486,12 +1499,12 @@ Thumbs.db
 logs/
 *.log
 `;
-      
+
       zip.file('.gitignore', gitignoreContent);
-      
+
       // Generate the ZIP file
       const zipBlob = await zip.generateAsync({ type: 'blob' });
-      
+
       // Download the file
       const downloadUrl = URL.createObjectURL(zipBlob);
       const link = document.createElement('a');
@@ -1501,85 +1514,79 @@ logs/
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(downloadUrl);
-      
+
       // Dismiss loading and show success
       toast.dismiss(loadingToast);
       toast.success('🎉 Project downloaded successfully!');
-      
+
       // Award XP for downloading (non-blocking)
-      GamificationService.addXP(
-        userId,
-        50,
-        'tool_usage',
-        'Downloaded full-stack application',
-        { app_name: generatedApp.name, file_count: generatedApp.files.length }
-      ).catch(() => {});
-      
+      GamificationService.addXP(userId, 50, 'tool_usage', 'Downloaded full-stack application', {
+        app_name: generatedApp.name,
+        file_count: generatedApp.files.length,
+      }).catch(() => {});
     } catch (error) {
       console.error('Error downloading project:', error);
       toast.error('Failed to generate project files. Please try again.');
     }
   }, [generatedApp]);
 
-  const copyToClipboard = useCallback(async (content: string) => {
-    try {
-      await navigator.clipboard.writeText(content);
-      toast.success('Copied to clipboard!');
-      
-      // Award XP for copying code (non-blocking)
-      GamificationService.addXP(
-        userId,
-        5,
-        'tool_usage',
-        'Copied generated code',
-        { content_length: content.length }
-      ).catch(() => {});
-    } catch (error) {
-      console.error('Failed to copy to clipboard:', error);
-      toast.error('Failed to copy to clipboard');
-    }
-  }, [userId]);
+  const copyToClipboard = useCallback(
+    async (content: string) => {
+      try {
+        await navigator.clipboard.writeText(content);
+        toast.success('Copied to clipboard!');
 
-  const handleFileSelect = useCallback((filePath: string) => {
-    setSelectedFile(filePath);
-    
-    // Award XP for file exploration (non-blocking)
-    GamificationService.addXP(
-      userId,
-      2,
-      'tool_usage',
-      'Explored generated file',
-      { file_path: filePath }
-    ).catch(() => {});
-  }, [userId]);
+        // Award XP for copying code (non-blocking)
+        GamificationService.addXP(userId, 5, 'tool_usage', 'Copied generated code', {
+          content_length: content.length,
+        }).catch(() => {});
+      } catch (error) {
+        console.error('Failed to copy to clipboard:', error);
+        toast.error('Failed to copy to clipboard');
+      }
+    },
+    [userId]
+  );
 
-  const handleDownloadFile = useCallback((filePath: string, content: string) => {
-    try {
-      const blob = new Blob([content], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filePath.split('/').pop() || 'file.txt';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-      
-      toast.success(`Downloaded ${filePath.split('/').pop()}`);
-      
-      // Award XP for individual file download (non-blocking)
-      GamificationService.addXP(
-        userId,
-        10,
-        'tool_usage',
-        'Downloaded individual file',
-        { file_path: filePath, file_size: content.length }
-      ).catch(() => {});
-    } catch (error) {
-      console.error('Failed to download file:', error);
-      toast.error('Failed to download file');
-    }
-  }, [userId]);
+  const handleFileSelect = useCallback(
+    (filePath: string) => {
+      setSelectedFile(filePath);
+
+      // Award XP for file exploration (non-blocking)
+      GamificationService.addXP(userId, 2, 'tool_usage', 'Explored generated file', {
+        file_path: filePath,
+      }).catch(() => {});
+    },
+    [userId]
+  );
+
+  const handleDownloadFile = useCallback(
+    (filePath: string, content: string) => {
+      try {
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filePath.split('/').pop() || 'file.txt';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        toast.success(`Downloaded ${filePath.split('/').pop()}`);
+
+        // Award XP for individual file download (non-blocking)
+        GamificationService.addXP(userId, 10, 'tool_usage', 'Downloaded individual file', {
+          file_path: filePath,
+          file_size: content.length,
+        }).catch(() => {});
+      } catch (error) {
+        console.error('Failed to download file:', error);
+        toast.error('Failed to download file');
+      }
+    },
+    [userId]
+  );
 
   return (
     <div className="space-y-6">
@@ -1597,7 +1604,11 @@ logs/
             <CloudUpload className="w-4 h-4" />
             Deploy
           </TabsTrigger>
-          <TabsTrigger value="download" disabled={!generatedApp} className="flex items-center gap-2">
+          <TabsTrigger
+            value="download"
+            disabled={!generatedApp}
+            className="flex items-center gap-2"
+          >
             <Download className="w-4 h-4" />
             Export
           </TabsTrigger>
@@ -1680,7 +1691,7 @@ logs/
                     </>
                   )}
                 </Button>
-                
+
                 {generatedApp && (
                   <Button variant="outline" onClick={() => setActiveTab('preview')} size="lg">
                     <Monitor className="w-5 h-5 mr-2" />
@@ -1706,18 +1717,11 @@ logs/
         </TabsContent>
 
         <TabsContent value="deploy" className="space-y-6">
-          {generatedApp && (
-            <DeploymentSection generatedApp={generatedApp} />
-          )}
+          {generatedApp && <DeploymentSection generatedApp={generatedApp} />}
         </TabsContent>
 
         <TabsContent value="download" className="space-y-6">
-          {generatedApp && (
-            <ExportSection 
-              generatedApp={generatedApp}
-              onDownload={downloadApp}
-            />
-          )}
+          {generatedApp && <ExportSection generatedApp={generatedApp} onDownload={downloadApp} />}
         </TabsContent>
       </Tabs>
     </div>

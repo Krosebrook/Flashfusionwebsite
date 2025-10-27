@@ -46,7 +46,7 @@ export function ServiceContainer({ children }: ServiceContainerProps) {
       client: supabase,
       isConnected: true, // TODO: Add actual connection check
     },
-    
+
     analytics: {
       track: (event: string, properties?: Record<string, any>) => {
         if (typeof window !== 'undefined' && window.gtag) {
@@ -54,7 +54,7 @@ export function ServiceContainer({ children }: ServiceContainerProps) {
         }
         console.log('Analytics Event:', event, properties);
       },
-      
+
       identify: (userId: string, properties?: Record<string, any>) => {
         if (typeof window !== 'undefined' && window.gtag) {
           window.gtag('config', CONFIG.GA_MEASUREMENT_ID, {
@@ -65,13 +65,13 @@ export function ServiceContainer({ children }: ServiceContainerProps) {
         console.log('Analytics Identify:', userId, properties);
       },
     },
-    
+
     notifications: {
       send: (message: string, type: 'info' | 'success' | 'warning' | 'error' = 'info') => {
         // TODO: Implement toast notifications
         console.log(`Notification [${type}]:`, message);
       },
-      
+
       subscribe: (userId: string, callback: (notification: any) => void) => {
         // TODO: Implement real-time subscription
         console.log('Subscribing to notifications for user:', userId);

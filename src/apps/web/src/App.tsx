@@ -22,7 +22,7 @@ import { isDevelopment } from '@flashfusion/config/env';
 
 /**
  * FlashFusion - AI Development Assistant Platform
- * 
+ *
  * Your intelligent development companion that transforms ideas into production-ready
  * applications through advanced AI orchestration and automation, featuring:
  * - 60+ AI-powered development tools across 6 specialized categories
@@ -35,14 +35,14 @@ import { isDevelopment } from '@flashfusion/config/env';
  * - Integrated development environment with AI-powered assistance
  * - Production-ready CI/CD automation with quality assurance
  * - Comprehensive analytics and performance optimization
- * 
+ *
  * FlashFusion learns from your development patterns and provides contextual assistance
  * to accelerate your workflow from concept to deployment.
  */
 
 function AppContent() {
   const errorService = useErrorService();
-  
+
   // Use extracted application state management
   const {
     appState,
@@ -51,7 +51,7 @@ function AppContent() {
     retryCount,
     handleAuthToggle,
     handlePageChange,
-    handleRetry
+    handleRetry,
   } = useAppState();
 
   // Set up keyboard shortcuts
@@ -62,10 +62,10 @@ function AppContent() {
     onError: (errorData) => {
       errorService.handleError(
         errorService.createError(errorData.type as any, errorData.message, {
-          code: errorData.code
+          code: errorData.code,
         })
       );
-    }
+    },
   });
 
   // Enable smart preloading
@@ -74,9 +74,9 @@ function AppContent() {
   // Add critical resource hints for performance and initialize gamification
   useEffect(() => {
     addCriticalResourceHints();
-    
+
     // Initialize gamification system
-    initializeGamification().catch(err => {
+    initializeGamification().catch((err) => {
       console.log('Gamification system will run in offline mode');
     });
   }, []);
@@ -89,21 +89,19 @@ function AppContent() {
           <div className="ff-pulse-glow">
             <FullPageLoader message="Initializing FlashFusion..." />
           </div>
-          
+
           {retryCount > 0 && (
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Retry attempt {retryCount} of 3
-              </p>
+              <p className="text-sm text-muted-foreground">Retry attempt {retryCount} of 3</p>
               <div className="w-full bg-muted rounded-full h-2">
-                <div 
+                <div
                   className="ff-progress-bar h-2 rounded-full transition-all duration-500"
                   style={{ width: `${(retryCount / 3) * 100}%` }}
                 />
               </div>
             </div>
           )}
-          
+
           <div className="text-xs text-muted-foreground space-y-1">
             <p>Loading your AI development assistant...</p>
             {appState.connectionStatus === 'checking' && (
@@ -124,15 +122,13 @@ function AppContent() {
             <div className="w-16 h-16 mx-auto bg-destructive/10 rounded-full flex items-center justify-center">
               <span className="text-2xl">⚠️</span>
             </div>
-            
+
             <h1 className="text-2xl font-bold text-destructive ff-text-gradient">
               Application Error
             </h1>
-            
+
             <div className="space-y-2">
-              <p className="text-lg text-muted-foreground">
-                {error.message}
-              </p>
+              <p className="text-lg text-muted-foreground">{error.message}</p>
               {error.details && (
                 <p className="text-sm text-muted-foreground/75 bg-muted/50 p-3 rounded-lg">
                   {error.details}
@@ -140,17 +136,14 @@ function AppContent() {
               )}
             </div>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              onClick={handleRetry} 
-              className="ff-btn-primary flex items-center gap-2"
-            >
+            <Button onClick={handleRetry} className="ff-btn-primary flex items-center gap-2">
               <span>🔄</span>
               Try Again
             </Button>
-            <Button 
-              onClick={() => window.location.reload()} 
+            <Button
+              onClick={() => window.location.reload()}
               variant="outline"
               className="ff-focus-ring flex items-center gap-2"
             >
@@ -158,14 +151,14 @@ function AppContent() {
               Refresh Page
             </Button>
           </div>
-          
+
           <div className="text-xs text-muted-foreground bg-muted/30 p-4 rounded-lg space-y-1">
-            <p><strong>Error Details:</strong></p>
+            <p>
+              <strong>Error Details:</strong>
+            </p>
             <p>Type: {error.type}</p>
             {error.code && <p>Code: {error.code}</p>}
-            {error.timestamp && (
-              <p>Time: {new Date(error.timestamp).toLocaleString()}</p>
-            )}
+            {error.timestamp && <p>Time: {new Date(error.timestamp).toLocaleString()}</p>}
             <p className="mt-2">If this problem persists, please contact support.</p>
           </div>
         </div>
@@ -179,41 +172,47 @@ function AppContent() {
       <ConnectionStatus status={appState.connectionStatus} />
       <DemoBanner />
       <Analytics />
-      
+
       {/* Enhanced Recoverable Error Banner */}
       {error?.recoverable && (
-        <div className={`border-b p-3 transition-all duration-300 ${
-          errorSeverity === 'critical' ? 'bg-destructive/10 border-destructive/20' :
-          errorSeverity === 'warning' ? 'bg-warning/10 border-warning/20' :
-          errorSeverity === 'info' ? 'bg-info/10 border-info/20' :
-          'bg-destructive/10 border-destructive/20'
-        }`}>
+        <div
+          className={`border-b p-3 transition-all duration-300 ${
+            errorSeverity === 'critical'
+              ? 'bg-destructive/10 border-destructive/20'
+              : errorSeverity === 'warning'
+                ? 'bg-warning/10 border-warning/20'
+                : errorSeverity === 'info'
+                  ? 'bg-info/10 border-info/20'
+                  : 'bg-destructive/10 border-destructive/20'
+          }`}
+        >
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 flex-1 min-w-0">
               <span className="text-xl shrink-0">
-                {errorSeverity === 'warning' ? '⚠️' : 
-                 errorSeverity === 'info' ? 'ℹ️' : '❌'}
+                {errorSeverity === 'warning' ? '⚠️' : errorSeverity === 'info' ? 'ℹ️' : '❌'}
               </span>
-              
+
               <div className="min-w-0 flex-1">
-                <p className={`text-sm font-medium truncate ${
-                  errorSeverity === 'warning' ? 'text-warning' :
-                  errorSeverity === 'info' ? 'text-info' :
-                  'text-destructive'
-                }`}>
+                <p
+                  className={`text-sm font-medium truncate ${
+                    errorSeverity === 'warning'
+                      ? 'text-warning'
+                      : errorSeverity === 'info'
+                        ? 'text-info'
+                        : 'text-destructive'
+                  }`}
+                >
                   {error.message}
                 </p>
                 {error.details && (
-                  <p className="text-xs text-muted-foreground truncate">
-                    {error.details}
-                  </p>
+                  <p className="text-xs text-muted-foreground truncate">{error.details}</p>
                 )}
               </div>
             </div>
-            
-            <Button 
-              size="sm" 
-              variant="outline" 
+
+            <Button
+              size="sm"
+              variant="outline"
               onClick={handleRetry}
               className="text-xs shrink-0 ff-hover-scale"
             >
@@ -226,7 +225,7 @@ function AppContent() {
       <div className="min-h-screen bg-background flex flex-col">
         {/* Enhanced Navigation with error boundary */}
         <CriticalErrorBoundary>
-          <Navigation 
+          <Navigation
             currentPage={appState.currentPage}
             isAuthenticated={appState.isAuthenticated}
             onPageChange={handlePageChange}
@@ -237,7 +236,7 @@ function AppContent() {
         {/* Main Content with Enhanced Error Boundaries and Loading States */}
         <main className="flex-1">
           <CriticalErrorBoundary>
-            <Suspense 
+            <Suspense
               fallback={
                 <div className="flex items-center justify-center min-h-[40vh]">
                   <div className="text-center space-y-3 ff-fade-in-up max-w-md mx-auto px-4">
@@ -254,7 +253,7 @@ function AppContent() {
                 </div>
               }
             >
-              <PageRouter 
+              <PageRouter
                 currentPage={appState.currentPage}
                 isAuthenticated={appState.isAuthenticated}
                 onPageChange={handlePageChange}
@@ -265,7 +264,7 @@ function AppContent() {
 
         {/* Enhanced Footer with Conditional Rendering and Error Boundary */}
         <CriticalErrorBoundary>
-          <AppFooter 
+          <AppFooter
             currentPage={appState.currentPage}
             isAuthenticated={appState.isAuthenticated}
             onPageChange={handlePageChange}
@@ -280,10 +279,10 @@ function AppContent() {
           <FeatureFlagDebugPanel />
         </CriticalErrorBoundary>
       )}
-      
+
       {/* Screen Reader Announcements */}
       <div aria-live="polite" aria-atomic="true" className="sr-only" />
-      
+
       {/* XP Notification System */}
       <XPNotificationSystem />
     </CriticalErrorBoundary>
@@ -311,7 +310,7 @@ declare global {
     FF_VERSION?: string;
     FF_BUILD_TIME?: string;
   }
-  
+
   interface Navigator {
     connection?: {
       effectiveType: '4g' | '3g' | '2g' | 'slow-2g';
@@ -320,7 +319,7 @@ declare global {
       saveData?: boolean;
     };
   }
-  
+
   interface Document {
     startViewTransition?: (callback: () => void) => void;
   }

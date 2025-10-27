@@ -9,11 +9,11 @@ interface FeatureStatusBadgeProps {
   className?: string;
 }
 
-export function FeatureStatusBadge({ 
-  feature, 
-  status, 
-  description, 
-  className = '' 
+export function FeatureStatusBadge({
+  feature,
+  status,
+  description,
+  className = '',
 }: FeatureStatusBadgeProps) {
   const getStatusConfig = (status: string) => {
     switch (status) {
@@ -22,35 +22,35 @@ export function FeatureStatusBadge({
           icon: <CheckCircle className="h-3 w-3" />,
           text: 'Functional',
           variant: 'default' as const,
-          color: 'text-success'
+          color: 'text-success',
         };
       case 'partial':
         return {
           icon: <AlertCircle className="h-3 w-3" />,
           text: 'Partial',
           variant: 'secondary' as const,
-          color: 'text-warning'
+          color: 'text-warning',
         };
       case 'not-working':
         return {
           icon: <XCircle className="h-3 w-3" />,
           text: 'Needs Work',
           variant: 'destructive' as const,
-          color: 'text-destructive'
+          color: 'text-destructive',
         };
       case 'testing':
         return {
           icon: <Loader2 className="h-3 w-3 animate-spin" />,
           text: 'Testing',
           variant: 'outline' as const,
-          color: 'text-primary'
+          color: 'text-primary',
         };
       default:
         return {
           icon: <AlertCircle className="h-3 w-3" />,
           text: 'Unknown',
           variant: 'outline' as const,
-          color: 'text-muted-foreground'
+          color: 'text-muted-foreground',
         };
     }
   };
@@ -61,16 +61,10 @@ export function FeatureStatusBadge({
     <div className={`inline-flex items-center gap-2 ${className}`}>
       <span className="text-sm font-medium">{feature}:</span>
       <Badge variant={config.variant} className="flex items-center gap-1">
-        <span className={config.color}>
-          {config.icon}
-        </span>
+        <span className={config.color}>{config.icon}</span>
         {config.text}
       </Badge>
-      {description && (
-        <span className="text-xs text-muted-foreground">
-          {description}
-        </span>
-      )}
+      {description && <span className="text-xs text-muted-foreground">{description}</span>}
     </div>
   );
 }

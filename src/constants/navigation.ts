@@ -37,7 +37,7 @@ export const coreSystemNavigation: NavigationSection = {
       icon: 'Bell',
       description: 'Activity center and real-time alerts',
       requiresAuth: true,
-      badge: 'New'
+      badge: 'New',
     },
     {
       id: 'profile',
@@ -45,7 +45,7 @@ export const coreSystemNavigation: NavigationSection = {
       page: 'profile',
       icon: 'User',
       description: 'Personal information and account settings',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'search',
@@ -53,7 +53,7 @@ export const coreSystemNavigation: NavigationSection = {
       page: 'search',
       icon: 'Search',
       description: 'Search everything with command palette',
-      badge: '⌘+K'
+      badge: '⌘+K',
     },
     {
       id: 'plugins',
@@ -61,7 +61,7 @@ export const coreSystemNavigation: NavigationSection = {
       page: 'plugins',
       icon: 'Plug',
       description: 'Manage extensions and integrations',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'data-hub',
@@ -69,7 +69,7 @@ export const coreSystemNavigation: NavigationSection = {
       page: 'data-hub',
       icon: 'Database',
       description: 'Import, export, and sync data',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'insights',
@@ -77,7 +77,7 @@ export const coreSystemNavigation: NavigationSection = {
       page: 'insights',
       icon: 'BarChart3',
       description: 'Advanced analytics and reporting',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'workspace',
@@ -86,9 +86,9 @@ export const coreSystemNavigation: NavigationSection = {
       icon: 'Layout',
       description: 'Unified workspace dashboard',
       requiresAuth: true,
-      badge: 'Beta'
-    }
-  ]
+      badge: 'Beta',
+    },
+  ],
 };
 
 // Main Navigation Sections
@@ -101,7 +101,7 @@ export const primaryNavigation: NavigationSection = {
       label: 'Home',
       page: 'home',
       icon: 'Home',
-      description: 'FlashFusion homepage'
+      description: 'FlashFusion homepage',
     },
     {
       id: 'dashboard',
@@ -109,7 +109,7 @@ export const primaryNavigation: NavigationSection = {
       page: 'dashboard',
       icon: 'LayoutDashboard',
       description: 'Your personalized dashboard',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'projects',
@@ -117,23 +117,23 @@ export const primaryNavigation: NavigationSection = {
       page: 'projects',
       icon: 'Folder',
       description: 'Manage your projects',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'tools',
       label: 'AI Tools',
       page: 'tools',
       icon: 'Zap',
-      description: '60+ AI-powered tools'
+      description: '60+ AI-powered tools',
     },
     {
       id: 'templates',
       label: 'Templates',
       page: 'templates',
       icon: 'FileText',
-      description: 'Ready-to-use templates'
-    }
-  ]
+      description: 'Ready-to-use templates',
+    },
+  ],
 };
 
 // Creator Suite Navigation
@@ -147,7 +147,7 @@ export const creatorNavigation: NavigationSection = {
       page: 'creator-hub',
       icon: 'Crown',
       description: 'Main creator dashboard',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'creator-content-pipeline',
@@ -155,7 +155,7 @@ export const creatorNavigation: NavigationSection = {
       page: 'creator-content-pipeline',
       icon: 'Pipeline',
       description: 'Content creation workflow',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'creator-commerce',
@@ -163,7 +163,7 @@ export const creatorNavigation: NavigationSection = {
       page: 'creator-commerce',
       icon: 'ShoppingBag',
       description: 'Monetization platform',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'brand-kit',
@@ -171,9 +171,9 @@ export const creatorNavigation: NavigationSection = {
       page: 'brand-kit',
       icon: 'Palette',
       description: 'Brand asset generator',
-      requiresAuth: true
-    }
-  ]
+      requiresAuth: true,
+    },
+  ],
 };
 
 // Validation Suite Navigation
@@ -187,7 +187,7 @@ export const validationNavigation: NavigationSection = {
       page: 'validator-hub',
       icon: 'Shield',
       description: 'Main validation dashboard',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'ai-validation',
@@ -195,7 +195,7 @@ export const validationNavigation: NavigationSection = {
       page: 'ai-validation',
       icon: 'Brain',
       description: 'AI-powered validation engine',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'cross-app-validation',
@@ -203,7 +203,7 @@ export const validationNavigation: NavigationSection = {
       page: 'cross-app-validation',
       icon: 'GitMerge',
       description: 'Data consistency validation',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'security-compliance',
@@ -211,7 +211,7 @@ export const validationNavigation: NavigationSection = {
       page: 'security-compliance',
       icon: 'ShieldCheck',
       description: 'Security monitoring',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'collaboration-trust',
@@ -219,7 +219,7 @@ export const validationNavigation: NavigationSection = {
       page: 'collaboration-trust',
       icon: 'Users',
       description: 'Team collaboration validation',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'ai-output-validator',
@@ -227,7 +227,7 @@ export const validationNavigation: NavigationSection = {
       page: 'ai-output-validator',
       icon: 'CheckCircle',
       description: 'AI content quality assurance',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'sync-integrity',
@@ -235,7 +235,7 @@ export const validationNavigation: NavigationSection = {
       page: 'sync-integrity',
       icon: 'RefreshCw',
       description: 'Data sync validation',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'system-health',
@@ -243,7 +243,7 @@ export const validationNavigation: NavigationSection = {
       page: 'system-health',
       icon: 'Activity',
       description: 'System monitoring',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'plugin-security',
@@ -251,9 +251,9 @@ export const validationNavigation: NavigationSection = {
       page: 'plugin-security',
       icon: 'Lock',
       description: 'Plugin security scanner',
-      requiresAuth: true
-    }
-  ]
+      requiresAuth: true,
+    },
+  ],
 };
 
 // Advanced Tools Navigation
@@ -267,7 +267,7 @@ export const advancedNavigation: NavigationSection = {
       page: 'multi-agent',
       icon: 'Bot',
       description: 'AI agent orchestration',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'collaboration',
@@ -275,14 +275,14 @@ export const advancedNavigation: NavigationSection = {
       page: 'collaboration',
       icon: 'Users',
       description: 'Team collaboration tools',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'integrations',
       label: 'Integrations',
       page: 'integrations',
       icon: 'Puzzle',
-      description: 'Third-party integrations'
+      description: 'Third-party integrations',
     },
     {
       id: 'security',
@@ -291,7 +291,7 @@ export const advancedNavigation: NavigationSection = {
       icon: 'Shield',
       description: 'Security scanning & monitoring',
       requiresAuth: true,
-      badge: 'New'
+      badge: 'New',
     },
     {
       id: 'deployments',
@@ -299,7 +299,7 @@ export const advancedNavigation: NavigationSection = {
       page: 'deployments',
       icon: 'Rocket',
       description: 'Deploy to 8+ platforms',
-      requiresAuth: true
+      requiresAuth: true,
     },
     {
       id: 'analytics',
@@ -307,9 +307,9 @@ export const advancedNavigation: NavigationSection = {
       page: 'analytics',
       icon: 'TrendingUp',
       description: 'Advanced analytics',
-      requiresAuth: true
-    }
-  ]
+      requiresAuth: true,
+    },
+  ],
 };
 
 // Public Pages Navigation
@@ -322,37 +322,37 @@ export const publicNavigation: NavigationSection = {
       label: 'Features',
       page: 'features',
       icon: 'Star',
-      description: 'Platform features overview'
+      description: 'Platform features overview',
     },
     {
       id: 'pricing',
       label: 'Pricing',
       page: 'pricing',
       icon: 'CreditCard',
-      description: 'Subscription plans'
+      description: 'Subscription plans',
     },
     {
       id: 'demo',
       label: 'Live Demo',
       page: 'demo',
       icon: 'Play',
-      description: 'Interactive demonstration'
+      description: 'Interactive demonstration',
     },
     {
       id: 'about',
       label: 'About',
       page: 'about',
       icon: 'Info',
-      description: 'About FlashFusion'
+      description: 'About FlashFusion',
     },
     {
       id: 'contact',
       label: 'Contact',
       page: 'contact',
       icon: 'MessageSquare',
-      description: 'Get in touch'
-    }
-  ]
+      description: 'Get in touch',
+    },
+  ],
 };
 
 // All navigation sections
@@ -362,13 +362,13 @@ export const allNavigationSections: NavigationSection[] = [
   creatorNavigation,
   validationNavigation,
   advancedNavigation,
-  publicNavigation
+  publicNavigation,
 ];
 
 // Main navigation items for the Navigation component
 export const MAIN_NAVIGATION_ITEMS: NavigationItem[] = [
   ...primaryNavigation.items,
-  ...coreSystemNavigation.items.filter(item => !item.requiresAuth || item.id === 'search'),
+  ...coreSystemNavigation.items.filter((item) => !item.requiresAuth || item.id === 'search'),
 ];
 
 // Navigation dropdowns for organized menus
@@ -377,41 +377,41 @@ export const NAVIGATION_DROPDOWNS: NavigationDropdown[] = [
     id: 'creator-suite',
     label: 'Creator Suite',
     icon: 'Crown',
-    items: creatorNavigation.items
+    items: creatorNavigation.items,
   },
   {
     id: 'validation-suite',
     label: 'Validation Suite',
     icon: 'Shield',
-    items: validationNavigation.items
+    items: validationNavigation.items,
   },
   {
     id: 'advanced-tools',
     label: 'Advanced Tools',
     icon: 'Settings',
-    items: advancedNavigation.items
+    items: advancedNavigation.items,
   },
   {
     id: 'core-system',
     label: 'System Apps',
     icon: 'Grid3X3',
-    items: coreSystemNavigation.items
-  }
+    items: coreSystemNavigation.items,
+  },
 ];
 
 // Quick access items for global search
 export const quickAccessItems: NavigationItem[] = [
   ...coreSystemNavigation.items,
-  ...primaryNavigation.items.filter(item => item.requiresAuth),
+  ...primaryNavigation.items.filter((item) => item.requiresAuth),
   ...creatorNavigation.items,
   ...validationNavigation.items,
-  ...advancedNavigation.items.filter(item => item.requiresAuth)
+  ...advancedNavigation.items.filter((item) => item.requiresAuth),
 ];
 
 // Get navigation item by page
 export function getNavigationItem(page: PageType): NavigationItem | undefined {
   for (const section of allNavigationSections) {
-    const item = section.items.find(item => item.page === page);
+    const item = section.items.find((item) => item.page === page);
     if (item) return item;
   }
   return undefined;
@@ -420,7 +420,7 @@ export function getNavigationItem(page: PageType): NavigationItem | undefined {
 // Get section for a page
 export function getNavigationSection(page: PageType): NavigationSection | undefined {
   for (const section of allNavigationSections) {
-    if (section.items.some(item => item.page === page)) {
+    if (section.items.some((item) => item.page === page)) {
       return section;
     }
   }

@@ -9,7 +9,7 @@ import { InteractiveDemo } from '../demo/InteractiveDemo';
 export default function DemoPage() {
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -19,7 +19,8 @@ export default function DemoPage() {
           <h1 className="ff-text-gradient">Live Demo</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Experience FlashFusion in action with our interactive demo showcasing the power of AI-driven development.
+          Experience FlashFusion in action with our interactive demo showcasing the power of
+          AI-driven development.
         </p>
       </motion.div>
 
@@ -58,13 +59,12 @@ export default function DemoPage() {
                 <Zap className="w-12 h-12 text-primary mx-auto mb-4" />
                 <CardTitle>Complete Platform Demo Coming Soon</CardTitle>
                 <CardDescription>
-                  We're creating an immersive demo experience that will showcase all the capabilities of FlashFusion in real-time.
+                  We're creating an immersive demo experience that will showcase all the
+                  capabilities of FlashFusion in real-time.
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-center">
-                <Badge className="ff-badge-glow">
-                  In Development
-                </Badge>
+                <Badge className="ff-badge-glow">In Development</Badge>
                 <div className="mt-6 space-y-4">
                   <div className="grid gap-4 md:grid-cols-3">
                     <div className="p-4 bg-muted/30 rounded-lg">

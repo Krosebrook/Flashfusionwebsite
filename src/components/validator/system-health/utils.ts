@@ -1,6 +1,6 @@
-import { 
-  CheckCircle, 
-  AlertTriangle, 
+import {
+  CheckCircle,
+  AlertTriangle,
   XCircle,
   Activity,
   TrendingUp,
@@ -10,7 +10,7 @@ import {
   Monitor,
   Shield,
   Database,
-  Wifi
+  Wifi,
 } from 'lucide-react';
 
 export const getStatusIcon = (status: string) => {
@@ -85,34 +85,34 @@ export const getStatusIconProps = (status: string) => {
     case 'healthy':
     case 'excellent':
     case 'resolved':
-      return { className: "w-4 h-4 text-green-500" };
+      return { className: 'w-4 h-4 text-green-500' };
     case 'warning':
     case 'good':
     case 'monitoring':
     case 'identified':
-      return { className: "w-4 h-4 text-yellow-500" };
+      return { className: 'w-4 h-4 text-yellow-500' };
     case 'critical':
     case 'poor':
     case 'investigating':
-      return { className: "w-4 h-4 text-red-500" };
+      return { className: 'w-4 h-4 text-red-500' };
     default:
-      return { className: "w-4 h-4 text-gray-500" };
+      return { className: 'w-4 h-4 text-gray-500' };
   }
 };
 
 export const getCategoryIconProps = (category: string) => {
-  return { className: "w-4 h-4" };
+  return { className: 'w-4 h-4' };
 };
 
 export const getTrendIconProps = (trend: string) => {
   switch (trend) {
     case 'up':
-      return { className: "w-3 h-3 text-red-500" };
+      return { className: 'w-3 h-3 text-red-500' };
     case 'down':
-      return { className: "w-3 h-3 text-green-500" };
+      return { className: 'w-3 h-3 text-green-500' };
     case 'stable':
-      return { className: "w-3 h-3 text-gray-500" };
+      return { className: 'w-3 h-3 text-gray-500' };
     default:
-      return { className: "w-3 h-3 text-gray-500" };
+      return { className: 'w-3 h-3 text-gray-500' };
   }
 };

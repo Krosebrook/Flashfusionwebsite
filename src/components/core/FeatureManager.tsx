@@ -8,17 +8,17 @@ interface FeatureFlags {
   collaboration: boolean;
   multiAgent: boolean;
   subscriptions: boolean;
-  
+
   // UI Features
   darkMode: boolean;
   animations: boolean;
   notifications: boolean;
-  
+
   // Advanced Features
   aiAssistant: boolean;
   voiceCommands: boolean;
   realTimeSync: boolean;
-  
+
   // Experimental Features
   betaFeatures: boolean;
   advancedAnalytics: boolean;
@@ -44,7 +44,7 @@ interface FeatureManagerProps {
  */
 export function FeatureManager({ children }: FeatureManagerProps) {
   const { features: configFeatures, updateFeature } = useConfiguration();
-  
+
   // Combine configuration features with additional UI features
   const features: FeatureFlags = {
     // From configuration
@@ -53,17 +53,17 @@ export function FeatureManager({ children }: FeatureManagerProps) {
     collaboration: configFeatures.collaboration,
     multiAgent: configFeatures.multiAgent,
     subscriptions: configFeatures.subscriptions,
-    
+
     // UI Features (can be toggled independently)
     darkMode: true,
     animations: true,
     notifications: true,
-    
+
     // Advanced Features
     aiAssistant: true,
     voiceCommands: false, // Experimental
     realTimeSync: true,
-    
+
     // Experimental Features
     betaFeatures: process.env.NODE_ENV === 'development',
     advancedAnalytics: configFeatures.analytics,
@@ -79,7 +79,7 @@ export function FeatureManager({ children }: FeatureManagerProps) {
     if (feature in configFeatures) {
       updateFeature(feature as keyof typeof configFeatures, true);
     }
-    
+
     console.log(`Feature enabled: ${feature}`);
   };
 
@@ -88,7 +88,7 @@ export function FeatureManager({ children }: FeatureManagerProps) {
     if (feature in configFeatures) {
       updateFeature(feature as keyof typeof configFeatures, false);
     }
-    
+
     console.log(`Feature disabled: ${feature}`);
   };
 
@@ -99,11 +99,7 @@ export function FeatureManager({ children }: FeatureManagerProps) {
     disableFeature,
   };
 
-  return (
-    <FeatureContext.Provider value={contextValue}>
-      {children}
-    </FeatureContext.Provider>
-  );
+  return <FeatureContext.Provider value={contextValue}>{children}</FeatureContext.Provider>;
 }
 
 /**
@@ -128,6 +124,6 @@ interface FeatureGateProps {
 
 export function FeatureGate({ feature, children, fallback = null }: FeatureGateProps) {
   const { isFeatureEnabled } = useFeatures();
-  
+
   return isFeatureEnabled(feature) ? <>{children}</> : <>{fallback}</>;
 }

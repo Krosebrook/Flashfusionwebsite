@@ -93,7 +93,7 @@ export function FullStackAppBuilderTest() {
       case 'file_generation':
         // Test file generation utilities
         try {
-          const { generateDownloadableProject } = await import('../../utils/file-generators');
+          const { generateDownloadableProject } = await import('../../utils/generators');
           if (typeof generateDownloadableProject !== 'function') {
             throw new Error('File generation utilities not available');
           }

@@ -3,16 +3,16 @@ import { Card, CardContent, CardHeader, CardTitle } from './card';
 import { Badge } from './badge';
 import { Button } from './button';
 import { Alert, AlertDescription } from './alert';
-import { 
-  CheckCircle, 
-  XCircle, 
-  AlertTriangle, 
-  Loader2, 
-  Zap, 
-  Database, 
-  Code, 
+import {
+  CheckCircle,
+  XCircle,
+  AlertTriangle,
+  Loader2,
+  Zap,
+  Database,
+  Code,
   Download,
-  RefreshCw
+  RefreshCw,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
@@ -37,13 +37,13 @@ export function SystemStatusDashboard() {
       { name: 'Component Rendering', status: 'checking', message: 'Checking React components...' },
       { name: 'Local Storage', status: 'checking', message: 'Testing data persistence...' },
     ];
-    
+
     setSystemChecks(checks);
 
     // Run checks sequentially with delays for better UX
     for (let i = 0; i < checks.length; i++) {
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
       const check = checks[i];
       let updatedCheck: SystemCheck;
 
@@ -57,7 +57,7 @@ export function SystemStatusDashboard() {
               ...check,
               status: 'success',
               message: 'XP tracking operational',
-              details: testStats ? 'User progress saved locally' : 'Ready to track progress'
+              details: testStats ? 'User progress saved locally' : 'Ready to track progress',
             };
             break;
 
@@ -69,19 +69,21 @@ export function SystemStatusDashboard() {
               updatedCheck = {
                 ...check,
                 status: Array.isArray(models) && models.length > 0 ? 'success' : 'warning',
-                message: Array.isArray(models) && models.length > 0 
-                  ? `${models.length} AI models available` 
-                  : 'No AI models configured',
-                details: Array.isArray(models) && models.length > 0 
-                  ? 'Ready for code generation' 
-                  : 'Configure AI models in Settings'
+                message:
+                  Array.isArray(models) && models.length > 0
+                    ? `${models.length} AI models available`
+                    : 'No AI models configured',
+                details:
+                  Array.isArray(models) && models.length > 0
+                    ? 'Ready for code generation'
+                    : 'Configure AI models in Settings',
               };
             } catch (error) {
               updatedCheck = {
                 ...check,
                 status: 'warning',
                 message: 'AI service ready (demo mode)',
-                details: 'Configure API keys for full functionality'
+                details: 'Configure API keys for full functionality',
               };
             }
             break;
@@ -97,14 +99,14 @@ export function SystemStatusDashboard() {
                 ...check,
                 status: 'success',
                 message: 'Download system operational',
-                details: 'Ready to export projects'
+                details: 'Ready to export projects',
               };
             } catch (error) {
               updatedCheck = {
                 ...check,
                 status: 'error',
                 message: 'Download system failed',
-                details: 'JSZip library unavailable'
+                details: 'JSZip library unavailable',
               };
             }
             break;
@@ -116,7 +118,7 @@ export function SystemStatusDashboard() {
               ...check,
               status: hasReact ? 'success' : 'error',
               message: hasReact ? 'React components loaded' : 'React not available',
-              details: hasReact ? 'UI components ready' : 'Component system failed'
+              details: hasReact ? 'UI components ready' : 'Component system failed',
             };
             break;
 
@@ -127,19 +129,22 @@ export function SystemStatusDashboard() {
               localStorage.setItem(testKey, 'test');
               const retrieved = localStorage.getItem(testKey);
               localStorage.removeItem(testKey);
-              
+
               updatedCheck = {
                 ...check,
                 status: retrieved === 'test' ? 'success' : 'warning',
                 message: retrieved === 'test' ? 'Data persistence working' : 'Storage limited',
-                details: retrieved === 'test' ? 'Settings and progress will be saved' : 'Some features may not persist'
+                details:
+                  retrieved === 'test'
+                    ? 'Settings and progress will be saved'
+                    : 'Some features may not persist',
               };
             } catch (error) {
               updatedCheck = {
                 ...check,
                 status: 'warning',
                 message: 'Storage unavailable',
-                details: 'Running in private/incognito mode'
+                details: 'Running in private/incognito mode',
               };
             }
             break;
@@ -149,7 +154,7 @@ export function SystemStatusDashboard() {
               ...check,
               status: 'success',
               message: 'Check completed',
-              details: 'System operational'
+              details: 'System operational',
             };
         }
       } catch (error) {
@@ -157,25 +162,25 @@ export function SystemStatusDashboard() {
           ...check,
           status: 'error',
           message: 'Check failed',
-          details: error instanceof Error ? error.message : 'Unknown error'
+          details: error instanceof Error ? error.message : 'Unknown error',
         };
       }
 
-      setSystemChecks(prev => 
-        prev.map((c, index) => index === i ? updatedCheck : c)
-      );
+      setSystemChecks((prev) => prev.map((c, index) => (index === i ? updatedCheck : c)));
     }
 
     setIsRunningChecks(false);
     setLastChecked(new Date());
-    
+
     // Show summary toast
-    const successCount = checks.filter(c => c.status === 'success').length;
-    const warningCount = checks.filter(c => c.status === 'warning').length;
-    const errorCount = checks.filter(c => c.status === 'error').length;
-    
+    const successCount = checks.filter((c) => c.status === 'success').length;
+    const warningCount = checks.filter((c) => c.status === 'warning').length;
+    const errorCount = checks.filter((c) => c.status === 'error').length;
+
     if (errorCount === 0) {
-      toast.success(`✅ System Check Complete: ${successCount} systems operational${warningCount > 0 ? `, ${warningCount} with warnings` : ''}`);
+      toast.success(
+        `✅ System Check Complete: ${successCount} systems operational${warningCount > 0 ? `, ${warningCount} with warnings` : ''}`
+      );
     } else {
       toast.error(`❌ System Check Complete: ${errorCount} errors, ${warningCount} warnings`);
     }
@@ -206,9 +211,17 @@ export function SystemStatusDashboard() {
       case 'checking':
         return <Badge variant="secondary">Checking</Badge>;
       case 'success':
-        return <Badge variant="default" className="bg-success text-white">Operational</Badge>;
+        return (
+          <Badge variant="default" className="bg-success text-white">
+            Operational
+          </Badge>
+        );
       case 'warning':
-        return <Badge variant="secondary" className="bg-warning text-black">Warning</Badge>;
+        return (
+          <Badge variant="secondary" className="bg-warning text-black">
+            Warning
+          </Badge>
+        );
       case 'error':
         return <Badge variant="destructive">Error</Badge>;
       default:
@@ -233,11 +246,14 @@ export function SystemStatusDashboard() {
     }
   };
 
-  const overallStatus = systemChecks.length > 0 ? (
-    systemChecks.every(check => check.status === 'success') ? 'success' :
-    systemChecks.some(check => check.status === 'error') ? 'error' :
-    'warning'
-  ) : 'checking';
+  const overallStatus =
+    systemChecks.length > 0
+      ? systemChecks.every((check) => check.status === 'success')
+        ? 'success'
+        : systemChecks.some((check) => check.status === 'error')
+          ? 'error'
+          : 'warning'
+      : 'checking';
 
   return (
     <Card className="ff-card-interactive">
@@ -266,28 +282,40 @@ export function SystemStatusDashboard() {
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-4">
         {/* Overall Status Alert */}
         {!isRunningChecks && systemChecks.length > 0 && (
-          <Alert className={
-            overallStatus === 'success' ? 'border-success/20 bg-success/5' :
-            overallStatus === 'error' ? 'border-destructive/20 bg-destructive/5' :
-            'border-warning/20 bg-warning/5'
-          }>
-            {overallStatus === 'success' ? <CheckCircle className="h-4 w-4 text-success" /> :
-             overallStatus === 'error' ? <XCircle className="h-4 w-4 text-destructive" /> :
-             <AlertTriangle className="h-4 w-4 text-warning" />}
+          <Alert
+            className={
+              overallStatus === 'success'
+                ? 'border-success/20 bg-success/5'
+                : overallStatus === 'error'
+                  ? 'border-destructive/20 bg-destructive/5'
+                  : 'border-warning/20 bg-warning/5'
+            }
+          >
+            {overallStatus === 'success' ? (
+              <CheckCircle className="h-4 w-4 text-success" />
+            ) : overallStatus === 'error' ? (
+              <XCircle className="h-4 w-4 text-destructive" />
+            ) : (
+              <AlertTriangle className="h-4 w-4 text-warning" />
+            )}
             <AlertDescription>
               <strong>
-                {overallStatus === 'success' ? '✅ All Systems Operational' :
-                 overallStatus === 'error' ? '❌ System Issues Detected' :
-                 '⚠️ Some Systems Need Attention'}
+                {overallStatus === 'success'
+                  ? '✅ All Systems Operational'
+                  : overallStatus === 'error'
+                    ? '❌ System Issues Detected'
+                    : '⚠️ Some Systems Need Attention'}
               </strong>
               <br />
-              {overallStatus === 'success' ? 'FlashFusion is ready for full operation!' :
-               overallStatus === 'error' ? 'Some features may not work properly.' :
-               'Most features available with some limitations.'}
+              {overallStatus === 'success'
+                ? 'FlashFusion is ready for full operation!'
+                : overallStatus === 'error'
+                  ? 'Some features may not work properly.'
+                  : 'Most features available with some limitations.'}
             </AlertDescription>
           </Alert>
         )}
@@ -300,9 +328,7 @@ export function SystemStatusDashboard() {
               className="flex items-center justify-between p-3 border rounded-lg bg-muted/20 transition-all duration-300 hover:bg-muted/30"
             >
               <div className="flex items-center gap-3 flex-1">
-                <span className="text-muted-foreground">
-                  {getSystemIcon(check.name)}
-                </span>
+                <span className="text-muted-foreground">{getSystemIcon(check.name)}</span>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-medium">{check.name}</span>
@@ -314,9 +340,7 @@ export function SystemStatusDashboard() {
                   )}
                 </div>
               </div>
-              <div className="ml-3">
-                {getStatusIcon(check.status)}
-              </div>
+              <div className="ml-3">{getStatusIcon(check.status)}</div>
             </div>
           ))}
         </div>
@@ -339,16 +363,19 @@ export function SystemStatusDashboard() {
                 <Zap className="h-3 w-3 mr-1" />
                 Test XP System
               </Button>
-              
+
               <Button
                 size="sm"
                 variant="outline"
                 onClick={() => {
                   // Test download
-                  import('jszip').then(JSZip => {
+                  import('jszip').then((JSZip) => {
                     const zip = new JSZip.default();
-                    zip.file('system-check.txt', `FlashFusion System Check - ${new Date().toISOString()}\n\nAll systems operational!`);
-                    zip.generateAsync({ type: 'blob' }).then(content => {
+                    zip.file(
+                      'system-check.txt',
+                      `FlashFusion System Check - ${new Date().toISOString()}\n\nAll systems operational!`
+                    );
+                    zip.generateAsync({ type: 'blob' }).then((content) => {
                       const url = URL.createObjectURL(content);
                       const link = document.createElement('a');
                       link.href = url;

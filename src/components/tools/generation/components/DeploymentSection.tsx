@@ -7,9 +7,9 @@ import { Input } from '../../../ui/input';
 import { Label } from '../../../ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../ui/tabs';
 import { Separator } from '../../../ui/separator';
-import { 
-  CloudUpload, 
-  ExternalLink, 
+import {
+  CloudUpload,
+  ExternalLink,
   Settings,
   Loader2,
   CheckCircle,
@@ -20,7 +20,7 @@ import {
   Server,
   Database,
   Trash2,
-  Plus
+  Plus,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import type { GeneratedApp } from '../../../../types/full-stack-builder';
@@ -39,7 +39,7 @@ const DEPLOYMENT_PLATFORMS = [
     icon: '▲',
     color: 'text-black dark:text-white',
     recommended: true,
-    requiresApiKey: true
+    requiresApiKey: true,
   },
   {
     id: 'netlify',
@@ -47,7 +47,7 @@ const DEPLOYMENT_PLATFORMS = [
     description: 'Static site hosting with edge functions',
     icon: '🌍',
     color: 'text-blue-600',
-    requiresApiKey: true
+    requiresApiKey: true,
   },
   {
     id: 'railway',
@@ -55,7 +55,7 @@ const DEPLOYMENT_PLATFORMS = [
     description: 'Modern full-stack hosting',
     icon: '🚄',
     color: 'text-purple-500',
-    requiresApiKey: true
+    requiresApiKey: true,
   },
   {
     id: 'render',
@@ -63,8 +63,8 @@ const DEPLOYMENT_PLATFORMS = [
     description: 'Full-stack application deployment',
     icon: '🔧',
     color: 'text-green-600',
-    requiresApiKey: true
-  }
+    requiresApiKey: true,
+  },
 ];
 
 export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
@@ -74,15 +74,17 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
     envVars: {} as Record<string, string>,
     buildCommand: 'npm run build',
     outputDir: generatedApp.stack.frontend === 'nextjs' ? '.next' : 'build',
-    nodeVersion: '18'
+    nodeVersion: '18',
   });
-  const [deployments, setDeployments] = useState<Array<DeploymentResult & { createdAt: string }>>([]);
+  const [deployments, setDeployments] = useState<Array<DeploymentResult & { createdAt: string }>>(
+    []
+  );
   const [isDeploying, setIsDeploying] = useState(false);
   const [deploymentStatus, setDeploymentStatus] = useState<Record<string, DeploymentStatus>>({});
 
   const handleDeploy = useCallback(async () => {
-    const platform = DEPLOYMENT_PLATFORMS.find(p => p.id === selectedPlatform);
-    
+    const platform = DEPLOYMENT_PLATFORMS.find((p) => p.id === selectedPlatform);
+
     if (!platform) {
       toast.error('Please select a deployment platform');
       return;
@@ -94,38 +96,37 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
     }
 
     setIsDeploying(true);
-    
+
     try {
       toast.info(`Starting deployment to ${platform.name}...`);
-      
+
       // Deploy using real deployment service
       const result = await deployProject(generatedApp, selectedPlatform as any, {
         apiKey: apiKey.trim(),
         environmentVariables: deploymentConfig.envVars,
         buildCommand: deploymentConfig.buildCommand,
         outputDirectory: deploymentConfig.outputDir,
-        nodeVersion: deploymentConfig.nodeVersion
+        nodeVersion: deploymentConfig.nodeVersion,
       });
-      
+
       // Add to deployments list
       const newDeployment = {
         ...result,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
-      
-      setDeployments(prev => [newDeployment, ...prev]);
-      
+
+      setDeployments((prev) => [newDeployment, ...prev]);
+
       // Start polling for status updates
       if (result.status === 'deploying') {
         pollDeploymentStatus(result.id, selectedPlatform);
       }
-      
+
       if (result.status === 'deployed') {
         toast.success(`Successfully deployed to ${platform.name}!`);
       } else if (result.status === 'failed') {
         toast.error(`Deployment failed: ${result.error}`);
       }
-      
     } catch (error) {
       console.error('Deployment failed:', error);
       toast.error(`Deployment failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -146,37 +147,34 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
 
       try {
         const status = await deploymentService.getDeploymentStatus(deploymentId, platform);
-        
-        setDeploymentStatus(prev => ({
+
+        setDeploymentStatus((prev) => ({
           ...prev,
-          [deploymentId]: status
+          [deploymentId]: status,
         }));
 
         if (status.status === 'deployed') {
           toast.success('Deployment completed successfully!');
-          
+
           // Update the deployment in the list
-          setDeployments(prev => prev.map(dep => 
-            dep.id === deploymentId 
-              ? { ...dep, status: 'deployed', url: status.url }
-              : dep
-          ));
-          
+          setDeployments((prev) =>
+            prev.map((dep) =>
+              dep.id === deploymentId ? { ...dep, status: 'deployed', url: status.url } : dep
+            )
+          );
         } else if (status.status === 'failed') {
           toast.error(`Deployment failed: ${status.error || 'Unknown error'}`);
-          
-          setDeployments(prev => prev.map(dep => 
-            dep.id === deploymentId 
-              ? { ...dep, status: 'failed', error: status.error }
-              : dep
-          ));
-          
+
+          setDeployments((prev) =>
+            prev.map((dep) =>
+              dep.id === deploymentId ? { ...dep, status: 'failed', error: status.error } : dep
+            )
+          );
         } else {
           // Continue polling
           attempts++;
           setTimeout(poll, 10000); // Poll every 10 seconds
         }
-        
       } catch (error) {
         console.error('Error polling deployment status:', error);
         attempts++;
@@ -193,24 +191,22 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
   const addEnvironmentVariable = useCallback(() => {
     const key = prompt('Environment variable name:');
     const value = prompt('Environment variable value:');
-    
+
     if (key && value) {
-      setDeploymentConfig(prev => ({
+      setDeploymentConfig((prev) => ({
         ...prev,
         envVars: {
           ...prev.envVars,
-          [key]: value
-        }
+          [key]: value,
+        },
       }));
     }
   }, []);
 
   const removeEnvironmentVariable = useCallback((key: string) => {
-    setDeploymentConfig(prev => ({
+    setDeploymentConfig((prev) => ({
       ...prev,
-      envVars: Object.fromEntries(
-        Object.entries(prev.envVars).filter(([k]) => k !== key)
-      )
+      envVars: Object.fromEntries(Object.entries(prev.envVars).filter(([k]) => k !== key)),
     }));
   }, []);
 
@@ -276,18 +272,14 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
                       <span className="text-2xl">{platform.icon}</span>
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <h3 className={`font-semibold ${platform.color}`}>
-                            {platform.name}
-                          </h3>
+                          <h3 className={`font-semibold ${platform.color}`}>{platform.name}</h3>
                           {platform.recommended && (
                             <Badge variant="secondary" className="text-xs">
                               Recommended
                             </Badge>
                           )}
                         </div>
-                        <p className="text-sm text-muted-foreground">
-                          {platform.description}
-                        </p>
+                        <p className="text-sm text-muted-foreground">{platform.description}</p>
                       </div>
                     </div>
                   </div>
@@ -296,11 +288,11 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
             </div>
 
             {/* API Key Input */}
-            {DEPLOYMENT_PLATFORMS.find(p => p.id === selectedPlatform)?.requiresApiKey && (
+            {DEPLOYMENT_PLATFORMS.find((p) => p.id === selectedPlatform)?.requiresApiKey && (
               <div className="space-y-2">
                 <Label htmlFor="apiKey" className="flex items-center gap-2">
                   <Key className="w-4 h-4" />
-                  {DEPLOYMENT_PLATFORMS.find(p => p.id === selectedPlatform)?.name} API Key
+                  {DEPLOYMENT_PLATFORMS.find((p) => p.id === selectedPlatform)?.name} API Key
                 </Label>
                 <Input
                   id="apiKey"
@@ -325,10 +317,12 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
                   <Input
                     id="buildCommand"
                     value={deploymentConfig.buildCommand}
-                    onChange={(e) => setDeploymentConfig(prev => ({
-                      ...prev,
-                      buildCommand: e.target.value
-                    }))}
+                    onChange={(e) =>
+                      setDeploymentConfig((prev) => ({
+                        ...prev,
+                        buildCommand: e.target.value,
+                      }))
+                    }
                     className="ff-focus-ring"
                   />
                 </div>
@@ -337,10 +331,12 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
                   <Input
                     id="outputDir"
                     value={deploymentConfig.outputDir}
-                    onChange={(e) => setDeploymentConfig(prev => ({
-                      ...prev,
-                      outputDir: e.target.value
-                    }))}
+                    onChange={(e) =>
+                      setDeploymentConfig((prev) => ({
+                        ...prev,
+                        outputDir: e.target.value,
+                      }))
+                    }
                     className="ff-focus-ring"
                   />
                 </div>
@@ -362,12 +358,14 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
                   Add Variable
                 </Button>
               </div>
-              
+
               {Object.entries(deploymentConfig.envVars).length > 0 ? (
                 <div className="space-y-2">
                   {Object.entries(deploymentConfig.envVars).map(([key, value]) => (
                     <div key={key} className="flex items-center gap-2 p-2 bg-muted/50 rounded">
-                      <code className="flex-1 text-sm">{key}={value}</code>
+                      <code className="flex-1 text-sm">
+                        {key}={value}
+                      </code>
                       <Button
                         type="button"
                         variant="ghost"
@@ -381,7 +379,8 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  No environment variables configured. Add variables for database URLs, API keys, etc.
+                  No environment variables configured. Add variables for database URLs, API keys,
+                  etc.
                 </p>
               )}
             </div>
@@ -396,12 +395,13 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
               {isDeploying ? (
                 <>
                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  Deploying to {DEPLOYMENT_PLATFORMS.find(p => p.id === selectedPlatform)?.name}...
+                  Deploying to {DEPLOYMENT_PLATFORMS.find((p) => p.id === selectedPlatform)?.name}
+                  ...
                 </>
               ) : (
                 <>
                   <CloudUpload className="w-5 h-5 mr-2" />
-                  Deploy to {DEPLOYMENT_PLATFORMS.find(p => p.id === selectedPlatform)?.name}
+                  Deploy to {DEPLOYMENT_PLATFORMS.find((p) => p.id === selectedPlatform)?.name}
                 </>
               )}
             </Button>
@@ -421,9 +421,9 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
             {deployments.length > 0 ? (
               <div className="space-y-4">
                 {deployments.map((deployment) => {
-                  const platform = DEPLOYMENT_PLATFORMS.find(p => p.id === deployment.platform);
+                  const platform = DEPLOYMENT_PLATFORMS.find((p) => p.id === deployment.platform);
                   const status = deploymentStatus[deployment.id]?.status || deployment.status;
-                  
+
                   return (
                     <div key={deployment.id} className="p-4 border rounded-lg space-y-3">
                       <div className="flex items-center justify-between">
@@ -438,12 +438,10 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
                         </div>
                         <div className="flex items-center gap-2">
                           {getStatusIcon(status)}
-                          <Badge className={getStatusColor(status)}>
-                            {status}
-                          </Badge>
+                          <Badge className={getStatusColor(status)}>{status}</Badge>
                         </div>
                       </div>
-                      
+
                       {deployment.url && (
                         <div className="flex items-center gap-2">
                           <Button
@@ -460,7 +458,7 @@ export function DeploymentSection({ generatedApp }: DeploymentSectionProps) {
                           </code>
                         </div>
                       )}
-                      
+
                       {deployment.error && (
                         <div className="p-2 bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded">
                           <p className="text-sm text-red-600 dark:text-red-400">

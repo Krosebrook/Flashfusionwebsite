@@ -39,7 +39,7 @@ const SAMPLE_WORKFLOW_STEPS = [
     taskName: 'Market Analysis',
     status: 'completed' as const,
     duration: '2m 30s',
-    dependencies: []
+    dependencies: [],
   },
   {
     id: 'step-2',
@@ -49,7 +49,7 @@ const SAMPLE_WORKFLOW_STEPS = [
     taskName: 'Content Generation',
     status: 'active' as const,
     progress: 68,
-    dependencies: ['step-1']
+    dependencies: ['step-1'],
   },
   {
     id: 'step-3',
@@ -58,17 +58,16 @@ const SAMPLE_WORKFLOW_STEPS = [
     agentColor: '#10b981',
     taskName: 'Performance Optimization',
     status: 'pending' as const,
-    dependencies: ['step-2']
-  }
+    dependencies: ['step-2'],
+  },
 ];
 
 export function DesignSystemRouter({
   currentPage,
   setCurrentPage,
   isAuthenticated,
-  handlers
+  handlers,
 }: DesignSystemRouterProps) {
-  
   // Redirect to home if not authenticated
   const renderDesignSystemPage = () => {
     if (!isAuthenticated) {
@@ -78,12 +77,7 @@ export function DesignSystemRouter({
     switch (currentPage) {
       // Design System Pages
       case 'agent-dashboard':
-        return (
-          <UniversalAgentDashboard
-            onAgentSelect={handlers.onAgentSelect}
-            selectedAgent=""
-          />
-        );
+        return <UniversalAgentDashboard onAgentSelect={handlers.onAgentSelect} selectedAgent="" />;
 
       case 'workflow-pipeline':
         return (

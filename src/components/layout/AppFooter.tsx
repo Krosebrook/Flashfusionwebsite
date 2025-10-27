@@ -1,11 +1,11 @@
 import React from 'react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { 
-  Zap, 
-  Github, 
-  Twitter, 
-  Linkedin, 
+import {
+  Zap,
+  Github,
+  Twitter,
+  Linkedin,
   Mail,
   Shield,
   Lock,
@@ -13,7 +13,7 @@ import {
   HelpCircle,
   ExternalLink,
   ArrowUp,
-  Heart
+  Heart,
 } from 'lucide-react';
 import type { PageType } from '../../types/core';
 
@@ -52,8 +52,8 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
         { label: 'Features', page: 'features' as PageType, icon: Zap },
         { label: 'AI Tools', page: 'tools' as PageType, icon: Zap },
         { label: 'Pricing', page: 'pricing' as PageType, icon: Zap },
-        { label: 'Integrations', page: 'integrations' as PageType, icon: Zap }
-      ]
+        { label: 'Integrations', page: 'integrations' as PageType, icon: Zap },
+      ],
     },
     {
       title: 'Company',
@@ -61,8 +61,8 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
         { label: 'About', page: 'about' as PageType, icon: Zap },
         { label: 'Contact', page: 'contact' as PageType, icon: Mail },
         { label: 'Testimonials', page: 'testimonials' as PageType, icon: Heart },
-        { label: 'Blog', href: 'https://blog.flashfusion.ai', icon: ExternalLink }
-      ]
+        { label: 'Blog', href: 'https://blog.flashfusion.ai', icon: ExternalLink },
+      ],
     },
     {
       title: 'Resources',
@@ -70,8 +70,8 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
         { label: 'Documentation', href: 'https://docs.flashfusion.ai', icon: FileText },
         { label: 'FAQ', page: 'faq' as PageType, icon: HelpCircle },
         { label: 'Support', page: 'contact' as PageType, icon: Mail },
-        { label: 'API Reference', href: 'https://api.flashfusion.ai', icon: ExternalLink }
-      ]
+        { label: 'API Reference', href: 'https://api.flashfusion.ai', icon: ExternalLink },
+      ],
     },
     {
       title: 'Legal',
@@ -79,42 +79,42 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
         { label: 'Privacy Policy', page: 'privacy' as PageType, icon: Shield },
         { label: 'Terms of Service', page: 'terms' as PageType, icon: FileText },
         { label: 'Security', href: '/security', icon: Lock },
-        { label: 'Compliance', href: '/compliance', icon: Shield }
-      ]
-    }
+        { label: 'Compliance', href: '/compliance', icon: Shield },
+      ],
+    },
   ];
 
   const socialLinks = [
-    { 
-      label: 'GitHub', 
-      href: 'https://github.com/flashfusion', 
+    {
+      label: 'GitHub',
+      href: 'https://github.com/flashfusion',
       icon: Github,
-      color: 'hover:text-gray-400'
+      color: 'hover:text-gray-400',
     },
-    { 
-      label: 'Twitter', 
-      href: 'https://twitter.com/flashfusion_ai', 
+    {
+      label: 'Twitter',
+      href: 'https://twitter.com/flashfusion_ai',
       icon: Twitter,
-      color: 'hover:text-blue-400'
+      color: 'hover:text-blue-400',
     },
-    { 
-      label: 'LinkedIn', 
-      href: 'https://linkedin.com/company/flashfusion', 
+    {
+      label: 'LinkedIn',
+      href: 'https://linkedin.com/company/flashfusion',
       icon: Linkedin,
-      color: 'hover:text-blue-600'
+      color: 'hover:text-blue-600',
     },
-    { 
-      label: 'Email', 
-      href: 'mailto:hello@flashfusion.ai', 
+    {
+      label: 'Email',
+      href: 'mailto:hello@flashfusion.ai',
       icon: Mail,
-      color: 'hover:text-primary'
-    }
+      color: 'hover:text-primary',
+    },
   ];
 
   const trustBadges = [
     { label: 'Enterprise Grade', icon: Shield },
     { label: 'Production Ready', icon: Zap },
-    { label: 'Secure Platform', icon: Lock }
+    { label: 'Secure Platform', icon: Lock },
   ];
 
   return (
@@ -126,11 +126,9 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-2">
               <Zap className="h-6 w-6 text-primary" />
-              <span className="font-bold text-lg ff-text-gradient">
-                FlashFusion
-              </span>
+              <span className="font-bold text-lg ff-text-gradient">FlashFusion</span>
             </div>
-            
+
             <p className="text-sm text-muted-foreground leading-relaxed">
               AI-powered development platform for building production-ready applications.
             </p>
@@ -174,9 +172,7 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
                         className="text-xs text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
                       >
                         {link.label}
-                        {link.href?.startsWith('http') && (
-                          <ExternalLink className="h-2 w-2" />
-                        )}
+                        {link.href?.startsWith('http') && <ExternalLink className="h-2 w-2" />}
                       </a>
                     )}
                   </li>

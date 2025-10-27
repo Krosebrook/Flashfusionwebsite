@@ -6,7 +6,15 @@ import { APIKeyService, type APIProvider } from './APIKeyService';
  * Centralized service for all AI model integrations and API calls
  */
 
-export type AIProvider = 'openai' | 'anthropic' | 'google' | 'meta' | 'local' | 'github' | 'xai' | 'deepseek';
+export type AIProvider =
+  | 'openai'
+  | 'anthropic'
+  | 'google'
+  | 'meta'
+  | 'local'
+  | 'github'
+  | 'xai'
+  | 'deepseek';
 
 export type AIModel = {
   id: string;
@@ -90,7 +98,7 @@ export const AI_MODELS: AIModel[] = [
     maxTokens: 128000,
     speedRating: 4,
     qualityRating: 5,
-    available: true
+    available: true,
   },
   {
     id: 'gpt-4o',
@@ -102,7 +110,7 @@ export const AI_MODELS: AIModel[] = [
     maxTokens: 128000,
     speedRating: 5,
     qualityRating: 5,
-    available: true
+    available: true,
   },
   {
     id: 'gpt-3.5-turbo',
@@ -114,7 +122,7 @@ export const AI_MODELS: AIModel[] = [
     maxTokens: 16384,
     speedRating: 5,
     qualityRating: 3,
-    available: true
+    available: true,
   },
 
   // Anthropic (Claude) Models
@@ -128,19 +136,25 @@ export const AI_MODELS: AIModel[] = [
     maxTokens: 200000,
     speedRating: 4,
     qualityRating: 5,
-    available: true
+    available: true,
   },
   {
     id: 'claude-3-opus-20240229',
     name: 'Claude 3 Opus',
     provider: 'anthropic',
     description: 'Most powerful Claude model for complex tasks',
-    capabilities: ['code-generation', 'architecture', 'analysis', 'refactoring', 'complex-reasoning'],
+    capabilities: [
+      'code-generation',
+      'architecture',
+      'analysis',
+      'refactoring',
+      'complex-reasoning',
+    ],
     costPer1k: 0.075,
     maxTokens: 200000,
     speedRating: 2,
     qualityRating: 5,
-    available: true
+    available: true,
   },
   {
     id: 'claude-3-haiku-20240307',
@@ -152,7 +166,7 @@ export const AI_MODELS: AIModel[] = [
     maxTokens: 200000,
     speedRating: 5,
     qualityRating: 4,
-    available: true
+    available: true,
   },
 
   // Google Models
@@ -160,13 +174,13 @@ export const AI_MODELS: AIModel[] = [
     id: 'gemini-1.5-pro',
     name: 'Gemini 1.5 Pro',
     provider: 'google',
-    description: 'Google\'s latest multimodal AI with massive context window',
+    description: "Google's latest multimodal AI with massive context window",
     capabilities: ['code-generation', 'multimodal', 'optimization', 'long-context'],
     costPer1k: 0.0035,
     maxTokens: 2000000,
     speedRating: 4,
     qualityRating: 5,
-    available: false
+    available: false,
   },
   {
     id: 'gemini-1.5-flash',
@@ -178,7 +192,7 @@ export const AI_MODELS: AIModel[] = [
     maxTokens: 1000000,
     speedRating: 5,
     qualityRating: 4,
-    available: false
+    available: false,
   },
 
   // GitHub Copilot Models
@@ -186,13 +200,13 @@ export const AI_MODELS: AIModel[] = [
     id: 'copilot-chat',
     name: 'GitHub Copilot Chat',
     provider: 'github',
-    description: 'GitHub\'s AI assistant for code generation and explanation',
+    description: "GitHub's AI assistant for code generation and explanation",
     capabilities: ['code-generation', 'debugging', 'explanation', 'repository-analysis'],
     costPer1k: 0.002,
     maxTokens: 8192,
     speedRating: 4,
     qualityRating: 4,
-    available: false
+    available: false,
   },
 
   // xAI (Grok) Models
@@ -200,13 +214,13 @@ export const AI_MODELS: AIModel[] = [
     id: 'grok-beta',
     name: 'Grok Beta',
     provider: 'xai',
-    description: 'xAI\'s conversational AI with real-time knowledge',
+    description: "xAI's conversational AI with real-time knowledge",
     capabilities: ['code-generation', 'analysis', 'real-time-data'],
     costPer1k: 0.01,
     maxTokens: 32768,
     speedRating: 4,
     qualityRating: 4,
-    available: false
+    available: false,
   },
 
   // DeepSeek Models
@@ -220,7 +234,7 @@ export const AI_MODELS: AIModel[] = [
     maxTokens: 16384,
     speedRating: 3,
     qualityRating: 4,
-    available: false
+    available: false,
   },
   {
     id: 'deepseek-chat',
@@ -232,8 +246,8 @@ export const AI_MODELS: AIModel[] = [
     maxTokens: 32768,
     speedRating: 4,
     qualityRating: 4,
-    available: false
-  }
+    available: false,
+  },
 ];
 
 class AIServiceClass {
@@ -256,7 +270,7 @@ class AIServiceClass {
     try {
       // Initialize the API key service
       await APIKeyService.initialize();
-      
+
       // Load API keys for AI providers
       const providers: Array<{ provider: AIProvider; aiProvider: string }> = [
         { provider: 'openai', aiProvider: 'openai' },
@@ -264,7 +278,7 @@ class AIServiceClass {
         { provider: 'google', aiProvider: 'google' },
         { provider: 'github', aiProvider: 'github' },
         { provider: 'xai', aiProvider: 'xai' },
-        { provider: 'deepseek', aiProvider: 'deepseek' }
+        { provider: 'deepseek', aiProvider: 'deepseek' },
       ];
 
       for (const { provider, aiProvider } of providers) {
@@ -277,7 +291,7 @@ class AIServiceClass {
       console.log(`🤖 AI Service loaded ${this.apiKeys.size} API keys from Supabase`);
     } catch (error) {
       console.error('Failed to load API keys for AI Service:', error);
-      
+
       // Fallback to local environment variables
       this.loadFallbackKeys();
     }
@@ -285,14 +299,14 @@ class AIServiceClass {
 
   private loadFallbackKeys() {
     console.log('🔄 AI Service falling back to local environment variables...');
-    
+
     const keyMappings = {
       openai: 'VITE_OPENAI_API_KEY',
       anthropic: 'VITE_ANTHROPIC_API_KEY',
       google: 'VITE_GOOGLE_AI_API_KEY',
       github: 'VITE_GITHUB_TOKEN',
       xai: 'VITE_XAI_API_KEY',
-      deepseek: 'VITE_DEEPSEEK_API_KEY'
+      deepseek: 'VITE_DEEPSEEK_API_KEY',
     };
 
     Object.entries(keyMappings).forEach(([provider, envVar]) => {
@@ -306,12 +320,12 @@ class AIServiceClass {
   private async loadUserPreferences() {
     const savedModel = localStorage.getItem('ff_selected_ai_model');
     const savedProvider = localStorage.getItem('ff_selected_ai_provider') as AIProvider;
-    
+
     const availableModels = await this.getAvailableModels();
-    if (savedModel && availableModels.find(m => m.id === savedModel)) {
+    if (savedModel && availableModels.find((m) => m.id === savedModel)) {
       this.selectedModel = savedModel;
     }
-    
+
     if (savedProvider && this.apiKeys.has(savedProvider)) {
       this.selectedProvider = savedProvider;
     }
@@ -319,7 +333,7 @@ class AIServiceClass {
 
   public async getAvailableModels(): Promise<AIModel[]> {
     await this.loadApiKeys(); // Ensure keys are loaded
-    return AI_MODELS.filter(model => {
+    return AI_MODELS.filter((model) => {
       // Only show models for which we have API keys
       return this.apiKeys.has(model.provider);
     });
@@ -327,8 +341,8 @@ class AIServiceClass {
 
   public async setModel(modelId: string) {
     await this.loadApiKeys(); // Ensure keys are loaded
-    
-    const model = AI_MODELS.find(m => m.id === modelId);
+
+    const model = AI_MODELS.find((m) => m.id === modelId);
     if (!model) {
       throw new Error(`Model ${modelId} not found`);
     }
@@ -339,13 +353,13 @@ class AIServiceClass {
 
     this.selectedModel = modelId;
     this.selectedProvider = model.provider;
-    
+
     localStorage.setItem('ff_selected_ai_model', modelId);
     localStorage.setItem('ff_selected_ai_provider', model.provider);
   }
 
   public getCurrentModel(): AIModel | null {
-    return AI_MODELS.find(m => m.id === this.selectedModel) || null;
+    return AI_MODELS.find((m) => m.id === this.selectedModel) || null;
   }
 
   public async generateCode(request: CodeGenerationRequest): Promise<string> {
@@ -358,7 +372,7 @@ class AIServiceClass {
       model: this.selectedModel,
       provider: this.selectedProvider,
       temperature: 0.1, // Lower temperature for more consistent code
-      maxTokens: 4000
+      maxTokens: 4000,
     });
 
     return this.extractCode(aiResponse.content);
@@ -385,8 +399,8 @@ class AIServiceClass {
         repositoryStructure: repoAnalysis.structure,
         detectedTechnologies: repoAnalysis.technologies,
         codebaseSummary: repoAnalysis.codebase_summary,
-        repositoryRecommendations: repoAnalysis.recommendations
-      }
+        repositoryRecommendations: repoAnalysis.recommendations,
+      },
     };
 
     const systemPrompt = this.buildSystemPrompt(enhancedRequest);
@@ -401,8 +415,8 @@ class AIServiceClass {
       maxTokens: 6000, // Increased for repository context
       context: {
         repository: repoInfo,
-        analysis: repoAnalysis
-      }
+        analysis: repoAnalysis,
+      },
     });
 
     return this.extractCode(aiResponse.content);
@@ -430,13 +444,16 @@ Return the improved code:`;
       systemPrompt,
       model: this.selectedModel,
       provider: this.selectedProvider,
-      temperature: 0.1
+      temperature: 0.1,
     });
 
     return this.extractCode(aiResponse.content);
   }
 
-  public async debugCode(code: string, error: string): Promise<{ analysis: string; fixedCode: string }> {
+  public async debugCode(
+    code: string,
+    error: string
+  ): Promise<{ analysis: string; fixedCode: string }> {
     const systemPrompt = `You are an expert debugging assistant. Analyze the provided code and error, 
 then provide both an explanation of the issue and the corrected code.
 Format your response as JSON with 'analysis' and 'fixedCode' properties.`;
@@ -457,7 +474,7 @@ Provide analysis and fixed code:`;
       systemPrompt,
       model: this.selectedModel,
       provider: this.selectedProvider,
-      temperature: 0.2
+      temperature: 0.2,
     });
 
     try {
@@ -465,13 +482,16 @@ Provide analysis and fixed code:`;
     } catch {
       // Fallback if JSON parsing fails
       return {
-        analysis: "Unable to parse debug response",
-        fixedCode: code
+        analysis: 'Unable to parse debug response',
+        fixedCode: code,
       };
     }
   }
 
-  public async generateDocumentation(code: string, type: 'api' | 'component' | 'function' = 'component'): Promise<string> {
+  public async generateDocumentation(
+    code: string,
+    type: 'api' | 'component' | 'function' = 'component'
+  ): Promise<string> {
     const systemPrompt = `You are a technical documentation expert. Generate comprehensive, clear documentation 
 for the provided code. Include usage examples, parameter descriptions, and return values where applicable.`;
 
@@ -488,7 +508,7 @@ Documentation:`;
       systemPrompt,
       model: this.selectedModel,
       provider: this.selectedProvider,
-      temperature: 0.3
+      temperature: 0.3,
     });
 
     return aiResponse.content;
@@ -519,7 +539,10 @@ STYLE SYSTEM:
 Generate production-ready code that follows these guidelines exactly.`;
 
     if (request.options?.includeTypeScript) {
-      return basePrompt + "\n\nUSE TYPESCRIPT: All code must be TypeScript with proper types and interfaces.";
+      return (
+        basePrompt +
+        '\n\nUSE TYPESCRIPT: All code must be TypeScript with proper types and interfaces.'
+      );
     }
 
     return basePrompt;
@@ -545,35 +568,37 @@ Generate production-ready code that follows these guidelines exactly.`;
       prompt += `Repository context:\n`;
       prompt += `- Technologies: ${(request.context as any).detectedTechnologies.join(', ')}\n`;
       prompt += `- Codebase summary: ${(request.context as any).codebaseSummary}\n`;
-      
+
       if ((request.context as any)?.repositoryRecommendations) {
         prompt += `- Architecture recommendations: ${(request.context as any).repositoryRecommendations.join(', ')}\n`;
       }
-      
+
       // Add key files from repository structure for better context
-      const keyFiles = this.extractKeyFilesFromStructure((request.context as any).repositoryStructure);
+      const keyFiles = this.extractKeyFilesFromStructure(
+        (request.context as any).repositoryStructure
+      );
       if (keyFiles.length > 0) {
         prompt += `- Key project files: ${keyFiles.join(', ')}\n`;
       }
-      
+
       prompt += `\nGenerate code that follows the existing project structure and patterns.\n\n`;
     }
 
     if (request.options?.includeTests) {
-      prompt += "Include comprehensive unit tests.\n\n";
+      prompt += 'Include comprehensive unit tests.\n\n';
     }
 
     if (request.options?.includeDocumentation) {
-      prompt += "Include JSDoc documentation for all functions and components.\n\n";
+      prompt += 'Include JSDoc documentation for all functions and components.\n\n';
     }
 
-    prompt += "Return only the code without explanations or markdown formatting.";
+    prompt += 'Return only the code without explanations or markdown formatting.';
 
     return prompt;
   }
 
   private async makeAIRequest(request: AIRequest): Promise<AIResponse> {
-    const model = AI_MODELS.find(m => m.id === request.model);
+    const model = AI_MODELS.find((m) => m.id === request.model);
     if (!model) {
       throw new Error(`Model ${request.model} not found`);
     }
@@ -588,7 +613,7 @@ Generate production-ready code that follows these guidelines exactly.`;
 
     try {
       let response: Response;
-      
+
       switch (request.provider) {
         case 'openai':
           response = await this.callOpenAI(request, apiKey);
@@ -614,7 +639,9 @@ Generate production-ready code that follows these guidelines exactly.`;
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-        throw new Error(`AI API Error: ${response.status} - ${errorData.error || response.statusText}`);
+        throw new Error(
+          `AI API Error: ${response.status} - ${errorData.error || response.statusText}`
+        );
       }
 
       const data = await response.json();
@@ -622,7 +649,7 @@ Generate production-ready code that follows these guidelines exactly.`;
 
       // Parse response based on provider
       const parsedResponse = this.parseProviderResponse(data, request.provider, model);
-      
+
       // Update usage statistics
       this.requestCount++;
       this.totalCost += parsedResponse.usage.estimatedCost;
@@ -632,10 +659,9 @@ Generate production-ready code that follows these guidelines exactly.`;
         metadata: {
           requestId,
           timestamp: new Date().toISOString(),
-          processingTime
-        }
+          processingTime,
+        },
       };
-
     } catch (error) {
       console.error('AI Service Error:', error);
       toast.error(`AI request failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -647,19 +673,19 @@ Generate production-ready code that follows these guidelines exactly.`;
     return fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: request.model,
         messages: [
           ...(request.systemPrompt ? [{ role: 'system', content: request.systemPrompt }] : []),
-          { role: 'user', content: request.prompt }
+          { role: 'user', content: request.prompt },
         ],
         temperature: request.temperature || 0.7,
         max_tokens: request.maxTokens || 2000,
-        stream: false
-      })
+        stream: false,
+      }),
     });
   }
 
@@ -669,40 +695,44 @@ Generate production-ready code that follows these guidelines exactly.`;
       headers: {
         'x-api-key': apiKey,
         'Content-Type': 'application/json',
-        'anthropic-version': '2023-06-01'
+        'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
         model: request.model,
         max_tokens: request.maxTokens || 2000,
         temperature: request.temperature || 0.7,
         system: request.systemPrompt || '',
-        messages: [
-          { role: 'user', content: request.prompt }
-        ]
-      })
+        messages: [{ role: 'user', content: request.prompt }],
+      }),
     });
   }
 
   private async callGoogle(request: AIRequest, apiKey: string): Promise<Response> {
-    return fetch(`https://generativelanguage.googleapis.com/v1/models/${request.model}:generateContent?key=${apiKey}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              { text: (request.systemPrompt ? request.systemPrompt + '\n\n' : '') + request.prompt }
-            ]
-          }
-        ],
-        generationConfig: {
-          temperature: request.temperature || 0.7,
-          maxOutputTokens: request.maxTokens || 2000
-        }
-      })
-    });
+    return fetch(
+      `https://generativelanguage.googleapis.com/v1/models/${request.model}:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text:
+                    (request.systemPrompt ? request.systemPrompt + '\n\n' : '') + request.prompt,
+                },
+              ],
+            },
+          ],
+          generationConfig: {
+            temperature: request.temperature || 0.7,
+            maxOutputTokens: request.maxTokens || 2000,
+          },
+        }),
+      }
+    );
   }
 
   private async callGitHubCopilot(request: AIRequest, apiKey: string): Promise<Response> {
@@ -710,19 +740,19 @@ Generate production-ready code that follows these guidelines exactly.`;
     return fetch('https://api.github.com/copilot/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
-        'Accept': 'application/vnd.github+json'
+        Accept: 'application/vnd.github+json',
       },
       body: JSON.stringify({
         messages: [
           ...(request.systemPrompt ? [{ role: 'system', content: request.systemPrompt }] : []),
-          { role: 'user', content: request.prompt }
+          { role: 'user', content: request.prompt },
         ],
         model: request.model,
         temperature: request.temperature || 0.7,
-        max_tokens: request.maxTokens || 2000
-      })
+        max_tokens: request.maxTokens || 2000,
+      }),
     });
   }
 
@@ -731,19 +761,19 @@ Generate production-ready code that follows these guidelines exactly.`;
     return fetch('https://api.x.ai/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: request.model,
         messages: [
           ...(request.systemPrompt ? [{ role: 'system', content: request.systemPrompt }] : []),
-          { role: 'user', content: request.prompt }
+          { role: 'user', content: request.prompt },
         ],
         temperature: request.temperature || 0.7,
         max_tokens: request.maxTokens || 2000,
-        stream: false
-      })
+        stream: false,
+      }),
     });
   }
 
@@ -752,23 +782,27 @@ Generate production-ready code that follows these guidelines exactly.`;
     return fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: request.model,
         messages: [
           ...(request.systemPrompt ? [{ role: 'system', content: request.systemPrompt }] : []),
-          { role: 'user', content: request.prompt }
+          { role: 'user', content: request.prompt },
         ],
         temperature: request.temperature || 0.7,
         max_tokens: request.maxTokens || 2000,
-        stream: false
-      })
+        stream: false,
+      }),
     });
   }
 
-  private parseProviderResponse(data: any, provider: AIProvider, model: AIModel): Omit<AIResponse, 'metadata'> {
+  private parseProviderResponse(
+    data: any,
+    provider: AIProvider,
+    model: AIModel
+  ): Omit<AIResponse, 'metadata'> {
     switch (provider) {
       case 'openai':
       case 'xai':
@@ -784,8 +818,8 @@ Generate production-ready code that follows these guidelines exactly.`;
             promptTokens: usage.prompt_tokens,
             completionTokens: usage.completion_tokens,
             totalTokens: usage.total_tokens,
-            estimatedCost: (usage.total_tokens / 1000) * model.costPer1k
-          }
+            estimatedCost: (usage.total_tokens / 1000) * model.costPer1k,
+          },
         };
 
       case 'anthropic':
@@ -799,8 +833,8 @@ Generate production-ready code that follows these guidelines exactly.`;
             promptTokens: anthropicUsage.input_tokens,
             completionTokens: anthropicUsage.output_tokens,
             totalTokens,
-            estimatedCost: (totalTokens / 1000) * model.costPer1k
-          }
+            estimatedCost: (totalTokens / 1000) * model.costPer1k,
+          },
         };
 
       case 'google':
@@ -815,8 +849,8 @@ Generate production-ready code that follows these guidelines exactly.`;
             promptTokens: 0, // Google doesn't provide detailed usage
             completionTokens: estimatedTokens,
             totalTokens: estimatedTokens,
-            estimatedCost: (estimatedTokens / 1000) * model.costPer1k
-          }
+            estimatedCost: (estimatedTokens / 1000) * model.costPer1k,
+          },
         };
 
       default:
@@ -828,11 +862,11 @@ Generate production-ready code that follows these guidelines exactly.`;
     // Remove markdown code blocks if present
     const codeBlockRegex = /```[\w]*\n?([\s\S]*?)\n?```/g;
     const match = codeBlockRegex.exec(content);
-    
+
     if (match) {
       return match[1].trim();
     }
-    
+
     // If no code blocks found, return the entire content
     return content.trim();
   }
@@ -840,8 +874,14 @@ Generate production-ready code that follows these guidelines exactly.`;
   private extractKeyFilesFromStructure(structure: any[]): string[] {
     const keyFiles: string[] = [];
     const importantFiles = [
-      'package.json', 'tsconfig.json', 'tailwind.config.js', 'next.config.js',
-      'vite.config.js', 'webpack.config.js', '.eslintrc.json', 'README.md'
+      'package.json',
+      'tsconfig.json',
+      'tailwind.config.js',
+      'next.config.js',
+      'vite.config.js',
+      'webpack.config.js',
+      '.eslintrc.json',
+      'README.md',
     ];
 
     structure.forEach((item: any) => {
@@ -858,7 +898,7 @@ Generate production-ready code that follows these guidelines exactly.`;
       requestCount: this.requestCount,
       totalCost: this.totalCost,
       selectedModel: this.selectedModel,
-      selectedProvider: this.selectedProvider
+      selectedProvider: this.selectedProvider,
     };
   }
 
@@ -879,7 +919,11 @@ Generate production-ready code that follows these guidelines exactly.`;
   }
 
   // Repository Analysis Methods
-  public async analyzeRepository(repoUrl: string, branch: string = 'main', accessToken?: string): Promise<{
+  public async analyzeRepository(
+    repoUrl: string,
+    branch: string = 'main',
+    accessToken?: string
+  ): Promise<{
     structure: any;
     technologies: string[];
     recommendations: string[];
@@ -888,55 +932,75 @@ Generate production-ready code that follows these guidelines exactly.`;
     try {
       // Parse GitHub/GitLab URL
       const { owner, repo, provider } = this.parseRepositoryUrl(repoUrl);
-      
+
       // Get repository structure
-      const structure = await this.getRepositoryStructure(owner, repo, branch, accessToken, provider);
-      
+      const structure = await this.getRepositoryStructure(
+        owner,
+        repo,
+        branch,
+        accessToken,
+        provider
+      );
+
       // Analyze technologies used
       const technologies = this.detectTechnologies(structure);
-      
+
       // Generate AI analysis
       const analysis = await this.generateRepositoryAnalysis(structure, technologies);
-      
+
       return {
         structure,
         technologies,
         recommendations: analysis.recommendations,
-        codebase_summary: analysis.summary
+        codebase_summary: analysis.summary,
       };
     } catch (error) {
       console.error('Repository analysis failed:', error);
-      throw new Error(`Failed to analyze repository: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to analyze repository: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     }
   }
 
-  private parseRepositoryUrl(url: string): { owner: string; repo: string; provider: 'github' | 'gitlab' | 'bitbucket' } {
+  private parseRepositoryUrl(url: string): {
+    owner: string;
+    repo: string;
+    provider: 'github' | 'gitlab' | 'bitbucket';
+  } {
     // Handle GitHub URLs
     const githubMatch = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
     if (githubMatch) {
-      return { owner: githubMatch[1], repo: githubMatch[2].replace('.git', ''), provider: 'github' };
+      return {
+        owner: githubMatch[1],
+        repo: githubMatch[2].replace('.git', ''),
+        provider: 'github',
+      };
     }
-    
+
     // Handle GitLab URLs
     const gitlabMatch = url.match(/gitlab\.com\/([^\/]+)\/([^\/]+)/);
     if (gitlabMatch) {
-      return { owner: gitlabMatch[1], repo: gitlabMatch[2].replace('.git', ''), provider: 'gitlab' };
+      return {
+        owner: gitlabMatch[1],
+        repo: gitlabMatch[2].replace('.git', ''),
+        provider: 'gitlab',
+      };
     }
-    
+
     throw new Error('Unsupported repository URL format');
   }
 
   private async getRepositoryStructure(
-    owner: string, 
-    repo: string, 
-    branch: string, 
+    owner: string,
+    repo: string,
+    branch: string,
     accessToken?: string,
     provider: 'github' | 'gitlab' | 'bitbucket' = 'github'
   ): Promise<any> {
     const headers: Record<string, string> = {
-      'Accept': 'application/vnd.github.v3+json'
+      Accept: 'application/vnd.github.v3+json',
     };
-    
+
     if (accessToken) {
       headers['Authorization'] = `Bearer ${accessToken}`;
     }
@@ -954,11 +1018,13 @@ Generate production-ready code that follows these guidelines exactly.`;
     }
 
     const response = await fetch(apiUrl, { headers });
-    
+
     if (!response.ok) {
-      throw new Error(`Failed to fetch repository structure: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch repository structure: ${response.status} ${response.statusText}`
+      );
     }
-    
+
     return await response.json();
   }
 
@@ -1026,12 +1092,12 @@ Generate production-ready code that follows these guidelines exactly.`;
     structure.forEach((item: any) => {
       const fileName = item.name || item.path || '';
       const extension = fileName.split('.').pop()?.toLowerCase();
-      
+
       // Check file extensions
       if (extension && fileExtensions.has(extension)) {
         technologies.add(fileExtensions.get(extension)!);
       }
-      
+
       // Check config files
       if (configFiles.has(fileName)) {
         technologies.add(configFiles.get(fileName)!);
@@ -1041,7 +1107,10 @@ Generate production-ready code that follows these guidelines exactly.`;
     return Array.from(technologies);
   }
 
-  private async generateRepositoryAnalysis(structure: any[], technologies: string[]): Promise<{
+  private async generateRepositoryAnalysis(
+    structure: any[],
+    technologies: string[]
+  ): Promise<{
     summary: string;
     recommendations: string[];
   }> {
@@ -1066,8 +1135,9 @@ Format as JSON:
         prompt,
         model: this.selectedModel,
         provider: this.selectedProvider,
-        systemPrompt: 'You are a senior software architect analyzing codebases. Provide clear, actionable insights.',
-        temperature: 0.3
+        systemPrompt:
+          'You are a senior software architect analyzing codebases. Provide clear, actionable insights.',
+        temperature: 0.3,
       });
 
       return JSON.parse(response.content);
@@ -1080,16 +1150,18 @@ Format as JSON:
           'Implement automated testing if not present',
           'Set up continuous integration/deployment',
           'Review security best practices',
-          'Optimize performance and bundle size'
-        ]
+          'Optimize performance and bundle size',
+        ],
       };
     }
   }
 
-  public async generateCodeWithRepository(request: CodeGenerationRequest & { repositoryContext?: any }): Promise<string> {
+  public async generateCodeWithRepository(
+    request: CodeGenerationRequest & { repositoryContext?: any }
+  ): Promise<string> {
     // Enhanced code generation with repository context
     const enhancedRequest = { ...request };
-    
+
     if (request.options?.analyzeRepository && request.context?.repository) {
       try {
         const repoAnalysis = await this.analyzeRepository(
@@ -1097,7 +1169,7 @@ Format as JSON:
           request.context.repository.branch,
           request.context.repository.accessToken
         );
-        
+
         // Add repository context to the request
         enhancedRequest.context = {
           ...enhancedRequest.context,
@@ -1111,7 +1183,7 @@ Format as JSON:
         toast.error('Repository analysis failed, generating code without repository context');
       }
     }
-    
+
     return this.generateCode(enhancedRequest);
   }
 }

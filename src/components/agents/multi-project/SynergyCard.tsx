@@ -5,7 +5,10 @@ import { Badge } from '../../ui/badge';
 import { Progress } from '../../ui/progress';
 import { Shuffle, CheckCircle2 } from 'lucide-react';
 import { cn } from '../../ui/utils';
-import { getSynergyIcon, getImplementationEffortColor } from '../../../utils/multi-project-orchestrator';
+import {
+  getSynergyIcon,
+  getImplementationEffortColor,
+} from '../../../utils/multi-project-orchestrator';
 import { CrossProjectSynergy } from '../../../types/multi-agent-orchestration';
 
 interface SynergyCardProps {
@@ -16,9 +19,15 @@ interface SynergyCardProps {
   index: number;
 }
 
-export function SynergyCard({ synergy, projects, onImplement, isOptimizing, index }: SynergyCardProps) {
+export function SynergyCard({
+  synergy,
+  projects,
+  onImplement,
+  isOptimizing,
+  index,
+}: SynergyCardProps) {
   const IconComponent = getSynergyIcon(synergy.synergyType);
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -40,12 +49,10 @@ export function SynergyCard({ synergy, projects, onImplement, isOptimizing, inde
                   Impact Score: {synergy.impactScore}%
                 </Badge>
               </div>
-              <p className="text-sm text-muted-foreground mb-2">
-                {synergy.opportunity}
-              </p>
+              <p className="text-sm text-muted-foreground mb-2">{synergy.opportunity}</p>
               <div className="flex items-center gap-2">
-                {synergy.projectIds.map(projectId => {
-                  const project = projects.find(p => p.id === projectId);
+                {synergy.projectIds.map((projectId) => {
+                  const project = projects.find((p) => p.id === projectId);
                   return project ? (
                     <Badge key={projectId} variant="outline" className="text-xs">
                       {project.name}
@@ -57,22 +64,21 @@ export function SynergyCard({ synergy, projects, onImplement, isOptimizing, inde
           </div>
 
           <div className="text-right">
-            <Badge 
-              className={cn("text-xs mb-2", getImplementationEffortColor(synergy.implementationEffort))}
+            <Badge
+              className={cn(
+                'text-xs mb-2',
+                getImplementationEffortColor(synergy.implementationEffort)
+              )}
             >
               {synergy.implementationEffort} effort
             </Badge>
-            <div className="text-xs text-muted-foreground">
-              {synergy.timeline}
-            </div>
+            <div className="text-xs text-muted-foreground">{synergy.timeline}</div>
           </div>
         </div>
 
         <div className="bg-muted/30 rounded-lg p-3 mb-3">
           <h4 className="font-medium text-sm mb-1">Expected Benefits</h4>
-          <p className="text-xs text-muted-foreground">
-            {synergy.benefitDescription}
-          </p>
+          <p className="text-xs text-muted-foreground">{synergy.benefitDescription}</p>
         </div>
 
         <div className="flex justify-between items-center">

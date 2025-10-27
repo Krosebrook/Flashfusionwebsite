@@ -5,10 +5,10 @@ import { Badge } from '../ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Separator } from '../ui/separator';
 import { Progress } from '../ui/progress';
-import { 
-  Shield, 
-  ShieldAlert, 
-  ShieldCheck, 
+import {
+  Shield,
+  ShieldAlert,
+  ShieldCheck,
   ShieldX,
   AlertTriangle,
   CheckCircle,
@@ -28,7 +28,7 @@ import {
   Pause,
   RotateCcw,
   ExternalLink,
-  Download
+  Download,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import type { SecurityThreat } from './types';
@@ -69,7 +69,7 @@ const defaultAlerts: SecurityAlert[] = [
     dismissed: false,
     escalated: false,
     autoResolved: false,
-    notificationSent: true
+    notificationSent: true,
   },
   {
     id: 'alert-2',
@@ -85,7 +85,7 @@ const defaultAlerts: SecurityAlert[] = [
     dismissed: false,
     escalated: true,
     autoResolved: false,
-    notificationSent: true
+    notificationSent: true,
   },
   {
     id: 'alert-3',
@@ -101,7 +101,7 @@ const defaultAlerts: SecurityAlert[] = [
     dismissed: false,
     escalated: false,
     autoResolved: true,
-    notificationSent: true
+    notificationSent: true,
   },
   {
     id: 'alert-4',
@@ -117,22 +117,22 @@ const defaultAlerts: SecurityAlert[] = [
     dismissed: false,
     escalated: false,
     autoResolved: true,
-    notificationSent: false
-  }
+    notificationSent: false,
+  },
 ];
 
 const defaultFilter: AlertFilter = {
   severity: [],
   type: [],
   status: [],
-  timeRange: '24h'
+  timeRange: '24h',
 };
 
-export function SecurityAlertSystem({ 
-  alerts = defaultAlerts, 
+export function SecurityAlertSystem({
+  alerts = defaultAlerts,
   onAlertAction,
   onFilterChange,
-  className = '' 
+  className = '',
 }: SecurityAlertSystemProps) {
   const [securityAlerts, setSecurityAlerts] = useState<SecurityAlert[]>(alerts);
   const [filter, setFilter] = useState<AlertFilter>(defaultFilter);
@@ -162,20 +162,21 @@ export function SecurityAlertSystem({
         dismissed: false,
         escalated: false,
         autoResolved: false,
-        notificationSent: false
+        notificationSent: false,
       };
 
       // Only add new alerts occasionally
-      if (Math.random() < 0.1) { // 10% chance every 30 seconds
-        setSecurityAlerts(prev => [randomAlert, ...prev.slice(0, 19)]);
-        
+      if (Math.random() < 0.1) {
+        // 10% chance every 30 seconds
+        setSecurityAlerts((prev) => [randomAlert, ...prev.slice(0, 19)]);
+
         if (soundEnabled) {
           // Play notification sound (in a real app)
           console.log('🔊 Security alert sound');
         }
 
         toast.error('New security alert!', {
-          description: randomAlert.title
+          description: randomAlert.title,
         });
       }
     }, 30000); // Check every 30 seconds
@@ -183,57 +184,66 @@ export function SecurityAlertSystem({
     return () => clearInterval(interval);
   }, [autoRefresh, soundEnabled]);
 
-  const handleAlertAction = useCallback((alertId: string, action: string) => {
-    console.log(`Alert action: ${action} on ${alertId}`);
-    
-    setSecurityAlerts(prev => 
-      prev.map(alert => {
-        if (alert.id === alertId) {
-          switch (action) {
-            case 'dismiss':
-              return { ...alert, dismissed: true };
-            case 'escalate':
-              return { ...alert, escalated: true };
-            case 'resolve':
-              return { ...alert, status: 'resolved' as any };
-            case 'investigate':
-              return { ...alert, status: 'investigating' as any };
-            default:
-              return alert;
+  const handleAlertAction = useCallback(
+    (alertId: string, action: string) => {
+      console.log(`Alert action: ${action} on ${alertId}`);
+
+      setSecurityAlerts((prev) =>
+        prev.map((alert) => {
+          if (alert.id === alertId) {
+            switch (action) {
+              case 'dismiss':
+                return { ...alert, dismissed: true };
+              case 'escalate':
+                return { ...alert, escalated: true };
+              case 'resolve':
+                return { ...alert, status: 'resolved' as any };
+              case 'investigate':
+                return { ...alert, status: 'investigating' as any };
+              default:
+                return alert;
+            }
           }
-        }
-        return alert;
-      })
-    );
+          return alert;
+        })
+      );
 
-    onAlertAction?.(alertId, action);
+      onAlertAction?.(alertId, action);
 
-    toast.success('Alert updated', {
-      description: `${action.charAt(0).toUpperCase() + action.slice(1)} action completed`
-    });
-  }, [onAlertAction]);
+      toast.success('Alert updated', {
+        description: `${action.charAt(0).toUpperCase() + action.slice(1)} action completed`,
+      });
+    },
+    [onAlertAction]
+  );
 
-  const handleBulkAction = useCallback((action: string) => {
-    if (selectedAlerts.size === 0) return;
+  const handleBulkAction = useCallback(
+    (action: string) => {
+      if (selectedAlerts.size === 0) return;
 
-    selectedAlerts.forEach(alertId => {
-      handleAlertAction(alertId, action);
-    });
+      selectedAlerts.forEach((alertId) => {
+        handleAlertAction(alertId, action);
+      });
 
-    setSelectedAlerts(new Set());
-    
-    toast.success(`Bulk ${action} completed`, {
-      description: `Applied to ${selectedAlerts.size} alerts`
-    });
-  }, [selectedAlerts, handleAlertAction]);
+      setSelectedAlerts(new Set());
 
-  const handleFilterChange = useCallback((newFilter: Partial<AlertFilter>) => {
-    const updatedFilter = { ...filter, ...newFilter };
-    setFilter(updatedFilter);
-    onFilterChange?.(updatedFilter);
-  }, [filter, onFilterChange]);
+      toast.success(`Bulk ${action} completed`, {
+        description: `Applied to ${selectedAlerts.size} alerts`,
+      });
+    },
+    [selectedAlerts, handleAlertAction]
+  );
 
-  const filteredAlerts = securityAlerts.filter(alert => {
+  const handleFilterChange = useCallback(
+    (newFilter: Partial<AlertFilter>) => {
+      const updatedFilter = { ...filter, ...newFilter };
+      setFilter(updatedFilter);
+      onFilterChange?.(updatedFilter);
+    },
+    [filter, onFilterChange]
+  );
+
+  const filteredAlerts = securityAlerts.filter((alert) => {
     // Filter by dismissed status
     if (!showDismissed && alert.dismissed) return false;
 
@@ -269,39 +279,54 @@ export function SecurityAlertSystem({
 
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
-      case 'critical': return <ShieldX className="h-4 w-4 text-destructive" />;
-      case 'high': return <ShieldAlert className="h-4 w-4 text-warning" />;
-      case 'medium': return <AlertTriangle className="h-4 w-4 text-warning" />;
-      case 'low': return <Shield className="h-4 w-4 text-info" />;
-      default: return <Shield className="h-4 w-4 text-muted-foreground" />;
+      case 'critical':
+        return <ShieldX className="h-4 w-4 text-destructive" />;
+      case 'high':
+        return <ShieldAlert className="h-4 w-4 text-warning" />;
+      case 'medium':
+        return <AlertTriangle className="h-4 w-4 text-warning" />;
+      case 'low':
+        return <Shield className="h-4 w-4 text-info" />;
+      default:
+        return <Shield className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'critical': return 'destructive';
-      case 'high': return 'destructive';
-      case 'medium': return 'warning';
-      case 'low': return 'secondary';
-      default: return 'outline';
+      case 'critical':
+        return 'destructive';
+      case 'high':
+        return 'destructive';
+      case 'medium':
+        return 'warning';
+      case 'low':
+        return 'secondary';
+      default:
+        return 'outline';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'resolved': return <CheckCircle className="h-4 w-4 text-success" />;
-      case 'mitigated': return <ShieldCheck className="h-4 w-4 text-success" />;
-      case 'investigating': return <Clock className="h-4 w-4 text-warning" />;
-      case 'detected': return <AlertTriangle className="h-4 w-4 text-destructive" />;
-      default: return <Clock className="h-4 w-4 text-muted-foreground" />;
+      case 'resolved':
+        return <CheckCircle className="h-4 w-4 text-success" />;
+      case 'mitigated':
+        return <ShieldCheck className="h-4 w-4 text-success" />;
+      case 'investigating':
+        return <Clock className="h-4 w-4 text-warning" />;
+      case 'detected':
+        return <AlertTriangle className="h-4 w-4 text-destructive" />;
+      default:
+        return <Clock className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
   const severityCount = {
-    critical: filteredAlerts.filter(a => a.severity === 'critical').length,
-    high: filteredAlerts.filter(a => a.severity === 'high').length,
-    medium: filteredAlerts.filter(a => a.severity === 'medium').length,
-    low: filteredAlerts.filter(a => a.severity === 'low').length
+    critical: filteredAlerts.filter((a) => a.severity === 'critical').length,
+    high: filteredAlerts.filter((a) => a.severity === 'high').length,
+    medium: filteredAlerts.filter((a) => a.severity === 'medium').length,
+    low: filteredAlerts.filter((a) => a.severity === 'low').length,
   };
 
   return (
@@ -309,9 +334,7 @@ export function SecurityAlertSystem({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h2 className="ff-text-2xl font-bold text-foreground font-sora">
-            Security Alert System
-          </h2>
+          <h2 className="ff-text-2xl font-bold text-foreground font-sora">Security Alert System</h2>
           <p className="ff-text-base text-muted-foreground font-inter">
             Real-time security monitoring and incident response
           </p>
@@ -338,19 +361,11 @@ export function SecurityAlertSystem({
             onClick={() => setAutoRefresh(!autoRefresh)}
             className="ff-focus-ring"
           >
-            {autoRefresh ? (
-              <Pause className="h-4 w-4 mr-2" />
-            ) : (
-              <Play className="h-4 w-4 mr-2" />
-            )}
+            {autoRefresh ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
             Auto-refresh
           </Button>
 
-          <Button
-            variant="outline"
-            size="sm"
-            className="ff-focus-ring"
-          >
+          <Button variant="outline" size="sm" className="ff-focus-ring">
             <Download className="h-4 w-4 mr-2" />
             Export
           </Button>
@@ -420,7 +435,7 @@ export function SecurityAlertSystem({
           <div className="flex flex-wrap gap-4 items-center">
             <div className="flex items-center gap-2">
               <label className="ff-text-sm font-semibold font-sora">Time Range:</label>
-              <select 
+              <select
                 value={filter.timeRange}
                 onChange={(e) => handleFilterChange({ timeRange: e.target.value as any })}
                 className="px-3 py-1 border rounded ff-focus-ring bg-background"
@@ -515,9 +530,7 @@ export function SecurityAlertSystem({
                       className="mt-1 ff-focus-ring"
                     />
 
-                    <div className="flex-shrink-0 mt-1">
-                      {getSeverityIcon(alert.severity)}
-                    </div>
+                    <div className="flex-shrink-0 mt-1">{getSeverityIcon(alert.severity)}</div>
 
                     <div className="flex-1 space-y-2">
                       <div className="flex items-start justify-between gap-4">
@@ -546,9 +559,7 @@ export function SecurityAlertSystem({
                           </Badge>
                           <div className="flex items-center gap-1">
                             {getStatusIcon(alert.status)}
-                            <span className="ff-text-xs capitalize font-inter">
-                              {alert.status}
-                            </span>
+                            <span className="ff-text-xs capitalize font-inter">{alert.status}</span>
                           </div>
                         </div>
                       </div>
@@ -559,13 +570,9 @@ export function SecurityAlertSystem({
                           <span className="font-inter">
                             Assets: {alert.affectedAssets.join(', ')}
                           </span>
-                          <span className="font-inter">
-                            Response: {alert.responseTime}min
-                          </span>
+                          <span className="font-inter">Response: {alert.responseTime}min</span>
                         </div>
-                        <span className="font-inter">
-                          {alert.timestamp.toLocaleString()}
-                        </span>
+                        <span className="font-inter">{alert.timestamp.toLocaleString()}</span>
                       </div>
 
                       <div className="flex items-center gap-2 pt-2">
@@ -580,7 +587,7 @@ export function SecurityAlertSystem({
                               <Eye className="h-3 w-3 mr-1" />
                               Investigate
                             </Button>
-                            
+
                             <Button
                               size="sm"
                               variant="outline"

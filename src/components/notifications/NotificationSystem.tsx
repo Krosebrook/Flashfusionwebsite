@@ -7,11 +7,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { ScrollArea } from '../ui/scroll-area';
 import { Separator } from '../ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../ui/dialog';
-import { 
-  Bell, 
-  X, 
-  Check, 
-  Trash2, 
+import {
+  Bell,
+  X,
+  Check,
+  Trash2,
   Settings,
   Zap,
   Rocket,
@@ -26,7 +26,7 @@ import {
   Target,
   Calendar,
   Clock,
-  ExternalLink
+  ExternalLink,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
@@ -71,11 +71,11 @@ export function useNotifications() {
 }
 
 // Notification Provider
-export function NotificationProvider({ 
-  children, 
-  userId 
-}: { 
-  children: React.ReactNode; 
+export function NotificationProvider({
+  children,
+  userId,
+}: {
+  children: React.ReactNode;
   userId?: string;
 }) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -86,8 +86,8 @@ export function NotificationProvider({
     if (stored) {
       const parsed = JSON.parse(stored);
       // Filter out expired notifications
-      const valid = parsed.filter((n: Notification) => 
-        !n.expires_at || new Date(n.expires_at) > new Date()
+      const valid = parsed.filter(
+        (n: Notification) => !n.expires_at || new Date(n.expires_at) > new Date()
       );
       setNotifications(valid);
     }
@@ -106,10 +106,10 @@ export function NotificationProvider({
       id: Math.random().toString(36).substr(2, 9),
       created_at: new Date().toISOString(),
       read: false,
-      user_id: userId || ''
+      user_id: userId || '',
     };
 
-    setNotifications(prev => [newNotification, ...prev]);
+    setNotifications((prev) => [newNotification, ...prev]);
 
     // Show toast for high priority notifications
     if (notification.priority === 'high' || notification.priority === 'urgent') {
@@ -117,39 +117,39 @@ export function NotificationProvider({
     }
 
     // Limit to 50 notifications
-    setNotifications(prev => prev.slice(0, 50));
+    setNotifications((prev) => prev.slice(0, 50));
   };
 
   const markAsRead = (id: string) => {
-    setNotifications(prev => 
-      prev.map(n => n.id === id ? { ...n, read: true } : n)
-    );
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   };
 
   const removeNotification = (id: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
   const clearAll = () => {
     setNotifications([]);
   };
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
-    <NotificationContext.Provider value={{
-      notifications,
-      unreadCount,
-      addNotification,
-      markAsRead,
-      markAllAsRead,
-      removeNotification,
-      clearAll
-    }}>
+    <NotificationContext.Provider
+      value={{
+        notifications,
+        unreadCount,
+        addNotification,
+        markAsRead,
+        markAllAsRead,
+        removeNotification,
+        clearAll,
+      }}
+    >
       {children}
     </NotificationContext.Provider>
   );
@@ -164,54 +164,58 @@ function showNotificationToast(notification: Notification) {
     project: Target,
     social: Users,
     system: Info,
-    reminder: Clock
+    reminder: Clock,
   };
 
   const Icon = icons[notification.type] || Bell;
 
-  toast.custom((t) => (
-    <Card className="ff-glass border-primary/20 min-w-[320px]">
-      <CardContent className="p-4">
-        <div className="flex items-start gap-3">
-          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-            <Icon className="w-4 h-4 text-primary" />
+  toast.custom(
+    (t) => (
+      <Card className="ff-glass border-primary/20 min-w-[320px]">
+        <CardContent className="p-4">
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+              <Icon className="w-4 h-4 text-primary" />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-semibold text-sm">{notification.title}</h4>
+              <p className="text-xs text-muted-foreground mt-1">{notification.message}</p>
+              {notification.action && (
+                <Button
+                  size="sm"
+                  className="mt-2 h-6 text-xs ff-btn-primary"
+                  onClick={() => {
+                    notification.action!.onClick?.();
+                    toast.dismiss(t);
+                  }}
+                >
+                  {notification.action.label}
+                </Button>
+              )}
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => toast.dismiss(t)}
+              className="h-6 w-6 p-0"
+            >
+              <X className="w-3 h-3" />
+            </Button>
           </div>
-          <div className="flex-1">
-            <h4 className="font-semibold text-sm">{notification.title}</h4>
-            <p className="text-xs text-muted-foreground mt-1">{notification.message}</p>
-            {notification.action && (
-              <Button
-                size="sm"
-                className="mt-2 h-6 text-xs ff-btn-primary"
-                onClick={() => {
-                  notification.action!.onClick?.();
-                  toast.dismiss(t);
-                }}
-              >
-                {notification.action.label}
-              </Button>
-            )}
-          </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => toast.dismiss(t)}
-            className="h-6 w-6 p-0"
-          >
-            <X className="w-3 h-3" />
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  ), {
-    duration: 5000,
-    position: 'top-right'
-  });
+        </CardContent>
+      </Card>
+    ),
+    {
+      duration: 5000,
+      position: 'top-right',
+    }
+  );
 }
 
 // Main notification bell component
 export function NotificationBell() {
-  const { notifications, unreadCount, markAsRead, markAllAsRead, removeNotification } = useNotifications();
+  const { notifications, unreadCount, markAsRead, markAllAsRead, removeNotification } =
+    useNotifications();
   const [isOpen, setIsOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
@@ -225,7 +229,7 @@ export function NotificationBell() {
       project: Target,
       social: Users,
       system: Info,
-      reminder: Clock
+      reminder: Clock,
     };
     return icons[type as keyof typeof icons] || Bell;
   };
@@ -235,7 +239,7 @@ export function NotificationBell() {
       low: 'text-muted-foreground',
       medium: 'text-primary',
       high: 'text-orange-500',
-      urgent: 'text-red-500'
+      urgent: 'text-red-500',
     };
     return colors[priority as keyof typeof colors] || 'text-muted-foreground';
   };
@@ -244,11 +248,11 @@ export function NotificationBell() {
     const now = new Date();
     const date = new Date(dateString);
     const diffMs = now.getTime() - date.getTime();
-    
+
     const minutes = Math.floor(diffMs / (1000 * 60));
     const hours = Math.floor(diffMs / (1000 * 60 * 60));
     const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    
+
     if (minutes < 1) return 'Just now';
     if (minutes < 60) return `${minutes}m ago`;
     if (hours < 24) return `${hours}h ago`;
@@ -258,12 +262,7 @@ export function NotificationBell() {
   return (
     <>
       <div className="relative">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setIsOpen(true)}
-          className="relative"
-        >
+        <Button variant="ghost" size="sm" onClick={() => setIsOpen(true)} className="relative">
           <Bell className="w-5 h-5" />
           {unreadCount > 0 && (
             <motion.div
@@ -284,33 +283,24 @@ export function NotificationBell() {
               <DialogTitle className="flex items-center gap-2">
                 <Bell className="w-5 h-5" />
                 Notifications
-                {unreadCount > 0 && (
-                  <Badge className="bg-red-500 text-white">
-                    {unreadCount}
-                  </Badge>
-                )}
+                {unreadCount > 0 && <Badge className="bg-red-500 text-white">{unreadCount}</Badge>}
               </DialogTitle>
               <div className="flex items-center gap-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowSettings(true)}
-                >
+                <Button variant="ghost" size="sm" onClick={() => setShowSettings(true)}>
                   <Settings className="w-4 h-4" />
                 </Button>
                 {unreadCount > 0 && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={markAllAsRead}
-                  >
+                  <Button variant="ghost" size="sm" onClick={markAllAsRead}>
                     <Check className="w-4 h-4" />
                   </Button>
                 )}
               </div>
             </div>
             <DialogDescription className="sr-only">
-              View and manage your FlashFusion notifications. {unreadCount > 0 ? `You have ${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}.` : 'All notifications are read.'}
+              View and manage your FlashFusion notifications.{' '}
+              {unreadCount > 0
+                ? `You have ${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}.`
+                : 'All notifications are read.'}
             </DialogDescription>
           </DialogHeader>
 
@@ -329,7 +319,7 @@ export function NotificationBell() {
                   <AnimatePresence>
                     {recentNotifications.map((notification, index) => {
                       const Icon = getNotificationIcon(notification.type);
-                      
+
                       return (
                         <motion.div
                           key={notification.id}
@@ -338,7 +328,7 @@ export function NotificationBell() {
                           exit={{ opacity: 0, x: -100 }}
                           transition={{ delay: index * 0.05 }}
                         >
-                          <Card 
+                          <Card
                             className={`cursor-pointer transition-all hover:bg-muted/50 ${
                               !notification.read ? 'bg-primary/5 border-primary/20' : ''
                             }`}
@@ -351,15 +341,21 @@ export function NotificationBell() {
                           >
                             <CardContent className="p-4">
                               <div className="flex items-start gap-3">
-                                <div className={`w-8 h-8 rounded-full bg-card flex items-center justify-center flex-shrink-0 ${getPriorityColor(notification.priority)}`}>
+                                <div
+                                  className={`w-8 h-8 rounded-full bg-card flex items-center justify-center flex-shrink-0 ${getPriorityColor(notification.priority)}`}
+                                >
                                   <Icon className="w-4 h-4" />
                                 </div>
-                                
+
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-start justify-between gap-2">
-                                    <h4 className={`text-sm font-medium line-clamp-1 ${
-                                      !notification.read ? 'text-foreground' : 'text-muted-foreground'
-                                    }`}>
+                                    <h4
+                                      className={`text-sm font-medium line-clamp-1 ${
+                                        !notification.read
+                                          ? 'text-foreground'
+                                          : 'text-muted-foreground'
+                                      }`}
+                                    >
                                       {notification.title}
                                     </h4>
                                     <div className="flex items-center gap-1 flex-shrink-0">
@@ -379,11 +375,11 @@ export function NotificationBell() {
                                       </Button>
                                     </div>
                                   </div>
-                                  
+
                                   <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
                                     {notification.message}
                                   </p>
-                                  
+
                                   {notification.action && (
                                     <Button
                                       size="sm"
@@ -399,7 +395,7 @@ export function NotificationBell() {
                                       )}
                                     </Button>
                                   )}
-                                  
+
                                   {!notification.read && (
                                     <div className="w-2 h-2 bg-primary rounded-full absolute top-4 right-4" />
                                   )}
@@ -438,14 +434,15 @@ export function useRealTimeNotifications(userId: string) {
     // Mock real-time events
     const interval = setInterval(() => {
       // Random chance of getting a notification
-      if (Math.random() < 0.1) { // 10% chance every 5 seconds
+      if (Math.random() < 0.1) {
+        // 10% chance every 5 seconds
         const mockNotifications = [
           {
             type: 'xp_gain' as const,
             title: 'XP Earned!',
             message: 'You earned 25 XP for using the Code Generator',
             priority: 'medium' as const,
-            user_id: userId
+            user_id: userId,
           },
           {
             type: 'deployment' as const,
@@ -455,19 +452,20 @@ export function useRealTimeNotifications(userId: string) {
             user_id: userId,
             action: {
               label: 'View Deployment',
-              onClick: () => console.log('Navigate to deployment')
-            }
+              onClick: () => console.log('Navigate to deployment'),
+            },
           },
           {
             type: 'achievement' as const,
             title: 'Achievement Unlocked!',
             message: 'You unlocked "First Deployment" achievement',
             priority: 'high' as const,
-            user_id: userId
-          }
+            user_id: userId,
+          },
         ];
 
-        const randomNotification = mockNotifications[Math.floor(Math.random() * mockNotifications.length)];
+        const randomNotification =
+          mockNotifications[Math.floor(Math.random() * mockNotifications.length)];
         addNotification(randomNotification);
       }
     }, 5000);
@@ -483,7 +481,7 @@ export const NotificationUtils = {
     title: `+${amount} XP Earned!`,
     message: reason,
     priority: 'medium' as const,
-    data: { xp: amount, reason }
+    data: { xp: amount, reason },
   }),
 
   createAchievementNotification: (achievement: any) => ({
@@ -494,28 +492,29 @@ export const NotificationUtils = {
     data: { achievement },
     action: {
       label: 'View Achievement',
-      onClick: () => console.log('View achievement', achievement)
-    }
+      onClick: () => console.log('View achievement', achievement),
+    },
   }),
 
   createDeploymentNotification: (project: any, status: 'success' | 'failed') => ({
     type: 'deployment' as const,
     title: status === 'success' ? 'Deployment Successful!' : 'Deployment Failed',
-    message: status === 'success' 
-      ? `Your project "${project.name}" is now live` 
-      : `Deployment of "${project.name}" failed`,
-    priority: status === 'success' ? 'high' as const : 'urgent' as const,
+    message:
+      status === 'success'
+        ? `Your project "${project.name}" is now live`
+        : `Deployment of "${project.name}" failed`,
+    priority: status === 'success' ? ('high' as const) : ('urgent' as const),
     data: { project, status },
     action: {
       label: status === 'success' ? 'View Live App' : 'View Logs',
-      onClick: () => console.log('Handle deployment action')
-    }
+      onClick: () => console.log('Handle deployment action'),
+    },
   }),
 
   createSystemNotification: (title: string, message: string) => ({
     type: 'system' as const,
     title,
     message,
-    priority: 'medium' as const
-  })
+    priority: 'medium' as const,
+  }),
 };

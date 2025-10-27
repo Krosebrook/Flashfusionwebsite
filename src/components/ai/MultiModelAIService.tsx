@@ -49,7 +49,7 @@ const AI_MODELS: AIModel[] = [
     costPerToken: 0.00001,
     speed: 'fast',
     quality: 'high',
-    status: 'available'
+    status: 'available',
   },
   {
     id: 'claude-3-opus',
@@ -60,7 +60,7 @@ const AI_MODELS: AIModel[] = [
     costPerToken: 0.000015,
     speed: 'medium',
     quality: 'high',
-    status: 'available'
+    status: 'available',
   },
   {
     id: 'gemini-pro',
@@ -71,7 +71,7 @@ const AI_MODELS: AIModel[] = [
     costPerToken: 0.000005,
     speed: 'fast',
     quality: 'high',
-    status: 'available'
+    status: 'available',
   },
   {
     id: 'codellama-34b',
@@ -82,7 +82,7 @@ const AI_MODELS: AIModel[] = [
     costPerToken: 0.000002,
     speed: 'fast',
     quality: 'medium',
-    status: 'available'
+    status: 'available',
   },
   {
     id: 'mistral-large',
@@ -93,8 +93,8 @@ const AI_MODELS: AIModel[] = [
     costPerToken: 0.000008,
     speed: 'fast',
     quality: 'high',
-    status: 'available'
-  }
+    status: 'available',
+  },
 ];
 
 const MultiModelAIService: React.FC = memo(() => {
@@ -103,14 +103,14 @@ const MultiModelAIService: React.FC = memo(() => {
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [responses, setResponses] = useState<AIResponse[]>([]);
   const [conversationContext, setConversationContext] = useState<ConversationContext>({
-    messages: []
+    messages: [],
   });
   const [autoModelSelection, setAutoModelSelection] = useState<boolean>(true);
   const [costEstimate, setCostEstimate] = useState<number>(0);
 
   // Calculate cost estimate based on prompt length
   useEffect(() => {
-    const model = AI_MODELS.find(m => m.id === selectedModel);
+    const model = AI_MODELS.find((m) => m.id === selectedModel);
     if (model && prompt) {
       const estimatedTokens = Math.ceil(prompt.length / 4); // Rough token estimation
       setCostEstimate(estimatedTokens * model.costPerToken);
@@ -122,112 +122,142 @@ const MultiModelAIService: React.FC = memo(() => {
   // Auto-select best model based on task
   const selectOptimalModel = useCallback((taskPrompt: string): string => {
     const lowerPrompt = taskPrompt.toLowerCase();
-    
-    if (lowerPrompt.includes('code') || lowerPrompt.includes('debug') || lowerPrompt.includes('function')) {
+
+    if (
+      lowerPrompt.includes('code') ||
+      lowerPrompt.includes('debug') ||
+      lowerPrompt.includes('function')
+    ) {
       return 'codellama-34b'; // Specialized for coding
     }
-    
-    if (lowerPrompt.includes('analyze') || lowerPrompt.includes('review') || lowerPrompt.includes('explain')) {
+
+    if (
+      lowerPrompt.includes('analyze') ||
+      lowerPrompt.includes('review') ||
+      lowerPrompt.includes('explain')
+    ) {
       return 'claude-3-opus'; // Best for analysis
     }
-    
-    if (lowerPrompt.includes('creative') || lowerPrompt.includes('design') || lowerPrompt.includes('story')) {
+
+    if (
+      lowerPrompt.includes('creative') ||
+      lowerPrompt.includes('design') ||
+      lowerPrompt.includes('story')
+    ) {
       return 'gpt-4-turbo'; // Best for creative tasks
     }
-    
-    if (lowerPrompt.includes('multimodal') || lowerPrompt.includes('image') || lowerPrompt.includes('visual')) {
+
+    if (
+      lowerPrompt.includes('multimodal') ||
+      lowerPrompt.includes('image') ||
+      lowerPrompt.includes('visual')
+    ) {
       return 'gemini-pro'; // Multimodal capabilities
     }
-    
+
     // Default to fastest, most cost-effective
-    return AI_MODELS.sort((a, b) => 
-      (a.costPerToken * (a.speed === 'fast' ? 1 : 2)) - 
-      (b.costPerToken * (b.speed === 'fast' ? 1 : 2))
+    return AI_MODELS.sort(
+      (a, b) =>
+        a.costPerToken * (a.speed === 'fast' ? 1 : 2) -
+        b.costPerToken * (b.speed === 'fast' ? 1 : 2)
     )[0].id;
   }, []);
 
   // Generate response with fallback mechanism
-  const generateResponse = useCallback(async (useModel?: string) => {
-    if (!prompt.trim()) {
-      toast.error('Please enter a prompt');
-      return;
-    }
-
-    setIsGenerating(true);
-    const startTime = Date.now();
-    
-    let modelToUse = useModel || selectedModel;
-    
-    // Auto-select optimal model if enabled
-    if (autoModelSelection && !useModel) {
-      modelToUse = selectOptimalModel(prompt);
-      setSelectedModel(modelToUse);
-    }
-
-    try {
-      // Call the AI service through Supabase Edge Function
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/make-server-88829a40/ai/generate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
-        },
-        body: JSON.stringify({
-          model: modelToUse,
-          prompt,
-          context: conversationContext,
-          maxTokens: AI_MODELS.find(m => m.id === modelToUse)?.maxTokens || 4000
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      const responseTime = Date.now() - startTime;
-
-      const aiResponse: AIResponse = {
-        content: data.content,
-        model: modelToUse,
-        tokensUsed: data.tokensUsed || 0,
-        responseTime,
-        confidence: data.confidence || 0.95
-      };
-
-      setResponses(prev => [aiResponse, ...prev]);
-      
-      // Update conversation context
-      setConversationContext(prev => ({
-        ...prev,
-        messages: [
-          ...prev.messages,
-          { role: 'user', content: prompt, timestamp: Date.now() },
-          { role: 'assistant', content: data.content, model: modelToUse, timestamp: Date.now() }
-        ]
-      }));
-
-      toast.success(`Response generated with ${AI_MODELS.find(m => m.id === modelToUse)?.name}`);
-      setPrompt(''); // Clear prompt after successful generation
-
-    } catch (error) {
-      console.error('AI generation failed:', error);
-      
-      // Fallback mechanism - try with different model
-      const fallbackModels = AI_MODELS.filter(m => m.id !== modelToUse && m.status === 'available');
-      
-      if (fallbackModels.length > 0) {
-        const fallbackModel = fallbackModels[0];
-        toast.warning(`${AI_MODELS.find(m => m.id === modelToUse)?.name} failed, trying ${fallbackModel.name}...`);
-        await generateResponse(fallbackModel.id);
+  const generateResponse = useCallback(
+    async (useModel?: string) => {
+      if (!prompt.trim()) {
+        toast.error('Please enter a prompt');
         return;
       }
 
-      toast.error(`AI generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    } finally {
-      setIsGenerating(false);
-    }
-  }, [prompt, selectedModel, conversationContext, autoModelSelection, selectOptimalModel]);
+      setIsGenerating(true);
+      const startTime = Date.now();
+
+      let modelToUse = useModel || selectedModel;
+
+      // Auto-select optimal model if enabled
+      if (autoModelSelection && !useModel) {
+        modelToUse = selectOptimalModel(prompt);
+        setSelectedModel(modelToUse);
+      }
+
+      try {
+        // Call the AI service through Supabase Edge Function
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/make-server-88829a40/ai/generate`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            },
+            body: JSON.stringify({
+              model: modelToUse,
+              prompt,
+              context: conversationContext,
+              maxTokens: AI_MODELS.find((m) => m.id === modelToUse)?.maxTokens || 4000,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const responseTime = Date.now() - startTime;
+
+        const aiResponse: AIResponse = {
+          content: data.content,
+          model: modelToUse,
+          tokensUsed: data.tokensUsed || 0,
+          responseTime,
+          confidence: data.confidence || 0.95,
+        };
+
+        setResponses((prev) => [aiResponse, ...prev]);
+
+        // Update conversation context
+        setConversationContext((prev) => ({
+          ...prev,
+          messages: [
+            ...prev.messages,
+            { role: 'user', content: prompt, timestamp: Date.now() },
+            { role: 'assistant', content: data.content, model: modelToUse, timestamp: Date.now() },
+          ],
+        }));
+
+        toast.success(
+          `Response generated with ${AI_MODELS.find((m) => m.id === modelToUse)?.name}`
+        );
+        setPrompt(''); // Clear prompt after successful generation
+      } catch (error) {
+        console.error('AI generation failed:', error);
+
+        // Fallback mechanism - try with different model
+        const fallbackModels = AI_MODELS.filter(
+          (m) => m.id !== modelToUse && m.status === 'available'
+        );
+
+        if (fallbackModels.length > 0) {
+          const fallbackModel = fallbackModels[0];
+          toast.warning(
+            `${AI_MODELS.find((m) => m.id === modelToUse)?.name} failed, trying ${fallbackModel.name}...`
+          );
+          await generateResponse(fallbackModel.id);
+          return;
+        }
+
+        toast.error(
+          `AI generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
+      } finally {
+        setIsGenerating(false);
+      }
+    },
+    [prompt, selectedModel, conversationContext, autoModelSelection, selectOptimalModel]
+  );
 
   // Compare responses across multiple models
   const compareModels = useCallback(async () => {
@@ -237,26 +267,29 @@ const MultiModelAIService: React.FC = memo(() => {
     }
 
     setIsGenerating(true);
-    
-    const activeModels = AI_MODELS.filter(m => m.status === 'available').slice(0, 3); // Limit to 3 for cost
-    
+
+    const activeModels = AI_MODELS.filter((m) => m.status === 'available').slice(0, 3); // Limit to 3 for cost
+
     try {
       const promises = activeModels.map(async (model) => {
         const startTime = Date.now();
-        
-        const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/make-server-88829a40/ai/generate`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
-          },
-          body: JSON.stringify({
-            model: model.id,
-            prompt,
-            context: conversationContext,
-            maxTokens: Math.min(model.maxTokens, 1000) // Limit tokens for comparison
-          })
-        });
+
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/make-server-88829a40/ai/generate`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            },
+            body: JSON.stringify({
+              model: model.id,
+              prompt,
+              context: conversationContext,
+              maxTokens: Math.min(model.maxTokens, 1000), // Limit tokens for comparison
+            }),
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`${model.name} failed: ${response.statusText}`);
@@ -270,18 +303,19 @@ const MultiModelAIService: React.FC = memo(() => {
           model: model.id,
           tokensUsed: data.tokensUsed || 0,
           responseTime,
-          confidence: data.confidence || 0.95
+          confidence: data.confidence || 0.95,
         };
       });
 
       const results = await Promise.allSettled(promises);
       const successfulResponses = results
-        .filter((result): result is PromiseFulfilledResult<AIResponse> => result.status === 'fulfilled')
-        .map(result => result.value);
+        .filter(
+          (result): result is PromiseFulfilledResult<AIResponse> => result.status === 'fulfilled'
+        )
+        .map((result) => result.value);
 
-      setResponses(prev => [...successfulResponses, ...prev]);
+      setResponses((prev) => [...successfulResponses, ...prev]);
       toast.success(`Compared ${successfulResponses.length} models successfully`);
-
     } catch (error) {
       console.error('Model comparison failed:', error);
       toast.error('Model comparison failed');
@@ -298,7 +332,8 @@ const MultiModelAIService: React.FC = memo(() => {
           Multi-Model AI Integration
         </h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Access multiple AI models with intelligent routing, fallback mechanisms, and cost optimization
+          Access multiple AI models with intelligent routing, fallback mechanisms, and cost
+          optimization
         </p>
       </div>
 
@@ -325,7 +360,10 @@ const MultiModelAIService: React.FC = memo(() => {
                         <div className="flex items-center justify-between w-full">
                           <span>{model.name}</span>
                           <div className="flex items-center space-x-2 ml-4">
-                            <Badge variant={model.status === 'available' ? 'default' : 'secondary'} className="text-xs">
+                            <Badge
+                              variant={model.status === 'available' ? 'default' : 'secondary'}
+                              className="text-xs"
+                            >
                               {model.status}
                             </Badge>
                             <Badge variant="outline" className="text-xs">
@@ -359,9 +397,9 @@ const MultiModelAIService: React.FC = memo(() => {
             {selectedModel && (
               <div className="p-4 bg-muted/30 rounded-lg">
                 {(() => {
-                  const model = AI_MODELS.find(m => m.id === selectedModel);
+                  const model = AI_MODELS.find((m) => m.id === selectedModel);
                   if (!model) return null;
-                  
+
                   return (
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
                       <div>
@@ -452,7 +490,10 @@ const MultiModelAIService: React.FC = memo(() => {
           <CardContent>
             <div className="space-y-4">
               {AI_MODELS.map((model) => (
-                <div key={model.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+                <div
+                  key={model.id}
+                  className="flex items-center justify-between p-3 rounded-lg bg-muted/30"
+                >
                   <div>
                     <h4 className="font-medium text-sm">{model.name}</h4>
                     <p className="text-xs text-muted-foreground">{model.provider}</p>
@@ -481,11 +522,11 @@ const MultiModelAIService: React.FC = memo(() => {
       {responses.length > 0 && (
         <div className="space-y-4">
           <h2 className="text-xl font-semibold">Generated Responses</h2>
-          
+
           <div className="grid gap-4">
             {responses.map((response, index) => {
-              const model = AI_MODELS.find(m => m.id === response.model);
-              
+              const model = AI_MODELS.find((m) => m.id === response.model);
+
               return (
                 <Card key={index} className="relative">
                   <CardHeader className="pb-3">
@@ -505,10 +546,14 @@ const MultiModelAIService: React.FC = memo(() => {
                         <div className="text-xs text-muted-foreground">
                           Confidence: {(response.confidence * 100).toFixed(1)}%
                         </div>
-                        <Button size="sm" variant="outline" onClick={() => {
-                          navigator.clipboard.writeText(response.content);
-                          toast.success('Response copied to clipboard');
-                        }}>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            navigator.clipboard.writeText(response.content);
+                            toast.success('Response copied to clipboard');
+                          }}
+                        >
                           Copy
                         </Button>
                       </div>
@@ -531,8 +576,9 @@ const MultiModelAIService: React.FC = memo(() => {
       {/* Usage Alert */}
       <Alert>
         <AlertDescription>
-          💡 <strong>Pro Tip:</strong> Enable auto-model selection for optimal performance and cost efficiency. 
-          FlashFusion automatically chooses the best model based on your task type and requirements.
+          💡 <strong>Pro Tip:</strong> Enable auto-model selection for optimal performance and cost
+          efficiency. FlashFusion automatically chooses the best model based on your task type and
+          requirements.
         </AlertDescription>
       </Alert>
     </div>

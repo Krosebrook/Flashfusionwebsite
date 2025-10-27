@@ -4,7 +4,7 @@
  * @category error-handling
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Specialized error boundary to handle timeout and API connection issues
  */
 
@@ -36,14 +36,14 @@ export class TimeoutErrorBoundary extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    
+
     this.state = {
       hasError: false,
       error: null,
       errorInfo: null,
       isRetrying: false,
       retryCount: 0,
-      isOnline: navigator.onLine
+      isOnline: navigator.onLine,
     };
   }
 
@@ -51,7 +51,7 @@ export class TimeoutErrorBoundary extends Component<Props, State> {
     // Listen for online/offline events
     this.onlineListener = () => this.setState({ isOnline: true });
     this.offlineListener = () => this.setState({ isOnline: false });
-    
+
     window.addEventListener('online', this.onlineListener);
     window.addEventListener('offline', this.offlineListener);
   }
@@ -60,11 +60,11 @@ export class TimeoutErrorBoundary extends Component<Props, State> {
     if (this.retryTimeoutId) {
       clearTimeout(this.retryTimeoutId);
     }
-    
+
     if (this.onlineListener) {
       window.removeEventListener('online', this.onlineListener);
     }
-    
+
     if (this.offlineListener) {
       window.removeEventListener('offline', this.offlineListener);
     }
@@ -73,16 +73,16 @@ export class TimeoutErrorBoundary extends Component<Props, State> {
   static getDerivedStateFromError(error: Error): Partial<State> {
     return {
       hasError: true,
-      error
+      error,
     };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('TimeoutErrorBoundary caught an error:', error, errorInfo);
-    
+
     this.setState({
       error,
-      errorInfo
+      errorInfo,
     });
 
     // Call the optional error handler
@@ -93,7 +93,7 @@ export class TimeoutErrorBoundary extends Component<Props, State> {
 
   private isTimeoutError = (error: Error | null): boolean => {
     if (!error) return false;
-    
+
     const timeoutIndicators = [
       'timeout',
       'timed out',
@@ -102,12 +102,13 @@ export class TimeoutErrorBoundary extends Component<Props, State> {
       'aborted',
       'connection refused',
       'ERR_NETWORK',
-      'Failed to fetch'
+      'Failed to fetch',
     ];
-    
-    return timeoutIndicators.some(indicator => 
-      error.message.toLowerCase().includes(indicator.toLowerCase()) ||
-      error.name.toLowerCase().includes(indicator.toLowerCase())
+
+    return timeoutIndicators.some(
+      (indicator) =>
+        error.message.toLowerCase().includes(indicator.toLowerCase()) ||
+        error.name.toLowerCase().includes(indicator.toLowerCase())
     );
   };
 
@@ -126,7 +127,7 @@ export class TimeoutErrorBoundary extends Component<Props, State> {
         error: null,
         errorInfo: null,
         isRetrying: false,
-        retryCount: this.state.retryCount + 1
+        retryCount: this.state.retryCount + 1,
       });
     }, 2000);
   };
@@ -137,7 +138,7 @@ export class TimeoutErrorBoundary extends Component<Props, State> {
       error: null,
       errorInfo: null,
       isRetrying: false,
-      retryCount: 0
+      retryCount: 0,
     });
   };
 
@@ -166,21 +167,28 @@ export class TimeoutErrorBoundary extends Component<Props, State> {
                   <WifiOff className="w-8 h-8 text-[var(--ff-error)]" />
                 )}
               </div>
-              <CardTitle className="text-xl font-semibold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
+              <CardTitle
+                className="text-xl font-semibold text-[var(--ff-text-primary)]"
+                style={{ fontFamily: 'var(--ff-font-primary)' }}
+              >
                 {isTimeout ? 'Connection Timeout' : 'Something went wrong'}
               </CardTitle>
             </CardHeader>
 
             <CardContent className="space-y-6">
               {/* Network status indicator */}
-              <Alert className={`border-[var(--border)] ${isOnline ? 'bg-[var(--ff-success)] bg-opacity-10' : 'bg-[var(--ff-error)] bg-opacity-10'}`}>
+              <Alert
+                className={`border-[var(--border)] ${isOnline ? 'bg-[var(--ff-success)] bg-opacity-10' : 'bg-[var(--ff-error)] bg-opacity-10'}`}
+              >
                 <div className="flex items-center gap-2">
                   {isOnline ? (
                     <Wifi className="w-4 h-4 text-[var(--ff-success)]" />
                   ) : (
                     <WifiOff className="w-4 h-4 text-[var(--ff-error)]" />
                   )}
-                  <AlertDescription className={isOnline ? 'text-[var(--ff-success)]' : 'text-[var(--ff-error)]'}>
+                  <AlertDescription
+                    className={isOnline ? 'text-[var(--ff-success)]' : 'text-[var(--ff-error)]'}
+                  >
                     {isOnline ? 'Internet connection is active' : 'No internet connection detected'}
                   </AlertDescription>
                 </div>
@@ -188,16 +196,20 @@ export class TimeoutErrorBoundary extends Component<Props, State> {
 
               {/* Error message */}
               <div className="space-y-2">
-                <h4 className="font-semibold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
-                  {isTimeout ? 'The request took too long to complete' : 'An unexpected error occurred'}
+                <h4
+                  className="font-semibold text-[var(--ff-text-primary)]"
+                  style={{ fontFamily: 'var(--ff-font-primary)' }}
+                >
+                  {isTimeout
+                    ? 'The request took too long to complete'
+                    : 'An unexpected error occurred'}
                 </h4>
                 <p className="text-sm text-[var(--ff-text-secondary)]">
-                  {isTimeout 
+                  {isTimeout
                     ? 'This might be due to a slow internet connection or server issues. Please try again.'
-                    : 'We\'re working to fix this issue. Please try refreshing the page.'
-                  }
+                    : "We're working to fix this issue. Please try refreshing the page."}
                 </p>
-                
+
                 {process.env.NODE_ENV === 'development' && this.state.error && (
                   <details className="mt-4">
                     <summary className="cursor-pointer text-sm text-[var(--ff-text-muted)] hover:text-[var(--ff-primary)]">

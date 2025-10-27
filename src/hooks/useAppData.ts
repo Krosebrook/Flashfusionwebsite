@@ -36,12 +36,12 @@ export function useAppData() {
     isLoading,
     user,
     isAuthenticated,
-    
+
     // Actions
     refreshProjects,
     awardXP,
     trackToolUsage,
-    trackEvent
+    trackEvent,
   };
 }
 
@@ -50,6 +50,6 @@ export function usePageNavigation() {
 
   return {
     currentPage,
-    setCurrentPage
+    setCurrentPage,
   };
 }

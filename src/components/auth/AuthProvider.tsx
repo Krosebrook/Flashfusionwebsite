@@ -4,21 +4,28 @@
  * @category providers
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Provides authentication context throughout the application
  */
 
-import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
-import { 
-  checkAuthenticationStatus, 
-  clearAuthData, 
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  ReactNode,
+} from 'react';
+import {
+  checkAuthenticationStatus,
+  clearAuthData,
   storeAuthData,
   getRouteProtectionLevel,
   hasRoutePermission,
   createDemoSession,
   handleAuthStateChange,
   type AuthState,
-  type RouteProtectionLevel
+  type RouteProtectionLevel,
 } from '../../utils/auth-protection';
 
 interface AuthContextType extends AuthState {
@@ -27,11 +34,11 @@ interface AuthContextType extends AuthState {
   signOut: () => void;
   refreshAuth: () => Promise<void>;
   startDemoSession: () => void;
-  
+
   // Route protection
   getRouteAccess: (path?: string) => { canAccess: boolean; redirectUrl?: string };
   hasPermission: (permission: string) => boolean;
-  
+
   // Utility
   isDemo: boolean;
   isInitialized: boolean;
@@ -51,9 +58,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [authState, setAuthState] = useState<AuthState>({
     isAuthenticated: false,
     isLoading: true,
-    user: null
+    user: null,
   });
-  
+
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Initialize authentication on mount
@@ -69,7 +76,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           isAuthenticated: false,
           isLoading: false,
           user: null,
-          error: 'Authentication initialization failed'
+          error: 'Authentication initialization failed',
         });
       } finally {
         setIsInitialized(true);
@@ -104,27 +111,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const signIn = useCallback((token: string, userData: any, persistent: boolean = true) => {
     try {
       storeAuthData(token, userData, persistent);
-      
+
       const newAuthState: AuthState = {
         isAuthenticated: true,
         isLoading: false,
-        user: userData
+        user: userData,
       };
-      
+
       setAuthState(newAuthState);
       handleAuthStateChange(newAuthState);
-      
+
       // Redirect to intended destination or dashboard
       const urlParams = new URLSearchParams(window.location.search);
       const redirectPath = urlParams.get('redirect') || '/dashboard';
-      
+
       if (redirectPath !== window.location.pathname) {
         window.history.pushState({}, '', redirectPath);
         window.location.reload(); // Ensure proper route handling
       }
     } catch (error) {
       console.error('Sign in failed:', error);
-      setAuthState(prev => ({ ...prev, error: 'Sign in failed' }));
+      setAuthState((prev) => ({ ...prev, error: 'Sign in failed' }));
     }
   }, []);
 
@@ -132,16 +139,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const signOut = useCallback(() => {
     try {
       clearAuthData();
-      
+
       const newAuthState: AuthState = {
         isAuthenticated: false,
         isLoading: false,
-        user: null
+        user: null,
       };
-      
+
       setAuthState(newAuthState);
       handleAuthStateChange(newAuthState);
-      
+
       // Redirect to home page
       window.location.href = '/';
     } catch (error) {
@@ -157,7 +164,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       handleAuthStateChange(newAuthState);
     } catch (error) {
       console.error('Auth refresh failed:', error);
-      setAuthState(prev => ({ ...prev, error: 'Authentication refresh failed' }));
+      setAuthState((prev) => ({ ...prev, error: 'Authentication refresh failed' }));
     }
   }, []);
 
@@ -167,59 +174,65 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const demoAuthState = createDemoSession();
       setAuthState(demoAuthState);
       handleAuthStateChange(demoAuthState);
-      
+
       // Redirect to dashboard in demo mode
       window.location.href = '/dashboard?demo=true';
     } catch (error) {
       console.error('Demo session failed:', error);
-      setAuthState(prev => ({ ...prev, error: 'Demo session failed' }));
+      setAuthState((prev) => ({ ...prev, error: 'Demo session failed' }));
     }
   }, []);
 
   // Check route access
-  const getRouteAccess = useCallback((path?: string) => {
-    const routeLevel = getRouteProtectionLevel(path);
-    const canAccess = hasRoutePermission(authState, routeLevel);
-    
-    if (!canAccess && routeLevel === 'protected') {
-      return {
-        canAccess: false,
-        redirectUrl: `/auth?mode=signin&redirect=${encodeURIComponent(path || window.location.pathname + window.location.search)}`
-      };
-    }
-    
-    if (!canAccess && routeLevel === 'admin') {
-      return {
-        canAccess: false,
-        redirectUrl: '/dashboard?error=insufficient_permissions'
-      };
-    }
-    
-    return { canAccess: true };
-  }, [authState]);
+  const getRouteAccess = useCallback(
+    (path?: string) => {
+      const routeLevel = getRouteProtectionLevel(path);
+      const canAccess = hasRoutePermission(authState, routeLevel);
+
+      if (!canAccess && routeLevel === 'protected') {
+        return {
+          canAccess: false,
+          redirectUrl: `/auth?mode=signin&redirect=${encodeURIComponent(path || window.location.pathname + window.location.search)}`,
+        };
+      }
+
+      if (!canAccess && routeLevel === 'admin') {
+        return {
+          canAccess: false,
+          redirectUrl: '/dashboard?error=insufficient_permissions',
+        };
+      }
+
+      return { canAccess: true };
+    },
+    [authState]
+  );
 
   // Check user permission
-  const hasPermissionCheck = useCallback((permission: string) => {
-    if (!authState.isAuthenticated || !authState.user) {
-      return false;
-    }
-    
-    const userRole = authState.user.role || authState.user.plan || 'user';
-    
-    // Define role-based permissions
-    const rolePermissions: Record<string, string[]> = {
-      admin: ['*'],
-      enterprise: ['create', 'edit', 'delete', 'export', 'collaborate', 'integrate', 'advanced'],
-      pro: ['create', 'edit', 'export', 'collaborate'],
-      free: ['create', 'edit', 'basic'],
-      demo: ['view', 'demo', 'basic'],
-      user: ['create', 'edit', 'basic']
-    };
-    
-    const permissions = rolePermissions[userRole] || rolePermissions.user;
-    
-    return permissions.includes('*') || permissions.includes(permission);
-  }, [authState]);
+  const hasPermissionCheck = useCallback(
+    (permission: string) => {
+      if (!authState.isAuthenticated || !authState.user) {
+        return false;
+      }
+
+      const userRole = authState.user.role || authState.user.plan || 'user';
+
+      // Define role-based permissions
+      const rolePermissions: Record<string, string[]> = {
+        admin: ['*'],
+        enterprise: ['create', 'edit', 'delete', 'export', 'collaborate', 'integrate', 'advanced'],
+        pro: ['create', 'edit', 'export', 'collaborate'],
+        free: ['create', 'edit', 'basic'],
+        demo: ['view', 'demo', 'basic'],
+        user: ['create', 'edit', 'basic'],
+      };
+
+      const permissions = rolePermissions[userRole] || rolePermissions.user;
+
+      return permissions.includes('*') || permissions.includes(permission);
+    },
+    [authState]
+  );
 
   // Compute derived values
   const isDemo = authState.user?.isDemo || authState.user?.plan === 'demo' || false;
@@ -233,14 +246,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     getRouteAccess,
     hasPermission: hasPermissionCheck,
     isDemo,
-    isInitialized
+    isInitialized,
   };
 
-  return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 }
 
 /**
@@ -248,11 +257,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
  */
 export function useAuth() {
   const context = useContext(AuthContext);
-  
+
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
-  
+
   return context;
 }
 
@@ -261,25 +270,27 @@ export function useAuth() {
  */
 export function useRouteProtection(requiredPermission?: string) {
   const auth = useAuth();
-  
+
   useEffect(() => {
     const { canAccess, redirectUrl } = auth.getRouteAccess();
-    
+
     if (!canAccess && redirectUrl) {
       window.location.href = redirectUrl;
       return;
     }
-    
+
     if (requiredPermission && !auth.hasPermission(requiredPermission)) {
       window.location.href = '/dashboard?error=insufficient_permissions';
       return;
     }
   }, [auth, requiredPermission]);
-  
+
   return {
     isAuthenticated: auth.isAuthenticated,
     isLoading: auth.isLoading,
-    hasAccess: auth.getRouteAccess().canAccess && (!requiredPermission || auth.hasPermission(requiredPermission))
+    hasAccess:
+      auth.getRouteAccess().canAccess &&
+      (!requiredPermission || auth.hasPermission(requiredPermission)),
   };
 }
 
@@ -292,7 +303,7 @@ export function withAuthProtection<P extends object>(
 ) {
   const ProtectedComponent = (props: P) => {
     const { hasAccess, isLoading } = useRouteProtection(requiredPermission);
-    
+
     if (isLoading) {
       return (
         <div className="min-h-screen flex items-center justify-center">
@@ -303,16 +314,16 @@ export function withAuthProtection<P extends object>(
         </div>
       );
     }
-    
+
     if (!hasAccess) {
       return null; // Will be redirected by useRouteProtection
     }
-    
+
     return <Component {...props} />;
   };
-  
+
   ProtectedComponent.displayName = `withAuthProtection(${Component.displayName || Component.name})`;
-  
+
   return ProtectedComponent;
 }
 

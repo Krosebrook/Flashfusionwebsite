@@ -5,14 +5,14 @@ import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Shield, 
-  AlertTriangle, 
-  CheckCircle, 
-  RefreshCw, 
-  Zap, 
-  Activity, 
-  Clock, 
+import {
+  Shield,
+  AlertTriangle,
+  CheckCircle,
+  RefreshCw,
+  Zap,
+  Activity,
+  Clock,
   TrendingDown,
   Server,
   Database,
@@ -20,7 +20,7 @@ import {
   Cpu,
   Users,
   Bug,
-  Wrench
+  Wrench,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
@@ -83,7 +83,7 @@ export function ErrorRecoverySystem() {
       backend: 'healthy',
       database: 'healthy',
       auth: 'healthy',
-      cdn: 'healthy'
+      cdn: 'healthy',
     },
     metrics: {
       uptime: 99.9,
@@ -91,13 +91,13 @@ export function ErrorRecoverySystem() {
       responseTime: 120,
       activeUsers: 0,
       recoveredErrors: 47,
-      preventedOutages: 12
-    }
+      preventedOutages: 12,
+    },
   });
   const [activeRecoveries, setActiveRecoveries] = useState<string[]>([]);
   const [recoveryHistory, setRecoveryHistory] = useState<any[]>([]);
   const [isMonitoring, setIsMonitoring] = useState(true);
-  
+
   const errorQueueRef = useRef<ErrorEvent[]>([]);
 
   // Recovery actions available
@@ -116,14 +116,14 @@ export function ErrorRecoverySystem() {
           sessionStorage.clear();
           if ('caches' in window) {
             const cacheNames = await caches.keys();
-            await Promise.all(cacheNames.map(name => caches.delete(name)));
+            await Promise.all(cacheNames.map((name) => caches.delete(name)));
           }
           return true;
         } catch (error) {
           console.error('Cache clear failed:', error);
           return false;
         }
-      }
+      },
     },
     {
       id: 'service-restart',
@@ -135,13 +135,13 @@ export function ErrorRecoverySystem() {
       successRate: 90,
       execute: async () => {
         try {
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          await new Promise((resolve) => setTimeout(resolve, 2000));
           return true;
         } catch (error) {
           console.error('Service restart failed:', error);
           return false;
         }
-      }
+      },
     },
     {
       id: 'database-reconnect',
@@ -153,14 +153,14 @@ export function ErrorRecoverySystem() {
       successRate: 95,
       execute: async () => {
         try {
-          await new Promise(resolve => setTimeout(resolve, 1500));
+          await new Promise((resolve) => setTimeout(resolve, 1500));
           return true;
         } catch (error) {
           console.error('Database reconnection failed:', error);
           return false;
         }
-      }
-    }
+      },
+    },
   ];
 
   // Error detection and monitoring
@@ -176,14 +176,14 @@ export function ErrorRecoverySystem() {
         userAgent: navigator.userAgent,
         url: window.location.href,
         timestamp: Date.now(),
-        ...error.context
+        ...error.context,
       },
       resolved: false,
       resolutionAttempts: 0,
-      autoResolved: false
+      autoResolved: false,
     };
 
-    setErrors(prev => [errorEvent, ...prev.slice(0, 49)]);
+    setErrors((prev) => [errorEvent, ...prev.slice(0, 49)]);
     errorQueueRef.current.push(errorEvent);
 
     // Trigger immediate recovery for critical errors
@@ -193,38 +193,41 @@ export function ErrorRecoverySystem() {
   }, []);
 
   // Automatic error recovery
-  const handleAutomaticRecovery = useCallback(async (error: ErrorEvent) => {
-    const applicableActions = recoveryActions.filter(action => {
-      switch (error.type) {
-        case 'client':
-          return ['cache-clear'].includes(action.id);
-        case 'server':
-          return ['service-restart'].includes(action.id);
-        case 'database':
-          return ['database-reconnect'].includes(action.id);
-        default:
-          return action.automated;
-      }
-    });
+  const handleAutomaticRecovery = useCallback(
+    async (error: ErrorEvent) => {
+      const applicableActions = recoveryActions.filter((action) => {
+        switch (error.type) {
+          case 'client':
+            return ['cache-clear'].includes(action.id);
+          case 'server':
+            return ['service-restart'].includes(action.id);
+          case 'database':
+            return ['database-reconnect'].includes(action.id);
+          default:
+            return action.automated;
+        }
+      });
 
-    for (const action of applicableActions) {
-      if (action.automated && !activeRecoveries.includes(action.id)) {
-        await executeRecoveryAction(action, error);
+      for (const action of applicableActions) {
+        if (action.automated && !activeRecoveries.includes(action.id)) {
+          await executeRecoveryAction(action, error);
+        }
       }
-    }
-  }, [activeRecoveries]);
+    },
+    [activeRecoveries]
+  );
 
   // Execute recovery action
   const executeRecoveryAction = useCallback(async (action: RecoveryAction, error?: ErrorEvent) => {
-    setActiveRecoveries(prev => [...prev, action.id]);
-    
+    setActiveRecoveries((prev) => [...prev, action.id]);
+
     const startTime = Date.now();
     let success = false;
-    
+
     try {
       toast.info(`Starting ${action.name}...`);
       success = await action.execute();
-      
+
       const duration = Date.now() - startTime;
       const recoveryEvent = {
         id: Math.random().toString(36).substr(2, 9),
@@ -234,26 +237,26 @@ export function ErrorRecoverySystem() {
         duration,
         timestamp: Date.now(),
         triggeredBy: error?.id || 'manual',
-        errorType: error?.type
+        errorType: error?.type,
       };
-      
-      setRecoveryHistory(prev => [recoveryEvent, ...prev.slice(0, 19)]);
-      
+
+      setRecoveryHistory((prev) => [recoveryEvent, ...prev.slice(0, 19)]);
+
       if (success) {
         toast.success(`${action.name} completed successfully`);
-        
+
         if (error) {
-          setErrors(prev => prev.map(e => 
-            e.id === error.id ? { ...e, resolved: true, autoResolved: true } : e
-          ));
+          setErrors((prev) =>
+            prev.map((e) => (e.id === error.id ? { ...e, resolved: true, autoResolved: true } : e))
+          );
         }
-        
-        setSystemStatus(prev => ({
+
+        setSystemStatus((prev) => ({
           ...prev,
           metrics: {
             ...prev.metrics,
-            recoveredErrors: prev.metrics.recoveredErrors + 1
-          }
+            recoveredErrors: prev.metrics.recoveredErrors + 1,
+          },
         }));
       } else {
         toast.error(`${action.name} failed`);
@@ -262,7 +265,7 @@ export function ErrorRecoverySystem() {
       console.error(`Recovery action ${action.id} failed:`, actionError);
       toast.error(`${action.name} encountered an error`);
     } finally {
-      setActiveRecoveries(prev => prev.filter(id => id !== action.id));
+      setActiveRecoveries((prev) => prev.filter((id) => id !== action.id));
     }
   }, []);
 
@@ -273,18 +276,20 @@ export function ErrorRecoverySystem() {
     const healthCheckInterval = setInterval(async () => {
       try {
         const components = {
-          frontend: Math.random() > 0.05 ? 'healthy' as const : 'degraded' as const,
-          backend: Math.random() > 0.03 ? 'healthy' as const : 'degraded' as const,
-          database: Math.random() > 0.02 ? 'healthy' as const : 'degraded' as const,
-          auth: Math.random() > 0.01 ? 'healthy' as const : 'degraded' as const,
-          cdn: Math.random() > 0.01 ? 'healthy' as const : 'degraded' as const
+          frontend: Math.random() > 0.05 ? ('healthy' as const) : ('degraded' as const),
+          backend: Math.random() > 0.03 ? ('healthy' as const) : ('degraded' as const),
+          database: Math.random() > 0.02 ? ('healthy' as const) : ('degraded' as const),
+          auth: Math.random() > 0.01 ? ('healthy' as const) : ('degraded' as const),
+          cdn: Math.random() > 0.01 ? ('healthy' as const) : ('degraded' as const),
         };
 
-        const degradedComponents = Object.values(components).filter(status => status !== 'healthy').length;
-        const overall: SystemStatus['overall'] = degradedComponents === 0 ? 'healthy' : 
-                        degradedComponents <= 1 ? 'degraded' : 'critical';
+        const degradedComponents = Object.values(components).filter(
+          (status) => status !== 'healthy'
+        ).length;
+        const overall: SystemStatus['overall'] =
+          degradedComponents === 0 ? 'healthy' : degradedComponents <= 1 ? 'degraded' : 'critical';
 
-        setSystemStatus(prev => ({
+        setSystemStatus((prev) => ({
           ...prev,
           overall,
           components,
@@ -292,22 +297,31 @@ export function ErrorRecoverySystem() {
             ...prev.metrics,
             errorRate: Math.max(0, prev.metrics.errorRate + (Math.random() - 0.5) * 0.1),
             responseTime: Math.max(50, prev.metrics.responseTime + (Math.random() - 0.5) * 20),
-            activeUsers: Math.max(0, prev.metrics.activeUsers + Math.floor((Math.random() - 0.5) * 10))
-          }
+            activeUsers: Math.max(
+              0,
+              prev.metrics.activeUsers + Math.floor((Math.random() - 0.5) * 10)
+            ),
+          },
         }));
 
         // Generate simulated errors occasionally
         if (Math.random() < 0.1) {
-          const errorTypes: ErrorEvent['type'][] = ['client', 'server', 'network', 'database', 'auth'];
+          const errorTypes: ErrorEvent['type'][] = [
+            'client',
+            'server',
+            'network',
+            'database',
+            'auth',
+          ];
           const severities: ErrorEvent['severity'][] = ['low', 'medium', 'high', 'critical'];
-          
+
           detectError({
             type: errorTypes[Math.floor(Math.random() * errorTypes.length)],
             severity: severities[Math.floor(Math.random() * severities.length)],
             message: `Simulated ${errorTypes[Math.floor(Math.random() * errorTypes.length)]} error`,
             context: {
-              component: 'system-monitor'
-            }
+              component: 'system-monitor',
+            },
           });
         }
       } catch (error) {
@@ -320,36 +334,53 @@ export function ErrorRecoverySystem() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'healthy': return 'text-green-500';
-      case 'degraded': return 'text-yellow-500';
-      case 'critical': case 'down': return 'text-red-500';
-      case 'recovering': return 'text-blue-500';
-      default: return 'text-muted-foreground';
+      case 'healthy':
+        return 'text-green-500';
+      case 'degraded':
+        return 'text-yellow-500';
+      case 'critical':
+      case 'down':
+        return 'text-red-500';
+      case 'recovering':
+        return 'text-blue-500';
+      default:
+        return 'text-muted-foreground';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'healthy': return CheckCircle;
-      case 'degraded': return AlertTriangle;
-      case 'critical': case 'down': return AlertTriangle;
-      case 'recovering': return RefreshCw;
-      default: return Activity;
+      case 'healthy':
+        return CheckCircle;
+      case 'degraded':
+        return AlertTriangle;
+      case 'critical':
+      case 'down':
+        return AlertTriangle;
+      case 'recovering':
+        return RefreshCw;
+      default:
+        return Activity;
     }
   };
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'low': return 'bg-blue-500/10 text-blue-500';
-      case 'medium': return 'bg-yellow-500/10 text-yellow-500';
-      case 'high': return 'bg-orange-500/10 text-orange-500';
-      case 'critical': return 'bg-red-500/10 text-red-500';
-      default: return 'bg-muted text-muted-foreground';
+      case 'low':
+        return 'bg-blue-500/10 text-blue-500';
+      case 'medium':
+        return 'bg-yellow-500/10 text-yellow-500';
+      case 'high':
+        return 'bg-orange-500/10 text-orange-500';
+      case 'critical':
+        return 'bg-red-500/10 text-red-500';
+      default:
+        return 'bg-muted text-muted-foreground';
     }
   };
 
-  const unresolvedErrors = errors.filter(e => !e.resolved);
-  const criticalErrors = unresolvedErrors.filter(e => e.severity === 'critical');
+  const unresolvedErrors = errors.filter((e) => !e.resolved);
+  const criticalErrors = unresolvedErrors.filter((e) => e.severity === 'critical');
 
   return (
     <div className="space-y-6 ff-fade-in-up">
@@ -361,16 +392,16 @@ export function ErrorRecoverySystem() {
             Proactive error detection and automatic recovery for platform stability
           </p>
         </div>
-        
+
         <div className="flex items-center gap-3">
-          <Badge 
+          <Badge
             variant={systemStatus.overall === 'healthy' ? 'default' : 'destructive'}
             className={`font-medium ${systemStatus.overall === 'healthy' ? 'ff-badge-glow' : ''}`}
           >
             <Activity className={`h-3 w-3 mr-1 ${isMonitoring ? 'animate-pulse' : ''}`} />
             System {systemStatus.overall}
           </Badge>
-          
+
           <Button
             variant="outline"
             size="sm"
@@ -389,12 +420,13 @@ export function ErrorRecoverySystem() {
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle className="text-destructive">Critical Errors Detected</AlertTitle>
           <AlertDescription>
-            {criticalErrors.length} critical error{criticalErrors.length === 1 ? '' : 's'} require immediate attention.
+            {criticalErrors.length} critical error{criticalErrors.length === 1 ? '' : 's'} require
+            immediate attention.
             <div className="mt-2 space-x-2">
-              <Button 
-                size="sm" 
+              <Button
+                size="sm"
                 variant="destructive"
-                onClick={() => criticalErrors.forEach(error => handleAutomaticRecovery(error))}
+                onClick={() => criticalErrors.forEach((error) => handleAutomaticRecovery(error))}
               >
                 Auto Recover All
               </Button>
@@ -511,16 +543,16 @@ export function ErrorRecoverySystem() {
                             {new Date(error.context.timestamp).toLocaleString()}
                           </span>
                         </div>
-                        
+
                         <h4 className="font-medium">{error.message}</h4>
-                        
+
                         {error.context.component && (
                           <p className="text-sm text-muted-foreground">
                             Component: {error.context.component}
                           </p>
                         )}
                       </div>
-                      
+
                       <div className="flex gap-2">
                         <Button
                           size="sm"
@@ -532,14 +564,14 @@ export function ErrorRecoverySystem() {
                           <Wrench className="h-3 w-3 mr-1" />
                           Auto Recover
                         </Button>
-                        
+
                         <Button
                           size="sm"
                           variant="ghost"
                           onClick={() => {
-                            setErrors(prev => prev.map(e => 
-                              e.id === error.id ? { ...e, resolved: true } : e
-                            ));
+                            setErrors((prev) =>
+                              prev.map((e) => (e.id === error.id ? { ...e, resolved: true } : e))
+                            );
                           }}
                           className="ff-focus-ring"
                         >
@@ -559,23 +591,25 @@ export function ErrorRecoverySystem() {
             {recoveryActions.map((action) => {
               const Icon = action.icon;
               const isActive = activeRecoveries.includes(action.id);
-              
+
               return (
                 <Card key={action.id} className="ff-card-interactive">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
-                      <div className={`p-3 rounded-lg ${
-                        isActive ? 'bg-primary/20 text-primary' : 'bg-muted text-muted-foreground'
-                      }`}>
+                      <div
+                        className={`p-3 rounded-lg ${
+                          isActive ? 'bg-primary/20 text-primary' : 'bg-muted text-muted-foreground'
+                        }`}
+                      >
                         <Icon className={`h-6 w-6 ${isActive ? 'animate-spin' : ''}`} />
                       </div>
-                      
+
                       <div className="flex-1 space-y-3">
                         <div>
                           <h3 className="font-medium">{action.name}</h3>
                           <p className="text-sm text-muted-foreground">{action.description}</p>
                         </div>
-                        
+
                         <div className="space-y-2">
                           <div className="flex justify-between text-xs">
                             <span>Success Rate: {action.successRate}%</span>
@@ -583,12 +617,12 @@ export function ErrorRecoverySystem() {
                           </div>
                           <Progress value={action.successRate} className="h-2" />
                         </div>
-                        
+
                         <div className="flex items-center gap-2">
                           <Badge variant={action.automated ? 'default' : 'secondary'}>
                             {action.automated ? 'Automated' : 'Manual'}
                           </Badge>
-                          
+
                           <Button
                             size="sm"
                             variant="outline"
@@ -614,7 +648,9 @@ export function ErrorRecoverySystem() {
               <CardContent className="p-8 text-center">
                 <Clock className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
                 <h3 className="font-medium mb-2">No Recovery History</h3>
-                <p className="text-muted-foreground">Recovery actions will appear here when executed.</p>
+                <p className="text-muted-foreground">
+                  Recovery actions will appear here when executed.
+                </p>
               </CardContent>
             </Card>
           ) : (
@@ -637,7 +673,7 @@ export function ErrorRecoverySystem() {
                           Completed in {(recovery.duration / 1000).toFixed(1)}s
                         </p>
                       </div>
-                      
+
                       <span className="text-xs text-muted-foreground">
                         {new Date(recovery.timestamp).toLocaleString()}
                       </span>

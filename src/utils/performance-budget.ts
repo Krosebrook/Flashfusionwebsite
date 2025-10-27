@@ -1,6 +1,6 @@
 /**
  * DISABLED PERFORMANCE BUDGET - CRISIS MODE
- * 
+ *
  * This file has been disabled to reduce memory usage during crisis mode.
  * All functions return safe defaults to prevent errors.
  */
@@ -9,12 +9,12 @@
 export const performanceBudget = {
   onBudgetViolation: () => () => {},
   destroy: () => {},
-  initialize: () => {}
+  initialize: () => {},
 };
 
 export const budgetUtils = {
   enforceBudget: () => {},
-  getCurrentStatus: () => 'normal' as const
+  getCurrentStatus: () => 'normal' as const,
 };
 
 export default performanceBudget;

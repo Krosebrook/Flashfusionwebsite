@@ -6,16 +6,16 @@
  * @author FlashFusion Team
  */
 
-import type { 
-  EducationalStandard, 
-  GradeLevel, 
-  SubjectArea, 
-  ContentType, 
+import type {
+  EducationalStandard,
+  GradeLevel,
+  SubjectArea,
+  ContentType,
   AssessmentType,
   FileFormat,
   ToolCategory,
   EducationalPlatform,
-  GenerationPreset
+  GenerationPreset,
 } from '../constants/education';
 
 // Core Educational Content Interface
@@ -28,16 +28,16 @@ export interface EducationalContent {
   gradeLevel: GradeLevel;
   standard?: EducationalStandard;
   topic: string;
-  
+
   // Content Structure
   objectives: LearningObjective[];
   content: ContentSection[];
   assessments: Assessment[];
   resources: Resource[];
-  
+
   // Metadata
   metadata: ContentMetadata;
-  
+
   // Generation Info
   generatedAt: Date;
   generatedBy: string;
@@ -149,23 +149,23 @@ export interface ContentGenerationRequest {
   subject: SubjectArea;
   gradeLevel: GradeLevel;
   topic: string;
-  
+
   // Optional Parameters
   standard?: EducationalStandard;
   duration?: number;
   difficulty?: 'beginner' | 'intermediate' | 'advanced';
-  
+
   // Content Specifications
   objectives?: string[];
   requirements?: string[];
   differentiation?: boolean;
   assessment?: boolean;
-  
+
   // Output Preferences
   format: FileFormat[];
   platform?: EducationalPlatform;
   preset?: GenerationPreset;
-  
+
   // AI Settings
   creativity: number; // 0-100
   formality: number; // 0-100
@@ -203,19 +203,19 @@ export interface EducationalTool {
   description: string;
   category: ToolCategory;
   tags: string[];
-  
+
   // Functionality
   supportedSubjects: SubjectArea[];
   supportedGrades: GradeLevel[];
   inputTypes: string[];
   outputTypes: FileFormat[];
-  
+
   // Metadata
   popularity: number; // 0-100
   rating: number; // 0-5
   complexity: 'simple' | 'moderate' | 'advanced';
   estimatedTime: number; // in minutes
-  
+
   // Availability
   freeTier: boolean;
   proTier: boolean;
@@ -229,15 +229,15 @@ export interface StudyPath {
   description: string;
   subject: SubjectArea;
   gradeLevel: GradeLevel;
-  
+
   // Path Structure
   modules: StudyModule[];
   totalDuration: number; // in hours
   difficulty: 'beginner' | 'intermediate' | 'advanced';
-  
+
   // Progress Tracking
   progress: StudyProgress;
-  
+
   // Customization
   adaptable: boolean;
   prerequisites: string[];
@@ -249,12 +249,12 @@ export interface StudyModule {
   title: string;
   description: string;
   order: number;
-  
+
   // Content
   lessons: StudyLesson[];
   quiz?: Assessment;
   project?: StudyProject;
-  
+
   // Requirements
   duration: number; // in minutes
   required: boolean;
@@ -298,28 +298,28 @@ export interface MarketplaceContent {
   id: string;
   title: string;
   description: string;
-  
+
   // Content Info
   content: EducationalContent;
   previewImages: string[];
   sampleFiles: GeneratedFile[];
-  
+
   // Marketplace Info
   price: number;
   currency: string;
   category: string;
   tags: string[];
-  
+
   // Seller Info
   sellerId: string;
   sellerName: string;
   sellerRating: number;
-  
+
   // Performance
   downloads: number;
   rating: number;
   reviews: MarketplaceReview[];
-  
+
   // Status
   status: 'draft' | 'pending' | 'approved' | 'rejected' | 'removed';
   createdAt: Date;
@@ -342,22 +342,22 @@ export interface ParentCommunication {
   type: 'newsletter' | 'progress-report' | 'announcement' | 'meeting-request' | 'behavior-update';
   title: string;
   content: string;
-  
+
   // Recipients
   recipients: ParentContact[];
   sentAt?: Date;
-  
+
   // Student Info
   studentId: string;
   studentName: string;
   classId: string;
   className: string;
-  
+
   // Metadata
   priority: 'low' | 'normal' | 'high' | 'urgent';
   requiresResponse: boolean;
   dueDate?: Date;
-  
+
   // Tracking
   opened: boolean;
   responded: boolean;
@@ -381,18 +381,18 @@ export interface EducationalAnalytics {
   contentDownloaded: number;
   popularSubjects: { subject: SubjectArea; count: number }[];
   popularGrades: { grade: GradeLevel; count: number }[];
-  
+
   // Usage Analytics
   activeUsers: number;
   totalSessions: number;
   averageSessionTime: number; // in minutes
   toolUsage: { toolId: string; usage: number }[];
-  
+
   // Performance Analytics
   generationSuccess: number; // percentage
   userSatisfaction: number; // 1-5 rating
   averageGenerationTime: number; // in seconds
-  
+
   // Time-based Data
   period: 'day' | 'week' | 'month' | 'year';
   startDate: Date;
@@ -400,4 +400,14 @@ export interface EducationalAnalytics {
 }
 
 // Export Types
-export type { EducationalStandard, GradeLevel, SubjectArea, ContentType, AssessmentType, FileFormat, ToolCategory, EducationalPlatform, GenerationPreset };
+export type {
+  EducationalStandard,
+  GradeLevel,
+  SubjectArea,
+  ContentType,
+  AssessmentType,
+  FileFormat,
+  ToolCategory,
+  EducationalPlatform,
+  GenerationPreset,
+};

@@ -4,7 +4,7 @@
  * @category application
  * @version 6.0.0
  * @author FlashFusion Team
- * 
+ *
  * Clean, performance-optimized application following FlashFusion design guidelines:
  * - Explicit FlashFusion styling system implementation
  * - Type-safe error boundaries with proper recovery
@@ -28,7 +28,7 @@ function FlashFusionErrorBoundary({ children }: { children: React.ReactNode }) {
     // Log error with context for debugging
     console.error('🚨 FlashFusion Application Error:', error);
     console.error('Error Info:', errorInfo);
-    
+
     // Track errors in production for monitoring
     if (process.env.NODE_ENV === 'production') {
       // Analytics error tracking would go here
@@ -43,30 +43,30 @@ function FlashFusionErrorBoundary({ children }: { children: React.ReactNode }) {
   return (
     <ErrorBoundary
       fallback={
-        <div 
+        <div
           className="min-h-screen flex items-center justify-center p-8"
           style={{
             backgroundColor: 'var(--ff-bg-dark)',
             fontFamily: 'var(--ff-font-secondary)',
-            color: 'var(--ff-text-primary)'
+            color: 'var(--ff-text-primary)',
           }}
         >
-          <div 
+          <div
             className="max-w-md w-full text-center space-y-6"
             style={{
               backgroundColor: 'var(--ff-surface)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: 'var(--ff-radius-lg)',
               padding: 'var(--ff-space-8)',
-              boxShadow: 'var(--ff-shadow-xl)'
+              boxShadow: 'var(--ff-shadow-xl)',
             }}
           >
             {/* Error Icon */}
-            <div 
+            <div
               className="w-16 h-16 mx-auto rounded-full flex items-center justify-center"
               style={{
                 background: 'linear-gradient(135deg, var(--ff-error-500), var(--ff-error-600))',
-                color: 'white'
+                color: 'white',
               }}
             >
               <span style={{ fontSize: 'var(--ff-text-2xl)' }}>⚠️</span>
@@ -74,23 +74,23 @@ function FlashFusionErrorBoundary({ children }: { children: React.ReactNode }) {
 
             {/* Error Message */}
             <div className="space-y-4">
-              <h1 
+              <h1
                 className="font-bold tracking-tight"
                 style={{
                   fontFamily: 'var(--ff-font-primary)',
                   fontSize: 'var(--ff-text-2xl)',
                   fontWeight: 'var(--ff-weight-bold)',
                   color: 'var(--ff-text-primary)',
-                  lineHeight: 'var(--ff-leading-tight)'
+                  lineHeight: 'var(--ff-leading-tight)',
                 }}
               >
                 Something went wrong
               </h1>
-              <p 
+              <p
                 style={{
                   fontSize: 'var(--ff-text-base)',
                   color: 'var(--ff-text-secondary)',
-                  lineHeight: 'var(--ff-leading-relaxed)'
+                  lineHeight: 'var(--ff-leading-relaxed)',
                 }}
               >
                 FlashFusion encountered an unexpected error. Our team has been notified.
@@ -112,7 +112,7 @@ function FlashFusionErrorBoundary({ children }: { children: React.ReactNode }) {
                   borderRadius: 'var(--ff-radius)',
                   border: 'none',
                   cursor: 'pointer',
-                  boxShadow: 'var(--ff-shadow-sm)'
+                  boxShadow: 'var(--ff-shadow-sm)',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = 'var(--ff-primary-600)';
@@ -127,7 +127,7 @@ function FlashFusionErrorBoundary({ children }: { children: React.ReactNode }) {
               >
                 Reload Application
               </button>
-              
+
               <button
                 onClick={() => {
                   localStorage.clear();
@@ -144,7 +144,7 @@ function FlashFusionErrorBoundary({ children }: { children: React.ReactNode }) {
                   padding: 'var(--ff-space-2) var(--ff-space-4)',
                   borderRadius: 'var(--ff-radius)',
                   border: '1px solid var(--ff-border)',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = 'var(--ff-surface-light)';
@@ -174,27 +174,28 @@ function FlashFusionErrorBoundary({ children }: { children: React.ReactNode }) {
  */
 function FlashFusionLoader() {
   return (
-    <div 
+    <div
       className="min-h-screen flex items-center justify-center"
       style={{
         backgroundColor: 'var(--ff-bg-dark)',
-        fontFamily: 'var(--ff-font-secondary)'
+        fontFamily: 'var(--ff-font-secondary)',
       }}
     >
       <div className="text-center space-y-8 max-w-md w-full px-6">
         {/* Animated Logo */}
-        <div 
+        <div
           className="w-20 h-20 mx-auto rounded-2xl flex items-center justify-center relative overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, var(--ff-primary), var(--ff-secondary), var(--ff-accent))',
-            animation: 'pulseGlow 2s ease-in-out infinite'
+            background:
+              'linear-gradient(135deg, var(--ff-primary), var(--ff-secondary), var(--ff-accent))',
+            animation: 'pulseGlow 2s ease-in-out infinite',
           }}
         >
-          <span 
+          <span
             style={{
               fontSize: 'var(--ff-text-3xl)',
               fontWeight: 'var(--ff-weight-bold)',
-              color: 'white'
+              color: 'white',
             }}
           >
             FF
@@ -203,23 +204,23 @@ function FlashFusionLoader() {
 
         {/* Loading Text */}
         <div className="space-y-4">
-          <h1 
+          <h1
             className="font-bold tracking-tight"
             style={{
               fontFamily: 'var(--ff-font-primary)',
               fontSize: 'var(--ff-text-2xl)',
               fontWeight: 'var(--ff-weight-bold)',
               color: 'var(--ff-text-primary)',
-              lineHeight: 'var(--ff-leading-tight)'
+              lineHeight: 'var(--ff-leading-tight)',
             }}
           >
             Initializing FlashFusion
           </h1>
-          <p 
+          <p
             style={{
               fontSize: 'var(--ff-text-base)',
               color: 'var(--ff-text-secondary)',
-              lineHeight: 'var(--ff-leading-relaxed)'
+              lineHeight: 'var(--ff-leading-relaxed)',
             }}
           >
             Loading your AI development workspace...
@@ -228,16 +229,17 @@ function FlashFusionLoader() {
 
         {/* Progress Indicator */}
         <div className="w-full max-w-xs mx-auto">
-          <div 
+          <div
             className="h-1 rounded-full overflow-hidden"
             style={{ backgroundColor: 'var(--ff-surface)' }}
           >
-            <div 
+            <div
               className="h-full rounded-full"
               style={{
-                background: 'linear-gradient(90deg, var(--ff-primary) 0%, var(--ff-secondary) 50%, var(--ff-accent) 100%)',
+                background:
+                  'linear-gradient(90deg, var(--ff-primary) 0%, var(--ff-secondary) 50%, var(--ff-accent) 100%)',
                 backgroundSize: '200% 100%',
-                animation: 'shimmer 2s infinite'
+                animation: 'shimmer 2s infinite',
               }}
             />
           </div>
@@ -249,7 +251,7 @@ function FlashFusionLoader() {
 
 /**
  * Main FlashFusion Application Component with Authentication Protection
- * 
+ *
  * Core Features:
  * - Centralized authentication management via AuthProvider
  * - Route-based authentication protection
@@ -274,25 +276,32 @@ function App(): JSX.Element {
             document.fonts.load('600 1rem Sora'),
             document.fonts.load('700 1rem Sora'),
             document.fonts.load('400 1rem Inter'),
-            document.fonts.load('500 1rem Inter')
+            document.fonts.load('500 1rem Inter'),
           ];
-          
+
           await Promise.allSettled(fontPromises);
         }
 
         // Preload critical API health check
         if ('requestIdleCallback' in window) {
           window.requestIdleCallback(() => {
-            fetch('/api/health', { method: 'HEAD' })
-              .catch(() => console.log('Health check endpoint not available'));
+            fetch('/api/health', { method: 'HEAD' }).catch(() =>
+              console.log('Health check endpoint not available')
+            );
           });
         }
 
         // Set up performance monitoring in development
         if (process.env.NODE_ENV === 'development') {
-          console.log('%c🚀 FlashFusion v6.0.0', 'color: #FF7B00; font-size: 16px; font-weight: bold;');
+          console.log(
+            '%c🚀 FlashFusion v6.0.0',
+            'color: #FF7B00; font-size: 16px; font-weight: bold;'
+          );
           console.log('%c✨ AI Development Platform Ready', 'color: #00B4D8; font-size: 12px;');
-          console.log('%c🎯 Design System: FlashFusion Brand Colors Active', 'color: #E91E63; font-size: 12px;');
+          console.log(
+            '%c🎯 Design System: FlashFusion Brand Colors Active',
+            'color: #E91E63; font-size: 12px;'
+          );
           console.log('%c🔐 Authentication Protection Enabled', 'color: #10B981; font-size: 12px;');
         }
 
@@ -309,8 +318,8 @@ function App(): JSX.Element {
               'FlashFusion Design System',
               'Accessibility Compliance',
               'Authentication Protection',
-              'Route-Based Security'
-            ]
+              'Route-Based Security',
+            ],
           };
         }
 
@@ -334,12 +343,12 @@ function App(): JSX.Element {
     <FlashFusionErrorBoundary>
       <AuthProvider>
         <Suspense fallback={<FlashFusionLoader />}>
-          <div 
+          <div
             className="min-h-screen"
             style={{
               backgroundColor: 'var(--ff-bg-dark)',
               color: 'var(--ff-text-primary)',
-              fontFamily: 'var(--ff-font-secondary)'
+              fontFamily: 'var(--ff-font-secondary)',
             }}
           >
             <AppCoreOptimized />
@@ -363,12 +372,12 @@ if (process.env.NODE_ENV === 'development') {
       secondary: 'var(--ff-secondary)',
       accent: 'var(--ff-accent)',
       background: 'var(--ff-bg-dark)',
-      surface: 'var(--ff-surface)'
+      surface: 'var(--ff-surface)',
     },
     typography: {
       primary: 'var(--ff-font-primary)',
       secondary: 'var(--ff-font-secondary)',
-      mono: 'var(--ff-font-mono)'
+      mono: 'var(--ff-font-mono)',
     },
     utilities: {
       clearStorage: () => {
@@ -387,11 +396,11 @@ if (process.env.NODE_ENV === 'development') {
             Version: perf.version,
             Uptime: `${Math.round(uptime / 1000)}s`,
             'Design System': perf.designSystem,
-            Features: perf.features.length
+            Features: perf.features.length,
           });
         }
-      }
-    }
+      },
+    },
   };
 
   console.log('%cFlashFusion Debug Tools Available:', 'color: #FF7B00; font-weight: bold;');

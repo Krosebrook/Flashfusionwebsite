@@ -4,13 +4,36 @@ import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-  LineChart, Line, PieChart, Pie, Cell, AreaChart, Area 
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area,
 } from 'recharts';
-import { 
-  TrendingUp, TrendingDown, Users, Code, Zap, Award, 
-  Calendar, Clock, Target, Activity, BarChart3, PieChart as PieChartIcon
+import {
+  TrendingUp,
+  TrendingDown,
+  Users,
+  Code,
+  Zap,
+  Award,
+  Calendar,
+  Clock,
+  Target,
+  Activity,
+  BarChart3,
+  PieChart as PieChartIcon,
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
@@ -79,7 +102,7 @@ export function AdvancedAnalytics({ timeRange = '30d', userId }: AdvancedAnalyti
           avgSessionTime: 24.5,
           userGrowth: 12.3,
           projectGrowth: 8.7,
-          toolGrowth: 23.1
+          toolGrowth: 23.1,
         },
         projectMetrics: [
           { date: '2024-01', projects: 89, deployments: 67, tools: 234 },
@@ -87,14 +110,14 @@ export function AdvancedAnalytics({ timeRange = '30d', userId }: AdvancedAnalyti
           { date: '2024-03', projects: 156, deployments: 134, tools: 445 },
           { date: '2024-04', projects: 189, deployments: 167, tools: 523 },
           { date: '2024-05', projects: 234, deployments: 198, tools: 634 },
-          { date: '2024-06', projects: 267, deployments: 234, tools: 756 }
+          { date: '2024-06', projects: 267, deployments: 234, tools: 756 },
         ],
         toolUsage: [
           { name: 'React Generator', usage: 8934, category: 'Frontend', growth: 15.2 },
           { name: 'API Builder', usage: 6745, category: 'Backend', growth: 23.4 },
           { name: 'UI Designer', usage: 5623, category: 'Design', growth: 12.1 },
           { name: 'Database Schema', usage: 4532, category: 'Database', growth: 18.7 },
-          { name: 'Deploy Assistant', usage: 3421, category: 'DevOps', growth: 9.8 }
+          { name: 'Deploy Assistant', usage: 3421, category: 'DevOps', growth: 9.8 },
         ],
         userEngagement: [
           { date: '2024-01', activeUsers: 2341, sessions: 4567, avgDuration: 22.3 },
@@ -102,16 +125,16 @@ export function AdvancedAnalytics({ timeRange = '30d', userId }: AdvancedAnalyti
           { date: '2024-03', activeUsers: 3234, sessions: 6123, avgDuration: 25.7 },
           { date: '2024-04', activeUsers: 3789, sessions: 7234, avgDuration: 23.9 },
           { date: '2024-05', activeUsers: 4123, sessions: 8456, avgDuration: 26.2 },
-          { date: '2024-06', activeUsers: 4567, sessions: 9123, avgDuration: 24.8 }
+          { date: '2024-06', activeUsers: 4567, sessions: 9123, avgDuration: 24.8 },
         ],
         performanceMetrics: {
           avgLoadTime: 1.2,
           errorRate: 0.3,
           uptime: 99.9,
-          satisfaction: 4.7
-        }
+          satisfaction: 4.7,
+        },
       };
-      
+
       setData(mockData);
     } catch (error) {
       console.error('Error loading analytics:', error);
@@ -126,12 +149,12 @@ export function AdvancedAnalytics({ timeRange = '30d', userId }: AdvancedAnalyti
     return num.toString();
   };
 
-  const MetricCard = ({ 
-    title, 
-    value, 
-    change, 
-    icon: Icon, 
-    format = 'number' 
+  const MetricCard = ({
+    title,
+    value,
+    change,
+    icon: Icon,
+    format = 'number',
   }: {
     title: string;
     value: number;
@@ -246,23 +269,23 @@ export function AdvancedAnalytics({ timeRange = '30d', userId }: AdvancedAnalyti
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                   <XAxis dataKey="date" stroke="#94A3B8" />
                   <YAxis stroke="#94A3B8" />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#1E293B', 
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#1E293B',
                       border: '1px solid rgba(255,123,0,0.2)',
-                      borderRadius: '8px'
-                    }} 
+                      borderRadius: '8px',
+                    }}
                   />
-                  <Area 
-                    type="monotone" 
-                    dataKey="projects" 
-                    stroke="#FF7B00" 
-                    fill="url(#projectGradient)" 
+                  <Area
+                    type="monotone"
+                    dataKey="projects"
+                    stroke="#FF7B00"
+                    fill="url(#projectGradient)"
                   />
                   <defs>
                     <linearGradient id="projectGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#FF7B00" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#FF7B00" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="#FF7B00" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#FF7B00" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                 </AreaChart>
@@ -282,11 +305,15 @@ export function AdvancedAnalytics({ timeRange = '30d', userId }: AdvancedAnalyti
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-muted-foreground">Error Rate</span>
-                  <span className="font-semibold text-green-500">{data.performanceMetrics.errorRate}%</span>
+                  <span className="font-semibold text-green-500">
+                    {data.performanceMetrics.errorRate}%
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-muted-foreground">Uptime</span>
-                  <span className="font-semibold text-green-500">{data.performanceMetrics.uptime}%</span>
+                  <span className="font-semibold text-green-500">
+                    {data.performanceMetrics.uptime}%
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-muted-foreground">User Satisfaction</span>
@@ -297,8 +324,8 @@ export function AdvancedAnalytics({ timeRange = '30d', userId }: AdvancedAnalyti
                         <div
                           key={i}
                           className={`w-2 h-2 rounded-full ${
-                            i < Math.floor(data.performanceMetrics.satisfaction) 
-                              ? 'bg-yellow-400' 
+                            i < Math.floor(data.performanceMetrics.satisfaction)
+                              ? 'bg-yellow-400'
                               : 'bg-muted'
                           }`}
                         />
@@ -319,12 +346,12 @@ export function AdvancedAnalytics({ timeRange = '30d', userId }: AdvancedAnalyti
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                 <XAxis dataKey="date" stroke="#94A3B8" />
                 <YAxis stroke="#94A3B8" />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#1E293B', 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#1E293B',
                     border: '1px solid rgba(255,123,0,0.2)',
-                    borderRadius: '8px'
-                  }} 
+                    borderRadius: '8px',
+                  }}
                 />
                 <Legend />
                 <Line type="monotone" dataKey="projects" stroke="#FF7B00" strokeWidth={3} />
@@ -351,13 +378,20 @@ export function AdvancedAnalytics({ timeRange = '30d', userId }: AdvancedAnalyti
                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                   >
                     {data.toolUsage.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={
-                        index === 0 ? '#FF7B00' :
-                        index === 1 ? '#00B4D8' :
-                        index === 2 ? '#E91E63' :
-                        index === 3 ? '#10B981' :
-                        '#F59E0B'
-                      } />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={
+                          index === 0
+                            ? '#FF7B00'
+                            : index === 1
+                              ? '#00B4D8'
+                              : index === 2
+                                ? '#E91E63'
+                                : index === 3
+                                  ? '#10B981'
+                                  : '#F59E0B'
+                        }
+                      />
                     ))}
                   </Pie>
                   <Tooltip />
@@ -371,14 +405,21 @@ export function AdvancedAnalytics({ timeRange = '30d', userId }: AdvancedAnalyti
                 {data.toolUsage.map((tool, index) => (
                   <div key={tool.name} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 rounded-full" style={{
-                        backgroundColor: 
-                          index === 0 ? '#FF7B00' :
-                          index === 1 ? '#00B4D8' :
-                          index === 2 ? '#E91E63' :
-                          index === 3 ? '#10B981' :
-                          '#F59E0B'
-                      }} />
+                      <div
+                        className="w-3 h-3 rounded-full"
+                        style={{
+                          backgroundColor:
+                            index === 0
+                              ? '#FF7B00'
+                              : index === 1
+                                ? '#00B4D8'
+                                : index === 2
+                                  ? '#E91E63'
+                                  : index === 3
+                                    ? '#10B981'
+                                    : '#F59E0B',
+                        }}
+                      />
                       <div>
                         <p className="font-medium">{tool.name}</p>
                         <p className="text-sm text-muted-foreground">{tool.category}</p>
@@ -386,7 +427,10 @@ export function AdvancedAnalytics({ timeRange = '30d', userId }: AdvancedAnalyti
                     </div>
                     <div className="text-right">
                       <p className="font-semibold">{formatNumber(tool.usage)}</p>
-                      <Badge variant={tool.growth > 15 ? 'default' : 'secondary'} className="text-xs">
+                      <Badge
+                        variant={tool.growth > 15 ? 'default' : 'secondary'}
+                        className="text-xs"
+                      >
                         +{tool.growth}%
                       </Badge>
                     </div>
@@ -405,12 +449,12 @@ export function AdvancedAnalytics({ timeRange = '30d', userId }: AdvancedAnalyti
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                 <XAxis dataKey="date" stroke="#94A3B8" />
                 <YAxis stroke="#94A3B8" />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#1E293B', 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#1E293B',
                     border: '1px solid rgba(255,123,0,0.2)',
-                    borderRadius: '8px'
-                  }} 
+                    borderRadius: '8px',
+                  }}
                 />
                 <Legend />
                 <Bar dataKey="activeUsers" fill="#FF7B00" radius={[4, 4, 0, 0]} />

@@ -4,11 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from './card';
 import { Button } from './button';
 import { Badge } from './badge';
 import { Progress } from './progress';
-import { 
-  Sparkles, 
-  Star, 
-  Heart, 
-  Zap, 
+import {
+  Sparkles,
+  Star,
+  Heart,
+  Zap,
   TrendingUp,
   CheckCircle,
   ArrowRight,
@@ -18,7 +18,7 @@ import {
   Palette,
   Settings,
   Wand2,
-  Wand2
+  Wand2,
 } from 'lucide-react';
 
 interface MicroInteractionProps {
@@ -30,11 +30,11 @@ interface MicroInteractionProps {
 }
 
 // Magnetic Button Component
-const MagneticButton: React.FC<MicroInteractionProps> = ({ 
-  children, 
-  className = '', 
+const MagneticButton: React.FC<MicroInteractionProps> = ({
+  children,
+  className = '',
   intensity = 'medium',
-  disabled = false 
+  disabled = false,
 }) => {
   const ref = useRef<HTMLButtonElement>(null);
   const x = useMotionValue(0);
@@ -44,14 +44,14 @@ const MagneticButton: React.FC<MicroInteractionProps> = ({
 
   const handleMouseMove = (event: React.MouseEvent) => {
     if (disabled || !ref.current) return;
-    
+
     const rect = ref.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    
+
     const intensityMap = { subtle: 0.3, medium: 0.5, strong: 0.8 };
     const factor = intensityMap[intensity];
-    
+
     x.set((event.clientX - centerX) * factor);
     y.set((event.clientY - centerY) * factor);
   };
@@ -78,9 +78,9 @@ const MagneticButton: React.FC<MicroInteractionProps> = ({
 };
 
 // Ripple Effect Component
-const RippleEffect: React.FC<{ trigger: boolean; onComplete?: () => void }> = ({ 
-  trigger, 
-  onComplete 
+const RippleEffect: React.FC<{ trigger: boolean; onComplete?: () => void }> = ({
+  trigger,
+  onComplete,
 }) => {
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
 
@@ -89,13 +89,13 @@ const RippleEffect: React.FC<{ trigger: boolean; onComplete?: () => void }> = ({
       const newRipple = {
         id: Date.now(),
         x: Math.random() * 100,
-        y: Math.random() * 100
+        y: Math.random() * 100,
       };
-      
-      setRipples(prev => [...prev, newRipple]);
-      
+
+      setRipples((prev) => [...prev, newRipple]);
+
       setTimeout(() => {
-        setRipples(prev => prev.filter(r => r.id !== newRipple.id));
+        setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
         onComplete?.();
       }, 1000);
     }
@@ -103,7 +103,7 @@ const RippleEffect: React.FC<{ trigger: boolean; onComplete?: () => void }> = ({
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-lg">
-      {ripples.map(ripple => (
+      {ripples.map((ripple) => (
         <motion.div
           key={ripple.id}
           className="absolute w-4 h-4 bg-primary/20 rounded-full"
@@ -113,7 +113,7 @@ const RippleEffect: React.FC<{ trigger: boolean; onComplete?: () => void }> = ({
           }}
           initial={{ scale: 0, opacity: 0.6 }}
           animate={{ scale: 20, opacity: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 1, ease: 'easeOut' }}
         />
       ))}
     </div>
@@ -121,23 +121,23 @@ const RippleEffect: React.FC<{ trigger: boolean; onComplete?: () => void }> = ({
 };
 
 // Gradient Shift Card
-const GradientShiftCard: React.FC<MicroInteractionProps> = ({ 
-  children, 
+const GradientShiftCard: React.FC<MicroInteractionProps> = ({
+  children,
   className = '',
-  intensity = 'medium' 
+  intensity = 'medium',
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  
+
   const gradients = {
     subtle: 'bg-gradient-to-br from-muted via-muted to-muted/80',
     medium: 'bg-gradient-to-br from-primary/5 via-muted to-secondary/5',
-    strong: 'bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10'
+    strong: 'bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10',
   };
 
   const hoverGradients = {
     subtle: 'bg-gradient-to-br from-muted/80 via-muted/90 to-muted',
     medium: 'bg-gradient-to-br from-primary/10 via-muted/90 to-secondary/10',
-    strong: 'bg-gradient-to-br from-primary/15 via-accent/10 to-secondary/15'
+    strong: 'bg-gradient-to-br from-primary/15 via-accent/10 to-secondary/15',
   };
 
   return (
@@ -153,9 +153,9 @@ const GradientShiftCard: React.FC<MicroInteractionProps> = ({
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full"
         animate={{
-          translateX: isHovered ? '200%' : '-100%'
+          translateX: isHovered ? '200%' : '-100%',
         }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
+        transition={{ duration: 0.8, ease: 'easeInOut' }}
       />
       {children}
     </motion.div>
@@ -163,28 +163,27 @@ const GradientShiftCard: React.FC<MicroInteractionProps> = ({
 };
 
 // Floating Action Button
-const FloatingActionButton: React.FC<MicroInteractionProps> = ({ 
-  children, 
+const FloatingActionButton: React.FC<MicroInteractionProps> = ({
+  children,
   className = '',
-  intensity = 'medium' 
+  intensity = 'medium',
 }) => {
   const [isPressed, setIsPressed] = useState(false);
-  
+
   const shadowIntensity = {
     subtle: 'shadow-lg',
     medium: 'shadow-xl',
-    strong: 'shadow-2xl'
+    strong: 'shadow-2xl',
   };
 
   return (
     <motion.button
       className={`relative rounded-full p-4 bg-primary text-primary-foreground 
                  ${shadowIntensity[intensity]} transition-all duration-200 ${className}`}
-      whileHover={{ 
+      whileHover={{
         scale: 1.05,
-        boxShadow: intensity === 'strong' 
-          ? '0 20px 40px rgba(0,0,0,0.3)' 
-          : '0 10px 25px rgba(0,0,0,0.2)'
+        boxShadow:
+          intensity === 'strong' ? '0 20px 40px rgba(0,0,0,0.3)' : '0 10px 25px rgba(0,0,0,0.2)',
       }}
       whileTap={{ scale: 0.95 }}
       onMouseDown={() => setIsPressed(true)}
@@ -192,21 +191,21 @@ const FloatingActionButton: React.FC<MicroInteractionProps> = ({
       onMouseLeave={() => setIsPressed(false)}
     >
       <motion.div
-        animate={{ 
+        animate={{
           rotate: isPressed ? 180 : 0,
-          scale: isPressed ? 0.9 : 1
+          scale: isPressed ? 0.9 : 1,
         }}
         transition={{ duration: 0.2 }}
       >
         {children}
       </motion.div>
-      
+
       <motion.div
         className="absolute inset-0 rounded-full bg-white/20"
         initial={{ scale: 0, opacity: 0 }}
-        animate={{ 
+        animate={{
           scale: isPressed ? 1 : 0,
-          opacity: isPressed ? 1 : 0
+          opacity: isPressed ? 1 : 0,
         }}
         transition={{ duration: 0.2 }}
       />
@@ -247,7 +246,7 @@ const MorphingIconButton: React.FC<{
       >
         {icons[currentIndex]}
       </motion.div>
-      
+
       <motion.span
         key={`label-${currentIndex}`}
         initial={{ opacity: 0, y: 10 }}
@@ -269,13 +268,7 @@ const ProgressRing: React.FC<{
   strokeWidth?: number;
   children?: React.ReactNode;
   color?: string;
-}> = ({ 
-  progress, 
-  size = 120, 
-  strokeWidth = 8, 
-  children, 
-  color = 'currentColor' 
-}) => {
+}> = ({ progress, size = 120, strokeWidth = 8, children, color = 'currentColor' }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
   const strokeDasharray = circumference;
@@ -305,13 +298,11 @@ const ProgressRing: React.FC<{
           strokeDashoffset={strokeDashoffset}
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset }}
-          transition={{ duration: 1, ease: "easeInOut" }}
+          transition={{ duration: 1, ease: 'easeInOut' }}
           className="text-primary drop-shadow-sm"
         />
       </svg>
-      <div className="absolute inset-0 flex items-center justify-center">
-        {children}
-      </div>
+      <div className="absolute inset-0 flex items-center justify-center">{children}</div>
     </div>
   );
 };
@@ -329,10 +320,10 @@ const StaggeredList: React.FC<{
           key={index}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ 
-            duration: 0.4, 
+          transition={{
+            duration: 0.4,
             delay: index * staggerDelay,
-            ease: "easeOut"
+            ease: 'easeOut',
           }}
         >
           {item}
@@ -353,14 +344,14 @@ const PremiumMicroInteractions: React.FC = () => {
     <Heart className="h-5 w-5" />,
     <Star className="h-5 w-5" />,
     <Sparkles className="h-5 w-5" />,
-    <Zap className="h-5 w-5" />
+    <Zap className="h-5 w-5" />,
   ];
 
   const morphingLabels = ['Like', 'Favorite', 'Sparkle', 'Boost'];
 
   const handleLike = () => {
     setIsLiked(!isLiked);
-    setLikeCount(prev => isLiked ? prev - 1 : prev + 1);
+    setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
     setRippleTrigger(true);
   };
 
@@ -382,7 +373,7 @@ const PremiumMicroInteractions: React.FC = () => {
         <Sparkles className="h-5 w-5 text-purple-500" />
         <span className="font-medium font-sora">Premium Experience Active</span>
       </div>
-    </Card>
+    </Card>,
   ];
 
   return (
@@ -408,7 +399,7 @@ const PremiumMicroInteractions: React.FC = () => {
       <GradientShiftCard intensity="medium" className="p-6">
         <h3 className="ff-text-lg font-semibold mb-4 font-sora">Magnetic Attraction</h3>
         <div className="flex flex-wrap gap-4">
-          <MagneticButton 
+          <MagneticButton
             className="ff-btn-primary px-6 py-3 rounded-lg font-sora"
             intensity="subtle"
           >
@@ -417,8 +408,8 @@ const PremiumMicroInteractions: React.FC = () => {
               Hover Me (Subtle)
             </div>
           </MagneticButton>
-          
-          <MagneticButton 
+
+          <MagneticButton
             className="ff-btn-secondary px-6 py-3 rounded-lg font-sora"
             intensity="medium"
           >
@@ -427,8 +418,8 @@ const PremiumMicroInteractions: React.FC = () => {
               Medium Magnetism
             </div>
           </MagneticButton>
-          
-          <MagneticButton 
+
+          <MagneticButton
             className="ff-btn-accent px-6 py-3 rounded-lg font-sora"
             intensity="strong"
           >
@@ -447,16 +438,12 @@ const PremiumMicroInteractions: React.FC = () => {
           <h4 className="ff-text-base font-semibold mb-4 font-sora">Progress Ring</h4>
           <ProgressRing progress={progress} color="rgb(var(--ff-primary))">
             <div className="text-center">
-              <div className="ff-text-2xl font-bold text-primary font-sora">
-                {progress}%
-              </div>
-              <div className="ff-text-xs text-muted-foreground font-inter">
-                Complete
-              </div>
+              <div className="ff-text-2xl font-bold text-primary font-sora">{progress}%</div>
+              <div className="ff-text-xs text-muted-foreground font-inter">Complete</div>
             </div>
           </ProgressRing>
           <div className="mt-4 space-y-2">
-            <Button 
+            <Button
               onClick={() => setProgress(Math.min(100, progress + 10))}
               size="sm"
               variant="outline"
@@ -464,7 +451,7 @@ const PremiumMicroInteractions: React.FC = () => {
             >
               Increase
             </Button>
-            <Button 
+            <Button
               onClick={() => setProgress(Math.max(0, progress - 10))}
               size="sm"
               variant="outline"
@@ -497,17 +484,17 @@ const PremiumMicroInteractions: React.FC = () => {
           <motion.button
             onClick={handleLike}
             className={`relative p-4 rounded-full transition-all duration-300 ${
-              isLiked 
-                ? 'bg-red-500 text-white shadow-lg' 
+              isLiked
+                ? 'bg-red-500 text-white shadow-lg'
                 : 'bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground'
             }`}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
             <motion.div
-              animate={{ 
+              animate={{
                 scale: isLiked ? [1, 1.3, 1] : 1,
-                rotate: isLiked ? [0, -10, 10, 0] : 0
+                rotate: isLiked ? [0, -10, 10, 0] : 0,
               }}
               transition={{ duration: 0.3 }}
             >
@@ -534,11 +521,11 @@ const PremiumMicroInteractions: React.FC = () => {
           <FloatingActionButton intensity="subtle">
             <Eye className="h-5 w-5" />
           </FloatingActionButton>
-          
+
           <FloatingActionButton intensity="medium">
             <Settings className="h-5 w-5" />
           </FloatingActionButton>
-          
+
           <FloatingActionButton intensity="strong">
             <Sparkles className="h-5 w-5" />
           </FloatingActionButton>
@@ -548,11 +535,7 @@ const PremiumMicroInteractions: React.FC = () => {
       {/* Staggered List Animation */}
       <GradientShiftCard intensity="subtle" className="p-6">
         <h3 className="ff-text-lg font-semibold mb-4 font-sora">Staggered Animations</h3>
-        <StaggeredList 
-          items={demoItems}
-          className="space-y-3"
-          staggerDelay={0.15}
-        />
+        <StaggeredList items={demoItems} className="space-y-3" staggerDelay={0.15} />
       </GradientShiftCard>
 
       {/* Usage Guidelines */}
@@ -562,7 +545,7 @@ const PremiumMicroInteractions: React.FC = () => {
             <Palette className="h-5 w-5 text-blue-500" />
             <h3 className="ff-text-lg font-semibold font-sora">Design Principles</h3>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ff-text-sm font-inter">
             <div className="space-y-2">
               <h4 className="font-semibold text-green-600 font-sora">✓ Do</h4>
@@ -573,7 +556,7 @@ const PremiumMicroInteractions: React.FC = () => {
                 <li>• Consider accessibility preferences</li>
               </ul>
             </div>
-            
+
             <div className="space-y-2">
               <h4 className="font-semibold text-red-600 font-sora">✗ Don't</h4>
               <ul className="space-y-1 text-muted-foreground">
@@ -584,12 +567,12 @@ const PremiumMicroInteractions: React.FC = () => {
               </ul>
             </div>
           </div>
-          
+
           <div className="pt-4 border-t border-muted">
             <p className="ff-text-sm text-muted-foreground font-inter">
-              <strong className="text-foreground font-sora">Pro Tip:</strong> These micro-interactions 
-              should enhance the user experience without drawing attention to themselves. 
-              The best interactions feel natural and intuitive.
+              <strong className="text-foreground font-sora">Pro Tip:</strong> These
+              micro-interactions should enhance the user experience without drawing attention to
+              themselves. The best interactions feel natural and intuitive.
             </p>
           </div>
         </div>

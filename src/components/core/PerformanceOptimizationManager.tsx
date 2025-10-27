@@ -40,7 +40,7 @@ export function usePerformanceMonitoring() {
     renderTime: 0,
     interactionTime: 0,
     networkLatency: 0,
-    cacheHitRate: 100
+    cacheHitRate: 100,
   });
 
   const [suggestions, setSuggestions] = useState<OptimizationSuggestion[]>([]);
@@ -55,7 +55,7 @@ export function usePerformanceMonitoring() {
 
     if (now - lastTimeRef.current >= 1000) {
       const fps = Math.round((frameCountRef.current * 1000) / (now - lastTimeRef.current));
-      setMetrics(prev => ({ ...prev, fps }));
+      setMetrics((prev) => ({ ...prev, fps }));
       frameCountRef.current = 0;
       lastTimeRef.current = now;
     }
@@ -68,7 +68,7 @@ export function usePerformanceMonitoring() {
     if ('memory' in performance) {
       const memory = (performance as any).memory;
       const memoryUsage = Math.round((memory.usedJSHeapSize / memory.totalJSHeapSize) * 100);
-      setMetrics(prev => ({ ...prev, memoryUsage }));
+      setMetrics((prev) => ({ ...prev, memoryUsage }));
     }
   }, []);
 
@@ -78,7 +78,7 @@ export function usePerformanceMonitoring() {
       const entries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
       if (entries.length > 0) {
         const bundleSize = Math.round((entries[0].transferSize || 0) / 1024); // KB
-        setMetrics(prev => ({ ...prev, bundleSize }));
+        setMetrics((prev) => ({ ...prev, bundleSize }));
       }
     }
   }, []);
@@ -89,7 +89,7 @@ export function usePerformanceMonitoring() {
       const start = performance.now();
       await fetch('/api/health', { method: 'HEAD' }).catch(() => {});
       const latency = performance.now() - start;
-      setMetrics(prev => ({ ...prev, networkLatency: Math.round(latency) }));
+      setMetrics((prev) => ({ ...prev, networkLatency: Math.round(latency) }));
     } catch (error) {
       // Silent fail for latency measurement
     }
@@ -104,12 +104,13 @@ export function usePerformanceMonitoring() {
         id: 'low-fps',
         type: 'critical',
         title: 'Low Frame Rate Detected',
-        description: 'Frame rate is below 30 FPS. Consider reducing animations or enabling lite mode.',
+        description:
+          'Frame rate is below 30 FPS. Consider reducing animations or enabling lite mode.',
         impact: 'high',
         action: () => {
           localStorage.setItem('ff-reduce-animations', 'true');
           window.location.reload();
-        }
+        },
       });
     }
 
@@ -123,7 +124,7 @@ export function usePerformanceMonitoring() {
         action: () => {
           localStorage.clear();
           if ('gc' in window) (window as any).gc();
-        }
+        },
       });
     }
 
@@ -133,7 +134,7 @@ export function usePerformanceMonitoring() {
         type: 'warning',
         title: 'Large Bundle Size',
         description: 'Bundle size is over 5MB. Enable code splitting for better performance.',
-        impact: 'medium'
+        impact: 'medium',
       });
     }
 
@@ -142,11 +143,12 @@ export function usePerformanceMonitoring() {
         id: 'high-latency',
         type: 'warning',
         title: 'High Network Latency',
-        description: 'Network latency is above 1 second. Enable offline mode or cache optimization.',
+        description:
+          'Network latency is above 1 second. Enable offline mode or cache optimization.',
         impact: 'medium',
         action: () => {
           localStorage.setItem('ff-offline-mode', 'true');
-        }
+        },
       });
     }
 
@@ -157,7 +159,7 @@ export function usePerformanceMonitoring() {
   useEffect(() => {
     measureFPS();
     measureBundleSize();
-    
+
     const memoryInterval = setInterval(measureMemory, 5000);
     const latencyInterval = setInterval(measureNetworkLatency, 30000);
 
@@ -183,16 +185,17 @@ export function usePerformanceMonitoring() {
  */
 export function PerformanceOptimizationManager() {
   const { metrics, suggestions } = usePerformanceMonitoring();
-  
+
   // Performance grade calculation
   const performanceGrade = useMemo(() => {
     let score = 100;
-    
+
     if (metrics.fps < 60) score -= (60 - metrics.fps) * 2;
-    if (metrics.memoryUsage > 50) score -= (metrics.memoryUsage - 50);
+    if (metrics.memoryUsage > 50) score -= metrics.memoryUsage - 50;
     if (metrics.networkLatency > 500) score -= (metrics.networkLatency - 500) / 10;
-    
-    if (score >= 90) return { grade: 'A', color: 'from-green-500 to-emerald-500', status: 'Excellent' };
+
+    if (score >= 90)
+      return { grade: 'A', color: 'from-green-500 to-emerald-500', status: 'Excellent' };
     if (score >= 80) return { grade: 'B', color: 'from-blue-500 to-cyan-500', status: 'Good' };
     if (score >= 70) return { grade: 'C', color: 'from-yellow-500 to-orange-500', status: 'Fair' };
     return { grade: 'D', color: 'from-red-500 to-pink-500', status: 'Poor' };
@@ -205,18 +208,18 @@ export function PerformanceOptimizationManager() {
     localStorage.setItem('ff-reduce-animations', metrics.fps < 45 ? 'true' : 'false');
     localStorage.setItem('ff-lazy-loading', 'true');
     localStorage.setItem('ff-image-optimization', 'true');
-    
+
     // Clear old cache
     if ('caches' in window) {
-      caches.keys().then(names => {
-        names.forEach(name => {
+      caches.keys().then((names) => {
+        names.forEach((name) => {
           if (name.includes('old') || name.includes('v1')) {
             caches.delete(name);
           }
         });
       });
     }
-    
+
     window.location.reload();
   }, [metrics.fps]);
 
@@ -227,7 +230,9 @@ export function PerformanceOptimizationManager() {
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span className="ff-text-title">Performance Overview</span>
-            <div className={`w-16 h-16 bg-gradient-to-br ${performanceGrade.color} rounded-2xl flex items-center justify-center text-white ff-text-2xl font-bold`}>
+            <div
+              className={`w-16 h-16 bg-gradient-to-br ${performanceGrade.color} rounded-2xl flex items-center justify-center text-white ff-text-2xl font-bold`}
+            >
               {performanceGrade.grade}
             </div>
           </CardTitle>
@@ -251,7 +256,7 @@ export function PerformanceOptimizationManager() {
               <div className="ff-text-caption">Latency</div>
             </div>
           </div>
-          
+
           <div className="mt-6 flex items-center justify-between">
             <div>
               <div className="ff-text-lg font-semibold">{performanceGrade.status} Performance</div>
@@ -277,12 +282,20 @@ export function PerformanceOptimizationManager() {
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <Badge 
-                          variant={suggestion.type === 'critical' ? 'destructive' : suggestion.type === 'warning' ? 'secondary' : 'default'}
+                        <Badge
+                          variant={
+                            suggestion.type === 'critical'
+                              ? 'destructive'
+                              : suggestion.type === 'warning'
+                                ? 'secondary'
+                                : 'default'
+                          }
                           className={
-                            suggestion.type === 'critical' ? 'ff-badge-error' :
-                            suggestion.type === 'warning' ? 'ff-badge-warning' :
-                            'ff-badge-primary'
+                            suggestion.type === 'critical'
+                              ? 'ff-badge-error'
+                              : suggestion.type === 'warning'
+                                ? 'ff-badge-warning'
+                                : 'ff-badge-primary'
                           }
                         >
                           {suggestion.type.toUpperCase()}
@@ -328,7 +341,9 @@ export function PerformanceOptimizationManager() {
                   <input
                     type="checkbox"
                     defaultChecked={localStorage.getItem('ff-lazy-loading') === 'true'}
-                    onChange={(e) => localStorage.setItem('ff-lazy-loading', e.target.checked.toString())}
+                    onChange={(e) =>
+                      localStorage.setItem('ff-lazy-loading', e.target.checked.toString())
+                    }
                     className="ff-focus-ring"
                   />
                   <span className="ff-text-body">Lazy Loading</span>
@@ -337,7 +352,9 @@ export function PerformanceOptimizationManager() {
                   <input
                     type="checkbox"
                     defaultChecked={localStorage.getItem('ff-image-optimization') === 'true'}
-                    onChange={(e) => localStorage.setItem('ff-image-optimization', e.target.checked.toString())}
+                    onChange={(e) =>
+                      localStorage.setItem('ff-image-optimization', e.target.checked.toString())
+                    }
                     className="ff-focus-ring"
                   />
                   <span className="ff-text-body">Image Optimization</span>
@@ -346,7 +363,9 @@ export function PerformanceOptimizationManager() {
                   <input
                     type="checkbox"
                     defaultChecked={localStorage.getItem('ff-reduce-animations') === 'true'}
-                    onChange={(e) => localStorage.setItem('ff-reduce-animations', e.target.checked.toString())}
+                    onChange={(e) =>
+                      localStorage.setItem('ff-reduce-animations', e.target.checked.toString())
+                    }
                     className="ff-focus-ring"
                   />
                   <span className="ff-text-body">Reduce Animations</span>
@@ -355,14 +374,16 @@ export function PerformanceOptimizationManager() {
                   <input
                     type="checkbox"
                     defaultChecked={localStorage.getItem('ff-offline-mode') === 'true'}
-                    onChange={(e) => localStorage.setItem('ff-offline-mode', e.target.checked.toString())}
+                    onChange={(e) =>
+                      localStorage.setItem('ff-offline-mode', e.target.checked.toString())
+                    }
                     className="ff-focus-ring"
                   />
                   <span className="ff-text-body">Offline Mode</span>
                 </label>
               </div>
             </div>
-            
+
             <div className="space-y-4">
               <h4 className="ff-text-lg font-semibold">Advanced Settings</h4>
               <div className="space-y-3">
@@ -412,22 +433,28 @@ export function PerformanceOptimizationManager() {
               <div className="text-center p-4 bg-primary/10 rounded-lg">
                 <div className="ff-text-2xl font-bold text-primary">{metrics.fps} FPS</div>
                 <div className="ff-text-caption">Frame Rate</div>
-                <div className={`mt-2 h-2 rounded-full ${metrics.fps >= 45 ? 'bg-green-500' : metrics.fps >= 30 ? 'bg-yellow-500' : 'bg-red-500'}`} />
+                <div
+                  className={`mt-2 h-2 rounded-full ${metrics.fps >= 45 ? 'bg-green-500' : metrics.fps >= 30 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                />
               </div>
-              
+
               <div className="text-center p-4 bg-secondary/10 rounded-lg">
                 <div className="ff-text-2xl font-bold text-secondary">{metrics.memoryUsage}%</div>
                 <div className="ff-text-caption">Memory Usage</div>
-                <div className={`mt-2 h-2 rounded-full ${metrics.memoryUsage <= 50 ? 'bg-green-500' : metrics.memoryUsage <= 80 ? 'bg-yellow-500' : 'bg-red-500'}`} />
+                <div
+                  className={`mt-2 h-2 rounded-full ${metrics.memoryUsage <= 50 ? 'bg-green-500' : metrics.memoryUsage <= 80 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                />
               </div>
-              
+
               <div className="text-center p-4 bg-accent/10 rounded-lg">
                 <div className="ff-text-2xl font-bold text-accent">{metrics.networkLatency}ms</div>
                 <div className="ff-text-caption">Network Latency</div>
-                <div className={`mt-2 h-2 rounded-full ${metrics.networkLatency <= 500 ? 'bg-green-500' : metrics.networkLatency <= 1000 ? 'bg-yellow-500' : 'bg-red-500'}`} />
+                <div
+                  className={`mt-2 h-2 rounded-full ${metrics.networkLatency <= 500 ? 'bg-green-500' : metrics.networkLatency <= 1000 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                />
               </div>
             </div>
-            
+
             <div className="text-center text-xs text-muted-foreground">
               Monitoring updates every 5 seconds • Network latency checked every 30 seconds
             </div>

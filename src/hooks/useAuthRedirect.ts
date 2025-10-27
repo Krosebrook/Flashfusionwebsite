@@ -11,9 +11,8 @@ interface UseAuthRedirectParams {
 export function useAuthRedirect({
   currentPage,
   setCurrentPage,
-  isAuthenticated
+  isAuthenticated,
 }: UseAuthRedirectParams) {
-  
   // Redirect to home if not authenticated and trying to access protected pages
   useEffect(() => {
     if (!isAuthenticated && isProtectedPage(currentPage)) {

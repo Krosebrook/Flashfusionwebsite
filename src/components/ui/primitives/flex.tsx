@@ -119,29 +119,25 @@ Flex.displayName = 'Flex';
  */
 
 /** flex items-center gap-2 (856 instances) */
-export const FlexCenterGap2 = React.forwardRef<
-  HTMLDivElement,
-  Omit<FlexProps, 'align' | 'gap'>
->((props, ref) => <Flex ref={ref} align="center" gap={2} {...props} />);
+export const FlexCenterGap2 = React.forwardRef<HTMLDivElement, Omit<FlexProps, 'align' | 'gap'>>(
+  (props, ref) => <Flex ref={ref} align="center" gap={2} {...props} />
+);
 FlexCenterGap2.displayName = 'FlexCenterGap2';
 
 /** flex items-center justify-between (805 instances) */
-export const FlexBetween = React.forwardRef<
-  HTMLDivElement,
-  Omit<FlexProps, 'align' | 'justify'>
->((props, ref) => <Flex ref={ref} align="center" justify="between" {...props} />);
+export const FlexBetween = React.forwardRef<HTMLDivElement, Omit<FlexProps, 'align' | 'justify'>>(
+  (props, ref) => <Flex ref={ref} align="center" justify="between" {...props} />
+);
 FlexBetween.displayName = 'FlexBetween';
 
 /** flex items-center gap-3 (295 instances) */
-export const FlexCenterGap3 = React.forwardRef<
-  HTMLDivElement,
-  Omit<FlexProps, 'align' | 'gap'>
->((props, ref) => <Flex ref={ref} align="center" gap={3} {...props} />);
+export const FlexCenterGap3 = React.forwardRef<HTMLDivElement, Omit<FlexProps, 'align' | 'gap'>>(
+  (props, ref) => <Flex ref={ref} align="center" gap={3} {...props} />
+);
 FlexCenterGap3.displayName = 'FlexCenterGap3';
 
 /** flex items-center gap-4 (67 instances) */
-export const FlexCenterGap4 = React.forwardRef<
-  HTMLDivElement,
-  Omit<FlexProps, 'align' | 'gap'>
->((props, ref) => <Flex ref={ref} align="center" gap={4} {...props} />);
+export const FlexCenterGap4 = React.forwardRef<HTMLDivElement, Omit<FlexProps, 'align' | 'gap'>>(
+  (props, ref) => <Flex ref={ref} align="center" gap={4} {...props} />
+);
 FlexCenterGap4.displayName = 'FlexCenterGap4';

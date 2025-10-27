@@ -7,12 +7,31 @@ import { Input } from '../ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { ScrollArea } from '../ui/scroll-area';
-import { 
-  Search, Star, Download, ExternalLink, Settings, 
-  Check, Plus, Filter, TrendingUp, Users, 
-  Zap, Database, Cloud, Code, Palette, Shield,
-  MessageSquare, Mail, Calendar, FileText, 
-  BarChart3, ShoppingCart, Camera, Music
+import {
+  Search,
+  Star,
+  Download,
+  ExternalLink,
+  Settings,
+  Check,
+  Plus,
+  Filter,
+  TrendingUp,
+  Users,
+  Zap,
+  Database,
+  Cloud,
+  Code,
+  Palette,
+  Shield,
+  MessageSquare,
+  Mail,
+  Calendar,
+  FileText,
+  BarChart3,
+  ShoppingCart,
+  Camera,
+  Music,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
@@ -79,7 +98,8 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
           id: 'stripe',
           name: 'Stripe Payments',
           description: 'Accept payments and manage subscriptions',
-          longDescription: 'Integrate Stripe to accept payments, manage subscriptions, and handle complex billing scenarios. Built with security and compliance in mind.',
+          longDescription:
+            'Integrate Stripe to accept payments, manage subscriptions, and handle complex billing scenarios. Built with security and compliance in mind.',
           icon: ShoppingCart,
           category: 'payments',
           rating: 4.8,
@@ -89,20 +109,26 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
           developer: 'Stripe Inc.',
           version: '2.1.4',
           lastUpdated: '2024-08-15',
-          features: ['Payment processing', 'Subscription management', 'Webhooks', 'Dashboard analytics'],
+          features: [
+            'Payment processing',
+            'Subscription management',
+            'Webhooks',
+            'Dashboard analytics',
+          ],
           isInstalled: false,
           isPopular: true,
           isNew: false,
           tags: ['payments', 'e-commerce', 'subscriptions'],
           supportedPlatforms: ['React', 'Vue', 'Angular'],
           apiEndpoints: 15,
-          setupComplexity: 'medium'
+          setupComplexity: 'medium',
         },
         {
           id: 'openai',
           name: 'OpenAI GPT',
           description: 'Add AI-powered features to your applications',
-          longDescription: 'Integrate OpenAI\'s powerful language models to add chatbots, content generation, and AI-powered features to your applications.',
+          longDescription:
+            "Integrate OpenAI's powerful language models to add chatbots, content generation, and AI-powered features to your applications.",
           icon: Zap,
           category: 'ai',
           rating: 4.9,
@@ -119,13 +145,14 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
           tags: ['ai', 'gpt', 'chatbot', 'nlp'],
           supportedPlatforms: ['React', 'Vue', 'Angular', 'Node.js'],
           apiEndpoints: 8,
-          setupComplexity: 'easy'
+          setupComplexity: 'easy',
         },
         {
           id: 'supabase',
           name: 'Supabase Database',
           description: 'PostgreSQL database with real-time subscriptions',
-          longDescription: 'Full-featured PostgreSQL database with authentication, real-time subscriptions, and auto-generated APIs.',
+          longDescription:
+            'Full-featured PostgreSQL database with authentication, real-time subscriptions, and auto-generated APIs.',
           icon: Database,
           category: 'database',
           rating: 4.7,
@@ -142,13 +169,14 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
           tags: ['database', 'postgresql', 'real-time', 'auth'],
           supportedPlatforms: ['React', 'Vue', 'Angular', 'Svelte'],
           apiEndpoints: 25,
-          setupComplexity: 'medium'
+          setupComplexity: 'medium',
         },
         {
           id: 'twilio',
           name: 'Twilio Communications',
           description: 'SMS, voice calls, and video communications',
-          longDescription: 'Add SMS messaging, voice calls, and video communications to your applications with Twilio\'s reliable APIs.',
+          longDescription:
+            "Add SMS messaging, voice calls, and video communications to your applications with Twilio's reliable APIs.",
           icon: MessageSquare,
           category: 'communications',
           rating: 4.6,
@@ -166,13 +194,14 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
           tags: ['sms', 'voice', 'video', 'communications'],
           supportedPlatforms: ['React', 'Vue', 'Node.js'],
           apiEndpoints: 12,
-          setupComplexity: 'medium'
+          setupComplexity: 'medium',
         },
         {
           id: 'cloudinary',
           name: 'Cloudinary Media',
           description: 'Image and video management in the cloud',
-          longDescription: 'Comprehensive media management with automatic optimization, transformations, and CDN delivery.',
+          longDescription:
+            'Comprehensive media management with automatic optimization, transformations, and CDN delivery.',
           icon: Camera,
           category: 'media',
           rating: 4.5,
@@ -189,13 +218,14 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
           tags: ['images', 'video', 'cdn', 'optimization'],
           supportedPlatforms: ['React', 'Vue', 'Angular'],
           apiEndpoints: 18,
-          setupComplexity: 'easy'
+          setupComplexity: 'easy',
         },
         {
           id: 'auth0',
           name: 'Auth0 Identity',
           description: 'Universal authentication and authorization',
-          longDescription: 'Secure authentication and authorization platform with support for social logins, MFA, and enterprise SSO.',
+          longDescription:
+            'Secure authentication and authorization platform with support for social logins, MFA, and enterprise SSO.',
           icon: Shield,
           category: 'authentication',
           rating: 4.7,
@@ -212,19 +242,67 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
           tags: ['auth', 'sso', 'mfa', 'identity'],
           supportedPlatforms: ['React', 'Vue', 'Angular', 'Svelte'],
           apiEndpoints: 22,
-          setupComplexity: 'advanced'
-        }
+          setupComplexity: 'advanced',
+        },
       ];
 
       const mockCategories: IntegrationCategory[] = [
-        { id: 'all', name: 'All Integrations', icon: Code, count: mockIntegrations.length, description: 'Browse all available integrations' },
-        { id: 'ai', name: 'AI & ML', icon: Zap, count: 1, description: 'Artificial intelligence and machine learning' },
-        { id: 'database', name: 'Databases', icon: Database, count: 1, description: 'Data storage and management' },
-        { id: 'payments', name: 'Payments', icon: ShoppingCart, count: 1, description: 'Payment processing and billing' },
-        { id: 'communications', name: 'Communications', icon: MessageSquare, count: 1, description: 'Messaging and communications' },
-        { id: 'media', name: 'Media', icon: Camera, count: 1, description: 'Image and video management' },
-        { id: 'authentication', name: 'Authentication', icon: Shield, count: 1, description: 'User authentication and security' },
-        { id: 'analytics', name: 'Analytics', icon: BarChart3, count: 0, description: 'Data analytics and tracking' }
+        {
+          id: 'all',
+          name: 'All Integrations',
+          icon: Code,
+          count: mockIntegrations.length,
+          description: 'Browse all available integrations',
+        },
+        {
+          id: 'ai',
+          name: 'AI & ML',
+          icon: Zap,
+          count: 1,
+          description: 'Artificial intelligence and machine learning',
+        },
+        {
+          id: 'database',
+          name: 'Databases',
+          icon: Database,
+          count: 1,
+          description: 'Data storage and management',
+        },
+        {
+          id: 'payments',
+          name: 'Payments',
+          icon: ShoppingCart,
+          count: 1,
+          description: 'Payment processing and billing',
+        },
+        {
+          id: 'communications',
+          name: 'Communications',
+          icon: MessageSquare,
+          count: 1,
+          description: 'Messaging and communications',
+        },
+        {
+          id: 'media',
+          name: 'Media',
+          icon: Camera,
+          count: 1,
+          description: 'Image and video management',
+        },
+        {
+          id: 'authentication',
+          name: 'Authentication',
+          icon: Shield,
+          count: 1,
+          description: 'User authentication and security',
+        },
+        {
+          id: 'analytics',
+          name: 'Analytics',
+          icon: BarChart3,
+          count: 0,
+          description: 'Data analytics and tracking',
+        },
       ];
 
       setIntegrations(mockIntegrations);
@@ -239,16 +317,16 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
   const handleInstall = async (integration: Integration) => {
     try {
       // Mock installation process
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      setIntegrations(prev => 
-        prev.map(int => 
-          int.id === integration.id 
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      setIntegrations((prev) =>
+        prev.map((int) =>
+          int.id === integration.id
             ? { ...int, isInstalled: true, installs: int.installs + 1 }
             : int
         )
       );
-      
+
       toast.success(`${integration.name} installed successfully!`);
       onInstall?.(integration.id);
     } catch (error) {
@@ -258,14 +336,10 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
 
   const handleUninstall = async (integration: Integration) => {
     try {
-      setIntegrations(prev => 
-        prev.map(int => 
-          int.id === integration.id 
-            ? { ...int, isInstalled: false }
-            : int
-        )
+      setIntegrations((prev) =>
+        prev.map((int) => (int.id === integration.id ? { ...int, isInstalled: false } : int))
       );
-      
+
       toast.success(`${integration.name} uninstalled successfully!`);
       onUninstall?.(integration.id);
     } catch (error) {
@@ -273,18 +347,20 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
     }
   };
 
-  const filteredIntegrations = integrations.filter(integration => {
-    const matchesSearch = integration.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         integration.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         integration.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-    
+  const filteredIntegrations = integrations.filter((integration) => {
+    const matchesSearch =
+      integration.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      integration.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      integration.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
     const matchesCategory = selectedCategory === 'all' || integration.category === selectedCategory;
-    
-    const matchesFilter = filterBy === 'all' || 
-                         (filterBy === 'installed' && integration.isInstalled) ||
-                         (filterBy === 'popular' && integration.isPopular) ||
-                         (filterBy === 'new' && integration.isNew);
-    
+
+    const matchesFilter =
+      filterBy === 'all' ||
+      (filterBy === 'installed' && integration.isInstalled) ||
+      (filterBy === 'popular' && integration.isPopular) ||
+      (filterBy === 'new' && integration.isNew);
+
     return matchesSearch && matchesCategory && matchesFilter;
   });
 
@@ -317,7 +393,9 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold">Integration Marketplace</h2>
-            <p className="text-muted-foreground">Discover and install integrations to extend your applications</p>
+            <p className="text-muted-foreground">
+              Discover and install integrations to extend your applications
+            </p>
           </div>
           <Button className="ff-btn-primary">
             <Plus className="h-4 w-4 mr-2" />
@@ -371,7 +449,9 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
           <TabsTrigger value="discover">Discover</TabsTrigger>
-          <TabsTrigger value="installed">Installed ({integrations.filter(i => i.isInstalled).length})</TabsTrigger>
+          <TabsTrigger value="installed">
+            Installed ({integrations.filter((i) => i.isInstalled).length})
+          </TabsTrigger>
           <TabsTrigger value="categories">Categories</TabsTrigger>
         </TabsList>
 
@@ -391,7 +471,9 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
                   <Icon className="h-4 w-4 mr-2" />
                   {category.name}
                   {category.count > 0 && (
-                    <Badge variant="secondary" className="ml-2">{category.count}</Badge>
+                    <Badge variant="secondary" className="ml-2">
+                      {category.count}
+                    </Badge>
                   )}
                 </Button>
               );
@@ -427,14 +509,28 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
                         </div>
                       </div>
                       <div className="flex flex-col items-end gap-1">
-                        {integration.isPopular && <Badge variant="secondary" className="text-xs">Popular</Badge>}
-                        {integration.isNew && <Badge variant="outline" className="text-xs">New</Badge>}
-                        <Badge variant={
-                          integration.price === 'free' ? 'secondary' :
-                          integration.price === 'premium' ? 'default' :
-                          'destructive'
-                        }>
-                          {integration.price === 'paid' ? `$${integration.priceAmount}/mo` : integration.price}
+                        {integration.isPopular && (
+                          <Badge variant="secondary" className="text-xs">
+                            Popular
+                          </Badge>
+                        )}
+                        {integration.isNew && (
+                          <Badge variant="outline" className="text-xs">
+                            New
+                          </Badge>
+                        )}
+                        <Badge
+                          variant={
+                            integration.price === 'free'
+                              ? 'secondary'
+                              : integration.price === 'premium'
+                                ? 'default'
+                                : 'destructive'
+                          }
+                        >
+                          {integration.price === 'paid'
+                            ? `$${integration.priceAmount}/mo`
+                            : integration.price}
                         </Badge>
                       </div>
                     </div>
@@ -458,16 +554,18 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
 
                       <div className="flex flex-wrap gap-1">
                         {integration.tags.slice(0, 3).map((tag) => (
-                          <Badge key={tag} variant="outline" className="text-xs">{tag}</Badge>
+                          <Badge key={tag} variant="outline" className="text-xs">
+                            {tag}
+                          </Badge>
                         ))}
                       </div>
 
                       <div className="flex gap-2">
                         <Dialog>
                           <DialogTrigger asChild>
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
+                            <Button
+                              variant="outline"
+                              size="sm"
                               className="flex-1"
                               onClick={() => setSelectedIntegration(integration)}
                             >
@@ -485,7 +583,9 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
                               <div className="space-y-6 pr-4">
                                 <div>
                                   <h3 className="font-semibold mb-2">Description</h3>
-                                  <p className="text-muted-foreground">{integration.longDescription}</p>
+                                  <p className="text-muted-foreground">
+                                    {integration.longDescription}
+                                  </p>
                                 </div>
 
                                 <div>
@@ -520,7 +620,9 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
                                       </div>
                                       <div className="flex justify-between">
                                         <span>Last Updated:</span>
-                                        <span>{new Date(integration.lastUpdated).toLocaleDateString()}</span>
+                                        <span>
+                                          {new Date(integration.lastUpdated).toLocaleDateString()}
+                                        </span>
                                       </div>
                                     </div>
                                   </div>
@@ -529,7 +631,11 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
                                     <h3 className="font-semibold mb-2">Supported Platforms</h3>
                                     <div className="flex flex-wrap gap-1">
                                       {integration.supportedPlatforms.map((platform) => (
-                                        <Badge key={platform} variant="secondary" className="text-xs">
+                                        <Badge
+                                          key={platform}
+                                          variant="secondary"
+                                          className="text-xs"
+                                        >
                                           {platform}
                                         </Badge>
                                       ))}
@@ -542,15 +648,15 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
                         </Dialog>
 
                         {integration.isInstalled ? (
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
                             onClick={() => handleUninstall(integration)}
                           >
                             Uninstall
                           </Button>
                         ) : (
-                          <Button 
+                          <Button
                             size="sm"
                             onClick={() => handleInstall(integration)}
                             className="ff-btn-primary"
@@ -569,35 +675,37 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
 
         <TabsContent value="installed" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {integrations.filter(i => i.isInstalled).map((integration) => {
-              const Icon = integration.icon;
-              return (
-                <Card key={integration.id} className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <Icon className="h-8 w-8 text-primary" />
-                      <div>
-                        <h3 className="font-semibold">{integration.name}</h3>
-                        <p className="text-sm text-muted-foreground">v{integration.version}</p>
+            {integrations
+              .filter((i) => i.isInstalled)
+              .map((integration) => {
+                const Icon = integration.icon;
+                return (
+                  <Card key={integration.id} className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <Icon className="h-8 w-8 text-primary" />
+                        <div>
+                          <h3 className="font-semibold">{integration.name}</h3>
+                          <p className="text-sm text-muted-foreground">v{integration.version}</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button variant="outline" size="sm">
+                          <Settings className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleUninstall(integration)}
+                        >
+                          Uninstall
+                        </Button>
                       </div>
                     </div>
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm">
-                        <Settings className="h-4 w-4" />
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => handleUninstall(integration)}
-                      >
-                        Uninstall
-                      </Button>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground">{integration.description}</p>
-                </Card>
-              );
-            })}
+                    <p className="text-sm text-muted-foreground">{integration.description}</p>
+                  </Card>
+                );
+              })}
           </div>
         </TabsContent>
 
@@ -606,8 +714,8 @@ export function IntegrationMarketplace({ onInstall, onUninstall }: IntegrationMa
             {categories.slice(1).map((category) => {
               const Icon = category.icon;
               return (
-                <Card 
-                  key={category.id} 
+                <Card
+                  key={category.id}
                   className="p-6 cursor-pointer hover:shadow-lg transition-all duration-300 hover:border-primary/20"
                   onClick={() => {
                     setSelectedCategory(category.id);

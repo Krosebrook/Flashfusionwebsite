@@ -4,10 +4,10 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Brain, 
-  CheckCircle, 
-  AlertTriangle, 
+import {
+  Brain,
+  CheckCircle,
+  AlertTriangle,
   XCircle,
   RefreshCw,
   Shield,
@@ -32,7 +32,7 @@ import {
   Activity,
   Star,
   ThumbsUp,
-  ThumbsDown
+  ThumbsDown,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -97,7 +97,7 @@ export function AIOutputValidator() {
     approvedOutputs: 1089,
     flaggedOutputs: 158,
     averageConfidence: 92,
-    biasScore: 15
+    biasScore: 15,
   });
 
   // Initialize data
@@ -107,7 +107,8 @@ export function AIOutputValidator() {
         id: 'validation-1',
         modelName: 'GPT-4',
         outputType: 'text',
-        content: 'Product description for Creator Commerce platform focusing on empowering content creators...',
+        content:
+          'Product description for Creator Commerce platform focusing on empowering content creators...',
         qualityScore: 94,
         confidenceLevel: 96,
         biasDetection: 8,
@@ -119,7 +120,7 @@ export function AIOutputValidator() {
         issues: [],
         recommendations: ['Consider adding more specific metrics'],
         usage: 'Product Marketing',
-        approvalStatus: 'approved'
+        approvalStatus: 'approved',
       },
       {
         id: 'validation-2',
@@ -135,9 +136,12 @@ export function AIOutputValidator() {
         lastValidation: '5 minutes ago',
         status: 'good',
         issues: ['Minor type safety concerns'],
-        recommendations: ['Add more comprehensive error handling', 'Improve accessibility features'],
+        recommendations: [
+          'Add more comprehensive error handling',
+          'Improve accessibility features',
+        ],
         usage: 'Code Generation',
-        approvalStatus: 'approved'
+        approvalStatus: 'approved',
       },
       {
         id: 'validation-3',
@@ -155,7 +159,7 @@ export function AIOutputValidator() {
         issues: ['Potential cultural bias in design elements', 'Brand consistency concerns'],
         recommendations: ['Review cultural sensitivity', 'Align with brand guidelines'],
         usage: 'Brand Design',
-        approvalStatus: 'review_required'
+        approvalStatus: 'review_required',
       },
       {
         id: 'validation-4',
@@ -173,8 +177,8 @@ export function AIOutputValidator() {
         issues: ['Some technical jargon could be simplified'],
         recommendations: ['Add more examples', 'Include troubleshooting section'],
         usage: 'Documentation',
-        approvalStatus: 'pending'
-      }
+        approvalStatus: 'pending',
+      },
     ];
 
     const initialModels: AIModel[] = [
@@ -188,7 +192,7 @@ export function AIOutputValidator() {
         totalOutputs: 456,
         averageQuality: 91,
         lastUsed: '1 minute ago',
-        status: 'active'
+        status: 'active',
       },
       {
         id: 'claude-3',
@@ -200,7 +204,7 @@ export function AIOutputValidator() {
         totalOutputs: 298,
         averageQuality: 89,
         lastUsed: '3 minutes ago',
-        status: 'active'
+        status: 'active',
       },
       {
         id: 'dall-e-3',
@@ -212,7 +216,7 @@ export function AIOutputValidator() {
         totalOutputs: 89,
         averageQuality: 82,
         lastUsed: '8 minutes ago',
-        status: 'testing'
+        status: 'testing',
       },
       {
         id: 'codex',
@@ -224,8 +228,8 @@ export function AIOutputValidator() {
         totalOutputs: 234,
         averageQuality: 86,
         lastUsed: '15 minutes ago',
-        status: 'active'
-      }
+        status: 'active',
+      },
     ];
 
     const initialBiasAnalysis: BiasAnalysis[] = [
@@ -234,22 +238,25 @@ export function AIOutputValidator() {
         score: 12,
         examples: ['Use of gendered language in role descriptions'],
         severity: 'low',
-        recommendations: ['Use inclusive language patterns', 'Review gendered assumptions']
+        recommendations: ['Use inclusive language patterns', 'Review gendered assumptions'],
       },
       {
         category: 'Cultural Bias',
         score: 18,
-        examples: ['Western-centric examples in documentation', 'Limited cultural representation in designs'],
+        examples: [
+          'Western-centric examples in documentation',
+          'Limited cultural representation in designs',
+        ],
         severity: 'medium',
-        recommendations: ['Include diverse cultural perspectives', 'Test with global audiences']
+        recommendations: ['Include diverse cultural perspectives', 'Test with global audiences'],
       },
       {
         category: 'Technical Bias',
         score: 8,
         examples: ['Assumption of advanced technical knowledge'],
         severity: 'low',
-        recommendations: ['Provide beginner-friendly explanations', 'Include glossary terms']
-      }
+        recommendations: ['Provide beginner-friendly explanations', 'Include glossary terms'],
+      },
     ];
 
     setValidationResults(initialResults);
@@ -263,20 +270,22 @@ export function AIOutputValidator() {
 
     // Simulate validation process
     for (let i = 0; i <= 100; i += 3) {
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       setValidationProgress(i);
     }
 
     // Update some results after validation
-    setValidationResults(prev => prev.map(result => ({
-      ...result,
-      lastValidation: 'just now',
-      qualityScore: Math.min(100, result.qualityScore + Math.floor(Math.random() * 6) - 2)
-    })));
+    setValidationResults((prev) =>
+      prev.map((result) => ({
+        ...result,
+        lastValidation: 'just now',
+        qualityScore: Math.min(100, result.qualityScore + Math.floor(Math.random() * 6) - 2),
+      }))
+    );
 
-    setQualityMetrics(prev => ({
+    setQualityMetrics((prev) => ({
       ...prev,
-      overallQuality: Math.min(100, prev.overallQuality + Math.floor(Math.random() * 4) - 1)
+      overallQuality: Math.min(100, prev.overallQuality + Math.floor(Math.random() * 4) - 1),
     }));
 
     setIsRunningValidation(false);
@@ -325,14 +334,18 @@ export function AIOutputValidator() {
     return 'text-red-500';
   };
 
-  const excellentOutputs = validationResults.filter(result => result.status === 'excellent').length;
-  const warningOutputs = validationResults.filter(result => result.status === 'warning' || result.status === 'poor').length;
+  const excellentOutputs = validationResults.filter(
+    (result) => result.status === 'excellent'
+  ).length;
+  const warningOutputs = validationResults.filter(
+    (result) => result.status === 'warning' || result.status === 'poor'
+  ).length;
   const averageBias = biasAnalysis.reduce((sum, bias) => sum + bias.score, 0) / biasAnalysis.length;
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Header */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -342,12 +355,13 @@ export function AIOutputValidator() {
           <h1 className="ff-text-gradient">AI Output Validator</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Comprehensive quality assurance for AI-generated content with bias detection, factual accuracy scoring, and automated approval workflows.
+          Comprehensive quality assurance for AI-generated content with bias detection, factual
+          accuracy scoring, and automated approval workflows.
         </p>
       </motion.div>
 
       {/* Quality Metrics Overview */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
@@ -358,14 +372,17 @@ export function AIOutputValidator() {
             <div className="flex items-center space-x-4">
               <div className="relative">
                 <div className="w-16 h-16 rounded-full border-4 border-primary/20 flex items-center justify-center">
-                  <span className={`text-2xl font-bold ${getScoreColor(qualityMetrics.overallQuality)}`}>
+                  <span
+                    className={`text-2xl font-bold ${getScoreColor(qualityMetrics.overallQuality)}`}
+                  >
                     {qualityMetrics.overallQuality}
                   </span>
                 </div>
-                <div className="absolute inset-0 rounded-full border-4 border-primary" 
-                     style={{ 
-                       background: `conic-gradient(from 0deg, var(--ff-primary) 0deg, var(--ff-primary) ${qualityMetrics.overallQuality * 3.6}deg, transparent ${qualityMetrics.overallQuality * 3.6}deg)`
-                     }}
+                <div
+                  className="absolute inset-0 rounded-full border-4 border-primary"
+                  style={{
+                    background: `conic-gradient(from 0deg, var(--ff-primary) 0deg, var(--ff-primary) ${qualityMetrics.overallQuality * 3.6}deg, transparent ${qualityMetrics.overallQuality * 3.6}deg)`,
+                  }}
                 />
               </div>
               <div>
@@ -420,7 +437,9 @@ export function AIOutputValidator() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Confidence</p>
-                <p className="text-2xl font-bold text-secondary">{qualityMetrics.averageConfidence}%</p>
+                <p className="text-2xl font-bold text-secondary">
+                  {qualityMetrics.averageConfidence}%
+                </p>
               </div>
               <Target className="w-8 h-8 text-secondary" />
             </div>
@@ -457,8 +476,8 @@ export function AIOutputValidator() {
         transition={{ delay: 0.2 }}
         className="flex flex-wrap gap-4"
       >
-        <Button 
-          onClick={runAIValidation} 
+        <Button
+          onClick={runAIValidation}
           disabled={isRunningValidation}
           className="ff-btn-primary"
           size="lg"
@@ -553,28 +572,33 @@ export function AIOutputValidator() {
                             <div className="flex items-center space-x-3 mb-2">
                               {getStatusIcon(result.status)}
                               <h4 className="font-medium">{result.modelName}</h4>
-                              <Badge variant="outline">
-                                {result.outputType.toUpperCase()}
-                              </Badge>
-                              <Badge className={
-                                result.approvalStatus === 'approved' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
-                                result.approvalStatus === 'pending' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
-                                result.approvalStatus === 'review_required' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' :
-                                'bg-red-500/10 text-red-500 border-red-500/20'
-                              }>
+                              <Badge variant="outline">{result.outputType.toUpperCase()}</Badge>
+                              <Badge
+                                className={
+                                  result.approvalStatus === 'approved'
+                                    ? 'bg-green-500/10 text-green-500 border-green-500/20'
+                                    : result.approvalStatus === 'pending'
+                                      ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'
+                                      : result.approvalStatus === 'review_required'
+                                        ? 'bg-orange-500/10 text-orange-500 border-orange-500/20'
+                                        : 'bg-red-500/10 text-red-500 border-red-500/20'
+                                }
+                              >
                                 {result.approvalStatus.replace('_', ' ').toUpperCase()}
                               </Badge>
                             </div>
                             <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
                               {result.content}
                             </p>
-                            
+
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                               <div className="space-y-1">
                                 <p className="text-xs text-muted-foreground">Quality</p>
                                 <div className="flex items-center space-x-2">
                                   <Progress value={result.qualityScore} className="h-2 flex-1" />
-                                  <span className={`text-sm font-medium ${getScoreColor(result.qualityScore)}`}>
+                                  <span
+                                    className={`text-sm font-medium ${getScoreColor(result.qualityScore)}`}
+                                  >
                                     {result.qualityScore}
                                   </span>
                                 </div>
@@ -583,7 +607,9 @@ export function AIOutputValidator() {
                                 <p className="text-xs text-muted-foreground">Confidence</p>
                                 <div className="flex items-center space-x-2">
                                   <Progress value={result.confidenceLevel} className="h-2 flex-1" />
-                                  <span className={`text-sm font-medium ${getScoreColor(result.confidenceLevel)}`}>
+                                  <span
+                                    className={`text-sm font-medium ${getScoreColor(result.confidenceLevel)}`}
+                                  >
                                     {result.confidenceLevel}
                                   </span>
                                 </div>
@@ -592,7 +618,9 @@ export function AIOutputValidator() {
                                 <p className="text-xs text-muted-foreground">Accuracy</p>
                                 <div className="flex items-center space-x-2">
                                   <Progress value={result.factualAccuracy} className="h-2 flex-1" />
-                                  <span className={`text-sm font-medium ${getScoreColor(result.factualAccuracy)}`}>
+                                  <span
+                                    className={`text-sm font-medium ${getScoreColor(result.factualAccuracy)}`}
+                                  >
                                     {result.factualAccuracy}
                                   </span>
                                 </div>
@@ -600,8 +628,13 @@ export function AIOutputValidator() {
                               <div className="space-y-1">
                                 <p className="text-xs text-muted-foreground">Bias Risk</p>
                                 <div className="flex items-center space-x-2">
-                                  <Progress value={100 - result.biasDetection} className="h-2 flex-1" />
-                                  <span className={`text-sm font-medium ${result.biasDetection < 20 ? 'text-green-500' : result.biasDetection < 40 ? 'text-yellow-500' : 'text-red-500'}`}>
+                                  <Progress
+                                    value={100 - result.biasDetection}
+                                    className="h-2 flex-1"
+                                  />
+                                  <span
+                                    className={`text-sm font-medium ${result.biasDetection < 20 ? 'text-green-500' : result.biasDetection < 40 ? 'text-yellow-500' : 'text-red-500'}`}
+                                  >
                                     {result.biasDetection}
                                   </span>
                                 </div>
@@ -610,7 +643,9 @@ export function AIOutputValidator() {
 
                             {result.issues.length > 0 && (
                               <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg mb-3">
-                                <p className="text-sm font-medium text-yellow-600 dark:text-yellow-400 mb-1">Issues Found:</p>
+                                <p className="text-sm font-medium text-yellow-600 dark:text-yellow-400 mb-1">
+                                  Issues Found:
+                                </p>
                                 <ul className="text-sm space-y-1">
                                   {result.issues.map((issue, idx) => (
                                     <li key={idx} className="flex items-start space-x-2">
@@ -623,11 +658,13 @@ export function AIOutputValidator() {
                             )}
 
                             <div className="flex items-center justify-between text-sm text-muted-foreground">
-                              <span>Usage: {result.usage} • Last validated: {result.lastValidation}</span>
+                              <span>
+                                Usage: {result.usage} • Last validated: {result.lastValidation}
+                              </span>
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="flex space-x-2">
                           <Button size="sm" variant="outline">
                             <Eye className="w-3 h-3 mr-1" />
@@ -669,10 +706,20 @@ export function AIOutputValidator() {
                           <Brain className="w-5 h-5 text-primary" />
                           <div>
                             <h4 className="font-medium">{model.name}</h4>
-                            <p className="text-sm text-muted-foreground">{model.provider} • v{model.version}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {model.provider} • v{model.version}
+                            </p>
                           </div>
                         </div>
-                        <Badge variant={model.status === 'active' ? "outline" : model.status === 'testing' ? "secondary" : "destructive"}>
+                        <Badge
+                          variant={
+                            model.status === 'active'
+                              ? 'outline'
+                              : model.status === 'testing'
+                                ? 'secondary'
+                                : 'destructive'
+                          }
+                        >
                           {model.status.toUpperCase()}
                         </Badge>
                       </div>
@@ -685,7 +732,7 @@ export function AIOutputValidator() {
                           </span>
                         </div>
                         <Progress value={model.trustScore} className="h-2" />
-                        
+
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
                             <span className="text-muted-foreground">Outputs:</span>
@@ -729,29 +776,39 @@ export function AIOutputValidator() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className={`ff-card-interactive ${
-                    bias.severity === 'high' ? 'border-red-500/20 bg-red-500/5' :
-                    bias.severity === 'medium' ? 'border-yellow-500/20 bg-yellow-500/5' :
-                    'border-green-500/20 bg-green-500/5'
-                  }`}>
+                  <Card
+                    className={`ff-card-interactive ${
+                      bias.severity === 'high'
+                        ? 'border-red-500/20 bg-red-500/5'
+                        : bias.severity === 'medium'
+                          ? 'border-yellow-500/20 bg-yellow-500/5'
+                          : 'border-green-500/20 bg-green-500/5'
+                    }`}
+                  >
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
                           <div className="flex items-center space-x-3 mb-2">
                             <h4 className="font-medium">{bias.category}</h4>
-                            <Badge className={
-                              bias.severity === 'high' ? 'bg-red-500/10 text-red-500 border-red-500/20' :
-                              bias.severity === 'medium' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
-                              'bg-green-500/10 text-green-500 border-green-500/20'
-                            }>
+                            <Badge
+                              className={
+                                bias.severity === 'high'
+                                  ? 'bg-red-500/10 text-red-500 border-red-500/20'
+                                  : bias.severity === 'medium'
+                                    ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'
+                                    : 'bg-green-500/10 text-green-500 border-green-500/20'
+                              }
+                            >
                               {bias.severity.toUpperCase()} RISK
                             </Badge>
                           </div>
-                          
+
                           <div className="space-y-2 mb-4">
                             <div className="flex justify-between text-sm">
                               <span className="text-muted-foreground">Bias Score:</span>
-                              <span className={`font-medium ${bias.score < 20 ? 'text-green-500' : bias.score < 40 ? 'text-yellow-500' : 'text-red-500'}`}>
+                              <span
+                                className={`font-medium ${bias.score < 20 ? 'text-green-500' : bias.score < 40 ? 'text-yellow-500' : 'text-red-500'}`}
+                              >
                                 {bias.score}%
                               </span>
                             </div>
@@ -784,7 +841,7 @@ export function AIOutputValidator() {
                             </div>
                           </div>
                         </div>
-                        
+
                         <Button size="sm" className="ff-btn-primary">
                           <Zap className="w-3 h-3 mr-1" />
                           Mitigate

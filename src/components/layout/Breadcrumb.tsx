@@ -19,7 +19,7 @@ const pageLabels: Record<PageType, string> = {
   privacy: 'Privacy Policy',
   terms: 'Terms of Service',
   demo: 'Demo',
-  
+
   // Protected pages
   dashboard: 'Dashboard',
   projects: 'Projects',
@@ -33,7 +33,7 @@ const pageLabels: Record<PageType, string> = {
   cicd: 'CI/CD Pipeline',
   subscription: 'Subscription',
   'launch-campaign': 'Launch Campaign',
-  
+
   // Design System pages
   'agent-dashboard': 'Agent Dashboard',
   'workflow-pipeline': 'Workflow Pipeline',
@@ -43,17 +43,17 @@ const pageLabels: Record<PageType, string> = {
   'mobile-agents': 'Mobile Agents',
   notifications: 'Notifications',
   'automation-flow': 'Automation Flow',
-  
+
   // Market Differentiator pages
   'content-rights': 'Content Rights Manager',
   'ai-trust': 'AI Trust & Verification',
   'wellness-monitor': 'AI Wellness Monitor',
   'no-code-workflows': 'No-Code Workflows',
   'security-dashboard': 'Security Dashboard',
-  
+
   // Tool pages
   tools: 'AI Tools',
-  'tool-detail': 'Tool Details'
+  'tool-detail': 'Tool Details',
 };
 
 export function Breadcrumb({ currentPage }: BreadcrumbProps) {
@@ -62,7 +62,8 @@ export function Breadcrumb({ currentPage }: BreadcrumbProps) {
   }
 
   // Get the page label, fallback to route title if not in our mapping
-  const pageLabel = pageLabels[currentPage] || getPageTitle(currentPage).replace(' - FlashFusion', '');
+  const pageLabel =
+    pageLabels[currentPage] || getPageTitle(currentPage).replace(' - FlashFusion', '');
 
   return (
     <nav className="ff-breadcrumb">

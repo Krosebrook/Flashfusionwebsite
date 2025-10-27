@@ -4,7 +4,7 @@
  * @category demo
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Dedicated demo page showcasing the interactive pricing dropdown menus
  * and FAQ accordion system with full functionality.
  */
@@ -17,7 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { PricingDropdownMenu } from '../pricing/PricingDropdownMenu';
 import { FAQDropdownSection } from '../faq/FAQDropdownSection';
 import { ContactSupportSystem } from '../support/ContactSupportSystem';
-import { 
+import {
   Crown,
   HelpCircle,
   Sparkles,
@@ -29,7 +29,7 @@ import {
   Code,
   MousePointer,
   Smartphone,
-  Monitor
+  Monitor,
 } from 'lucide-react';
 
 interface PricingFAQDemoPageProps {
@@ -43,9 +43,9 @@ export function PricingFAQDemoPage({ onBack }: PricingFAQDemoPageProps) {
   const [isPromotionalMode, setIsPromotionalMode] = useState(true);
 
   const addInteraction = (interaction: string) => {
-    setInteractions(prev => [
+    setInteractions((prev) => [
       `${new Date().toLocaleTimeString()}: ${interaction}`,
-      ...prev.slice(0, 9) // Keep last 10 interactions
+      ...prev.slice(0, 9), // Keep last 10 interactions
     ]);
   };
 
@@ -66,23 +66,23 @@ export function PricingFAQDemoPage({ onBack }: PricingFAQDemoPageProps) {
     {
       icon: <MousePointer className="w-5 h-5" />,
       title: 'Hover & Click Interactions',
-      description: 'Dropdown menus respond to both hover and click events'
+      description: 'Dropdown menus respond to both hover and click events',
     },
     {
       icon: <Eye className="w-5 h-5" />,
       title: 'Visual Feedback',
-      description: 'Smooth animations and visual cues for better UX'
+      description: 'Smooth animations and visual cues for better UX',
     },
     {
       icon: <Smartphone className="w-5 h-5" />,
       title: 'Mobile Optimized',
-      description: 'Touch-friendly interfaces that work across all devices'
+      description: 'Touch-friendly interfaces that work across all devices',
     },
     {
       icon: <Settings className="w-5 h-5" />,
       title: 'Configurable Options',
-      description: 'Customizable pricing tiers and FAQ categories'
-    }
+      description: 'Customizable pricing tiers and FAQ categories',
+    },
   ];
 
   return (
@@ -109,7 +109,7 @@ export function PricingFAQDemoPage({ onBack }: PricingFAQDemoPageProps) {
               </p>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-3">
             <Badge className="ff-badge-primary">
               <Sparkles className="w-3 h-3 mr-1" />
@@ -142,16 +142,19 @@ export function PricingFAQDemoPage({ onBack }: PricingFAQDemoPageProps) {
                 <label className="ff-text-caption font-semibold text-[var(--ff-text-primary)]">
                   Active Demo Component
                 </label>
-                <Tabs value={selectedDemo} onValueChange={(value) => setSelectedDemo(value as 'pricing' | 'faq')}>
+                <Tabs
+                  value={selectedDemo}
+                  onValueChange={(value) => setSelectedDemo(value as 'pricing' | 'faq')}
+                >
                   <TabsList className="grid grid-cols-2 bg-[var(--ff-surface-light)]">
-                    <TabsTrigger 
+                    <TabsTrigger
                       value="pricing"
                       className="data-[state=active]:bg-[var(--ff-primary)] data-[state=active]:text-white"
                     >
                       <Crown className="w-4 h-4 mr-2" />
                       Pricing
                     </TabsTrigger>
-                    <TabsTrigger 
+                    <TabsTrigger
                       value="faq"
                       className="data-[state=active]:bg-[var(--ff-primary)] data-[state=active]:text-white"
                     >
@@ -170,9 +173,13 @@ export function PricingFAQDemoPage({ onBack }: PricingFAQDemoPageProps) {
                 <div className="flex items-center gap-4">
                   <Button
                     size="sm"
-                    variant={isPromotionalMode ? "default" : "outline"}
+                    variant={isPromotionalMode ? 'default' : 'outline'}
                     onClick={() => setIsPromotionalMode(!isPromotionalMode)}
-                    className={isPromotionalMode ? 'ff-btn-primary' : 'border-[var(--border)] text-[var(--ff-text-primary)]'}
+                    className={
+                      isPromotionalMode
+                        ? 'ff-btn-primary'
+                        : 'border-[var(--border)] text-[var(--ff-text-primary)]'
+                    }
                   >
                     {isPromotionalMode ? 'Promotional ON' : 'Promotional OFF'}
                   </Button>
@@ -196,7 +203,10 @@ export function PricingFAQDemoPage({ onBack }: PricingFAQDemoPageProps) {
                 </h4>
                 <div className="space-y-1 max-h-32 overflow-y-auto">
                   {interactions.map((interaction, index) => (
-                    <div key={index} className="text-sm text-[var(--ff-text-secondary)] ff-text-code">
+                    <div
+                      key={index}
+                      className="text-sm text-[var(--ff-text-secondary)] ff-text-code"
+                    >
                       {interaction}
                     </div>
                   ))}
@@ -240,8 +250,8 @@ export function PricingFAQDemoPage({ onBack }: PricingFAQDemoPageProps) {
                     <h2 className="ff-text-headline text-2xl">Interactive Pricing Demo</h2>
                   </div>
                   <p className="text-[var(--ff-text-secondary)] ff-text-body max-w-2xl mx-auto">
-                    Hover over or click on any pricing card to explore billing options, features, and add-ons. 
-                    Each interaction will be logged above for demonstration purposes.
+                    Hover over or click on any pricing card to explore billing options, features,
+                    and add-ons. Each interaction will be logged above for demonstration purposes.
                   </p>
                 </div>
 
@@ -259,8 +269,8 @@ export function PricingFAQDemoPage({ onBack }: PricingFAQDemoPageProps) {
                     <h2 className="ff-text-headline text-2xl">Interactive FAQ Demo</h2>
                   </div>
                   <p className="text-[var(--ff-text-secondary)] ff-text-body max-w-2xl mx-auto">
-                    Search through questions, filter by category, and expand answers. 
-                    Vote on helpfulness and explore related resources for each question.
+                    Search through questions, filter by category, and expand answers. Vote on
+                    helpfulness and explore related resources for each question.
                   </p>
                 </div>
 
@@ -298,10 +308,10 @@ export function PricingFAQDemoPage({ onBack }: PricingFAQDemoPageProps) {
               <span>TypeScript + React</span>
             </div>
           </div>
-          
+
           <p className="text-[var(--ff-text-muted)] ff-text-caption max-w-2xl mx-auto">
-            These components use modern React patterns with TypeScript for type safety, 
-            Tailwind CSS for styling, and our FlashFusion design system for consistent theming.
+            These components use modern React patterns with TypeScript for type safety, Tailwind CSS
+            for styling, and our FlashFusion design system for consistent theming.
           </p>
         </div>
       </div>

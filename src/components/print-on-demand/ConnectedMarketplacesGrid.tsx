@@ -11,9 +11,9 @@ interface ConnectedMarketplacesGridProps {
   onConnect: (marketplaceId: string) => void;
 }
 
-export function ConnectedMarketplacesGrid({ 
-  connectedMarketplaces, 
-  onConnect 
+export function ConnectedMarketplacesGrid({
+  connectedMarketplaces,
+  onConnect,
 }: ConnectedMarketplacesGridProps) {
   return (
     <Card className="p-6">
@@ -31,33 +31,35 @@ export function ConnectedMarketplacesGrid({
           >
             <div className="flex flex-col items-center space-y-3">
               <div className="relative">
-                <Globe className={`h-8 w-8 ${
-                  connectedMarketplaces[key] ? 'text-green-500' : 'text-muted-foreground'
-                }`} />
+                <Globe
+                  className={`h-8 w-8 ${
+                    connectedMarketplaces[key] ? 'text-green-500' : 'text-muted-foreground'
+                  }`}
+                />
                 {connectedMarketplaces[key] && (
                   <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full animate-pulse" />
                 )}
               </div>
-              
+
               <div className="text-center">
                 <span className="text-sm font-medium block">{marketplace.name}</span>
                 <span className="text-xs text-muted-foreground">{marketplace.category}</span>
               </div>
-              
-              <Badge 
+
+              <Badge
                 variant={connectedMarketplaces[key] ? 'default' : 'secondary'}
                 className={connectedMarketplaces[key] ? 'bg-green-500/20 text-green-400' : ''}
               >
                 {connectedMarketplaces[key] ? 'Connected' : 'Available'}
               </Badge>
-              
+
               {connectedMarketplaces[key] && (
                 <div className="text-xs text-center space-y-1">
                   <div className="text-muted-foreground">Commission: {marketplace.commission}%</div>
                   <div className="flex flex-wrap gap-1 justify-center">
                     {marketplace.features.slice(0, 2).map((feature) => (
-                      <span 
-                        key={feature} 
+                      <span
+                        key={feature}
                         className="px-1 py-0.5 bg-primary/10 text-primary rounded text-xs"
                       >
                         {feature.replace('_', ' ')}
@@ -66,11 +68,11 @@ export function ConnectedMarketplacesGrid({
                   </div>
                 </div>
               )}
-              
+
               {!connectedMarketplaces[key] && (
-                <Button 
-                  size="sm" 
-                  variant="outline" 
+                <Button
+                  size="sm"
+                  variant="outline"
                   className="w-full text-xs h-7"
                   onClick={(e) => {
                     e.stopPropagation();

@@ -4,7 +4,7 @@
  * @category components
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Interactive demonstration of the completed Phase 1 Business Intelligence Layer
  * showcasing the comprehensive SaaS pricing wireframes and user persona matrix.
  */
@@ -13,11 +13,11 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import { 
-  CheckCircle, 
-  ExternalLink, 
-  Users, 
-  DollarSign, 
+import {
+  CheckCircle,
+  ExternalLink,
+  Users,
+  DollarSign,
   BarChart3,
   ArrowRight,
   Target,
@@ -26,12 +26,12 @@ import {
   Award,
   TrendingUp,
   Eye,
-  MousePointer
+  MousePointer,
 } from 'lucide-react';
 
 /**
  * Phase 1 Business Intelligence Demo Component
- * 
+ *
  * Provides quick access and overview of the completed Business Intelligence Layer
  */
 export function Phase1BusinessIntelligenceDemo() {
@@ -39,7 +39,7 @@ export function Phase1BusinessIntelligenceDemo() {
     pricingViews: 1247,
     personaViews: 892,
     conversionRate: 12.8,
-    completionStatus: 100
+    completionStatus: 100,
   });
 
   const businessIntelligenceFeatures = [
@@ -52,12 +52,12 @@ export function Phase1BusinessIntelligenceDemo() {
       access: '?app=true&page=pricing-wireframe',
       features: [
         'Starter Plan ($29/month)',
-        'Professional Plan ($79/month)', 
+        'Professional Plan ($79/month)',
         'Enterprise Plan (Custom)',
         'Live conversion metrics',
         'Annual/monthly toggle',
-        'Trust signals & guarantees'
-      ]
+        'Trust signals & guarantees',
+      ],
     },
     {
       id: 'user-personas',
@@ -72,8 +72,8 @@ export function Phase1BusinessIntelligenceDemo() {
         'Enterprise Client persona',
         'Pain points analysis',
         'Workflow visualization',
-        'Success metrics tracking'
-      ]
+        'Success metrics tracking',
+      ],
     },
     {
       id: 'analytics-tracking',
@@ -88,9 +88,9 @@ export function Phase1BusinessIntelligenceDemo() {
         'User behavior analytics',
         'Tier selection insights',
         'Performance metrics',
-        'ROI measurement'
-      ]
-    }
+        'ROI measurement',
+      ],
+    },
   ];
 
   const handleQuickAccess = (access: string) => {
@@ -108,15 +108,15 @@ export function Phase1BusinessIntelligenceDemo() {
           <CheckCircle className="w-4 h-4 mr-2" />
           Phase 1 Complete
         </Badge>
-        
+
         <h1 className="ff-text-display">
           Business Intelligence
           <span className="ff-text-gradient"> Layer</span>
         </h1>
-        
+
         <p className="ff-text-body max-w-3xl mx-auto">
-          Complete implementation of SaaS pricing optimization and user persona matrix 
-          with real-time analytics and conversion tracking capabilities.
+          Complete implementation of SaaS pricing optimization and user persona matrix with
+          real-time analytics and conversion tracking capabilities.
         </p>
       </div>
 
@@ -126,7 +126,10 @@ export function Phase1BusinessIntelligenceDemo() {
           <div className="w-10 h-10 bg-[var(--ff-primary)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
             <Eye className="w-5 h-5 text-[var(--ff-primary)]" />
           </div>
-          <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+          <div
+            className="ff-text-lg text-[var(--ff-text-primary)]"
+            style={{ fontWeight: 'var(--ff-weight-bold)' }}
+          >
             {demoStats.pricingViews.toLocaleString()}
           </div>
           <div className="ff-text-xs text-[var(--ff-text-muted)]">Pricing Views</div>
@@ -136,7 +139,10 @@ export function Phase1BusinessIntelligenceDemo() {
           <div className="w-10 h-10 bg-[var(--ff-secondary)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
             <Users className="w-5 h-5 text-[var(--ff-secondary)]" />
           </div>
-          <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+          <div
+            className="ff-text-lg text-[var(--ff-text-primary)]"
+            style={{ fontWeight: 'var(--ff-weight-bold)' }}
+          >
             {demoStats.personaViews.toLocaleString()}
           </div>
           <div className="ff-text-xs text-[var(--ff-text-muted)]">Persona Views</div>
@@ -146,7 +152,10 @@ export function Phase1BusinessIntelligenceDemo() {
           <div className="w-10 h-10 bg-[var(--ff-success)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
             <TrendingUp className="w-5 h-5 text-[var(--ff-success)]" />
           </div>
-          <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+          <div
+            className="ff-text-lg text-[var(--ff-text-primary)]"
+            style={{ fontWeight: 'var(--ff-weight-bold)' }}
+          >
             {demoStats.conversionRate}%
           </div>
           <div className="ff-text-xs text-[var(--ff-text-muted)]">Conversion Rate</div>
@@ -156,7 +165,10 @@ export function Phase1BusinessIntelligenceDemo() {
           <div className="w-10 h-10 bg-[var(--ff-accent)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
             <Award className="w-5 h-5 text-[var(--ff-accent)]" />
           </div>
-          <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+          <div
+            className="ff-text-lg text-[var(--ff-text-primary)]"
+            style={{ fontWeight: 'var(--ff-weight-bold)' }}
+          >
             {demoStats.completionStatus}%
           </div>
           <div className="ff-text-xs text-[var(--ff-text-muted)]">Complete</div>
@@ -166,8 +178,8 @@ export function Phase1BusinessIntelligenceDemo() {
       {/* Features Grid */}
       <div className="grid lg:grid-cols-3 gap-6 ff-stagger-fade">
         {businessIntelligenceFeatures.map((feature, index) => (
-          <Card 
-            key={feature.id} 
+          <Card
+            key={feature.id}
             className="ff-card-interactive hover:border-[var(--ff-primary)]/30"
             style={{ animationDelay: `${index * 100}ms` }}
           >
@@ -188,9 +200,7 @@ export function Phase1BusinessIntelligenceDemo() {
                   </div>
                 </div>
               </div>
-              <p className="ff-text-sm text-[var(--ff-text-muted)] mt-3">
-                {feature.description}
-              </p>
+              <p className="ff-text-sm text-[var(--ff-text-muted)] mt-3">{feature.description}</p>
             </CardHeader>
 
             <CardContent className="space-y-4">
@@ -212,7 +222,7 @@ export function Phase1BusinessIntelligenceDemo() {
                 style={{
                   fontFamily: 'var(--ff-font-primary)',
                   fontWeight: 'var(--ff-weight-semibold)',
-                  fontSize: 'var(--ff-text-sm)'
+                  fontSize: 'var(--ff-text-sm)',
                 }}
               >
                 {feature.access.startsWith('?') ? (
@@ -245,7 +255,10 @@ export function Phase1BusinessIntelligenceDemo() {
           <div className="grid md:grid-cols-2 gap-6">
             {/* Business Model Optimization */}
             <div className="space-y-3">
-              <h3 className="ff-text-base text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+              <h3
+                className="ff-text-base text-[var(--ff-text-primary)]"
+                style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+              >
                 Business Model Optimization ✅
               </h3>
               <div className="space-y-2">
@@ -254,7 +267,7 @@ export function Phase1BusinessIntelligenceDemo() {
                   'Feature lists with clear call-to-actions',
                   'Conversion metrics tracking space',
                   'Clean, modern layout with FlashFusion typography',
-                  'Consistent color usage throughout'
+                  'Consistent color usage throughout',
                 ].map((item, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-[var(--ff-success)]" />
@@ -266,7 +279,10 @@ export function Phase1BusinessIntelligenceDemo() {
 
             {/* User Persona Matrix */}
             <div className="space-y-3">
-              <h3 className="ff-text-base text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+              <h3
+                className="ff-text-base text-[var(--ff-text-primary)]"
+                style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+              >
                 User Persona Matrix ✅
               </h3>
               <div className="space-y-2">
@@ -276,7 +292,7 @@ export function Phase1BusinessIntelligenceDemo() {
                   'Workflow steps with tool mapping',
                   'Device preferences and usage patterns',
                   'Success metrics with progress tracking',
-                  'Visual avatars and distinct color accents'
+                  'Visual avatars and distinct color accents',
                 ].map((item, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-[var(--ff-success)]" />
@@ -289,7 +305,10 @@ export function Phase1BusinessIntelligenceDemo() {
 
           {/* Quick Access Section */}
           <div className="border-t border-[var(--border)] pt-6">
-            <h3 className="ff-text-base text-[var(--ff-text-primary)] mb-4" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+            <h3
+              className="ff-text-base text-[var(--ff-text-primary)] mb-4"
+              style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+            >
               Quick Access to Phase 1 Components
             </h3>
             <div className="flex flex-wrap gap-3">
@@ -299,21 +318,21 @@ export function Phase1BusinessIntelligenceDemo() {
                 style={{
                   fontFamily: 'var(--ff-font-primary)',
                   fontWeight: 'var(--ff-weight-semibold)',
-                  fontSize: 'var(--ff-text-sm)'
+                  fontSize: 'var(--ff-text-sm)',
                 }}
               >
                 <DollarSign className="w-4 h-4 mr-2" />
                 Pricing Wireframes
                 <ExternalLink className="w-4 h-4 ml-2" />
               </Button>
-              
+
               <Button
                 onClick={() => handleQuickAccess('?app=true&page=user-personas')}
                 className="ff-btn-secondary"
                 style={{
                   fontFamily: 'var(--ff-font-primary)',
                   fontWeight: 'var(--ff-weight-semibold)',
-                  fontSize: 'var(--ff-text-sm)'
+                  fontSize: 'var(--ff-text-sm)',
                 }}
               >
                 <Users className="w-4 h-4 mr-2" />
@@ -327,7 +346,7 @@ export function Phase1BusinessIntelligenceDemo() {
                 style={{
                   fontFamily: 'var(--ff-font-primary)',
                   fontWeight: 'var(--ff-weight-semibold)',
-                  fontSize: 'var(--ff-text-sm)'
+                  fontSize: 'var(--ff-text-sm)',
                 }}
               >
                 <Zap className="w-4 h-4 mr-2" />
@@ -349,8 +368,8 @@ export function Phase1BusinessIntelligenceDemo() {
         </CardHeader>
         <CardContent>
           <p className="ff-text-body mb-4">
-            Phase 1 Business Intelligence Layer is complete and production-ready. 
-            Phase 2 components are also implemented and ready for exploration.
+            Phase 1 Business Intelligence Layer is complete and production-ready. Phase 2 components
+            are also implemented and ready for exploration.
           </p>
           <div className="flex flex-wrap gap-3">
             <Button

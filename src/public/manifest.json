@@ -10,7 +10,7 @@
   "orientation": "portrait-primary",
   "lang": "en",
   "dir": "ltr",
-  
+
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
@@ -61,9 +61,9 @@
       "purpose": "maskable any"
     }
   ],
-  
+
   "categories": ["developer tools", "productivity", "utilities"],
-  
+
   "screenshots": [
     {
       "src": "/screenshots/desktop-home.png",
@@ -94,7 +94,7 @@
       "label": "Mobile AI Tools - Code Generation"
     }
   ],
-  
+
   "shortcuts": [
     {
       "name": "AI Tools Hub",
@@ -145,23 +145,23 @@
       ]
     }
   ],
-  
+
   "related_applications": [
     {
       "platform": "webapp",
       "url": "https://app.flashfusion.ai/manifest.json"
     }
   ],
-  
+
   "prefer_related_applications": false,
-  
+
   "protocol_handlers": [
     {
       "protocol": "web+flashfusion",
       "url": "/handle?protocol=%s"
     }
   ],
-  
+
   "file_handlers": [
     {
       "action": "/open-file",
@@ -177,7 +177,7 @@
       "launch_type": "single-client"
     }
   ],
-  
+
   "share_target": {
     "action": "/share",
     "method": "POST",
@@ -194,16 +194,16 @@
       ]
     }
   },
-  
+
   "edge_side_panel": {
     "preferred_width": 400
   },
-  
+
   "launch_handler": {
     "client_mode": ["navigate-existing", "navigate-new"]
   },
-  
+
   "handle_links": "preferred",
-  
+
   "capture_links": "existing-client-navigate"
 }

@@ -5,18 +5,18 @@ import { Badge } from '../../ui/badge';
 import { Progress } from '../../ui/progress';
 import { Alert, AlertDescription } from '../../ui/alert';
 import { Separator } from '../../ui/separator';
-import { 
-  GitBranch, 
-  Folder, 
-  FileText, 
-  Star, 
-  AlertCircle, 
-  CheckCircle2, 
+import {
+  GitBranch,
+  Folder,
+  FileText,
+  Star,
+  AlertCircle,
+  CheckCircle2,
   RefreshCw,
   Code,
   Search,
   Zap,
-  TrendingUp
+  TrendingUp,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import AIService from '../../../services/AIService';
@@ -63,7 +63,7 @@ export function RepositoryAnalyzer({ repository, onAnalysisComplete }: Repositor
     try {
       // Update progress as we analyze
       const progressInterval = setInterval(() => {
-        setAnalysisProgress(prev => {
+        setAnalysisProgress((prev) => {
           if (prev < 85) return prev + Math.random() * 10;
           return prev;
         });
@@ -88,12 +88,12 @@ export function RepositoryAnalyzer({ repository, onAnalysisComplete }: Repositor
         maintainability: calculateMaintainability(aiAnalysis.technologies),
         patterns: detectPatterns(aiAnalysis.structure),
         dependencies: extractDependencies(aiAnalysis.structure),
-        issues: detectIssues(aiAnalysis)
+        issues: detectIssues(aiAnalysis),
       };
 
       setAnalysisProgress(100);
       setAnalysis(enhancedAnalysis);
-      
+
       if (onAnalysisComplete) {
         onAnalysisComplete(enhancedAnalysis);
       }
@@ -117,9 +117,9 @@ export function RepositoryAnalyzer({ repository, onAnalysisComplete }: Repositor
   }, [repository, analysis, analyzeRepository]);
 
   const calculateComplexity = (structure: any[]): 'low' | 'medium' | 'high' => {
-    const fileCount = structure.filter(item => item.type === 'file').length;
-    const dirCount = structure.filter(item => item.type === 'dir').length;
-    
+    const fileCount = structure.filter((item) => item.type === 'file').length;
+    const dirCount = structure.filter((item) => item.type === 'dir').length;
+
     if (fileCount < 10 && dirCount < 5) return 'low';
     if (fileCount < 50 && dirCount < 15) return 'medium';
     return 'high';
@@ -128,67 +128,73 @@ export function RepositoryAnalyzer({ repository, onAnalysisComplete }: Repositor
   const calculateMaintainability = (technologies: string[]): number => {
     // Basic maintainability score based on technology stack
     let score = 70; // Base score
-    
+
     if (technologies.includes('TypeScript')) score += 15;
     if (technologies.includes('ESLint')) score += 10;
     if (technologies.includes('Prettier')) score += 5;
     if (technologies.includes('Jest') || technologies.includes('Vitest')) score += 10;
-    
+
     return Math.min(100, score);
   };
 
   const detectPatterns = (structure: any[]): string[] => {
     const patterns: string[] = [];
-    const files = structure.filter(item => item.type === 'file').map(item => item.name);
-    
-    if (files.some(f => f.includes('component'))) patterns.push('Component-based Architecture');
-    if (files.some(f => f.includes('service'))) patterns.push('Service Layer Pattern');
-    if (files.some(f => f.includes('hook'))) patterns.push('Custom Hooks Pattern');
-    if (files.some(f => f.includes('util'))) patterns.push('Utility Functions');
-    if (files.some(f => f.includes('type'))) patterns.push('Type Definitions');
-    
+    const files = structure.filter((item) => item.type === 'file').map((item) => item.name);
+
+    if (files.some((f) => f.includes('component'))) patterns.push('Component-based Architecture');
+    if (files.some((f) => f.includes('service'))) patterns.push('Service Layer Pattern');
+    if (files.some((f) => f.includes('hook'))) patterns.push('Custom Hooks Pattern');
+    if (files.some((f) => f.includes('util'))) patterns.push('Utility Functions');
+    if (files.some((f) => f.includes('type'))) patterns.push('Type Definitions');
+
     return patterns;
   };
 
   const extractDependencies = (structure: any[]): Record<string, string> => {
     // This would be enhanced to actually read package.json if available
-    const packageJson = structure.find(item => 
-      item.type === 'file' && item.name === 'package.json'
+    const packageJson = structure.find(
+      (item) => item.type === 'file' && item.name === 'package.json'
     );
-    
+
     return packageJson ? {} : {}; // Placeholder - would parse actual dependencies
   };
 
-  const detectIssues = (analysis: any): Array<{
+  const detectIssues = (
+    analysis: any
+  ): Array<{
     type: 'warning' | 'error' | 'info';
     message: string;
     file?: string;
   }> => {
     const issues = [];
-    
+
     if (!analysis.technologies.includes('TypeScript')) {
       issues.push({
         type: 'warning' as const,
-        message: 'Consider migrating to TypeScript for better type safety'
+        message: 'Consider migrating to TypeScript for better type safety',
       });
     }
-    
+
     if (!analysis.technologies.includes('ESLint')) {
       issues.push({
         type: 'info' as const,
-        message: 'Add ESLint for code quality and consistency'
+        message: 'Add ESLint for code quality and consistency',
       });
     }
-    
+
     return issues;
   };
 
   const getComplexityColor = (complexity: string) => {
     switch (complexity) {
-      case 'low': return 'text-ff-success';
-      case 'medium': return 'text-ff-warning';
-      case 'high': return 'text-ff-error';
-      default: return 'text-ff-text-muted';
+      case 'low':
+        return 'text-ff-success';
+      case 'medium':
+        return 'text-ff-warning';
+      case 'high':
+        return 'text-ff-error';
+      default:
+        return 'text-ff-text-muted';
     }
   };
 
@@ -224,7 +230,7 @@ export function RepositoryAnalyzer({ repository, onAnalysisComplete }: Repositor
                 Branch: {repository.branch} • Provider: {repository.provider}
               </p>
             </div>
-            
+
             <Button
               onClick={analyzeRepository}
               disabled={isAnalyzing}
@@ -250,9 +256,7 @@ export function RepositoryAnalyzer({ repository, onAnalysisComplete }: Repositor
           {error && (
             <Alert className="border-ff-error/20 bg-ff-error/5">
               <AlertCircle className="h-4 w-4 text-ff-error" />
-              <AlertDescription className="text-ff-error">
-                {error}
-              </AlertDescription>
+              <AlertDescription className="text-ff-error">{error}</AlertDescription>
             </Alert>
           )}
         </CardContent>
@@ -277,9 +281,11 @@ export function RepositoryAnalyzer({ repository, onAnalysisComplete }: Repositor
                   </div>
                   <div className="text-xs text-ff-text-muted">Complexity</div>
                 </div>
-                
+
                 <div className="text-center">
-                  <div className={`text-lg font-bold ${getMaintainabilityColor(analysis.maintainability)}`}>
+                  <div
+                    className={`text-lg font-bold ${getMaintainabilityColor(analysis.maintainability)}`}
+                  >
                     {analysis.maintainability}%
                   </div>
                   <div className="text-xs text-ff-text-muted">Maintainability</div>
@@ -346,7 +352,10 @@ export function RepositoryAnalyzer({ repository, onAnalysisComplete }: Repositor
                   <h4 className="font-medium text-ff-text-primary">Architecture Suggestions</h4>
                   <ul className="space-y-1">
                     {analysis.recommendations.map((rec, index) => (
-                      <li key={index} className="text-sm text-ff-text-secondary flex items-start gap-2">
+                      <li
+                        key={index}
+                        className="text-sm text-ff-text-secondary flex items-start gap-2"
+                      >
                         <CheckCircle2 className="w-3 h-3 text-ff-success mt-0.5 shrink-0" />
                         {rec}
                       </li>
@@ -359,11 +368,15 @@ export function RepositoryAnalyzer({ repository, onAnalysisComplete }: Repositor
                   <ul className="space-y-1">
                     {analysis.issues.map((issue, index) => (
                       <li key={index} className="text-sm flex items-start gap-2">
-                        <AlertCircle className={`w-3 h-3 mt-0.5 shrink-0 ${
-                          issue.type === 'error' ? 'text-ff-error' :
-                          issue.type === 'warning' ? 'text-ff-warning' :
-                          'text-ff-info'
-                        }`} />
+                        <AlertCircle
+                          className={`w-3 h-3 mt-0.5 shrink-0 ${
+                            issue.type === 'error'
+                              ? 'text-ff-error'
+                              : issue.type === 'warning'
+                                ? 'text-ff-warning'
+                                : 'text-ff-info'
+                          }`}
+                        />
                         <span className="text-ff-text-secondary">{issue.message}</span>
                       </li>
                     ))}

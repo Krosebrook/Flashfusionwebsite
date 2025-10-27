@@ -10,11 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Progress } from '../ui/progress';
 import { Slider } from '../ui/slider';
-import { toast } from "sonner@2.0.3";
-import { 
-  Palette, 
-  Type, 
-  Image as ImageIcon, 
+import { toast } from 'sonner@2.0.3';
+import {
+  Palette,
+  Type,
+  Image as ImageIcon,
   Layers,
   Download,
   Upload,
@@ -54,9 +54,14 @@ import {
   RotateCw,
   Flip,
   Maximize,
-  Minimize
+  Minimize,
 } from 'lucide-react';
-import { PRODUCT_TYPES, DESIGN_CATEGORIES, PRINT_SPECS, MARKETPLACES } from '../../constants/print-on-demand';
+import {
+  PRODUCT_TYPES,
+  DESIGN_CATEGORIES,
+  PRINT_SPECS,
+  MARKETPLACES,
+} from '../../constants/print-on-demand';
 
 interface DesignElement {
   id: string;
@@ -94,7 +99,13 @@ interface PrintDesignSuiteProps {
 }
 
 interface AIGenerationProgress {
-  stage: 'idle' | 'processing_prompt' | 'generating_image' | 'enhancing' | 'finalizing' | 'complete';
+  stage:
+    | 'idle'
+    | 'processing_prompt'
+    | 'generating_image'
+    | 'enhancing'
+    | 'finalizing'
+    | 'complete';
   progress: number;
   message: string;
 }
@@ -111,16 +122,16 @@ interface Template {
 
 // Realistic AI prompts and suggestions
 const AI_PROMPT_SUGGESTIONS = [
-  "Minimalist geometric abstract design with orange and blue gradients",
-  "Vintage retro sunset with palm trees silhouette",
-  "Modern typography design with inspirational quote",
-  "Watercolor floral pattern with delicate details",
-  "Cyberpunk neon cityscape with glowing elements",
-  "Hand-drawn mandala with intricate patterns",
-  "Pop art style portrait with bold colors",
-  "Nature landscape with mountains and forests",
-  "Abstract marble texture with gold accents",
-  "Space galaxy with stars and nebula effects"
+  'Minimalist geometric abstract design with orange and blue gradients',
+  'Vintage retro sunset with palm trees silhouette',
+  'Modern typography design with inspirational quote',
+  'Watercolor floral pattern with delicate details',
+  'Cyberpunk neon cityscape with glowing elements',
+  'Hand-drawn mandala with intricate patterns',
+  'Pop art style portrait with bold colors',
+  'Nature landscape with mountains and forests',
+  'Abstract marble texture with gold accents',
+  'Space galaxy with stars and nebula effects',
 ];
 
 // Design templates with realistic data
@@ -150,12 +161,12 @@ const DESIGN_TEMPLATES: Template[] = [
           fontWeight: 'bold',
           color: '#FF7B00',
           textAlign: 'center',
-          letterSpacing: 2
-        }
-      }
+          letterSpacing: 2,
+        },
+      },
     ],
     tags: ['motivational', 'typography', 'modern'],
-    premium: false
+    premium: false,
   },
   {
     id: 'temp_002',
@@ -179,8 +190,8 @@ const DESIGN_TEMPLATES: Template[] = [
         properties: {
           fill: '#00B4D8',
           stroke: 'none',
-          strokeWidth: 0
-        }
+          strokeWidth: 0,
+        },
       },
       {
         id: 'shape_2',
@@ -198,12 +209,12 @@ const DESIGN_TEMPLATES: Template[] = [
         properties: {
           fill: '#E91E63',
           stroke: 'none',
-          strokeWidth: 0
-        }
-      }
+          strokeWidth: 0,
+        },
+      },
     ],
     tags: ['geometric', 'abstract', 'colorful'],
-    premium: true
+    premium: true,
   },
   {
     id: 'temp_003',
@@ -227,8 +238,8 @@ const DESIGN_TEMPLATES: Template[] = [
         properties: {
           fill: 'none',
           stroke: '#2D3748',
-          strokeWidth: 4
-        }
+          strokeWidth: 4,
+        },
       },
       {
         id: 'text_brand',
@@ -248,13 +259,13 @@ const DESIGN_TEMPLATES: Template[] = [
           fontSize: 24,
           fontWeight: 'bold',
           color: '#2D3748',
-          textAlign: 'center'
-        }
-      }
+          textAlign: 'center',
+        },
+      },
     ],
     tags: ['vintage', 'badge', 'classic'],
-    premium: false
-  }
+    premium: false,
+  },
 ];
 
 // Font options with realistic variety
@@ -270,25 +281,27 @@ const FONT_OPTIONS = [
   { value: 'Poppins', label: 'Poppins (Friendly)', category: 'sans-serif' },
   { value: 'Dancing Script', label: 'Dancing Script (Handwritten)', category: 'script' },
   { value: 'Bebas Neue', label: 'Bebas Neue (Bold Display)', category: 'display' },
-  { value: 'JetBrains Mono', label: 'JetBrains Mono (Code)', category: 'monospace' }
+  { value: 'JetBrains Mono', label: 'JetBrains Mono (Code)', category: 'monospace' },
 ];
 
-export function PrintDesignSuite({ 
-  user, 
-  userTier, 
-  onSaveDesign, 
+export function PrintDesignSuite({
+  user,
+  userTier,
+  onSaveDesign,
   onPublishToMarketplace,
-  initialProduct 
+  initialProduct,
 }: PrintDesignSuiteProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   // Design state
-  const [selectedProduct, setSelectedProduct] = useState(initialProduct || PRODUCT_TYPES.APPAREL.T_SHIRT);
+  const [selectedProduct, setSelectedProduct] = useState(
+    initialProduct || PRODUCT_TYPES.APPAREL.T_SHIRT
+  );
   const [selectedSize, setSelectedSize] = useState(selectedProduct.sizes[0]);
   const [selectedColor, setSelectedColor] = useState(selectedProduct.colors[0]);
   const [selectedMaterial, setSelectedMaterial] = useState(selectedProduct.materials[0]);
-  
+
   // Canvas state
   const [canvasState, setCanvasState] = useState<CanvasState>({
     elements: [],
@@ -298,9 +311,9 @@ export function PrintDesignSuite({
     panY: 0,
     canvasWidth: selectedProduct.dimensions.width,
     canvasHeight: selectedProduct.dimensions.height,
-    backgroundColor: selectedColor === 'white' ? '#FFFFFF' : '#000000'
+    backgroundColor: selectedColor === 'white' ? '#FFFFFF' : '#000000',
   });
-  
+
   // UI state
   const [activeTab, setActiveTab] = useState('design');
   const [activeTool, setActiveTool] = useState('select');
@@ -309,16 +322,16 @@ export function PrintDesignSuite({
   const [saveProgress, setSaveProgress] = useState(0);
   const [exportProgress, setExportProgress] = useState(0);
   const [isExporting, setIsExporting] = useState(false);
-  
+
   // AI Generation
   const [aiGenerationProgress, setAiGenerationProgress] = useState<AIGenerationProgress>({
     stage: 'idle',
     progress: 0,
-    message: ''
+    message: '',
   });
   const [aiPrompt, setAiPrompt] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(DESIGN_CATEGORIES.CREATIVE);
-  
+
   // Design properties
   const [designTitle, setDesignTitle] = useState('Untitled Design');
   const [designDescription, setDesignDescription] = useState('');
@@ -329,29 +342,30 @@ export function PrintDesignSuite({
     color: '#000000',
     textAlign: 'center',
     letterSpacing: 0,
-    lineHeight: 1.2
+    lineHeight: 1.2,
   });
-  
+
   // History for undo/redo
   const [history, setHistory] = useState<CanvasState[]>([canvasState]);
   const [historyIndex, setHistoryIndex] = useState(0);
-  
+
   // Realistic pricing calculation
   const calculatePricing = () => {
     const basePrice = selectedProduct.basePrice;
-    const materialMultiplier = selectedMaterial === 'premium' ? 1.4 : selectedMaterial === 'blend' ? 1.2 : 1;
+    const materialMultiplier =
+      selectedMaterial === 'premium' ? 1.4 : selectedMaterial === 'blend' ? 1.2 : 1;
     const sizeMultiplier = selectedSize === 'XXL' ? 1.3 : selectedSize === 'XL' ? 1.15 : 1;
-    const complexityMultiplier = 1 + (canvasState.elements.length * 0.08);
-    
+    const complexityMultiplier = 1 + canvasState.elements.length * 0.08;
+
     const productionCost = Math.round(basePrice * materialMultiplier * sizeMultiplier * 100) / 100;
     const suggestedPrice = Math.round(productionCost * 2.8 * complexityMultiplier * 100) / 100;
     const profit = Math.round((suggestedPrice - productionCost) * 100) / 100;
-    
+
     return {
       production: productionCost,
       suggested: suggestedPrice,
       profit: profit,
-      margin: Math.round(((profit / suggestedPrice) * 100) * 10) / 10
+      margin: Math.round((profit / suggestedPrice) * 100 * 10) / 10,
     };
   };
 
@@ -362,15 +376,15 @@ export function PrintDesignSuite({
       id: `element_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       zIndex: canvasState.elements.length,
       locked: false,
-      visible: true
+      visible: true,
     };
-    
+
     const newState = {
       ...canvasState,
       elements: [...canvasState.elements, newElement],
-      selectedElements: [newElement.id]
+      selectedElements: [newElement.id],
     };
-    
+
     setCanvasState(newState);
     addToHistory(newState);
     toast.success(`${element.type} element added to canvas`);
@@ -387,15 +401,17 @@ export function PrintDesignSuite({
       height: 40,
       rotation: 0,
       opacity: 1,
-      properties: { 
+      properties: {
         ...textProperties,
-        fontSize: Math.max(24, Math.min(48, canvasState.canvasWidth / 15))
-      }
+        fontSize: Math.max(24, Math.min(48, canvasState.canvasWidth / 15)),
+      },
     });
   };
 
   // Enhanced shape addition with better variety
-  const addShape = (shapeType: 'rectangle' | 'circle' | 'triangle' | 'star' | 'hexagon' | 'arrow') => {
+  const addShape = (
+    shapeType: 'rectangle' | 'circle' | 'triangle' | 'star' | 'hexagon' | 'arrow'
+  ) => {
     const size = Math.min(canvasState.canvasWidth, canvasState.canvasHeight) / 6;
     addElement({
       type: 'shape',
@@ -411,20 +427,20 @@ export function PrintDesignSuite({
         fill: '#FF7B00',
         stroke: 'transparent',
         strokeWidth: 0,
-        borderRadius: shapeType === 'rectangle' ? 8 : 0
-      }
+        borderRadius: shapeType === 'rectangle' ? 8 : 0,
+      },
     });
   };
 
   // Enhanced AI generation with realistic progress
   const generateAIDesign = async () => {
     if (!aiPrompt.trim()) {
-      toast.error("Please enter a design prompt");
+      toast.error('Please enter a design prompt');
       return;
     }
-    
+
     if (userTier === 'free') {
-      toast.error("AI generation requires Pro or Enterprise subscription");
+      toast.error('AI generation requires Pro or Enterprise subscription');
       return;
     }
 
@@ -433,15 +449,15 @@ export function PrintDesignSuite({
       { stage: 'generating_image', progress: 50, message: 'Generating AI artwork...' },
       { stage: 'enhancing', progress: 75, message: 'Enhancing quality...' },
       { stage: 'finalizing', progress: 95, message: 'Finalizing design...' },
-      { stage: 'complete', progress: 100, message: 'AI design complete!' }
+      { stage: 'complete', progress: 100, message: 'AI design complete!' },
     ];
 
     try {
       for (const stage of stages) {
         setAiGenerationProgress(stage);
-        await new Promise(resolve => setTimeout(resolve, 1200));
+        await new Promise((resolve) => setTimeout(resolve, 1200));
       }
-      
+
       // Simulate AI-generated design elements
       const aiElements = [
         {
@@ -460,21 +476,20 @@ export function PrintDesignSuite({
             filter: 'none',
             brightness: 100,
             contrast: 100,
-            saturation: 100
-          }
-        }
+            saturation: 100,
+          },
+        },
       ];
 
       // Add generated elements
-      aiElements.forEach(element => addElement(element));
-      
+      aiElements.forEach((element) => addElement(element));
+
       setAiGenerationProgress({ stage: 'idle', progress: 0, message: '' });
-      toast.success("AI design generated successfully!");
-      
+      toast.success('AI design generated successfully!');
     } catch (error) {
       console.error('AI generation failed:', error);
       setAiGenerationProgress({ stage: 'idle', progress: 0, message: '' });
-      toast.error("AI generation failed. Please try again.");
+      toast.error('AI generation failed. Please try again.');
     }
   };
 
@@ -482,13 +497,13 @@ export function PrintDesignSuite({
   const applyTemplate = (template: Template) => {
     const newState = {
       ...canvasState,
-      elements: template.elements.map(el => ({
+      elements: template.elements.map((el) => ({
         ...el,
-        id: `element_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+        id: `element_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       })),
-      selectedElements: []
+      selectedElements: [],
     };
-    
+
     setCanvasState(newState);
     addToHistory(newState);
     setShowTemplates(false);
@@ -498,7 +513,7 @@ export function PrintDesignSuite({
   // Enhanced save with realistic progress
   const saveDesign = async () => {
     setSaveProgress(0);
-    
+
     const designData = {
       id: `design_${Date.now()}`,
       title: designTitle,
@@ -517,28 +532,33 @@ export function PrintDesignSuite({
       tags: [selectedProduct.category, selectedSize, selectedColor],
       metadata: {
         elementsCount: canvasState.elements.length,
-        hasAIContent: canvasState.elements.some(el => el.properties.aiGenerated),
-        complexity: canvasState.elements.length > 5 ? 'high' : canvasState.elements.length > 2 ? 'medium' : 'low'
-      }
+        hasAIContent: canvasState.elements.some((el) => el.properties.aiGenerated),
+        complexity:
+          canvasState.elements.length > 5
+            ? 'high'
+            : canvasState.elements.length > 2
+              ? 'medium'
+              : 'low',
+      },
     };
-    
+
     // Simulate save progress with realistic steps
     const steps = [
       { progress: 20, message: 'Preparing design data...' },
       { progress: 40, message: 'Optimizing elements...' },
       { progress: 60, message: 'Generating previews...' },
       { progress: 80, message: 'Saving to database...' },
-      { progress: 100, message: 'Design saved successfully!' }
+      { progress: 100, message: 'Design saved successfully!' },
     ];
 
     for (const step of steps) {
       setSaveProgress(step.progress);
-      await new Promise(resolve => setTimeout(resolve, 300));
+      await new Promise((resolve) => setTimeout(resolve, 300));
     }
-    
+
     onSaveDesign(designData);
     setSaveProgress(0);
-    toast.success("Design saved successfully!");
+    toast.success('Design saved successfully!');
   };
 
   // Enhanced export with multiple formats
@@ -551,12 +571,12 @@ export function PrintDesignSuite({
         { progress: 25, message: 'Preparing canvas...' },
         { progress: 50, message: 'Rendering elements...' },
         { progress: 75, message: 'Optimizing output...' },
-        { progress: 100, message: 'Download ready!' }
+        { progress: 100, message: 'Download ready!' },
       ];
 
       for (const step of steps) {
         setExportProgress(step.progress);
-        await new Promise(resolve => setTimeout(resolve, 400));
+        await new Promise((resolve) => setTimeout(resolve, 400));
       }
 
       // Simulate file download
@@ -573,7 +593,7 @@ export function PrintDesignSuite({
 
       toast.success(`Design exported as ${format.toUpperCase()}`);
     } catch (error) {
-      toast.error("Export failed. Please try again.");
+      toast.error('Export failed. Please try again.');
     } finally {
       setIsExporting(false);
       setExportProgress(0);
@@ -582,7 +602,7 @@ export function PrintDesignSuite({
 
   // Publish to marketplace with validation
   const publishToMarketplace = (marketplaceId: string) => {
-    const marketplace = Object.values(MARKETPLACES).find(m => m.id === marketplaceId);
+    const marketplace = Object.values(MARKETPLACES).find((m) => m.id === marketplaceId);
     if (!marketplace) return;
 
     // Validate design for marketplace
@@ -591,13 +611,13 @@ export function PrintDesignSuite({
       hasTitle: designTitle.trim().length > 0,
       hasDescription: designDescription.trim().length > 0,
       titleLength: designTitle.length <= marketplace.maxTitleLength,
-      descriptionLength: designDescription.length <= marketplace.maxDescriptionLength
+      descriptionLength: designDescription.length <= marketplace.maxDescriptionLength,
     };
 
     const isValid = Object.values(validation).every(Boolean);
-    
+
     if (!isValid) {
-      toast.error("Please complete all required fields for marketplace publishing");
+      toast.error('Please complete all required fields for marketplace publishing');
       return;
     }
 
@@ -606,21 +626,21 @@ export function PrintDesignSuite({
         id: `design_${Date.now()}`,
         title: designTitle,
         description: designDescription,
-        canvas: canvasState
+        canvas: canvasState,
       },
       product: selectedProduct,
       variant: {
         size: selectedSize,
         color: selectedColor,
-        material: selectedMaterial
+        material: selectedMaterial,
       },
       pricing: calculatePricing(),
       marketplace: marketplace.id,
       tags: [selectedProduct.category, selectedSize, selectedColor, selectedCategory.id],
       metadata: {
         designComplexity: canvasState.elements.length,
-        hasAIContent: canvasState.elements.some(el => el.properties.aiGenerated)
-      }
+        hasAIContent: canvasState.elements.some((el) => el.properties.aiGenerated),
+      },
     };
 
     onPublishToMarketplace(marketplaceId, productData);
@@ -640,7 +660,7 @@ export function PrintDesignSuite({
     if (historyIndex > 0) {
       setHistoryIndex(historyIndex - 1);
       setCanvasState(history[historyIndex - 1]);
-      toast.info("Undo");
+      toast.info('Undo');
     }
   };
 
@@ -648,20 +668,28 @@ export function PrintDesignSuite({
     if (historyIndex < history.length - 1) {
       setHistoryIndex(historyIndex + 1);
       setCanvasState(history[historyIndex + 1]);
-      toast.info("Redo");
+      toast.info('Redo');
     }
   };
 
   // Update canvas background when color changes
   useEffect(() => {
-    setCanvasState(prev => ({
+    setCanvasState((prev) => ({
       ...prev,
-      backgroundColor: selectedColor === 'white' ? '#FFFFFF' : 
-                      selectedColor === 'black' ? '#000000' :
-                      selectedColor === 'gray' ? '#9CA3AF' :
-                      selectedColor === 'navy' ? '#1E293B' :
-                      selectedColor === 'red' ? '#EF4444' :
-                      selectedColor === 'blue' ? '#3B82F6' : selectedColor
+      backgroundColor:
+        selectedColor === 'white'
+          ? '#FFFFFF'
+          : selectedColor === 'black'
+            ? '#000000'
+            : selectedColor === 'gray'
+              ? '#9CA3AF'
+              : selectedColor === 'navy'
+                ? '#1E293B'
+                : selectedColor === 'red'
+                  ? '#EF4444'
+                  : selectedColor === 'blue'
+                    ? '#3B82F6'
+                    : selectedColor,
     }));
   }, [selectedColor]);
 
@@ -680,7 +708,7 @@ export function PrintDesignSuite({
         >
           <Target className="h-4 w-4" />
         </Button>
-        
+
         <Button
           variant={activeTool === 'text' ? 'default' : 'ghost'}
           size="sm"
@@ -693,7 +721,7 @@ export function PrintDesignSuite({
         >
           <Type className="h-4 w-4" />
         </Button>
-        
+
         <div className="space-y-1">
           <Button
             variant="ghost"
@@ -732,7 +760,7 @@ export function PrintDesignSuite({
             <Star className="h-4 w-4" />
           </Button>
         </div>
-        
+
         <Button
           variant="ghost"
           size="sm"
@@ -742,7 +770,7 @@ export function PrintDesignSuite({
         >
           <ImageIcon className="h-4 w-4" />
         </Button>
-        
+
         <Button
           variant="ghost"
           size="sm"
@@ -752,7 +780,7 @@ export function PrintDesignSuite({
         >
           <Layers className="h-4 w-4" />
         </Button>
-        
+
         {userTier !== 'free' && (
           <Button
             variant="ghost"
@@ -766,7 +794,7 @@ export function PrintDesignSuite({
         )}
 
         <div className="flex-1" />
-        
+
         {/* Export buttons */}
         <div className="space-y-1">
           <Button
@@ -806,24 +834,44 @@ export function PrintDesignSuite({
               {selectedProduct.name}
             </Badge>
             <Badge variant="secondary">{selectedSize}</Badge>
-            <Badge variant="outline" style={{ backgroundColor: canvasState.backgroundColor, color: selectedColor === 'white' ? '#000' : '#fff' }}>
+            <Badge
+              variant="outline"
+              style={{
+                backgroundColor: canvasState.backgroundColor,
+                color: selectedColor === 'white' ? '#000' : '#fff',
+              }}
+            >
               {selectedColor}
             </Badge>
           </div>
-          
+
           <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="sm" onClick={undo} disabled={historyIndex <= 0} title="Undo">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={undo}
+              disabled={historyIndex <= 0}
+              title="Undo"
+            >
               <Undo className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="sm" onClick={redo} disabled={historyIndex >= history.length - 1} title="Redo">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={redo}
+              disabled={historyIndex >= history.length - 1}
+              title="Redo"
+            >
               <Redo className="h-4 w-4" />
             </Button>
-            
+
             <div className="flex items-center space-x-2 px-2 border-l border-r border-border">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => setCanvasState(prev => ({ ...prev, zoom: Math.max(0.1, prev.zoom - 0.1) }))}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() =>
+                  setCanvasState((prev) => ({ ...prev, zoom: Math.max(0.1, prev.zoom - 0.1) }))
+                }
                 title="Zoom Out"
               >
                 <ZoomOut className="h-4 w-4" />
@@ -831,18 +879,20 @@ export function PrintDesignSuite({
               <span className="text-sm font-mono w-12 text-center">
                 {Math.round(canvasState.zoom * 100)}%
               </span>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => setCanvasState(prev => ({ ...prev, zoom: Math.min(3, prev.zoom + 0.1) }))}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() =>
+                  setCanvasState((prev) => ({ ...prev, zoom: Math.min(3, prev.zoom + 0.1) }))
+                }
                 title="Zoom In"
               >
                 <ZoomIn className="h-4 w-4" />
               </Button>
             </div>
-            
-            <Button 
-              onClick={saveDesign} 
+
+            <Button
+              onClick={saveDesign}
               className="bg-gradient-to-r from-primary to-secondary hover:shadow-lg"
               disabled={saveProgress > 0}
             >
@@ -865,7 +915,7 @@ export function PrintDesignSuite({
         <div className="flex-1 flex">
           {/* Canvas */}
           <div className="flex-1 bg-muted/30 flex items-center justify-center p-8 relative overflow-hidden">
-            <motion.div 
+            <motion.div
               className="relative bg-white rounded-lg shadow-2xl border-2 border-border/20"
               animate={{ scale: canvasState.zoom }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
@@ -879,10 +929,10 @@ export function PrintDesignSuite({
                   backgroundColor: canvasState.backgroundColor,
                   cursor: activeTool === 'select' ? 'default' : 'crosshair',
                   maxWidth: '100%',
-                  maxHeight: '100%'
+                  maxHeight: '100%',
                 }}
               />
-              
+
               {/* Product Mockup Overlay */}
               <div className="absolute inset-0 pointer-events-none opacity-10">
                 {selectedProduct.id === 'tshirt' && (
@@ -904,7 +954,12 @@ export function PrintDesignSuite({
                   <svg className="w-full h-full">
                     <defs>
                       <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+                        <path
+                          d="M 20 0 L 0 0 0 20"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="0.5"
+                        />
                       </pattern>
                     </defs>
                     <rect width="100%" height="100%" fill="url(#grid)" />
@@ -918,7 +973,7 @@ export function PrintDesignSuite({
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => setCanvasState(prev => ({ ...prev, zoom: 1, panX: 0, panY: 0 }))}
+                onClick={() => setCanvasState((prev) => ({ ...prev, zoom: 1, panX: 0, panY: 0 }))}
               >
                 <Maximize className="h-4 w-4 mr-1" />
                 Fit to Screen
@@ -946,9 +1001,11 @@ export function PrintDesignSuite({
                   <div className="space-y-3">
                     <div>
                       <Label>Font Family</Label>
-                      <Select 
-                        value={textProperties.fontFamily} 
-                        onValueChange={(value) => setTextProperties(prev => ({ ...prev, fontFamily: value }))}
+                      <Select
+                        value={textProperties.fontFamily}
+                        onValueChange={(value) =>
+                          setTextProperties((prev) => ({ ...prev, fontFamily: value }))
+                        }
                       >
                         <SelectTrigger>
                           <SelectValue />
@@ -962,23 +1019,30 @@ export function PrintDesignSuite({
                         </SelectContent>
                       </Select>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-2">
                       <div>
                         <Label>Size</Label>
                         <Input
                           type="number"
                           value={textProperties.fontSize}
-                          onChange={(e) => setTextProperties(prev => ({ ...prev, fontSize: parseInt(e.target.value) || 16 }))}
+                          onChange={(e) =>
+                            setTextProperties((prev) => ({
+                              ...prev,
+                              fontSize: parseInt(e.target.value) || 16,
+                            }))
+                          }
                           min="8"
                           max="200"
                         />
                       </div>
                       <div>
                         <Label>Weight</Label>
-                        <Select 
-                          value={textProperties.fontWeight} 
-                          onValueChange={(value) => setTextProperties(prev => ({ ...prev, fontWeight: value }))}
+                        <Select
+                          value={textProperties.fontWeight}
+                          onValueChange={(value) =>
+                            setTextProperties((prev) => ({ ...prev, fontWeight: value }))
+                          }
                         >
                           <SelectTrigger>
                             <SelectValue />
@@ -991,20 +1055,24 @@ export function PrintDesignSuite({
                         </Select>
                       </div>
                     </div>
-                    
+
                     <div>
                       <Label>Text Color</Label>
                       <div className="flex space-x-2">
                         <Input
                           type="color"
                           value={textProperties.color}
-                          onChange={(e) => setTextProperties(prev => ({ ...prev, color: e.target.value }))}
+                          onChange={(e) =>
+                            setTextProperties((prev) => ({ ...prev, color: e.target.value }))
+                          }
                           className="w-12 h-10 p-0 border-2 cursor-pointer"
                         />
                         <Input
                           type="text"
                           value={textProperties.color}
-                          onChange={(e) => setTextProperties(prev => ({ ...prev, color: e.target.value }))}
+                          onChange={(e) =>
+                            setTextProperties((prev) => ({ ...prev, color: e.target.value }))
+                          }
                           className="flex-1"
                           placeholder="#000000"
                         />
@@ -1013,9 +1081,11 @@ export function PrintDesignSuite({
 
                     <div>
                       <Label>Alignment</Label>
-                      <Select 
-                        value={textProperties.textAlign} 
-                        onValueChange={(value) => setTextProperties(prev => ({ ...prev, textAlign: value }))}
+                      <Select
+                        value={textProperties.textAlign}
+                        onValueChange={(value) =>
+                          setTextProperties((prev) => ({ ...prev, textAlign: value }))
+                        }
                       >
                         <SelectTrigger>
                           <SelectValue />
@@ -1030,7 +1100,7 @@ export function PrintDesignSuite({
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Layers Panel */}
                 <div>
                   <h3 className="text-lg font-semibold mb-3 flex items-center">
@@ -1041,79 +1111,93 @@ export function PrintDesignSuite({
                     {canvasState.elements
                       .sort((a, b) => b.zIndex - a.zIndex)
                       .map((element, index) => (
-                      <motion.div
-                        key={element.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className={`p-3 rounded-lg border cursor-pointer transition-all hover:shadow-sm ${
-                          canvasState.selectedElements.includes(element.id) 
-                            ? 'bg-primary/10 border-primary' 
-                            : 'border-border hover:bg-accent/50'
-                        }`}
-                        onClick={() => setCanvasState(prev => ({
-                          ...prev,
-                          selectedElements: [element.id]
-                        }))}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-2">
-                            <div className="flex items-center space-x-1">
-                              {element.type === 'text' && <Type className="h-3 w-3" />}
-                              {element.type === 'image' && <ImageIcon className="h-3 w-3" />}
-                              {element.type === 'shape' && <Square className="h-3 w-3" />}
-                              <span className="text-sm font-medium capitalize">{element.type}</span>
+                        <motion.div
+                          key={element.id}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          className={`p-3 rounded-lg border cursor-pointer transition-all hover:shadow-sm ${
+                            canvasState.selectedElements.includes(element.id)
+                              ? 'bg-primary/10 border-primary'
+                              : 'border-border hover:bg-accent/50'
+                          }`}
+                          onClick={() =>
+                            setCanvasState((prev) => ({
+                              ...prev,
+                              selectedElements: [element.id],
+                            }))
+                          }
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2">
+                              <div className="flex items-center space-x-1">
+                                {element.type === 'text' && <Type className="h-3 w-3" />}
+                                {element.type === 'image' && <ImageIcon className="h-3 w-3" />}
+                                {element.type === 'shape' && <Square className="h-3 w-3" />}
+                                <span className="text-sm font-medium capitalize">
+                                  {element.type}
+                                </span>
+                              </div>
+                              <div className="flex space-x-1">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setCanvasState((prev) => ({
+                                      ...prev,
+                                      elements: prev.elements.map((el) =>
+                                        el.id === element.id ? { ...el, visible: !el.visible } : el
+                                      ),
+                                    }));
+                                  }}
+                                  className="w-6 h-6 p-0"
+                                >
+                                  {element.visible ? (
+                                    <Eye className="h-3 w-3" />
+                                  ) : (
+                                    <EyeOff className="h-3 w-3" />
+                                  )}
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setCanvasState((prev) => ({
+                                      ...prev,
+                                      elements: prev.elements.map((el) =>
+                                        el.id === element.id ? { ...el, locked: !el.locked } : el
+                                      ),
+                                    }));
+                                  }}
+                                  className="w-6 h-6 p-0"
+                                >
+                                  {element.locked ? (
+                                    <Lock className="h-3 w-3" />
+                                  ) : (
+                                    <Unlock className="h-3 w-3" />
+                                  )}
+                                </Button>
+                              </div>
                             </div>
-                            <div className="flex space-x-1">
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setCanvasState(prev => ({
-                                    ...prev,
-                                    elements: prev.elements.map(el =>
-                                      el.id === element.id ? { ...el, visible: !el.visible } : el
-                                    )
-                                  }));
-                                }}
-                                className="w-6 h-6 p-0"
-                              >
-                                {element.visible ? <Eye className="h-3 w-3" /> : <EyeOff className="h-3 w-3" />}
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setCanvasState(prev => ({
-                                    ...prev,
-                                    elements: prev.elements.map(el =>
-                                      el.id === element.id ? { ...el, locked: !el.locked } : el
-                                    )
-                                  }));
-                                }}
-                                className="w-6 h-6 p-0"
-                              >
-                                {element.locked ? <Lock className="h-3 w-3" /> : <Unlock className="h-3 w-3" />}
-                              </Button>
-                            </div>
+                            <Badge variant="outline" className="text-xs">
+                              {canvasState.elements.length - element.zIndex}
+                            </Badge>
                           </div>
-                          <Badge variant="outline" className="text-xs">
-                            {canvasState.elements.length - element.zIndex}
-                          </Badge>
-                        </div>
-                        <div className="text-xs text-muted-foreground truncate mt-1">
-                          {element.type === 'text' ? element.content : 
-                           element.type === 'shape' ? element.content : 
-                           'Image element'}
-                        </div>
-                        {element.properties.aiGenerated && (
-                          <Badge className="text-xs mt-1 bg-gradient-to-r from-primary to-secondary">
-                            AI Generated
-                          </Badge>
-                        )}
-                      </motion.div>
-                    ))}
+                          <div className="text-xs text-muted-foreground truncate mt-1">
+                            {element.type === 'text'
+                              ? element.content
+                              : element.type === 'shape'
+                                ? element.content
+                                : 'Image element'}
+                          </div>
+                          {element.properties.aiGenerated && (
+                            <Badge className="text-xs mt-1 bg-gradient-to-r from-primary to-secondary">
+                              AI Generated
+                            </Badge>
+                          )}
+                        </motion.div>
+                      ))}
                     {canvasState.elements.length === 0 && (
                       <div className="text-center text-muted-foreground py-8">
                         <Layers className="h-8 w-8 mx-auto mb-2 opacity-50" />
@@ -1131,16 +1215,16 @@ export function PrintDesignSuite({
                     <ShoppingBag className="h-4 w-4 mr-2" />
                     Product Configuration
                   </h3>
-                  
+
                   <div className="space-y-4">
                     <div>
                       <Label>Product Type</Label>
-                      <Select 
-                        value={selectedProduct.id} 
+                      <Select
+                        value={selectedProduct.id}
                         onValueChange={(value) => {
                           const product = Object.values(PRODUCT_TYPES)
-                            .flatMap(category => Object.values(category))
-                            .find(p => p.id === value);
+                            .flatMap((category) => Object.values(category))
+                            .find((p) => p.id === value);
                           if (product) {
                             setSelectedProduct(product);
                             setSelectedSize(product.sizes[0]);
@@ -1168,7 +1252,7 @@ export function PrintDesignSuite({
                         </SelectContent>
                       </Select>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <Label>Size</Label>
@@ -1178,12 +1262,14 @@ export function PrintDesignSuite({
                           </SelectTrigger>
                           <SelectContent>
                             {selectedProduct.sizes.map((size) => (
-                              <SelectItem key={size} value={size}>{size}</SelectItem>
+                              <SelectItem key={size} value={size}>
+                                {size}
+                              </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
                       </div>
-                      
+
                       <div>
                         <Label>Material</Label>
                         <Select value={selectedMaterial} onValueChange={setSelectedMaterial}>
@@ -1200,7 +1286,7 @@ export function PrintDesignSuite({
                         </Select>
                       </div>
                     </div>
-                    
+
                     <div>
                       <Label>Color</Label>
                       <div className="flex flex-wrap gap-2 mt-2">
@@ -1211,17 +1297,26 @@ export function PrintDesignSuite({
                             className={`w-10 h-10 rounded-lg border-2 transition-all hover:scale-110 ${
                               selectedColor === color ? 'border-primary shadow-lg' : 'border-border'
                             }`}
-                            style={{ 
-                              backgroundColor: 
-                                color === 'white' ? '#FFFFFF' : 
-                                color === 'black' ? '#000000' :
-                                color === 'gray' ? '#9CA3AF' :
-                                color === 'navy' ? '#1E293B' :
-                                color === 'red' ? '#EF4444' :
-                                color === 'blue' ? '#3B82F6' : 
-                                color === 'natural' ? '#F5F5DC' :
-                                color === 'clear' ? 'transparent' : color,
-                              border: color === 'clear' ? '2px dashed #ccc' : undefined
+                            style={{
+                              backgroundColor:
+                                color === 'white'
+                                  ? '#FFFFFF'
+                                  : color === 'black'
+                                    ? '#000000'
+                                    : color === 'gray'
+                                      ? '#9CA3AF'
+                                      : color === 'navy'
+                                        ? '#1E293B'
+                                        : color === 'red'
+                                          ? '#EF4444'
+                                          : color === 'blue'
+                                            ? '#3B82F6'
+                                            : color === 'natural'
+                                              ? '#F5F5DC'
+                                              : color === 'clear'
+                                                ? 'transparent'
+                                                : color,
+                              border: color === 'clear' ? '2px dashed #ccc' : undefined,
                             }}
                             title={color}
                           />
@@ -1230,7 +1325,7 @@ export function PrintDesignSuite({
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Pricing Information */}
                 <div>
                   <h3 className="text-lg font-semibold mb-3 flex items-center">
@@ -1253,12 +1348,10 @@ export function PrintDesignSuite({
                       </div>
                       <div className="flex justify-between items-center border-t pt-2">
                         <span className="text-sm font-medium">Profit Margin:</span>
-                        <Badge className="bg-green-500/20 text-green-600">
-                          {pricing.margin}%
-                        </Badge>
+                        <Badge className="bg-green-500/20 text-green-600">{pricing.margin}%</Badge>
                       </div>
                     </div>
-                    
+
                     <div className="text-xs text-muted-foreground space-y-1">
                       <p>• Pricing includes material and size modifiers</p>
                       <p>• Design complexity affects suggested pricing</p>
@@ -1287,7 +1380,7 @@ export function PrintDesignSuite({
                         <Sparkles className="h-4 w-4 mr-2" />
                         AI Design Generator
                       </h3>
-                      
+
                       <div className="space-y-4">
                         <div>
                           <Label>Design Prompt</Label>
@@ -1304,10 +1397,12 @@ export function PrintDesignSuite({
 
                         <div>
                           <Label>Style Category</Label>
-                          <Select 
-                            value={selectedCategory.id} 
+                          <Select
+                            value={selectedCategory.id}
                             onValueChange={(value) => {
-                              const category = Object.values(DESIGN_CATEGORIES).find(c => c.id === value);
+                              const category = Object.values(DESIGN_CATEGORIES).find(
+                                (c) => c.id === value
+                              );
                               if (category) setSelectedCategory(category);
                             }}
                           >
@@ -1404,8 +1499,8 @@ export function PrintDesignSuite({
                       <Label>Available Marketplaces</Label>
                       <div className="grid grid-cols-1 gap-3 mt-2">
                         {Object.values(MARKETPLACES).map((marketplace) => (
-                          <Card 
-                            key={marketplace.id} 
+                          <Card
+                            key={marketplace.id}
                             className="p-3 cursor-pointer hover:bg-accent/50 transition-colors"
                             onClick={() => publishToMarketplace(marketplace.id)}
                           >
@@ -1455,7 +1550,7 @@ export function PrintDesignSuite({
                           </Button>
                         ))}
                       </div>
-                      
+
                       {isExporting && (
                         <div className="space-y-2">
                           <Progress value={exportProgress} className="h-2" />
@@ -1490,7 +1585,7 @@ export function PrintDesignSuite({
                 const aspectRatio = img.width / img.height;
                 const width = aspectRatio > 1 ? maxSize : maxSize * aspectRatio;
                 const height = aspectRatio > 1 ? maxSize / aspectRatio : maxSize;
-                
+
                 addElement({
                   type: 'image',
                   content: event.target?.result as string,
@@ -1507,8 +1602,8 @@ export function PrintDesignSuite({
                     filter: 'none',
                     brightness: 100,
                     contrast: 100,
-                    saturation: 100
-                  }
+                    saturation: 100,
+                  },
                 });
               };
               img.src = event.target?.result as string;
@@ -1543,11 +1638,11 @@ export function PrintDesignSuite({
                   </Button>
                 </div>
               </div>
-              
+
               <div className="p-6 overflow-y-auto max-h-[60vh]">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {DESIGN_TEMPLATES.map((template) => (
-                    <Card 
+                    <Card
                       key={template.id}
                       className="cursor-pointer hover:shadow-lg transition-all group"
                       onClick={() => applyTemplate(template)}

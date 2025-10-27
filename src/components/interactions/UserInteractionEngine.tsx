@@ -4,12 +4,12 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Zap, 
-  Users, 
-  Target, 
-  TrendingUp, 
-  MessageCircle, 
+import {
+  Zap,
+  Users,
+  Target,
+  TrendingUp,
+  MessageCircle,
   HelpCircle,
   Star,
   Clock,
@@ -18,7 +18,7 @@ import {
   ArrowRight,
   Play,
   Pause,
-  RotateCcw
+  RotateCcw,
 } from 'lucide-react';
 
 interface UserAction {
@@ -76,7 +76,7 @@ export function UserInteractionEngine({
   userPersona,
   onActionTrigger,
   onHelpRequest,
-  onFeedbackSubmit
+  onFeedbackSubmit,
 }: UserInteractionEngineProps) {
   const [currentSession, setCurrentSession] = useState<UserSession | null>(null);
   const [activeInteractions, setActiveInteractions] = useState<InteractionPattern[]>([]);
@@ -90,7 +90,7 @@ export function UserInteractionEngine({
     sessionTime: 0,
     actionsPerMinute: 0,
     currentStreak: 0,
-    helpRequestsToday: 0
+    helpRequestsToday: 0,
   });
 
   const sessionRef = useRef<NodeJS.Timeout>();
@@ -108,22 +108,22 @@ export function UserInteractionEngine({
           type: 'highlight',
           target: '.ff-nav-item',
           content: 'Navigate between different sections here',
-          timing: 2000
+          timing: 2000,
         },
         {
           type: 'tooltip',
           target: '.ff-btn-primary',
           content: 'Primary actions are highlighted in orange',
-          timing: 4000
+          timing: 4000,
         },
         {
           type: 'suggestion',
           target: '.tools-section',
           content: 'Start with tools that match your goals',
-          timing: 6000
-        }
+          timing: 6000,
+        },
       ],
-      priority: 'high'
+      priority: 'high',
     },
     {
       id: 'tool-discovery',
@@ -135,10 +135,10 @@ export function UserInteractionEngine({
           type: 'modal',
           target: 'body',
           content: 'Need help finding the right tool? Try our AI recommendation system!',
-          timing: 30000
-        }
+          timing: 30000,
+        },
       ],
-      priority: 'medium'
+      priority: 'medium',
     },
     {
       id: 'productivity-boost',
@@ -150,10 +150,10 @@ export function UserInteractionEngine({
           type: 'suggestion',
           target: '.keyboard-shortcuts',
           content: 'Use Ctrl+K for quick navigation to boost your productivity!',
-          timing: 1000
-        }
+          timing: 1000,
+        },
       ],
-      priority: 'low'
+      priority: 'low',
     },
     {
       id: 'feature-announcement',
@@ -165,11 +165,11 @@ export function UserInteractionEngine({
           type: 'badge',
           target: '.new-feature',
           content: 'NEW',
-          timing: 500
-        }
+          timing: 500,
+        },
       ],
-      priority: 'medium'
-    }
+      priority: 'medium',
+    },
   ];
 
   // Initialize user session
@@ -177,7 +177,7 @@ export function UserInteractionEngine({
     const initSession = () => {
       const sessionId = `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       const userId = localStorage.getItem('ff-user-id') || 'anonymous';
-      
+
       const session: UserSession = {
         id: sessionId,
         userId,
@@ -189,30 +189,30 @@ export function UserInteractionEngine({
           timeSpent: 0,
           actionsCount: 0,
           toolsUsed: [],
-          featuresDiscovered: []
-        }
+          featuresDiscovered: [],
+        },
       };
 
       setCurrentSession(session);
-      
+
       // Update session time every second
       sessionRef.current = setInterval(() => {
-        setCurrentSession(prev => {
+        setCurrentSession((prev) => {
           if (!prev) return null;
-          
+
           const timeSpent = Date.now() - prev.startTime;
           return {
             ...prev,
             engagement: {
               ...prev.engagement,
-              timeSpent
-            }
+              timeSpent,
+            },
           };
         });
-        
-        setUserEngagement(prev => ({
+
+        setUserEngagement((prev) => ({
           ...prev,
-          sessionTime: prev.sessionTime + 1000
+          sessionTime: prev.sessionTime + 1000,
         }));
       }, 1000);
     };
@@ -228,24 +228,24 @@ export function UserInteractionEngine({
 
   // Track user actions
   const trackAction = useCallback((action: UserAction) => {
-    setCurrentSession(prev => {
+    setCurrentSession((prev) => {
       if (!prev) return null;
-      
+
       const updatedActions = [...prev.actions, action];
-      const actionsPerMinute = (updatedActions.length / ((Date.now() - prev.startTime) / 60000)) || 0;
-      
-      setUserEngagement(prev => ({
+      const actionsPerMinute = updatedActions.length / ((Date.now() - prev.startTime) / 60000) || 0;
+
+      setUserEngagement((prev) => ({
         ...prev,
-        actionsPerMinute: Math.round(actionsPerMinute * 10) / 10
+        actionsPerMinute: Math.round(actionsPerMinute * 10) / 10,
       }));
-      
+
       return {
         ...prev,
         actions: updatedActions,
         engagement: {
           ...prev.engagement,
-          actionsCount: updatedActions.length
-        }
+          actionsCount: updatedActions.length,
+        },
       };
     });
   }, []);
@@ -255,7 +255,7 @@ export function UserInteractionEngine({
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const targetSelector = target.className || target.tagName.toLowerCase();
-      
+
       trackAction({
         id: `action-${Date.now()}`,
         type: 'click',
@@ -264,8 +264,8 @@ export function UserInteractionEngine({
         context: {
           page: currentPage,
           position: { x: e.clientX, y: e.clientY },
-          authenticated: isAuthenticated
-        }
+          authenticated: isAuthenticated,
+        },
       });
 
       // Check for interaction triggers
@@ -282,8 +282,8 @@ export function UserInteractionEngine({
           page: currentPage,
           ctrlKey: e.ctrlKey,
           shiftKey: e.shiftKey,
-          altKey: e.altKey
-        }
+          altKey: e.altKey,
+        },
       });
 
       // Handle keyboard shortcuts
@@ -302,8 +302,9 @@ export function UserInteractionEngine({
     };
 
     const handleScroll = () => {
-      const scrollPercentage = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-      
+      const scrollPercentage =
+        (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+
       trackAction({
         id: `action-${Date.now()}`,
         type: 'scroll',
@@ -311,8 +312,8 @@ export function UserInteractionEngine({
         timestamp: Date.now(),
         context: {
           page: currentPage,
-          scrollPercentage: Math.round(scrollPercentage)
-        }
+          scrollPercentage: Math.round(scrollPercentage),
+        },
       });
     };
 
@@ -328,56 +329,59 @@ export function UserInteractionEngine({
   }, [currentPage, isAuthenticated, trackAction, onActionTrigger, onHelpRequest]);
 
   // Check for interaction pattern triggers
-  const checkInteractionTriggers = useCallback((eventType: string, target: string) => {
-    const sessionTime = currentSession ? Date.now() - currentSession.startTime : 0;
-    const actionCount = currentSession?.actions.length || 0;
-    
-    const context = {
-      page: currentPage,
-      auth: isAuthenticated,
-      sessionTime,
-      actionCount,
-      userPersona
-    };
+  const checkInteractionTriggers = useCallback(
+    (eventType: string, target: string) => {
+      const sessionTime = currentSession ? Date.now() - currentSession.startTime : 0;
+      const actionCount = currentSession?.actions.length || 0;
 
-    INTERACTION_PATTERNS.forEach(pattern => {
-      const shouldTrigger = pattern.triggers.some(trigger => {
-        if (trigger.startsWith('page:')) {
-          return trigger.includes(currentPage);
-        }
-        if (trigger.startsWith('auth:')) {
-          return trigger.includes(isAuthenticated.toString());
-        }
-        if (trigger.startsWith('actions:')) {
-          const threshold = parseInt(trigger.replace('actions:', '').replace('+', ''));
-          return actionCount >= threshold;
-        }
-        if (trigger.startsWith('session:')) {
-          const timeMatch = trigger.match(/(\d+)(min|s)/);
-          if (timeMatch) {
-            const value = parseInt(timeMatch[1]);
-            const unit = timeMatch[2];
-            const thresholdMs = unit === 'min' ? value * 60000 : value * 1000;
-            return sessionTime >= thresholdMs;
+      const context = {
+        page: currentPage,
+        auth: isAuthenticated,
+        sessionTime,
+        actionCount,
+        userPersona,
+      };
+
+      INTERACTION_PATTERNS.forEach((pattern) => {
+        const shouldTrigger = pattern.triggers.some((trigger) => {
+          if (trigger.startsWith('page:')) {
+            return trigger.includes(currentPage);
           }
-        }
-        if (trigger.startsWith('idle:')) {
-          // Check for idle time (would need additional idle detection logic)
+          if (trigger.startsWith('auth:')) {
+            return trigger.includes(isAuthenticated.toString());
+          }
+          if (trigger.startsWith('actions:')) {
+            const threshold = parseInt(trigger.replace('actions:', '').replace('+', ''));
+            return actionCount >= threshold;
+          }
+          if (trigger.startsWith('session:')) {
+            const timeMatch = trigger.match(/(\d+)(min|s)/);
+            if (timeMatch) {
+              const value = parseInt(timeMatch[1]);
+              const unit = timeMatch[2];
+              const thresholdMs = unit === 'min' ? value * 60000 : value * 1000;
+              return sessionTime >= thresholdMs;
+            }
+          }
+          if (trigger.startsWith('idle:')) {
+            // Check for idle time (would need additional idle detection logic)
+            return false;
+          }
           return false;
-        }
-        return false;
-      });
+        });
 
-      if (shouldTrigger && !activeInteractions.find(ai => ai.id === pattern.id)) {
-        setActiveInteractions(prev => [...prev, pattern]);
-        executeInteractionPattern(pattern);
-      }
-    });
-  }, [currentPage, isAuthenticated, userPersona, currentSession, activeInteractions]);
+        if (shouldTrigger && !activeInteractions.find((ai) => ai.id === pattern.id)) {
+          setActiveInteractions((prev) => [...prev, pattern]);
+          executeInteractionPattern(pattern);
+        }
+      });
+    },
+    [currentPage, isAuthenticated, userPersona, currentSession, activeInteractions]
+  );
 
   // Execute interaction pattern actions
   const executeInteractionPattern = useCallback((pattern: InteractionPattern) => {
-    pattern.actions.forEach(action => {
+    pattern.actions.forEach((action) => {
       setTimeout(() => {
         switch (action.type) {
           case 'highlight':
@@ -416,8 +420,8 @@ export function UserInteractionEngine({
         content,
         position: {
           x: rect.left + rect.width / 2,
-          y: rect.top - 10
-        }
+          y: rect.top - 10,
+        },
       });
 
       setTimeout(() => {
@@ -435,7 +439,7 @@ export function UserInteractionEngine({
   const getEngagementLevel = () => {
     const { sessionTime, actionsPerMinute } = userEngagement;
     const sessionMinutes = sessionTime / 60000;
-    
+
     if (sessionMinutes < 1) return 'warming-up';
     if (actionsPerMinute > 10) return 'highly-engaged';
     if (actionsPerMinute > 5) return 'engaged';
@@ -459,7 +463,7 @@ export function UserInteractionEngine({
           style={{
             left: showTooltip.position.x,
             top: showTooltip.position.y,
-            transform: 'translate(-50%, -100%)'
+            transform: 'translate(-50%, -100%)',
           }}
         >
           {showTooltip.content}
@@ -479,7 +483,7 @@ export function UserInteractionEngine({
               </Badge>
             </CardTitle>
           </CardHeader>
-          
+
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div className="text-center">
@@ -515,7 +519,7 @@ export function UserInteractionEngine({
                   Feedback
                 </TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="help" className="space-y-2 mt-3">
                 <Button
                   size="sm"
@@ -536,7 +540,7 @@ export function UserInteractionEngine({
                   Search Tools (Ctrl+K)
                 </Button>
               </TabsContent>
-              
+
               <TabsContent value="feedback" className="space-y-2 mt-3">
                 <div className="text-xs text-muted-foreground mb-2">
                   How's your experience so far?

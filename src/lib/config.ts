@@ -27,23 +27,23 @@ function getEnv(key: string, fallback: string): string {
       if (value !== undefined && value !== '' && value !== 'undefined') {
         return value;
       }
-      
+
       // Also check without VITE_ prefix for NODE_ENV
       if (key === 'NODE_ENV') {
         return import.meta.env.MODE || fallback;
       }
     }
-    
+
     // Browser environment fallback
     if (typeof window !== 'undefined') {
       return fallback;
     }
-    
+
     // Build/server environment fallback
     if (typeof process !== 'undefined' && process.env && process.env[key]) {
       return process.env[key] || fallback;
     }
-    
+
     return fallback;
   } catch (error) {
     // Silently fallback to default in development
@@ -66,17 +66,17 @@ export const CONFIG = {
   NODE_ENV: NODE_ENV,
   IS_PRODUCTION: IS_PROD,
   IS_DEVELOPMENT: IS_DEV,
-  
+
   API_BASE_URL: getEnv('API_BASE_URL', DEFAULT_VALUES.API_BASE_URL),
-  
+
   ANALYTICS_ENABLED: getBool('ANALYTICS_ENABLED', IS_PROD),
   ERROR_REPORTING: getBool('ERROR_REPORTING', IS_PROD),
   PERFORMANCE_MONITORING: getBool('PERFORMANCE_MONITORING', IS_PROD),
   DEBUG_MODE: getBool('DEBUG_MODE', IS_DEV),
-  
+
   SUPABASE_URL: getEnv('SUPABASE_URL', DEFAULT_VALUES.SUPABASE_URL),
   SUPABASE_ANON_KEY: getEnv('SUPABASE_ANON_KEY', DEFAULT_VALUES.SUPABASE_ANON_KEY),
-  
+
   OPENAI_API_KEY: getEnv('OPENAI_API_KEY', DEFAULT_VALUES.OPENAI_API_KEY),
   SENTRY_DSN: getEnv('SENTRY_DSN', DEFAULT_VALUES.SENTRY_DSN),
   GA_MEASUREMENT_ID: getEnv('GA_MEASUREMENT_ID', DEFAULT_VALUES.GA_MEASUREMENT_ID),
@@ -84,10 +84,11 @@ export const CONFIG = {
 };
 
 // Check if using demo/mock configuration
-const isDemoMode = CONFIG.SUPABASE_URL.includes('demo') || 
-                   CONFIG.SUPABASE_ANON_KEY.includes('demo') ||
-                   CONFIG.SUPABASE_URL === '' || 
-                   CONFIG.SUPABASE_ANON_KEY === '';
+const isDemoMode =
+  CONFIG.SUPABASE_URL.includes('demo') ||
+  CONFIG.SUPABASE_ANON_KEY.includes('demo') ||
+  CONFIG.SUPABASE_URL === '' ||
+  CONFIG.SUPABASE_ANON_KEY === '';
 
 // Simple exports
 export const isProduction = CONFIG.IS_PRODUCTION;
@@ -98,14 +99,16 @@ export function validateConfig() {
   const errors: string[] = [];
   const warnings: string[] = [];
   const info: string[] = [];
-  
+
   if (isProduction) {
     // Production requirements
     if (!CONFIG.SUPABASE_URL || CONFIG.SUPABASE_URL.includes('demo')) {
       errors.push('VITE_SUPABASE_URL must be set to your real Supabase URL in production');
     }
     if (!CONFIG.SUPABASE_ANON_KEY || CONFIG.SUPABASE_ANON_KEY.includes('demo')) {
-      errors.push('VITE_SUPABASE_ANON_KEY must be set to your real Supabase anon key in production');
+      errors.push(
+        'VITE_SUPABASE_ANON_KEY must be set to your real Supabase anon key in production'
+      );
     }
   } else {
     // Development information
@@ -117,10 +120,12 @@ export function validateConfig() {
         info.push('✅ Using real Supabase configuration in development');
       }
     } else {
-      warnings.push('No Supabase configuration found - create .env.local with VITE_SUPABASE_* variables');
+      warnings.push(
+        'No Supabase configuration found - create .env.local with VITE_SUPABASE_* variables'
+      );
     }
   }
-  
+
   return {
     isValid: errors.length === 0,
     errors: errors,
@@ -133,22 +138,22 @@ export function validateConfig() {
 // Initialize function
 export function initializeSimpleConfig() {
   const validation = validateConfig();
-  
+
   if (isDevelopment) {
     console.log('🛠️ FlashFusion Development Mode');
-    
+
     // Debug: Show current environment variable values
     console.log('🔧 Environment Check:', {
       SUPABASE_URL: CONFIG.SUPABASE_URL ? '✅ Set' : '❌ Missing',
       SUPABASE_ANON_KEY: CONFIG.SUPABASE_ANON_KEY ? '✅ Set' : '❌ Missing',
-      isDemoMode: validation.isDemoMode ? '✅ Yes' : '❌ No'
+      isDemoMode: validation.isDemoMode ? '✅ Yes' : '❌ No',
     });
-    
+
     // Show info messages
     if (validation.info.length > 0) {
-      validation.info.forEach(info => console.log(info));
+      validation.info.forEach((info) => console.log(info));
     }
-    
+
     // Only show warnings if not in demo mode AND there are real issues
     if (validation.warnings.length > 0 && !validation.isDemoMode) {
       console.warn('⚠️ Configuration notes:', validation.warnings);
@@ -156,7 +161,7 @@ export function initializeSimpleConfig() {
   } else {
     console.log('🚀 FlashFusion Production Mode');
   }
-  
+
   if (!validation.isValid) {
     if (isProduction) {
       console.error('❌ Configuration errors:', validation.errors);
@@ -164,7 +169,7 @@ export function initializeSimpleConfig() {
       console.warn('⚠️ Configuration issues:', validation.errors);
     }
   }
-  
+
   return {
     config: CONFIG,
     validation: validation,

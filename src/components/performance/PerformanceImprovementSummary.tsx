@@ -13,9 +13,9 @@ export function PerformanceImprovementSummary() {
         'First Contentful Paint: 0.8s (improved 33%)',
         'Time to First Byte: 120ms (excellent)',
         'Bundle Size: 180KB (optimized)',
-        'Memory Usage: 35MB (efficient)'
+        'Memory Usage: 35MB (efficient)',
       ],
-      status: 'completed'
+      status: 'completed',
     },
     {
       category: 'User Workflow',
@@ -25,9 +25,9 @@ export function PerformanceImprovementSummary() {
         'Persona-based workflow orchestration',
         'Interactive demo integration',
         'Realistic user journey mapping',
-        'Proper authentication state management'
+        'Proper authentication state management',
       ],
-      status: 'completed'
+      status: 'completed',
     },
     {
       category: 'Realistic Statistics',
@@ -37,9 +37,9 @@ export function PerformanceImprovementSummary() {
         'Apps generated: 15.6K (achievable milestone)',
         'Conversion rate: 12.4% (healthy startup metric)',
         'User satisfaction: 4.6/5 (credible rating)',
-        'Uptime: 99.7% (production-ready)'
+        'Uptime: 99.7% (production-ready)',
       ],
-      status: 'completed'
+      status: 'completed',
     },
     {
       category: 'Interactive Demo',
@@ -49,9 +49,9 @@ export function PerformanceImprovementSummary() {
         'Live code generation preview',
         'Deployment workflow demonstration',
         'Performance metrics visualization',
-        'Working CTA integration'
+        'Working CTA integration',
       ],
-      status: 'completed'
+      status: 'completed',
     },
     {
       category: 'Landing Page',
@@ -61,17 +61,32 @@ export function PerformanceImprovementSummary() {
         'Live platform analytics display',
         'Realistic testimonials and metrics',
         'Improved conversion flow',
-        'Enhanced social proof elements'
+        'Enhanced social proof elements',
       ],
-      status: 'completed'
-    }
+      status: 'completed',
+    },
   ];
 
   const overallMetrics = [
     { label: 'Performance Score', value: '98/100', change: '+13 points', color: 'text-success' },
-    { label: 'User Flow Success', value: '100%', change: 'Fixed critical issues', color: 'text-success' },
-    { label: 'Demo Completion', value: '94%', change: 'New interactive demo', color: 'text-success' },
-    { label: 'Startup Credibility', value: '95%', change: 'Realistic statistics', color: 'text-success' }
+    {
+      label: 'User Flow Success',
+      value: '100%',
+      change: 'Fixed critical issues',
+      color: 'text-success',
+    },
+    {
+      label: 'Demo Completion',
+      value: '94%',
+      change: 'New interactive demo',
+      color: 'text-success',
+    },
+    {
+      label: 'Startup Credibility',
+      value: '95%',
+      change: 'Realistic statistics',
+      color: 'text-success',
+    },
   ];
 
   return (
@@ -87,8 +102,8 @@ export function PerformanceImprovementSummary() {
           </h2>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Comprehensive fixes and enhancements to performance metrics, user workflow, 
-          and startup-realistic statistics across the platform.
+          Comprehensive fixes and enhancements to performance metrics, user workflow, and
+          startup-realistic statistics across the platform.
         </p>
       </div>
 
@@ -97,15 +112,9 @@ export function PerformanceImprovementSummary() {
         {overallMetrics.map((metric, index) => (
           <Card key={index} className="text-center">
             <CardContent className="p-4">
-              <div className={`text-2xl font-bold ${metric.color} mb-1`}>
-                {metric.value}
-              </div>
-              <div className="text-sm font-medium text-foreground mb-1">
-                {metric.label}
-              </div>
-              <div className="text-xs text-muted-foreground">
-                {metric.change}
-              </div>
+              <div className={`text-2xl font-bold ${metric.color} mb-1`}>{metric.value}</div>
+              <div className="text-sm font-medium text-foreground mb-1">{metric.label}</div>
+              <div className="text-xs text-muted-foreground">{metric.change}</div>
             </CardContent>
           </Card>
         ))}
@@ -185,8 +194,9 @@ export function PerformanceImprovementSummary() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground mb-4">
-            FlashFusion is now optimized with excellent performance metrics, a seamless user workflow 
-            from landing page to full product output, and realistic startup statistics that build credibility.
+            FlashFusion is now optimized with excellent performance metrics, a seamless user
+            workflow from landing page to full product output, and realistic startup statistics that
+            build credibility.
           </p>
           <div className="flex flex-wrap gap-2">
             <Badge variant="outline" className="bg-success/10 text-success border-success/20">

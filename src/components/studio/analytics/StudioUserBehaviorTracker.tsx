@@ -3,15 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { Button } from '../../ui/button';
 import { Badge } from '../../ui/badge';
 import { Progress } from '../../ui/progress';
-import { 
-  Activity, 
-  TrendingUp, 
-  Users, 
+import {
+  Activity,
+  TrendingUp,
+  Users,
   Clock,
   Target,
   Zap,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
 } from 'lucide-react';
 
 interface UserBehaviorMetrics {
@@ -73,8 +73,8 @@ const StudioUserBehaviorTracker: React.FC = () => {
     setIsLoading(true);
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       const mockMetrics: UserBehaviorMetrics = {
         mostUsedFeatures: [
           {
@@ -82,36 +82,36 @@ const StudioUserBehaviorTracker: React.FC = () => {
             usageCount: 45230,
             avgTimeSpent: 180,
             completionRate: 78,
-            trend: 'up'
+            trend: 'up',
           },
           {
             feature: 'Chord Designer',
             usageCount: 32450,
             avgTimeSpent: 420,
             completionRate: 85,
-            trend: 'up'
+            trend: 'up',
           },
           {
             feature: 'Mixing Console',
             usageCount: 28900,
             avgTimeSpent: 960,
             completionRate: 62,
-            trend: 'stable'
+            trend: 'stable',
           },
           {
             feature: 'Lyric Generator',
             usageCount: 24100,
             avgTimeSpent: 300,
             completionRate: 72,
-            trend: 'down'
+            trend: 'down',
           },
           {
             feature: 'Publishing Hub',
             usageCount: 18750,
             avgTimeSpent: 540,
             completionRate: 91,
-            trend: 'up'
-          }
+            trend: 'up',
+          },
         ],
         averageSessionDuration: 1260,
         dropOffPoints: [
@@ -119,26 +119,26 @@ const StudioUserBehaviorTracker: React.FC = () => {
             step: 'Song Generation - AI Processing',
             dropOffRate: 15.3,
             usersAffected: 2340,
-            severity: 'high'
+            severity: 'high',
           },
           {
             step: 'Mixing Console - Track Upload',
             dropOffRate: 22.1,
             usersAffected: 1890,
-            severity: 'critical'
+            severity: 'critical',
           },
           {
             step: 'Publishing - Platform Connect',
             dropOffRate: 18.7,
             usersAffected: 1560,
-            severity: 'high'
+            severity: 'high',
           },
           {
             step: 'Marketplace - Payment Setup',
             dropOffRate: 12.4,
             usersAffected: 980,
-            severity: 'medium'
-          }
+            severity: 'medium',
+          },
         ],
         conversionFunnels: [
           {
@@ -150,8 +150,8 @@ const StudioUserBehaviorTracker: React.FC = () => {
               { name: 'Start Generation', users: 7800, conversionRate: 78, avgTime: 2 },
               { name: 'Generate Song', users: 6240, conversionRate: 80, avgTime: 5 },
               { name: 'Edit/Refine', users: 4992, conversionRate: 80, avgTime: 8 },
-              { name: 'Complete Song', users: 4230, conversionRate: 85, avgTime: 18 }
-            ]
+              { name: 'Complete Song', users: 4230, conversionRate: 85, avgTime: 18 },
+            ],
           },
           {
             name: 'publishing',
@@ -162,8 +162,8 @@ const StudioUserBehaviorTracker: React.FC = () => {
               { name: 'Open Publishing', users: 2960, conversionRate: 70, avgTime: 5 },
               { name: 'Connect Platform', users: 2220, conversionRate: 75, avgTime: 15 },
               { name: 'Upload Metadata', users: 1776, conversionRate: 80, avgTime: 25 },
-              { name: 'Publish Track', users: 1207, conversionRate: 68, avgTime: 35 }
-            ]
+              { name: 'Publish Track', users: 1207, conversionRate: 68, avgTime: 35 },
+            ],
           },
           {
             name: 'free_to_paid',
@@ -174,9 +174,9 @@ const StudioUserBehaviorTracker: React.FC = () => {
               { name: 'View Pricing', users: 3200, conversionRate: 32, avgTime: 3 },
               { name: 'Start Checkout', users: 1280, conversionRate: 40, avgTime: 7 },
               { name: 'Enter Payment', users: 960, conversionRate: 75, avgTime: 10 },
-              { name: 'Complete Purchase', users: 840, conversionRate: 87.5, avgTime: 12 }
-            ]
-          }
+              { name: 'Complete Purchase', users: 840, conversionRate: 87.5, avgTime: 12 },
+            ],
+          },
         ],
         userSegments: [
           {
@@ -188,8 +188,8 @@ const StudioUserBehaviorTracker: React.FC = () => {
               'Daily active users',
               'Use advanced features',
               'High completion rate',
-              'Studio tier subscription'
-            ]
+              'Studio tier subscription',
+            ],
           },
           {
             name: 'Singer-Songwriters',
@@ -200,8 +200,8 @@ const StudioUserBehaviorTracker: React.FC = () => {
               'Weekly active users',
               'Focus on lyrics & chords',
               'Moderate publishing rate',
-              'Pro tier subscription'
-            ]
+              'Pro tier subscription',
+            ],
           },
           {
             name: 'Hobbyists',
@@ -212,8 +212,8 @@ const StudioUserBehaviorTracker: React.FC = () => {
               'Monthly active users',
               'Experiment with features',
               'Low completion rate',
-              'Free tier'
-            ]
+              'Free tier',
+            ],
           },
           {
             name: 'Educators',
@@ -224,10 +224,10 @@ const StudioUserBehaviorTracker: React.FC = () => {
               'Regular scheduled usage',
               'Collaboration features',
               'High engagement',
-              'Enterprise tier'
-            ]
-          }
-        ]
+              'Enterprise tier',
+            ],
+          },
+        ],
       };
 
       setMetrics(mockMetrics);
@@ -239,7 +239,7 @@ const StudioUserBehaviorTracker: React.FC = () => {
   };
 
   const selectedFunnelData = useMemo(() => {
-    return metrics?.conversionFunnels.find(f => f.name === selectedFunnel);
+    return metrics?.conversionFunnels.find((f) => f.name === selectedFunnel);
   }, [metrics, selectedFunnel]);
 
   const getTrendIcon = (trend: string) => {
@@ -297,11 +297,7 @@ const StudioUserBehaviorTracker: React.FC = () => {
               <Button
                 key={range}
                 onClick={() => setTimeRange(range)}
-                className={
-                  timeRange === range
-                    ? 'ff-btn-primary'
-                    : 'ff-btn-secondary'
-                }
+                className={timeRange === range ? 'ff-btn-primary' : 'ff-btn-secondary'}
               >
                 {range === '7d' ? '7 Days' : range === '30d' ? '30 Days' : '90 Days'}
               </Button>
@@ -317,7 +313,8 @@ const StudioUserBehaviorTracker: React.FC = () => {
                 <div>
                   <p className="text-sm text-[#94A3B8] font-['Inter']">Avg Session</p>
                   <p className="text-2xl font-bold text-white mt-1 font-['Sora']">
-                    {Math.floor(metrics.averageSessionDuration / 60)}m {metrics.averageSessionDuration % 60}s
+                    {Math.floor(metrics.averageSessionDuration / 60)}m{' '}
+                    {metrics.averageSessionDuration % 60}s
                   </p>
                 </div>
                 <Clock className="h-8 w-8 text-[#00B4D8]" />
@@ -345,7 +342,11 @@ const StudioUserBehaviorTracker: React.FC = () => {
                 <div>
                   <p className="text-sm text-[#94A3B8] font-['Inter']">Avg Conversion</p>
                   <p className="text-2xl font-bold text-white mt-1 font-['Sora']">
-                    {(metrics.conversionFunnels.reduce((sum, f) => sum + f.conversionRate, 0) / metrics.conversionFunnels.length).toFixed(1)}%
+                    {(
+                      metrics.conversionFunnels.reduce((sum, f) => sum + f.conversionRate, 0) /
+                      metrics.conversionFunnels.length
+                    ).toFixed(1)}
+                    %
                   </p>
                 </div>
                 <Target className="h-8 w-8 text-[#E91E63]" />
@@ -371,13 +372,15 @@ const StudioUserBehaviorTracker: React.FC = () => {
         {/* Most Used Features */}
         <Card className="ff-card-interactive bg-[#1E293B] border-[#334155]">
           <CardHeader>
-            <CardTitle className="text-white font-['Sora']">
-              Most Used Features
-            </CardTitle>
+            <CardTitle className="text-white font-['Sora']">Most Used Features</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {metrics.mostUsedFeatures.map((feature, index) => (
-              <div key={index} className="space-y-2 ff-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+              <div
+                key={index}
+                className="space-y-2 ff-fade-in-up"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     {getTrendIcon(feature.trend)}
@@ -436,18 +439,14 @@ const StudioUserBehaviorTracker: React.FC = () => {
         <Card className="ff-card-interactive bg-[#1E293B] border-[#334155]">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-white font-['Sora']">
-                Conversion Funnels
-              </CardTitle>
+              <CardTitle className="text-white font-['Sora']">Conversion Funnels</CardTitle>
               <div className="flex gap-2">
                 {metrics.conversionFunnels.map((funnel) => (
                   <Button
                     key={funnel.name}
                     onClick={() => setSelectedFunnel(funnel.name)}
                     className={
-                      selectedFunnel === funnel.name
-                        ? 'ff-btn-primary'
-                        : 'ff-btn-secondary'
+                      selectedFunnel === funnel.name ? 'ff-btn-primary' : 'ff-btn-secondary'
                     }
                     size="sm"
                   >
@@ -477,7 +476,11 @@ const StudioUserBehaviorTracker: React.FC = () => {
 
                 <div className="space-y-3">
                   {selectedFunnelData.steps.map((step, index) => (
-                    <div key={index} className="relative ff-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+                    <div
+                      key={index}
+                      className="relative ff-fade-in-up"
+                      style={{ animationDelay: `${index * 100}ms` }}
+                    >
                       <div className="flex items-center justify-between p-4 rounded-lg bg-[#0F172A] border border-[#334155]">
                         <div className="flex items-center gap-4">
                           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#FF7B00]/10 border border-[#FF7B00]/20">
@@ -485,7 +488,9 @@ const StudioUserBehaviorTracker: React.FC = () => {
                           </div>
                           <div>
                             <p className="text-white font-semibold font-['Sora']">{step.name}</p>
-                            <p className="text-sm text-[#94A3B8]">{step.users.toLocaleString()} users</p>
+                            <p className="text-sm text-[#94A3B8]">
+                              {step.users.toLocaleString()} users
+                            </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-6">
@@ -515,9 +520,7 @@ const StudioUserBehaviorTracker: React.FC = () => {
         {/* User Segments */}
         <Card className="ff-card-interactive bg-[#1E293B] border-[#334155]">
           <CardHeader>
-            <CardTitle className="text-white font-['Sora']">
-              User Segments
-            </CardTitle>
+            <CardTitle className="text-white font-['Sora']">User Segments</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -534,7 +537,9 @@ const StudioUserBehaviorTracker: React.FC = () => {
                   <div className="grid grid-cols-3 gap-4 mb-4">
                     <div>
                       <p className="text-xs text-[#94A3B8]">Users</p>
-                      <p className="text-xl font-bold text-white">{segment.count.toLocaleString()}</p>
+                      <p className="text-xl font-bold text-white">
+                        {segment.count.toLocaleString()}
+                      </p>
                     </div>
                     <div>
                       <p className="text-xs text-[#94A3B8]">Avg Revenue</p>

@@ -4,11 +4,11 @@
  * @category infrastructure
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * High-level system architecture diagram illustrating multi-region deployment,
  * CDN nodes, load balancers, auto-scaling application servers, centralized database cluster,
  * monitoring tools (DataDog/New Relic), and error tracking (Sentry).
- * 
+ *
  * Features:
  * - Interactive multi-region deployment visualization
  * - Real-time infrastructure monitoring
@@ -25,13 +25,13 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Globe, 
-  Server, 
-  Database, 
-  Shield, 
-  Zap, 
-  Activity, 
+import {
+  Globe,
+  Server,
+  Database,
+  Shield,
+  Zap,
+  Activity,
   BarChart3,
   Eye,
   AlertTriangle,
@@ -64,7 +64,7 @@ import {
   Router,
   Smartphone,
   Monitor,
-  Tablet
+  Tablet,
 } from 'lucide-react';
 
 // Infrastructure regions and data centers
@@ -77,7 +77,7 @@ const regions = {
     servers: 12,
     connections: 4521,
     latency: 23,
-    primary: true
+    primary: true,
   },
   'us-west-2': {
     name: 'US West (Oregon)',
@@ -87,7 +87,7 @@ const regions = {
     servers: 8,
     connections: 2890,
     latency: 18,
-    primary: false
+    primary: false,
   },
   'eu-west-1': {
     name: 'EU West (Ireland)',
@@ -97,7 +97,7 @@ const regions = {
     servers: 10,
     connections: 3456,
     latency: 28,
-    primary: false
+    primary: false,
   },
   'ap-southeast-1': {
     name: 'Asia Pacific (Singapore)',
@@ -107,7 +107,7 @@ const regions = {
     servers: 6,
     connections: 1890,
     latency: 45,
-    primary: false
+    primary: false,
   },
   'ap-northeast-1': {
     name: 'Asia Pacific (Tokyo)',
@@ -117,8 +117,8 @@ const regions = {
     servers: 9,
     connections: 2234,
     latency: 32,
-    primary: false
-  }
+    primary: false,
+  },
 };
 
 // CDN edge locations
@@ -127,7 +127,7 @@ const cdnNodes = [
   { id: 'cdn-2', region: 'us-west-2', type: 'edge', traffic: 32, status: 'healthy' },
   { id: 'cdn-3', region: 'eu-west-1', type: 'edge', traffic: 38, status: 'healthy' },
   { id: 'cdn-4', region: 'ap-southeast-1', type: 'edge', traffic: 28, status: 'warning' },
-  { id: 'cdn-5', region: 'ap-northeast-1', type: 'edge', traffic: 35, status: 'healthy' }
+  { id: 'cdn-5', region: 'ap-northeast-1', type: 'edge', traffic: 35, status: 'healthy' },
 ];
 
 // Infrastructure components
@@ -136,32 +136,32 @@ const infrastructureComponents = {
     name: 'Global Load Balancer',
     type: 'networking',
     status: 'healthy',
-    metrics: { requests: 15420, distribution: 'round-robin', healthChecks: 100 }
+    metrics: { requests: 15420, distribution: 'round-robin', healthChecks: 100 },
   },
   autoscaler: {
     name: 'Auto-scaling Manager',
     type: 'orchestration',
     status: 'healthy',
-    metrics: { instances: 45, scaling: 'enabled', triggers: 3 }
+    metrics: { instances: 45, scaling: 'enabled', triggers: 3 },
   },
   database: {
     name: 'Database Cluster',
     type: 'storage',
     status: 'healthy',
-    metrics: { connections: 234, replicas: 5, shards: 8 }
+    metrics: { connections: 234, replicas: 5, shards: 8 },
   },
   monitoring: {
     name: 'Monitoring Stack',
     type: 'observability',
     status: 'healthy',
-    metrics: { alerts: 2, uptime: 99.98, coverage: 100 }
+    metrics: { alerts: 2, uptime: 99.98, coverage: 100 },
   },
   cdn: {
     name: 'Content Delivery Network',
     type: 'edge',
     status: 'healthy',
-    metrics: { nodes: 150, cacheHit: 94.2, bandwidth: 2.1 }
-  }
+    metrics: { nodes: 150, cacheHit: 94.2, bandwidth: 2.1 },
+  },
 };
 
 // Monitoring tools configuration
@@ -172,7 +172,7 @@ const monitoringTools = [
     status: 'active',
     coverage: ['Infrastructure', 'Application', 'Logs', 'Traces'],
     alerts: 2,
-    dashboards: 15
+    dashboards: 15,
   },
   {
     name: 'New Relic',
@@ -180,7 +180,7 @@ const monitoringTools = [
     status: 'active',
     coverage: ['Performance', 'Errors', 'Browser', 'Mobile'],
     alerts: 0,
-    dashboards: 8
+    dashboards: 8,
   },
   {
     name: 'Sentry',
@@ -188,8 +188,8 @@ const monitoringTools = [
     status: 'active',
     coverage: ['Error Tracking', 'Performance', 'Releases', 'Issues'],
     alerts: 1,
-    dashboards: 4
-  }
+    dashboards: 4,
+  },
 ];
 
 interface InfrastructureStrategyDiagramProps {
@@ -209,7 +209,7 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
     if (isAnimating) {
       const interval = setInterval(() => {
         // Simulate metric updates
-        Object.keys(regions).forEach(regionKey => {
+        Object.keys(regions).forEach((regionKey) => {
           const region = regions[regionKey as keyof typeof regions];
           region.load += (Math.random() - 0.5) * 5;
           region.load = Math.max(0, Math.min(100, region.load));
@@ -217,7 +217,7 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
           region.connections = Math.max(0, region.connections);
         });
       }, 2000);
-      
+
       return () => clearInterval(interval);
     }
   }, [isAnimating]);
@@ -225,7 +225,6 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
   // Global infrastructure diagram
   const GlobalInfrastructureDiagram = () => (
     <div className="relative w-full h-[600px] bg-gradient-to-br from-[var(--ff-surface)] to-[var(--ff-surface-light)] rounded-lg border border-[var(--border)] overflow-hidden">
-      
       {/* World map background */}
       <div className="absolute inset-0 opacity-10">
         <svg width="100%" height="100%" viewBox="0 0 900 600">
@@ -244,24 +243,30 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
       <svg width="100%" height="100%" viewBox="0 0 900 600" className="absolute inset-0">
         {/* Connection lines between regions */}
         {Object.entries(regions).map(([sourceKey, source]) =>
-          Object.entries(regions).filter(([targetKey]) => targetKey !== sourceKey).map(([targetKey, target]) => (
-            <line
-              key={`${sourceKey}-${targetKey}`}
-              x1={source.coordinates.x}
-              y1={source.coordinates.y}
-              x2={target.coordinates.x}
-              y2={target.coordinates.y}
-              stroke="rgba(255, 123, 0, 0.2)"
-              strokeWidth="1"
-              strokeDasharray="5,5"
-              className={isAnimating ? 'animate-pulse' : ''}
-            />
-          ))
+          Object.entries(regions)
+            .filter(([targetKey]) => targetKey !== sourceKey)
+            .map(([targetKey, target]) => (
+              <line
+                key={`${sourceKey}-${targetKey}`}
+                x1={source.coordinates.x}
+                y1={source.coordinates.y}
+                x2={target.coordinates.x}
+                y2={target.coordinates.y}
+                stroke="rgba(255, 123, 0, 0.2)"
+                strokeWidth="1"
+                strokeDasharray="5,5"
+                className={isAnimating ? 'animate-pulse' : ''}
+              />
+            ))
         )}
 
         {/* Region nodes */}
         {Object.entries(regions).map(([regionKey, region]) => (
-          <g key={regionKey} className="cursor-pointer" onClick={() => setSelectedRegion(regionKey)}>
+          <g
+            key={regionKey}
+            className="cursor-pointer"
+            onClick={() => setSelectedRegion(regionKey)}
+          >
             {/* Region circle */}
             <circle
               cx={region.coordinates.x}
@@ -273,7 +278,7 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
               strokeWidth={selectedRegion === regionKey ? 3 : 2}
               className="transition-all duration-300"
             />
-            
+
             {/* Load indicator */}
             <circle
               cx={region.coordinates.x}
@@ -343,7 +348,7 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
         ))}
 
         {/* CDN edge locations */}
-        {cdnNodes.map(node => {
+        {cdnNodes.map((node) => {
           const region = regions[node.region as keyof typeof regions];
           return (
             <g key={node.id}>
@@ -387,7 +392,7 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
       <div className="absolute top-4 right-4 flex gap-2">
         <Button
           size="sm"
-          variant={isAnimating ? "default" : "outline"}
+          variant={isAnimating ? 'default' : 'outline'}
           onClick={() => setIsAnimating(!isAnimating)}
           className="ff-btn-primary"
         >
@@ -422,24 +427,27 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
   );
 
   return (
-    <div className="min-h-screen bg-[var(--ff-bg-dark)]" style={{ fontFamily: 'var(--ff-font-secondary)' }}>
+    <div
+      className="min-h-screen bg-[var(--ff-bg-dark)]"
+      style={{ fontFamily: 'var(--ff-font-secondary)' }}
+    >
       <div className="max-w-7xl mx-auto p-6 space-y-8">
-        
         {/* Header */}
         <div className="text-center space-y-4 ff-fade-in-up">
           <Badge className="ff-badge-accent mb-4">
             <Globe className="w-4 h-4 mr-2" />
             Infrastructure Strategy
           </Badge>
-          
+
           <h1 className="ff-text-display">
             Global
             <span className="ff-text-gradient"> Infrastructure</span>
           </h1>
-          
+
           <p className="ff-text-body max-w-3xl mx-auto">
-            Multi-region deployment strategy with CDN nodes, load balancers, auto-scaling application servers,
-            centralized database clusters, and comprehensive monitoring across all infrastructure layers.
+            Multi-region deployment strategy with CDN nodes, load balancers, auto-scaling
+            application servers, centralized database clusters, and comprehensive monitoring across
+            all infrastructure layers.
           </p>
         </div>
 
@@ -449,7 +457,7 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
             {[
               { key: 'global', label: 'Global View', icon: Globe },
               { key: 'regional', label: 'Regional', icon: MapPin },
-              { key: 'monitoring', label: 'Monitoring', icon: Eye }
+              { key: 'monitoring', label: 'Monitoring', icon: Eye },
             ].map((view) => (
               <button
                 key={view.key}
@@ -490,7 +498,7 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
           </CardHeader>
           <CardContent>
             {currentView === 'global' && <GlobalInfrastructureDiagram />}
-            
+
             {currentView === 'regional' && (
               <div className="space-y-6">
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -500,41 +508,57 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                         <div className="flex items-center justify-between">
                           <div>
                             <CardTitle className="ff-text-sm">{region.name}</CardTitle>
-                            <Badge 
-                              className={region.status === 'healthy' ? 'ff-badge-success' : 'ff-badge-warning'}
+                            <Badge
+                              className={
+                                region.status === 'healthy'
+                                  ? 'ff-badge-success'
+                                  : 'ff-badge-warning'
+                              }
                             >
                               {region.status}
                             </Badge>
                           </div>
-                          {region.primary && (
-                            <Badge className="ff-badge-primary">Primary</Badge>
-                          )}
+                          {region.primary && <Badge className="ff-badge-primary">Primary</Badge>}
                         </div>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div className="grid grid-cols-2 gap-3">
                           <div className="space-y-1">
                             <div className="ff-text-xs text-[var(--ff-text-muted)]">Load</div>
-                            <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                            <div
+                              className="ff-text-lg text-[var(--ff-text-primary)]"
+                              style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                            >
                               {Math.round(region.load)}%
                             </div>
                             <Progress value={region.load} className="h-1" />
                           </div>
                           <div className="space-y-1">
                             <div className="ff-text-xs text-[var(--ff-text-muted)]">Servers</div>
-                            <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                            <div
+                              className="ff-text-lg text-[var(--ff-text-primary)]"
+                              style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                            >
                               {region.servers}
                             </div>
                           </div>
                           <div className="space-y-1">
-                            <div className="ff-text-xs text-[var(--ff-text-muted)]">Connections</div>
-                            <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                            <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                              Connections
+                            </div>
+                            <div
+                              className="ff-text-lg text-[var(--ff-text-primary)]"
+                              style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                            >
                               {region.connections.toLocaleString()}
                             </div>
                           </div>
                           <div className="space-y-1">
                             <div className="ff-text-xs text-[var(--ff-text-muted)]">Latency</div>
-                            <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                            <div
+                              className="ff-text-lg text-[var(--ff-text-primary)]"
+                              style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                            >
                               {region.latency}ms
                             </div>
                           </div>
@@ -545,7 +569,7 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                 </div>
               </div>
             )}
-            
+
             {currentView === 'monitoring' && (
               <div className="space-y-6">
                 <div className="grid md:grid-cols-3 gap-6">
@@ -554,30 +578,46 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                       <CardHeader>
                         <div className="flex items-center justify-between">
                           <CardTitle className="ff-text-base">{tool.name}</CardTitle>
-                          <Badge className={tool.status === 'active' ? 'ff-badge-success' : 'ff-badge-secondary'}>
+                          <Badge
+                            className={
+                              tool.status === 'active' ? 'ff-badge-success' : 'ff-badge-secondary'
+                            }
+                          >
                             {tool.status}
                           </Badge>
                         </div>
-                        <p className="ff-text-sm text-[var(--ff-text-muted)]">{tool.type.toUpperCase()}</p>
+                        <p className="ff-text-sm text-[var(--ff-text-muted)]">
+                          {tool.type.toUpperCase()}
+                        </p>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div className="grid grid-cols-2 gap-3">
                           <div className="text-center">
-                            <div className="ff-text-xs text-[var(--ff-text-muted)]">Active Alerts</div>
-                            <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                            <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                              Active Alerts
+                            </div>
+                            <div
+                              className="ff-text-2xl text-[var(--ff-text-primary)]"
+                              style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                            >
                               {tool.alerts}
                             </div>
                           </div>
                           <div className="text-center">
                             <div className="ff-text-xs text-[var(--ff-text-muted)]">Dashboards</div>
-                            <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                            <div
+                              className="ff-text-2xl text-[var(--ff-text-primary)]"
+                              style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                            >
                               {tool.dashboards}
                             </div>
                           </div>
                         </div>
-                        
+
                         <div>
-                          <div className="ff-text-xs text-[var(--ff-text-muted)] mb-2">Coverage Areas</div>
+                          <div className="ff-text-xs text-[var(--ff-text-muted)] mb-2">
+                            Coverage Areas
+                          </div>
                           <div className="flex flex-wrap gap-1">
                             {tool.coverage.map((area, idx) => (
                               <Badge key={idx} variant="outline" className="ff-text-xs">
@@ -600,17 +640,23 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
           {Object.entries(infrastructureComponents).map(([key, component]) => {
             const getIcon = (type: string) => {
               switch (type) {
-                case 'networking': return Network;
-                case 'orchestration': return Settings;
-                case 'storage': return Database;
-                case 'observability': return Eye;
-                case 'edge': return Globe;
-                default: return Box;
+                case 'networking':
+                  return Network;
+                case 'orchestration':
+                  return Settings;
+                case 'storage':
+                  return Database;
+                case 'observability':
+                  return Eye;
+                case 'edge':
+                  return Globe;
+                default:
+                  return Box;
               }
             };
-            
+
             const Icon = getIcon(component.type);
-            
+
             return (
               <Card key={key} className="ff-card">
                 <CardHeader>
@@ -620,7 +666,11 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                     </div>
                     <div>
                       <CardTitle className="ff-text-sm">{component.name}</CardTitle>
-                      <Badge className={component.status === 'healthy' ? 'ff-badge-success' : 'ff-badge-warning'}>
+                      <Badge
+                        className={
+                          component.status === 'healthy' ? 'ff-badge-success' : 'ff-badge-warning'
+                        }
+                      >
                         {component.status}
                       </Badge>
                     </div>
@@ -631,7 +681,9 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                     {Object.entries(component.metrics).map(([metricKey, value]) => (
                       <div key={metricKey} className="flex justify-between items-center">
                         <span className="ff-text-xs text-[var(--ff-text-muted)]">
-                          {metricKey.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                          {metricKey
+                            .replace(/([A-Z])/g, ' $1')
+                            .replace(/^./, (str) => str.toUpperCase())}
                         </span>
                         <span className="ff-text-xs text-[var(--ff-text-primary)]">
                           {typeof value === 'number' ? value.toLocaleString() : value}
@@ -650,7 +702,9 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
         <Card className="ff-card">
           <CardHeader>
             <CardTitle className="ff-text-title">Infrastructure Specifications</CardTitle>
-            <p className="ff-text-body">Detailed technical breakdown of infrastructure capabilities and scaling policies</p>
+            <p className="ff-text-body">
+              Detailed technical breakdown of infrastructure capabilities and scaling policies
+            </p>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="scaling" className="w-full">
@@ -660,7 +714,7 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                 <TabsTrigger value="storage">Storage</TabsTrigger>
                 <TabsTrigger value="monitoring">Monitoring</TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="scaling" className="space-y-6 mt-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <Card className="ff-card">
@@ -669,24 +723,44 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                     </CardHeader>
                     <CardContent className="space-y-3">
                       {[
-                        { trigger: 'CPU > 70%', action: 'Scale up +2 instances', cooldown: '5 min' },
-                        { trigger: 'Memory > 80%', action: 'Scale up +1 instance', cooldown: '3 min' },
-                        { trigger: 'Requests > 1000/s', action: 'Scale up +3 instances', cooldown: '2 min' },
-                        { trigger: 'Error rate > 5%', action: 'Alert + Scale up', cooldown: '1 min' }
+                        {
+                          trigger: 'CPU > 70%',
+                          action: 'Scale up +2 instances',
+                          cooldown: '5 min',
+                        },
+                        {
+                          trigger: 'Memory > 80%',
+                          action: 'Scale up +1 instance',
+                          cooldown: '3 min',
+                        },
+                        {
+                          trigger: 'Requests > 1000/s',
+                          action: 'Scale up +3 instances',
+                          cooldown: '2 min',
+                        },
+                        {
+                          trigger: 'Error rate > 5%',
+                          action: 'Alert + Scale up',
+                          cooldown: '1 min',
+                        },
                       ].map((policy, index) => (
                         <div key={index} className="p-3 bg-[var(--ff-surface)] rounded-lg">
                           <div className="flex justify-between items-start mb-2">
-                            <span className="ff-text-sm text-[var(--ff-text-primary)]">{policy.trigger}</span>
+                            <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                              {policy.trigger}
+                            </span>
                             <Badge variant="outline" className="ff-text-xs">
                               {policy.cooldown}
                             </Badge>
                           </div>
-                          <div className="ff-text-xs text-[var(--ff-text-muted)]">{policy.action}</div>
+                          <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                            {policy.action}
+                          </div>
                         </div>
                       ))}
                     </CardContent>
                   </Card>
-                  
+
                   <Card className="ff-card">
                     <CardHeader>
                       <CardTitle className="ff-text-base">Current Capacity</CardTitle>
@@ -696,11 +770,13 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                         { resource: 'Application Servers', current: 45, max: 100, usage: 45 },
                         { resource: 'Database Replicas', current: 5, max: 20, usage: 25 },
                         { resource: 'Load Balancers', current: 3, max: 10, usage: 30 },
-                        { resource: 'CDN Nodes', current: 150, max: 500, usage: 30 }
+                        { resource: 'CDN Nodes', current: 150, max: 500, usage: 30 },
                       ].map((capacity, index) => (
                         <div key={index} className="space-y-2">
                           <div className="flex justify-between">
-                            <span className="ff-text-sm text-[var(--ff-text-primary)]">{capacity.resource}</span>
+                            <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                              {capacity.resource}
+                            </span>
                             <span className="ff-text-sm text-[var(--ff-text-secondary)]">
                               {capacity.current}/{capacity.max}
                             </span>
@@ -712,7 +788,7 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                   </Card>
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="networking" className="space-y-6 mt-6">
                 <div className="grid md:grid-cols-3 gap-6">
                   <Card className="ff-card">
@@ -725,16 +801,20 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                         { metric: 'Health Checks', value: 'Every 30s' },
                         { metric: 'Failover Time', value: '< 2s' },
                         { metric: 'SSL Termination', value: 'Enabled' },
-                        { metric: 'Sticky Sessions', value: 'Disabled' }
+                        { metric: 'Sticky Sessions', value: 'Disabled' },
                       ].map((item, index) => (
                         <div key={index} className="flex justify-between">
-                          <span className="ff-text-sm text-[var(--ff-text-primary)]">{item.metric}</span>
-                          <span className="ff-text-sm text-[var(--ff-text-secondary)]">{item.value}</span>
+                          <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                            {item.metric}
+                          </span>
+                          <span className="ff-text-sm text-[var(--ff-text-secondary)]">
+                            {item.value}
+                          </span>
                         </div>
                       ))}
                     </CardContent>
                   </Card>
-                  
+
                   <Card className="ff-card">
                     <CardHeader>
                       <CardTitle className="ff-text-base">CDN Configuration</CardTitle>
@@ -745,16 +825,20 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                         { metric: 'Cache Hit Rate', value: '94.2%' },
                         { metric: 'Origin Shield', value: 'Enabled' },
                         { metric: 'Compression', value: 'Gzip + Brotli' },
-                        { metric: 'TTL Default', value: '24h' }
+                        { metric: 'TTL Default', value: '24h' },
                       ].map((item, index) => (
                         <div key={index} className="flex justify-between">
-                          <span className="ff-text-sm text-[var(--ff-text-primary)]">{item.metric}</span>
-                          <span className="ff-text-sm text-[var(--ff-text-secondary)]">{item.value}</span>
+                          <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                            {item.metric}
+                          </span>
+                          <span className="ff-text-sm text-[var(--ff-text-secondary)]">
+                            {item.value}
+                          </span>
                         </div>
                       ))}
                     </CardContent>
                   </Card>
-                  
+
                   <Card className="ff-card">
                     <CardHeader>
                       <CardTitle className="ff-text-base">Security</CardTitle>
@@ -765,18 +849,22 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                         { metric: 'WAF Rules', value: '125 Active' },
                         { metric: 'Rate Limiting', value: '1000/min' },
                         { metric: 'IP Whitelist', value: 'Configured' },
-                        { metric: 'SSL/TLS', value: 'v1.3' }
+                        { metric: 'SSL/TLS', value: 'v1.3' },
                       ].map((item, index) => (
                         <div key={index} className="flex justify-between">
-                          <span className="ff-text-sm text-[var(--ff-text-primary)]">{item.metric}</span>
-                          <span className="ff-text-sm text-[var(--ff-text-secondary)]">{item.value}</span>
+                          <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                            {item.metric}
+                          </span>
+                          <span className="ff-text-sm text-[var(--ff-text-secondary)]">
+                            {item.value}
+                          </span>
                         </div>
                       ))}
                     </CardContent>
                   </Card>
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="storage" className="space-y-6 mt-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <Card className="ff-card">
@@ -785,28 +873,58 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                     </CardHeader>
                     <CardContent className="space-y-4">
                       {[
-                        { cluster: 'Primary (Write)', region: 'us-east-1', status: 'healthy', load: 65 },
-                        { cluster: 'Read Replica 1', region: 'us-west-2', status: 'healthy', load: 45 },
-                        { cluster: 'Read Replica 2', region: 'eu-west-1', status: 'healthy', load: 72 },
-                        { cluster: 'Read Replica 3', region: 'ap-southeast-1', status: 'warning', load: 89 }
+                        {
+                          cluster: 'Primary (Write)',
+                          region: 'us-east-1',
+                          status: 'healthy',
+                          load: 65,
+                        },
+                        {
+                          cluster: 'Read Replica 1',
+                          region: 'us-west-2',
+                          status: 'healthy',
+                          load: 45,
+                        },
+                        {
+                          cluster: 'Read Replica 2',
+                          region: 'eu-west-1',
+                          status: 'healthy',
+                          load: 72,
+                        },
+                        {
+                          cluster: 'Read Replica 3',
+                          region: 'ap-southeast-1',
+                          status: 'warning',
+                          load: 89,
+                        },
                       ].map((db, index) => (
                         <div key={index} className="p-3 bg-[var(--ff-surface)] rounded-lg">
                           <div className="flex justify-between items-center mb-2">
-                            <span className="ff-text-sm text-[var(--ff-text-primary)]">{db.cluster}</span>
-                            <Badge className={db.status === 'healthy' ? 'ff-badge-success' : 'ff-badge-warning'}>
+                            <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                              {db.cluster}
+                            </span>
+                            <Badge
+                              className={
+                                db.status === 'healthy' ? 'ff-badge-success' : 'ff-badge-warning'
+                              }
+                            >
                               {db.status}
                             </Badge>
                           </div>
                           <div className="flex justify-between items-center mb-2">
-                            <span className="ff-text-xs text-[var(--ff-text-muted)]">{db.region}</span>
-                            <span className="ff-text-xs text-[var(--ff-text-secondary)]">{db.load}% load</span>
+                            <span className="ff-text-xs text-[var(--ff-text-muted)]">
+                              {db.region}
+                            </span>
+                            <span className="ff-text-xs text-[var(--ff-text-secondary)]">
+                              {db.load}% load
+                            </span>
                           </div>
                           <Progress value={db.load} className="h-1" />
                         </div>
                       ))}
                     </CardContent>
                   </Card>
-                  
+
                   <Card className="ff-card">
                     <CardHeader>
                       <CardTitle className="ff-text-base">Backup Strategy</CardTitle>
@@ -816,16 +934,22 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                         { type: 'Continuous Backup', frequency: 'Real-time', retention: '30 days' },
                         { type: 'Daily Snapshots', frequency: 'Daily', retention: '90 days' },
                         { type: 'Weekly Archives', frequency: 'Weekly', retention: '1 year' },
-                        { type: 'Monthly Long-term', frequency: 'Monthly', retention: '7 years' }
+                        { type: 'Monthly Long-term', frequency: 'Monthly', retention: '7 years' },
                       ].map((backup, index) => (
                         <div key={index} className="p-3 bg-[var(--ff-surface)] rounded-lg">
                           <div className="flex justify-between items-center mb-1">
-                            <span className="ff-text-sm text-[var(--ff-text-primary)]">{backup.type}</span>
+                            <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                              {backup.type}
+                            </span>
                             <CheckCircle className="w-4 h-4 text-[var(--ff-success)]" />
                           </div>
                           <div className="flex justify-between">
-                            <span className="ff-text-xs text-[var(--ff-text-muted)]">{backup.frequency}</span>
-                            <span className="ff-text-xs text-[var(--ff-text-secondary)]">{backup.retention}</span>
+                            <span className="ff-text-xs text-[var(--ff-text-muted)]">
+                              {backup.frequency}
+                            </span>
+                            <span className="ff-text-xs text-[var(--ff-text-secondary)]">
+                              {backup.retention}
+                            </span>
                           </div>
                         </div>
                       ))}
@@ -833,7 +957,7 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                   </Card>
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="monitoring" className="space-y-6 mt-6">
                 <div className="grid md:grid-cols-3 gap-6">
                   {monitoringTools.map((tool, index) => (
@@ -844,26 +968,38 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
                       <CardContent className="space-y-4">
                         <div className="grid grid-cols-2 gap-3">
                           <div className="text-center p-3 bg-[var(--ff-surface)] rounded-lg">
-                            <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                            <div
+                              className="ff-text-lg text-[var(--ff-text-primary)]"
+                              style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                            >
                               {tool.alerts}
                             </div>
-                            <div className="ff-text-xs text-[var(--ff-text-muted)]">Active Alerts</div>
+                            <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                              Active Alerts
+                            </div>
                           </div>
                           <div className="text-center p-3 bg-[var(--ff-surface)] rounded-lg">
-                            <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                            <div
+                              className="ff-text-lg text-[var(--ff-text-primary)]"
+                              style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                            >
                               {tool.dashboards}
                             </div>
                             <div className="ff-text-xs text-[var(--ff-text-muted)]">Dashboards</div>
                           </div>
                         </div>
-                        
+
                         <div>
-                          <div className="ff-text-xs text-[var(--ff-text-muted)] mb-2">Monitoring Coverage</div>
+                          <div className="ff-text-xs text-[var(--ff-text-muted)] mb-2">
+                            Monitoring Coverage
+                          </div>
                           <div className="space-y-1">
                             {tool.coverage.map((area, idx) => (
                               <div key={idx} className="flex items-center gap-2">
                                 <CheckCircle className="w-3 h-3 text-[var(--ff-success)]" />
-                                <span className="ff-text-xs text-[var(--ff-text-secondary)]">{area}</span>
+                                <span className="ff-text-xs text-[var(--ff-text-secondary)]">
+                                  {area}
+                                </span>
                               </div>
                             ))}
                           </div>
@@ -876,7 +1012,6 @@ export function InfrastructureStrategyDiagram({}: InfrastructureStrategyDiagramP
             </Tabs>
           </CardContent>
         </Card>
-
       </div>
     </div>
   );

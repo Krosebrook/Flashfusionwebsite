@@ -10,7 +10,10 @@ interface CollaborationPageProps {
   currentUserId: string;
 }
 
-export function CollaborationPage({ projectId = 'current-project', currentUserId }: CollaborationPageProps) {
+export function CollaborationPage({
+  projectId = 'current-project',
+  currentUserId,
+}: CollaborationPageProps) {
   const [activeTab, setActiveTab] = useState('dashboard');
 
   const handleContentChange = (fileId: string, content: string) => {
@@ -68,10 +71,7 @@ export function CollaborationPage({ projectId = 'current-project', currentUserId
         </TabsContent>
 
         <TabsContent value="team" className="space-y-6">
-          <TeamCollaboration
-            projectId={projectId}
-            currentUserId={currentUserId}
-          />
+          <TeamCollaboration projectId={projectId} currentUserId={currentUserId} />
         </TabsContent>
       </Tabs>
     </div>

@@ -22,24 +22,24 @@ export function createCodeSplitComponent<T = {}>(
     preload = false,
     retryable = true,
     fallback,
-    loadingMessage = 'Loading...'
+    loadingMessage = 'Loading...',
   } = config;
 
   // Create lazy component with performance monitoring
   const LazyComponent = lazy(async () => {
     const startTime = performance.now();
-    
+
     try {
       const module = await importFn();
-      
+
       // Record loading performance
       const loadTime = performance.now() - startTime;
       performanceMonitor.recordMetric(`chunk-${chunkName}`, {
         loadTime,
         renderTime: 0,
-        interactionTime: 0
+        interactionTime: 0,
       });
-      
+
       return module;
     } catch (error) {
       console.error(`Failed to load chunk ${chunkName}:`, error);
@@ -82,7 +82,7 @@ function CodeSplitWrapper({
   chunkName,
   fallback,
   loadingMessage,
-  retryable
+  retryable,
 }: CodeSplitWrapperProps) {
   const [retryCount, setRetryCount] = useState(0);
   const [isRetrying, setIsRetrying] = useState(false);
@@ -90,8 +90,8 @@ function CodeSplitWrapper({
   const handleRetry = () => {
     if (retryable && retryCount < 3) {
       setIsRetrying(true);
-      setRetryCount(prev => prev + 1);
-      
+      setRetryCount((prev) => prev + 1);
+
       // Retry after a delay
       setTimeout(() => {
         setIsRetrying(false);
@@ -106,13 +106,9 @@ function CodeSplitWrapper({
       <div className="text-center space-y-4">
         <FullPageLoader message={loadingMessage} />
         <div className="space-y-2">
-          <p className="text-sm text-muted-foreground">
-            Loading {chunkName} module...
-          </p>
+          <p className="text-sm text-muted-foreground">Loading {chunkName} module...</p>
           {retryCount > 0 && (
-            <p className="text-xs text-muted-foreground">
-              Retry attempt {retryCount}
-            </p>
+            <p className="text-xs text-muted-foreground">Retry attempt {retryCount}</p>
           )}
         </div>
       </div>
@@ -124,9 +120,7 @@ function CodeSplitWrapper({
       <div className="flex items-center justify-center p-8">
         <div className="text-center space-y-4">
           <FullPageLoader message="Retrying..." />
-          <p className="text-sm text-muted-foreground">
-            Attempting to reload {chunkName}...
-          </p>
+          <p className="text-sm text-muted-foreground">Attempting to reload {chunkName}...</p>
         </div>
       </div>
     );
@@ -142,9 +136,7 @@ function CodeSplitWrapper({
           <div className="p-4 border border-destructive/20 bg-destructive/5 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-destructive">
-                  Failed to load {chunkName}
-                </p>
+                <p className="font-medium text-destructive">Failed to load {chunkName}</p>
                 <p className="text-sm text-muted-foreground">
                   The module could not be loaded properly.
                 </p>
@@ -161,9 +153,7 @@ function CodeSplitWrapper({
         ) : undefined
       }
     >
-      <Suspense fallback={loadingFallback}>
-        {children}
-      </Suspense>
+      <Suspense fallback={loadingFallback}>{children}</Suspense>
     </ComponentErrorBoundary>
   );
 }
@@ -181,7 +171,7 @@ export class RouteManager {
     const component = createCodeSplitComponent(importFn, {
       chunkName: routeName,
       preload: options.preload,
-      loadingMessage: `Loading ${routeName}...`
+      loadingMessage: `Loading ${routeName}...`,
     });
 
     // Mark as loaded when accessed
@@ -198,7 +188,7 @@ export class RouteManager {
   }
 
   static preloadRoutes(routeNames: string[]) {
-    routeNames.forEach(route => this.preloadRoute(route));
+    routeNames.forEach((route) => this.preloadRoute(route));
   }
 
   static getLoadedRoutes(): string[] {
@@ -263,20 +253,20 @@ export function ProgressiveLoader({ stages, fallback }: ProgressiveLoaderProps) 
     const loadNextStage = async () => {
       if (currentStage < stages.length) {
         const stage = stages[currentStage];
-        
+
         // Check condition if provided
         if (stage.condition && !stage.condition()) {
-          setCurrentStage(prev => prev + 1);
+          setCurrentStage((prev) => prev + 1);
           return;
         }
 
         try {
           const module = await stage.component();
-          setLoadedComponents(prev => [...prev, module.default]);
-          setCurrentStage(prev => prev + 1);
+          setLoadedComponents((prev) => [...prev, module.default]);
+          setCurrentStage((prev) => prev + 1);
         } catch (error) {
           console.error(`Failed to load stage ${stage.name}:`, error);
-          setCurrentStage(prev => prev + 1);
+          setCurrentStage((prev) => prev + 1);
         }
       }
     };
@@ -298,25 +288,23 @@ export function ProgressiveLoader({ stages, fallback }: ProgressiveLoaderProps) 
 }
 
 // Predefined code-split components for FlashFusion
-export const CodeSplitDashboard = createCodeSplitComponent(
-  () => import('../pages/DashboardPage'),
-  { chunkName: 'dashboard', preload: true }
-);
+export const CodeSplitDashboard = createCodeSplitComponent(() => import('../pages/DashboardPage'), {
+  chunkName: 'dashboard',
+  preload: true,
+});
 
-export const CodeSplitTools = createCodeSplitComponent(
-  () => import('../pages/ToolsPage'),
-  { chunkName: 'tools', preload: true }
-);
+export const CodeSplitTools = createCodeSplitComponent(() => import('../pages/ToolsPage'), {
+  chunkName: 'tools',
+  preload: true,
+});
 
-export const CodeSplitProjects = createCodeSplitComponent(
-  () => import('../pages/ProjectsPage'),
-  { chunkName: 'projects' }
-);
+export const CodeSplitProjects = createCodeSplitComponent(() => import('../pages/ProjectsPage'), {
+  chunkName: 'projects',
+});
 
-export const CodeSplitSettings = createCodeSplitComponent(
-  () => import('../pages/SettingsPage'),
-  { chunkName: 'settings' }
-);
+export const CodeSplitSettings = createCodeSplitComponent(() => import('../pages/SettingsPage'), {
+  chunkName: 'settings',
+});
 
 export const CodeSplitOrchestration = createCodeSplitComponent(
   () => import('../pages/MultiAgentOrchestrationPage'),
@@ -328,18 +316,23 @@ export function getCodeSplitAnalytics() {
   const metrics = performanceMonitor.getAllMetrics();
   const chunkMetrics = Object.entries(metrics)
     .filter(([name]) => name.startsWith('chunk-'))
-    .reduce((acc, [name, metric]) => {
-      acc[name.replace('chunk-', '')] = metric;
-      return acc;
-    }, {} as Record<string, any>);
+    .reduce(
+      (acc, [name, metric]) => {
+        acc[name.replace('chunk-', '')] = metric;
+        return acc;
+      },
+      {} as Record<string, any>
+    );
 
   return {
     loadedChunks: Object.keys(chunkMetrics),
-    averageLoadTime: Object.values(chunkMetrics)
-      .reduce((sum: number, metric: any) => sum + metric.loadTime, 0) / 
+    averageLoadTime:
+      Object.values(chunkMetrics).reduce((sum: number, metric: any) => sum + metric.loadTime, 0) /
       Object.keys(chunkMetrics).length,
-    totalLoadTime: Object.values(chunkMetrics)
-      .reduce((sum: number, metric: any) => sum + metric.loadTime, 0),
-    chunkMetrics
+    totalLoadTime: Object.values(chunkMetrics).reduce(
+      (sum: number, metric: any) => sum + metric.loadTime,
+      0
+    ),
+    chunkMetrics,
   };
 }

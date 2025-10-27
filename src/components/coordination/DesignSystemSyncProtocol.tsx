@@ -4,10 +4,10 @@
  * @category design-system
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Comprehensive design system overview showing color tokens, typography scales,
  * spacing units, icons, and component library with automated sync capabilities.
- * 
+ *
  * Features:
  * - Live design token visualization
  * - Component library catalog
@@ -23,12 +23,12 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Palette, 
-  Type, 
-  Ruler, 
-  Box, 
-  Code, 
+import {
+  Palette,
+  Type,
+  Ruler,
+  Box,
+  Code,
   Download,
   RefreshCw,
   Eye,
@@ -58,7 +58,7 @@ import {
   Target,
   Award,
   Database,
-  Layers
+  Layers,
 } from 'lucide-react';
 
 // Design System Data
@@ -76,9 +76,9 @@ const colorTokens = {
       600: '#E66A00',
       700: '#CC5A00',
       800: '#B34A00',
-      900: '#993A00'
+      900: '#993A00',
     },
-    usage: ['CTAs', 'Primary actions', 'Brand highlights']
+    usage: ['CTAs', 'Primary actions', 'Brand highlights'],
   },
   secondary: {
     name: 'Secondary Cyan',
@@ -93,9 +93,9 @@ const colorTokens = {
       600: '#00A2C2',
       700: '#0090AC',
       800: '#007E96',
-      900: '#006C80'
+      900: '#006C80',
     },
-    usage: ['Secondary actions', 'Technical elements', 'UI Kit theme']
+    usage: ['Secondary actions', 'Technical elements', 'UI Kit theme'],
   },
   accent: {
     name: 'Accent Magenta',
@@ -110,23 +110,23 @@ const colorTokens = {
       600: '#D11B59',
       700: '#B9184F',
       800: '#A11545',
-      900: '#89123B'
+      900: '#89123B',
     },
-    usage: ['Highlights', 'Special elements', 'Enterprise features']
+    usage: ['Highlights', 'Special elements', 'Enterprise features'],
   },
   semantic: {
     success: '#10B981',
     warning: '#F59E0B',
     error: '#EF4444',
-    info: '#00B4D8'
-  }
+    info: '#00B4D8',
+  },
 };
 
 const typographyScale = {
   fonts: {
     primary: 'Sora',
     secondary: 'Inter',
-    mono: 'JetBrains Mono'
+    mono: 'JetBrains Mono',
   },
   sizes: {
     xs: 'clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem)',
@@ -138,7 +138,7 @@ const typographyScale = {
     '3xl': 'clamp(1.875rem, 1.6rem + 1.375vw, 2.25rem)',
     '4xl': 'clamp(2.25rem, 1.9rem + 1.75vw, 3rem)',
     '5xl': 'clamp(3rem, 2.5rem + 2.5vw, 3.75rem)',
-    '6xl': 'clamp(3.75rem, 3rem + 3.75vw, 4.5rem)'
+    '6xl': 'clamp(3.75rem, 3rem + 3.75vw, 4.5rem)',
   },
   weights: {
     thin: 100,
@@ -148,8 +148,8 @@ const typographyScale = {
     semibold: 600,
     bold: 700,
     extrabold: 800,
-    black: 900
-  }
+    black: 900,
+  },
 };
 
 const spacingSystem = {
@@ -176,8 +176,8 @@ const spacingSystem = {
     32: '128px',
     40: '160px',
     48: '192px',
-    64: '256px'
-  }
+    64: '256px',
+  },
 };
 
 const componentLibrary = [
@@ -188,7 +188,7 @@ const componentLibrary = [
     status: 'stable',
     lastUpdated: '2024-12-19',
     accessibility: 100,
-    coverage: 95
+    coverage: 95,
   },
   {
     name: 'Card',
@@ -197,7 +197,7 @@ const componentLibrary = [
     status: 'stable',
     lastUpdated: '2024-12-19',
     accessibility: 100,
-    coverage: 98
+    coverage: 98,
   },
   {
     name: 'Input',
@@ -206,7 +206,7 @@ const componentLibrary = [
     status: 'stable',
     lastUpdated: '2024-12-18',
     accessibility: 95,
-    coverage: 92
+    coverage: 92,
   },
   {
     name: 'Modal',
@@ -215,7 +215,7 @@ const componentLibrary = [
     status: 'beta',
     lastUpdated: '2024-12-17',
     accessibility: 88,
-    coverage: 85
+    coverage: 85,
   },
   {
     name: 'Navigation',
@@ -224,8 +224,8 @@ const componentLibrary = [
     status: 'stable',
     lastUpdated: '2024-12-19',
     accessibility: 100,
-    coverage: 100
-  }
+    coverage: 100,
+  },
 ];
 
 const syncStatus = {
@@ -235,7 +235,7 @@ const syncStatus = {
   exportedTokens: 156,
   updatedComponents: 5,
   regressionTests: 98,
-  accessibilityScore: 96
+  accessibilityScore: 96,
 };
 
 interface DesignSystemSyncProtocolProps {
@@ -253,7 +253,7 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
   const handleExportTokens = async () => {
     setExportInProgress(true);
     // Simulate export process
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     setExportInProgress(false);
   };
 
@@ -263,32 +263,38 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
   };
 
   // Color Token Display Component
-  const ColorTokenDisplay = ({ colorGroup, name }: { colorGroup: any, name: string }) => (
+  const ColorTokenDisplay = ({ colorGroup, name }: { colorGroup: any; name: string }) => (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h4 className="ff-text-base text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+        <h4
+          className="ff-text-base text-[var(--ff-text-primary)]"
+          style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+        >
           {colorGroup.name}
         </h4>
         <Badge className="ff-badge-primary">{colorGroup.baseValue}</Badge>
       </div>
-      
+
       <div className="grid grid-cols-5 gap-2">
         {Object.entries(colorGroup.variants).map(([weight, color]) => (
           <div key={weight} className="text-center">
-            <div 
+            <div
               className="w-12 h-12 rounded-lg border-2 border-[var(--border)] cursor-pointer transition-transform hover:scale-105"
               style={{ backgroundColor: color as string }}
               onClick={() => handleCopyToken(color as string)}
               title={`Click to copy ${color}`}
             />
             <div className="ff-text-xs text-[var(--ff-text-muted)] mt-1">{weight}</div>
-            <div className="ff-text-xs text-[var(--ff-text-secondary)]" style={{ fontFamily: 'var(--ff-font-mono)' }}>
+            <div
+              className="ff-text-xs text-[var(--ff-text-secondary)]"
+              style={{ fontFamily: 'var(--ff-font-mono)' }}
+            >
               {color}
             </div>
           </div>
         ))}
       </div>
-      
+
       <div>
         <div className="ff-text-sm text-[var(--ff-text-muted)] mb-2">Usage:</div>
         <div className="flex flex-wrap gap-2">
@@ -303,21 +309,23 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
   );
 
   return (
-    <div className="min-h-screen bg-[var(--ff-bg-dark)]" style={{ fontFamily: 'var(--ff-font-secondary)' }}>
+    <div
+      className="min-h-screen bg-[var(--ff-bg-dark)]"
+      style={{ fontFamily: 'var(--ff-font-secondary)' }}
+    >
       <div className="max-w-7xl mx-auto p-6 space-y-8">
-        
         {/* Header */}
         <div className="text-center space-y-4 ff-fade-in-up">
           <Badge className="ff-badge-primary mb-4">
             <Palette className="w-4 h-4 mr-2" />
             Design System Sync Protocol
           </Badge>
-          
+
           <h1 className="ff-text-display">
             FlashFusion
             <span className="ff-text-gradient"> Design System</span>
           </h1>
-          
+
           <p className="ff-text-body max-w-3xl mx-auto">
             Comprehensive design system overview with automated token export, component updates,
             visual regression testing, and accessibility auditing capabilities.
@@ -333,8 +341,14 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                 Sync Status & Automation
               </CardTitle>
               <div className="flex items-center gap-2">
-                <Badge className={`ff-badge-${syncStatus.status === 'success' ? 'success' : 'warning'}`}>
-                  {syncStatus.status === 'success' ? <CheckCircle className="w-3 h-3 mr-1" /> : <AlertTriangle className="w-3 h-3 mr-1" />}
+                <Badge
+                  className={`ff-badge-${syncStatus.status === 'success' ? 'success' : 'warning'}`}
+                >
+                  {syncStatus.status === 'success' ? (
+                    <CheckCircle className="w-3 h-3 mr-1" />
+                  ) : (
+                    <AlertTriangle className="w-3 h-3 mr-1" />
+                  )}
                   {syncStatus.status}
                 </Badge>
                 <Button
@@ -343,7 +357,11 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                   className="ff-btn-primary"
                   size="sm"
                 >
-                  {exportInProgress ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />}
+                  {exportInProgress ? (
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Download className="w-4 h-4 mr-2" />
+                  )}
                   {exportInProgress ? 'Exporting...' : 'Export Tokens'}
                 </Button>
               </div>
@@ -355,43 +373,55 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                 <div className="w-12 h-12 bg-[var(--ff-primary)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
                   <Database className="w-6 h-6 text-[var(--ff-primary)]" />
                 </div>
-                <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                <div
+                  className="ff-text-2xl text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                >
                   {syncStatus.exportedTokens}
                 </div>
                 <div className="ff-text-sm text-[var(--ff-text-muted)]">Exported Tokens</div>
               </div>
-              
+
               <div className="text-center">
                 <div className="w-12 h-12 bg-[var(--ff-secondary)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
                   <Box className="w-6 h-6 text-[var(--ff-secondary)]" />
                 </div>
-                <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                <div
+                  className="ff-text-2xl text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                >
                   {syncStatus.updatedComponents}
                 </div>
                 <div className="ff-text-sm text-[var(--ff-text-muted)]">Updated Components</div>
               </div>
-              
+
               <div className="text-center">
                 <div className="w-12 h-12 bg-[var(--ff-accent)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
                   <Eye className="w-6 h-6 text-[var(--ff-accent)]" />
                 </div>
-                <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                <div
+                  className="ff-text-2xl text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                >
                   {syncStatus.regressionTests}
                 </div>
                 <div className="ff-text-sm text-[var(--ff-text-muted)]">Regression Tests</div>
               </div>
-              
+
               <div className="text-center">
                 <div className="w-12 h-12 bg-[var(--ff-success)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
                   <Shield className="w-6 h-6 text-[var(--ff-success)]" />
                 </div>
-                <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                <div
+                  className="ff-text-2xl text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                >
                   {syncStatus.accessibilityScore}%
                 </div>
                 <div className="ff-text-sm text-[var(--ff-text-muted)]">Accessibility Score</div>
               </div>
             </div>
-            
+
             <div className="mt-6 pt-6 border-t border-[var(--border)]">
               <div className="flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2 text-[var(--ff-text-muted)]">
@@ -435,7 +465,7 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                   </TabsTrigger>
                 </TabsList>
               </div>
-              
+
               {/* Color Tokens Tab */}
               <TabsContent value="colors" className="p-6 space-y-8">
                 <div className="flex items-center justify-between">
@@ -451,17 +481,19 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                     </Button>
                   </div>
                 </div>
-                
+
                 <div className="grid lg:grid-cols-2 gap-8">
-                  {Object.entries(colorTokens).filter(([key]) => key !== 'semantic').map(([key, colorGroup]) => (
-                    <Card key={key} className="ff-card">
-                      <CardContent className="p-6">
-                        <ColorTokenDisplay colorGroup={colorGroup} name={key} />
-                      </CardContent>
-                    </Card>
-                  ))}
+                  {Object.entries(colorTokens)
+                    .filter(([key]) => key !== 'semantic')
+                    .map(([key, colorGroup]) => (
+                      <Card key={key} className="ff-card">
+                        <CardContent className="p-6">
+                          <ColorTokenDisplay colorGroup={colorGroup} name={key} />
+                        </CardContent>
+                      </Card>
+                    ))}
                 </div>
-                
+
                 {/* Semantic Colors */}
                 <Card className="ff-card">
                   <CardHeader>
@@ -471,15 +503,21 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                     <div className="grid grid-cols-4 gap-4">
                       {Object.entries(colorTokens.semantic).map(([name, color]) => (
                         <div key={name} className="text-center">
-                          <div 
+                          <div
                             className="w-16 h-16 rounded-lg border-2 border-[var(--border)] cursor-pointer transition-transform hover:scale-105 mx-auto"
                             style={{ backgroundColor: color }}
                             onClick={() => handleCopyToken(color)}
                           />
-                          <div className="ff-text-sm text-[var(--ff-text-primary)] mt-2 capitalize" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                          <div
+                            className="ff-text-sm text-[var(--ff-text-primary)] mt-2 capitalize"
+                            style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                          >
                             {name}
                           </div>
-                          <div className="ff-text-xs text-[var(--ff-text-muted)]" style={{ fontFamily: 'var(--ff-font-mono)' }}>
+                          <div
+                            className="ff-text-xs text-[var(--ff-text-muted)]"
+                            style={{ fontFamily: 'var(--ff-font-mono)' }}
+                          >
                             {color}
                           </div>
                         </div>
@@ -488,7 +526,7 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                   </CardContent>
                 </Card>
               </TabsContent>
-              
+
               {/* Typography Tab */}
               <TabsContent value="typography" className="p-6 space-y-8">
                 <div className="flex items-center justify-between">
@@ -498,7 +536,7 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                     Export Fonts
                   </Button>
                 </div>
-                
+
                 <div className="grid lg:grid-cols-3 gap-8">
                   {/* Font Families */}
                   <Card className="ff-card">
@@ -509,17 +547,22 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                       {Object.entries(typographyScale.fonts).map(([type, font]) => (
                         <div key={type} className="space-y-2">
                           <div className="flex items-center justify-between">
-                            <span className="ff-text-sm text-[var(--ff-text-muted)] capitalize">{type}</span>
+                            <span className="ff-text-sm text-[var(--ff-text-muted)] capitalize">
+                              {type}
+                            </span>
                             <Button variant="ghost" size="sm" onClick={() => handleCopyToken(font)}>
                               <Copy className="w-3 h-3" />
                             </Button>
                           </div>
-                          <div 
+                          <div
                             className="ff-text-lg text-[var(--ff-text-primary)]"
-                            style={{ 
-                              fontFamily: type === 'primary' ? 'var(--ff-font-primary)' : 
-                                         type === 'secondary' ? 'var(--ff-font-secondary)' : 
-                                         'var(--ff-font-mono)'
+                            style={{
+                              fontFamily:
+                                type === 'primary'
+                                  ? 'var(--ff-font-primary)'
+                                  : type === 'secondary'
+                                    ? 'var(--ff-font-secondary)'
+                                    : 'var(--ff-font-mono)',
                             }}
                           >
                             {font} - The quick brown fox
@@ -528,7 +571,7 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                       ))}
                     </CardContent>
                   </Card>
-                  
+
                   {/* Font Sizes */}
                   <Card className="ff-card">
                     <CardHeader>
@@ -538,22 +581,27 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                       {Object.entries(typographyScale.sizes).map(([size, value]) => (
                         <div key={size} className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <span className="ff-text-xs text-[var(--ff-text-muted)] w-8">{size}</span>
-                            <span 
+                            <span className="ff-text-xs text-[var(--ff-text-muted)] w-8">
+                              {size}
+                            </span>
+                            <span
                               className="text-[var(--ff-text-primary)]"
                               style={{ fontSize: `var(--ff-text-${size})` }}
                             >
                               Sample Text
                             </span>
                           </div>
-                          <div className="ff-text-xs text-[var(--ff-text-muted)]" style={{ fontFamily: 'var(--ff-font-mono)' }}>
+                          <div
+                            className="ff-text-xs text-[var(--ff-text-muted)]"
+                            style={{ fontFamily: 'var(--ff-font-mono)' }}
+                          >
                             {value}
                           </div>
                         </div>
                       ))}
                     </CardContent>
                   </Card>
-                  
+
                   {/* Font Weights */}
                   <Card className="ff-card">
                     <CardHeader>
@@ -562,13 +610,16 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                     <CardContent className="space-y-3">
                       {Object.entries(typographyScale.weights).map(([weight, value]) => (
                         <div key={weight} className="flex items-center justify-between">
-                          <span 
+                          <span
                             className="ff-text-base text-[var(--ff-text-primary)] capitalize"
                             style={{ fontWeight: value }}
                           >
                             {weight}
                           </span>
-                          <span className="ff-text-xs text-[var(--ff-text-muted)]" style={{ fontFamily: 'var(--ff-font-mono)' }}>
+                          <span
+                            className="ff-text-xs text-[var(--ff-text-muted)]"
+                            style={{ fontFamily: 'var(--ff-font-mono)' }}
+                          >
                             {value}
                           </span>
                         </div>
@@ -577,7 +628,7 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                   </Card>
                 </div>
               </TabsContent>
-              
+
               {/* Spacing Tab */}
               <TabsContent value="spacing" className="p-6 space-y-8">
                 <div className="flex items-center justify-between">
@@ -590,31 +641,37 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                     </Button>
                   </div>
                 </div>
-                
+
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {Object.entries(spacingSystem.scale).map(([key, value]) => (
                     <Card key={key} className="ff-card">
                       <CardContent className="p-4">
                         <div className="flex items-center justify-between mb-3">
-                          <span className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                          <span
+                            className="ff-text-sm text-[var(--ff-text-primary)]"
+                            style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                          >
                             {key}
                           </span>
-                          <span className="ff-text-xs text-[var(--ff-text-muted)]" style={{ fontFamily: 'var(--ff-font-mono)' }}>
+                          <span
+                            className="ff-text-xs text-[var(--ff-text-muted)]"
+                            style={{ fontFamily: 'var(--ff-font-mono)' }}
+                          >
                             {value}
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div 
+                          <div
                             className="bg-[var(--ff-primary)] rounded"
-                            style={{ 
+                            style={{
                               width: value === '0' ? '1px' : value,
                               height: '12px',
-                              minWidth: '2px'
+                              minWidth: '2px',
                             }}
                           />
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             className="w-6 h-6 p-0"
                             onClick={() => handleCopyToken(`var(--ff-space-${key})`)}
                           >
@@ -626,7 +683,7 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                   ))}
                 </div>
               </TabsContent>
-              
+
               {/* Components Tab */}
               <TabsContent value="components" className="p-6 space-y-8">
                 <div className="flex items-center justify-between">
@@ -642,53 +699,73 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                     </Button>
                   </div>
                 </div>
-                
+
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {componentLibrary.map((component, index) => (
-                    <Card 
-                      key={component.name} 
+                    <Card
+                      key={component.name}
                       className={`ff-card-interactive cursor-pointer ${selectedComponent === component.name ? 'border-[var(--ff-primary)]' : ''}`}
-                      onClick={() => setSelectedComponent(selectedComponent === component.name ? null : component.name)}
+                      onClick={() =>
+                        setSelectedComponent(
+                          selectedComponent === component.name ? null : component.name
+                        )
+                      }
                     >
                       <CardHeader>
                         <div className="flex items-center justify-between">
                           <CardTitle className="ff-text-base">{component.name}</CardTitle>
-                          <Badge 
-                            className={component.status === 'stable' ? 'ff-badge-success' : 'ff-badge-warning'}
+                          <Badge
+                            className={
+                              component.status === 'stable'
+                                ? 'ff-badge-success'
+                                : 'ff-badge-warning'
+                            }
                           >
                             {component.status}
                           </Badge>
                         </div>
-                        <div className="ff-text-sm text-[var(--ff-text-muted)]">{component.category}</div>
+                        <div className="ff-text-sm text-[var(--ff-text-muted)]">
+                          {component.category}
+                        </div>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div>
-                          <div className="ff-text-sm text-[var(--ff-text-muted)] mb-2">Variants:</div>
+                          <div className="ff-text-sm text-[var(--ff-text-muted)] mb-2">
+                            Variants:
+                          </div>
                           <div className="flex flex-wrap gap-1">
-                            {component.variants.map(variant => (
+                            {component.variants.map((variant) => (
                               <Badge key={variant} variant="outline" className="ff-text-xs">
                                 {variant}
                               </Badge>
                             ))}
                           </div>
                         </div>
-                        
+
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span className="ff-text-sm text-[var(--ff-text-muted)]">Accessibility</span>
-                            <span className="ff-text-sm text-[var(--ff-text-primary)]">{component.accessibility}%</span>
+                            <span className="ff-text-sm text-[var(--ff-text-muted)]">
+                              Accessibility
+                            </span>
+                            <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                              {component.accessibility}%
+                            </span>
                           </div>
                           <Progress value={component.accessibility} className="h-2" />
                         </div>
-                        
+
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span className="ff-text-sm text-[var(--ff-text-muted)]">Test Coverage</span>
-                            <span className="ff-text-sm text-[var(--ff-text-primary)]">{component.coverage}%</span>
+                            <span className="ff-text-sm text-[var(--ff-text-muted)]">
+                              Test Coverage
+                            </span>
+                            <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                              {component.coverage}%
+                            </span>
                           </div>
                           <Progress value={component.coverage} className="h-2" />
                         </div>
-                        
+
                         <div className="flex items-center justify-between pt-2 border-t border-[var(--border)]">
                           <span className="ff-text-xs text-[var(--ff-text-muted)]">
                             Updated: {component.lastUpdated}
@@ -702,7 +779,7 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                   ))}
                 </div>
               </TabsContent>
-              
+
               {/* Automation Tab */}
               <TabsContent value="automation" className="p-6 space-y-8">
                 <div className="flex items-center justify-between">
@@ -712,7 +789,7 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                     Configure
                   </Button>
                 </div>
-                
+
                 <div className="grid md:grid-cols-2 gap-8">
                   {/* Weekly Export Schedule */}
                   <Card className="ff-card">
@@ -729,11 +806,17 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="ff-text-sm text-[var(--ff-text-muted)]">Next Run</span>
-                        <span className="ff-text-sm text-[var(--ff-text-primary)]">Dec 26, 2024</span>
+                        <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                          Dec 26, 2024
+                        </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="ff-text-sm text-[var(--ff-text-muted)]">Export Format</span>
-                        <span className="ff-text-sm text-[var(--ff-text-primary)]">JSON, CSS, Figma</span>
+                        <span className="ff-text-sm text-[var(--ff-text-muted)]">
+                          Export Format
+                        </span>
+                        <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                          JSON, CSS, Figma
+                        </span>
                       </div>
                       <Button className="w-full ff-btn-outline">
                         <Play className="w-4 h-4 mr-2" />
@@ -741,7 +824,7 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                       </Button>
                     </CardContent>
                   </Card>
-                  
+
                   {/* Visual Regression Testing */}
                   <Card className="ff-card">
                     <CardHeader>
@@ -752,16 +835,22 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <span className="ff-text-sm text-[var(--ff-text-muted)]">Tests Passing</span>
+                        <span className="ff-text-sm text-[var(--ff-text-muted)]">
+                          Tests Passing
+                        </span>
                         <Badge className="ff-badge-success">98/100</Badge>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="ff-text-sm text-[var(--ff-text-muted)]">Last Run</span>
-                        <span className="ff-text-sm text-[var(--ff-text-primary)]">2 hours ago</span>
+                        <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                          2 hours ago
+                        </span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="ff-text-sm text-[var(--ff-text-muted)]">Coverage</span>
-                        <span className="ff-text-sm text-[var(--ff-text-primary)]">Mobile, Tablet, Desktop</span>
+                        <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                          Mobile, Tablet, Desktop
+                        </span>
                       </div>
                       <Button className="w-full ff-btn-outline">
                         <Target className="w-4 h-4 mr-2" />
@@ -769,7 +858,7 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                       </Button>
                     </CardContent>
                   </Card>
-                  
+
                   {/* Accessibility Audits */}
                   <Card className="ff-card">
                     <CardHeader>
@@ -784,7 +873,9 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                         <Badge className="ff-badge-success">96/100</Badge>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="ff-text-sm text-[var(--ff-text-muted)]">Compliance Level</span>
+                        <span className="ff-text-sm text-[var(--ff-text-muted)]">
+                          Compliance Level
+                        </span>
                         <span className="ff-text-sm text-[var(--ff-text-primary)]">AA</span>
                       </div>
                       <div className="flex items-center justify-between">
@@ -797,7 +888,7 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                       </Button>
                     </CardContent>
                   </Card>
-                  
+
                   {/* Component Updates */}
                   <Card className="ff-card">
                     <CardHeader>
@@ -812,11 +903,17 @@ export function DesignSystemSyncProtocol({}: DesignSystemSyncProtocolProps) {
                         <Badge className="ff-badge-success">Enabled</Badge>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="ff-text-sm text-[var(--ff-text-muted)]">Pending Updates</span>
-                        <span className="ff-text-sm text-[var(--ff-text-primary)]">5 components</span>
+                        <span className="ff-text-sm text-[var(--ff-text-muted)]">
+                          Pending Updates
+                        </span>
+                        <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                          5 components
+                        </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="ff-text-sm text-[var(--ff-text-muted)]">Update Strategy</span>
+                        <span className="ff-text-sm text-[var(--ff-text-muted)]">
+                          Update Strategy
+                        </span>
                         <span className="ff-text-sm text-[var(--ff-text-primary)]">Safe mode</span>
                       </div>
                       <Button className="w-full ff-btn-outline">

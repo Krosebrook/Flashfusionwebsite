@@ -2,7 +2,7 @@
  * @fileoverview Real-Time Performance Dashboard
  * @category performance
  * @version 1.0.0
- * 
+ *
  * Comprehensive performance monitoring dashboard that tracks
  * system health, user metrics, and conversion rates in real-time.
  */
@@ -12,17 +12,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Progress } from '../ui/progress';
-import { 
-  Activity, 
-  TrendingUp, 
-  Users, 
-  Zap, 
-  DollarSign, 
+import {
+  Activity,
+  TrendingUp,
+  Users,
+  Zap,
+  DollarSign,
   AlertTriangle,
   CheckCircle,
   Clock,
   BarChart3,
-  Refresh
+  Refresh,
 } from 'lucide-react';
 
 interface PerformanceMetric {
@@ -57,15 +57,15 @@ export const RealTimePerformanceDashboard: React.FC = () => {
       { name: 'Time to Interactive', baseValue: 2.1, unit: 's', target: 3.0 },
       { name: 'Memory Usage', baseValue: 45, unit: 'MB', target: 100 },
       { name: 'Error Rate', baseValue: 0.2, unit: '%', target: 1.0 },
-      { name: 'API Response Time', baseValue: 150, unit: 'ms', target: 500 }
+      { name: 'API Response Time', baseValue: 150, unit: 'ms', target: 500 },
     ];
 
-    return baseMetrics.map(metric => {
+    return baseMetrics.map((metric) => {
       // Add some realistic variation
       const variation = (Math.random() - 0.5) * 0.2;
       const value = Math.max(0, metric.baseValue * (1 + variation));
       const change = (Math.random() - 0.5) * 10;
-      
+
       let status: 'excellent' | 'good' | 'warning' | 'critical';
       if (value <= metric.target * 0.5) status = 'excellent';
       else if (value <= metric.target * 0.75) status = 'good';
@@ -79,7 +79,7 @@ export const RealTimePerformanceDashboard: React.FC = () => {
         target: metric.target,
         status,
         trend: change > 2 ? 'up' : change < -2 ? 'down' : 'stable',
-        change: Math.round(Math.abs(change) * 10) / 10
+        change: Math.round(Math.abs(change) * 10) / 10,
       };
     });
   }, []);
@@ -91,7 +91,7 @@ export const RealTimePerformanceDashboard: React.FC = () => {
       { stage: 'Demo Started', visitors: 350, baseRate: 35 },
       { stage: 'Sign Up Initiated', visitors: 120, baseRate: 12 },
       { stage: 'Payment Completed', visitors: 45, baseRate: 4.5 },
-      { stage: 'Active Users', visitors: 38, baseRate: 3.8 }
+      { stage: 'Active Users', visitors: 38, baseRate: 3.8 },
     ];
 
     return baseConversions.map((stage, index) => {
@@ -99,13 +99,13 @@ export const RealTimePerformanceDashboard: React.FC = () => {
       const visitors = Math.max(1, Math.round(stage.visitors * (1 + variation)));
       const rate = Math.max(0.1, stage.baseRate * (1 + variation));
       const conversions = Math.round(visitors * (rate / 100));
-      
+
       return {
         stage: stage.stage,
         visitors,
         conversions,
         rate: Math.round(rate * 10) / 10,
-        target: stage.baseRate * 1.2 // 20% above base as target
+        target: stage.baseRate * 1.2, // 20% above base as target
       };
     });
   }, []);
@@ -127,35 +127,54 @@ export const RealTimePerformanceDashboard: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'excellent': return 'text-green-500';
-      case 'good': return 'text-blue-500';
-      case 'warning': return 'text-yellow-500';
-      case 'critical': return 'text-red-500';
-      default: return 'text-gray-500';
+      case 'excellent':
+        return 'text-green-500';
+      case 'good':
+        return 'text-blue-500';
+      case 'warning':
+        return 'text-yellow-500';
+      case 'critical':
+        return 'text-red-500';
+      default:
+        return 'text-gray-500';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'excellent': return <CheckCircle className="w-4 h-4 text-green-500" />;
-      case 'good': return <CheckCircle className="w-4 h-4 text-blue-500" />;
-      case 'warning': return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
-      case 'critical': return <AlertTriangle className="w-4 h-4 text-red-500" />;
-      default: return <Activity className="w-4 h-4 text-gray-500" />;
+      case 'excellent':
+        return <CheckCircle className="w-4 h-4 text-green-500" />;
+      case 'good':
+        return <CheckCircle className="w-4 h-4 text-blue-500" />;
+      case 'warning':
+        return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
+      case 'critical':
+        return <AlertTriangle className="w-4 h-4 text-red-500" />;
+      default:
+        return <Activity className="w-4 h-4 text-gray-500" />;
     }
   };
 
   const getTrendIcon = (trend: string) => {
     switch (trend) {
-      case 'up': return <TrendingUp className="w-3 h-3 text-green-500" />;
-      case 'down': return <TrendingUp className="w-3 h-3 text-red-500 rotate-180" />;
-      default: return <Activity className="w-3 h-3 text-gray-500" />;
+      case 'up':
+        return <TrendingUp className="w-3 h-3 text-green-500" />;
+      case 'down':
+        return <TrendingUp className="w-3 h-3 text-red-500 rotate-180" />;
+      default:
+        return <Activity className="w-3 h-3 text-gray-500" />;
     }
   };
 
-  const overallHealth = performanceMetrics.length > 0 
-    ? Math.round((performanceMetrics.filter(m => m.status === 'excellent' || m.status === 'good').length / performanceMetrics.length) * 100)
-    : 0;
+  const overallHealth =
+    performanceMetrics.length > 0
+      ? Math.round(
+          (performanceMetrics.filter((m) => m.status === 'excellent' || m.status === 'good')
+            .length /
+            performanceMetrics.length) *
+            100
+        )
+      : 0;
 
   const totalConversions = conversionMetrics.reduce((sum, metric) => sum + metric.conversions, 0);
   const estimatedRevenue = totalConversions * 29 * 0.5; // $29/month * 50% discount
@@ -224,7 +243,7 @@ export const RealTimePerformanceDashboard: React.FC = () => {
               <div>
                 <p className="text-sm text-gray-600">Active Users</p>
                 <p className="text-2xl font-bold text-blue-500">
-                  {conversionMetrics.find(m => m.stage === 'Active Users')?.visitors || 0}
+                  {conversionMetrics.find((m) => m.stage === 'Active Users')?.visitors || 0}
                 </p>
               </div>
               <Users className="w-8 h-8 text-blue-500" />
@@ -276,9 +295,7 @@ export const RealTimePerformanceDashboard: React.FC = () => {
             <Zap className="w-5 h-5 mr-2" />
             Performance Metrics
           </CardTitle>
-          <CardDescription>
-            Real-time system performance indicators
-          </CardDescription>
+          <CardDescription>Real-time system performance indicators</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -290,7 +307,8 @@ export const RealTimePerformanceDashboard: React.FC = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className={`text-lg font-bold ${getStatusColor(metric.status)}`}>
-                    {metric.value}{metric.unit}
+                    {metric.value}
+                    {metric.unit}
                   </span>
                   <div className="flex items-center space-x-1">
                     {getTrendIcon(metric.trend)}
@@ -298,12 +316,13 @@ export const RealTimePerformanceDashboard: React.FC = () => {
                   </div>
                 </div>
                 <div className="mt-2">
-                  <Progress 
-                    value={Math.min(100, (metric.value / metric.target) * 100)} 
+                  <Progress
+                    value={Math.min(100, (metric.value / metric.target) * 100)}
                     className="h-1"
                   />
                   <div className="text-xs text-gray-500 mt-1">
-                    Target: {metric.target}{metric.unit}
+                    Target: {metric.target}
+                    {metric.unit}
                   </div>
                 </div>
               </div>
@@ -319,14 +338,15 @@ export const RealTimePerformanceDashboard: React.FC = () => {
             <BarChart3 className="w-5 h-5 mr-2" />
             Conversion Funnel
           </CardTitle>
-          <CardDescription>
-            User journey and conversion rates
-          </CardDescription>
+          <CardDescription>User journey and conversion rates</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {conversionMetrics.map((metric, index) => (
-              <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div
+                key={index}
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+              >
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-medium">{metric.stage}</span>
@@ -335,13 +355,12 @@ export const RealTimePerformanceDashboard: React.FC = () => {
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between text-sm text-gray-600">
-                    <span>{metric.conversions.toLocaleString()} / {metric.visitors.toLocaleString()}</span>
+                    <span>
+                      {metric.conversions.toLocaleString()} / {metric.visitors.toLocaleString()}
+                    </span>
                     <span>Target: {metric.target.toFixed(1)}%</span>
                   </div>
-                  <Progress 
-                    value={metric.rate} 
-                    className="mt-2 h-2"
-                  />
+                  <Progress value={metric.rate} className="mt-2 h-2" />
                 </div>
               </div>
             ))}

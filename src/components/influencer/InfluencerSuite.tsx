@@ -5,12 +5,12 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Users, 
-  TrendingUp, 
-  Calendar, 
-  Target, 
-  Zap, 
+import {
+  Users,
+  TrendingUp,
+  Calendar,
+  Target,
+  Zap,
   Star,
   Heart,
   MessageCircle,
@@ -22,7 +22,7 @@ import {
   Image,
   Video,
   Mic,
-  Globe
+  Globe,
 } from 'lucide-react';
 import { SocialMediaManager } from './SocialMediaManager';
 import { AudienceAnalytics } from './AudienceAnalytics';
@@ -79,7 +79,7 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
     avgEngagementRate: 4.8,
     topPerformingPlatform: 'Instagram',
     contentPieces: 24,
-    activeCampaigns: 3
+    activeCampaigns: 3,
   });
 
   const [contentIdeas] = useState<ContentIdea[]>([
@@ -91,7 +91,7 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
       estimatedEngagement: 12500,
       difficulty: 'Medium',
       category: 'Technology',
-      trending: true
+      trending: true,
     },
     {
       id: '2',
@@ -101,7 +101,7 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
       estimatedEngagement: 8200,
       difficulty: 'Hard',
       category: 'Lifestyle',
-      trending: false
+      trending: false,
     },
     {
       id: '3',
@@ -111,8 +111,8 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
       estimatedEngagement: 5400,
       difficulty: 'Easy',
       category: 'Education',
-      trending: true
-    }
+      trending: true,
+    },
   ]);
 
   const [campaigns] = useState<Campaign[]>([
@@ -127,7 +127,7 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
       budget: 5000,
       reach: 125000,
       engagement: 8750,
-      conversion: 1250
+      conversion: 1250,
     },
     {
       id: '2',
@@ -140,15 +140,17 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
       budget: 3000,
       reach: 0,
       engagement: 0,
-      conversion: 0
-    }
+      conversion: 0,
+    },
   ]);
 
-  const MetricCard = ({ icon: Icon, label, value, change, color = "text-primary" }: any) => (
+  const MetricCard = ({ icon: Icon, label, value, change, color = 'text-primary' }: any) => (
     <Card className="p-6 ff-card-interactive">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className={`w-10 h-10 rounded-lg bg-${color === 'text-primary' ? 'primary' : color === 'text-secondary' ? 'secondary' : 'accent'}/10 flex items-center justify-center`}>
+          <div
+            className={`w-10 h-10 rounded-lg bg-${color === 'text-primary' ? 'primary' : color === 'text-secondary' ? 'secondary' : 'accent'}/10 flex items-center justify-center`}
+          >
             <Icon className={`h-5 w-5 ${color}`} />
           </div>
           <div>
@@ -157,9 +159,14 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
           </div>
         </div>
         {change && (
-          <div className={`flex items-center space-x-1 text-sm ${change > 0 ? 'text-green-400' : 'text-red-400'}`}>
+          <div
+            className={`flex items-center space-x-1 text-sm ${change > 0 ? 'text-green-400' : 'text-red-400'}`}
+          >
             <TrendingUp className="h-4 w-4" />
-            <span>{change > 0 ? '+' : ''}{change}%</span>
+            <span>
+              {change > 0 ? '+' : ''}
+              {change}%
+            </span>
           </div>
         )}
       </div>
@@ -179,7 +186,7 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
             )}
           </div>
           <p className="text-sm text-muted-foreground mb-3">{idea.description}</p>
-          
+
           <div className="flex flex-wrap gap-2 mb-3">
             {idea.platform.map((platform) => (
               <Badge key={platform} variant="outline" className="text-xs">
@@ -187,17 +194,22 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
               </Badge>
             ))}
           </div>
-          
+
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-1">
                 <Eye className="h-3 w-3 text-muted-foreground" />
                 <span>{idea.estimatedEngagement.toLocaleString()}</span>
               </div>
-              <Badge variant={
-                idea.difficulty === 'Easy' ? 'default' : 
-                idea.difficulty === 'Medium' ? 'secondary' : 'destructive'
-              }>
+              <Badge
+                variant={
+                  idea.difficulty === 'Easy'
+                    ? 'default'
+                    : idea.difficulty === 'Medium'
+                      ? 'secondary'
+                      : 'destructive'
+                }
+              >
                 {idea.difficulty}
               </Badge>
             </div>
@@ -216,18 +228,22 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
         <div className="flex-1">
           <div className="flex items-center space-x-2 mb-1">
             <h4 className="font-semibold">{campaign.name}</h4>
-            <Badge 
+            <Badge
               variant={
-                campaign.status === 'Active' ? 'default' :
-                campaign.status === 'Scheduled' ? 'secondary' :
-                campaign.status === 'Completed' ? 'outline' : 'destructive'
+                campaign.status === 'Active'
+                  ? 'default'
+                  : campaign.status === 'Scheduled'
+                    ? 'secondary'
+                    : campaign.status === 'Completed'
+                      ? 'outline'
+                      : 'destructive'
               }
             >
               {campaign.status}
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground mb-3">{campaign.description}</p>
-          
+
           <div className="flex flex-wrap gap-1 mb-4">
             {campaign.platforms.map((platform) => (
               <Badge key={platform} variant="outline" className="text-xs">
@@ -235,7 +251,7 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
               </Badge>
             ))}
           </div>
-          
+
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             <div className="text-center">
               <div className="text-sm font-semibold">${campaign.budget.toLocaleString()}</div>
@@ -254,7 +270,7 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
               <div className="text-xs text-muted-foreground">Conversions</div>
             </div>
           </div>
-          
+
           {campaign.status === 'Active' && (
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
@@ -266,7 +282,7 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
           )}
         </div>
       </div>
-      
+
       <div className="flex justify-between">
         <div className="text-xs text-muted-foreground">
           {campaign.startDate} - {campaign.endDate}
@@ -290,12 +306,9 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
             Comprehensive tools for content creators and social media influencers
           </p>
         </div>
-        
+
         <div className="flex gap-3">
-          <Button 
-            variant="outline"
-            onClick={() => setCurrentPage('content-creation-hub')}
-          >
+          <Button variant="outline" onClick={() => setCurrentPage('content-creation-hub')}>
             <Zap className="h-4 w-4 mr-2" />
             Content Hub
           </Button>
@@ -354,14 +367,36 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
               <h3 className="font-semibold mb-4">Platform Performance</h3>
               <div className="space-y-4">
                 {[
-                  { platform: 'Instagram', followers: '18.5K', engagement: '4.8%', color: 'from-pink-500 to-purple-500' },
-                  { platform: 'YouTube', followers: '12.3K', engagement: '6.2%', color: 'from-red-500 to-red-600' },
-                  { platform: 'TikTok', followers: '8.9K', engagement: '7.1%', color: 'from-black to-gray-800' },
-                  { platform: 'LinkedIn', followers: '5.5K', engagement: '3.4%', color: 'from-blue-600 to-blue-700' }
+                  {
+                    platform: 'Instagram',
+                    followers: '18.5K',
+                    engagement: '4.8%',
+                    color: 'from-pink-500 to-purple-500',
+                  },
+                  {
+                    platform: 'YouTube',
+                    followers: '12.3K',
+                    engagement: '6.2%',
+                    color: 'from-red-500 to-red-600',
+                  },
+                  {
+                    platform: 'TikTok',
+                    followers: '8.9K',
+                    engagement: '7.1%',
+                    color: 'from-black to-gray-800',
+                  },
+                  {
+                    platform: 'LinkedIn',
+                    followers: '5.5K',
+                    engagement: '3.4%',
+                    color: 'from-blue-600 to-blue-700',
+                  },
                 ].map((item) => (
                   <div key={item.platform} className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      <div className={`w-8 h-8 rounded bg-gradient-to-r ${item.color} flex items-center justify-center`}>
+                      <div
+                        className={`w-8 h-8 rounded bg-gradient-to-r ${item.color} flex items-center justify-center`}
+                      >
                         <Globe className="h-4 w-4 text-white" />
                       </div>
                       <span className="font-medium">{item.platform}</span>
@@ -385,19 +420,33 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
               <h3 className="font-semibold mb-4">Recent Activity</h3>
               <div className="space-y-3">
                 {[
-                  { action: 'Posted new video on YouTube', time: '2 hours ago', engagement: '+1.2K views' },
-                  { action: 'Instagram story published', time: '4 hours ago', engagement: '+450 views' },
-                  { action: 'LinkedIn article shared', time: '1 day ago', engagement: '+89 reactions' },
-                  { action: 'TikTok video went viral', time: '2 days ago', engagement: '+5.7K views' }
+                  {
+                    action: 'Posted new video on YouTube',
+                    time: '2 hours ago',
+                    engagement: '+1.2K views',
+                  },
+                  {
+                    action: 'Instagram story published',
+                    time: '4 hours ago',
+                    engagement: '+450 views',
+                  },
+                  {
+                    action: 'LinkedIn article shared',
+                    time: '1 day ago',
+                    engagement: '+89 reactions',
+                  },
+                  {
+                    action: 'TikTok video went viral',
+                    time: '2 days ago',
+                    engagement: '+5.7K views',
+                  },
                 ].map((activity, index) => (
                   <div key={index} className="flex items-center justify-between py-2">
                     <div>
                       <div className="font-medium text-sm">{activity.action}</div>
                       <div className="text-xs text-muted-foreground">{activity.time}</div>
                     </div>
-                    <div className="text-xs text-green-400 font-medium">
-                      {activity.engagement}
-                    </div>
+                    <div className="text-xs text-green-400 font-medium">{activity.engagement}</div>
                   </div>
                 ))}
               </div>
@@ -436,7 +485,7 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
               Generate New Ideas
             </Button>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {contentIdeas.map((idea) => (
               <ContentIdeaCard key={idea.id} idea={idea} />
@@ -452,7 +501,7 @@ export function InfluencerSuite({ user, userTier, setCurrentPage }: InfluencerSu
               New Campaign
             </Button>
           </div>
-          
+
           <div className="space-y-6">
             {campaigns.map((campaign) => (
               <CampaignCard key={campaign.id} campaign={campaign} />

@@ -4,11 +4,11 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Switch } from '../ui/switch';
-import { 
-  Bell, 
+import {
+  Bell,
   BellOff,
-  CheckCircle, 
-  AlertTriangle, 
+  CheckCircle,
+  AlertTriangle,
   Info,
   XCircle,
   Settings,
@@ -24,7 +24,7 @@ import {
   Zap,
   Activity,
   Star,
-  Archive
+  Archive,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import type { Notification, NotificationSettings } from '../../types/core';
@@ -45,7 +45,7 @@ export default function NotificationCenter() {
     push: true,
     inApp: true,
     frequency: 'immediate',
-    types: ['system', 'projects', 'collaboration', 'security']
+    types: ['system', 'projects', 'collaboration', 'security'],
   });
   const [filter, setFilter] = useState<'all' | 'unread' | 'important'>('all');
 
@@ -60,17 +60,18 @@ export default function NotificationCenter() {
         timestamp: '2 minutes ago',
         read: false,
         actionUrl: '/deployments',
-        metadata: { project: 'creator-commerce-v2', platform: 'vercel' }
+        metadata: { project: 'creator-commerce-v2', platform: 'vercel' },
       },
       {
         id: 'notif-2',
         type: 'warning',
         title: 'AI Model Limits Approaching',
-        message: 'You have used 85% of your monthly AI generation credits. Consider upgrading to Pro.',
+        message:
+          'You have used 85% of your monthly AI generation credits. Consider upgrading to Pro.',
         timestamp: '15 minutes ago',
         read: false,
         actionUrl: '/pricing',
-        metadata: { usage: 85, limit: 100 }
+        metadata: { usage: 85, limit: 100 },
       },
       {
         id: 'notif-3',
@@ -80,7 +81,7 @@ export default function NotificationCenter() {
         timestamp: '1 hour ago',
         read: true,
         actionUrl: '/projects/creator-commerce',
-        metadata: { user: 'sarah.chen@example.com', role: 'collaborator' }
+        metadata: { user: 'sarah.chen@example.com', role: 'collaborator' },
       },
       {
         id: 'notif-4',
@@ -90,7 +91,7 @@ export default function NotificationCenter() {
         timestamp: '2 hours ago',
         read: false,
         actionUrl: '/settings/security',
-        metadata: { ip: '192.168.1.100', location: 'San Francisco, CA' }
+        metadata: { ip: '192.168.1.100', location: 'San Francisco, CA' },
       },
       {
         id: 'notif-5',
@@ -99,8 +100,8 @@ export default function NotificationCenter() {
         message: 'Planned maintenance will occur on Sunday, March 24th from 2-4 AM UTC.',
         timestamp: '3 hours ago',
         read: true,
-        metadata: { maintenanceDate: '2024-03-24', duration: '2 hours' }
-      }
+        metadata: { maintenanceDate: '2024-03-24', duration: '2 hours' },
+      },
     ];
 
     setNotifications(mockNotifications);
@@ -127,32 +128,32 @@ export default function NotificationCenter() {
         label: 'System & Updates',
         icon: Settings,
         color: 'text-blue-500',
-        notifications: []
+        notifications: [],
       },
       projects: {
         type: 'projects',
         label: 'Projects & Deployments',
         icon: Zap,
         color: 'text-green-500',
-        notifications: []
+        notifications: [],
       },
       collaboration: {
         type: 'collaboration',
         label: 'Team & Collaboration',
         icon: User,
         color: 'text-purple-500',
-        notifications: []
+        notifications: [],
       },
       security: {
         type: 'security',
         label: 'Security & Privacy',
         icon: AlertTriangle,
         color: 'text-red-500',
-        notifications: []
-      }
+        notifications: [],
+      },
     };
 
-    notifications.forEach(notification => {
+    notifications.forEach((notification) => {
       const category = notification.metadata?.category || 'system';
       if (groups[category]) {
         groups[category].notifications.push(notification);
@@ -161,30 +162,31 @@ export default function NotificationCenter() {
       }
     });
 
-    return Object.values(groups).filter(group => group.notifications.length > 0);
+    return Object.values(groups).filter((group) => group.notifications.length > 0);
   };
 
-  const filteredNotifications = notifications.filter(notification => {
+  const filteredNotifications = notifications.filter((notification) => {
     if (filter === 'unread') return !notification.read;
-    if (filter === 'important') return notification.type === 'error' || notification.type === 'warning';
+    if (filter === 'important')
+      return notification.type === 'error' || notification.type === 'warning';
     return true;
   });
 
-  const unreadCount = notifications.filter(n => !n.read).length;
-  const importantCount = notifications.filter(n => n.type === 'error' || n.type === 'warning').length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
+  const importantCount = notifications.filter(
+    (n) => n.type === 'error' || n.type === 'warning'
+  ).length;
 
   const markAsRead = (id: string) => {
-    setNotifications(prev => prev.map(n => 
-      n.id === id ? { ...n, read: true } : n
-    ));
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   };
 
   const deleteNotification = (id: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
   const clearAll = () => {
@@ -194,7 +196,7 @@ export default function NotificationCenter() {
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Header */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -204,12 +206,13 @@ export default function NotificationCenter() {
           <h1 className="ff-text-gradient">Notification & Activity Center</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Stay updated with real-time notifications, system alerts, project updates, and team activities across your FlashFusion ecosystem.
+          Stay updated with real-time notifications, system alerts, project updates, and team
+          activities across your FlashFusion ecosystem.
         </p>
       </motion.div>
 
       {/* Quick Stats */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
@@ -257,7 +260,11 @@ export default function NotificationCenter() {
               <div>
                 <p className="text-sm text-muted-foreground">Today</p>
                 <p className="text-2xl font-bold text-secondary">
-                  {notifications.filter(n => n.timestamp.includes('hour') || n.timestamp.includes('minute')).length}
+                  {
+                    notifications.filter(
+                      (n) => n.timestamp.includes('hour') || n.timestamp.includes('minute')
+                    ).length
+                  }
                 </p>
               </div>
               <Clock className="w-8 h-8 text-secondary" />
@@ -273,20 +280,12 @@ export default function NotificationCenter() {
         transition={{ delay: 0.2 }}
         className="flex flex-wrap gap-4"
       >
-        <Button 
-          onClick={markAllAsRead}
-          className="ff-btn-primary"
-          disabled={unreadCount === 0}
-        >
+        <Button onClick={markAllAsRead} className="ff-btn-primary" disabled={unreadCount === 0}>
           <Mail className="w-4 h-4 mr-2" />
           Mark All Read
         </Button>
 
-        <Button 
-          variant="outline"
-          onClick={clearAll}
-          disabled={notifications.length === 0}
-        >
+        <Button variant="outline" onClick={clearAll} disabled={notifications.length === 0}>
           <Archive className="w-4 h-4 mr-2" />
           Archive All
         </Button>
@@ -343,7 +342,9 @@ export default function NotificationCenter() {
                   <BellOff className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                   <h3 className="font-medium mb-2">No Notifications</h3>
                   <p className="text-muted-foreground">
-                    {filter === 'all' ? 'You\'re all caught up!' : `No ${filter} notifications found.`}
+                    {filter === 'all'
+                      ? "You're all caught up!"
+                      : `No ${filter} notifications found.`}
                   </p>
                 </motion.div>
               ) : (
@@ -355,7 +356,9 @@ export default function NotificationCenter() {
                     exit={{ opacity: 0, x: 20 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <Card className={`ff-card-interactive ${!notification.read ? 'border-primary/20 bg-primary/5' : ''}`}>
+                    <Card
+                      className={`ff-card-interactive ${!notification.read ? 'border-primary/20 bg-primary/5' : ''}`}
+                    >
                       <CardContent className="p-6">
                         <div className="flex items-start justify-between">
                           <div className="flex items-start space-x-4 flex-1">
@@ -364,7 +367,9 @@ export default function NotificationCenter() {
                               <div className="flex items-center space-x-2 mb-1">
                                 <h4 className="font-medium">{notification.title}</h4>
                                 {!notification.read && (
-                                  <Badge variant="secondary" className="text-xs">New</Badge>
+                                  <Badge variant="secondary" className="text-xs">
+                                    New
+                                  </Badge>
                                 )}
                               </div>
                               <p className="text-sm text-muted-foreground mb-2">
@@ -376,12 +381,14 @@ export default function NotificationCenter() {
                                   <span>{notification.timestamp}</span>
                                 </span>
                                 {notification.metadata && (
-                                  <span>Category: {notification.metadata.category || 'General'}</span>
+                                  <span>
+                                    Category: {notification.metadata.category || 'General'}
+                                  </span>
                                 )}
                               </div>
                             </div>
                           </div>
-                          
+
                           <div className="flex space-x-2">
                             {!notification.read && (
                               <Button
@@ -435,15 +442,20 @@ export default function NotificationCenter() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {group.notifications.map(notification => (
-                      <div key={notification.id} className="flex items-start space-x-3 p-3 rounded-lg bg-muted/30">
+                    {group.notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        className="flex items-start space-x-3 p-3 rounded-lg bg-muted/30"
+                      >
                         {getNotificationIcon(notification.type)}
                         <div className="flex-1">
                           <p className="font-medium text-sm">{notification.title}</p>
                           <p className="text-xs text-muted-foreground">{notification.timestamp}</p>
                         </div>
                         {!notification.read && (
-                          <Badge variant="secondary" className="text-xs">New</Badge>
+                          <Badge variant="secondary" className="text-xs">
+                            New
+                          </Badge>
                         )}
                       </div>
                     ))}
@@ -458,9 +470,7 @@ export default function NotificationCenter() {
             <Card>
               <CardHeader>
                 <CardTitle>Notification Preferences</CardTitle>
-                <CardDescription>
-                  Configure how and when you receive notifications
-                </CardDescription>
+                <CardDescription>Configure how and when you receive notifications</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-4">
@@ -469,12 +479,16 @@ export default function NotificationCenter() {
                       <Mail className="w-5 h-5 text-blue-500" />
                       <div>
                         <p className="font-medium">Email Notifications</p>
-                        <p className="text-sm text-muted-foreground">Receive notifications via email</p>
+                        <p className="text-sm text-muted-foreground">
+                          Receive notifications via email
+                        </p>
                       </div>
                     </div>
-                    <Switch 
+                    <Switch
                       checked={settings.email}
-                      onCheckedChange={(checked) => setSettings(prev => ({ ...prev, email: checked }))}
+                      onCheckedChange={(checked) =>
+                        setSettings((prev) => ({ ...prev, email: checked }))
+                      }
                     />
                   </div>
 
@@ -483,12 +497,16 @@ export default function NotificationCenter() {
                       <Smartphone className="w-5 h-5 text-green-500" />
                       <div>
                         <p className="font-medium">Push Notifications</p>
-                        <p className="text-sm text-muted-foreground">Receive push notifications on your devices</p>
+                        <p className="text-sm text-muted-foreground">
+                          Receive push notifications on your devices
+                        </p>
                       </div>
                     </div>
-                    <Switch 
+                    <Switch
                       checked={settings.push}
-                      onCheckedChange={(checked) => setSettings(prev => ({ ...prev, push: checked }))}
+                      onCheckedChange={(checked) =>
+                        setSettings((prev) => ({ ...prev, push: checked }))
+                      }
                     />
                   </div>
 
@@ -497,12 +515,16 @@ export default function NotificationCenter() {
                       <Bell className="w-5 h-5 text-orange-500" />
                       <div>
                         <p className="font-medium">In-App Notifications</p>
-                        <p className="text-sm text-muted-foreground">Show notifications within the application</p>
+                        <p className="text-sm text-muted-foreground">
+                          Show notifications within the application
+                        </p>
                       </div>
                     </div>
-                    <Switch 
+                    <Switch
                       checked={settings.inApp}
-                      onCheckedChange={(checked) => setSettings(prev => ({ ...prev, inApp: checked }))}
+                      onCheckedChange={(checked) =>
+                        setSettings((prev) => ({ ...prev, inApp: checked }))
+                      }
                     />
                   </div>
                 </div>
@@ -513,21 +535,21 @@ export default function NotificationCenter() {
                     { id: 'system', label: 'System Updates', icon: Settings },
                     { id: 'projects', label: 'Project Activities', icon: Zap },
                     { id: 'collaboration', label: 'Team Collaboration', icon: User },
-                    { id: 'security', label: 'Security Alerts', icon: AlertTriangle }
-                  ].map(type => (
+                    { id: 'security', label: 'Security Alerts', icon: AlertTriangle },
+                  ].map((type) => (
                     <div key={type.id} className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <type.icon className="w-4 h-4 text-primary" />
                         <span className="text-sm">{type.label}</span>
                       </div>
-                      <Switch 
+                      <Switch
                         checked={settings.types.includes(type.id)}
                         onCheckedChange={(checked) => {
-                          setSettings(prev => ({
+                          setSettings((prev) => ({
                             ...prev,
-                            types: checked 
+                            types: checked
                               ? [...prev.types, type.id]
-                              : prev.types.filter(t => t !== type.id)
+                              : prev.types.filter((t) => t !== type.id),
                           }));
                         }}
                       />

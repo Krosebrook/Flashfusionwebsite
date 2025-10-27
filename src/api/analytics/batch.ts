@@ -16,7 +16,7 @@ export default function handler(req: any, res: any) {
 
   try {
     const { events } = req.body;
-    
+
     if (!Array.isArray(events)) {
       return res.status(400).json({ error: 'Events must be an array' });
     }
@@ -28,12 +28,12 @@ export default function handler(req: any, res: any) {
         console.debug(`  ${index + 1}. ${event.event}:`, event.properties);
       });
     }
-    
+
     // Return success
-    res.status(200).json({ 
-      success: true, 
+    res.status(200).json({
+      success: true,
       processed: events.length,
-      message: 'Batch processed successfully'
+      message: 'Batch processed successfully',
     });
   } catch (error) {
     console.error('Analytics batch endpoint error:', error);

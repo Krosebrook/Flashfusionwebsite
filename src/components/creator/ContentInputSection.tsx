@@ -24,7 +24,7 @@ export function ContentInputSection({
   scheduleEnabled,
   setScheduleEnabled,
   autoPosting,
-  setAutoPosting
+  setAutoPosting,
 }: ContentInputSectionProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -62,19 +62,11 @@ export function ContentInputSection({
               <Image className="h-4 w-4" />
               Upload Media
             </Button>
-            <Button
-              variant="outline"
-              className="flex items-center gap-2"
-            >
+            <Button variant="outline" className="flex items-center gap-2">
               <Video className="h-4 w-4" />
               Import from URL
             </Button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*,video/*"
-              className="hidden"
-            />
+            <input ref={fileInputRef} type="file" accept="image/*,video/*" className="hidden" />
           </div>
         </div>
       </Card>
@@ -124,11 +116,7 @@ export function ContentInputSection({
           </div>
 
           <div className="flex items-center space-x-2">
-            <Switch
-              id="auto-posting"
-              checked={autoPosting}
-              onCheckedChange={setAutoPosting}
-            />
+            <Switch id="auto-posting" checked={autoPosting} onCheckedChange={setAutoPosting} />
             <Label htmlFor="auto-posting">Auto-Posting (Zapier)</Label>
           </div>
         </div>

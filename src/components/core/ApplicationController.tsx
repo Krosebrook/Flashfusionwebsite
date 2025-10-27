@@ -23,21 +23,11 @@ import { PageType } from '../../types/core';
  * Handles initialization, data loading, and core application logic
  */
 function ApplicationContent() {
-  const { 
-    currentPage, 
-    showWizard, 
-    selectedTool,
-    setCurrentPage,
-    setShowWizard,
-    setSelectedTool
-  } = useLayoutState();
-  
+  const { currentPage, showWizard, selectedTool, setCurrentPage, setShowWizard, setSelectedTool } =
+    useLayoutState();
+
   // Onboarding state
-  const { 
-    isOnboardingOpen, 
-    completeOnboarding, 
-    closeOnboarding 
-  } = useOnboarding();
+  const { isOnboardingOpen, completeOnboarding, closeOnboarding } = useOnboarding();
 
   // Simplified app state - TODO: Connect to real hooks when they exist
   const [isLoading, setIsLoading] = useState(true);
@@ -46,13 +36,13 @@ function ApplicationContent() {
   const [projects, setProjects] = useState([]);
   const [dailyTasks, setDailyTasks] = useState([]);
   const [userStats, setUserStats] = useState({ level: 1, xp: 0 });
-  
+
   // Initialize the app
   useEffect(() => {
     const initializeApp = async () => {
       try {
         // Simulate loading time
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise((resolve) => setTimeout(resolve, 1500));
         setIsLoading(false);
       } catch (error) {
         console.error('App initialization failed:', error);
@@ -86,7 +76,7 @@ function ApplicationContent() {
     <>
       <ConnectionStatus />
       <DemoBanner />
-      
+
       <ApplicationShell>
         <PageRouter
           currentPage={currentPage}

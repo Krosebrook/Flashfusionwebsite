@@ -5,13 +5,13 @@ import { Progress } from '../../ui/progress';
 import { Eye, Zap, RefreshCw, CheckCircle, TrendingUp, BarChart3 } from 'lucide-react';
 import { motion } from 'motion/react';
 import type { SystemMetric, ErrorLog, PerformanceMetric, Incident } from './types';
-import { 
-  getStatusIcon, 
-  getCategoryIcon, 
-  getTrendIcon, 
-  getStatusIconProps, 
-  getCategoryIconProps, 
-  getTrendIconProps 
+import {
+  getStatusIcon,
+  getCategoryIcon,
+  getTrendIcon,
+  getStatusIconProps,
+  getCategoryIconProps,
+  getTrendIconProps,
 } from './utils';
 
 interface MetricCardProps {
@@ -43,20 +43,27 @@ export function MetricCard({ metric, index }: MetricCardProps) {
                   <h4 className="font-medium">{metric.name}</h4>
                   <div className="flex items-center space-x-1">
                     <TrendIcon {...getTrendIconProps(metric.trend)} />
-                    <span className="text-sm font-medium">{metric.value}{metric.unit}</span>
+                    <span className="text-sm font-medium">
+                      {metric.value}
+                      {metric.unit}
+                    </span>
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground mb-3">{metric.description}</p>
-                
+
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Threshold: {metric.threshold.warning}{metric.unit} / {metric.threshold.critical}{metric.unit}</span>
+                    <span>
+                      Threshold: {metric.threshold.warning}
+                      {metric.unit} / {metric.threshold.critical}
+                      {metric.unit}
+                    </span>
                     <span>Updated: {metric.lastUpdate}</span>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <div className="flex space-x-2">
               <Button size="sm" variant="outline">
                 <Eye className="w-3 h-3 mr-1" />
@@ -91,11 +98,15 @@ export function ErrorLogCard({ error, index }: ErrorLogCardProps) {
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1 }}
     >
-      <Card className={`ff-card-interactive ${
-        error.level === 'error' && !error.resolved ? 'border-red-500/20 bg-red-500/5' :
-        error.level === 'warning' ? 'border-yellow-500/20 bg-yellow-500/5' :
-        'border-green-500/20 bg-green-500/5'
-      }`}>
+      <Card
+        className={`ff-card-interactive ${
+          error.level === 'error' && !error.resolved
+            ? 'border-red-500/20 bg-red-500/5'
+            : error.level === 'warning'
+              ? 'border-yellow-500/20 bg-yellow-500/5'
+              : 'border-green-500/20 bg-green-500/5'
+        }`}
+      >
         <CardContent className="p-6">
           <div className="flex items-start justify-between">
             <div className="flex items-start space-x-4">
@@ -106,24 +117,20 @@ export function ErrorLogCard({ error, index }: ErrorLogCardProps) {
                 <div className="flex items-center space-x-3 mb-2">
                   <StatusIcon {...getStatusIconProps(error.resolved ? 'resolved' : error.level)} />
                   <h4 className="font-medium">{error.service}</h4>
-                  <Badge variant={error.resolved ? "outline" : "destructive"}>
+                  <Badge variant={error.resolved ? 'outline' : 'destructive'}>
                     {error.level.toUpperCase()}
                   </Badge>
-                  {error.count > 1 && (
-                    <Badge variant="secondary">
-                      {error.count}x
-                    </Badge>
-                  )}
+                  {error.count > 1 && <Badge variant="secondary">{error.count}x</Badge>}
                 </div>
                 <p className="text-sm text-muted-foreground mb-3">{error.message}</p>
-                
+
                 <div className="flex items-center justify-between text-sm text-muted-foreground">
                   <span>{error.timestamp}</span>
                   {error.userId && <span>User: {error.userId}</span>}
                 </div>
               </div>
             </div>
-            
+
             <div className="flex space-x-2">
               <Button size="sm" variant="outline">
                 <Eye className="w-3 h-3 mr-1" />
@@ -164,21 +171,34 @@ export function PerformanceCard({ metric, index }: PerformanceCardProps) {
               <StatusIcon {...getStatusIconProps(metric.status)} />
               <h4 className="font-medium">{metric.name}</h4>
             </div>
-            <Badge className={
-              metric.status === 'excellent' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
-              metric.status === 'good' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
-              'bg-red-500/10 text-red-500 border-red-500/20'
-            }>
+            <Badge
+              className={
+                metric.status === 'excellent'
+                  ? 'bg-green-500/10 text-green-500 border-green-500/20'
+                  : metric.status === 'good'
+                    ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'
+                    : 'bg-red-500/10 text-red-500 border-red-500/20'
+              }
+            >
               {metric.status.toUpperCase()}
             </Badge>
           </div>
 
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span>Current: {metric.value}{metric.unit}</span>
-              <span>Benchmark: {metric.benchmark}{metric.unit}</span>
+              <span>
+                Current: {metric.value}
+                {metric.unit}
+              </span>
+              <span>
+                Benchmark: {metric.benchmark}
+                {metric.unit}
+              </span>
             </div>
-            <Progress value={(metric.benchmark - metric.value) / metric.benchmark * 100} className="h-2" />
+            <Progress
+              value={((metric.benchmark - metric.value) / metric.benchmark) * 100}
+              className="h-2"
+            />
           </div>
 
           <div>
@@ -212,29 +232,39 @@ export function IncidentCard({ incident, index }: IncidentCardProps) {
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1 }}
     >
-      <Card className={`ff-card-interactive ${
-        incident.severity === 'critical' ? 'border-red-500/20 bg-red-500/5' :
-        incident.severity === 'high' ? 'border-orange-500/20 bg-orange-500/5' :
-        incident.severity === 'medium' ? 'border-yellow-500/20 bg-yellow-500/5' :
-        'border-blue-500/20 bg-blue-500/5'
-      }`}>
+      <Card
+        className={`ff-card-interactive ${
+          incident.severity === 'critical'
+            ? 'border-red-500/20 bg-red-500/5'
+            : incident.severity === 'high'
+              ? 'border-orange-500/20 bg-orange-500/5'
+              : incident.severity === 'medium'
+                ? 'border-yellow-500/20 bg-yellow-500/5'
+                : 'border-blue-500/20 bg-blue-500/5'
+        }`}
+      >
         <CardContent className="p-6">
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
               <div className="flex items-center space-x-3 mb-2">
                 <StatusIcon {...getStatusIconProps(incident.status)} />
                 <h4 className="font-medium">{incident.title}</h4>
-                <Badge className={
-                  incident.severity === 'critical' ? 'bg-red-500/10 text-red-500 border-red-500/20' :
-                  incident.severity === 'high' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' :
-                  incident.severity === 'medium' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
-                  'bg-blue-500/10 text-blue-500 border-blue-500/20'
-                }>
+                <Badge
+                  className={
+                    incident.severity === 'critical'
+                      ? 'bg-red-500/10 text-red-500 border-red-500/20'
+                      : incident.severity === 'high'
+                        ? 'bg-orange-500/10 text-orange-500 border-orange-500/20'
+                        : incident.severity === 'medium'
+                          ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'
+                          : 'bg-blue-500/10 text-blue-500 border-blue-500/20'
+                  }
+                >
                   {incident.severity.toUpperCase()}
                 </Badge>
               </div>
               <p className="text-sm text-muted-foreground mb-3">{incident.description}</p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                   <p className="text-sm font-medium mb-1">Affected Services:</p>
@@ -267,7 +297,7 @@ export function IncidentCard({ incident, index }: IncidentCardProps) {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex space-x-2">
               <Button size="sm" variant="outline">
                 <Eye className="w-3 h-3 mr-1" />

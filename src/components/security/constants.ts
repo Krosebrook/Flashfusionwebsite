@@ -10,7 +10,7 @@ export const SECURITY_METRICS: SecurityMetric[] = [
     lastChecked: new Date(Date.now() - 30 * 60 * 1000),
     details: 'MFA enabled for 95% of user accounts',
     recommendations: ['Enable MFA for remaining 5% of accounts', 'Consider hardware security keys'],
-    trend: 'up'
+    trend: 'up',
   },
   {
     id: 'data-encryption',
@@ -21,7 +21,7 @@ export const SECURITY_METRICS: SecurityMetric[] = [
     lastChecked: new Date(Date.now() - 60 * 60 * 1000),
     details: 'All data encrypted at rest and in transit',
     recommendations: ['Update encryption algorithms to latest standards'],
-    trend: 'stable'
+    trend: 'stable',
   },
   {
     id: 'network-security',
@@ -31,8 +31,12 @@ export const SECURITY_METRICS: SecurityMetric[] = [
     status: 'warning',
     lastChecked: new Date(Date.now() - 2 * 60 * 60 * 1000),
     details: 'Some network endpoints not using latest TLS version',
-    recommendations: ['Upgrade to TLS 1.3', 'Implement WAF rules', 'Review firewall configurations'],
-    trend: 'down'
+    recommendations: [
+      'Upgrade to TLS 1.3',
+      'Implement WAF rules',
+      'Review firewall configurations',
+    ],
+    trend: 'down',
   },
   {
     id: 'access-control',
@@ -43,7 +47,7 @@ export const SECURITY_METRICS: SecurityMetric[] = [
     lastChecked: new Date(Date.now() - 45 * 60 * 1000),
     details: 'RBAC implemented with regular access reviews',
     recommendations: ['Implement zero-trust architecture'],
-    trend: 'up'
+    trend: 'up',
   },
   {
     id: 'vulnerability-scanning',
@@ -54,7 +58,7 @@ export const SECURITY_METRICS: SecurityMetric[] = [
     lastChecked: new Date(Date.now() - 3 * 60 * 60 * 1000),
     details: 'Regular security scans with automated patching',
     recommendations: ['Increase scan frequency for critical systems'],
-    trend: 'stable'
+    trend: 'stable',
   },
   {
     id: 'incident-response',
@@ -65,8 +69,8 @@ export const SECURITY_METRICS: SecurityMetric[] = [
     lastChecked: new Date(Date.now() - 4 * 60 * 60 * 1000),
     details: 'Response procedures defined but need testing',
     recommendations: ['Conduct quarterly incident response drills', 'Update response playbooks'],
-    trend: 'stable'
-  }
+    trend: 'stable',
+  },
 ];
 
 export const SECURITY_THREATS: SecurityThreat[] = [
@@ -80,7 +84,7 @@ export const SECURITY_THREATS: SecurityThreat[] = [
     timestamp: new Date(Date.now() - 15 * 60 * 1000),
     status: 'investigating',
     affectedAssets: ['User Authentication System', 'Admin Portal'],
-    responseTime: 8
+    responseTime: 8,
   },
   {
     id: 'threat-2',
@@ -92,7 +96,7 @@ export const SECURITY_THREATS: SecurityThreat[] = [
     timestamp: new Date(Date.now() - 45 * 60 * 1000),
     status: 'mitigated',
     affectedAssets: ['Email System'],
-    responseTime: 12
+    responseTime: 12,
   },
   {
     id: 'threat-3',
@@ -104,7 +108,7 @@ export const SECURITY_THREATS: SecurityThreat[] = [
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
     status: 'resolved',
     affectedAssets: ['Email System'],
-    responseTime: 3
+    responseTime: 3,
   },
   {
     id: 'threat-4',
@@ -116,8 +120,8 @@ export const SECURITY_THREATS: SecurityThreat[] = [
     timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000),
     status: 'resolved',
     affectedAssets: ['Web Infrastructure', 'API Gateway'],
-    responseTime: 25
-  }
+    responseTime: 25,
+  },
 ];
 
 export const COMPLIANCE_FRAMEWORKS: ComplianceFramework[] = [
@@ -129,7 +133,7 @@ export const COMPLIANCE_FRAMEWORKS: ComplianceFramework[] = [
     certification: {
       status: 'certified',
       validUntil: new Date('2024-12-31'),
-      certifier: 'Independent Auditor LLC'
+      certifier: 'Independent Auditor LLC',
     },
     requirements: [
       {
@@ -137,23 +141,23 @@ export const COMPLIANCE_FRAMEWORKS: ComplianceFramework[] = [
         title: 'Logical and Physical Access Controls',
         status: 'compliant',
         lastAudit: new Date('2024-01-15'),
-        evidence: ['Access logs', 'Badge records', 'VPN logs']
+        evidence: ['Access logs', 'Badge records', 'VPN logs'],
       },
       {
         id: 'cc6.2',
         title: 'System Access Controls',
         status: 'compliant',
         lastAudit: new Date('2024-01-15'),
-        evidence: ['RBAC documentation', 'User access reviews']
+        evidence: ['RBAC documentation', 'User access reviews'],
       },
       {
         id: 'cc6.3',
         title: 'Data Classification',
         status: 'partial',
         lastAudit: new Date('2024-01-15'),
-        evidence: ['Data inventory', 'Classification schema']
-      }
-    ]
+        evidence: ['Data inventory', 'Classification schema'],
+      },
+    ],
   },
   {
     id: 'gdpr',
@@ -166,23 +170,23 @@ export const COMPLIANCE_FRAMEWORKS: ComplianceFramework[] = [
         title: 'Security of Processing',
         status: 'compliant',
         lastAudit: new Date('2024-02-01'),
-        evidence: ['Encryption policies', 'Security controls documentation']
+        evidence: ['Encryption policies', 'Security controls documentation'],
       },
       {
         id: 'art33',
         title: 'Breach Notification',
         status: 'compliant',
         lastAudit: new Date('2024-02-01'),
-        evidence: ['Incident response procedures', 'Notification templates']
+        evidence: ['Incident response procedures', 'Notification templates'],
       },
       {
         id: 'art35',
         title: 'Data Protection Impact Assessment',
         status: 'partial',
         lastAudit: new Date('2024-02-01'),
-        evidence: ['DPIA templates', 'Risk assessments']
-      }
-    ]
+        evidence: ['DPIA templates', 'Risk assessments'],
+      },
+    ],
   },
   {
     id: 'iso27001',
@@ -191,7 +195,7 @@ export const COMPLIANCE_FRAMEWORKS: ComplianceFramework[] = [
     overallCompliance: 76,
     certification: {
       status: 'pending',
-      certifier: 'ISO Certification Body'
+      certifier: 'ISO Certification Body',
     },
     requirements: [
       {
@@ -199,24 +203,24 @@ export const COMPLIANCE_FRAMEWORKS: ComplianceFramework[] = [
         title: 'Information Security Policies',
         status: 'compliant',
         lastAudit: new Date('2024-01-30'),
-        evidence: ['Security policies', 'Management approval records']
+        evidence: ['Security policies', 'Management approval records'],
       },
       {
         id: 'a8.1',
         title: 'Asset Management',
         status: 'partial',
         lastAudit: new Date('2024-01-30'),
-        evidence: ['Asset inventory', 'Ownership documentation']
+        evidence: ['Asset inventory', 'Ownership documentation'],
       },
       {
         id: 'a12.1',
         title: 'Operational Security',
         status: 'non-compliant',
         lastAudit: new Date('2024-01-30'),
-        evidence: []
-      }
-    ]
-  }
+        evidence: [],
+      },
+    ],
+  },
 ];
 
 export const ACCESS_TOKENS: AccessToken[] = [
@@ -231,7 +235,7 @@ export const ACCESS_TOKENS: AccessToken[] = [
     status: 'active',
     permissions: ['user.read', 'user.write', 'admin.all'],
     riskLevel: 'high',
-    usageCount: 15420
+    usageCount: 15420,
   },
   {
     id: 'token-2',
@@ -244,7 +248,7 @@ export const ACCESS_TOKENS: AccessToken[] = [
     status: 'active',
     permissions: ['analytics.read', 'metrics.read'],
     riskLevel: 'low',
-    usageCount: 8934
+    usageCount: 8934,
   },
   {
     id: 'token-3',
@@ -257,7 +261,7 @@ export const ACCESS_TOKENS: AccessToken[] = [
     status: 'expired',
     permissions: ['legacy.read'],
     riskLevel: 'medium',
-    usageCount: 234
+    usageCount: 234,
   },
   {
     id: 'token-4',
@@ -269,8 +273,8 @@ export const ACCESS_TOKENS: AccessToken[] = [
     status: 'active',
     permissions: ['app.read', 'app.write', 'profile.read'],
     riskLevel: 'medium',
-    usageCount: 2156
-  }
+    usageCount: 2156,
+  },
 ];
 
 export const SECURITY_CATEGORIES = {
@@ -278,7 +282,7 @@ export const SECURITY_CATEGORIES = {
   'data-protection': { name: 'Data Protection', color: '#3B82F6', icon: 'Shield' },
   network: { name: 'Network Security', color: '#F59E0B', icon: 'Wifi' },
   compliance: { name: 'Compliance', color: '#8B5CF6', icon: 'FileText' },
-  monitoring: { name: 'Monitoring', color: '#EF4444', icon: 'Activity' }
+  monitoring: { name: 'Monitoring', color: '#EF4444', icon: 'Activity' },
 };
 
 export const THREAT_TYPES = {
@@ -287,19 +291,19 @@ export const THREAT_TYPES = {
   malware: { name: 'Malware', color: '#B91C1C' },
   phishing: { name: 'Phishing', color: '#F59E0B' },
   ddos: { name: 'DDoS Attack', color: '#7C2D12' },
-  'insider-threat': { name: 'Insider Threat', color: '#8B5CF6' }
+  'insider-threat': { name: 'Insider Threat', color: '#8B5CF6' },
 };
 
 export const SEVERITY_COLORS = {
   low: '#10B981',
-  medium: '#F59E0B', 
+  medium: '#F59E0B',
   high: '#EF4444',
-  critical: '#DC2626'
+  critical: '#DC2626',
 };
 
 export const STATUS_COLORS = {
   secure: '#10B981',
   warning: '#F59E0B',
   critical: '#EF4444',
-  unknown: '#6B7280'
+  unknown: '#6B7280',
 };

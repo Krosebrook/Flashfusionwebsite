@@ -11,16 +11,40 @@ import { Switch } from '../../ui/switch';
 import { Separator } from '../../ui/separator';
 import { Progress } from '../../ui/progress';
 import { Alert, AlertDescription } from '../../ui/alert';
-import { 
-  Code, Download, Copy, Play, Settings, FileText, Folder, 
-  Loader2, Check, AlertCircle, Sparkles, Zap, RefreshCw,
-  GitBranch, Package, Terminal, Globe, Brain, Key, TestTube,
-  CheckCircle2, Rocket
+import {
+  Code,
+  Download,
+  Copy,
+  Play,
+  Settings,
+  FileText,
+  Folder,
+  Loader2,
+  Check,
+  AlertCircle,
+  Sparkles,
+  Zap,
+  RefreshCw,
+  GitBranch,
+  Package,
+  Terminal,
+  Globe,
+  Brain,
+  Key,
+  TestTube,
+  CheckCircle2,
+  Rocket,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import AIService, { type AIModel } from '../../../services/AIService';
 import { AISetupWizard } from '../../onboarding/AISetupWizard';
 import { RepositoryIntegrationCard } from './RepositoryIntegrationCard';
+import {
+  PROGRAMMING_LANGUAGES,
+  CODE_TYPES,
+  FRAMEWORKS,
+  FEATURE_OPTIONS,
+} from '../../../fixtures/tools/code-generator-fixtures';
 
 interface CodeGeneratorToolProps {
   onBack?: () => void;
@@ -44,71 +68,11 @@ interface CodeProject {
   features: string[];
 }
 
-const PROGRAMMING_LANGUAGES = [
-  { id: 'typescript', name: 'TypeScript', icon: '🔷', popular: true },
-  { id: 'javascript', name: 'JavaScript', icon: '🟨', popular: true },
-  { id: 'python', name: 'Python', icon: '🐍', popular: true },
-  { id: 'java', name: 'Java', icon: '☕', popular: true },
-  { id: 'csharp', name: 'C#', icon: '🔷', popular: false },
-  { id: 'go', name: 'Go', icon: '🐹', popular: false },
-  { id: 'rust', name: 'Rust', icon: '🦀', popular: false },
-  { id: 'php', name: 'PHP', icon: '🐘', popular: false },
-  { id: 'ruby', name: 'Ruby', icon: '💎', popular: false },
-  { id: 'swift', name: 'Swift', icon: '🍎', popular: false },
-  { id: 'kotlin', name: 'Kotlin', icon: '🎯', popular: false },
-  { id: 'dart', name: 'Dart', icon: '🎯', popular: false },
-];
-
-const CODE_TYPES = [
-  { id: 'component', name: 'React Component', icon: '⚛️', description: 'Reusable UI components' },
-  { id: 'api', name: 'REST API', icon: '🌐', description: 'Backend API endpoints' },
-  { id: 'function', name: 'Function/Method', icon: '⚡', description: 'Utility functions' },
-  { id: 'class', name: 'Class/Object', icon: '🏗️', description: 'Object-oriented structures' },
-  { id: 'hook', name: 'React Hook', icon: '🪝', description: 'Custom React hooks' },
-  { id: 'middleware', name: 'Middleware', icon: '🔗', description: 'Server middleware' },
-  { id: 'schema', name: 'Database Schema', icon: '🗄️', description: 'Database structures' },
-  { id: 'config', name: 'Configuration', icon: '⚙️', description: 'Config files' },
-  { id: 'test', name: 'Test Suite', icon: '🧪', description: 'Unit and integration tests' },
-  { id: 'utility', name: 'Utility Library', icon: '🔧', description: 'Helper utilities' },
-];
-
-const FRAMEWORKS = [
-  { id: 'react', name: 'React', icon: '⚛️', language: 'typescript' },
-  { id: 'nextjs', name: 'Next.js', icon: '▲', language: 'typescript' },
-  { id: 'vue', name: 'Vue.js', icon: '💚', language: 'typescript' },
-  { id: 'angular', name: 'Angular', icon: '🅰️', language: 'typescript' },
-  { id: 'svelte', name: 'Svelte', icon: '🧡', language: 'typescript' },
-  { id: 'express', name: 'Express.js', icon: '🚂', language: 'javascript' },
-  { id: 'fastapi', name: 'FastAPI', icon: '⚡', language: 'python' },
-  { id: 'django', name: 'Django', icon: '🎸', language: 'python' },
-  { id: 'spring', name: 'Spring Boot', icon: '🍃', language: 'java' },
-  { id: 'laravel', name: 'Laravel', icon: '🔺', language: 'php' },
-];
-
-const FEATURE_OPTIONS = [
-  'TypeScript Support',
-  'ESLint Configuration',
-  'Prettier Formatting',
-  'Unit Tests',
-  'Integration Tests',
-  'API Documentation',
-  'Error Handling',
-  'Logging',
-  'Authentication',
-  'Database Integration',
-  'Caching',
-  'Rate Limiting',
-  'Validation',
-  'Swagger/OpenAPI',
-  'Docker Support',
-  'CI/CD Pipeline',
-];
-
 export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
   const [activeTab, setActiveTab] = useState('generate');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
-  
+
   // Form state
   const [description, setDescription] = useState('');
   const [language, setLanguage] = useState('typescript');
@@ -119,25 +83,25 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
   const [includeTests, setIncludeTests] = useState(true);
   const [includeDocs, setIncludeDocs] = useState(true);
   const [outputFormat, setOutputFormat] = useState('project');
-  
+
   // Repository integration state
   const [useRepository, setUseRepository] = useState(false);
   const [connectedRepositories, setConnectedRepositories] = useState<any[]>([]);
   const [selectedRepository, setSelectedRepository] = useState<string | null>(null);
-  
+
   // Generated state
   const [generatedProject, setGeneratedProject] = useState<CodeProject | null>(null);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
   const availableFrameworks = useMemo(() => {
-    return FRAMEWORKS.filter(f => f.language === language || language === 'typescript' || language === 'javascript');
+    return FRAMEWORKS.filter(
+      (f) => f.language === language || language === 'typescript' || language === 'javascript'
+    );
   }, [language]);
 
   const handleFeatureToggle = useCallback((feature: string) => {
-    setSelectedFeatures(prev => 
-      prev.includes(feature) 
-        ? prev.filter(f => f !== feature)
-        : [...prev, feature]
+    setSelectedFeatures((prev) =>
+      prev.includes(feature) ? prev.filter((f) => f !== feature) : [...prev, feature]
     );
   }, []);
 
@@ -151,7 +115,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
   useEffect(() => {
     loadAiStatus();
     loadConnectedRepositories();
-    
+
     // Refresh AI status periodically
     const interval = setInterval(loadAiStatus, 5000);
     return () => clearInterval(interval);
@@ -173,7 +137,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
     const model = AIService.getCurrentModel();
     const models = AIService.getAvailableModels();
     const stats = AIService.getUsageStats();
-    
+
     setCurrentModel(model);
     setAvailableModels(models);
     setUsageStats(stats);
@@ -198,7 +162,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
     try {
       // Update progress
       const progressInterval = setInterval(() => {
-        setGenerationProgress(prev => {
+        setGenerationProgress((prev) => {
           if (prev < 90) return prev + Math.random() * 10;
           return prev;
         });
@@ -207,9 +171,10 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
       toast.info('Starting AI-powered code generation...');
 
       // Prepare repository context if selected
-      const selectedRepo = useRepository && selectedRepository 
-        ? connectedRepositories.find(repo => repo.id === selectedRepository)
-        : null;
+      const selectedRepo =
+        useRepository && selectedRepository
+          ? connectedRepositories.find((repo) => repo.id === selectedRepository)
+          : null;
 
       // Generate the main code using AI with repository context
       const codeRequest = {
@@ -219,40 +184,43 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
         context: {
           dependencies: selectedFeatures,
           styleGuide: 'Use FlashFusion design system with brand colors and animations',
-          repository: selectedRepo ? {
-            url: selectedRepo.url,
-            branch: selectedRepo.branch,
-            accessToken: selectedRepo.accessToken,
-            provider: selectedRepo.provider,
-            isPrivate: selectedRepo.isPrivate
-          } : undefined
+          repository: selectedRepo
+            ? {
+                url: selectedRepo.url,
+                branch: selectedRepo.branch,
+                accessToken: selectedRepo.accessToken,
+                provider: selectedRepo.provider,
+                isPrivate: selectedRepo.isPrivate,
+              }
+            : undefined,
         },
         options: {
           includeTypeScript: selectedFeatures.includes('TypeScript Support'),
           includeDocumentation: includeDocs,
           includeTests: includeTests,
           optimizeForPerformance: true,
-          analyzeRepository: useRepository && !!selectedRepo
-        }
+          analyzeRepository: useRepository && !!selectedRepo,
+        },
       };
 
-      const mainCode = useRepository && selectedRepo 
-        ? await AIService.generateCodeWithRepository(codeRequest)
-        : await AIService.generateCode(codeRequest);
+      const mainCode =
+        useRepository && selectedRepo
+          ? await AIService.generateCodeWithRepository(codeRequest)
+          : await AIService.generateCode(codeRequest);
 
       clearInterval(progressInterval);
       setGenerationProgress(90);
 
       // Generate additional files based on type and features
       const files: GeneratedFile[] = [];
-      
+
       // Main file
       const mainFileName = getMainFileName(codeType, projectName || 'component', language);
       files.push({
         path: mainFileName,
         content: mainCode,
         language: language === 'typescript' ? 'typescript' : 'javascript',
-        size: new Blob([mainCode]).size
+        size: new Blob([mainCode]).size,
       });
 
       // Generate tests if requested
@@ -262,18 +230,18 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
           framework,
           requirements: `Generate comprehensive unit tests for: ${description}`,
           context: {
-            existingCode: mainCode
+            existingCode: mainCode,
           },
           options: {
-            includeTypeScript: selectedFeatures.includes('TypeScript Support')
-          }
+            includeTypeScript: selectedFeatures.includes('TypeScript Support'),
+          },
         });
 
         files.push({
           path: getTestFileName(codeType, projectName || 'component', language),
           content: testCode,
           language: language === 'typescript' ? 'typescript' : 'javascript',
-          size: new Blob([testCode]).size
+          size: new Blob([testCode]).size,
         });
       }
 
@@ -284,7 +252,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
           path: 'README.md',
           content: documentation,
           language: 'markdown',
-          size: new Blob([documentation]).size
+          size: new Blob([documentation]).size,
         });
       }
 
@@ -294,7 +262,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
           path: '.eslintrc.json',
           content: generateEslintConfig(),
           language: 'json',
-          size: 256
+          size: 256,
         });
       }
 
@@ -303,16 +271,20 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
           path: 'tsconfig.json',
           content: generateTsConfig(),
           language: 'json',
-          size: 256
+          size: 256,
         });
       }
 
       // Generate package.json
       files.push({
         path: 'package.json',
-        content: generatePackageJson(projectName || 'ai-generated-project', framework, selectedFeatures),
+        content: generatePackageJson(
+          projectName || 'ai-generated-project',
+          framework,
+          selectedFeatures
+        ),
         language: 'json',
-        size: 512
+        size: 512,
       });
 
       const project: CodeProject = {
@@ -323,124 +295,149 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
         scripts: generateScripts(framework),
         framework,
         language,
-        features: selectedFeatures
+        features: selectedFeatures,
       };
 
       setGenerationProgress(100);
       setGeneratedProject(project);
       setSelectedFile(project.files[0]?.path || null);
       setActiveTab('preview');
-      
+
       toast.success(`🎉 AI-generated ${codeType} is ready!`);
       toast.info(`Generated using ${currentModel?.name}`);
     } catch (error) {
       console.error('AI generation failed:', error);
-      toast.error(`AI generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      toast.error(
+        `AI generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       setIsGenerating(false);
       setGenerationProgress(0);
     }
-  }, [description, language, codeType, framework, projectName, selectedFeatures, includeTests, includeDocs, aiModelAvailable, currentModel]);
+  }, [
+    description,
+    language,
+    codeType,
+    framework,
+    projectName,
+    selectedFeatures,
+    includeTests,
+    includeDocs,
+    aiModelAvailable,
+    currentModel,
+  ]);
 
   // Helper functions for generating config files and project structure
   const generateEslintConfig = () => {
-    return JSON.stringify({
-      "extends": ["eslint:recommended", "@typescript-eslint/recommended"],
-      "parser": "@typescript-eslint/parser",
-      "plugins": ["@typescript-eslint"],
-      "rules": {
-        "@typescript-eslint/no-unused-vars": "error",
-        "@typescript-eslint/no-explicit-any": "warn"
-      }
-    }, null, 2);
+    return JSON.stringify(
+      {
+        extends: ['eslint:recommended', '@typescript-eslint/recommended'],
+        parser: '@typescript-eslint/parser',
+        plugins: ['@typescript-eslint'],
+        rules: {
+          '@typescript-eslint/no-unused-vars': 'error',
+          '@typescript-eslint/no-explicit-any': 'warn',
+        },
+      },
+      null,
+      2
+    );
   };
 
   const generateTsConfig = () => {
-    return JSON.stringify({
-      "compilerOptions": {
-        "target": "ES2020",
-        "useDefineForClassFields": true,
-        "lib": ["ES2020", "DOM", "DOM.Iterable"],
-        "module": "ESNext",
-        "skipLibCheck": true,
-        "moduleResolution": "bundler",
-        "allowImportingTsExtensions": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "jsx": "react-jsx",
-        "strict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true
+    return JSON.stringify(
+      {
+        compilerOptions: {
+          target: 'ES2020',
+          useDefineForClassFields: true,
+          lib: ['ES2020', 'DOM', 'DOM.Iterable'],
+          module: 'ESNext',
+          skipLibCheck: true,
+          moduleResolution: 'bundler',
+          allowImportingTsExtensions: true,
+          resolveJsonModule: true,
+          isolatedModules: true,
+          noEmit: true,
+          jsx: 'react-jsx',
+          strict: true,
+          noUnusedLocals: true,
+          noUnusedParameters: true,
+          noFallthroughCasesInSwitch: true,
+        },
+        include: ['src'],
+        references: [{ path: './tsconfig.node.json' }],
       },
-      "include": ["src"],
-      "references": [{ "path": "./tsconfig.node.json" }]
-    }, null, 2);
+      null,
+      2
+    );
   };
 
   const generatePackageJson = (name: string, framework: string, features: string[]) => {
     const dependencies: Record<string, string> = {
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0"
+      react: '^18.2.0',
+      'react-dom': '^18.2.0',
     };
 
     if (features.includes('TypeScript Support')) {
-      dependencies["typescript"] = "^5.0.0";
-      dependencies["@types/react"] = "^18.2.0";
-      dependencies["@types/react-dom"] = "^18.2.0";
+      dependencies['typescript'] = '^5.0.0';
+      dependencies['@types/react'] = '^18.2.0';
+      dependencies['@types/react-dom'] = '^18.2.0';
     }
 
     const scripts: Record<string, string> = {
-      "dev": framework === 'nextjs' ? 'next dev' : 'vite',
-      "build": framework === 'nextjs' ? 'next build' : 'vite build',
-      "preview": framework === 'nextjs' ? 'next start' : 'vite preview'
+      dev: framework === 'nextjs' ? 'next dev' : 'vite',
+      build: framework === 'nextjs' ? 'next build' : 'vite build',
+      preview: framework === 'nextjs' ? 'next start' : 'vite preview',
     };
 
     if (features.includes('Unit Tests')) {
-      scripts["test"] = "vitest";
-      dependencies["vitest"] = "^0.34.0";
+      scripts['test'] = 'vitest';
+      dependencies['vitest'] = '^0.34.0';
     }
 
-    return JSON.stringify({
-      "name": name.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
-      "private": true,
-      "version": "0.0.0",
-      "type": "module",
-      "scripts": scripts,
-      "dependencies": dependencies,
-      "devDependencies": {
-        "@vitejs/plugin-react": "^4.0.3",
-        "vite": "^4.4.5"
-      }
-    }, null, 2);
+    return JSON.stringify(
+      {
+        name: name.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
+        private: true,
+        version: '0.0.0',
+        type: 'module',
+        scripts: scripts,
+        dependencies: dependencies,
+        devDependencies: {
+          '@vitejs/plugin-react': '^4.0.3',
+          vite: '^4.4.5',
+        },
+      },
+      null,
+      2
+    );
   };
 
   const generateDependencies = (framework: string, features: string[]): string[] => {
     const deps = ['react', 'react-dom'];
-    
+
     if (features.includes('TypeScript Support')) {
       deps.push('typescript', '@types/react', '@types/react-dom');
     }
-    
+
     if (framework === 'nextjs') {
       deps.push('next');
     }
-    
+
     if (features.includes('Unit Tests')) {
       deps.push('vitest', '@testing-library/react');
     }
-    
+
     return deps;
   };
 
   const generateScripts = (framework: string): Record<string, string> => {
     const scripts: Record<string, string> = {
-      "dev": framework === 'nextjs' ? 'next dev' : 'vite',
-      "build": framework === 'nextjs' ? 'next build' : 'vite build',
-      "preview": framework === 'nextjs' ? 'next start' : 'vite preview'
+      dev: framework === 'nextjs' ? 'next dev' : 'vite',
+      build: framework === 'nextjs' ? 'next build' : 'vite build',
+      preview: framework === 'nextjs' ? 'next start' : 'vite preview',
     };
-    
+
     return scripts;
   };
 
@@ -449,21 +446,21 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
     let zipContent = `# ${project.name}\n\n`;
     zipContent += `${project.description}\n\n`;
     zipContent += `## Files:\n\n`;
-    
-    project.files.forEach(file => {
+
+    project.files.forEach((file) => {
       zipContent += `### ${file.path}\n`;
       zipContent += `\`\`\`${file.language}\n`;
       zipContent += file.content;
       zipContent += `\n\`\`\`\n\n`;
     });
-    
+
     return zipContent;
   };
 
   const getMainFileName = (type: string, name: string, lang: string): string => {
     const ext = lang === 'typescript' ? 'ts' : 'js';
     const jsxExt = lang === 'typescript' ? 'tsx' : 'jsx';
-    
+
     switch (type) {
       case 'component':
         return `src/components/${name}.${jsxExt}`;
@@ -483,49 +480,49 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
   const getTestFileName = (type: string, name: string, lang: string): string => {
     const ext = lang === 'typescript' ? 'ts' : 'js';
     const jsxExt = lang === 'typescript' ? 'tsx' : 'jsx';
-    
+
     const testExt = type === 'component' ? jsxExt : ext;
     return `src/__tests__/${name}.test.${testExt}`;
   };
 
   const generateMockProject = useCallback((): CodeProject => {
     const name = projectName || `${codeType}-${Date.now()}`;
-    
+
     // Generate files based on selection
     const files: GeneratedFile[] = [];
-    
+
     // Main component/file
     if (codeType === 'component' && framework === 'react') {
       files.push({
         path: `src/components/${name}.tsx`,
         content: generateReactComponent(name, description, selectedFeatures),
         language: 'typescript',
-        size: 1024
+        size: 1024,
       });
-      
+
       files.push({
         path: `src/components/${name}.module.css`,
         content: generateComponentStyles(name),
         language: 'css',
-        size: 512
+        size: 512,
       });
     }
-    
+
     if (codeType === 'api') {
       files.push({
         path: `src/api/${name}.ts`,
         content: generateAPIEndpoint(name, description, selectedFeatures),
         language: 'typescript',
-        size: 2048
+        size: 2048,
       });
     }
-    
+
     if (codeType === 'hook') {
       files.push({
         path: `src/hooks/use${name}.ts`,
         content: generateReactHook(name, description),
         language: 'typescript',
-        size: 756
+        size: 756,
       });
     }
 
@@ -534,14 +531,14 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
       path: 'package.json',
       content: generatePackageJson(name, framework, selectedFeatures),
       language: 'json',
-      size: 512
+      size: 512,
     });
 
     files.push({
       path: 'tsconfig.json',
       content: generateTsConfig(),
       language: 'json',
-      size: 256
+      size: 256,
     });
 
     // Tests if requested
@@ -550,7 +547,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
         path: `src/__tests__/${name}.test.tsx`,
         content: generateTestFile(name, codeType),
         language: 'typescript',
-        size: 1024
+        size: 1024,
       });
     }
 
@@ -560,7 +557,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
         path: 'README.md',
         content: generateReadme(name, description, framework),
         language: 'markdown',
-        size: 2048
+        size: 2048,
       });
     }
 
@@ -570,7 +567,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
         path: '.eslintrc.json',
         content: generateEslintConfig(),
         language: 'json',
-        size: 256
+        size: 256,
       });
     }
 
@@ -579,7 +576,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
         path: 'Dockerfile',
         content: generateDockerfile(framework),
         language: 'dockerfile',
-        size: 512
+        size: 512,
       });
     }
 
@@ -591,7 +588,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
       scripts: generateScripts(framework),
       framework,
       language,
-      features: selectedFeatures
+      features: selectedFeatures,
     };
   }, [codeType, framework, projectName, description, selectedFeatures, includeTests, includeDocs]);
 
@@ -602,7 +599,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
     const zipContent = generateZipContent(generatedProject);
     const blob = new Blob([zipContent], { type: 'application/zip' });
     const url = URL.createObjectURL(blob);
-    
+
     const link = document.createElement('a');
     link.href = url;
     link.download = `${generatedProject.name}.zip`;
@@ -610,7 +607,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-    
+
     toast.success('Project downloaded successfully!');
   }, [generatedProject]);
 
@@ -632,18 +629,26 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
           onClose={() => setShowAiSetup(false)}
         />
       )}
-      
+
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="generate" className="flex items-center gap-2">
             <Sparkles className="w-4 h-4" />
             Generate
           </TabsTrigger>
-          <TabsTrigger value="preview" disabled={!generatedProject} className="flex items-center gap-2">
+          <TabsTrigger
+            value="preview"
+            disabled={!generatedProject}
+            className="flex items-center gap-2"
+          >
             <FileText className="w-4 h-4" />
             Preview
           </TabsTrigger>
-          <TabsTrigger value="download" disabled={!generatedProject} className="flex items-center gap-2">
+          <TabsTrigger
+            value="download"
+            disabled={!generatedProject}
+            className="flex items-center gap-2"
+          >
             <Download className="w-4 h-4" />
             Export
           </TabsTrigger>
@@ -651,20 +656,22 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
 
         <TabsContent value="generate" className="space-y-6">
           {/* AI Status Card */}
-          <Card className={`ff-card-interactive ${!aiModelAvailable ? 'border-ff-warning/50 bg-ff-warning/5' : 'border-ff-success/50 bg-ff-success/5'}`}>
+          <Card
+            className={`ff-card-interactive ${!aiModelAvailable ? 'border-ff-warning/50 bg-ff-warning/5' : 'border-ff-success/50 bg-ff-success/5'}`}
+          >
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Brain className={`w-5 h-5 ${aiModelAvailable ? 'text-ff-success' : 'text-ff-warning'}`} />
+                  <Brain
+                    className={`w-5 h-5 ${aiModelAvailable ? 'text-ff-success' : 'text-ff-warning'}`}
+                  />
                   AI Service Status
                 </div>
                 <div className="flex items-center gap-2">
-                  {currentModel && (
-                    <Badge className="ff-btn-primary">
-                      {currentModel.name}
-                    </Badge>
-                  )}
-                  <div className={`w-2 h-2 rounded-full ${aiModelAvailable ? 'bg-ff-success' : 'bg-ff-warning'}`} />
+                  {currentModel && <Badge className="ff-btn-primary">{currentModel.name}</Badge>}
+                  <div
+                    className={`w-2 h-2 rounded-full ${aiModelAvailable ? 'bg-ff-success' : 'bg-ff-warning'}`}
+                  />
                 </div>
               </CardTitle>
             </CardHeader>
@@ -672,7 +679,9 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
               {aiModelAvailable ? (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center">
-                    <div className="text-lg font-bold text-ff-success">{availableModels.length}</div>
+                    <div className="text-lg font-bold text-ff-success">
+                      {availableModels.length}
+                    </div>
                     <div className="text-xs text-ff-text-muted">Models Available</div>
                   </div>
                   <div className="text-center">
@@ -697,21 +706,16 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                   <Alert>
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      No AI models are configured. Set up your AI providers to start generating code.
+                      No AI models are configured. Set up your AI providers to start generating
+                      code.
                     </AlertDescription>
                   </Alert>
                   <div className="flex gap-3">
-                    <Button
-                      onClick={() => setShowAiSetup(true)}
-                      className="ff-btn-primary"
-                    >
+                    <Button onClick={() => setShowAiSetup(true)} className="ff-btn-primary">
                       <Rocket className="w-4 h-4 mr-2" />
                       Setup AI Models
                     </Button>
-                    <Button
-                      variant="outline"
-                      onClick={loadAiStatus}
-                    >
+                    <Button variant="outline" onClick={loadAiStatus}>
                       <RefreshCw className="w-4 h-4 mr-2" />
                       Refresh Status
                     </Button>
@@ -742,7 +746,8 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                   className="min-h-[100px] ff-focus-ring"
                 />
                 <p className="text-xs text-muted-foreground">
-                  Example: "A reusable button component with variants for primary, secondary, and destructive actions"
+                  Example: "A reusable button component with variants for primary, secondary, and
+                  destructive actions"
                 </p>
               </div>
 
@@ -751,10 +756,10 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                 <div className="space-y-3">
                   <Label className="text-sm font-medium">Code Type</Label>
                   <div className="grid grid-cols-2 gap-2">
-                    {CODE_TYPES.slice(0, 6).map(type => (
+                    {CODE_TYPES.slice(0, 6).map((type) => (
                       <Button
                         key={type.id}
-                        variant={codeType === type.id ? "default" : "outline"}
+                        variant={codeType === type.id ? 'default' : 'outline'}
                         size="sm"
                         onClick={() => setCodeType(type.id)}
                         className="justify-start p-3 h-auto"
@@ -764,9 +769,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                             <span>{type.icon}</span>
                             <span className="font-medium text-xs">{type.name}</span>
                           </div>
-                          <p className="text-xs text-muted-foreground mt-1">
-                            {type.description}
-                          </p>
+                          <p className="text-xs text-muted-foreground mt-1">{type.description}</p>
                         </div>
                       </Button>
                     ))}
@@ -782,8 +785,10 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <div className="px-2 py-1 text-xs font-medium text-muted-foreground">Popular</div>
-                        {PROGRAMMING_LANGUAGES.filter(lang => lang.popular).map(lang => (
+                        <div className="px-2 py-1 text-xs font-medium text-muted-foreground">
+                          Popular
+                        </div>
+                        {PROGRAMMING_LANGUAGES.filter((lang) => lang.popular).map((lang) => (
                           <SelectItem key={lang.id} value={lang.id}>
                             <div className="flex items-center gap-2">
                               <span>{lang.icon}</span>
@@ -792,8 +797,10 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                           </SelectItem>
                         ))}
                         <Separator className="my-1" />
-                        <div className="px-2 py-1 text-xs font-medium text-muted-foreground">Others</div>
-                        {PROGRAMMING_LANGUAGES.filter(lang => !lang.popular).map(lang => (
+                        <div className="px-2 py-1 text-xs font-medium text-muted-foreground">
+                          Others
+                        </div>
+                        {PROGRAMMING_LANGUAGES.filter((lang) => !lang.popular).map((lang) => (
                           <SelectItem key={lang.id} value={lang.id}>
                             <div className="flex items-center gap-2">
                               <span>{lang.icon}</span>
@@ -812,7 +819,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {availableFrameworks.map(fw => (
+                        {availableFrameworks.map((fw) => (
                           <SelectItem key={fw.id} value={fw.id}>
                             <div className="flex items-center gap-2">
                               <span>{fw.icon}</span>
@@ -844,7 +851,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
               <div className="space-y-3">
                 <Label className="text-sm font-medium">Features & Configurations</Label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                  {FEATURE_OPTIONS.map(feature => (
+                  {FEATURE_OPTIONS.map((feature) => (
                     <div key={feature} className="flex items-center space-x-2">
                       <Switch
                         id={feature}
@@ -871,13 +878,9 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                     Include Tests
                   </Label>
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
-                  <Switch
-                    id="includeDocs"
-                    checked={includeDocs}
-                    onCheckedChange={setIncludeDocs}
-                  />
+                  <Switch id="includeDocs" checked={includeDocs} onCheckedChange={setIncludeDocs} />
                   <Label htmlFor="includeDocs" className="text-sm cursor-pointer">
                     Include Documentation
                   </Label>
@@ -917,7 +920,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                     </>
                   )}
                 </Button>
-                
+
                 {generatedProject && (
                   <Button variant="outline" onClick={() => setActiveTab('preview')}>
                     <FileText className="w-4 h-4 mr-2" />
@@ -948,33 +951,42 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <p className="text-muted-foreground">{generatedProject.description}</p>
-                  
+
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="text-center p-3 bg-muted/50 rounded-lg">
-                      <div className="text-lg font-bold text-primary">{generatedProject.files.length}</div>
+                      <div className="text-lg font-bold text-primary">
+                        {generatedProject.files.length}
+                      </div>
                       <div className="text-xs text-muted-foreground">Files</div>
                     </div>
                     <div className="text-center p-3 bg-muted/50 rounded-lg">
-                      <div className="text-lg font-bold text-secondary">{generatedProject.dependencies.length}</div>
+                      <div className="text-lg font-bold text-secondary">
+                        {generatedProject.dependencies.length}
+                      </div>
                       <div className="text-xs text-muted-foreground">Dependencies</div>
                     </div>
                     <div className="text-center p-3 bg-muted/50 rounded-lg">
-                      <div className="text-lg font-bold text-accent">{generatedProject.features.length}</div>
+                      <div className="text-lg font-bold text-accent">
+                        {generatedProject.features.length}
+                      </div>
                       <div className="text-xs text-muted-foreground">Features</div>
                     </div>
                     <div className="text-center p-3 bg-muted/50 rounded-lg">
                       <div className="text-lg font-bold text-warning">
-                        {Math.round(generatedProject.files.reduce((acc, file) => acc + file.size, 0) / 1024)}KB
+                        {Math.round(
+                          generatedProject.files.reduce((acc, file) => acc + file.size, 0) / 1024
+                        )}
+                        KB
                       </div>
                       <div className="text-xs text-muted-foreground">Total Size</div>
                     </div>
                   </div>
-                  
+
                   {generatedProject.features.length > 0 && (
                     <div className="space-y-2">
                       <Label className="text-sm font-medium">Included Features</Label>
                       <div className="flex flex-wrap gap-2">
-                        {generatedProject.features.map(feature => (
+                        {generatedProject.features.map((feature) => (
                           <Badge key={feature} variant="secondary">
                             {feature}
                           </Badge>
@@ -997,12 +1009,14 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                   </CardHeader>
                   <CardContent className="p-0">
                     <div className="space-y-1">
-                      {generatedProject.files.map(file => (
+                      {generatedProject.files.map((file) => (
                         <button
                           key={file.path}
                           onClick={() => setSelectedFile(file.path)}
                           className={`w-full text-left px-4 py-2 text-sm hover:bg-muted/50 transition-colors ${
-                            selectedFile === file.path ? 'bg-primary/10 text-primary border-r-2 border-primary' : ''
+                            selectedFile === file.path
+                              ? 'bg-primary/10 text-primary border-r-2 border-primary'
+                              : ''
                           }`}
                         >
                           <div className="flex items-center justify-between">
@@ -1030,7 +1044,9 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                           size="sm"
                           variant="outline"
                           onClick={() => {
-                            const file = generatedProject.files.find(f => f.path === selectedFile);
+                            const file = generatedProject.files.find(
+                              (f) => f.path === selectedFile
+                            );
                             if (file) copyToClipboard(file.content);
                           }}
                           className="ff-hover-scale"
@@ -1046,7 +1062,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                       <div className="relative">
                         <pre className="bg-muted/30 p-4 rounded-lg overflow-auto max-h-[500px] text-sm">
                           <code>
-                            {generatedProject.files.find(f => f.path === selectedFile)?.content}
+                            {generatedProject.files.find((f) => f.path === selectedFile)?.content}
                           </code>
                         </pre>
                       </div>
@@ -1075,23 +1091,23 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Download Options</h3>
-                    
+
                     <Button onClick={downloadProject} className="w-full ff-btn-primary">
                       <Package className="w-4 h-4 mr-2" />
                       Download as ZIP
                     </Button>
-                    
+
                     <Button variant="outline" className="w-full">
                       <GitBranch className="w-4 h-4 mr-2" />
                       Push to GitHub
                     </Button>
-                    
+
                     <Button variant="outline" className="w-full">
                       <Terminal className="w-4 h-4 mr-2" />
                       Copy CLI Commands
                     </Button>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Next Steps</h3>
                     <div className="space-y-3 text-sm">
@@ -1099,21 +1115,27 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                         <Check className="w-4 h-4 text-success mt-0.5" />
                         <div>
                           <p className="font-medium">Install Dependencies</p>
-                          <p className="text-muted-foreground">Run <code>npm install</code> or <code>yarn install</code></p>
+                          <p className="text-muted-foreground">
+                            Run <code>npm install</code> or <code>yarn install</code>
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-start gap-2">
                         <Check className="w-4 h-4 text-success mt-0.5" />
                         <div>
                           <p className="font-medium">Start Development</p>
-                          <p className="text-muted-foreground">Run <code>npm run dev</code> to start the development server</p>
+                          <p className="text-muted-foreground">
+                            Run <code>npm run dev</code> to start the development server
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-start gap-2">
                         <Check className="w-4 h-4 text-success mt-0.5" />
                         <div>
                           <p className="font-medium">Run Tests</p>
-                          <p className="text-muted-foreground">Execute <code>npm test</code> to run the test suite</p>
+                          <p className="text-muted-foreground">
+                            Execute <code>npm test</code> to run the test suite
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -1143,7 +1165,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
 function generateReactComponent(name: string, description: string, features: string[]): string {
   const componentName = name.charAt(0).toUpperCase() + name.slice(1);
   const hasTypeScript = features.includes('TypeScript Support');
-  
+
   return `import React${features.includes('React Hook') ? ', { useState, useEffect }' : ''} from 'react';
 ${features.includes('CSS Modules') ? `import styles from './${name}.module.css';` : ''}
 
@@ -1168,7 +1190,9 @@ export function ${componentName}({
   disabled = false,
   onClick
 }: ${componentName}Props) {
-  ${features.includes('React Hook') ? `
+  ${
+    features.includes('React Hook')
+      ? `
   const [isLoading, setIsLoading] = useState(false);
   
   const handleClick = async () => {
@@ -1180,16 +1204,22 @@ export function ${componentName}({
     } finally {
       setIsLoading(false);
     }
-  };` : ''}
+  };`
+      : ''
+  }
 
   return (
     <button
       className={\`\${styles.button} \${styles[variant]} \${className}\`}
       disabled={disabled${features.includes('React Hook') ? ' || isLoading' : ''}}
       onClick={${features.includes('React Hook') ? 'handleClick' : 'onClick'}}
-      ${features.includes('Accessibility') ? `
+      ${
+        features.includes('Accessibility')
+          ? `
       aria-label="${componentName}"
-      role="button"` : ''}
+      role="button"`
+          : ''
+      }
     >
       ${features.includes('React Hook') ? '{isLoading ? "Loading..." : children}' : '{children}'}
     </button>
@@ -1258,7 +1288,9 @@ ${features.includes('Database Integration') ? "import { db } from '../config/dat
 ${features.includes('Validation') ? "import { z } from 'zod';" : ''}
 ${features.includes('Authentication') ? "import { authenticate } from '../middleware/auth';" : ''}
 
-${features.includes('Validation') ? `
+${
+  features.includes('Validation')
+    ? `
 // Request validation schema
 const ${name}Schema = z.object({
   // Add your validation rules here
@@ -1267,7 +1299,9 @@ const ${name}Schema = z.object({
 });
 
 type ${name.charAt(0).toUpperCase() + name.slice(1)}Request = z.infer<typeof ${name}Schema>;
-` : ''}
+`
+    : ''
+}
 
 /**
  * ${description}
@@ -1276,20 +1310,28 @@ export class ${name.charAt(0).toUpperCase() + name.slice(1)}Controller {
   ${features.includes('Authentication') ? '@authenticate' : ''}
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      ${features.includes('Validation') ? `
+      ${
+        features.includes('Validation')
+          ? `
       // Validate request body
       const validatedData = ${name}Schema.parse(req.body);
-      ` : 'const data = req.body;'}
+      `
+          : 'const data = req.body;'
+      }
       
-      ${features.includes('Database Integration') ? `
+      ${
+        features.includes('Database Integration')
+          ? `
       // Save to database
       const result = await db.${name}.create({
         data: ${features.includes('Validation') ? 'validatedData' : 'data'}
       });
-      ` : `
+      `
+          : `
       // Process the data
       const result = { id: Date.now(), ...${features.includes('Validation') ? 'validatedData' : 'data'} };
-      `}
+      `
+      }
       
       ${features.includes('Logging') ? `console.log(\`Created new ${name}: \${result.id}\`);` : ''}
       
@@ -1298,7 +1340,9 @@ export class ${name.charAt(0).toUpperCase() + name.slice(1)}Controller {
         data: result
       });
     } catch (error) {
-      ${features.includes('Error Handling') ? `
+      ${
+        features.includes('Error Handling')
+          ? `
       console.error('Error creating ${name}:', error);
       
       if (error instanceof z.ZodError) {
@@ -1313,32 +1357,42 @@ export class ${name.charAt(0).toUpperCase() + name.slice(1)}Controller {
         success: false,
         error: 'Internal server error'
       });
-      ` : 'next(error);'}
+      `
+          : 'next(error);'
+      }
     }
   }
 
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      ${features.includes('Database Integration') ? `
+      ${
+        features.includes('Database Integration')
+          ? `
       const items = await db.${name}.findMany({
         orderBy: { createdAt: 'desc' }
       });
-      ` : `
+      `
+          : `
       const items = []; // Mock data
-      `}
+      `
+      }
       
       res.json({
         success: true,
         data: items
       });
     } catch (error) {
-      ${features.includes('Error Handling') ? `
+      ${
+        features.includes('Error Handling')
+          ? `
       console.error('Error fetching ${name}s:', error);
       res.status(500).json({
         success: false,
         error: 'Internal server error'
       });
-      ` : 'next(error);'}
+      `
+          : 'next(error);'
+      }
     }
   }
 
@@ -1346,13 +1400,17 @@ export class ${name.charAt(0).toUpperCase() + name.slice(1)}Controller {
     try {
       const { id } = req.params;
       
-      ${features.includes('Database Integration') ? `
+      ${
+        features.includes('Database Integration')
+          ? `
       const item = await db.${name}.findUnique({
         where: { id: parseInt(id) }
       });
-      ` : `
+      `
+          : `
       const item = null; // Mock data
-      `}
+      `
+      }
       
       if (!item) {
         return res.status(404).json({
@@ -1366,13 +1424,17 @@ export class ${name.charAt(0).toUpperCase() + name.slice(1)}Controller {
         data: item
       });
     } catch (error) {
-      ${features.includes('Error Handling') ? `
+      ${
+        features.includes('Error Handling')
+          ? `
       console.error('Error fetching ${name}:', error);
       res.status(500).json({
         success: false,
         error: 'Internal server error'
       });
-      ` : 'next(error);'}
+      `
+          : 'next(error);'
+      }
     }
   }
 }
@@ -1382,7 +1444,7 @@ export default new ${name.charAt(0).toUpperCase() + name.slice(1)}Controller();`
 
 function generateReactHook(name: string, description: string): string {
   const hookName = `use${name.charAt(0).toUpperCase() + name.slice(1)}`;
-  
+
   return `import { useState, useEffect, useCallback } from 'react';
 
 interface ${hookName}Options {
@@ -1460,79 +1522,89 @@ export default ${hookName};`;
 
 function generatePackageJson(name: string, framework: string, features: string[]): string {
   const dependencies: Record<string, string> = {
-    react: "^18.2.0",
-    "react-dom": "^18.2.0"
+    react: '^18.2.0',
+    'react-dom': '^18.2.0',
   };
 
   const devDependencies: Record<string, string> = {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "typescript": "^5.0.0",
-    "vite": "^4.4.0"
+    '@types/react': '^18.2.0',
+    '@types/react-dom': '^18.2.0',
+    typescript: '^5.0.0',
+    vite: '^4.4.0',
   };
 
   if (framework === 'nextjs') {
-    dependencies.next = "^13.4.0";
-    delete dependencies["react-dom"];
+    dependencies.next = '^13.4.0';
+    delete dependencies['react-dom'];
   }
 
   if (features.includes('ESLint Configuration')) {
-    devDependencies.eslint = "^8.45.0";
-    devDependencies["@typescript-eslint/eslint-plugin"] = "^6.0.0";
+    devDependencies.eslint = '^8.45.0';
+    devDependencies['@typescript-eslint/eslint-plugin'] = '^6.0.0';
   }
 
   if (features.includes('Unit Tests')) {
-    devDependencies.vitest = "^0.34.0";
-    devDependencies["@testing-library/react"] = "^13.4.0";
+    devDependencies.vitest = '^0.34.0';
+    devDependencies['@testing-library/react'] = '^13.4.0';
   }
 
-  return JSON.stringify({
-    name,
-    version: "1.0.0",
-    description: "Generated by FlashFusion AI Code Generator",
-    main: "index.js",
-    scripts: {
-      dev: framework === 'nextjs' ? "next dev" : "vite",
-      build: framework === 'nextjs' ? "next build" : "vite build",
-      start: framework === 'nextjs' ? "next start" : "vite preview",
-      test: features.includes('Unit Tests') ? "vitest" : "echo 'No tests specified'",
-      lint: features.includes('ESLint Configuration') ? "eslint . --ext .ts,.tsx" : "echo 'No linting configured'"
+  return JSON.stringify(
+    {
+      name,
+      version: '1.0.0',
+      description: 'Generated by FlashFusion AI Code Generator',
+      main: 'index.js',
+      scripts: {
+        dev: framework === 'nextjs' ? 'next dev' : 'vite',
+        build: framework === 'nextjs' ? 'next build' : 'vite build',
+        start: framework === 'nextjs' ? 'next start' : 'vite preview',
+        test: features.includes('Unit Tests') ? 'vitest' : "echo 'No tests specified'",
+        lint: features.includes('ESLint Configuration')
+          ? 'eslint . --ext .ts,.tsx'
+          : "echo 'No linting configured'",
+      },
+      dependencies,
+      devDependencies,
+      keywords: ['react', framework, 'typescript', 'generated'],
+      author: 'FlashFusion AI',
+      license: 'MIT',
     },
-    dependencies,
-    devDependencies,
-    keywords: ["react", framework, "typescript", "generated"],
-    author: "FlashFusion AI",
-    license: "MIT"
-  }, null, 2);
+    null,
+    2
+  );
 }
 
 function generateTsConfig(): string {
-  return JSON.stringify({
-    compilerOptions: {
-      target: "ES2020",
-      useDefineForClassFields: true,
-      lib: ["ES2020", "DOM", "DOM.Iterable"],
-      module: "ESNext",
-      skipLibCheck: true,
-      moduleResolution: "bundler",
-      allowImportingTsExtensions: true,
-      resolveJsonModule: true,
-      isolatedModules: true,
-      noEmit: true,
-      jsx: "react-jsx",
-      strict: true,
-      noUnusedLocals: true,
-      noUnusedParameters: true,
-      noFallthroughCasesInSwitch: true
+  return JSON.stringify(
+    {
+      compilerOptions: {
+        target: 'ES2020',
+        useDefineForClassFields: true,
+        lib: ['ES2020', 'DOM', 'DOM.Iterable'],
+        module: 'ESNext',
+        skipLibCheck: true,
+        moduleResolution: 'bundler',
+        allowImportingTsExtensions: true,
+        resolveJsonModule: true,
+        isolatedModules: true,
+        noEmit: true,
+        jsx: 'react-jsx',
+        strict: true,
+        noUnusedLocals: true,
+        noUnusedParameters: true,
+        noFallthroughCasesInSwitch: true,
+      },
+      include: ['src'],
+      references: [{ path: './tsconfig.node.json' }],
     },
-    include: ["src"],
-    references: [{ path: "./tsconfig.node.json" }]
-  }, null, 2);
+    null,
+    2
+  );
 }
 
 function generateTestFile(name: string, codeType: string): string {
   const componentName = name.charAt(0).toUpperCase() + name.slice(1);
-  
+
   return `import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import ${componentName} from './${name}';
@@ -1661,39 +1733,43 @@ This project was generated using [FlashFusion AI Code Generator](https://flashfu
 }
 
 function generateEslintConfig(): string {
-  return JSON.stringify({
-    env: {
-      browser: true,
-      es2020: true,
-      node: true
+  return JSON.stringify(
+    {
+      env: {
+        browser: true,
+        es2020: true,
+        node: true,
+      },
+      extends: [
+        'eslint:recommended',
+        '@typescript-eslint/recommended',
+        'plugin:react/recommended',
+        'plugin:react-hooks/recommended',
+      ],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      plugins: ['react', '@typescript-eslint'],
+      rules: {
+        'react/react-in-jsx-scope': 'off',
+        '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+        'prefer-const': 'error',
+        'no-var': 'error',
+      },
+      settings: {
+        react: {
+          version: 'detect',
+        },
+      },
     },
-    extends: [
-      "eslint:recommended",
-      "@typescript-eslint/recommended",
-      "plugin:react/recommended",
-      "plugin:react-hooks/recommended"
-    ],
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
-      ecmaFeatures: {
-        jsx: true
-      }
-    },
-    plugins: ["react", "@typescript-eslint"],
-    rules: {
-      "react/react-in-jsx-scope": "off",
-      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
-      "prefer-const": "error",
-      "no-var": "error"
-    },
-    settings: {
-      react: {
-        version: "detect"
-      }
-    }
-  }, null, 2);
+    null,
+    2
+  );
 }
 
 function generateDockerfile(framework: string): string {
@@ -1725,14 +1801,14 @@ CMD ["npm", "start"]
 
 function generateDependencies(framework: string, features: string[]): string[] {
   const deps = ['react', 'react-dom'];
-  
+
   if (framework === 'nextjs') deps.push('next');
   if (framework === 'express') deps.push('express');
   if (features.includes('TypeScript Support')) deps.push('typescript');
   if (features.includes('Database Integration')) deps.push('prisma');
   if (features.includes('Authentication')) deps.push('jsonwebtoken');
   if (features.includes('Validation')) deps.push('zod');
-  
+
   return deps;
 }
 
@@ -1740,9 +1816,9 @@ function generateScripts(framework: string): Record<string, string> {
   const scripts: Record<string, string> = {
     dev: framework === 'nextjs' ? 'next dev' : 'vite',
     build: framework === 'nextjs' ? 'next build' : 'vite build',
-    start: framework === 'nextjs' ? 'next start' : 'vite preview'
+    start: framework === 'nextjs' ? 'next start' : 'vite preview',
   };
-  
+
   return scripts;
 }
 

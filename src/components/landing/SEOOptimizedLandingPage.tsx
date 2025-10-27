@@ -4,9 +4,9 @@
  * @category marketing
  * @version 2.0.0
  * @author FlashFusion Team
- * 
+ *
  * Premium SEO-optimized landing page with stunning visuals and proper meta tags.
- * 
+ *
  * Features:
  * - SEO-first architecture with proper meta tags
  * - Stunning hero section with immersive visuals
@@ -30,14 +30,14 @@ import { ContactSupportSystem } from '../support/ContactSupportSystem';
 import { WaitlistSystem } from '../waitlist/WaitlistSystem';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import type { AuthUser } from '../../hooks/useAuthentication';
-import { 
-  Star, 
-  ArrowRight, 
-  Check, 
-  Play, 
-  Users, 
-  Zap, 
-  Shield, 
+import {
+  Star,
+  ArrowRight,
+  Check,
+  Play,
+  Users,
+  Zap,
+  Shield,
   Rocket,
   ChevronDown,
   ChevronUp,
@@ -66,7 +66,7 @@ import {
   Smartphone,
   Monitor,
   Palette,
-  Layers
+  Layers,
 } from 'lucide-react';
 
 // SEO Meta Tags Component
@@ -74,40 +74,59 @@ function SEOMetaTags() {
   useEffect(() => {
     // Update document title and meta tags
     document.title = 'FlashFusion - AI Development Platform | Transform Ideas Into Reality';
-    
+
     // Update meta description
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'The most advanced AI development platform that turns your concepts into production-ready applications, content, and revenue streams in minutes. Join 10,000+ creators building the future with AI.');
+      metaDescription.setAttribute(
+        'content',
+        'The most advanced AI development platform that turns your concepts into production-ready applications, content, and revenue streams in minutes. Join 10,000+ creators building the future with AI.'
+      );
     } else {
       const meta = document.createElement('meta');
       meta.name = 'description';
-      meta.content = 'The most advanced AI development platform that turns your concepts into production-ready applications, content, and revenue streams in minutes. Join 10,000+ creators building the future with AI.';
+      meta.content =
+        'The most advanced AI development platform that turns your concepts into production-ready applications, content, and revenue streams in minutes. Join 10,000+ creators building the future with AI.';
       document.head.appendChild(meta);
     }
 
     // Update meta keywords
     const metaKeywords = document.querySelector('meta[name="keywords"]');
     if (metaKeywords) {
-      metaKeywords.setAttribute('content', 'AI development platform, no-code development, AI code generator, content creation, AI tools, development automation, creator platform, AI applications, machine learning, artificial intelligence');
+      metaKeywords.setAttribute(
+        'content',
+        'AI development platform, no-code development, AI code generator, content creation, AI tools, development automation, creator platform, AI applications, machine learning, artificial intelligence'
+      );
     } else {
       const meta = document.createElement('meta');
       meta.name = 'keywords';
-      meta.content = 'AI development platform, no-code development, AI code generator, content creation, AI tools, development automation, creator platform, AI applications, machine learning, artificial intelligence';
+      meta.content =
+        'AI development platform, no-code development, AI code generator, content creation, AI tools, development automation, creator platform, AI applications, machine learning, artificial intelligence';
       document.head.appendChild(meta);
     }
 
     // Open Graph tags
     const ogTags = [
-      { property: 'og:title', content: 'FlashFusion - AI Development Platform | Transform Ideas Into Reality' },
-      { property: 'og:description', content: 'The most advanced AI development platform that turns your concepts into production-ready applications, content, and revenue streams in minutes.' },
+      {
+        property: 'og:title',
+        content: 'FlashFusion - AI Development Platform | Transform Ideas Into Reality',
+      },
+      {
+        property: 'og:description',
+        content:
+          'The most advanced AI development platform that turns your concepts into production-ready applications, content, and revenue streams in minutes.',
+      },
       { property: 'og:type', content: 'website' },
       { property: 'og:url', content: window.location.href },
-      { property: 'og:image', content: 'https://images.unsplash.com/photo-1624792054848-98a03bbb8546?q=80&w=1200&auto=format&fit=crop' },
-      { property: 'og:site_name', content: 'FlashFusion' }
+      {
+        property: 'og:image',
+        content:
+          'https://images.unsplash.com/photo-1624792054848-98a03bbb8546?q=80&w=1200&auto=format&fit=crop',
+      },
+      { property: 'og:site_name', content: 'FlashFusion' },
     ];
 
-    ogTags.forEach(tag => {
+    ogTags.forEach((tag) => {
       let metaTag = document.querySelector(`meta[property="${tag.property}"]`);
       if (metaTag) {
         metaTag.setAttribute('content', tag.content);
@@ -123,11 +142,19 @@ function SEOMetaTags() {
     const twitterTags = [
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: 'FlashFusion - AI Development Platform' },
-      { name: 'twitter:description', content: 'Transform your ideas into reality with the most advanced AI development platform. Join 10,000+ creators building the future.' },
-      { name: 'twitter:image', content: 'https://images.unsplash.com/photo-1624792054848-98a03bbb8546?q=80&w=1200&auto=format&fit=crop' }
+      {
+        name: 'twitter:description',
+        content:
+          'Transform your ideas into reality with the most advanced AI development platform. Join 10,000+ creators building the future.',
+      },
+      {
+        name: 'twitter:image',
+        content:
+          'https://images.unsplash.com/photo-1624792054848-98a03bbb8546?q=80&w=1200&auto=format&fit=crop',
+      },
     ];
 
-    twitterTags.forEach(tag => {
+    twitterTags.forEach((tag) => {
       let metaTag = document.querySelector(`meta[name="${tag.name}"]`);
       if (metaTag) {
         metaTag.setAttribute('content', tag.content);
@@ -141,33 +168,34 @@ function SEOMetaTags() {
 
     // JSON-LD Schema markup
     const schemaMarkup = {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "FlashFusion",
-      "description": "AI development platform that transforms ideas into production-ready applications",
-      "url": window.location.origin,
-      "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "29.00",
-        "priceCurrency": "USD",
-        "priceSpecification": {
-          "@type": "PriceSpecification",
-          "price": "14.50",
-          "priceCurrency": "USD",
-          "description": "50% off promotional pricing"
-        }
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: 'FlashFusion',
+      description:
+        'AI development platform that transforms ideas into production-ready applications',
+      url: window.location.origin,
+      applicationCategory: 'DeveloperApplication',
+      operatingSystem: 'Web',
+      offers: {
+        '@type': 'Offer',
+        price: '29.00',
+        priceCurrency: 'USD',
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          price: '14.50',
+          priceCurrency: 'USD',
+          description: '50% off promotional pricing',
+        },
       },
-      "creator": {
-        "@type": "Organization",
-        "name": "FlashFusion Team"
+      creator: {
+        '@type': 'Organization',
+        name: 'FlashFusion Team',
       },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": "2847"
-      }
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        reviewCount: '2847',
+      },
     };
 
     const script = document.createElement('script');
@@ -221,7 +249,8 @@ export function SEOOptimizedLandingPage() {
   // Preload hero image
   useEffect(() => {
     const img = new Image();
-    img.src = 'https://images.unsplash.com/photo-1624792054848-98a03bbb8546?q=80&w=1920&auto=format&fit=crop';
+    img.src =
+      'https://images.unsplash.com/photo-1624792054848-98a03bbb8546?q=80&w=1920&auto=format&fit=crop';
     img.onload = () => setIsHeroVideoLoaded(true);
   }, []);
 
@@ -237,28 +266,28 @@ export function SEOOptimizedLandingPage() {
   // Handle authentication success with conversion tracking
   const handleAuthSuccess = (user: AuthUser) => {
     console.log('Authentication successful:', user);
-    
+
     // Track successful conversion
     try {
       if (typeof window !== 'undefined' && (window as any).gtag) {
         const urlParams = new URLSearchParams(window.location.search);
         const source = urlParams.get('source') || 'landing';
         const promo = urlParams.get('promo') || 'none';
-        
+
         (window as any).gtag('event', 'sign_up', {
           method: 'email',
           source: source,
           promotional_code: promo,
-          value: promo === '50OFF' ? 14.50 : 29.00,
-          currency: 'USD'
+          value: promo === '50OFF' ? 14.5 : 29.0,
+          currency: 'USD',
         });
       }
     } catch (error) {
       console.warn('Failed to track conversion:', error);
     }
-    
+
     setShowAuthModal(false);
-    
+
     // Trigger navigation to app
     try {
       localStorage.setItem('ff-show-app', 'true');
@@ -281,52 +310,58 @@ export function SEOOptimizedLandingPage() {
     { label: 'How It Works', href: '#how-it-works' },
     { label: 'Pricing', href: '#pricing' },
     { label: 'Testimonials', href: '#testimonials' },
-    { label: 'FAQ', href: '#faq' }
+    { label: 'FAQ', href: '#faq' },
   ];
 
   const features = [
     {
       icon: <Bot className="w-8 h-8" />,
       title: 'AI Code Generation',
-      description: 'Generate production-ready code in any language with advanced AI models trained on billions of code samples.',
+      description:
+        'Generate production-ready code in any language with advanced AI models trained on billions of code samples.',
       stats: '99.9% accuracy',
-      gradient: 'from-[var(--ff-primary)] to-[var(--ff-secondary)]'
+      gradient: 'from-[var(--ff-primary)] to-[var(--ff-secondary)]',
     },
     {
       icon: <Palette className="w-8 h-8" />,
       title: 'Content Creation',
-      description: 'Create stunning visuals, compelling copy, and engaging media content at the speed of thought.',
+      description:
+        'Create stunning visuals, compelling copy, and engaging media content at the speed of thought.',
       stats: '10x faster',
-      gradient: 'from-[var(--ff-secondary)] to-[var(--ff-accent)]'
+      gradient: 'from-[var(--ff-secondary)] to-[var(--ff-accent)]',
     },
     {
       icon: <Rocket className="w-8 h-8" />,
       title: 'One-Click Deploy',
-      description: 'Deploy your applications instantly across 20+ platforms with automated optimization and scaling.',
+      description:
+        'Deploy your applications instantly across 20+ platforms with automated optimization and scaling.',
       stats: '5 second deploy',
-      gradient: 'from-[var(--ff-accent)] to-[var(--ff-primary)]'
+      gradient: 'from-[var(--ff-accent)] to-[var(--ff-primary)]',
     },
     {
       icon: <DollarSign className="w-8 h-8" />,
       title: 'Revenue Streams',
-      description: 'Built-in monetization tools including marketplace integration, subscription management, and analytics.',
+      description:
+        'Built-in monetization tools including marketplace integration, subscription management, and analytics.',
       stats: 'Up to 10x ROI',
-      gradient: 'from-[var(--ff-primary)] to-[var(--ff-secondary)]'
+      gradient: 'from-[var(--ff-primary)] to-[var(--ff-secondary)]',
     },
     {
       icon: <Shield className="w-8 h-8" />,
       title: 'Enterprise Security',
-      description: 'Bank-level security with end-to-end encryption, SOC 2 compliance, and advanced threat protection.',
+      description:
+        'Bank-level security with end-to-end encryption, SOC 2 compliance, and advanced threat protection.',
       stats: '100% secure',
-      gradient: 'from-[var(--ff-secondary)] to-[var(--ff-accent)]'
+      gradient: 'from-[var(--ff-secondary)] to-[var(--ff-accent)]',
     },
     {
       icon: <BarChart3 className="w-8 h-8" />,
       title: 'Analytics & Insights',
-      description: 'Real-time performance tracking, user behavior analysis, and AI-powered optimization recommendations.',
+      description:
+        'Real-time performance tracking, user behavior analysis, and AI-powered optimization recommendations.',
       stats: 'Real-time data',
-      gradient: 'from-[var(--ff-accent)] to-[var(--ff-primary)]'
-    }
+      gradient: 'from-[var(--ff-accent)] to-[var(--ff-primary)]',
+    },
   ];
 
   const handleEnterApp = () => {
@@ -348,12 +383,14 @@ export function SEOOptimizedLandingPage() {
   return (
     <>
       <SEOMetaTags />
-      
-      <div className="min-h-screen" style={{ 
-        background: 'var(--ff-bg-dark)',
-        fontFamily: 'var(--ff-font-secondary)'
-      }}>
-        
+
+      <div
+        className="min-h-screen"
+        style={{
+          background: 'var(--ff-bg-dark)',
+          fontFamily: 'var(--ff-font-secondary)',
+        }}
+      >
         {/* Modals */}
         {showAuthModal && (
           <EnhancedAuthenticationSystem
@@ -364,27 +401,23 @@ export function SEOOptimizedLandingPage() {
         )}
 
         {showContactSupport && (
-          <ContactSupportSystem
-            onClose={() => setShowContactSupport(false)}
-          />
+          <ContactSupportSystem onClose={() => setShowContactSupport(false)} />
         )}
 
         {showWaitlist && (
-          <WaitlistSystem
-            onClose={() => setShowWaitlist(false)}
-            source="landing-page"
-          />
+          <WaitlistSystem onClose={() => setShowWaitlist(false)} source="landing-page" />
         )}
 
         {/* Fixed Navigation */}
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-[var(--ff-bg-dark)]/80 backdrop-blur-xl border-b border-white/10' 
-            : 'bg-transparent'
-        }`}>
+        <nav
+          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+            isScrolled
+              ? 'bg-[var(--ff-bg-dark)]/80 backdrop-blur-xl border-b border-white/10'
+              : 'bg-transparent'
+          }`}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-20">
-              
               {/* Logo */}
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-[var(--ff-primary)] to-[var(--ff-secondary)] rounded-xl flex items-center justify-center shadow-lg">
@@ -405,7 +438,7 @@ export function SEOOptimizedLandingPage() {
                   </button>
                 ))}
                 <div className="flex items-center space-x-3">
-                  <Button 
+                  <Button
                     onClick={handleTryDemo}
                     variant="ghost"
                     className="text-white hover:bg-white/10 ff-btn-ghost"
@@ -413,7 +446,7 @@ export function SEOOptimizedLandingPage() {
                     <Play className="w-4 h-4 mr-2" />
                     Try Demo
                   </Button>
-                  <Button 
+                  <Button
                     onClick={() => setShowAuthModal(true)}
                     variant="outline"
                     className="border-[var(--ff-primary)]/30 text-[var(--ff-primary)] hover:bg-[var(--ff-primary)]/10 ff-btn-outline"
@@ -421,10 +454,7 @@ export function SEOOptimizedLandingPage() {
                     <LogIn className="w-4 h-4 mr-2" />
                     Sign In
                   </Button>
-                  <Button 
-                    onClick={() => setShowAuthModal(true)}
-                    className="ff-btn-primary"
-                  >
+                  <Button onClick={() => setShowAuthModal(true)} className="ff-btn-primary">
                     <UserPlus className="w-4 h-4 mr-2" />
                     Get Started
                   </Button>
@@ -455,15 +485,11 @@ export function SEOOptimizedLandingPage() {
                     </button>
                   ))}
                   <div className="space-y-3 mt-6 pt-4 border-t border-white/10">
-                    <Button 
-                      onClick={handleTryDemo}
-                      variant="ghost"
-                      className="w-full ff-btn-ghost"
-                    >
+                    <Button onClick={handleTryDemo} variant="ghost" className="w-full ff-btn-ghost">
                       <Play className="w-4 h-4 mr-2" />
                       Try Demo
                     </Button>
-                    <Button 
+                    <Button
                       onClick={() => setShowAuthModal(true)}
                       variant="outline"
                       className="w-full ff-btn-outline"
@@ -471,7 +497,7 @@ export function SEOOptimizedLandingPage() {
                       <LogIn className="w-4 h-4 mr-2" />
                       Sign In
                     </Button>
-                    <Button 
+                    <Button
                       onClick={() => setShowAuthModal(true)}
                       className="w-full ff-btn-primary"
                     >
@@ -486,13 +512,12 @@ export function SEOOptimizedLandingPage() {
         </nav>
 
         {/* Hero Section with Stunning Visuals */}
-        <section ref={heroRef} className="relative min-h-screen flex items-center justify-center pt-20 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-          
+        <section
+          ref={heroRef}
+          className="relative min-h-screen flex items-center justify-center pt-20 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+        >
           {/* Parallax Background */}
-          <div 
-            ref={parallaxRef}
-            className="absolute inset-0 z-0"
-          >
+          <div ref={parallaxRef} className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--ff-bg-dark)] via-[var(--ff-surface)] to-[var(--ff-bg-dark)]" />
             <div className="absolute inset-0 opacity-30">
               {isHeroVideoLoaded && (
@@ -515,13 +540,14 @@ export function SEOOptimizedLandingPage() {
 
           {/* Hero Content */}
           <div className="relative z-10 max-w-7xl mx-auto text-center">
-            
             {/* Promotional Banner */}
             <div className="mb-8 ff-fade-in-up">
               <div className="bg-gradient-to-r from-[var(--ff-accent)]/20 to-[var(--ff-secondary)]/20 border border-[var(--ff-accent)]/30 rounded-2xl p-4 max-w-2xl mx-auto mb-6 backdrop-blur-sm">
                 <div className="flex items-center justify-center space-x-3 flex-wrap">
                   <Gift className="w-5 h-5 text-[var(--ff-accent)]" />
-                  <span className="text-sm font-semibold text-white">🎉 Limited Time Launch Offer:</span>
+                  <span className="text-sm font-semibold text-white">
+                    🎉 Limited Time Launch Offer:
+                  </span>
                   <div className="flex items-center space-x-2">
                     <Percent className="w-4 h-4 text-[var(--ff-accent)]" />
                     <span className="text-lg font-bold text-[var(--ff-accent)]">50% OFF</span>
@@ -544,19 +570,25 @@ export function SEOOptimizedLandingPage() {
             </div>
 
             {/* Main Headlines */}
-            <div className="mb-12 max-w-5xl mx-auto ff-fade-in-up" style={{ animationDelay: '400ms' }}>
+            <div
+              className="mb-12 max-w-5xl mx-auto ff-fade-in-up"
+              style={{ animationDelay: '400ms' }}
+            >
               <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black text-white mb-6 leading-tight tracking-tight">
-                Transform Ideas Into 
+                Transform Ideas Into
                 <span className="bg-gradient-to-r from-[var(--ff-primary)] via-[var(--ff-secondary)] to-[var(--ff-accent)] bg-clip-text text-transparent block mt-2 ff-text-gradient">
                   Reality With AI
                 </span>
               </h1>
               <p className="text-xl sm:text-2xl lg:text-3xl text-[var(--ff-text-secondary)] mb-8 leading-relaxed max-w-4xl mx-auto font-light">
-                The most advanced AI development platform that turns your concepts into 
-                <span className="text-[var(--ff-primary)] font-semibold"> production-ready applications</span>, 
-                content, and revenue streams in minutes, not months.
+                The most advanced AI development platform that turns your concepts into
+                <span className="text-[var(--ff-primary)] font-semibold">
+                  {' '}
+                  production-ready applications
+                </span>
+                , content, and revenue streams in minutes, not months.
               </p>
-              
+
               {/* Key Value Props */}
               <div className="flex flex-wrap justify-center gap-4 mb-12">
                 <Badge className="bg-[var(--ff-primary)]/10 text-[var(--ff-primary)] border-[var(--ff-primary)]/20 px-4 py-2 text-sm font-semibold backdrop-blur-sm">
@@ -575,8 +607,11 @@ export function SEOOptimizedLandingPage() {
             </div>
 
             {/* Primary CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16 ff-fade-in-up" style={{ animationDelay: '600ms' }}>
-              <Button 
+            <div
+              className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16 ff-fade-in-up"
+              style={{ animationDelay: '600ms' }}
+            >
+              <Button
                 onClick={() => setShowAuthModal(true)}
                 size="lg"
                 className="ff-btn-primary ff-btn-lg group relative overflow-hidden"
@@ -594,8 +629,8 @@ export function SEOOptimizedLandingPage() {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-r from-[var(--ff-primary)] to-[var(--ff-secondary)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Button>
-              
-              <Button 
+
+              <Button
                 onClick={handleTryDemo}
                 size="lg"
                 variant="outline"
@@ -608,38 +643,57 @@ export function SEOOptimizedLandingPage() {
             </div>
 
             {/* Hero Visual Showcase */}
-            <div className="relative max-w-6xl mx-auto ff-fade-in-up" style={{ animationDelay: '800ms' }}>
+            <div
+              className="relative max-w-6xl mx-auto ff-fade-in-up"
+              style={{ animationDelay: '800ms' }}
+            >
               <div className="ff-card ff-card-interactive relative overflow-hidden shadow-2xl">
                 <div className="aspect-video bg-gradient-to-br from-[var(--ff-primary)]/20 via-[var(--ff-secondary)]/20 to-[var(--ff-accent)]/20 rounded-xl flex items-center justify-center relative overflow-hidden">
-                  
                   {/* Background Pattern */}
                   <div className="absolute inset-0 opacity-10">
-                    <div className="absolute inset-0" style={{ 
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                      backgroundSize: '60px 60px'
-                    }} />
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                        backgroundSize: '60px 60px',
+                      }}
+                    />
                   </div>
-                  
+
                   {/* Central Content */}
                   <div className="text-center relative z-10">
                     <div className="w-20 h-20 bg-gradient-to-br from-[var(--ff-primary)] to-[var(--ff-secondary)] rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg ff-pulse-glow">
                       <Play className="w-10 h-10 text-white" />
                     </div>
-                    <p className="text-white/80 font-semibold text-lg mb-2">FlashFusion Interface Preview</p>
+                    <p className="text-white/80 font-semibold text-lg mb-2">
+                      FlashFusion Interface Preview
+                    </p>
                     <p className="text-white/60 text-sm">Click to see the platform in action</p>
                   </div>
 
                   {/* Floating Elements */}
-                  <div className="absolute top-4 left-4 w-16 h-16 bg-[var(--ff-primary)]/20 rounded-lg flex items-center justify-center backdrop-blur-sm ff-fade-in-up" style={{ animationDelay: '1000ms' }}>
+                  <div
+                    className="absolute top-4 left-4 w-16 h-16 bg-[var(--ff-primary)]/20 rounded-lg flex items-center justify-center backdrop-blur-sm ff-fade-in-up"
+                    style={{ animationDelay: '1000ms' }}
+                  >
                     <Code className="w-8 h-8 text-[var(--ff-primary)]" />
                   </div>
-                  <div className="absolute top-4 right-4 w-16 h-16 bg-[var(--ff-secondary)]/20 rounded-lg flex items-center justify-center backdrop-blur-sm ff-fade-in-up" style={{ animationDelay: '1200ms' }}>
+                  <div
+                    className="absolute top-4 right-4 w-16 h-16 bg-[var(--ff-secondary)]/20 rounded-lg flex items-center justify-center backdrop-blur-sm ff-fade-in-up"
+                    style={{ animationDelay: '1200ms' }}
+                  >
                     <Palette className="w-8 h-8 text-[var(--ff-secondary)]" />
                   </div>
-                  <div className="absolute bottom-4 left-4 w-16 h-16 bg-[var(--ff-accent)]/20 rounded-lg flex items-center justify-center backdrop-blur-sm ff-fade-in-up" style={{ animationDelay: '1400ms' }}>
+                  <div
+                    className="absolute bottom-4 left-4 w-16 h-16 bg-[var(--ff-accent)]/20 rounded-lg flex items-center justify-center backdrop-blur-sm ff-fade-in-up"
+                    style={{ animationDelay: '1400ms' }}
+                  >
                     <TrendingUp className="w-8 h-8 text-[var(--ff-accent)]" />
                   </div>
-                  <div className="absolute bottom-4 right-4 w-16 h-16 bg-[var(--ff-primary)]/20 rounded-lg flex items-center justify-center backdrop-blur-sm ff-fade-in-up" style={{ animationDelay: '1600ms' }}>
+                  <div
+                    className="absolute bottom-4 right-4 w-16 h-16 bg-[var(--ff-primary)]/20 rounded-lg flex items-center justify-center backdrop-blur-sm ff-fade-in-up"
+                    style={{ animationDelay: '1600ms' }}
+                  >
                     <Rocket className="w-8 h-8 text-[var(--ff-primary)]" />
                   </div>
                 </div>
@@ -673,11 +727,13 @@ export function SEOOptimizedLandingPage() {
               Trusted by innovative teams worldwide
             </p>
             <div className="flex items-center justify-center space-x-12 opacity-60 flex-wrap gap-8">
-              {['TechCorp', 'Innovate Co', 'Digital Agency', 'Creative Studio', 'StartupLab'].map((logo, index) => (
-                <div key={index} className="text-white font-bold text-xl tracking-wide">
-                  {logo}
-                </div>
-              ))}
+              {['TechCorp', 'Innovate Co', 'Digital Agency', 'Creative Studio', 'StartupLab'].map(
+                (logo, index) => (
+                  <div key={index} className="text-white font-bold text-xl tracking-wide">
+                    {logo}
+                  </div>
+                )
+              )}
             </div>
           </div>
         </section>
@@ -685,37 +741,35 @@ export function SEOOptimizedLandingPage() {
         {/* Features Section */}
         <section id="features" className="py-32 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
-            
             {/* Section Header */}
             <div className="text-center mb-20 ff-stagger-fade">
               <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-8 tracking-tight">
-                Everything you need to 
+                Everything you need to
                 <span className="bg-gradient-to-r from-[var(--ff-primary)] via-[var(--ff-secondary)] to-[var(--ff-accent)] bg-clip-text text-transparent block mt-2">
                   create & scale
                 </span>
               </h2>
               <p className="text-xl sm:text-2xl text-[var(--ff-text-secondary)] max-w-4xl mx-auto leading-relaxed">
-                Professional-grade AI tools designed for creators, developers, and entrepreneurs 
-                who want to transform their ideas into profitable digital products.
+                Professional-grade AI tools designed for creators, developers, and entrepreneurs who
+                want to transform their ideas into profitable digital products.
               </p>
             </div>
 
             {/* Features Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 ff-stagger-fade">
               {features.map((feature, index) => (
-                <Card 
-                  key={index} 
+                <Card
+                  key={index}
                   className="ff-card ff-card-interactive group relative overflow-hidden"
                 >
                   <CardContent className="p-8 relative z-10">
-                    
                     {/* Icon with Gradient Background */}
-                    <div className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-300 shadow-lg`}>
-                      <div className="text-white">
-                        {feature.icon}
-                      </div>
+                    <div
+                      className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-300 shadow-lg`}
+                    >
+                      <div className="text-white">{feature.icon}</div>
                     </div>
-                    
+
                     {/* Content */}
                     <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-[var(--ff-primary)] transition-colors">
                       {feature.title}
@@ -723,7 +777,7 @@ export function SEOOptimizedLandingPage() {
                     <p className="text-[var(--ff-text-secondary)] mb-4 leading-relaxed text-lg">
                       {feature.description}
                     </p>
-                    
+
                     {/* Stats Badge */}
                     <div className="flex items-center justify-between">
                       <Badge className="bg-[var(--ff-primary)]/10 text-[var(--ff-primary)] border-[var(--ff-primary)]/20 font-semibold">
@@ -735,9 +789,11 @@ export function SEOOptimizedLandingPage() {
                       </button>
                     </div>
                   </CardContent>
-                  
+
                   {/* Hover Gradient Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
+                  />
                 </Card>
               ))}
             </div>
@@ -746,29 +802,28 @@ export function SEOOptimizedLandingPage() {
 
         {/* CTA Section */}
         <section className="py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-          
           {/* Background Effects */}
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--ff-primary)]/5 via-[var(--ff-secondary)]/5 to-[var(--ff-accent)]/5" />
             <div className="absolute top-0 left-0 w-96 h-96 bg-[var(--ff-primary)]/10 rounded-full blur-3xl" />
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--ff-accent)]/10 rounded-full blur-3xl" />
           </div>
-          
+
           <div className="max-w-4xl mx-auto text-center relative z-10">
             <h2 className="text-5xl sm:text-6xl font-black text-white mb-8 tracking-tight">
-              Ready to build the 
+              Ready to build the
               <span className="bg-gradient-to-r from-[var(--ff-primary)] to-[var(--ff-secondary)] bg-clip-text text-transparent">
                 future
               </span>
               ?
             </h2>
             <p className="text-xl text-[var(--ff-text-secondary)] mb-12 max-w-2xl mx-auto leading-relaxed">
-              Join thousands of creators, developers, and entrepreneurs who are already 
-              building amazing things with FlashFusion AI.
+              Join thousands of creators, developers, and entrepreneurs who are already building
+              amazing things with FlashFusion AI.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Button 
+              <Button
                 onClick={() => setShowAuthModal(true)}
                 size="lg"
                 className="ff-btn-primary ff-btn-xl group"
@@ -777,8 +832,8 @@ export function SEOOptimizedLandingPage() {
                 <span className="text-xl font-bold">Start Building - 50% OFF</span>
                 <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
               </Button>
-              
-              <Button 
+
+              <Button
                 onClick={handleTryDemo}
                 size="lg"
                 variant="outline"
@@ -788,7 +843,7 @@ export function SEOOptimizedLandingPage() {
                 <span className="text-xl font-semibold">Try Demo First</span>
               </Button>
             </div>
-            
+
             <p className="text-sm text-[var(--ff-text-muted)] mt-6">
               No credit card required • 14-day free trial • Cancel anytime
             </p>
