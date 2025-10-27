@@ -1,37 +1,42 @@
 {
   "refactoring": {
     "phase": "Prompt 1: Decompose Oversized Components",
-    "date": "2025-10-26",
-    "branch": "claude/general-refactoring-011CUWcE92TD4U8argM1HhWS",
-    "status": "PARTIAL_COMPLETION",
+    "date": "2025-10-27",
+    "lastUpdated": "2025-10-27",
+    "branch": "claude/search-location-compare-011CUXpBz1KYSEsBbJndh7Fp",
+    "status": "IN_PROGRESS",
     "executedBy": "Claude Code Refactoring Agent"
   },
   "summary": {
     "oversizedComponentsIdentified": 29,
     "componentsFullyDecomposed": 0,
-    "fixturesCreated": 1,
+    "componentsPartiallyDecomposed": 1,
+    "fixturesCreated": 7,
     "guidesCreated": 1,
-    "mockDataInstancesExtracted": 3,
+    "mockDataInstancesExtracted": 27,
     "approachDocumented": true
   },
   "analysis": {
     "threshold": ">1000 lines",
     "largestComponent": {
       "file": "src/components/launch/LaunchPreparationHub.tsx",
-      "lines": 1976,
-      "issues": [
-        "Embedded mock data (100+ lines)",
-        "Large string templates (documentation content)",
-        "Multiple concerns (documentation, marketing, support)",
-        "Complex state management"
+      "lines": 912,
+      "originalLines": 1976,
+      "reduction": "53%",
+      "status": "Phase 2 Complete (Business Logic Extracted)",
+      "logicModule": "src/components/launch/LaunchPreparationHub.logic.ts (1,371 lines)",
+      "remainingIssues": [
+        "State management not extracted (Phase 3)",
+        "UI sections not extracted (Phase 4)",
+        "Main component still >500 lines"
       ]
     },
     "totalOversizedComponents": 29,
-    "totalLines": 35691,
-    "averageLines": 1230
+    "totalLines": 34625,
+    "averageLines": 1194
   },
   "oversizedComponents": [
-    {"file": "src/components/launch/LaunchPreparationHub.tsx", "lines": 1976, "priority": "critical"},
+    {"file": "src/components/launch/LaunchPreparationHub.tsx", "lines": 912, "originalLines": 1976, "priority": "critical", "status": "in-progress", "phase": "2/6"},
     {"file": "src/components/tools/generation/CodeGeneratorTool.tsx", "lines": 1753, "priority": "critical"},
     {"file": "src/components/tools/generation/FullStackAppBuilder.tsx", "lines": 1726, "priority": "critical"},
     {"file": "src/components/pages/UserPersonaCards.tsx", "lines": 1692, "priority": "critical"},
@@ -64,12 +69,63 @@
   "workCompleted": {
     "fixturesExtracted": [
       {
-        "file": "src/fixtures/launch.fixtures.ts",
+        "file": "src/fixtures/launch/launch-preparation-fixtures.ts",
         "source": "src/components/launch/LaunchPreparationHub.tsx",
-        "interfaces": ["LaunchAsset", "MarketingCampaign", "SupportChannel"],
-        "mockData": ["mockLaunchAssets", "mockMarketingCampaigns", "mockSupportChannels"],
-        "linesExtracted": 149,
-        "provenance": "Lines 67-249"
+        "exports": ["LAUNCH_CHECKLIST", "INITIAL_ASSETS", "INITIAL_CAMPAIGNS", "INITIAL_SUPPORT_CHANNELS", "CONTENT_REQUESTS"],
+        "linesExtracted": 165,
+        "status": "complete"
+      },
+      {
+        "file": "src/fixtures/tools/code-generator-fixtures.ts",
+        "source": "src/components/tools/generation/CodeGeneratorTool.tsx",
+        "exports": ["PROGRAMMING_LANGUAGES", "CODE_TYPES", "FRAMEWORKS", "FEATURE_OPTIONS"],
+        "linesExtracted": 65,
+        "status": "complete"
+      },
+      {
+        "file": "src/fixtures/tools/agent-designer-fixtures.ts",
+        "source": "src/components/tools/generation/AgentDesignerTool.tsx",
+        "exports": ["AGENT_PLATFORMS", "AGENT_TEMPLATES"],
+        "linesExtracted": 239,
+        "status": "complete-with-violations"
+      },
+      {
+        "file": "src/fixtures/tools/deployment-fixtures.ts",
+        "source": "src/components/tools/deployment/OneClickDeployTool.tsx",
+        "exports": ["DEPLOYMENT_PLATFORMS", "FRAMEWORK_CONFIGS"],
+        "linesExtracted": 238,
+        "status": "complete"
+      },
+      {
+        "file": "src/fixtures/tools/content-generator-fixtures.ts",
+        "source": "src/components/tools/generation/ContentGeneratorTool.tsx",
+        "exports": ["CONTENT_TYPES", "PLATFORMS", "TONES", "AUDIENCES", "LANGUAGES"],
+        "linesExtracted": 65,
+        "status": "incomplete-with-violations"
+      },
+      {
+        "file": "src/fixtures/tools/performance-optimizer-fixtures.ts",
+        "source": "src/components/tools/optimization/PerformanceOptimizerTool.tsx",
+        "exports": ["SCAN_TYPES", "DEVICE_TYPES", "NETWORK_CONDITIONS"],
+        "linesExtracted": 53,
+        "status": "complete"
+      },
+      {
+        "file": "src/fixtures/marketing/marketing-fixtures.ts",
+        "source": "src/components/marketing/LaunchMarketingCampaign.tsx",
+        "exports": ["SOCIAL_PLATFORMS", "CONTENT_TEMPLATES"],
+        "linesExtracted": 43,
+        "status": "incomplete-with-violations"
+      }
+    ],
+    "logicModulesExtracted": [
+      {
+        "file": "src/components/launch/LaunchPreparationHub.logic.ts",
+        "source": "src/components/launch/LaunchPreparationHub.tsx",
+        "functionsExtracted": 18,
+        "linesExtracted": 1371,
+        "categories": ["Core calculations", "Documentation generation", "Content processing", "Data transformation"],
+        "status": "complete"
       }
     ],
     "documentationCreated": [
