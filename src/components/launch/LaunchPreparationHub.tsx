@@ -9,7 +9,7 @@
  * marketing materials, support systems, and legal compliance tools.
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -78,13 +78,11 @@ import {
   INITIAL_SUPPORT_CHANNELS,
   CONTENT_REQUESTS,
 } from '../../fixtures/launch/launch-preparation-fixtures';
-import {
-  calculateLaunchReadiness,
-  getDocumentationContent,
-  getDocumentationFilename,
-  generatePressKitContent,
-  type DocumentationType,
-} from './LaunchPreparationHub.logic';
+import { calculateLaunchReadiness } from './LaunchPreparationHub.logic';
+import { useLaunchAssets } from './useLaunchAssets';
+import { useMarketingCampaigns } from './useMarketingCampaigns';
+import { useSupportChannels } from './useSupportChannels';
+import { useDocumentationGenerator } from './useDocumentationGenerator';
 
 // Re-export types for backward compatibility
 export type {
@@ -94,94 +92,39 @@ export type {
 } from './LaunchPreparationHub.types';
 
 export function LaunchPreparationHub() {
-  const [assets, setAssets] = useState<LaunchAsset[]>(INITIAL_ASSETS as LaunchAsset[]);
+  // Launch readiness state
+  const [launchReadiness, setLaunchReadiness] = useState(78);
 
-  const [campaigns, setCampaigns] = useState<MarketingCampaign[]>([
-    ...INITIAL_CAMPAIGNS.map(c => ({
+  // Custom hooks for state management
+  const { assets } = useLaunchAssets(INITIAL_ASSETS as LaunchAsset[]);
+
+  const { campaigns } = useMarketingCampaigns(
+    INITIAL_CAMPAIGNS.map((c) => ({
       ...c,
-      type: c.platform === 'multi' ? 'social' as const : 'influencer' as const,
+      type: c.platform === 'multi' ? ('social' as const) : ('influencer' as const),
       status: c.status as MarketingCampaign['status'],
       engagement: c.engagement / 100, // Convert to percentage
       roi: 145,
       startDate: new Date(Date.now() + 86400000),
       endDate: new Date(Date.now() + 604800000),
-    })),
-  ]);
+    }))
+  );
 
-  const [supportChannels, setSupportChannels] = useState<SupportChannel[]>(
-    INITIAL_SUPPORT_CHANNELS.map(c => ({
+  const { channels: supportChannels } = useSupportChannels(
+    INITIAL_SUPPORT_CHANNELS.map((c) => ({
       ...c,
-      type: c.type === 'forum' ? 'community' as const : c.type as SupportChannel['type'],
-      status: c.status === 'beta' ? 'testing' as const : c.status as SupportChannel['status'],
+      type: c.type === 'forum' ? ('community' as const) : (c.type as SupportChannel['type']),
+      status: c.status === 'beta' ? ('testing' as const) : (c.status as SupportChannel['status']),
       responseTime: `< ${c.responseTime} ${c.responseTime === 1 ? 'hour' : 'hours'}`,
       satisfaction: c.satisfaction / 20, // Convert 0-100 scale to 0-5 scale
     }))
   );
 
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generationProgress, setGenerationProgress] = useState(0);
-  const [selectedAsset, setSelectedAsset] = useState<LaunchAsset | null>(null);
-  const [launchReadiness, setLaunchReadiness] = useState(78);
-
-  // Generate comprehensive documentation
-  const generateDocumentation = useCallback(
-    async (type: DocumentationType) => {
-      setIsGenerating(true);
-      setGenerationProgress(0);
-
-      try {
-        const progressSteps = [20, 40, 60, 80, 100];
-
-        for (let i = 0; i < progressSteps.length; i++) {
-          setGenerationProgress(progressSteps[i]);
-          await new Promise((resolve) => setTimeout(resolve, 800));
-        }
-
-        // Use extracted logic functions
-        const content = getDocumentationContent(type);
-        const filename = getDocumentationFilename(type);
-
-        // Create download
-        const blob = new Blob([content], { type: 'text/markdown' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
-        console.log(`✅ Generated ${type} documentation successfully`);
-      } catch (error) {
-        console.error(`❌ Failed to generate ${type} documentation:`, error);
-      } finally {
-        setIsGenerating(false);
-        setGenerationProgress(0);
-      }
-    },
-    []
-  );
-
-  // Generate press kit
-  const generatePressKit = useCallback(() => {
-    // Use extracted logic function
-    const pressKit = generatePressKitContent();
-
-    const blob = new Blob([pressKit], { type: 'text/markdown' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'FlashFusion-Press-Kit.md';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }, []);
+  const { isGenerating, generationProgress, generateDocumentation, generatePressKit } =
+    useDocumentationGenerator();
 
   // Calculate overall launch readiness
   useEffect(() => {
-    // Use extracted logic function
     const readiness = calculateLaunchReadiness(LAUNCH_CHECKLIST);
     setLaunchReadiness(readiness);
   }, []);
