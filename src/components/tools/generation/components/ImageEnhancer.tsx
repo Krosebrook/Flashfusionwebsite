@@ -13,15 +13,15 @@ import { Badge } from '../../../ui/badge';
 import { Slider } from '../../../ui/slider';
 import { Label } from '../../../ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../ui/tabs';
-import { 
-  Sparkles, 
-  Zap, 
-  Palette, 
+import {
+  Sparkles,
+  Zap,
+  Palette,
   Scissors,
   Maximize2,
   Eye,
   Download,
-  RefreshCw
+  RefreshCw,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import { type GeneratedImage, type EnhancementType } from '../../../../types/image-generation';
@@ -39,7 +39,7 @@ const ENHANCEMENT_OPTIONS = [
     description: 'Increase image resolution using AI',
     icon: Maximize2,
     color: 'text-blue-600',
-    settings: ['scale']
+    settings: ['scale'],
   },
   {
     id: 'super-resolution' as EnhancementType,
@@ -47,7 +47,7 @@ const ENHANCEMENT_OPTIONS = [
     description: 'Advanced AI upscaling with detail enhancement',
     icon: Sparkles,
     color: 'text-purple-600',
-    settings: ['scale', 'detail']
+    settings: ['scale', 'detail'],
   },
   {
     id: 'face-enhance' as EnhancementType,
@@ -55,7 +55,7 @@ const ENHANCEMENT_OPTIONS = [
     description: 'Improve facial features and clarity',
     icon: Eye,
     color: 'text-green-600',
-    settings: ['strength']
+    settings: ['strength'],
   },
   {
     id: 'color-correction' as EnhancementType,
@@ -63,7 +63,7 @@ const ENHANCEMENT_OPTIONS = [
     description: 'Automatic color balance and saturation',
     icon: Palette,
     color: 'text-orange-600',
-    settings: ['saturation', 'contrast', 'brightness']
+    settings: ['saturation', 'contrast', 'brightness'],
   },
   {
     id: 'noise-reduction' as EnhancementType,
@@ -71,7 +71,7 @@ const ENHANCEMENT_OPTIONS = [
     description: 'Remove noise and improve clarity',
     icon: Zap,
     color: 'text-cyan-600',
-    settings: ['strength']
+    settings: ['strength'],
   },
   {
     id: 'background-removal' as EnhancementType,
@@ -79,14 +79,14 @@ const ENHANCEMENT_OPTIONS = [
     description: 'Remove or replace image background',
     icon: Scissors,
     color: 'text-red-600',
-    settings: []
-  }
+    settings: [],
+  },
 ];
 
 export function ImageEnhancer({
   selectedImages,
   generatedImages,
-  onEnhance
+  onEnhance,
 }: ImageEnhancerProps): JSX.Element {
   const [selectedEnhancement, setSelectedEnhancement] = useState<EnhancementType>('upscale');
   const [enhancementSettings, setEnhancementSettings] = useState({
@@ -95,13 +95,15 @@ export function ImageEnhancer({
     strength: 75,
     saturation: 50,
     contrast: 50,
-    brightness: 50
+    brightness: 50,
   });
   const [isEnhancing, setIsEnhancing] = useState<boolean>(false);
   const [previewMode, setPreviewMode] = useState<boolean>(false);
 
-  const selectedImageObjects = generatedImages.filter(img => selectedImages.includes(img.id));
-  const selectedEnhancementOption = ENHANCEMENT_OPTIONS.find(opt => opt.id === selectedEnhancement);
+  const selectedImageObjects = generatedImages.filter((img) => selectedImages.includes(img.id));
+  const selectedEnhancementOption = ENHANCEMENT_OPTIONS.find(
+    (opt) => opt.id === selectedEnhancement
+  );
 
   const handleEnhance = async () => {
     if (selectedImageObjects.length === 0) {
@@ -110,7 +112,7 @@ export function ImageEnhancer({
     }
 
     setIsEnhancing(true);
-    
+
     try {
       // Simulate enhancement process
       const enhancedImages = await Promise.all(
@@ -127,21 +129,22 @@ export function ImageEnhancer({
                 timestamp: Date.now(),
                 parameters: enhancementSettings,
                 resultUrl: image.url, // Would be actual enhanced URL
-                processingTime: Math.random() * 5000 + 2000
-              }
-            ]
+                processingTime: Math.random() * 5000 + 2000,
+              },
+            ],
           };
-          
+
           // Simulate processing time
-          await new Promise(resolve => setTimeout(resolve, Math.random() * 2000 + 1000));
-          
+          await new Promise((resolve) => setTimeout(resolve, Math.random() * 2000 + 1000));
+
           return enhancedImage;
         })
       );
-      
+
       onEnhance(enhancedImages);
-      toast.success(`Enhanced ${enhancedImages.length} image${enhancedImages.length > 1 ? 's' : ''}!`);
-      
+      toast.success(
+        `Enhanced ${enhancedImages.length} image${enhancedImages.length > 1 ? 's' : ''}!`
+      );
     } catch (error) {
       console.error('Enhancement failed:', error);
       toast.error('Failed to enhance images');
@@ -152,7 +155,7 @@ export function ImageEnhancer({
 
   const renderSettingControl = (settingKey: string) => {
     const value = enhancementSettings[settingKey as keyof typeof enhancementSettings];
-    
+
     switch (settingKey) {
       case 'scale':
         return (
@@ -165,7 +168,9 @@ export function ImageEnhancer({
             </div>
             <Slider
               value={[value]}
-              onValueChange={([newValue]) => setEnhancementSettings(prev => ({ ...prev, scale: newValue }))}
+              onValueChange={([newValue]) =>
+                setEnhancementSettings((prev) => ({ ...prev, scale: newValue }))
+              }
               min={1}
               max={8}
               step={1}
@@ -178,7 +183,7 @@ export function ImageEnhancer({
             </div>
           </div>
         );
-        
+
       case 'detail':
       case 'strength':
       case 'saturation':
@@ -196,7 +201,9 @@ export function ImageEnhancer({
             </div>
             <Slider
               value={[value]}
-              onValueChange={([newValue]) => setEnhancementSettings(prev => ({ ...prev, [settingKey]: newValue }))}
+              onValueChange={([newValue]) =>
+                setEnhancementSettings((prev) => ({ ...prev, [settingKey]: newValue }))
+              }
               min={0}
               max={100}
               step={5}
@@ -204,7 +211,7 @@ export function ImageEnhancer({
             />
           </div>
         );
-        
+
       default:
         return null;
     }
@@ -240,18 +247,15 @@ export function ImageEnhancer({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Badge variant="secondary" className="text-xs">
-                {selectedImageObjects.length} image{selectedImageObjects.length > 1 ? 's' : ''} selected
+                {selectedImageObjects.length} image{selectedImageObjects.length > 1 ? 's' : ''}{' '}
+                selected
               </Badge>
               <Badge variant="outline" className="text-xs">
                 {selectedEnhancementOption?.name}
               </Badge>
             </div>
-            
-            <Button
-              onClick={handleEnhance}
-              disabled={isEnhancing}
-              className="ff-btn-primary"
-            >
+
+            <Button onClick={handleEnhance} disabled={isEnhancing} className="ff-btn-primary">
               {isEnhancing ? (
                 <>
                   <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
@@ -292,12 +296,15 @@ export function ImageEnhancer({
                         {image.prompt}
                       </p>
                       <div className="flex items-center gap-1 text-xs text-[var(--ff-text-muted)]">
-                        <span>{image.dimensions.width}×{image.dimensions.height}</span>
+                        <span>
+                          {image.dimensions.width}×{image.dimensions.height}
+                        </span>
                         {image.enhancements && image.enhancements.length > 0 && (
                           <>
                             <span>•</span>
                             <Badge variant="outline" className="text-xs">
-                              {image.enhancements.length} enhancement{image.enhancements.length > 1 ? 's' : ''}
+                              {image.enhancements.length} enhancement
+                              {image.enhancements.length > 1 ? 's' : ''}
                             </Badge>
                           </>
                         )}
@@ -319,13 +326,13 @@ export function ImageEnhancer({
                 {ENHANCEMENT_OPTIONS.map((option) => {
                   const Icon = option.icon;
                   const isSelected = selectedEnhancement === option.id;
-                  
+
                   return (
                     <Card
                       key={option.id}
                       className={`cursor-pointer transition-all duration-200 ${
-                        isSelected 
-                          ? 'ring-2 ring-[var(--ff-primary)] bg-gradient-to-br from-[var(--ff-primary)]/10 to-transparent' 
+                        isSelected
+                          ? 'ring-2 ring-[var(--ff-primary)] bg-gradient-to-br from-[var(--ff-primary)]/10 to-transparent'
                           : 'hover:shadow-lg hover:scale-105'
                       }`}
                       onClick={() => setSelectedEnhancement(option.id)}
@@ -335,7 +342,7 @@ export function ImageEnhancer({
                           <div className={`p-2 rounded-lg bg-gray-100 ${option.color}`}>
                             <Icon className="h-5 w-5" />
                           </div>
-                          
+
                           <div className="flex-1 space-y-1">
                             <h4 className="font-semibold text-sm text-[var(--ff-text-primary)]">
                               {option.name}
@@ -344,7 +351,7 @@ export function ImageEnhancer({
                               {option.description}
                             </p>
                           </div>
-                          
+
                           {isSelected && (
                             <div className="w-5 h-5 bg-[var(--ff-primary)] rounded-full flex items-center justify-center">
                               <div className="w-2 h-2 bg-white rounded-full" />
@@ -368,11 +375,9 @@ export function ImageEnhancer({
             </CardHeader>
             <CardContent className="space-y-6">
               {selectedEnhancementOption?.settings.map((setting) => (
-                <div key={setting}>
-                  {renderSettingControl(setting)}
-                </div>
+                <div key={setting}>{renderSettingControl(setting)}</div>
               ))}
-              
+
               {selectedEnhancementOption?.settings.length === 0 && (
                 <div className="text-center py-6">
                   <p className="text-sm text-[var(--ff-text-muted)]">
@@ -388,58 +393,66 @@ export function ImageEnhancer({
             <CardContent className="pt-6">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-[var(--ff-text-secondary)]">Images to enhance:</span>
+                  <span className="text-sm text-[var(--ff-text-secondary)]">
+                    Images to enhance:
+                  </span>
                   <span className="font-medium">{selectedImageObjects.length}</span>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-[var(--ff-text-secondary)]">Cost per image:</span>
                   <span className="font-medium">$0.05</span>
                 </div>
-                
+
                 <div className="flex items-center justify-between pt-2 border-t border-[var(--border)]">
                   <span className="font-semibold text-[var(--ff-text-primary)]">Total cost:</span>
                   <span className="font-bold text-[var(--ff-primary)]">
                     ${(selectedImageObjects.length * 0.05).toFixed(2)}
                   </span>
                 </div>
-                
+
                 <div className="text-xs text-[var(--ff-text-muted)] text-center pt-2">
-                  Estimated processing time: {Math.ceil(selectedImageObjects.length * 2)}–{Math.ceil(selectedImageObjects.length * 5)} seconds
+                  Estimated processing time: {Math.ceil(selectedImageObjects.length * 2)}–
+                  {Math.ceil(selectedImageObjects.length * 5)} seconds
                 </div>
               </div>
             </CardContent>
           </Card>
 
           {/* Previous Enhancements */}
-          {selectedImageObjects.some(img => img.enhancements && img.enhancements.length > 0) && (
+          {selectedImageObjects.some((img) => img.enhancements && img.enhancements.length > 0) && (
             <Card className="ff-card">
               <CardHeader>
                 <CardTitle className="text-base">Previous Enhancements</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {selectedImageObjects.map((image) => (
-                    image.enhancements && image.enhancements.length > 0 && (
-                      <div key={image.id} className="space-y-2">
-                        <p className="text-xs font-medium text-[var(--ff-text-primary)] line-clamp-1">
-                          {image.prompt}
-                        </p>
-                        <div className="space-y-1">
-                          {image.enhancements.map((enhancement, index) => (
-                            <div key={index} className="flex items-center justify-between text-xs">
-                              <Badge variant="outline" className="text-xs">
-                                {enhancement.type.replace('-', ' ')}
-                              </Badge>
-                              <span className="text-[var(--ff-text-muted)]">
-                                {(enhancement.processingTime / 1000).toFixed(1)}s
-                              </span>
-                            </div>
-                          ))}
+                  {selectedImageObjects.map(
+                    (image) =>
+                      image.enhancements &&
+                      image.enhancements.length > 0 && (
+                        <div key={image.id} className="space-y-2">
+                          <p className="text-xs font-medium text-[var(--ff-text-primary)] line-clamp-1">
+                            {image.prompt}
+                          </p>
+                          <div className="space-y-1">
+                            {image.enhancements.map((enhancement, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center justify-between text-xs"
+                              >
+                                <Badge variant="outline" className="text-xs">
+                                  {enhancement.type.replace('-', ' ')}
+                                </Badge>
+                                <span className="text-[var(--ff-text-muted)]">
+                                  {(enhancement.processingTime / 1000).toFixed(1)}s
+                                </span>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )
-                  ))}
+                      )
+                  )}
                 </div>
               </CardContent>
             </Card>

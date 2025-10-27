@@ -11,17 +11,17 @@ import { Card, CardContent } from '../../../ui/card';
 import { Button } from '../../../ui/button';
 import { Badge } from '../../../ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../ui/dialog';
-import { 
-  Download, 
-  Heart, 
-  Share2, 
-  Maximize2, 
+import {
+  Download,
+  Heart,
+  Share2,
+  Maximize2,
   MoreHorizontal,
   Copy,
   Eye,
   Trash2,
   Star,
-  Loader2
+  Loader2,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import { type GeneratedImage } from '../../../../types/image-generation';
@@ -41,19 +41,19 @@ export function ImagePreviewGrid({
   favorites,
   onImageSelect,
   onToggleFavorite,
-  isLoading = false
+  isLoading = false,
 }: ImagePreviewGridProps): JSX.Element {
   const [previewImage, setPreviewImage] = useState<GeneratedImage | null>(null);
   const [loadingStates, setLoadingStates] = useState<Set<string>>(new Set());
 
   const handleDownload = useCallback(async (image: GeneratedImage): Promise<void> => {
-    setLoadingStates(prev => new Set(prev).add(image.id));
-    
+    setLoadingStates((prev) => new Set(prev).add(image.id));
+
     try {
       const response = await fetch(image.url);
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
-      
+
       const link = document.createElement('a');
       link.href = url;
       link.download = `ff-generated-${image.id}.png`;
@@ -61,13 +61,13 @@ export function ImagePreviewGrid({
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
-      
+
       toast.success('Image downloaded successfully');
     } catch (error) {
       console.error('Download failed:', error);
       toast.error('Failed to download image');
     } finally {
-      setLoadingStates(prev => {
+      setLoadingStates((prev) => {
         const newSet = new Set(prev);
         newSet.delete(image.id);
         return newSet;
@@ -81,7 +81,7 @@ export function ImagePreviewGrid({
         await navigator.share({
           title: 'AI Generated Image',
           text: image.prompt,
-          url: image.url
+          url: image.url,
         });
       } catch (error) {
         console.error('Sharing failed:', error);
@@ -128,14 +128,12 @@ export function ImagePreviewGrid({
         {/* Grid Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h3 className="font-semibold text-[var(--ff-text-primary)]">
-              Generated Images
-            </h3>
+            <h3 className="font-semibold text-[var(--ff-text-primary)]">Generated Images</h3>
             <Badge variant="secondary" className="text-xs">
               {images.length} image{images.length > 1 ? 's' : ''}
             </Badge>
           </div>
-          
+
           {selectedImages.size > 0 && (
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="text-xs">
@@ -145,8 +143,8 @@ export function ImagePreviewGrid({
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  const selectedImageObjects = images.filter(img => selectedImages.has(img.id));
-                  selectedImageObjects.forEach(img => handleDownload(img));
+                  const selectedImageObjects = images.filter((img) => selectedImages.has(img.id));
+                  selectedImageObjects.forEach((img) => handleDownload(img));
                 }}
                 disabled={loadingStates.size > 0}
               >
@@ -160,8 +158,8 @@ export function ImagePreviewGrid({
         {/* Image Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {images.map((image) => (
-            <Card 
-              key={image.id} 
+            <Card
+              key={image.id}
               className={`ff-card ff-card-interactive group cursor-pointer transition-all duration-200 ${
                 selectedImages.has(image.id) ? 'ring-2 ring-[var(--ff-primary)]' : ''
               }`}
@@ -176,7 +174,7 @@ export function ImagePreviewGrid({
                     className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                     loading="lazy"
                   />
-                  
+
                   {/* Overlay Actions */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                     <div className="flex items-center gap-2">
@@ -191,7 +189,7 @@ export function ImagePreviewGrid({
                       >
                         <Maximize2 className="h-4 w-4" />
                       </Button>
-                      
+
                       <Button
                         variant="secondary"
                         size="sm"
@@ -208,7 +206,7 @@ export function ImagePreviewGrid({
                           <Download className="h-4 w-4" />
                         )}
                       </Button>
-                      
+
                       <Button
                         variant="secondary"
                         size="sm"
@@ -226,7 +224,7 @@ export function ImagePreviewGrid({
                   {/* Status Badge */}
                   {image.status !== 'completed' && (
                     <div className="absolute top-2 left-2">
-                      <Badge 
+                      <Badge
                         variant={image.status === 'failed' ? 'destructive' : 'secondary'}
                         className="text-xs"
                       >
@@ -244,8 +242,8 @@ export function ImagePreviewGrid({
                       onToggleFavorite(image.id);
                     }}
                     className={`absolute top-2 right-2 p-1 h-8 w-8 ${
-                      favorites.has(image.id) 
-                        ? 'text-[var(--ff-accent)] bg-white/20' 
+                      favorites.has(image.id)
+                        ? 'text-[var(--ff-accent)] bg-white/20'
                         : 'text-white/70 hover:text-white'
                     }`}
                   >
@@ -293,9 +291,11 @@ export function ImagePreviewGrid({
                       <Badge variant="outline" className="text-xs">
                         {image.model}
                       </Badge>
-                      <span>{image.dimensions.width}×{image.dimensions.height}</span>
+                      <span>
+                        {image.dimensions.width}×{image.dimensions.height}
+                      </span>
                     </div>
-                    
+
                     <div className="flex items-center gap-1">
                       {image.likeCount > 0 && (
                         <div className="flex items-center gap-1">
@@ -341,11 +341,9 @@ export function ImagePreviewGrid({
       <Dialog open={!!previewImage} onOpenChange={() => setPreviewImage(null)}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="font-['Sora'] text-xl">
-              Image Preview
-            </DialogTitle>
+            <DialogTitle className="font-['Sora'] text-xl">Image Preview</DialogTitle>
           </DialogHeader>
-          
+
           {previewImage && (
             <div className="space-y-6">
               {/* Full Size Image */}
@@ -362,14 +360,12 @@ export function ImagePreviewGrid({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-3">
                     <div>
-                      <h4 className="font-semibold text-[var(--ff-text-primary)] mb-1">
-                        Prompt
-                      </h4>
+                      <h4 className="font-semibold text-[var(--ff-text-primary)] mb-1">Prompt</h4>
                       <p className="text-sm text-[var(--ff-text-secondary)]">
                         {previewImage.prompt}
                       </p>
                     </div>
-                    
+
                     <div>
                       <h4 className="font-semibold text-[var(--ff-text-primary)] mb-1">
                         Model & Style
@@ -380,7 +376,7 @@ export function ImagePreviewGrid({
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-3">
                     <div>
                       <h4 className="font-semibold text-[var(--ff-text-primary)] mb-1">
@@ -390,11 +386,9 @@ export function ImagePreviewGrid({
                         {previewImage.dimensions.width} × {previewImage.dimensions.height} pixels
                       </p>
                     </div>
-                    
+
                     <div>
-                      <h4 className="font-semibold text-[var(--ff-text-primary)] mb-1">
-                        Created
-                      </h4>
+                      <h4 className="font-semibold text-[var(--ff-text-primary)] mb-1">Created</h4>
                       <p className="text-sm text-[var(--ff-text-secondary)]">
                         {new Date(previewImage.createdAt).toLocaleString()}
                       </p>
@@ -416,7 +410,7 @@ export function ImagePreviewGrid({
                     )}
                     Download
                   </Button>
-                  
+
                   <Button
                     variant="outline"
                     onClick={() => handleShare(previewImage)}
@@ -425,7 +419,7 @@ export function ImagePreviewGrid({
                     <Share2 className="h-4 w-4 mr-2" />
                     Share
                   </Button>
-                  
+
                   <Button
                     variant="outline"
                     onClick={() => handleCopyPrompt(previewImage.prompt)}
@@ -434,7 +428,7 @@ export function ImagePreviewGrid({
                     <Copy className="h-4 w-4 mr-2" />
                     Copy Prompt
                   </Button>
-                  
+
                   <Button
                     variant="outline"
                     onClick={() => onToggleFavorite(previewImage.id)}
@@ -442,9 +436,11 @@ export function ImagePreviewGrid({
                       favorites.has(previewImage.id) ? 'text-[var(--ff-accent)]' : ''
                     }`}
                   >
-                    <Heart className={`h-4 w-4 mr-2 ${
-                      favorites.has(previewImage.id) ? 'fill-current' : ''
-                    }`} />
+                    <Heart
+                      className={`h-4 w-4 mr-2 ${
+                        favorites.has(previewImage.id) ? 'fill-current' : ''
+                      }`}
+                    />
                     {favorites.has(previewImage.id) ? 'Unfavorite' : 'Favorite'}
                   </Button>
                 </div>

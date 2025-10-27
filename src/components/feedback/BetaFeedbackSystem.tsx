@@ -4,12 +4,12 @@
  * @category analytics
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * BETA FEEDBACK SYSTEM
- * 
+ *
  * Comprehensive feedback collection system for beta testing program
  * with user session recording, bug reporting, feature requests, and analytics.
- * 
+ *
  * Features:
  * - Real-time feedback collection
  * - Bug reporting with screenshots
@@ -32,10 +32,10 @@ import { Progress } from '../ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Switch } from '../ui/switch';
 import { Slider } from '../ui/slider';
-import { 
-  MessageCircle, 
-  Bug, 
-  Lightbulb, 
+import {
+  MessageCircle,
+  Bug,
+  Lightbulb,
   Star,
   Camera,
   Send,
@@ -52,7 +52,7 @@ import {
   Eye,
   ThumbsUp,
   ThumbsDown,
-  Heart
+  Heart,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
@@ -114,14 +114,14 @@ const FEEDBACK_CATEGORIES = [
   { value: 'collaboration', label: 'Collaboration', icon: '👥' },
   { value: 'mobile', label: 'Mobile Experience', icon: '📱' },
   { value: 'onboarding', label: 'Onboarding', icon: '🎯' },
-  { value: 'other', label: 'Other', icon: '📝' }
+  { value: 'other', label: 'Other', icon: '📝' },
 ];
 
 const EXPERIENCE_LEVELS = [
   { value: 'beginner', label: 'Beginner (0-1 years)' },
   { value: 'intermediate', label: 'Intermediate (2-5 years)' },
   { value: 'advanced', label: 'Advanced (5+ years)' },
-  { value: 'expert', label: 'Expert (10+ years)' }
+  { value: 'expert', label: 'Expert (10+ years)' },
 ];
 
 export function BetaFeedbackSystem(): JSX.Element {
@@ -136,7 +136,7 @@ export function BetaFeedbackSystem(): JSX.Element {
     steps: [''],
     allowScreenshot: true,
     email: '',
-    experience: 'intermediate'
+    experience: 'intermediate',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackList, setFeedbackList] = useState<FeedbackItem[]>([]);
@@ -146,7 +146,7 @@ export function BetaFeedbackSystem(): JSX.Element {
     resolvedFeedback: 0,
     avgRating: 0,
     topCategories: [],
-    activeTesters: 0
+    activeTesters: 0,
   });
 
   /**
@@ -196,9 +196,9 @@ export function BetaFeedbackSystem(): JSX.Element {
         topCategories: [
           { category: 'AI Tools', count: 34 },
           { category: 'UI/UX Design', count: 28 },
-          { category: 'Performance', count: 22 }
+          { category: 'Performance', count: 22 },
         ],
-        activeTesters: 42
+        activeTesters: 42,
       };
       setAnalytics(mockAnalytics);
     } catch (error) {
@@ -216,9 +216,9 @@ export function BetaFeedbackSystem(): JSX.Element {
       startTime: Date.now(),
       userAgent: navigator.userAgent,
       url: window.location.href,
-      referrer: document.referrer
+      referrer: document.referrer,
     };
-    
+
     // Store session data for feedback context
     sessionStorage.setItem('beta_session', JSON.stringify(sessionData));
   }, []);
@@ -237,7 +237,7 @@ export function BetaFeedbackSystem(): JSX.Element {
     try {
       // Get session data for context
       const sessionData = JSON.parse(sessionStorage.getItem('beta_session') || '{}');
-      
+
       // Capture screenshot if enabled
       let screenshot = null;
       if (feedbackData.allowScreenshot) {
@@ -256,7 +256,7 @@ export function BetaFeedbackSystem(): JSX.Element {
           id: generateUserId(),
           email: feedbackData.email,
           role: 'beta_tester',
-          experience: feedbackData.experience
+          experience: feedbackData.experience,
         },
         metadata: {
           url: window.location.href,
@@ -264,21 +264,24 @@ export function BetaFeedbackSystem(): JSX.Element {
           timestamp: Date.now(),
           sessionId: sessionData.sessionId,
           screenshot,
-          steps: feedbackData.steps.filter(step => step.trim())
+          steps: feedbackData.steps.filter((step) => step.trim()),
         },
         responses: [],
         votes: 0,
-        tags: [feedbackType, feedbackData.category]
+        tags: [feedbackType, feedbackData.category],
       };
 
       // Submit feedback (in production, this would be an API call)
       await submitFeedbackToAPI(feedbackItem);
-      
+
       // Add to local state for immediate feedback
-      setFeedbackList(prev => [{
-        ...feedbackItem,
-        id: generateFeedbackId()
-      } as FeedbackItem, ...prev]);
+      setFeedbackList((prev) => [
+        {
+          ...feedbackItem,
+          id: generateFeedbackId(),
+        } as FeedbackItem,
+        ...prev,
+      ]);
 
       // Reset form
       setFeedbackData({
@@ -290,14 +293,13 @@ export function BetaFeedbackSystem(): JSX.Element {
         steps: [''],
         allowScreenshot: true,
         email: feedbackData.email, // Keep email
-        experience: feedbackData.experience // Keep experience
+        experience: feedbackData.experience, // Keep experience
       });
 
       toast.success('Feedback submitted successfully! Thank you for helping improve FlashFusion.');
-      
+
       // Switch to feedback list tab
       setActiveTab('feedback');
-      
     } catch (error) {
       toast.error('Failed to submit feedback. Please try again.');
       console.error('Feedback submission error:', error);
@@ -323,9 +325,9 @@ export function BetaFeedbackSystem(): JSX.Element {
    * Add step to reproduction steps
    */
   const addStep = useCallback((): void => {
-    setFeedbackData(prev => ({
+    setFeedbackData((prev) => ({
       ...prev,
-      steps: [...prev.steps, '']
+      steps: [...prev.steps, ''],
     }));
   }, []);
 
@@ -333,9 +335,9 @@ export function BetaFeedbackSystem(): JSX.Element {
    * Remove step from reproduction steps
    */
   const removeStep = useCallback((index: number): void => {
-    setFeedbackData(prev => ({
+    setFeedbackData((prev) => ({
       ...prev,
-      steps: prev.steps.filter((_, i) => i !== index)
+      steps: prev.steps.filter((_, i) => i !== index),
     }));
   }, []);
 
@@ -343,32 +345,37 @@ export function BetaFeedbackSystem(): JSX.Element {
    * Update step content
    */
   const updateStep = useCallback((index: number, value: string): void => {
-    setFeedbackData(prev => ({
+    setFeedbackData((prev) => ({
       ...prev,
-      steps: prev.steps.map((step, i) => i === index ? value : step)
+      steps: prev.steps.map((step, i) => (i === index ? value : step)),
     }));
   }, []);
 
   /**
    * Vote on feedback item
    */
-  const handleVote = useCallback(async (feedbackId: string, voteType: 'up' | 'down'): Promise<void> => {
-    try {
-      // Update local state immediately
-      setFeedbackList(prev => prev.map(item => 
-        item.id === feedbackId 
-          ? { ...item, votes: item.votes + (voteType === 'up' ? 1 : -1) }
-          : item
-      ));
-      
-      // Submit vote to API in production
-      toast.success(`Vote ${voteType === 'up' ? 'added' : 'removed'} successfully`);
-    } catch (error) {
-      toast.error('Failed to submit vote');
-    }
-  }, []);
+  const handleVote = useCallback(
+    async (feedbackId: string, voteType: 'up' | 'down'): Promise<void> => {
+      try {
+        // Update local state immediately
+        setFeedbackList((prev) =>
+          prev.map((item) =>
+            item.id === feedbackId
+              ? { ...item, votes: item.votes + (voteType === 'up' ? 1 : -1) }
+              : item
+          )
+        );
 
-  const selectedCategory = FEEDBACK_CATEGORIES.find(cat => cat.value === feedbackData.category);
+        // Submit vote to API in production
+        toast.success(`Vote ${voteType === 'up' ? 'added' : 'removed'} successfully`);
+      } catch (error) {
+        toast.error('Failed to submit vote');
+      }
+    },
+    []
+  );
+
+  const selectedCategory = FEEDBACK_CATEGORIES.find((cat) => cat.value === feedbackData.category);
 
   return (
     <div className="space-y-6 ff-fade-in-up max-w-6xl mx-auto">
@@ -442,10 +449,30 @@ export function BetaFeedbackSystem(): JSX.Element {
                   <Label className="text-sm font-semibold">Feedback Type</Label>
                   <div className="grid grid-cols-2 gap-3">
                     {[
-                      { value: 'bug', label: 'Bug Report', icon: Bug, color: 'from-red-500 to-red-600' },
-                      { value: 'feature', label: 'Feature Request', icon: Lightbulb, color: 'from-blue-500 to-blue-600' },
-                      { value: 'improvement', label: 'Improvement', icon: TrendingUp, color: 'from-green-500 to-green-600' },
-                      { value: 'general', label: 'General Feedback', icon: MessageCircle, color: 'from-purple-500 to-purple-600' }
+                      {
+                        value: 'bug',
+                        label: 'Bug Report',
+                        icon: Bug,
+                        color: 'from-red-500 to-red-600',
+                      },
+                      {
+                        value: 'feature',
+                        label: 'Feature Request',
+                        icon: Lightbulb,
+                        color: 'from-blue-500 to-blue-600',
+                      },
+                      {
+                        value: 'improvement',
+                        label: 'Improvement',
+                        icon: TrendingUp,
+                        color: 'from-green-500 to-green-600',
+                      },
+                      {
+                        value: 'general',
+                        label: 'General Feedback',
+                        icon: MessageCircle,
+                        color: 'from-purple-500 to-purple-600',
+                      },
                     ].map((type) => {
                       const Icon = type.icon;
                       return (
@@ -457,7 +484,9 @@ export function BetaFeedbackSystem(): JSX.Element {
                           onClick={() => setFeedbackType(type.value)}
                         >
                           <div className="flex items-center gap-2">
-                            <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${type.color} flex items-center justify-center`}>
+                            <div
+                              className={`w-8 h-8 rounded-lg bg-gradient-to-br ${type.color} flex items-center justify-center`}
+                            >
                               <Icon className="h-4 w-4 text-white" />
                             </div>
                             <span className="font-medium text-sm">{type.label}</span>
@@ -475,15 +504,19 @@ export function BetaFeedbackSystem(): JSX.Element {
                     <Input
                       placeholder="your@email.com"
                       value={feedbackData.email}
-                      onChange={(e) => setFeedbackData(prev => ({ ...prev, email: e.target.value }))}
+                      onChange={(e) =>
+                        setFeedbackData((prev) => ({ ...prev, email: e.target.value }))
+                      }
                       className="ff-input"
                     />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Experience Level</Label>
-                    <Select 
-                      value={feedbackData.experience} 
-                      onValueChange={(value) => setFeedbackData(prev => ({ ...prev, experience: value }))}
+                    <Select
+                      value={feedbackData.experience}
+                      onValueChange={(value) =>
+                        setFeedbackData((prev) => ({ ...prev, experience: value }))
+                      }
                     >
                       <SelectTrigger className="ff-input">
                         <SelectValue />
@@ -505,7 +538,9 @@ export function BetaFeedbackSystem(): JSX.Element {
                   <Input
                     placeholder="Brief description of your feedback"
                     value={feedbackData.title}
-                    onChange={(e) => setFeedbackData(prev => ({ ...prev, title: e.target.value }))}
+                    onChange={(e) =>
+                      setFeedbackData((prev) => ({ ...prev, title: e.target.value }))
+                    }
                     className="ff-input"
                   />
                 </div>
@@ -516,7 +551,9 @@ export function BetaFeedbackSystem(): JSX.Element {
                   <Textarea
                     placeholder="Provide detailed information about your feedback..."
                     value={feedbackData.description}
-                    onChange={(e) => setFeedbackData(prev => ({ ...prev, description: e.target.value }))}
+                    onChange={(e) =>
+                      setFeedbackData((prev) => ({ ...prev, description: e.target.value }))
+                    }
                     className="ff-input min-h-[120px]"
                   />
                 </div>
@@ -525,9 +562,11 @@ export function BetaFeedbackSystem(): JSX.Element {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Category</Label>
-                    <Select 
-                      value={feedbackData.category} 
-                      onValueChange={(value) => setFeedbackData(prev => ({ ...prev, category: value }))}
+                    <Select
+                      value={feedbackData.category}
+                      onValueChange={(value) =>
+                        setFeedbackData((prev) => ({ ...prev, category: value }))
+                      }
                     >
                       <SelectTrigger className="ff-input">
                         <SelectValue />
@@ -546,9 +585,11 @@ export function BetaFeedbackSystem(): JSX.Element {
                   </div>
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Priority</Label>
-                    <Select 
-                      value={feedbackData.priority} 
-                      onValueChange={(value) => setFeedbackData(prev => ({ ...prev, priority: value }))}
+                    <Select
+                      value={feedbackData.priority}
+                      onValueChange={(value) =>
+                        setFeedbackData((prev) => ({ ...prev, priority: value }))
+                      }
                     >
                       <SelectTrigger className="ff-input">
                         <SelectValue />
@@ -569,7 +610,9 @@ export function BetaFeedbackSystem(): JSX.Element {
                   <div className="flex items-center gap-4">
                     <Slider
                       value={[feedbackData.rating]}
-                      onValueChange={(value) => setFeedbackData(prev => ({ ...prev, rating: value[0] }))}
+                      onValueChange={(value) =>
+                        setFeedbackData((prev) => ({ ...prev, rating: value[0] }))
+                      }
                       max={5}
                       min={1}
                       step={1}
@@ -580,8 +623,8 @@ export function BetaFeedbackSystem(): JSX.Element {
                         <Star
                           key={i}
                           className={`h-4 w-4 ${
-                            i < feedbackData.rating 
-                              ? 'text-yellow-500 fill-yellow-500' 
+                            i < feedbackData.rating
+                              ? 'text-yellow-500 fill-yellow-500'
                               : 'text-gray-400'
                           }`}
                         />
@@ -598,7 +641,9 @@ export function BetaFeedbackSystem(): JSX.Element {
                     <div className="space-y-2">
                       {feedbackData.steps.map((step, index) => (
                         <div key={index} className="flex items-center gap-2">
-                          <span className="text-sm text-[var(--ff-text-muted)] w-8">{index + 1}.</span>
+                          <span className="text-sm text-[var(--ff-text-muted)] w-8">
+                            {index + 1}.
+                          </span>
                           <Input
                             placeholder={`Step ${index + 1}`}
                             value={step}
@@ -639,14 +684,18 @@ export function BetaFeedbackSystem(): JSX.Element {
                   </div>
                   <Switch
                     checked={feedbackData.allowScreenshot}
-                    onCheckedChange={(checked) => setFeedbackData(prev => ({ ...prev, allowScreenshot: checked }))}
+                    onCheckedChange={(checked) =>
+                      setFeedbackData((prev) => ({ ...prev, allowScreenshot: checked }))
+                    }
                   />
                 </div>
 
                 {/* Submit Button */}
                 <Button
                   onClick={handleSubmitFeedback}
-                  disabled={isSubmitting || !feedbackData.title.trim() || !feedbackData.description.trim()}
+                  disabled={
+                    isSubmitting || !feedbackData.title.trim() || !feedbackData.description.trim()
+                  }
                   className="ff-btn-primary w-full font-['Sora'] font-semibold"
                 >
                   {isSubmitting ? (
@@ -675,23 +724,33 @@ export function BetaFeedbackSystem(): JSX.Element {
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
-                    <Badge className={`text-xs ${
-                      feedbackType === 'bug' ? 'bg-red-100 text-red-700' :
-                      feedbackType === 'feature' ? 'bg-blue-100 text-blue-700' :
-                      feedbackType === 'improvement' ? 'bg-green-100 text-green-700' :
-                      'bg-purple-100 text-purple-700'
-                    }`}>
+                    <Badge
+                      className={`text-xs ${
+                        feedbackType === 'bug'
+                          ? 'bg-red-100 text-red-700'
+                          : feedbackType === 'feature'
+                            ? 'bg-blue-100 text-blue-700'
+                            : feedbackType === 'improvement'
+                              ? 'bg-green-100 text-green-700'
+                              : 'bg-purple-100 text-purple-700'
+                      }`}
+                    >
                       {feedbackType}
                     </Badge>
                     <Badge variant="outline" className="text-xs">
                       {selectedCategory?.icon} {selectedCategory?.label}
                     </Badge>
-                    <Badge className={`text-xs ${
-                      feedbackData.priority === 'critical' ? 'bg-red-500 text-white' :
-                      feedbackData.priority === 'high' ? 'bg-orange-500 text-white' :
-                      feedbackData.priority === 'medium' ? 'bg-yellow-500 text-white' :
-                      'bg-blue-500 text-white'
-                    }`}>
+                    <Badge
+                      className={`text-xs ${
+                        feedbackData.priority === 'critical'
+                          ? 'bg-red-500 text-white'
+                          : feedbackData.priority === 'high'
+                            ? 'bg-orange-500 text-white'
+                            : feedbackData.priority === 'medium'
+                              ? 'bg-yellow-500 text-white'
+                              : 'bg-blue-500 text-white'
+                      }`}
+                    >
                       {feedbackData.priority}
                     </Badge>
                   </div>
@@ -713,16 +772,20 @@ export function BetaFeedbackSystem(): JSX.Element {
                     <div>Experience: {feedbackData.experience}</div>
                   </div>
 
-                  {feedbackType === 'bug' && feedbackData.steps.some(step => step.trim()) && (
+                  {feedbackType === 'bug' && feedbackData.steps.some((step) => step.trim()) && (
                     <div>
-                      <h4 className="font-medium text-[var(--ff-text-primary)] mb-2">Reproduction Steps:</h4>
+                      <h4 className="font-medium text-[var(--ff-text-primary)] mb-2">
+                        Reproduction Steps:
+                      </h4>
                       <ol className="text-sm space-y-1">
-                        {feedbackData.steps.filter(step => step.trim()).map((step, index) => (
-                          <li key={index} className="flex gap-2">
-                            <span className="text-[var(--ff-text-muted)]">{index + 1}.</span>
-                            <span>{step}</span>
-                          </li>
-                        ))}
+                        {feedbackData.steps
+                          .filter((step) => step.trim())
+                          .map((step, index) => (
+                            <li key={index} className="flex gap-2">
+                              <span className="text-[var(--ff-text-muted)]">{index + 1}.</span>
+                              <span>{step}</span>
+                            </li>
+                          ))}
                       </ol>
                     </div>
                   )}
@@ -755,27 +818,41 @@ export function BetaFeedbackSystem(): JSX.Element {
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2">
-                            <Badge className={`text-xs ${
-                              feedback.type === 'bug' ? 'bg-red-100 text-red-700' :
-                              feedback.type === 'feature' ? 'bg-blue-100 text-blue-700' :
-                              feedback.type === 'improvement' ? 'bg-green-100 text-green-700' :
-                              'bg-purple-100 text-purple-700'
-                            }`}>
+                            <Badge
+                              className={`text-xs ${
+                                feedback.type === 'bug'
+                                  ? 'bg-red-100 text-red-700'
+                                  : feedback.type === 'feature'
+                                    ? 'bg-blue-100 text-blue-700'
+                                    : feedback.type === 'improvement'
+                                      ? 'bg-green-100 text-green-700'
+                                      : 'bg-purple-100 text-purple-700'
+                              }`}
+                            >
                               {feedback.type}
                             </Badge>
-                            <Badge className={`text-xs ${
-                              feedback.priority === 'critical' ? 'bg-red-500 text-white' :
-                              feedback.priority === 'high' ? 'bg-orange-500 text-white' :
-                              feedback.priority === 'medium' ? 'bg-yellow-500 text-white' :
-                              'bg-blue-500 text-white'
-                            }`}>
+                            <Badge
+                              className={`text-xs ${
+                                feedback.priority === 'critical'
+                                  ? 'bg-red-500 text-white'
+                                  : feedback.priority === 'high'
+                                    ? 'bg-orange-500 text-white'
+                                    : feedback.priority === 'medium'
+                                      ? 'bg-yellow-500 text-white'
+                                      : 'bg-blue-500 text-white'
+                              }`}
+                            >
                               {feedback.priority}
                             </Badge>
-                            <Badge className={`text-xs ${
-                              feedback.status === 'resolved' ? 'bg-green-500 text-white' :
-                              feedback.status === 'in_progress' ? 'bg-blue-500 text-white' :
-                              'bg-gray-500 text-white'
-                            }`}>
+                            <Badge
+                              className={`text-xs ${
+                                feedback.status === 'resolved'
+                                  ? 'bg-green-500 text-white'
+                                  : feedback.status === 'in_progress'
+                                    ? 'bg-blue-500 text-white'
+                                    : 'bg-gray-500 text-white'
+                              }`}
+                            >
                               {feedback.status.replace('_', ' ')}
                             </Badge>
                           </div>
@@ -791,7 +868,9 @@ export function BetaFeedbackSystem(): JSX.Element {
                               <span>{feedback.rating}/5</span>
                             </div>
                             <span>by {feedback.user.email}</span>
-                            <span>{new Date(feedback.metadata.timestamp).toLocaleDateString()}</span>
+                            <span>
+                              {new Date(feedback.metadata.timestamp).toLocaleDateString()}
+                            </span>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
@@ -838,17 +917,13 @@ export function BetaFeedbackSystem(): JSX.Element {
             </Card>
             <Card className="ff-card">
               <CardContent className="pt-6 text-center">
-                <div className="text-2xl font-bold text-yellow-600">
-                  {analytics.avgRating}
-                </div>
+                <div className="text-2xl font-bold text-yellow-600">{analytics.avgRating}</div>
                 <div className="text-sm text-[var(--ff-text-muted)]">Avg Rating</div>
               </CardContent>
             </Card>
             <Card className="ff-card">
               <CardContent className="pt-6 text-center">
-                <div className="text-2xl font-bold text-blue-600">
-                  {analytics.activeTesters}
-                </div>
+                <div className="text-2xl font-bold text-blue-600">{analytics.activeTesters}</div>
                 <div className="text-sm text-[var(--ff-text-muted)]">Active Testers</div>
               </CardContent>
             </Card>
@@ -864,7 +939,10 @@ export function BetaFeedbackSystem(): JSX.Element {
                   <div key={index} className="flex items-center justify-between">
                     <span className="font-medium">{category.category}</span>
                     <div className="flex items-center gap-2">
-                      <Progress value={(category.count / analytics.totalFeedback) * 100} className="w-24" />
+                      <Progress
+                        value={(category.count / analytics.totalFeedback) * 100}
+                        className="w-24"
+                      />
                       <span className="text-sm text-[var(--ff-text-muted)]">{category.count}</span>
                     </div>
                   </div>
@@ -918,7 +996,7 @@ function generateFeedbackId(): string {
 
 async function submitFeedbackToAPI(feedback: Partial<FeedbackItem>): Promise<void> {
   // Simulate API call
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 }
 
 function generateMockFeedback(): FeedbackItem[] {
@@ -927,7 +1005,8 @@ function generateMockFeedback(): FeedbackItem[] {
       id: 'fb_1',
       type: 'feature',
       title: 'Add dark mode toggle in dashboard',
-      description: 'It would be great to have a dark mode toggle in the main dashboard for better user experience during night time work.',
+      description:
+        'It would be great to have a dark mode toggle in the main dashboard for better user experience during night time work.',
       priority: 'medium',
       status: 'in_progress',
       rating: 4,
@@ -936,18 +1015,18 @@ function generateMockFeedback(): FeedbackItem[] {
         id: 'user_1',
         email: 'john@example.com',
         role: 'beta_tester',
-        experience: 'intermediate'
+        experience: 'intermediate',
       },
       metadata: {
         url: 'https://app.flashfusion.ai/dashboard',
         userAgent: 'Mozilla/5.0...',
         timestamp: Date.now() - 86400000,
-        sessionId: 'session_123'
+        sessionId: 'session_123',
       },
       responses: [],
       votes: 12,
-      tags: ['feature', 'ui_ux']
-    }
+      tags: ['feature', 'ui_ux'],
+    },
   ];
 }
 
@@ -962,8 +1041,8 @@ function generateMockBetaTesters(): BetaTester[] {
       joinDate: Date.now() - 7 * 86400000,
       feedbackCount: 5,
       quality_score: 4.2,
-      status: 'active'
-    }
+      status: 'active',
+    },
   ];
 }
 

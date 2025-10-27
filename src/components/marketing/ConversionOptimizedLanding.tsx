@@ -5,13 +5,13 @@ import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import InteractiveLandingDemo from '../demo/InteractiveLandingDemo';
-import { 
-  Rocket, 
-  Zap, 
-  Star, 
-  Users, 
-  TrendingUp, 
-  CheckCircle, 
+import {
+  Rocket,
+  Zap,
+  Star,
+  Users,
+  TrendingUp,
+  CheckCircle,
   ArrowRight,
   Play,
   Download,
@@ -25,7 +25,7 @@ import {
   Award,
   Eye,
   BarChart,
-  X
+  X,
 } from 'lucide-react';
 
 interface ConversionMetrics {
@@ -55,79 +55,83 @@ interface FeatureHighlight {
 
 const TESTIMONIALS: TestimonialData[] = [
   {
-    name: "Sarah Chen",
-    role: "Senior Developer",
-    company: "TechStartup Inc",
-    avatar: "👩‍💻",
-    content: "FlashFusion reduced our development time from weeks to hours. The AI-generated code is production-ready and the deployment automation is incredible.",
+    name: 'Sarah Chen',
+    role: 'Senior Developer',
+    company: 'TechStartup Inc',
+    avatar: '👩‍💻',
+    content:
+      'FlashFusion reduced our development time from weeks to hours. The AI-generated code is production-ready and the deployment automation is incredible.',
     rating: 5,
-    metric: "90% faster development"
+    metric: '90% faster development',
   },
   {
-    name: "Marcus Rodriguez",
-    role: "Content Creator",
-    company: "@CreativeDaily",
-    avatar: "🎨",
-    content: "As a content creator, FlashFusion's multi-platform generation saves me 20+ hours per week. The brand consistency across platforms is perfect.",
+    name: 'Marcus Rodriguez',
+    role: 'Content Creator',
+    company: '@CreativeDaily',
+    avatar: '🎨',
+    content:
+      "As a content creator, FlashFusion's multi-platform generation saves me 20+ hours per week. The brand consistency across platforms is perfect.",
     rating: 5,
-    metric: "20 hours saved weekly"
+    metric: '20 hours saved weekly',
   },
   {
-    name: "David Kim",
-    role: "Startup Founder",
-    company: "InnovateCorp",
-    avatar: "🚀",
-    content: "We went from idea to production app in 3 days using FlashFusion. The multi-agent orchestration handles complex workflows effortlessly.",
+    name: 'David Kim',
+    role: 'Startup Founder',
+    company: 'InnovateCorp',
+    avatar: '🚀',
+    content:
+      'We went from idea to production app in 3 days using FlashFusion. The multi-agent orchestration handles complex workflows effortlessly.',
     rating: 5,
-    metric: "3 days to market"
+    metric: '3 days to market',
   },
   {
-    name: "Emma Thompson",
-    role: "Agency Owner",
-    company: "Digital Creative",
-    avatar: "💼",
-    content: "Managing 50+ client projects became manageable with FlashFusion. The bulk operations and team collaboration features are game-changers.",
+    name: 'Emma Thompson',
+    role: 'Agency Owner',
+    company: 'Digital Creative',
+    avatar: '💼',
+    content:
+      'Managing 50+ client projects became manageable with FlashFusion. The bulk operations and team collaboration features are game-changers.',
     rating: 5,
-    metric: "5x client capacity"
-  }
+    metric: '5x client capacity',
+  },
 ];
 
 const FEATURE_HIGHLIGHTS: FeatureHighlight[] = [
   {
     icon: Code,
-    title: "Full-Stack App Builder",
-    description: "Generate complete applications from idea to deployment in minutes",
-    metric: "10x faster",
-    demo: true
+    title: 'Full-Stack App Builder',
+    description: 'Generate complete applications from idea to deployment in minutes',
+    metric: '10x faster',
+    demo: true,
   },
   {
     icon: Sparkles,
-    title: "60+ AI Tools",
-    description: "Comprehensive toolkit covering all aspects of development and content creation",
-    metric: "All-in-one platform",
-    demo: true
+    title: '60+ AI Tools',
+    description: 'Comprehensive toolkit covering all aspects of development and content creation',
+    metric: 'All-in-one platform',
+    demo: true,
   },
   {
     icon: Users,
-    title: "Multi-Agent Orchestration",
-    description: "Coordinate multiple AI agents for complex workflow automation",
-    metric: "95% automation",
-    demo: false
+    title: 'Multi-Agent Orchestration',
+    description: 'Coordinate multiple AI agents for complex workflow automation',
+    metric: '95% automation',
+    demo: false,
   },
   {
     icon: Globe,
-    title: "One-Click Deployment",
-    description: "Deploy to 8+ platforms with automated monitoring and scaling",
-    metric: "Zero downtime",
-    demo: true
-  }
+    title: 'One-Click Deployment',
+    description: 'Deploy to 8+ platforms with automated monitoring and scaling',
+    metric: 'Zero downtime',
+    demo: true,
+  },
 ];
 
 const SOCIAL_PROOF_STATS = [
-  { metric: "8,247", label: "Active Developers", icon: Users },
-  { metric: "15.6K", label: "Apps Generated", icon: Rocket },
-  { metric: "99.7%", label: "Uptime", icon: Shield },
-  { metric: "4.6/5", label: "User Rating", icon: Star }
+  { metric: '8,247', label: 'Active Developers', icon: Users },
+  { metric: '15.6K', label: 'Apps Generated', icon: Rocket },
+  { metric: '99.7%', label: 'Uptime', icon: Shield },
+  { metric: '4.6/5', label: 'User Rating', icon: Star },
 ];
 
 interface ConversionOptimizedLandingProps {
@@ -139,20 +143,20 @@ interface ConversionOptimizedLandingProps {
 export function ConversionOptimizedLanding({
   onSignup,
   onDemoRequest,
-  onToolSelect
+  onToolSelect,
 }: ConversionOptimizedLandingProps) {
   const [email, setEmail] = useState('');
   const [metrics, setMetrics] = useState<ConversionMetrics>({
     visitorCount: 0,
     signupRate: 0,
     demoCompletions: 0,
-    toolUsage: 0
+    toolUsage: 0,
   });
   const [animatedCounts, setAnimatedCounts] = useState({
     developers: 0,
     apps: 0,
     uptime: 0,
-    rating: 0
+    rating: 0,
   });
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [showDemoModal, setShowDemoModal] = useState(false);
@@ -168,12 +172,12 @@ export function ConversionOptimizedLanding({
     const timer = setInterval(() => {
       step++;
       const progress = step / steps;
-      
+
       setAnimatedCounts({
         developers: Math.round(targets.developers * progress),
         apps: Math.round(targets.apps * progress),
         uptime: Math.round(targets.uptime * progress),
-        rating: Math.round(targets.rating * progress)
+        rating: Math.round(targets.rating * progress),
       });
 
       if (step >= steps) {
@@ -197,11 +201,11 @@ export function ConversionOptimizedLanding({
   useEffect(() => {
     // Simulate real-time metrics for growing startup
     const interval = setInterval(() => {
-      setMetrics(prev => ({
+      setMetrics((prev) => ({
         visitorCount: prev.visitorCount + Math.floor(Math.random() * 2), // 0-1 new visitors
         signupRate: 12.4 + Math.random() * 1.5, // 12.4-13.9% conversion rate
         demoCompletions: prev.demoCompletions + (Math.random() > 0.7 ? 1 : 0), // Occasional demo completion
-        toolUsage: prev.toolUsage + Math.floor(Math.random() * 3) // 0-2 new tool uses
+        toolUsage: prev.toolUsage + Math.floor(Math.random() * 3), // 0-2 new tool uses
       }));
     }, 5000); // Update every 5 seconds
 
@@ -232,7 +236,8 @@ export function ConversionOptimizedLanding({
             <div className="inline-flex items-center gap-2 bg-success/10 border border-success/20 rounded-full px-4 py-2 text-sm">
               <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
               <span className="text-success font-medium">
-                {animatedCounts.developers.toLocaleString()}+ developers building with AI • {metrics.visitorCount} online now
+                {animatedCounts.developers.toLocaleString()}+ developers building with AI •{' '}
+                {metrics.visitorCount} online now
               </span>
             </div>
 
@@ -243,16 +248,19 @@ export function ConversionOptimizedLanding({
                 <span className="block">10x Faster</span>
                 <span className="block text-secondary">with AI</span>
               </h1>
-              
+
               <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-                Transform ideas into production-ready applications in minutes. 
-                60+ AI tools, multi-agent workflows, one-click deployment.
+                Transform ideas into production-ready applications in minutes. 60+ AI tools,
+                multi-agent workflows, one-click deployment.
               </p>
             </div>
 
             {/* CTA Section */}
             <div className="space-y-4">
-              <form onSubmit={handleSignup} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <form
+                onSubmit={handleSignup}
+                className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+              >
                 <Input
                   type="email"
                   placeholder="Enter your email"
@@ -266,7 +274,7 @@ export function ConversionOptimizedLanding({
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </form>
-              
+
               <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
                 <span className="flex items-center gap-1">
                   <CheckCircle className="w-4 h-4 text-success" />
@@ -283,11 +291,7 @@ export function ConversionOptimizedLanding({
               </div>
 
               {/* Demo CTA */}
-              <Button
-                variant="outline"
-                onClick={() => setShowDemoModal(true)}
-                className="mt-4"
-              >
+              <Button variant="outline" onClick={() => setShowDemoModal(true)} className="mt-4">
                 <Play className="w-4 h-4 mr-2" />
                 Watch 2-Minute Demo
               </Button>
@@ -320,12 +324,8 @@ export function ConversionOptimizedLanding({
                 <div className="flex items-center justify-center mb-2">
                   <stat.icon className="w-6 h-6 text-primary" />
                 </div>
-                <div className="text-3xl font-bold ff-text-gradient">
-                  {stat.metric}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  {stat.label}
-                </div>
+                <div className="text-3xl font-bold ff-text-gradient">{stat.metric}</div>
+                <div className="text-sm text-muted-foreground">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -336,11 +336,10 @@ export function ConversionOptimizedLanding({
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-bold">
-              Everything You Need to Build Faster
-            </h2>
+            <h2 className="text-4xl font-bold">Everything You Need to Build Faster</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              From AI-powered code generation to one-click deployment, FlashFusion provides the complete toolkit for modern development.
+              From AI-powered code generation to one-click deployment, FlashFusion provides the
+              complete toolkit for modern development.
             </p>
           </div>
 
@@ -358,12 +357,10 @@ export function ConversionOptimizedLanding({
                   </div>
                   <CardTitle className="text-xl">{feature.title}</CardTitle>
                 </CardHeader>
-                
+
                 <CardContent className="space-y-4">
-                  <p className="text-muted-foreground">
-                    {feature.description}
-                  </p>
-                  
+                  <p className="text-muted-foreground">{feature.description}</p>
+
                   {feature.demo && (
                     <Button
                       variant="outline"
@@ -390,9 +387,7 @@ export function ConversionOptimizedLanding({
               <Sparkles className="w-3 h-3 mr-2" />
               Interactive Demo
             </Badge>
-            <h2 className="text-4xl font-bold">
-              See FlashFusion in Action
-            </h2>
+            <h2 className="text-4xl font-bold">See FlashFusion in Action</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Watch a real application being built from concept to deployment in under 3 minutes
             </p>
@@ -412,7 +407,7 @@ export function ConversionOptimizedLanding({
                 Live Platform Analytics
               </CardTitle>
             </CardHeader>
-            
+
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="text-center">
@@ -422,22 +417,18 @@ export function ConversionOptimizedLanding({
                   <div className="text-sm text-muted-foreground">Conversion Rate</div>
                   <Progress value={metrics.signupRate} className="h-2 mt-2" />
                 </div>
-                
+
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-secondary mb-2">
-                    {metrics.toolUsage}
-                  </div>
+                  <div className="text-3xl font-bold text-secondary mb-2">{metrics.toolUsage}</div>
                   <div className="text-sm text-muted-foreground">Tools Used Today</div>
                   <div className="flex items-center justify-center gap-1 mt-2">
                     <div className="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
                     <span className="text-xs text-secondary">Live</span>
                   </div>
                 </div>
-                
+
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-accent mb-2">
-                    0.8s
-                  </div>
+                  <div className="text-3xl font-bold text-accent mb-2">0.8s</div>
                   <div className="text-sm text-muted-foreground">Avg. Response Time</div>
                   <Badge variant="outline" className="text-xs mt-2">
                     99.7% uptime
@@ -445,9 +436,7 @@ export function ConversionOptimizedLanding({
                 </div>
 
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-success mb-2">
-                    {metrics.visitorCount}
-                  </div>
+                  <div className="text-3xl font-bold text-success mb-2">{metrics.visitorCount}</div>
                   <div className="text-sm text-muted-foreground">Developers Online</div>
                   <div className="flex items-center justify-center gap-1 mt-2">
                     <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
@@ -464,9 +453,7 @@ export function ConversionOptimizedLanding({
       <section className="py-20 bg-card/30">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-bold">
-              Trusted by Developers Worldwide
-            </h2>
+            <h2 className="text-4xl font-bold">Trusted by Developers Worldwide</h2>
             <p className="text-xl text-muted-foreground">
               See how teams are accelerating their development with FlashFusion
             </p>
@@ -480,21 +467,18 @@ export function ConversionOptimizedLanding({
                     <Star key={i} className="w-5 h-5 fill-warning text-warning" />
                   ))}
                 </div>
-                
+
                 <blockquote className="text-lg italic max-w-3xl mx-auto">
                   "{TESTIMONIALS[currentTestimonial].content}"
                 </blockquote>
-                
+
                 <div className="flex items-center justify-center gap-4">
-                  <div className="text-4xl">
-                    {TESTIMONIALS[currentTestimonial].avatar}
-                  </div>
+                  <div className="text-4xl">{TESTIMONIALS[currentTestimonial].avatar}</div>
                   <div className="text-left">
-                    <div className="font-semibold">
-                      {TESTIMONIALS[currentTestimonial].name}
-                    </div>
+                    <div className="font-semibold">{TESTIMONIALS[currentTestimonial].name}</div>
                     <div className="text-sm text-muted-foreground">
-                      {TESTIMONIALS[currentTestimonial].role} at {TESTIMONIALS[currentTestimonial].company}
+                      {TESTIMONIALS[currentTestimonial].role} at{' '}
+                      {TESTIMONIALS[currentTestimonial].company}
                     </div>
                     {TESTIMONIALS[currentTestimonial].metric && (
                       <Badge variant="outline" className="text-xs mt-1">
@@ -526,15 +510,16 @@ export function ConversionOptimizedLanding({
       <section className="py-20 bg-gradient-to-r from-primary/10 to-secondary/10">
         <div className="max-w-4xl mx-auto text-center px-6">
           <div className="space-y-6">
-            <h2 className="text-4xl font-bold">
-              Ready to Build 10x Faster?
-            </h2>
+            <h2 className="text-4xl font-bold">Ready to Build 10x Faster?</h2>
             <p className="text-xl text-muted-foreground">
               Join thousands of developers who are already building the future with AI.
             </p>
-            
+
             <div className="space-y-4">
-              <form onSubmit={handleSignup} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <form
+                onSubmit={handleSignup}
+                className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+              >
                 <Input
                   type="email"
                   placeholder="Enter your email"
@@ -548,7 +533,7 @@ export function ConversionOptimizedLanding({
                   <Rocket className="w-4 h-4 ml-2" />
                 </Button>
               </form>
-              
+
               <div className="text-sm text-muted-foreground">
                 Start for free • No credit card • 2-minute setup
               </div>
@@ -580,16 +565,12 @@ export function ConversionOptimizedLanding({
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>FlashFusion Demo</CardTitle>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowDemoModal(false)}
-                >
+                <Button variant="ghost" size="sm" onClick={() => setShowDemoModal(false)}>
                   ×
                 </Button>
               </div>
             </CardHeader>
-            
+
             <CardContent>
               <div className="space-y-4">
                 <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
@@ -604,7 +585,7 @@ export function ConversionOptimizedLanding({
                     </Button>
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div className="text-center">
                     <Clock className="w-8 h-8 mx-auto mb-2 text-primary" />

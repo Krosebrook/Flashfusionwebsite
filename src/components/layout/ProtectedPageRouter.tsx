@@ -36,9 +36,8 @@ export function ProtectedPageRouter({
   dailyTasks,
   onToolUsage,
   onProjectCreated,
-  onDeploy
+  onDeploy,
 }: ProtectedPageRouterProps) {
-  
   // Redirect to home if not authenticated
   const renderProtectedPage = () => {
     if (!isAuthenticated) {
@@ -48,7 +47,7 @@ export function ProtectedPageRouter({
     switch (currentPage) {
       case 'dashboard':
         return (
-          <DashboardPage 
+          <DashboardPage
             user={user}
             userStats={userStats}
             projects={projects}
@@ -69,12 +68,7 @@ export function ProtectedPageRouter({
         );
 
       case 'analytics':
-        return (
-          <AnalyticsPage
-            projects={projects}
-            userStats={userStats}
-          />
-        );
+        return <AnalyticsPage projects={projects} userStats={userStats} />;
 
       case 'production-analytics':
         return <ProductionAnalytics />;
@@ -86,20 +80,10 @@ export function ProtectedPageRouter({
         return <IntegrationsPage />;
 
       case 'deployments':
-        return (
-          <DeploymentsPage
-            projects={projects}
-            onDeploy={onDeploy}
-          />
-        );
+        return <DeploymentsPage projects={projects} onDeploy={onDeploy} />;
 
       case 'templates':
-        return (
-          <TemplatesPage
-            setCurrentPage={setCurrentPage}
-            isAuthenticated={isAuthenticated}
-          />
-        );
+        return <TemplatesPage setCurrentPage={setCurrentPage} isAuthenticated={isAuthenticated} />;
 
       case 'collaboration':
         return <CollaborationPage />;

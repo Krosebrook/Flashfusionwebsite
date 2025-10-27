@@ -52,7 +52,7 @@ export const MOCK_IMPORT_JOBS: ImportJob[] = [
     totalRecords: 12500,
     startTime: new Date(Date.now() - 2 * 60 * 60 * 1000),
     endTime: new Date(Date.now() - 1 * 60 * 60 * 1000),
-    errors: []
+    errors: [],
   },
   {
     id: 'import-2',
@@ -66,7 +66,7 @@ export const MOCK_IMPORT_JOBS: ImportJob[] = [
     recordsProcessed: 3250,
     totalRecords: 5000,
     startTime: new Date(Date.now() - 30 * 60 * 1000),
-    errors: ['SKU-12345: Invalid price format']
+    errors: ['SKU-12345: Invalid price format'],
   },
   {
     id: 'import-3',
@@ -81,8 +81,8 @@ export const MOCK_IMPORT_JOBS: ImportJob[] = [
     totalRecords: 5000,
     startTime: new Date(Date.now() - 45 * 60 * 1000),
     endTime: new Date(Date.now() - 40 * 60 * 1000),
-    errors: ['Row 1251: Missing required field "user_id"', 'Row 1252: Invalid date format']
-  }
+    errors: ['Row 1251: Missing required field "user_id"', 'Row 1252: Invalid date format'],
+  },
 ];
 
 export const MOCK_EXPORT_JOBS: ExportJob[] = [
@@ -100,7 +100,7 @@ export const MOCK_EXPORT_JOBS: ExportJob[] = [
     startTime: new Date(Date.now() - 1 * 60 * 60 * 1000),
     endTime: new Date(Date.now() - 50 * 60 * 1000),
     downloadUrl: '#',
-    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
+    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
   },
   {
     id: 'export-2',
@@ -113,8 +113,8 @@ export const MOCK_EXPORT_JOBS: ExportJob[] = [
     size: 156.8,
     recordsExported: 40000,
     totalRecords: 50000,
-    startTime: new Date(Date.now() - 45 * 60 * 1000)
-  }
+    startTime: new Date(Date.now() - 45 * 60 * 1000),
+  },
 ];
 
 export const MOCK_DATA_SOURCES: DataSource[] = [
@@ -128,7 +128,7 @@ export const MOCK_DATA_SOURCES: DataSource[] = [
     lastSync: new Date(Date.now() - 30 * 60 * 1000),
     syncStatus: 'active',
     config: { host: 'prod-db.example.com', database: 'app_production' },
-    supportedFormats: ['CSV', 'JSON', 'SQL']
+    supportedFormats: ['CSV', 'JSON', 'SQL'],
   },
   {
     id: 'shopify-1',
@@ -140,7 +140,7 @@ export const MOCK_DATA_SOURCES: DataSource[] = [
     lastSync: new Date(Date.now() - 15 * 60 * 1000),
     syncStatus: 'active',
     config: { store: 'mystore.myshopify.com' },
-    supportedFormats: ['JSON', 'CSV']
+    supportedFormats: ['JSON', 'CSV'],
   },
   {
     id: 'aws-s3',
@@ -152,7 +152,7 @@ export const MOCK_DATA_SOURCES: DataSource[] = [
     lastSync: new Date(Date.now() - 2 * 60 * 60 * 1000),
     syncStatus: 'active',
     config: { bucket: 'my-data-bucket' },
-    supportedFormats: ['All formats']
+    supportedFormats: ['All formats'],
   },
   {
     id: 'github-1',
@@ -164,8 +164,8 @@ export const MOCK_DATA_SOURCES: DataSource[] = [
     lastSync: new Date(0),
     syncStatus: 'inactive',
     config: {},
-    supportedFormats: ['JSON', 'ZIP']
-  }
+    supportedFormats: ['JSON', 'ZIP'],
+  },
 ];
 
 export const MOCK_TEMPLATES: DataTemplate[] = [
@@ -179,12 +179,22 @@ export const MOCK_TEMPLATES: DataTemplate[] = [
       { name: 'email', type: 'string', required: true, example: 'user@example.com' },
       { name: 'name', type: 'string', required: true, example: 'John Doe' },
       { name: 'phone', type: 'string', required: false, example: '+1234567890' },
-      { name: 'created_at', type: 'date', required: false, example: '2024-01-15' }
+      { name: 'created_at', type: 'date', required: false, example: '2024-01-15' },
     ],
     sampleData: [
-      { email: 'john@example.com', name: 'John Doe', phone: '+1234567890', created_at: '2024-01-15' },
-      { email: 'jane@example.com', name: 'Jane Smith', phone: '+0987654321', created_at: '2024-01-16' }
-    ]
+      {
+        email: 'john@example.com',
+        name: 'John Doe',
+        phone: '+1234567890',
+        created_at: '2024-01-15',
+      },
+      {
+        email: 'jane@example.com',
+        name: 'Jane Smith',
+        phone: '+0987654321',
+        created_at: '2024-01-16',
+      },
+    ],
   },
   {
     id: 'product-export',
@@ -196,11 +206,11 @@ export const MOCK_TEMPLATES: DataTemplate[] = [
       { name: 'id', type: 'number', required: true, example: '1001' },
       { name: 'name', type: 'string', required: true, example: 'Premium Widget' },
       { name: 'price', type: 'number', required: true, example: '29.99' },
-      { name: 'inventory', type: 'number', required: false, example: '150' }
+      { name: 'inventory', type: 'number', required: false, example: '150' },
     ],
     sampleData: [
       { id: 1001, name: 'Premium Widget', price: 29.99, inventory: 150 },
-      { id: 1002, name: 'Standard Widget', price: 19.99, inventory: 200 }
-    ]
-  }
+      { id: 1002, name: 'Standard Widget', price: 19.99, inventory: 200 },
+    ],
+  },
 ];

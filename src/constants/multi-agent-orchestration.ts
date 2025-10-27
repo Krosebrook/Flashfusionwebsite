@@ -1,26 +1,29 @@
-import { 
-  Brain, 
-  Target, 
-  Palette, 
-  Users, 
-  Code, 
-  Server, 
-  Bug, 
-  Settings, 
-  BarChart3, 
-  Megaphone, 
-  TrendingUp 
+import {
+  Brain,
+  Target,
+  Palette,
+  Users,
+  Code,
+  Server,
+  Bug,
+  Settings,
+  BarChart3,
+  Megaphone,
+  TrendingUp,
 } from 'lucide-react';
 import { Agent, AgentRole } from '../types/multi-agent-orchestration';
 
-export const AGENT_DEFINITIONS: Record<AgentRole, {
-  name: string;
-  icon: any;
-  color: string;
-  description: string;
-  defaultPersonality: any;
-  capabilities: string[];
-}> = {
+export const AGENT_DEFINITIONS: Record<
+  AgentRole,
+  {
+    name: string;
+    icon: any;
+    color: string;
+    description: string;
+    defaultPersonality: any;
+    capabilities: string[];
+  }
+> = {
   visionary: {
     name: 'Visionary',
     icon: Brain,
@@ -32,9 +35,9 @@ export const AGENT_DEFINITIONS: Record<AgentRole, {
       stressResponses: ['tunnel_vision', 'over_promising'],
       workingStyle: 'collaborative',
       collaboration: 'leader',
-      decisionMaking: 'intuitive'
+      decisionMaking: 'intuitive',
     },
-    capabilities: ['Strategy Planning', 'Vision Setting', 'Innovation', 'Leadership']
+    capabilities: ['Strategy Planning', 'Vision Setting', 'Innovation', 'Leadership'],
   },
   product_manager: {
     name: 'Product Manager',
@@ -47,9 +50,14 @@ export const AGENT_DEFINITIONS: Record<AgentRole, {
       stressResponses: ['scope_creep', 'analysis_paralysis'],
       workingStyle: 'iterative',
       collaboration: 'mediator',
-      decisionMaking: 'data_driven'
+      decisionMaking: 'data_driven',
     },
-    capabilities: ['Requirement Analysis', 'Roadmap Planning', 'Stakeholder Management', 'Prioritization']
+    capabilities: [
+      'Requirement Analysis',
+      'Roadmap Planning',
+      'Stakeholder Management',
+      'Prioritization',
+    ],
   },
   ui_designer: {
     name: 'UI Designer',
@@ -62,9 +70,9 @@ export const AGENT_DEFINITIONS: Record<AgentRole, {
       stressResponses: ['perfectionism', 'rushed_decisions'],
       workingStyle: 'iterative',
       collaboration: 'specialist',
-      decisionMaking: 'intuitive'
+      decisionMaking: 'intuitive',
     },
-    capabilities: ['Visual Design', 'Prototyping', 'Design Systems', 'Brand Consistency']
+    capabilities: ['Visual Design', 'Prototyping', 'Design Systems', 'Brand Consistency'],
   },
   ux_designer: {
     name: 'UX Designer',
@@ -77,9 +85,14 @@ export const AGENT_DEFINITIONS: Record<AgentRole, {
       stressResponses: ['analysis_paralysis', 'perfectionism'],
       workingStyle: 'collaborative',
       collaboration: 'facilitator',
-      decisionMaking: 'data_driven'
+      decisionMaking: 'data_driven',
     },
-    capabilities: ['User Research', 'Information Architecture', 'Interaction Design', 'Usability Testing']
+    capabilities: [
+      'User Research',
+      'Information Architecture',
+      'Interaction Design',
+      'Usability Testing',
+    ],
   },
   frontend_developer: {
     name: 'Frontend Developer',
@@ -92,9 +105,14 @@ export const AGENT_DEFINITIONS: Record<AgentRole, {
       stressResponses: ['perfectionism', 'bottlenecking'],
       workingStyle: 'parallel',
       collaboration: 'specialist',
-      decisionMaking: 'deliberate'
+      decisionMaking: 'deliberate',
     },
-    capabilities: ['React/Vue Development', 'CSS/Styling', 'Performance Optimization', 'Responsive Design']
+    capabilities: [
+      'React/Vue Development',
+      'CSS/Styling',
+      'Performance Optimization',
+      'Responsive Design',
+    ],
   },
   backend_developer: {
     name: 'Backend Developer',
@@ -107,9 +125,9 @@ export const AGENT_DEFINITIONS: Record<AgentRole, {
       stressResponses: ['perfectionism', 'isolation'],
       workingStyle: 'sequential',
       collaboration: 'specialist',
-      decisionMaking: 'data_driven'
+      decisionMaking: 'data_driven',
     },
-    capabilities: ['API Development', 'Database Design', 'Security', 'Scalability']
+    capabilities: ['API Development', 'Database Design', 'Security', 'Scalability'],
   },
   qa_engineer: {
     name: 'QA Engineer',
@@ -122,9 +140,9 @@ export const AGENT_DEFINITIONS: Record<AgentRole, {
       stressResponses: ['perfectionism', 'bottlenecking'],
       workingStyle: 'methodical',
       collaboration: 'supporter',
-      decisionMaking: 'deliberate'
+      decisionMaking: 'deliberate',
     },
-    capabilities: ['Testing Strategy', 'Bug Detection', 'Quality Assurance', 'Test Automation']
+    capabilities: ['Testing Strategy', 'Bug Detection', 'Quality Assurance', 'Test Automation'],
   },
   devops_engineer: {
     name: 'DevOps Engineer',
@@ -137,9 +155,9 @@ export const AGENT_DEFINITIONS: Record<AgentRole, {
       stressResponses: ['isolation', 'bottlenecking'],
       workingStyle: 'parallel',
       collaboration: 'specialist',
-      decisionMaking: 'rapid'
+      decisionMaking: 'rapid',
     },
-    capabilities: ['CI/CD', 'Infrastructure', 'Monitoring', 'Security']
+    capabilities: ['CI/CD', 'Infrastructure', 'Monitoring', 'Security'],
   },
   project_manager: {
     name: 'Project Manager',
@@ -152,9 +170,14 @@ export const AGENT_DEFINITIONS: Record<AgentRole, {
       stressResponses: ['scope_creep', 'rushed_decisions'],
       workingStyle: 'collaborative',
       collaboration: 'facilitator',
-      decisionMaking: 'consensus_based'
+      decisionMaking: 'consensus_based',
     },
-    capabilities: ['Timeline Management', 'Resource Allocation', 'Risk Management', 'Communication']
+    capabilities: [
+      'Timeline Management',
+      'Resource Allocation',
+      'Risk Management',
+      'Communication',
+    ],
   },
   marketing_specialist: {
     name: 'Marketing Specialist',
@@ -167,9 +190,9 @@ export const AGENT_DEFINITIONS: Record<AgentRole, {
       stressResponses: ['over_promising', 'rushed_decisions'],
       workingStyle: 'iterative',
       collaboration: 'supporter',
-      decisionMaking: 'intuitive'
+      decisionMaking: 'intuitive',
     },
-    capabilities: ['Campaign Strategy', 'Content Creation', 'Market Analysis', 'Brand Management']
+    capabilities: ['Campaign Strategy', 'Content Creation', 'Market Analysis', 'Brand Management'],
   },
   data_analyst: {
     name: 'Data Analyst',
@@ -182,16 +205,16 @@ export const AGENT_DEFINITIONS: Record<AgentRole, {
       stressResponses: ['analysis_paralysis', 'perfectionism'],
       workingStyle: 'sequential',
       collaboration: 'specialist',
-      decisionMaking: 'data_driven'
+      decisionMaking: 'data_driven',
     },
-    capabilities: ['Data Analysis', 'Reporting', 'Insights Generation', 'Metrics Tracking']
-  }
+    capabilities: ['Data Analysis', 'Reporting', 'Insights Generation', 'Metrics Tracking'],
+  },
 };
 
 export const CANVAS_DIMENSIONS = {
   width: 1200,
   height: 800,
-  padding: 50
+  padding: 50,
 };
 
 export const AGENT_CANVAS_SETTINGS = {
@@ -199,14 +222,14 @@ export const AGENT_CANVAS_SETTINGS = {
   connectionLineWidth: 2,
   animationDuration: 300,
   collaborationRadius: 150,
-  conflictRadius: 100
+  conflictRadius: 100,
 };
 
 export const RISK_SEVERITY_COLORS = {
   low: '#10B981',
-  medium: '#F59E0B', 
+  medium: '#F59E0B',
   high: '#EF4444',
-  critical: '#DC2626'
+  critical: '#DC2626',
 };
 
 export const RISK_PROBABILITY_THRESHOLDS = {
@@ -217,84 +240,88 @@ export const RISK_PROBABILITY_THRESHOLDS = {
   timeline_slip: 70,
   quality_degradation: 55,
   resource_conflict: 40,
-  dependency_block: 65
+  dependency_block: 65,
 };
 
 export const VOICE_COMMAND_PATTERNS = {
-  'show_agent_status': [
+  show_agent_status: [
     'show me {agent} status',
     'how is {agent} doing',
     'what is {agent} working on',
-    '{agent} progress'
+    '{agent} progress',
   ],
-  'schedule_handoff': [
+  schedule_handoff: [
     'schedule handoff from {agent} to {agent}',
     'create handoff between {agent} and {agent}',
-    'set up transfer from {agent} to {agent}'
+    'set up transfer from {agent} to {agent}',
   ],
-  'check_progress': [
+  check_progress: [
     'show project progress',
     'how are we doing',
     'project status',
-    'overall progress'
+    'overall progress',
   ],
-  'resolve_conflict': [
+  resolve_conflict: [
     'resolve conflict between {agent} and {agent}',
     'fix issue with {agent}',
-    'help {agent} and {agent} collaborate'
-  ]
+    'help {agent} and {agent} collaborate',
+  ],
 };
 
 export const DOCUMENTATION_TEMPLATES = {
   technical_specs: {
     sections: ['Overview', 'Architecture', 'API Reference', 'Database Schema', 'Security'],
     autoUpdate: true,
-    reviewRequired: true
+    reviewRequired: true,
   },
   user_stories: {
     sections: ['Epic', 'User Story', 'Acceptance Criteria', 'Definition of Done'],
     autoUpdate: true,
-    reviewRequired: false
+    reviewRequired: false,
   },
   decision_log: {
     sections: ['Decision', 'Context', 'Options Considered', 'Outcome', 'Consequences'],
     autoUpdate: true,
-    reviewRequired: false
+    reviewRequired: false,
   },
   api_docs: {
     sections: ['Endpoints', 'Authentication', 'Request/Response', 'Error Codes', 'Examples'],
     autoUpdate: true,
-    reviewRequired: true
-  }
+    reviewRequired: true,
+  },
 };
 
 export const STAKEHOLDER_UPDATE_TEMPLATES = {
-  milestone: 'We\'ve successfully completed {milestone}. This brings us {percentage}% closer to our goal.',
-  progress: 'Great progress this week! {agent} completed {tasks} tasks, and we\'re on track for {timeline}.',
-  decision: 'Important decision made: {decision}. This will {impact} and is expected to {timeline}.',
-  risk: 'We\'ve identified a potential risk: {risk}. Our mitigation plan includes {mitigation}.',
-  achievement: 'Exciting news! We\'ve achieved {achievement}. This demonstrates our commitment to {value}.'
+  milestone:
+    "We've successfully completed {milestone}. This brings us {percentage}% closer to our goal.",
+  progress:
+    "Great progress this week! {agent} completed {tasks} tasks, and we're on track for {timeline}.",
+  decision:
+    'Important decision made: {decision}. This will {impact} and is expected to {timeline}.',
+  risk: "We've identified a potential risk: {risk}. Our mitigation plan includes {mitigation}.",
+  achievement:
+    "Exciting news! We've achieved {achievement}. This demonstrates our commitment to {value}.",
 };
 
 export const SYNERGY_OPPORTUNITIES = {
   knowledge_transfer: {
     threshold: 70,
     weight: 0.8,
-    description: 'Share learnings and best practices between projects'
+    description: 'Share learnings and best practices between projects',
   },
   resource_sharing: {
     threshold: 60,
     weight: 0.9,
-    description: 'Optimize agent allocation across multiple projects'
+    description: 'Optimize agent allocation across multiple projects',
   },
   component_reuse: {
     threshold: 80,
     weight: 0.7,
-    description: 'Reuse components and solutions from other projects'
+    description: 'Reuse components and solutions from other projects',
   },
   technical_alignment: {
     threshold: 75,
     weight: 0.6,
-    description: 'Align technical standards and architectures'
-  }
+    description: 'Align technical standards and architectures',
+  },
 };

@@ -6,11 +6,14 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 const app = new Hono();
 
 // Global middleware
-app.use('*', cors({
-  origin: '*',
-  allowHeaders: ['*'],
-  allowMethods: ['*'],
-}));
+app.use(
+  '*',
+  cors({
+    origin: '*',
+    allowHeaders: ['*'],
+    allowMethods: ['*'],
+  })
+);
 
 app.use('*', logger(console.log));
 
@@ -22,8 +25,8 @@ app.get('/make-server-88829a40/health', (c) => {
     services: {
       ai: 'available',
       collaboration: 'available',
-      cicd: 'available'
-    }
+      cicd: 'available',
+    },
   });
 });
 
@@ -31,12 +34,15 @@ app.get('/make-server-88829a40/health', (c) => {
 app.post('/make-server-88829a40/auth/login', async (c) => {
   try {
     const { email, password } = await c.req.json();
-    
+
     if (!email || !password) {
-      return c.json({ 
-        success: false, 
-        message: 'Email and password are required' 
-      }, 400);
+      return c.json(
+        {
+          success: false,
+          message: 'Email and password are required',
+        },
+        400
+      );
     }
 
     // Demo login for testing
@@ -48,45 +54,56 @@ app.post('/make-server-88829a40/auth/login', async (c) => {
           id: 'demo-user-001',
           email: 'demo@flashfusion.ai',
           name: 'Demo User',
-          role: 'pro'
+          role: 'pro',
         },
-        token: 'demo-token-' + Date.now()
+        token: 'demo-token-' + Date.now(),
       });
     }
 
     // For real authentication, you would validate against your database
-    return c.json({ 
-      success: false, 
-      message: 'Invalid credentials' 
-    }, 401);
-
+    return c.json(
+      {
+        success: false,
+        message: 'Invalid credentials',
+      },
+      401
+    );
   } catch (error) {
     console.error('Login error:', error);
-    return c.json({ 
-      success: false, 
-      message: 'Login failed' 
-    }, 500);
+    return c.json(
+      {
+        success: false,
+        message: 'Login failed',
+      },
+      500
+    );
   }
 });
 
 app.post('/make-server-88829a40/auth/signup', async (c) => {
   try {
     const { name, email, password } = await c.req.json();
-    
+
     if (!email || !password || !name) {
-      return c.json({ 
-        success: false, 
-        message: 'Name, email, and password are required' 
-      }, 400);
+      return c.json(
+        {
+          success: false,
+          message: 'Name, email, and password are required',
+        },
+        400
+      );
     }
 
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return c.json({ 
-        success: false, 
-        message: 'Please enter a valid email address' 
-      }, 400);
+      return c.json(
+        {
+          success: false,
+          message: 'Please enter a valid email address',
+        },
+        400
+      );
     }
 
     // For demo purposes, just return success
@@ -97,16 +114,18 @@ app.post('/make-server-88829a40/auth/signup', async (c) => {
         id: 'user-' + Date.now(),
         email,
         name,
-        email_confirmed: true
-      }
+        email_confirmed: true,
+      },
     });
-
   } catch (error) {
     console.error('Signup error:', error);
-    return c.json({ 
-      success: false, 
-      message: 'Signup failed' 
-    }, 500);
+    return c.json(
+      {
+        success: false,
+        message: 'Signup failed',
+      },
+      500
+    );
   }
 });
 
@@ -134,15 +153,17 @@ app.post('/make-server-88829a40/generate-images', async (c) => {
       success: true,
       images,
       model: request.model,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
-
   } catch (error) {
     console.error('Image generation error:', error);
-    return c.json({ 
-      error: 'Image generation failed', 
-      details: error.message 
-    }, 500);
+    return c.json(
+      {
+        error: 'Image generation failed',
+        details: error.message,
+      },
+      500
+    );
   }
 });
 
@@ -156,16 +177,18 @@ app.post('/make-server-88829a40/stripe/create-checkout-session', async (c) => {
     return c.json({
       success: true,
       sessionId: 'cs_demo_' + Date.now(),
-      url: 'https://checkout.stripe.com/demo'
+      url: 'https://checkout.stripe.com/demo',
     });
-
   } catch (error) {
     console.error('Checkout session creation error:', error);
-    return c.json({ 
-      success: false,
-      message: 'Checkout session creation failed', 
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, 500);
+    return c.json(
+      {
+        success: false,
+        message: 'Checkout session creation failed',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      500
+    );
   }
 });
 
@@ -177,7 +200,7 @@ app.post('/make-server-88829a40/stripe/create-checkout-session', async (c) => {
 app.post('/make-server-88829a40/studio/analytics/track', async (c) => {
   try {
     const { event, userId, data } = await c.req.json();
-    
+
     if (!event || !userId) {
       return c.json({ error: 'Event and userId required' }, 400);
     }
@@ -187,7 +210,7 @@ app.post('/make-server-88829a40/studio/analytics/track', async (c) => {
     // await kv.set(analyticsKey, { event, data, timestamp: new Date().toISOString() });
 
     console.log('Analytics tracked:', { event, userId, data });
-    
+
     return c.json({ success: true, event, timestamp: new Date().toISOString() });
   } catch (error) {
     console.error('Analytics tracking error:', error);
@@ -199,7 +222,7 @@ app.post('/make-server-88829a40/studio/analytics/track', async (c) => {
 app.get('/make-server-88829a40/studio/analytics/behavior', async (c) => {
   try {
     const timeRange = c.req.query('timeRange') || '30d';
-    
+
     // Mock data for now - replace with real aggregation from KV store
     const mockMetrics = {
       mostUsedFeatures: [
@@ -208,15 +231,15 @@ app.get('/make-server-88829a40/studio/analytics/behavior', async (c) => {
           usageCount: 45230,
           avgTimeSpent: 180,
           completionRate: 78,
-          trend: 'up'
+          trend: 'up',
         },
         {
           feature: 'Chord Designer',
           usageCount: 32450,
           avgTimeSpent: 420,
           completionRate: 85,
-          trend: 'up'
-        }
+          trend: 'up',
+        },
       ],
       averageSessionDuration: 1260,
       dropOffPoints: [
@@ -224,8 +247,8 @@ app.get('/make-server-88829a40/studio/analytics/behavior', async (c) => {
           step: 'Song Generation - AI Processing',
           dropOffRate: 15.3,
           usersAffected: 2340,
-          severity: 'high'
-        }
+          severity: 'high',
+        },
       ],
       conversionFunnels: [
         {
@@ -234,20 +257,20 @@ app.get('/make-server-88829a40/studio/analytics/behavior', async (c) => {
           avgTimeToConvert: 18,
           steps: [
             { name: 'Visit Studio', users: 10000, conversionRate: 100, avgTime: 0 },
-            { name: 'Generate Song', users: 6240, conversionRate: 80, avgTime: 5 }
-          ]
-        }
+            { name: 'Generate Song', users: 6240, conversionRate: 80, avgTime: 5 },
+          ],
+        },
       ],
       userSegments: [
         {
           name: 'Professional Producers',
           count: 2340,
           avgRevenue: 588,
-          engagement: 92
-        }
-      ]
+          engagement: 92,
+        },
+      ],
     };
-    
+
     return c.json(mockMetrics);
   } catch (error) {
     console.error('Behavior metrics error:', error);
@@ -259,24 +282,24 @@ app.get('/make-server-88829a40/studio/analytics/behavior', async (c) => {
 app.post('/make-server-88829a40/studio/ai/optimize', async (c) => {
   try {
     const { modelId } = await c.req.json();
-    
+
     if (!modelId) {
       return c.json({ error: 'Model ID required' }, 400);
     }
 
     console.log('Optimizing model:', modelId);
-    
+
     // Simulate optimization
     const result = {
       modelId,
       optimizations: {
         speed: '+45%',
         quality: '+6.1%',
-        cost: '-32%'
+        cost: '-32%',
       },
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
-    
+
     return c.json({ success: true, result });
   } catch (error) {
     console.error('AI optimization error:', error);
@@ -289,7 +312,7 @@ app.get('/make-server-88829a40/studio/marketplace/listings', async (c) => {
   try {
     const category = c.req.query('category');
     const search = c.req.query('search');
-    
+
     // Mock marketplace data - replace with real KV store query
     const mockListings = [
       {
@@ -300,23 +323,24 @@ app.get('/make-server-88829a40/studio/marketplace/listings', async (c) => {
         price: 29.99,
         rating: 4.7,
         reviews: 89,
-        sales: 342
-      }
+        sales: 342,
+      },
     ];
-    
+
     let filtered = mockListings;
-    
+
     if (category && category !== 'all') {
-      filtered = filtered.filter(l => l.category === category);
+      filtered = filtered.filter((l) => l.category === category);
     }
-    
+
     if (search) {
-      filtered = filtered.filter(l => 
-        l.title.toLowerCase().includes(search.toLowerCase()) ||
-        l.description.toLowerCase().includes(search.toLowerCase())
+      filtered = filtered.filter(
+        (l) =>
+          l.title.toLowerCase().includes(search.toLowerCase()) ||
+          l.description.toLowerCase().includes(search.toLowerCase())
       );
     }
-    
+
     return c.json({ listings: filtered, total: filtered.length });
   } catch (error) {
     console.error('Marketplace listings error:', error);
@@ -328,24 +352,24 @@ app.get('/make-server-88829a40/studio/marketplace/listings', async (c) => {
 app.post('/make-server-88829a40/studio/collaboration/create', async (c) => {
   try {
     const { projectId, participants } = await c.req.json();
-    
+
     if (!projectId) {
       return c.json({ error: 'Project ID required' }, 400);
     }
 
     const sessionId = `collab-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    
+
     // Create WebSocket session (would integrate with Supabase Realtime)
     const session = {
       sessionId,
       projectId,
       participants: participants || [],
       startedAt: new Date().toISOString(),
-      status: 'active'
+      status: 'active',
     };
-    
+
     console.log('Created collaboration session:', sessionId);
-    
+
     return c.json({ success: true, session });
   } catch (error) {
     console.error('Collaboration creation error:', error);
@@ -361,10 +385,13 @@ app.notFound((c) => {
 // Global error handler
 app.onError((err, c) => {
   console.error('Server error:', err);
-  return c.json({ 
-    error: 'Internal server error',
-    message: err.message 
-  }, 500);
+  return c.json(
+    {
+      error: 'Internal server error',
+      message: err.message,
+    },
+    500
+  );
 });
 
 // Start the server
@@ -380,29 +407,30 @@ function getModelConfig(modelId: string) {
       provider: 'openai',
       endpoint: 'https://api.openai.com/v1/images/generations',
       maxResolution: '1024x1024',
-      costPerImage: 0.040
+      costPerImage: 0.04,
     },
     'dall-e-2': {
-      id: 'dall-e-2', 
+      id: 'dall-e-2',
       provider: 'openai',
       endpoint: 'https://api.openai.com/v1/images/generations',
       maxResolution: '1024x1024',
-      costPerImage: 0.020
+      costPerImage: 0.02,
     },
     'stable-diffusion-xl': {
       id: 'stable-diffusion-xl',
       provider: 'stability',
-      endpoint: 'https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image',
+      endpoint:
+        'https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image',
       maxResolution: '1024x1024',
-      costPerImage: 0.015
+      costPerImage: 0.015,
     },
     'midjourney-v6': {
       id: 'midjourney-v6',
-      provider: 'midjourney',  
+      provider: 'midjourney',
       endpoint: 'https://api.midjourney.com/v1/imagine',
       maxResolution: '2048x2048',
-      costPerImage: 0.025
-    }
+      costPerImage: 0.025,
+    },
   };
 
   return models[modelId];
@@ -413,12 +441,12 @@ function getModelConfig(modelId: string) {
  */
 async function generateImagesWithModel(request: any, modelConfig: any) {
   const images = [];
-  
+
   for (let i = 0; i < (request.batchCount || 1); i++) {
     try {
       let imageUrl: string;
       let imageData: any;
-      
+
       if (modelConfig.provider === 'openai') {
         imageData = await generateWithOpenAI(request, modelConfig);
         imageUrl = imageData.url;
@@ -440,7 +468,7 @@ async function generateImagesWithModel(request: any, modelConfig: any) {
         style: request.style,
         dimensions: {
           width: imageData.width || 1024,
-          height: imageData.height || 1024
+          height: imageData.height || 1024,
         },
         fileSize: imageData.fileSize || 1024000,
         createdAt: Date.now(),
@@ -452,25 +480,24 @@ async function generateImagesWithModel(request: any, modelConfig: any) {
           quality: request.quality,
           seed: request.seed,
           steps: request.steps,
-          guidanceScale: request.guidanceScale
+          guidanceScale: request.guidanceScale,
         },
         downloadCount: 0,
         likeCount: 0,
         averageRating: 0,
         cost: modelConfig.costPerImage,
-        status: 'completed'
+        status: 'completed',
       };
 
       images.push(image);
-      
+
       // Add small delay between generations to avoid rate limits
       if (i < (request.batchCount || 1) - 1) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
-      
     } catch (error) {
       console.error(`Failed to generate image ${i + 1}:`, error);
-      
+
       // Add failed image entry
       images.push({
         id: `img_failed_${Date.now()}_${i}`,
@@ -488,11 +515,11 @@ async function generateImagesWithModel(request: any, modelConfig: any) {
         averageRating: 0,
         cost: 0,
         status: 'failed',
-        error: error.message
+        error: error.message,
       });
     }
   }
-  
+
   return images;
 }
 
@@ -506,12 +533,12 @@ async function generateWithOpenAI(request: any, modelConfig: any) {
   }
 
   const dimensions = parseDimensions(request.aspectRatio);
-  
+
   const response = await fetch(modelConfig.endpoint, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${openaiKey}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${openaiKey}`,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       model: modelConfig.id,
@@ -519,8 +546,8 @@ async function generateWithOpenAI(request: any, modelConfig: any) {
       n: 1,
       size: `${dimensions.width}x${dimensions.height}`,
       quality: request.quality > 80 ? 'hd' : 'standard',
-      response_format: 'url'
-    })
+      response_format: 'url',
+    }),
   });
 
   if (!response.ok) {
@@ -529,7 +556,7 @@ async function generateWithOpenAI(request: any, modelConfig: any) {
   }
 
   const result = await response.json();
-  
+
   if (!result.data || result.data.length === 0) {
     throw new Error('No image generated by OpenAI');
   }
@@ -537,7 +564,7 @@ async function generateWithOpenAI(request: any, modelConfig: any) {
   return {
     url: result.data[0].url,
     width: dimensions.width,
-    height: dimensions.height
+    height: dimensions.height,
   };
 }
 
@@ -551,27 +578,27 @@ async function generateWithStability(request: any, modelConfig: any) {
   }
 
   const dimensions = parseDimensions(request.aspectRatio);
-  
+
   const response = await fetch(modelConfig.endpoint, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${stabilityKey}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${stabilityKey}`,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       text_prompts: [
         {
           text: request.prompt,
-          weight: 1
-        }
+          weight: 1,
+        },
       ],
       cfg_scale: request.guidanceScale || 7,
       height: dimensions.height,
       width: dimensions.width,
       steps: request.steps || 30,
       samples: 1,
-      seed: request.seed
-    })
+      seed: request.seed,
+    }),
   });
 
   if (!response.ok) {
@@ -580,7 +607,7 @@ async function generateWithStability(request: any, modelConfig: any) {
   }
 
   const result = await response.json();
-  
+
   if (!result.artifacts || result.artifacts.length === 0) {
     throw new Error('No image generated by Stability AI');
   }
@@ -592,7 +619,7 @@ async function generateWithStability(request: any, modelConfig: any) {
   return {
     url: imageUrl,
     width: dimensions.width,
-    height: dimensions.height
+    height: dimensions.height,
   };
 }
 
@@ -603,7 +630,7 @@ async function generateDemoImage(request: any): Promise<string> {
   // Use a placeholder service or return a demo image URL
   const dimensions = parseDimensions(request.aspectRatio);
   const encodedPrompt = encodeURIComponent(request.prompt.slice(0, 50));
-  
+
   return `https://picsum.photos/${dimensions.width}/${dimensions.height}?random=${Date.now()}&text=${encodedPrompt}`;
 }
 
@@ -618,7 +645,7 @@ function parseDimensions(aspectRatio: string) {
     '16:9': { width: 1024, height: 576 },
     '9:16': { width: 576, height: 1024 },
     '3:2': { width: 1024, height: 683 },
-    '2:3': { width: 683, height: 1024 }
+    '2:3': { width: 683, height: 1024 },
   };
 
   return ratioMap[aspectRatio] || ratioMap['1:1'];

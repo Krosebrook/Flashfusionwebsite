@@ -64,36 +64,34 @@ collaborationApp.post('/make-server-88829a40/collaboration/sessions', async (c) 
       createdBy: userId,
       createdAt: now,
       lastActivity: now,
-      status: 'active'
+      status: 'active',
     };
 
     // Store session in database
-    const { error } = await supabase
-      .from('collaboration_sessions')
-      .insert(session);
+    const { error } = await supabase.from('collaboration_sessions').insert(session);
 
     if (error) {
       throw error;
     }
 
     // Initialize session data
-    await supabase
-      .from('collaboration_data')
-      .insert({
-        session_id: sessionId,
-        content: '',
-        last_modified: now,
-        version: 1
-      });
+    await supabase.from('collaboration_data').insert({
+      session_id: sessionId,
+      content: '',
+      last_modified: now,
+      version: 1,
+    });
 
     return c.json({ session });
-
   } catch (error) {
     console.error('Create session error:', error);
-    return c.json({
-      error: 'Failed to create collaboration session',
-      message: error.message
-    }, 500);
+    return c.json(
+      {
+        error: 'Failed to create collaboration session',
+        message: error.message,
+      },
+      500
+    );
   }
 });
 
@@ -101,7 +99,7 @@ collaborationApp.post('/make-server-88829a40/collaboration/sessions', async (c) 
 collaborationApp.get('/make-server-88829a40/collaboration/sessions', async (c) => {
   try {
     const userId = c.req.query('userId');
-    
+
     if (!userId) {
       return c.json({ error: 'User ID required' }, 400);
     }
@@ -117,13 +115,15 @@ collaborationApp.get('/make-server-88829a40/collaboration/sessions', async (c) =
     }
 
     return c.json({ sessions: sessions || [] });
-
   } catch (error) {
     console.error('Get sessions error:', error);
-    return c.json({
-      error: 'Failed to fetch collaboration sessions',
-      message: error.message
-    }, 500);
+    return c.json(
+      {
+        error: 'Failed to fetch collaboration sessions',
+        message: error.message,
+      },
+      500
+    );
   }
 });
 
@@ -157,7 +157,7 @@ collaborationApp.post('/make-server-88829a40/collaboration/sessions/:sessionId/j
         .from('collaboration_sessions')
         .update({
           participants,
-          last_activity: new Date().toISOString()
+          last_activity: new Date().toISOString(),
         })
         .eq('id', sessionId);
 
@@ -167,16 +167,14 @@ collaborationApp.post('/make-server-88829a40/collaboration/sessions/:sessionId/j
     }
 
     // Record join event
-    await supabase
-      .from('collaboration_events')
-      .insert({
-        type: 'user_join',
-        session_id: sessionId,
-        user_id: userId,
-        username,
-        timestamp: new Date().toISOString(),
-        data: { username }
-      });
+    await supabase.from('collaboration_events').insert({
+      type: 'user_join',
+      session_id: sessionId,
+      user_id: userId,
+      username,
+      timestamp: new Date().toISOString(),
+      data: { username },
+    });
 
     // Get session data
     const { data: sessionData } = await supabase
@@ -188,121 +186,125 @@ collaborationApp.post('/make-server-88829a40/collaboration/sessions/:sessionId/j
     return c.json({
       session,
       sessionData: sessionData || { content: '', version: 1 },
-      participants
+      participants,
     });
-
   } catch (error) {
     console.error('Join session error:', error);
-    return c.json({
-      error: 'Failed to join collaboration session',
-      message: error.message
-    }, 500);
+    return c.json(
+      {
+        error: 'Failed to join collaboration session',
+        message: error.message,
+      },
+      500
+    );
   }
 });
 
 // Leave collaboration session
-collaborationApp.post('/make-server-88829a40/collaboration/sessions/:sessionId/leave', async (c) => {
-  try {
-    const sessionId = c.req.param('sessionId');
-    const { userId, username } = await c.req.json();
+collaborationApp.post(
+  '/make-server-88829a40/collaboration/sessions/:sessionId/leave',
+  async (c) => {
+    try {
+      const sessionId = c.req.param('sessionId');
+      const { userId, username } = await c.req.json();
 
-    if (!userId) {
-      return c.json({ error: 'User ID required' }, 400);
-    }
+      if (!userId) {
+        return c.json({ error: 'User ID required' }, 400);
+      }
 
-    // Get current session
-    const { data: session, error: sessionError } = await supabase
-      .from('collaboration_sessions')
-      .select('*')
-      .eq('id', sessionId)
-      .single();
+      // Get current session
+      const { data: session, error: sessionError } = await supabase
+        .from('collaboration_sessions')
+        .select('*')
+        .eq('id', sessionId)
+        .single();
 
-    if (sessionError || !session) {
-      return c.json({ error: 'Session not found' }, 404);
-    }
+      if (sessionError || !session) {
+        return c.json({ error: 'Session not found' }, 404);
+      }
 
-    // Remove user from participants
-    const participants = (session.participants || []).filter(id => id !== userId);
+      // Remove user from participants
+      const participants = (session.participants || []).filter((id) => id !== userId);
 
-    const { error: updateError } = await supabase
-      .from('collaboration_sessions')
-      .update({
-        participants,
-        last_activity: new Date().toISOString(),
-        status: participants.length === 0 ? 'ended' : session.status
-      })
-      .eq('id', sessionId);
+      const { error: updateError } = await supabase
+        .from('collaboration_sessions')
+        .update({
+          participants,
+          last_activity: new Date().toISOString(),
+          status: participants.length === 0 ? 'ended' : session.status,
+        })
+        .eq('id', sessionId);
 
-    if (updateError) {
-      throw updateError;
-    }
+      if (updateError) {
+        throw updateError;
+      }
 
-    // Record leave event
-    await supabase
-      .from('collaboration_events')
-      .insert({
+      // Record leave event
+      await supabase.from('collaboration_events').insert({
         type: 'user_leave',
         session_id: sessionId,
         user_id: userId,
         username: username || 'Unknown',
         timestamp: new Date().toISOString(),
-        data: { username }
+        data: { username },
       });
 
-    return c.json({ success: true, participants });
-
-  } catch (error) {
-    console.error('Leave session error:', error);
-    return c.json({
-      error: 'Failed to leave collaboration session',
-      message: error.message
-    }, 500);
+      return c.json({ success: true, participants });
+    } catch (error) {
+      console.error('Leave session error:', error);
+      return c.json(
+        {
+          error: 'Failed to leave collaboration session',
+          message: error.message,
+        },
+        500
+      );
+    }
   }
-});
+);
 
 // Update collaboration content
-collaborationApp.post('/make-server-88829a40/collaboration/sessions/:sessionId/content', async (c) => {
-  try {
-    const sessionId = c.req.param('sessionId');
-    const { content, userId, username, operation } = await c.req.json();
+collaborationApp.post(
+  '/make-server-88829a40/collaboration/sessions/:sessionId/content',
+  async (c) => {
+    try {
+      const sessionId = c.req.param('sessionId');
+      const { content, userId, username, operation } = await c.req.json();
 
-    if (!content && !operation) {
-      return c.json({ error: 'Content or operation required' }, 400);
-    }
+      if (!content && !operation) {
+        return c.json({ error: 'Content or operation required' }, 400);
+      }
 
-    // Get current data
-    const { data: currentData, error: fetchError } = await supabase
-      .from('collaboration_data')
-      .select('*')
-      .eq('session_id', sessionId)
-      .single();
+      // Get current data
+      const { data: currentData, error: fetchError } = await supabase
+        .from('collaboration_data')
+        .select('*')
+        .eq('session_id', sessionId)
+        .single();
 
-    if (fetchError && fetchError.code !== 'PGRST116') { // Not found is ok for new sessions
-      throw fetchError;
-    }
+      if (fetchError && fetchError.code !== 'PGRST116') {
+        // Not found is ok for new sessions
+        throw fetchError;
+      }
 
-    const newVersion = (currentData?.version || 0) + 1;
-    const now = new Date().toISOString();
+      const newVersion = (currentData?.version || 0) + 1;
+      const now = new Date().toISOString();
 
-    // Update content
-    const { error: updateError } = await supabase
-      .from('collaboration_data')
-      .upsert({
+      // Update content
+      const { error: updateError } = await supabase.from('collaboration_data').upsert({
         session_id: sessionId,
         content: content || currentData?.content || '',
         last_modified: now,
         version: newVersion,
-        last_modified_by: userId
+        last_modified_by: userId,
       });
 
-    if (updateError) {
-      throw updateError;
-    }
+      if (updateError) {
+        throw updateError;
+      }
 
-    // Record change event
-    await supabase
-      .from('collaboration_events')
-      .insert({
+      // Record change event
+      await supabase.from('collaboration_events').insert({
         type: 'text_change',
         session_id: sessionId,
         user_id: userId,
@@ -311,30 +313,33 @@ collaborationApp.post('/make-server-88829a40/collaboration/sessions/:sessionId/c
         data: {
           operation: operation || 'full_update',
           contentLength: content?.length || 0,
-          version: newVersion
-        }
+          version: newVersion,
+        },
       });
 
-    // Update session last activity
-    await supabase
-      .from('collaboration_sessions')
-      .update({ last_activity: now })
-      .eq('id', sessionId);
+      // Update session last activity
+      await supabase
+        .from('collaboration_sessions')
+        .update({ last_activity: now })
+        .eq('id', sessionId);
 
-    return c.json({
-      success: true,
-      version: newVersion,
-      timestamp: now
-    });
-
-  } catch (error) {
-    console.error('Update content error:', error);
-    return c.json({
-      error: 'Failed to update collaboration content',
-      message: error.message
-    }, 500);
+      return c.json({
+        success: true,
+        version: newVersion,
+        timestamp: now,
+      });
+    } catch (error) {
+      console.error('Update content error:', error);
+      return c.json(
+        {
+          error: 'Failed to update collaboration content',
+          message: error.message,
+        },
+        500
+      );
+    }
   }
-});
+);
 
 // Send chat message
 collaborationApp.post('/make-server-88829a40/collaboration/sessions/:sessionId/chat', async (c) => {
@@ -356,37 +361,35 @@ collaborationApp.post('/make-server-88829a40/collaboration/sessions/:sessionId/c
       userId,
       username,
       message,
-      timestamp
+      timestamp,
     };
 
-    const { error } = await supabase
-      .from('collaboration_chat')
-      .insert(chatMessage);
+    const { error } = await supabase.from('collaboration_chat').insert(chatMessage);
 
     if (error) {
       throw error;
     }
 
     // Record chat event
-    await supabase
-      .from('collaboration_events')
-      .insert({
-        type: 'chat_message',
-        session_id: sessionId,
-        user_id: userId,
-        username,
-        timestamp,
-        data: { message }
-      });
+    await supabase.from('collaboration_events').insert({
+      type: 'chat_message',
+      session_id: sessionId,
+      user_id: userId,
+      username,
+      timestamp,
+      data: { message },
+    });
 
     return c.json({ chatMessage });
-
   } catch (error) {
     console.error('Send chat message error:', error);
-    return c.json({
-      error: 'Failed to send chat message',
-      message: error.message
-    }, 500);
+    return c.json(
+      {
+        error: 'Failed to send chat message',
+        message: error.message,
+      },
+      500
+    );
   }
 });
 
@@ -408,13 +411,15 @@ collaborationApp.get('/make-server-88829a40/collaboration/sessions/:sessionId/ch
     }
 
     return c.json({ messages: (messages || []).reverse() });
-
   } catch (error) {
     console.error('Get chat messages error:', error);
-    return c.json({
-      error: 'Failed to fetch chat messages',
-      message: error.message
-    }, 500);
+    return c.json(
+      {
+        error: 'Failed to fetch chat messages',
+        message: error.message,
+      },
+      500
+    );
   }
 });
 
@@ -422,7 +427,7 @@ collaborationApp.get('/make-server-88829a40/collaboration/sessions/:sessionId/ch
 collaborationApp.get('/make-server-88829a40/collaboration/analytics', async (c) => {
   try {
     const userId = c.req.query('userId');
-    
+
     // Get session stats
     const { data: sessions, error: sessionsError } = await supabase
       .from('collaboration_sessions')
@@ -446,23 +451,29 @@ collaborationApp.get('/make-server-88829a40/collaboration/analytics', async (c) 
 
     const analytics = {
       totalSessions: sessions?.length || 0,
-      activeSessions: sessions?.filter(s => s.status === 'active').length || 0,
+      activeSessions: sessions?.filter((s) => s.status === 'active').length || 0,
       totalEvents: events?.length || 0,
-      eventsByType: events?.reduce((acc, event) => {
-        acc[event.type] = (acc[event.type] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>) || {},
-      recentActivity: events?.slice(0, 10) || []
+      eventsByType:
+        events?.reduce(
+          (acc, event) => {
+            acc[event.type] = (acc[event.type] || 0) + 1;
+            return acc;
+          },
+          {} as Record<string, number>
+        ) || {},
+      recentActivity: events?.slice(0, 10) || [],
     };
 
     return c.json({ analytics });
-
   } catch (error) {
     console.error('Get analytics error:', error);
-    return c.json({
-      error: 'Failed to fetch collaboration analytics',
-      message: error.message
-    }, 500);
+    return c.json(
+      {
+        error: 'Failed to fetch collaboration analytics',
+        message: error.message,
+      },
+      500
+    );
   }
 });
 

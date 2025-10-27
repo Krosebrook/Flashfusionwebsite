@@ -8,13 +8,13 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Rocket, 
-  Users, 
-  Share2, 
-  TrendingUp, 
-  Target, 
-  Calendar, 
+import {
+  Rocket,
+  Users,
+  Share2,
+  TrendingUp,
+  Target,
+  Calendar,
   MessageCircle,
   Mail,
   Twitter,
@@ -36,7 +36,7 @@ import {
   Download,
   Play,
   Pause,
-  Settings
+  Settings,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import { analyticsService } from '../../services/AnalyticsService';
@@ -148,30 +148,34 @@ const SOCIAL_PLATFORMS = [
   { id: 'instagram', name: 'Instagram', icon: Instagram, color: '#E4405F' },
   { id: 'youtube', name: 'YouTube', icon: Youtube, color: '#FF0000' },
   { id: 'discord', name: 'Discord', icon: MessageCircle, color: '#5865F2' },
-  { id: 'reddit', name: 'Reddit', icon: Globe, color: '#FF4500' }
+  { id: 'reddit', name: 'Reddit', icon: Globe, color: '#FF4500' },
 ];
 
 const CONTENT_TEMPLATES = [
   {
     id: 'launch-announcement',
     name: 'Launch Announcement',
-    template: '🚀 We\'re launching FlashFusion! Transform your ideas into production-ready apps with 60+ AI tools. #FlashFusion #AIDevTools #Launch'
+    template:
+      "🚀 We're launching FlashFusion! Transform your ideas into production-ready apps with 60+ AI tools. #FlashFusion #AIDevTools #Launch",
   },
   {
     id: 'feature-highlight',
     name: 'Feature Highlight',
-    template: '⚡ New Feature: [FEATURE NAME] - [BRIEF DESCRIPTION]. Build faster with FlashFusion\'s AI assistance. #FlashFusion #ProductUpdate'
+    template:
+      "⚡ New Feature: [FEATURE NAME] - [BRIEF DESCRIPTION]. Build faster with FlashFusion's AI assistance. #FlashFusion #ProductUpdate",
   },
   {
     id: 'user-testimonial',
     name: 'User Testimonial',
-    template: '"FlashFusion helped me build my app 10x faster!" - [USER NAME]. Join thousands of developers already building with AI. #FlashFusion #Testimonial'
+    template:
+      '"FlashFusion helped me build my app 10x faster!" - [USER NAME]. Join thousands of developers already building with AI. #FlashFusion #Testimonial',
   },
   {
     id: 'tutorial-post',
     name: 'Tutorial Post',
-    template: '📚 Tutorial: How to [TASK] with FlashFusion in under 5 minutes. Perfect for [TARGET AUDIENCE]. Link in bio! #Tutorial #FlashFusion'
-  }
+    template:
+      '📚 Tutorial: How to [TASK] with FlashFusion in under 5 minutes. Perfect for [TARGET AUDIENCE]. Link in bio! #Tutorial #FlashFusion',
+  },
 ];
 
 export function LaunchMarketingCampaign() {
@@ -187,7 +191,7 @@ export function LaunchMarketingCampaign() {
     platform: '',
     content: '',
     budget: 1000,
-    duration: 7
+    duration: 7,
   });
   const [isCreatingCampaign, setIsCreatingCampaign] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -214,20 +218,20 @@ export function LaunchMarketingCampaign() {
               engagement: 3400,
               clicks: 890,
               conversions: 47,
-              cost_per_acquisition: 26.60
+              cost_per_acquisition: 26.6,
             },
             content: {
               title: 'FlashFusion Launch - AI Development Revolution',
               description: 'Transform ideas into production-ready applications with 60+ AI tools',
               cta: 'Try FlashFusion Free',
-              hashtags: ['#FlashFusion', '#AIDevTools', '#Launch', '#Developer']
+              hashtags: ['#FlashFusion', '#AIDevTools', '#Launch', '#Developer'],
             },
             targeting: {
               demographics: ['Developers', 'Tech Entrepreneurs', 'Startup Founders'],
               interests: ['AI/ML', 'Software Development', 'Productivity Tools'],
               location: ['United States', 'Canada', 'United Kingdom', 'Germany'],
-              devices: ['Desktop', 'Mobile']
-            }
+              devices: ['Desktop', 'Mobile'],
+            },
           },
           {
             id: 'linkedin-b2b',
@@ -245,20 +249,21 @@ export function LaunchMarketingCampaign() {
               engagement: 0,
               clicks: 0,
               conversions: 0,
-              cost_per_acquisition: 0
+              cost_per_acquisition: 0,
             },
             content: {
               title: 'Enterprise AI Development Platform',
-              description: 'Scale your development team productivity with FlashFusion\'s enterprise-grade AI tools',
+              description:
+                "Scale your development team productivity with FlashFusion's enterprise-grade AI tools",
               cta: 'Request Demo',
-              hashtags: ['#EnterpriseAI', '#DevTools', '#Productivity']
+              hashtags: ['#EnterpriseAI', '#DevTools', '#Productivity'],
             },
             targeting: {
               demographics: ['CTOs', 'Engineering Managers', 'Tech Leads'],
               interests: ['Enterprise Software', 'AI/ML', 'DevOps'],
               location: ['United States', 'Canada', 'United Kingdom'],
-              devices: ['Desktop']
-            }
+              devices: ['Desktop'],
+            },
           },
           {
             id: 'product-hunt',
@@ -276,19 +281,20 @@ export function LaunchMarketingCampaign() {
               engagement: 1200,
               clicks: 450,
               conversions: 78,
-              cost_per_acquisition: 6.41
+              cost_per_acquisition: 6.41,
             },
             content: {
               title: 'FlashFusion - AI Development Assistant',
-              description: 'The ultimate AI-powered development platform with 60+ tools for building production-ready applications',
-              cta: 'Upvote & Try Free'
+              description:
+                'The ultimate AI-powered development platform with 60+ tools for building production-ready applications',
+              cta: 'Upvote & Try Free',
             },
             targeting: {
               demographics: ['Product Hunt Community', 'Early Adopters', 'Tech Enthusiasts'],
               interests: ['New Products', 'AI Tools', 'Developer Tools'],
               location: ['Global'],
-              devices: ['Desktop', 'Mobile']
-            }
+              devices: ['Desktop', 'Mobile'],
+            },
           },
           {
             id: 'youtube-content',
@@ -306,20 +312,20 @@ export function LaunchMarketingCampaign() {
               engagement: 8500,
               clicks: 2100,
               conversions: 156,
-              cost_per_acquisition: 24.04
+              cost_per_acquisition: 24.04,
             },
             content: {
               title: 'FlashFusion Tutorial Series',
               description: 'Learn to build full-stack applications with AI assistance',
-              cta: 'Subscribe & Try FlashFusion'
+              cta: 'Subscribe & Try FlashFusion',
             },
             targeting: {
               demographics: ['Developers', 'Students', 'Tech Enthusiasts'],
               interests: ['Programming Tutorials', 'AI/ML', 'Web Development'],
               location: ['Global'],
-              devices: ['Desktop', 'Mobile', 'TV']
-            }
-          }
+              devices: ['Desktop', 'Mobile', 'TV'],
+            },
+          },
         ];
 
         // Mock influencers
@@ -335,7 +341,7 @@ export function LaunchMarketingCampaign() {
             deliverables: ['Tweet thread', 'Retweet campaign', 'Live demo'],
             expected_reach: 80000,
             contact_date: Date.now() - 604800000,
-            campaign_date: Date.now() + 86400000
+            campaign_date: Date.now() + 86400000,
           },
           {
             id: 'inf-2',
@@ -347,7 +353,7 @@ export function LaunchMarketingCampaign() {
             fee: 5000,
             deliverables: ['Full video review', 'Shorts series', 'Community post'],
             expected_reach: 120000,
-            contact_date: Date.now() - 432000000
+            contact_date: Date.now() - 432000000,
           },
           {
             id: 'inf-3',
@@ -359,8 +365,8 @@ export function LaunchMarketingCampaign() {
             fee: 1800,
             deliverables: ['Story series', 'Reel', 'Post'],
             expected_reach: 45000,
-            contact_date: Date.now() - 172800000
-          }
+            contact_date: Date.now() - 172800000,
+          },
         ];
 
         // Mock content pieces
@@ -378,9 +384,9 @@ export function LaunchMarketingCampaign() {
               shares: 340,
               likes: 890,
               comments: 156,
-              conversion_rate: 3.2
+              conversion_rate: 3.2,
             },
-            seo_score: 92
+            seo_score: 92,
           },
           {
             id: 'content-2',
@@ -395,9 +401,9 @@ export function LaunchMarketingCampaign() {
               shares: 1200,
               likes: 3400,
               comments: 567,
-              conversion_rate: 5.8
+              conversion_rate: 5.8,
             },
-            seo_score: 87
+            seo_score: 87,
           },
           {
             id: 'content-3',
@@ -412,10 +418,10 @@ export function LaunchMarketingCampaign() {
               shares: 0,
               likes: 0,
               comments: 0,
-              conversion_rate: 0
+              conversion_rate: 0,
             },
-            seo_score: 0
-          }
+            seo_score: 0,
+          },
         ];
 
         // Mock community metrics
@@ -424,7 +430,7 @@ export function LaunchMarketingCampaign() {
             members: 2340,
             active_users: 456,
             messages_per_day: 890,
-            growth_rate: 15.2
+            growth_rate: 15.2,
           },
           twitter: {
             followers: 8900,
@@ -434,20 +440,20 @@ export function LaunchMarketingCampaign() {
               '#FlashFusion': 1240,
               '#AIDevTools': 890,
               '#BuildFaster': 567,
-              '#Developer': 2340
-            }
+              '#Developer': 2340,
+            },
           },
           github: {
             stars: 1560,
             forks: 234,
             contributors: 23,
-            issues: 45
+            issues: 45,
           },
           reddit: {
             subscribers: 1890,
             posts_per_week: 12,
-            upvote_ratio: 0.94
-          }
+            upvote_ratio: 0.94,
+          },
         };
 
         // Mock launch goals
@@ -459,7 +465,7 @@ export function LaunchMarketingCampaign() {
             current: 287,
             deadline: Date.now() + 604800000,
             priority: 'critical',
-            campaigns: ['launch-twitter', 'linkedin-b2b', 'product-hunt']
+            campaigns: ['launch-twitter', 'linkedin-b2b', 'product-hunt'],
           },
           {
             id: 'goal-social-followers',
@@ -468,7 +474,7 @@ export function LaunchMarketingCampaign() {
             current: 8900,
             deadline: Date.now() + 1209600000,
             priority: 'high',
-            campaigns: ['launch-twitter', 'youtube-content']
+            campaigns: ['launch-twitter', 'youtube-content'],
           },
           {
             id: 'goal-community-members',
@@ -477,7 +483,7 @@ export function LaunchMarketingCampaign() {
             current: 2340,
             deadline: Date.now() + 1209600000,
             priority: 'medium',
-            campaigns: ['youtube-content']
+            campaigns: ['youtube-content'],
           },
           {
             id: 'goal-content-views',
@@ -486,8 +492,8 @@ export function LaunchMarketingCampaign() {
             current: 57500,
             deadline: Date.now() + 1814400000,
             priority: 'medium',
-            campaigns: ['youtube-content']
-          }
+            campaigns: ['youtube-content'],
+          },
         ];
 
         setCampaigns(mockCampaigns);
@@ -495,7 +501,6 @@ export function LaunchMarketingCampaign() {
         setContentPieces(mockContent);
         setCommunityMetrics(mockCommunityMetrics);
         setLaunchGoals(mockGoals);
-
       } catch (error) {
         console.error('Failed to load marketing data:', error);
       } finally {
@@ -516,7 +521,7 @@ export function LaunchMarketingCampaign() {
 
     try {
       // Simulate campaign creation
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       const campaign: MarketingCampaign = {
         id: `campaign-${Date.now()}`,
@@ -525,7 +530,7 @@ export function LaunchMarketingCampaign() {
         platform: newCampaign.platform,
         status: 'draft',
         startDate: Date.now() + 86400000,
-        endDate: Date.now() + (newCampaign.duration * 86400000),
+        endDate: Date.now() + newCampaign.duration * 86400000,
         budget: newCampaign.budget,
         spent: 0,
         metrics: {
@@ -534,24 +539,24 @@ export function LaunchMarketingCampaign() {
           engagement: 0,
           clicks: 0,
           conversions: 0,
-          cost_per_acquisition: 0
+          cost_per_acquisition: 0,
         },
         content: {
           title: newCampaign.name,
           description: newCampaign.content,
           cta: 'Try FlashFusion Free',
-          hashtags: ['#FlashFusion']
+          hashtags: ['#FlashFusion'],
         },
         targeting: {
           demographics: ['Developers'],
           interests: ['Software Development'],
           location: ['United States'],
-          devices: ['Desktop', 'Mobile']
-        }
+          devices: ['Desktop', 'Mobile'],
+        },
       };
 
-      setCampaigns(prev => [campaign, ...prev]);
-      
+      setCampaigns((prev) => [campaign, ...prev]);
+
       // Reset form
       setNewCampaign({
         name: '',
@@ -559,16 +564,15 @@ export function LaunchMarketingCampaign() {
         platform: '',
         content: '',
         budget: 1000,
-        duration: 7
+        duration: 7,
       });
 
       toast.success('Campaign created successfully!');
       analyticsService.trackFeatureUsage('campaign-created', {
         type: campaign.type,
         platform: campaign.platform,
-        budget: campaign.budget
+        budget: campaign.budget,
       });
-
     } catch (error) {
       toast.error('Failed to create campaign');
     } finally {
@@ -577,21 +581,23 @@ export function LaunchMarketingCampaign() {
   }, [newCampaign]);
 
   const handleLaunchCampaign = useCallback((campaignId: string) => {
-    setCampaigns(prev => prev.map(campaign => 
-      campaign.id === campaignId 
-        ? { ...campaign, status: 'active', startDate: Date.now() }
-        : campaign
-    ));
+    setCampaigns((prev) =>
+      prev.map((campaign) =>
+        campaign.id === campaignId
+          ? { ...campaign, status: 'active', startDate: Date.now() }
+          : campaign
+      )
+    );
     toast.success('Campaign launched successfully!');
     analyticsService.trackFeatureUsage('campaign-launched', { campaignId });
   }, []);
 
   const handlePauseCampaign = useCallback((campaignId: string) => {
-    setCampaigns(prev => prev.map(campaign => 
-      campaign.id === campaignId 
-        ? { ...campaign, status: 'paused' }
-        : campaign
-    ));
+    setCampaigns((prev) =>
+      prev.map((campaign) =>
+        campaign.id === campaignId ? { ...campaign, status: 'paused' } : campaign
+      )
+    );
     toast.info('Campaign paused');
   }, []);
 
@@ -603,11 +609,14 @@ export function LaunchMarketingCampaign() {
   const totalBudget = campaigns.reduce((sum, campaign) => sum + campaign.budget, 0);
   const totalSpent = campaigns.reduce((sum, campaign) => sum + campaign.spent, 0);
   const totalReach = campaigns.reduce((sum, campaign) => sum + campaign.metrics.reach, 0);
-  const totalConversions = campaigns.reduce((sum, campaign) => sum + campaign.metrics.conversions, 0);
+  const totalConversions = campaigns.reduce(
+    (sum, campaign) => sum + campaign.metrics.conversions,
+    0
+  );
   const avgCAC = totalSpent > 0 && totalConversions > 0 ? totalSpent / totalConversions : 0;
 
-  const activeCampaigns = campaigns.filter(c => c.status === 'active').length;
-  const completedGoals = launchGoals.filter(goal => goal.current >= goal.target).length;
+  const activeCampaigns = campaigns.filter((c) => c.status === 'active').length;
+  const completedGoals = launchGoals.filter((goal) => goal.current >= goal.target).length;
 
   if (isLoading) {
     return (
@@ -639,20 +648,17 @@ export function LaunchMarketingCampaign() {
             Drive user acquisition and build community for FlashFusion's successful launch
           </p>
         </div>
-        
+
         <div className="flex items-center gap-3">
-          <Badge 
+          <Badge
             variant={activeCampaigns > 0 ? 'default' : 'secondary'}
             className={`font-medium ${activeCampaigns > 0 ? 'ff-badge-glow' : ''}`}
           >
             <Rocket className="h-3 w-3 mr-1" />
             {activeCampaigns} Active Campaign{activeCampaigns === 1 ? '' : 's'}
           </Badge>
-          
-          <Button
-            onClick={() => setSelectedCampaign(null)}
-            className="ff-btn-primary"
-          >
+
+          <Button onClick={() => setSelectedCampaign(null)} className="ff-btn-primary">
             <Megaphone className="h-4 w-4 mr-2" />
             Create Campaign
           </Button>
@@ -670,9 +676,7 @@ export function LaunchMarketingCampaign() {
               <h3 className="font-medium">Total Reach</h3>
             </div>
             <p className="text-2xl font-bold">{totalReach.toLocaleString()}</p>
-            <p className="text-sm text-muted-foreground">
-              {totalConversions} conversions
-            </p>
+            <p className="text-sm text-muted-foreground">{totalConversions} conversions</p>
           </CardContent>
         </Card>
 
@@ -685,11 +689,13 @@ export function LaunchMarketingCampaign() {
               <h3 className="font-medium">Community</h3>
             </div>
             <p className="text-2xl font-bold">
-              {communityMetrics ? (
-                communityMetrics.discord.members + 
-                communityMetrics.twitter.followers + 
-                communityMetrics.reddit.subscribers
-              ).toLocaleString() : '0'}
+              {communityMetrics
+                ? (
+                    communityMetrics.discord.members +
+                    communityMetrics.twitter.followers +
+                    communityMetrics.reddit.subscribers
+                  ).toLocaleString()
+                : '0'}
             </p>
             <p className="text-sm text-muted-foreground">Total members</p>
           </CardContent>
@@ -718,7 +724,9 @@ export function LaunchMarketingCampaign() {
               </div>
               <h3 className="font-medium">CAC</h3>
             </div>
-            <p className={`text-2xl font-bold ${avgCAC > 50 ? 'text-red-500' : avgCAC > 25 ? 'text-yellow-500' : 'text-green-500'}`}>
+            <p
+              className={`text-2xl font-bold ${avgCAC > 50 ? 'text-red-500' : avgCAC > 25 ? 'text-yellow-500' : 'text-green-500'}`}
+            >
               ${avgCAC.toFixed(2)}
             </p>
             <p className="text-sm text-muted-foreground">Avg cost per acquisition</p>
@@ -778,14 +786,21 @@ export function LaunchMarketingCampaign() {
                     <Input
                       placeholder="e.g., Twitter Launch Campaign"
                       value={newCampaign.name}
-                      onChange={(e) => setNewCampaign(prev => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) =>
+                        setNewCampaign((prev) => ({ ...prev, name: e.target.value }))
+                      }
                       className="ff-focus-ring"
                     />
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Campaign Type</label>
-                    <Select value={newCampaign.type} onValueChange={(value) => setNewCampaign(prev => ({ ...prev, type: value as any }))}>
+                    <Select
+                      value={newCampaign.type}
+                      onValueChange={(value) =>
+                        setNewCampaign((prev) => ({ ...prev, type: value as any }))
+                      }
+                    >
                       <SelectTrigger className="ff-focus-ring">
                         <SelectValue />
                       </SelectTrigger>
@@ -802,7 +817,12 @@ export function LaunchMarketingCampaign() {
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Platform</label>
-                    <Select value={newCampaign.platform} onValueChange={(value) => setNewCampaign(prev => ({ ...prev, platform: value }))}>
+                    <Select
+                      value={newCampaign.platform}
+                      onValueChange={(value) =>
+                        setNewCampaign((prev) => ({ ...prev, platform: value }))
+                      }
+                    >
                       <SelectTrigger className="ff-focus-ring">
                         <SelectValue placeholder="Select platform" />
                       </SelectTrigger>
@@ -821,7 +841,12 @@ export function LaunchMarketingCampaign() {
                     <Input
                       type="number"
                       value={newCampaign.budget}
-                      onChange={(e) => setNewCampaign(prev => ({ ...prev, budget: parseInt(e.target.value) || 0 }))}
+                      onChange={(e) =>
+                        setNewCampaign((prev) => ({
+                          ...prev,
+                          budget: parseInt(e.target.value) || 0,
+                        }))
+                      }
                       className="ff-focus-ring"
                     />
                   </div>
@@ -832,7 +857,9 @@ export function LaunchMarketingCampaign() {
                   <Textarea
                     placeholder="Describe your campaign content, messaging, and objectives..."
                     value={newCampaign.content}
-                    onChange={(e) => setNewCampaign(prev => ({ ...prev, content: e.target.value }))}
+                    onChange={(e) =>
+                      setNewCampaign((prev) => ({ ...prev, content: e.target.value }))
+                    }
                     className="ff-focus-ring resize-none"
                     rows={3}
                   />
@@ -841,7 +868,9 @@ export function LaunchMarketingCampaign() {
                 <div className="flex justify-end">
                   <Button
                     onClick={handleCreateCampaign}
-                    disabled={isCreatingCampaign || !newCampaign.name.trim() || !newCampaign.platform}
+                    disabled={
+                      isCreatingCampaign || !newCampaign.name.trim() || !newCampaign.platform
+                    }
                     className="ff-btn-primary"
                   >
                     {isCreatingCampaign ? (
@@ -864,11 +893,16 @@ export function LaunchMarketingCampaign() {
           {/* Campaign List */}
           <div className="space-y-4">
             {campaigns.map((campaign) => (
-              <Card key={campaign.id} className={`ff-card-interactive ${
-                campaign.status === 'active' ? 'border-green-500/20 bg-green-500/5' :
-                campaign.status === 'scheduled' ? 'border-blue-500/20 bg-blue-500/5' :
-                ''
-              }`}>
+              <Card
+                key={campaign.id}
+                className={`ff-card-interactive ${
+                  campaign.status === 'active'
+                    ? 'border-green-500/20 bg-green-500/5'
+                    : campaign.status === 'scheduled'
+                      ? 'border-blue-500/20 bg-blue-500/5'
+                      : ''
+                }`}
+              >
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="space-y-4 flex-1">
@@ -877,18 +911,26 @@ export function LaunchMarketingCampaign() {
                         <Badge variant="outline" className="capitalize">
                           {campaign.platform}
                         </Badge>
-                        <Badge variant={
-                          campaign.status === 'active' ? 'default' :
-                          campaign.status === 'scheduled' ? 'secondary' :
-                          campaign.status === 'completed' ? 'outline' :
-                          'destructive'
-                        } className={campaign.status === 'active' ? 'ff-badge-glow' : ''}>
+                        <Badge
+                          variant={
+                            campaign.status === 'active'
+                              ? 'default'
+                              : campaign.status === 'scheduled'
+                                ? 'secondary'
+                                : campaign.status === 'completed'
+                                  ? 'outline'
+                                  : 'destructive'
+                          }
+                          className={campaign.status === 'active' ? 'ff-badge-glow' : ''}
+                        >
                           {campaign.status}
                         </Badge>
                       </div>
-                      
-                      <p className="text-sm text-muted-foreground">{campaign.content.description}</p>
-                      
+
+                      <p className="text-sm text-muted-foreground">
+                        {campaign.content.description}
+                      </p>
+
                       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
                         <div>
                           <span className="text-muted-foreground">Reach:</span>
@@ -896,7 +938,9 @@ export function LaunchMarketingCampaign() {
                         </div>
                         <div>
                           <span className="text-muted-foreground">Engagement:</span>
-                          <p className="font-medium">{campaign.metrics.engagement.toLocaleString()}</p>
+                          <p className="font-medium">
+                            {campaign.metrics.engagement.toLocaleString()}
+                          </p>
                         </div>
                         <div>
                           <span className="text-muted-foreground">Conversions:</span>
@@ -908,21 +952,26 @@ export function LaunchMarketingCampaign() {
                         </div>
                         <div>
                           <span className="text-muted-foreground">CAC:</span>
-                          <p className={`font-medium ${campaign.metrics.cost_per_acquisition > 50 ? 'text-red-500' : campaign.metrics.cost_per_acquisition > 25 ? 'text-yellow-500' : 'text-green-500'}`}>
+                          <p
+                            className={`font-medium ${campaign.metrics.cost_per_acquisition > 50 ? 'text-red-500' : campaign.metrics.cost_per_acquisition > 25 ? 'text-yellow-500' : 'text-green-500'}`}
+                          >
                             ${campaign.metrics.cost_per_acquisition.toFixed(2)}
                           </p>
                         </div>
                       </div>
-                      
+
                       <div className="space-y-1">
                         <div className="flex justify-between text-xs text-muted-foreground">
                           <span>Budget Usage</span>
                           <span>{((campaign.spent / campaign.budget) * 100).toFixed(0)}%</span>
                         </div>
-                        <Progress value={(campaign.spent / campaign.budget) * 100} className="h-2" />
+                        <Progress
+                          value={(campaign.spent / campaign.budget) * 100}
+                          className="h-2"
+                        />
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-2 ml-6">
                       {campaign.status === 'draft' && (
                         <Button
@@ -934,7 +983,7 @@ export function LaunchMarketingCampaign() {
                           Launch
                         </Button>
                       )}
-                      
+
                       {campaign.status === 'active' && (
                         <Button
                           size="sm"
@@ -946,12 +995,8 @@ export function LaunchMarketingCampaign() {
                           Pause
                         </Button>
                       )}
-                      
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="ff-focus-ring"
-                      >
+
+                      <Button size="sm" variant="ghost" className="ff-focus-ring">
                         <Settings className="h-4 w-4" />
                       </Button>
                     </div>
@@ -965,11 +1010,16 @@ export function LaunchMarketingCampaign() {
         <TabsContent value="content" className="space-y-4">
           <div className="space-y-4">
             {contentPieces.map((content) => (
-              <Card key={content.id} className={`ff-card-interactive ${
-                content.status === 'published' ? 'border-green-500/20 bg-green-500/5' :
-                content.status === 'approved' ? 'border-blue-500/20 bg-blue-500/5' :
-                ''
-              }`}>
+              <Card
+                key={content.id}
+                className={`ff-card-interactive ${
+                  content.status === 'published'
+                    ? 'border-green-500/20 bg-green-500/5'
+                    : content.status === 'approved'
+                      ? 'border-blue-500/20 bg-blue-500/5'
+                      : ''
+                }`}
+              >
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="space-y-3 flex-1">
@@ -978,15 +1028,19 @@ export function LaunchMarketingCampaign() {
                         <Badge variant="outline" className="capitalize">
                           {content.type.replace('_', ' ')}
                         </Badge>
-                        <Badge variant={
-                          content.status === 'published' ? 'default' :
-                          content.status === 'approved' ? 'secondary' :
-                          'outline'
-                        }>
+                        <Badge
+                          variant={
+                            content.status === 'published'
+                              ? 'default'
+                              : content.status === 'approved'
+                                ? 'secondary'
+                                : 'outline'
+                          }
+                        >
                           {content.status.replace('_', ' ')}
                         </Badge>
                       </div>
-                      
+
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-muted-foreground">Platforms:</span>
                         {content.platform.map((platform) => (
@@ -995,44 +1049,57 @@ export function LaunchMarketingCampaign() {
                           </Badge>
                         ))}
                       </div>
-                      
+
                       {content.status === 'published' && (
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
                           <div>
                             <span className="text-muted-foreground">Views:</span>
-                            <p className="font-medium">{content.performance.views.toLocaleString()}</p>
+                            <p className="font-medium">
+                              {content.performance.views.toLocaleString()}
+                            </p>
                           </div>
                           <div>
                             <span className="text-muted-foreground">Shares:</span>
-                            <p className="font-medium">{content.performance.shares.toLocaleString()}</p>
+                            <p className="font-medium">
+                              {content.performance.shares.toLocaleString()}
+                            </p>
                           </div>
                           <div>
                             <span className="text-muted-foreground">Likes:</span>
-                            <p className="font-medium">{content.performance.likes.toLocaleString()}</p>
+                            <p className="font-medium">
+                              {content.performance.likes.toLocaleString()}
+                            </p>
                           </div>
                           <div>
                             <span className="text-muted-foreground">Comments:</span>
-                            <p className="font-medium">{content.performance.comments.toLocaleString()}</p>
+                            <p className="font-medium">
+                              {content.performance.comments.toLocaleString()}
+                            </p>
                           </div>
                           <div>
                             <span className="text-muted-foreground">Conversion:</span>
-                            <p className="font-medium">{content.performance.conversion_rate.toFixed(1)}%</p>
+                            <p className="font-medium">
+                              {content.performance.conversion_rate.toFixed(1)}%
+                            </p>
                           </div>
                         </div>
                       )}
-                      
+
                       <div className="flex items-center justify-between text-sm text-muted-foreground">
                         <span>Author: {content.author}</span>
                         <span>
-                          {content.status === 'published' ? 'Published' : 'Scheduled'}: {new Date(content.publish_date).toLocaleDateString()}
+                          {content.status === 'published' ? 'Published' : 'Scheduled'}:{' '}
+                          {new Date(content.publish_date).toLocaleDateString()}
                         </span>
                       </div>
                     </div>
-                    
+
                     <div className="ml-6">
                       {content.seo_score > 0 && (
                         <div className="text-center">
-                          <div className={`text-lg font-bold ${content.seo_score >= 90 ? 'text-green-500' : content.seo_score >= 70 ? 'text-yellow-500' : 'text-red-500'}`}>
+                          <div
+                            className={`text-lg font-bold ${content.seo_score >= 90 ? 'text-green-500' : content.seo_score >= 70 ? 'text-yellow-500' : 'text-red-500'}`}
+                          >
                             {content.seo_score}
                           </div>
                           <p className="text-xs text-muted-foreground">SEO Score</p>
@@ -1049,26 +1116,35 @@ export function LaunchMarketingCampaign() {
         <TabsContent value="influencers" className="space-y-4">
           <div className="space-y-4">
             {influencers.map((influencer) => (
-              <Card key={influencer.id} className={`ff-card-interactive ${
-                influencer.status === 'confirmed' ? 'border-green-500/20 bg-green-500/5' :
-                influencer.status === 'negotiating' ? 'border-yellow-500/20 bg-yellow-500/5' :
-                ''
-              }`}>
+              <Card
+                key={influencer.id}
+                className={`ff-card-interactive ${
+                  influencer.status === 'confirmed'
+                    ? 'border-green-500/20 bg-green-500/5'
+                    : influencer.status === 'negotiating'
+                      ? 'border-yellow-500/20 bg-yellow-500/5'
+                      : ''
+                }`}
+              >
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="space-y-4 flex-1">
                       <div className="flex items-center gap-3">
                         <h4 className="font-medium">{influencer.name}</h4>
                         <Badge variant="outline">{influencer.platform}</Badge>
-                        <Badge variant={
-                          influencer.status === 'confirmed' ? 'default' :
-                          influencer.status === 'negotiating' ? 'secondary' :
-                          'outline'
-                        }>
+                        <Badge
+                          variant={
+                            influencer.status === 'confirmed'
+                              ? 'default'
+                              : influencer.status === 'negotiating'
+                                ? 'secondary'
+                                : 'outline'
+                          }
+                        >
                           {influencer.status.replace('_', ' ')}
                         </Badge>
                       </div>
-                      
+
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                         <div>
                           <span className="text-muted-foreground">Followers:</span>
@@ -1084,10 +1160,12 @@ export function LaunchMarketingCampaign() {
                         </div>
                         <div>
                           <span className="text-muted-foreground">Expected Reach:</span>
-                          <p className="font-medium">{influencer.expected_reach.toLocaleString()}</p>
+                          <p className="font-medium">
+                            {influencer.expected_reach.toLocaleString()}
+                          </p>
                         </div>
                       </div>
-                      
+
                       <div className="space-y-2">
                         <p className="text-sm font-medium">Deliverables:</p>
                         <div className="flex flex-wrap gap-1">
@@ -1098,15 +1176,19 @@ export function LaunchMarketingCampaign() {
                           ))}
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         {influencer.contact_date && (
-                          <span>Contacted: {new Date(influencer.contact_date).toLocaleDateString()}</span>
+                          <span>
+                            Contacted: {new Date(influencer.contact_date).toLocaleDateString()}
+                          </span>
                         )}
                         {influencer.campaign_date && (
                           <>
                             <span>•</span>
-                            <span>Campaign: {new Date(influencer.campaign_date).toLocaleDateString()}</span>
+                            <span>
+                              Campaign: {new Date(influencer.campaign_date).toLocaleDateString()}
+                            </span>
                           </>
                         )}
                       </div>
@@ -1132,19 +1214,27 @@ export function LaunchMarketingCampaign() {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="text-muted-foreground">Members:</span>
-                      <p className="font-medium text-lg">{communityMetrics.discord.members.toLocaleString()}</p>
+                      <p className="font-medium text-lg">
+                        {communityMetrics.discord.members.toLocaleString()}
+                      </p>
                     </div>
                     <div>
                       <span className="text-muted-foreground">Active Users:</span>
-                      <p className="font-medium text-lg">{communityMetrics.discord.active_users.toLocaleString()}</p>
+                      <p className="font-medium text-lg">
+                        {communityMetrics.discord.active_users.toLocaleString()}
+                      </p>
                     </div>
                     <div>
                       <span className="text-muted-foreground">Messages/Day:</span>
-                      <p className="font-medium text-lg">{communityMetrics.discord.messages_per_day.toLocaleString()}</p>
+                      <p className="font-medium text-lg">
+                        {communityMetrics.discord.messages_per_day.toLocaleString()}
+                      </p>
                     </div>
                     <div>
                       <span className="text-muted-foreground">Growth Rate:</span>
-                      <p className="font-medium text-lg text-green-500">+{communityMetrics.discord.growth_rate}%</p>
+                      <p className="font-medium text-lg text-green-500">
+                        +{communityMetrics.discord.growth_rate}%
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -1161,11 +1251,15 @@ export function LaunchMarketingCampaign() {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="text-muted-foreground">Followers:</span>
-                      <p className="font-medium text-lg">{communityMetrics.twitter.followers.toLocaleString()}</p>
+                      <p className="font-medium text-lg">
+                        {communityMetrics.twitter.followers.toLocaleString()}
+                      </p>
                     </div>
                     <div>
                       <span className="text-muted-foreground">Engagement:</span>
-                      <p className="font-medium text-lg">{communityMetrics.twitter.engagement_rate}%</p>
+                      <p className="font-medium text-lg">
+                        {communityMetrics.twitter.engagement_rate}%
+                      </p>
                     </div>
                     <div>
                       <span className="text-muted-foreground">Mentions:</span>
@@ -1190,11 +1284,15 @@ export function LaunchMarketingCampaign() {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="text-muted-foreground">Stars:</span>
-                      <p className="font-medium text-lg">{communityMetrics.github.stars.toLocaleString()}</p>
+                      <p className="font-medium text-lg">
+                        {communityMetrics.github.stars.toLocaleString()}
+                      </p>
                     </div>
                     <div>
                       <span className="text-muted-foreground">Forks:</span>
-                      <p className="font-medium text-lg">{communityMetrics.github.forks.toLocaleString()}</p>
+                      <p className="font-medium text-lg">
+                        {communityMetrics.github.forks.toLocaleString()}
+                      </p>
                     </div>
                     <div>
                       <span className="text-muted-foreground">Contributors:</span>
@@ -1219,15 +1317,21 @@ export function LaunchMarketingCampaign() {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="text-muted-foreground">Subscribers:</span>
-                      <p className="font-medium text-lg">{communityMetrics.reddit.subscribers.toLocaleString()}</p>
+                      <p className="font-medium text-lg">
+                        {communityMetrics.reddit.subscribers.toLocaleString()}
+                      </p>
                     </div>
                     <div>
                       <span className="text-muted-foreground">Posts/Week:</span>
-                      <p className="font-medium text-lg">{communityMetrics.reddit.posts_per_week}</p>
+                      <p className="font-medium text-lg">
+                        {communityMetrics.reddit.posts_per_week}
+                      </p>
                     </div>
                     <div>
                       <span className="text-muted-foreground">Upvote Ratio:</span>
-                      <p className="font-medium text-lg">{(communityMetrics.reddit.upvote_ratio * 100).toFixed(0)}%</p>
+                      <p className="font-medium text-lg">
+                        {(communityMetrics.reddit.upvote_ratio * 100).toFixed(0)}%
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -1242,31 +1346,36 @@ export function LaunchMarketingCampaign() {
               const progress = (goal.current / goal.target) * 100;
               const isCompleted = progress >= 100;
               const daysLeft = Math.max(0, Math.ceil((goal.deadline - Date.now()) / 86400000));
-              
+
               return (
-                <Card key={goal.id} className={`ff-card-interactive ${isCompleted ? 'border-green-500/20 bg-green-500/5' : ''}`}>
+                <Card
+                  key={goal.id}
+                  className={`ff-card-interactive ${isCompleted ? 'border-green-500/20 bg-green-500/5' : ''}`}
+                >
                   <CardContent className="p-6">
                     <div className="space-y-4">
                       <div className="flex items-start justify-between">
                         <div className="space-y-2">
                           <div className="flex items-center gap-3">
                             <h4 className="font-medium text-lg">{goal.metric}</h4>
-                            <Badge variant={
-                              goal.priority === 'critical' ? 'destructive' :
-                              goal.priority === 'high' ? 'default' :
-                              'secondary'
-                            }>
+                            <Badge
+                              variant={
+                                goal.priority === 'critical'
+                                  ? 'destructive'
+                                  : goal.priority === 'high'
+                                    ? 'default'
+                                    : 'secondary'
+                              }
+                            >
                               {goal.priority}
                             </Badge>
-                            {isCompleted && (
-                              <CheckCircle className="h-5 w-5 text-green-500" />
-                            )}
+                            {isCompleted && <CheckCircle className="h-5 w-5 text-green-500" />}
                           </div>
-                          
+
                           <div className="flex items-center gap-2">
                             <span className="text-sm text-muted-foreground">Campaigns:</span>
                             {goal.campaigns.map((campaignId) => {
-                              const campaign = campaigns.find(c => c.id === campaignId);
+                              const campaign = campaigns.find((c) => c.id === campaignId);
                               return campaign ? (
                                 <Badge key={campaignId} variant="outline" className="text-xs">
                                   {campaign.platform}
@@ -1275,9 +1384,11 @@ export function LaunchMarketingCampaign() {
                             })}
                           </div>
                         </div>
-                        
+
                         <div className="text-right">
-                          <div className={`text-2xl font-bold ${isCompleted ? 'text-green-500' : 'text-primary'}`}>
+                          <div
+                            className={`text-2xl font-bold ${isCompleted ? 'text-green-500' : 'text-primary'}`}
+                          >
                             {goal.current.toLocaleString()}
                           </div>
                           <p className="text-sm text-muted-foreground">
@@ -1285,11 +1396,13 @@ export function LaunchMarketingCampaign() {
                           </p>
                         </div>
                       </div>
-                      
+
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span>Progress: {progress.toFixed(0)}%</span>
-                          <span className={`${daysLeft <= 3 ? 'text-red-500' : daysLeft <= 7 ? 'text-yellow-500' : 'text-muted-foreground'}`}>
+                          <span
+                            className={`${daysLeft <= 3 ? 'text-red-500' : daysLeft <= 7 ? 'text-yellow-500' : 'text-muted-foreground'}`}
+                          >
                             {daysLeft} days left
                           </span>
                         </div>
@@ -1318,11 +1431,9 @@ export function LaunchMarketingCampaign() {
                   <CardContent className="p-6">
                     <div className="space-y-4">
                       <h4 className="font-medium">{template.name}</h4>
-                      
-                      <div className="p-3 bg-muted/30 rounded-lg text-sm">
-                        {template.template}
-                      </div>
-                      
+
+                      <div className="p-3 bg-muted/30 rounded-lg text-sm">{template.template}</div>
+
                       <Button
                         size="sm"
                         variant="outline"

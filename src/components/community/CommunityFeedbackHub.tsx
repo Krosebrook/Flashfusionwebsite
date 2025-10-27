@@ -8,13 +8,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  MessageSquare, 
-  ThumbsUp, 
-  ThumbsDown, 
-  Star, 
-  Send, 
-  Users, 
+import {
+  MessageSquare,
+  ThumbsUp,
+  ThumbsDown,
+  Star,
+  Send,
+  Users,
   TrendingUp,
   Lightbulb,
   Bug,
@@ -34,7 +34,7 @@ import {
   Flag,
   Reply,
   Edit,
-  MoreHorizontal
+  MoreHorizontal,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import { analyticsService } from '../../services/AnalyticsService';
@@ -121,7 +121,7 @@ export function CommunityFeedbackHub() {
     priority: 'all',
     category: 'all',
     sortBy: 'newest',
-    searchQuery: ''
+    searchQuery: '',
   });
   const [selectedFeedback, setSelectedFeedback] = useState<FeedbackItem | null>(null);
   const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
@@ -129,7 +129,7 @@ export function CommunityFeedbackHub() {
     type: 'feedback' as FeedbackItem['type'],
     title: '',
     description: '',
-    category: 'general'
+    category: 'general',
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -138,7 +138,7 @@ export function CommunityFeedbackHub() {
     id: 'user-1',
     name: 'John Doe',
     avatar: '',
-    verified: true
+    verified: true,
   };
 
   // Initialize feedback data
@@ -151,13 +151,14 @@ export function CommunityFeedbackHub() {
             id: 'feedback-1',
             type: 'feature-request',
             title: 'Add Dark Mode Support',
-            description: 'It would be great to have a dark mode option for better user experience during night coding sessions.',
+            description:
+              'It would be great to have a dark mode option for better user experience during night coding sessions.',
             author: {
               id: 'user-2',
               name: 'Sarah Chen',
               avatar: '',
               badge: 'Beta Tester',
-              verified: true
+              verified: true,
             },
             status: 'in-progress',
             priority: 'medium',
@@ -173,29 +174,31 @@ export function CommunityFeedbackHub() {
                   id: 'admin-1',
                   name: 'FlashFusion Team',
                   avatar: '',
-                  badge: 'Team'
+                  badge: 'Team',
                 },
-                content: 'Thanks for the suggestion! We\'re actively working on dark mode support. It will be included in the next major update.',
+                content:
+                  "Thanks for the suggestion! We're actively working on dark mode support. It will be included in the next major update.",
                 timestamp: Date.now() - 86400000,
-                votes: { up: 12, down: 0 }
-              }
+                votes: { up: 12, down: 0 },
+              },
             ],
             adminResponse: {
-              message: 'We\'re planning to implement this in Q1 2024. Thanks for the feedback!',
+              message: "We're planning to implement this in Q1 2024. Thanks for the feedback!",
               timestamp: Date.now() - 86400000,
-              author: 'Product Team'
-            }
+              author: 'Product Team',
+            },
           },
           {
             id: 'feedback-2',
             type: 'bug-report',
             title: 'Code Generator Sometimes Produces Invalid Syntax',
-            description: 'When generating React components with complex props, the code generator occasionally produces invalid TypeScript syntax that doesn\'t compile.',
+            description:
+              "When generating React components with complex props, the code generator occasionally produces invalid TypeScript syntax that doesn't compile.",
             author: {
               id: 'user-3',
               name: 'Mike Rodriguez',
               avatar: '',
-              verified: false
+              verified: false,
             },
             status: 'open',
             priority: 'high',
@@ -211,25 +214,27 @@ export function CommunityFeedbackHub() {
                   id: 'user-4',
                   name: 'Alex Thompson',
                   avatar: '',
-                  badge: 'Pro User'
+                  badge: 'Pro User',
                 },
-                content: 'I\'ve experienced this too. It happens specifically with union types and generic constraints.',
+                content:
+                  "I've experienced this too. It happens specifically with union types and generic constraints.",
                 timestamp: Date.now() - 172800000,
-                votes: { up: 8, down: 0 }
-              }
-            ]
+                votes: { up: 8, down: 0 },
+              },
+            ],
           },
           {
             id: 'feedback-3',
             type: 'idea',
             title: 'AI-Powered Code Review Assistant',
-            description: 'What if FlashFusion had an AI assistant that could review generated code and suggest improvements, optimizations, and best practices?',
+            description:
+              'What if FlashFusion had an AI assistant that could review generated code and suggest improvements, optimizations, and best practices?',
             author: {
               id: 'user-5',
               name: 'Emily Davis',
               avatar: '',
               badge: 'Community Leader',
-              verified: true
+              verified: true,
             },
             status: 'open',
             priority: 'low',
@@ -238,18 +243,19 @@ export function CommunityFeedbackHub() {
             category: 'features',
             createdAt: Date.now() - 432000000, // 5 days ago
             updatedAt: Date.now() - 259200000, // 3 days ago
-            comments: []
+            comments: [],
           },
           {
             id: 'feedback-4',
             type: 'feedback',
             title: 'Amazing Platform! Minor UI Suggestions',
-            description: 'FlashFusion has been a game-changer for our team. The AI tools are incredibly powerful. Just a few minor UI improvements could make it even better.',
+            description:
+              'FlashFusion has been a game-changer for our team. The AI tools are incredibly powerful. Just a few minor UI improvements could make it even better.',
             author: {
               id: 'user-6',
               name: 'David Park',
               avatar: '',
-              verified: true
+              verified: true,
             },
             status: 'open',
             priority: 'low',
@@ -265,25 +271,27 @@ export function CommunityFeedbackHub() {
                   id: 'admin-2',
                   name: 'Design Team',
                   avatar: '',
-                  badge: 'Team'
+                  badge: 'Team',
                 },
-                content: 'Thank you for the kind words! We\'d love to hear your specific UI suggestions.',
+                content:
+                  "Thank you for the kind words! We'd love to hear your specific UI suggestions.",
                 timestamp: Date.now() - 345600000,
-                votes: { up: 5, down: 0 }
-              }
-            ]
+                votes: { up: 5, down: 0 },
+              },
+            ],
           },
           {
             id: 'feedback-5',
             type: 'question',
             title: 'How to Integrate Custom AI Models?',
-            description: 'Is there a way to integrate our own trained AI models with FlashFusion? We have some domain-specific models that could enhance our workflow.',
+            description:
+              'Is there a way to integrate our own trained AI models with FlashFusion? We have some domain-specific models that could enhance our workflow.',
             author: {
               id: 'user-7',
               name: 'Lisa Zhang',
               avatar: '',
               badge: 'Enterprise',
-              verified: true
+              verified: true,
             },
             status: 'open',
             priority: 'medium',
@@ -292,8 +300,8 @@ export function CommunityFeedbackHub() {
             category: 'integration',
             createdAt: Date.now() - 604800000, // 7 days ago
             updatedAt: Date.now() - 432000000, // 5 days ago
-            comments: []
-          }
+            comments: [],
+          },
         ];
 
         const mockStats: CommunityStats = {
@@ -307,13 +315,12 @@ export function CommunityFeedbackHub() {
             { id: 'user-2', name: 'Sarah Chen', avatar: '', contributions: 12, points: 720 },
             { id: 'user-8', name: 'James Wilson', avatar: '', contributions: 9, points: 540 },
             { id: 'user-9', name: 'Anna Kim', avatar: '', contributions: 8, points: 480 },
-            { id: 'user-10', name: 'Carlos Silva', avatar: '', contributions: 7, points: 420 }
-          ]
+            { id: 'user-10', name: 'Carlos Silva', avatar: '', contributions: 7, points: 420 },
+          ],
         };
 
         setFeedbackItems(mockFeedback);
         setCommunityStats(mockStats);
-
       } catch (error) {
         console.error('Failed to load feedback data:', error);
       } finally {
@@ -326,15 +333,16 @@ export function CommunityFeedbackHub() {
 
   // Filter and sort feedback items
   const filteredFeedback = useMemo(() => {
-    let filtered = feedbackItems.filter(item => {
+    const filtered = feedbackItems.filter((item) => {
       const matchesType = filters.type === 'all' || item.type === filters.type;
       const matchesStatus = filters.status === 'all' || item.status === filters.status;
       const matchesPriority = filters.priority === 'all' || item.priority === filters.priority;
       const matchesCategory = filters.category === 'all' || item.category === filters.category;
-      const matchesSearch = filters.searchQuery === '' || 
+      const matchesSearch =
+        filters.searchQuery === '' ||
         item.title.toLowerCase().includes(filters.searchQuery.toLowerCase()) ||
         item.description.toLowerCase().includes(filters.searchQuery.toLowerCase());
-      
+
       return matchesType && matchesStatus && matchesPriority && matchesCategory && matchesSearch;
     });
 
@@ -347,13 +355,17 @@ export function CommunityFeedbackHub() {
         filtered.sort((a, b) => a.createdAt - b.createdAt);
         break;
       case 'votes':
-        filtered.sort((a, b) => (b.votes.up - b.votes.down) - (a.votes.up - a.votes.down));
+        filtered.sort((a, b) => b.votes.up - b.votes.down - (a.votes.up - a.votes.down));
         break;
       case 'trending':
         // Simple trending algorithm based on recent votes and comments
         filtered.sort((a, b) => {
-          const aScore = (a.votes.up - a.votes.down) * (1 + a.comments.length) / ((Date.now() - a.updatedAt) / 86400000 + 1);
-          const bScore = (b.votes.up - b.votes.down) * (1 + b.comments.length) / ((Date.now() - b.updatedAt) / 86400000 + 1);
+          const aScore =
+            ((a.votes.up - a.votes.down) * (1 + a.comments.length)) /
+            ((Date.now() - a.updatedAt) / 86400000 + 1);
+          const bScore =
+            ((b.votes.up - b.votes.down) * (1 + b.comments.length)) /
+            ((Date.now() - b.updatedAt) / 86400000 + 1);
           return bScore - aScore;
         });
         break;
@@ -363,33 +375,35 @@ export function CommunityFeedbackHub() {
   }, [feedbackItems, filters]);
 
   const handleVote = useCallback((feedbackId: string, voteType: 'up' | 'down') => {
-    setFeedbackItems(prev => prev.map(item => {
-      if (item.id === feedbackId) {
-        const currentVote = item.votes.userVote;
-        let newVotes = { ...item.votes };
+    setFeedbackItems((prev) =>
+      prev.map((item) => {
+        if (item.id === feedbackId) {
+          const currentVote = item.votes.userVote;
+          const newVotes = { ...item.votes };
 
-        if (currentVote === voteType) {
-          // Remove vote
-          newVotes.userVote = null;
-          if (voteType === 'up') newVotes.up -= 1;
-          else newVotes.down -= 1;
-        } else {
-          // Add or change vote
-          if (currentVote) {
-            // Change vote
-            if (currentVote === 'up') newVotes.up -= 1;
+          if (currentVote === voteType) {
+            // Remove vote
+            newVotes.userVote = null;
+            if (voteType === 'up') newVotes.up -= 1;
             else newVotes.down -= 1;
+          } else {
+            // Add or change vote
+            if (currentVote) {
+              // Change vote
+              if (currentVote === 'up') newVotes.up -= 1;
+              else newVotes.down -= 1;
+            }
+            newVotes.userVote = voteType;
+            if (voteType === 'up') newVotes.up += 1;
+            else newVotes.down += 1;
           }
-          newVotes.userVote = voteType;
-          if (voteType === 'up') newVotes.up += 1;
-          else newVotes.down += 1;
-        }
 
-        analyticsService.trackFeedbackVote(feedbackId, voteType, newVotes.userVote !== null);
-        return { ...item, votes: newVotes };
-      }
-      return item;
-    }));
+          analyticsService.trackFeedbackVote(feedbackId, voteType, newVotes.userVote !== null);
+          return { ...item, votes: newVotes };
+        }
+        return item;
+      })
+    );
   }, []);
 
   const handleSubmitFeedback = useCallback(async () => {
@@ -402,7 +416,7 @@ export function CommunityFeedbackHub() {
 
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       const feedbackItem: FeedbackItem = {
         id: `feedback-${Date.now()}`,
@@ -413,7 +427,7 @@ export function CommunityFeedbackHub() {
           id: currentUser.id,
           name: currentUser.name,
           avatar: currentUser.avatar,
-          verified: currentUser.verified
+          verified: currentUser.verified,
         },
         status: 'open',
         priority: 'medium',
@@ -422,20 +436,19 @@ export function CommunityFeedbackHub() {
         category: newFeedback.category,
         createdAt: Date.now(),
         updatedAt: Date.now(),
-        comments: []
+        comments: [],
       };
 
-      setFeedbackItems(prev => [feedbackItem, ...prev]);
+      setFeedbackItems((prev) => [feedbackItem, ...prev]);
       setNewFeedback({
         type: 'feedback',
         title: '',
         description: '',
-        category: 'general'
+        category: 'general',
       });
 
       toast.success('Feedback submitted successfully!');
       analyticsService.trackFeedbackSubmitted(newFeedback.type, newFeedback.category);
-
     } catch (error) {
       toast.error('Failed to submit feedback');
     } finally {
@@ -445,43 +458,65 @@ export function CommunityFeedbackHub() {
 
   const getTypeIcon = (type: FeedbackItem['type']) => {
     switch (type) {
-      case 'feature-request': return Target;
-      case 'bug-report': return Bug;
-      case 'feedback': return MessageSquare;
-      case 'question': return BookOpen;
-      case 'idea': return Lightbulb;
-      default: return MessageSquare;
+      case 'feature-request':
+        return Target;
+      case 'bug-report':
+        return Bug;
+      case 'feedback':
+        return MessageSquare;
+      case 'question':
+        return BookOpen;
+      case 'idea':
+        return Lightbulb;
+      default:
+        return MessageSquare;
     }
   };
 
   const getTypeColor = (type: FeedbackItem['type']) => {
     switch (type) {
-      case 'feature-request': return 'bg-blue-500/10 text-blue-500';
-      case 'bug-report': return 'bg-red-500/10 text-red-500';
-      case 'feedback': return 'bg-green-500/10 text-green-500';
-      case 'question': return 'bg-purple-500/10 text-purple-500';
-      case 'idea': return 'bg-yellow-500/10 text-yellow-500';
-      default: return 'bg-muted text-muted-foreground';
+      case 'feature-request':
+        return 'bg-blue-500/10 text-blue-500';
+      case 'bug-report':
+        return 'bg-red-500/10 text-red-500';
+      case 'feedback':
+        return 'bg-green-500/10 text-green-500';
+      case 'question':
+        return 'bg-purple-500/10 text-purple-500';
+      case 'idea':
+        return 'bg-yellow-500/10 text-yellow-500';
+      default:
+        return 'bg-muted text-muted-foreground';
     }
   };
 
   const getStatusColor = (status: FeedbackItem['status']) => {
     switch (status) {
-      case 'open': return 'bg-blue-500/10 text-blue-500';
-      case 'in-progress': return 'bg-yellow-500/10 text-yellow-500';
-      case 'completed': return 'bg-green-500/10 text-green-500';
-      case 'closed': return 'bg-gray-500/10 text-gray-500';
-      default: return 'bg-muted text-muted-foreground';
+      case 'open':
+        return 'bg-blue-500/10 text-blue-500';
+      case 'in-progress':
+        return 'bg-yellow-500/10 text-yellow-500';
+      case 'completed':
+        return 'bg-green-500/10 text-green-500';
+      case 'closed':
+        return 'bg-gray-500/10 text-gray-500';
+      default:
+        return 'bg-muted text-muted-foreground';
     }
   };
 
   const getPriorityColor = (priority: FeedbackItem['priority']) => {
     switch (priority) {
-      case 'critical': return 'bg-red-500/10 text-red-500';
-      case 'high': return 'bg-orange-500/10 text-orange-500';
-      case 'medium': return 'bg-yellow-500/10 text-yellow-500';
-      case 'low': return 'bg-blue-500/10 text-blue-500';
-      default: return 'bg-muted text-muted-foreground';
+      case 'critical':
+        return 'bg-red-500/10 text-red-500';
+      case 'high':
+        return 'bg-orange-500/10 text-orange-500';
+      case 'medium':
+        return 'bg-yellow-500/10 text-yellow-500';
+      case 'low':
+        return 'bg-blue-500/10 text-blue-500';
+      default:
+        return 'bg-muted text-muted-foreground';
     }
   };
 
@@ -515,11 +550,8 @@ export function CommunityFeedbackHub() {
             Share ideas, report issues, and help shape FlashFusion's future
           </p>
         </div>
-        
-        <Button
-          onClick={() => setSelectedFeedback(null)}
-          className="ff-btn-primary"
-        >
+
+        <Button onClick={() => setSelectedFeedback(null)} className="ff-btn-primary">
           <MessageSquare className="h-4 w-4 mr-2" />
           Submit Feedback
         </Button>
@@ -609,12 +641,17 @@ export function CommunityFeedbackHub() {
                   <Input
                     placeholder="Search feedback..."
                     value={filters.searchQuery}
-                    onChange={(e) => setFilters(prev => ({ ...prev, searchQuery: e.target.value }))}
+                    onChange={(e) =>
+                      setFilters((prev) => ({ ...prev, searchQuery: e.target.value }))
+                    }
                     className="ff-focus-ring w-64"
                   />
                 </div>
 
-                <Select value={filters.type} onValueChange={(value) => setFilters(prev => ({ ...prev, type: value }))}>
+                <Select
+                  value={filters.type}
+                  onValueChange={(value) => setFilters((prev) => ({ ...prev, type: value }))}
+                >
                   <SelectTrigger className="w-40 ff-focus-ring">
                     <SelectValue placeholder="Type" />
                   </SelectTrigger>
@@ -628,7 +665,10 @@ export function CommunityFeedbackHub() {
                   </SelectContent>
                 </Select>
 
-                <Select value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
+                <Select
+                  value={filters.status}
+                  onValueChange={(value) => setFilters((prev) => ({ ...prev, status: value }))}
+                >
                   <SelectTrigger className="w-40 ff-focus-ring">
                     <SelectValue placeholder="Status" />
                   </SelectTrigger>
@@ -641,7 +681,12 @@ export function CommunityFeedbackHub() {
                   </SelectContent>
                 </Select>
 
-                <Select value={filters.sortBy} onValueChange={(value) => setFilters(prev => ({ ...prev, sortBy: value as any }))}>
+                <Select
+                  value={filters.sortBy}
+                  onValueChange={(value) =>
+                    setFilters((prev) => ({ ...prev, sortBy: value as any }))
+                  }
+                >
                   <SelectTrigger className="w-40 ff-focus-ring">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
@@ -663,15 +708,20 @@ export function CommunityFeedbackHub() {
                 <CardContent className="p-8 text-center">
                   <MessageSquare className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
                   <h3 className="font-medium mb-2">No feedback found</h3>
-                  <p className="text-muted-foreground">Try adjusting your filters or be the first to submit feedback!</p>
+                  <p className="text-muted-foreground">
+                    Try adjusting your filters or be the first to submit feedback!
+                  </p>
                 </CardContent>
               </Card>
             ) : (
               filteredFeedback.map((item) => {
                 const TypeIcon = getTypeIcon(item.type);
-                
+
                 return (
-                  <Card key={item.id} className="ff-card-interactive hover:shadow-lg transition-all duration-200">
+                  <Card
+                    key={item.id}
+                    className="ff-card-interactive hover:shadow-lg transition-all duration-200"
+                  >
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4">
                         {/* Vote Column */}
@@ -709,23 +759,24 @@ export function CommunityFeedbackHub() {
                                 <Badge className={getStatusColor(item.status)} variant="outline">
                                   {item.status}
                                 </Badge>
-                                <Badge className={getPriorityColor(item.priority)} variant="outline">
+                                <Badge
+                                  className={getPriorityColor(item.priority)}
+                                  variant="outline"
+                                >
                                   {item.priority}
                                 </Badge>
                                 {item.category && (
                                   <Badge variant="secondary">{item.category}</Badge>
                                 )}
                               </div>
-                              
+
                               <h3 className="font-semibold text-lg hover:text-primary cursor-pointer">
                                 {item.title}
                               </h3>
                             </div>
                           </div>
 
-                          <p className="text-muted-foreground line-clamp-2">
-                            {item.description}
-                          </p>
+                          <p className="text-muted-foreground line-clamp-2">{item.description}</p>
 
                           {item.tags.length > 0 && (
                             <div className="flex flex-wrap gap-1">
@@ -740,7 +791,9 @@ export function CommunityFeedbackHub() {
                           {item.adminResponse && (
                             <div className="p-3 bg-primary/5 border border-primary/20 rounded-lg">
                               <div className="flex items-center gap-2 mb-1">
-                                <Badge variant="default" className="text-xs">Official Response</Badge>
+                                <Badge variant="default" className="text-xs">
+                                  Official Response
+                                </Badge>
                                 <span className="text-xs text-muted-foreground">
                                   {new Date(item.adminResponse.timestamp).toLocaleDateString()}
                                 </span>
@@ -755,12 +808,17 @@ export function CommunityFeedbackHub() {
                                 <Avatar className="h-6 w-6">
                                   <AvatarImage src={item.author.avatar} />
                                   <AvatarFallback className="text-xs">
-                                    {item.author.name.split(' ').map(n => n[0]).join('')}
+                                    {item.author.name
+                                      .split(' ')
+                                      .map((n) => n[0])
+                                      .join('')}
                                   </AvatarFallback>
                                 </Avatar>
                                 <span>{item.author.name}</span>
                                 {item.author.badge && (
-                                  <Badge variant="secondary" className="text-xs">{item.author.badge}</Badge>
+                                  <Badge variant="secondary" className="text-xs">
+                                    {item.author.badge}
+                                  </Badge>
                                 )}
                                 {item.author.verified && (
                                   <CheckCircle className="h-4 w-4 text-blue-500" />
@@ -769,7 +827,7 @@ export function CommunityFeedbackHub() {
 
                               <span>•</span>
                               <span>{new Date(item.createdAt).toLocaleDateString()}</span>
-                              
+
                               {item.comments.length > 0 && (
                                 <>
                                   <span>•</span>
@@ -811,7 +869,12 @@ export function CommunityFeedbackHub() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Type</label>
-                  <Select value={newFeedback.type} onValueChange={(value) => setNewFeedback(prev => ({ ...prev, type: value as any }))}>
+                  <Select
+                    value={newFeedback.type}
+                    onValueChange={(value) =>
+                      setNewFeedback((prev) => ({ ...prev, type: value as any }))
+                    }
+                  >
                     <SelectTrigger className="ff-focus-ring">
                       <SelectValue />
                     </SelectTrigger>
@@ -827,7 +890,12 @@ export function CommunityFeedbackHub() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Category</label>
-                  <Select value={newFeedback.category} onValueChange={(value) => setNewFeedback(prev => ({ ...prev, category: value }))}>
+                  <Select
+                    value={newFeedback.category}
+                    onValueChange={(value) =>
+                      setNewFeedback((prev) => ({ ...prev, category: value }))
+                    }
+                  >
                     <SelectTrigger className="ff-focus-ring">
                       <SelectValue />
                     </SelectTrigger>
@@ -848,7 +916,7 @@ export function CommunityFeedbackHub() {
                 <Input
                   placeholder="Brief, descriptive title for your feedback"
                   value={newFeedback.title}
-                  onChange={(e) => setNewFeedback(prev => ({ ...prev, title: e.target.value }))}
+                  onChange={(e) => setNewFeedback((prev) => ({ ...prev, title: e.target.value }))}
                   className="ff-focus-ring"
                   maxLength={100}
                 />
@@ -862,7 +930,9 @@ export function CommunityFeedbackHub() {
                 <Textarea
                   placeholder="Provide detailed information about your feedback, including steps to reproduce (for bugs), use cases (for features), or specific suggestions."
                   value={newFeedback.description}
-                  onChange={(e) => setNewFeedback(prev => ({ ...prev, description: e.target.value }))}
+                  onChange={(e) =>
+                    setNewFeedback((prev) => ({ ...prev, description: e.target.value }))
+                  }
                   className="ff-focus-ring resize-none"
                   rows={6}
                   maxLength={1000}
@@ -875,7 +945,11 @@ export function CommunityFeedbackHub() {
               <div className="flex justify-end">
                 <Button
                   onClick={handleSubmitFeedback}
-                  disabled={isSubmittingFeedback || !newFeedback.title.trim() || !newFeedback.description.trim()}
+                  disabled={
+                    isSubmittingFeedback ||
+                    !newFeedback.title.trim() ||
+                    !newFeedback.description.trim()
+                  }
                   className="ff-btn-primary"
                 >
                   {isSubmittingFeedback ? (
@@ -908,25 +982,31 @@ export function CommunityFeedbackHub() {
                 <CardContent>
                   <div className="space-y-4">
                     {communityStats.topContributors.map((contributor, index) => (
-                      <div key={contributor.id} className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/30 transition-colors">
+                      <div
+                        key={contributor.id}
+                        className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/30 transition-colors"
+                      >
                         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-bold">
                           {index + 1}
                         </div>
-                        
+
                         <Avatar className="h-10 w-10">
                           <AvatarImage src={contributor.avatar} />
                           <AvatarFallback>
-                            {contributor.name.split(' ').map(n => n[0]).join('')}
+                            {contributor.name
+                              .split(' ')
+                              .map((n) => n[0])
+                              .join('')}
                           </AvatarFallback>
                         </Avatar>
-                        
+
                         <div className="flex-1">
                           <h4 className="font-medium">{contributor.name}</h4>
                           <p className="text-sm text-muted-foreground">
                             {contributor.contributions} contributions
                           </p>
                         </div>
-                        
+
                         <div className="text-right">
                           <div className="flex items-center gap-1">
                             <Star className="h-4 w-4 text-yellow-500" />
@@ -950,31 +1030,39 @@ export function CommunityFeedbackHub() {
                       <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
                       <div>
                         <p className="font-medium">Be respectful and constructive</p>
-                        <p className="text-muted-foreground">Keep discussions professional and helpful</p>
+                        <p className="text-muted-foreground">
+                          Keep discussions professional and helpful
+                        </p>
                       </div>
                     </div>
-                    
+
                     <div className="flex gap-3">
                       <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
                       <div>
                         <p className="font-medium">Provide detailed information</p>
-                        <p className="text-muted-foreground">Include steps to reproduce bugs and clear use cases for features</p>
+                        <p className="text-muted-foreground">
+                          Include steps to reproduce bugs and clear use cases for features
+                        </p>
                       </div>
                     </div>
-                    
+
                     <div className="flex gap-3">
                       <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
                       <div>
                         <p className="font-medium">Search before posting</p>
-                        <p className="text-muted-foreground">Check if similar feedback already exists and add your vote</p>
+                        <p className="text-muted-foreground">
+                          Check if similar feedback already exists and add your vote
+                        </p>
                       </div>
                     </div>
-                    
+
                     <div className="flex gap-3">
                       <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
                       <div>
                         <p className="font-medium">Use appropriate categories and tags</p>
-                        <p className="text-muted-foreground">Help us organize feedback effectively</p>
+                        <p className="text-muted-foreground">
+                          Help us organize feedback effectively
+                        </p>
                       </div>
                     </div>
                   </div>

@@ -23,9 +23,9 @@ export function ResourceAllocationCard({ resource, projects }: ResourceAllocatio
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="font-medium">{resource.agentName}</span>
-          <Badge 
-            variant="outline" 
-            className={cn("text-xs", getBottleneckRiskColor(resource.bottleneckRisk))}
+          <Badge
+            variant="outline"
+            className={cn('text-xs', getBottleneckRiskColor(resource.bottleneckRisk))}
           >
             {resource.bottleneckRisk} risk
           </Badge>
@@ -51,10 +51,10 @@ export function ResourceAllocationCard({ resource, projects }: ResourceAllocatio
       </div>
 
       <div className="flex gap-1">
-        {resource.projectDistribution.map(dist => {
-          const project = projects.find(p => p.id === dist.projectId);
+        {resource.projectDistribution.map((dist) => {
+          const project = projects.find((p) => p.id === dist.projectId);
           return project ? (
-            <div 
+            <div
               key={dist.projectId}
               className="text-xs px-2 py-1 bg-muted rounded text-center"
               style={{ width: `${dist.percentage}%` }}

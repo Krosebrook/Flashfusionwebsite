@@ -4,12 +4,12 @@
  * @category deployment
  * @version 2.0.0
  * @author FlashFusion Team
- * 
+ *
  * FLASHFUSION - ONE-CLICK DEPLOY
- * 
- * Deploy to 15+ platforms including AWS, Vercel, Netlify, DigitalOcean 
+ *
+ * Deploy to 15+ platforms including AWS, Vercel, Netlify, DigitalOcean
  * with automated CI/CD pipeline setup, SSL configuration, and monitoring.
- * 
+ *
  * Features:
  * - Multi-platform deployment (15+ services)
  * - Automated CI/CD pipeline setup
@@ -33,12 +33,12 @@ import { Progress } from '../../ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
 import { Switch } from '../../ui/switch';
 import { Textarea } from '../../ui/textarea';
-import { 
-  Rocket, 
-  GitBranch, 
-  Globe, 
-  Shield, 
-  Settings, 
+import {
+  Rocket,
+  GitBranch,
+  Globe,
+  Shield,
+  Settings,
   Monitor,
   Cloud,
   Server,
@@ -63,7 +63,7 @@ import {
   Activity,
   TrendingUp,
   Users,
-  Lock
+  Lock,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
@@ -150,7 +150,7 @@ const DEPLOYMENT_PLATFORMS: DeploymentPlatform[] = [
     environment_variables: true,
     monitoring: true,
     auto_scaling: true,
-    databases: ['Vercel Postgres', 'Vercel Redis']
+    databases: ['Vercel Postgres', 'Vercel Redis'],
   },
   {
     id: 'netlify',
@@ -170,7 +170,7 @@ const DEPLOYMENT_PLATFORMS: DeploymentPlatform[] = [
     environment_variables: true,
     monitoring: true,
     auto_scaling: true,
-    databases: ['Netlify Graph']
+    databases: ['Netlify Graph'],
   },
   {
     id: 'aws',
@@ -190,7 +190,7 @@ const DEPLOYMENT_PLATFORMS: DeploymentPlatform[] = [
     environment_variables: true,
     monitoring: true,
     auto_scaling: true,
-    databases: ['RDS', 'DynamoDB', 'DocumentDB', 'Neptune']
+    databases: ['RDS', 'DynamoDB', 'DocumentDB', 'Neptune'],
   },
   {
     id: 'digitalocean',
@@ -210,7 +210,7 @@ const DEPLOYMENT_PLATFORMS: DeploymentPlatform[] = [
     environment_variables: true,
     monitoring: true,
     auto_scaling: true,
-    databases: ['PostgreSQL', 'MySQL', 'Redis', 'MongoDB']
+    databases: ['PostgreSQL', 'MySQL', 'Redis', 'MongoDB'],
   },
   {
     id: 'heroku',
@@ -230,14 +230,14 @@ const DEPLOYMENT_PLATFORMS: DeploymentPlatform[] = [
     environment_variables: true,
     monitoring: true,
     auto_scaling: true,
-    databases: ['PostgreSQL', 'Redis', 'MySQL', 'MongoDB']
+    databases: ['PostgreSQL', 'Redis', 'MySQL', 'MongoDB'],
   },
   {
     id: 'firebase',
     name: 'Firebase',
     type: 'serverless',
     icon: '🔥',
-    description: 'Google\'s mobile and web application development platform',
+    description: "Google's mobile and web application development platform",
     pricing: 'Free tier + $25/month',
     features: ['Real-time Database', 'Authentication', 'Analytics', 'Cloud Functions'],
     buildTime: '1-5 minutes',
@@ -250,7 +250,7 @@ const DEPLOYMENT_PLATFORMS: DeploymentPlatform[] = [
     environment_variables: true,
     monitoring: true,
     auto_scaling: true,
-    databases: ['Firestore', 'Realtime Database']
+    databases: ['Firestore', 'Realtime Database'],
   },
   {
     id: 'railway',
@@ -270,7 +270,7 @@ const DEPLOYMENT_PLATFORMS: DeploymentPlatform[] = [
     environment_variables: true,
     monitoring: true,
     auto_scaling: true,
-    databases: ['PostgreSQL', 'MySQL', 'Redis', 'MongoDB']
+    databases: ['PostgreSQL', 'MySQL', 'Redis', 'MongoDB'],
   },
   {
     id: 'render',
@@ -290,47 +290,47 @@ const DEPLOYMENT_PLATFORMS: DeploymentPlatform[] = [
     environment_variables: true,
     monitoring: true,
     auto_scaling: true,
-    databases: ['PostgreSQL', 'Redis']
-  }
+    databases: ['PostgreSQL', 'Redis'],
+  },
 ];
 
 const FRAMEWORK_CONFIGS = {
-  'next': {
+  next: {
     name: 'Next.js',
     build_command: 'npm run build',
     output_directory: '.next',
-    node_version: '18'
+    node_version: '18',
   },
-  'react': {
+  react: {
     name: 'React',
     build_command: 'npm run build',
     output_directory: 'build',
-    node_version: '18'
+    node_version: '18',
   },
-  'vue': {
+  vue: {
     name: 'Vue.js',
     build_command: 'npm run build',
     output_directory: 'dist',
-    node_version: '18'
+    node_version: '18',
   },
-  'angular': {
+  angular: {
     name: 'Angular',
     build_command: 'ng build',
     output_directory: 'dist',
-    node_version: '18'
+    node_version: '18',
   },
-  'svelte': {
+  svelte: {
     name: 'Svelte',
     build_command: 'npm run build',
     output_directory: 'public',
-    node_version: '18'
+    node_version: '18',
   },
-  'node': {
+  node: {
     name: 'Node.js',
     build_command: 'npm install',
     output_directory: '.',
-    node_version: '18'
-  }
+    node_version: '18',
+  },
 };
 
 export function OneClickDeployTool(): JSX.Element {
@@ -347,7 +347,7 @@ export function OneClickDeployTool(): JSX.Element {
     auto_deploy: true,
     region: '',
     framework: 'react',
-    node_version: '18'
+    node_version: '18',
   });
   const [deploymentStatus, setDeploymentStatus] = useState<DeploymentStatus | null>(null);
   const [activeTab, setActiveTab] = useState<string>('platforms');
@@ -355,20 +355,20 @@ export function OneClickDeployTool(): JSX.Element {
   const [isDeploying, setIsDeploying] = useState<boolean>(false);
   const [deployments, setDeployments] = useState<DeploymentStatus[]>([]);
 
-  const selectedPlatformData = DEPLOYMENT_PLATFORMS.find(p => p.id === selectedPlatform);
+  const selectedPlatformData = DEPLOYMENT_PLATFORMS.find((p) => p.id === selectedPlatform);
   const selectedFramework = FRAMEWORK_CONFIGS[deploymentConfig.framework];
 
   /**
    * Handle platform selection
    */
   const handlePlatformSelect = useCallback((platformId: string): void => {
-    const platform = DEPLOYMENT_PLATFORMS.find(p => p.id === platformId);
+    const platform = DEPLOYMENT_PLATFORMS.find((p) => p.id === platformId);
     if (platform) {
       setSelectedPlatform(platformId);
-      setDeploymentConfig(prev => ({
+      setDeploymentConfig((prev) => ({
         ...prev,
         platform: platformId,
-        region: platform.regions[0]
+        region: platform.regions[0],
       }));
     }
   }, []);
@@ -379,12 +379,12 @@ export function OneClickDeployTool(): JSX.Element {
   const handleFrameworkChange = useCallback((framework: string): void => {
     const config = FRAMEWORK_CONFIGS[framework];
     if (config) {
-      setDeploymentConfig(prev => ({
+      setDeploymentConfig((prev) => ({
         ...prev,
         framework,
         build_command: config.build_command,
         output_directory: config.output_directory,
-        node_version: config.node_version
+        node_version: config.node_version,
       }));
     }
   }, []);
@@ -394,7 +394,7 @@ export function OneClickDeployTool(): JSX.Element {
    */
   const parseEnvVariables = useCallback((envString: string): Record<string, string> => {
     const env: Record<string, string> = {};
-    envString.split('\n').forEach(line => {
+    envString.split('\n').forEach((line) => {
       const [key, ...valueParts] = line.split('=');
       if (key && valueParts.length > 0) {
         env[key.trim()] = valueParts.join('=').trim();
@@ -413,13 +413,13 @@ export function OneClickDeployTool(): JSX.Element {
     }
 
     setIsDeploying(true);
-    
+
     const newDeployment: DeploymentStatus = {
       id: `deploy_${Date.now()}`,
       status: 'pending',
       progress: 0,
       logs: [],
-      started_at: Date.now()
+      started_at: Date.now(),
     };
 
     setDeploymentStatus(newDeployment);
@@ -439,13 +439,13 @@ export function OneClickDeployTool(): JSX.Element {
         { message: 'Optimizing assets...', duration: 2000 },
         { message: 'Configuring SSL certificate...', duration: 1000 },
         { message: 'Setting up custom domain...', duration: 1500 },
-        { message: 'Finalizing deployment...', duration: 1000 }
+        { message: 'Finalizing deployment...', duration: 1000 },
       ];
 
       let totalProgress = 0;
       for (let i = 0; i < deploymentSteps.length; i++) {
         const step = deploymentSteps[i];
-        
+
         // Update status to building
         if (i === 2) {
           newDeployment.status = 'building';
@@ -457,14 +457,14 @@ export function OneClickDeployTool(): JSX.Element {
         newDeployment.logs.push({
           timestamp: Date.now(),
           level: 'info',
-          message: step.message
+          message: step.message,
         });
 
         totalProgress = ((i + 1) / deploymentSteps.length) * 100;
         newDeployment.progress = totalProgress;
 
         setDeploymentStatus({ ...newDeployment });
-        await new Promise(resolve => setTimeout(resolve, step.duration));
+        await new Promise((resolve) => setTimeout(resolve, step.duration));
       }
 
       // Complete deployment
@@ -478,23 +478,22 @@ export function OneClickDeployTool(): JSX.Element {
       newDeployment.logs.push({
         timestamp: Date.now(),
         level: 'success',
-        message: `Deployment successful! Available at ${newDeployment.url}`
+        message: `Deployment successful! Available at ${newDeployment.url}`,
       });
 
       setDeploymentStatus({ ...newDeployment });
-      setDeployments(prev => [{ ...newDeployment }, ...prev]);
-      
-      toast.success('Deployment completed successfully!');
+      setDeployments((prev) => [{ ...newDeployment }, ...prev]);
 
+      toast.success('Deployment completed successfully!');
     } catch (error) {
       newDeployment.status = 'failed';
       newDeployment.completed_at = Date.now();
       newDeployment.logs.push({
         timestamp: Date.now(),
         level: 'error',
-        message: `Deployment failed: ${error.message}`
+        message: `Deployment failed: ${error.message}`,
       });
-      
+
       setDeploymentStatus({ ...newDeployment });
       toast.error('Deployment failed. Check logs for details.');
     } finally {
@@ -507,7 +506,7 @@ export function OneClickDeployTool(): JSX.Element {
    */
   const generateDeploymentUrl = (config: DeploymentConfig): string => {
     const subdomain = config.project_name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    
+
     switch (config.platform) {
       case 'vercel':
         return `https://${subdomain}.vercel.app`;
@@ -535,9 +534,9 @@ export function OneClickDeployTool(): JSX.Element {
       heroku: 7,
       firebase: 0,
       railway: 5,
-      render: 7
+      render: 7,
     };
-    
+
     return baseCosts[config.platform] || 0;
   };
 
@@ -558,14 +557,12 @@ export function OneClickDeployTool(): JSX.Element {
             </p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-3">
           <Badge variant="secondary" className="text-xs">
             {DEPLOYMENT_PLATFORMS.length} Platforms Available
           </Badge>
-          <Badge className="text-xs bg-green-500 text-white">
-            Production Ready
-          </Badge>
+          <Badge className="text-xs bg-green-500 text-white">Production Ready</Badge>
         </div>
       </div>
 
@@ -654,7 +651,9 @@ export function OneClickDeployTool(): JSX.Element {
                         </div>
 
                         <div className="space-y-2">
-                          <div className="text-xs font-medium text-[var(--ff-text-muted)]">Features:</div>
+                          <div className="text-xs font-medium text-[var(--ff-text-muted)]">
+                            Features:
+                          </div>
                           <div className="flex flex-wrap gap-1">
                             {platform.features.slice(0, 3).map((feature, index) => (
                               <Badge key={index} variant="outline" className="text-xs">
@@ -709,7 +708,9 @@ export function OneClickDeployTool(): JSX.Element {
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div className="space-y-3">
-                    <h4 className="font-semibold text-[var(--ff-text-primary)]">Supported Frameworks</h4>
+                    <h4 className="font-semibold text-[var(--ff-text-primary)]">
+                      Supported Frameworks
+                    </h4>
                     <div className="flex flex-wrap gap-1">
                       {selectedPlatformData.supported_frameworks.map((framework, index) => (
                         <Badge key={index} variant="outline" className="text-xs">
@@ -720,7 +721,9 @@ export function OneClickDeployTool(): JSX.Element {
                   </div>
 
                   <div className="space-y-3">
-                    <h4 className="font-semibold text-[var(--ff-text-primary)]">Available Regions</h4>
+                    <h4 className="font-semibold text-[var(--ff-text-primary)]">
+                      Available Regions
+                    </h4>
                     <div className="flex flex-wrap gap-1">
                       {selectedPlatformData.regions.map((region, index) => (
                         <Badge key={index} variant="outline" className="text-xs">
@@ -731,7 +734,9 @@ export function OneClickDeployTool(): JSX.Element {
                   </div>
 
                   <div className="space-y-3">
-                    <h4 className="font-semibold text-[var(--ff-text-primary)]">Database Options</h4>
+                    <h4 className="font-semibold text-[var(--ff-text-primary)]">
+                      Database Options
+                    </h4>
                     <div className="flex flex-wrap gap-1">
                       {selectedPlatformData.databases.map((db, index) => (
                         <Badge key={index} variant="outline" className="text-xs">
@@ -743,7 +748,9 @@ export function OneClickDeployTool(): JSX.Element {
                 </div>
 
                 <div className="bg-[var(--ff-surface)]/50 p-4 rounded-lg">
-                  <h4 className="font-semibold text-[var(--ff-text-primary)] mb-2">Platform Features</h4>
+                  <h4 className="font-semibold text-[var(--ff-text-primary)] mb-2">
+                    Platform Features
+                  </h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-green-500" />
@@ -785,7 +792,9 @@ export function OneClickDeployTool(): JSX.Element {
                   <Input
                     placeholder="my-awesome-project"
                     value={deploymentConfig.project_name}
-                    onChange={(e) => setDeploymentConfig(prev => ({ ...prev, project_name: e.target.value }))}
+                    onChange={(e) =>
+                      setDeploymentConfig((prev) => ({ ...prev, project_name: e.target.value }))
+                    }
                     className="ff-input"
                   />
                 </div>
@@ -795,7 +804,9 @@ export function OneClickDeployTool(): JSX.Element {
                   <Input
                     placeholder="https://github.com/username/repository"
                     value={deploymentConfig.repository_url}
-                    onChange={(e) => setDeploymentConfig(prev => ({ ...prev, repository_url: e.target.value }))}
+                    onChange={(e) =>
+                      setDeploymentConfig((prev) => ({ ...prev, repository_url: e.target.value }))
+                    }
                     className="ff-input"
                   />
                 </div>
@@ -806,14 +817,19 @@ export function OneClickDeployTool(): JSX.Element {
                     <Input
                       placeholder="main"
                       value={deploymentConfig.branch}
-                      onChange={(e) => setDeploymentConfig(prev => ({ ...prev, branch: e.target.value }))}
+                      onChange={(e) =>
+                        setDeploymentConfig((prev) => ({ ...prev, branch: e.target.value }))
+                      }
                       className="ff-input"
                     />
                   </div>
 
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Framework</Label>
-                    <Select value={deploymentConfig.framework} onValueChange={handleFrameworkChange}>
+                    <Select
+                      value={deploymentConfig.framework}
+                      onValueChange={handleFrameworkChange}
+                    >
                       <SelectTrigger className="ff-input">
                         <SelectValue />
                       </SelectTrigger>
@@ -833,7 +849,9 @@ export function OneClickDeployTool(): JSX.Element {
                   <Input
                     placeholder="npm run build"
                     value={deploymentConfig.build_command}
-                    onChange={(e) => setDeploymentConfig(prev => ({ ...prev, build_command: e.target.value }))}
+                    onChange={(e) =>
+                      setDeploymentConfig((prev) => ({ ...prev, build_command: e.target.value }))
+                    }
                     className="ff-input"
                   />
                 </div>
@@ -843,7 +861,9 @@ export function OneClickDeployTool(): JSX.Element {
                   <Input
                     placeholder="build"
                     value={deploymentConfig.output_directory}
-                    onChange={(e) => setDeploymentConfig(prev => ({ ...prev, output_directory: e.target.value }))}
+                    onChange={(e) =>
+                      setDeploymentConfig((prev) => ({ ...prev, output_directory: e.target.value }))
+                    }
                     className="ff-input"
                   />
                 </div>
@@ -851,9 +871,11 @@ export function OneClickDeployTool(): JSX.Element {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Node Version</Label>
-                    <Select 
-                      value={deploymentConfig.node_version} 
-                      onValueChange={(value) => setDeploymentConfig(prev => ({ ...prev, node_version: value }))}
+                    <Select
+                      value={deploymentConfig.node_version}
+                      onValueChange={(value) =>
+                        setDeploymentConfig((prev) => ({ ...prev, node_version: value }))
+                      }
                     >
                       <SelectTrigger className="ff-input">
                         <SelectValue />
@@ -868,9 +890,11 @@ export function OneClickDeployTool(): JSX.Element {
 
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Region</Label>
-                    <Select 
-                      value={deploymentConfig.region} 
-                      onValueChange={(value) => setDeploymentConfig(prev => ({ ...prev, region: value }))}
+                    <Select
+                      value={deploymentConfig.region}
+                      onValueChange={(value) =>
+                        setDeploymentConfig((prev) => ({ ...prev, region: value }))
+                      }
                     >
                       <SelectTrigger className="ff-input">
                         <SelectValue />
@@ -902,7 +926,9 @@ export function OneClickDeployTool(): JSX.Element {
                   <Input
                     placeholder="example.com"
                     value={deploymentConfig.custom_domain || ''}
-                    onChange={(e) => setDeploymentConfig(prev => ({ ...prev, custom_domain: e.target.value }))}
+                    onChange={(e) =>
+                      setDeploymentConfig((prev) => ({ ...prev, custom_domain: e.target.value }))
+                    }
                     className="ff-input"
                   />
                 </div>
@@ -911,22 +937,30 @@ export function OneClickDeployTool(): JSX.Element {
                   <div className="flex items-center justify-between">
                     <div>
                       <Label className="text-sm font-semibold">SSL Certificate</Label>
-                      <p className="text-xs text-[var(--ff-text-muted)]">Automatically provision SSL certificate</p>
+                      <p className="text-xs text-[var(--ff-text-muted)]">
+                        Automatically provision SSL certificate
+                      </p>
                     </div>
                     <Switch
                       checked={deploymentConfig.ssl_enabled}
-                      onCheckedChange={(checked) => setDeploymentConfig(prev => ({ ...prev, ssl_enabled: checked }))}
+                      onCheckedChange={(checked) =>
+                        setDeploymentConfig((prev) => ({ ...prev, ssl_enabled: checked }))
+                      }
                     />
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div>
                       <Label className="text-sm font-semibold">Auto Deploy</Label>
-                      <p className="text-xs text-[var(--ff-text-muted)]">Deploy automatically on git push</p>
+                      <p className="text-xs text-[var(--ff-text-muted)]">
+                        Deploy automatically on git push
+                      </p>
                     </div>
                     <Switch
                       checked={deploymentConfig.auto_deploy}
-                      onCheckedChange={(checked) => setDeploymentConfig(prev => ({ ...prev, auto_deploy: checked }))}
+                      onCheckedChange={(checked) =>
+                        setDeploymentConfig((prev) => ({ ...prev, auto_deploy: checked }))
+                      }
                     />
                   </div>
                 </div>
@@ -985,7 +1019,9 @@ NODE_ENV=production"
               {/* Deployment Summary */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="font-semibold text-[var(--ff-text-primary)]">Deployment Summary</h4>
+                  <h4 className="font-semibold text-[var(--ff-text-primary)]">
+                    Deployment Summary
+                  </h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-[var(--ff-text-muted)]">Platform:</span>
@@ -993,7 +1029,9 @@ NODE_ENV=production"
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[var(--ff-text-muted)]">Project:</span>
-                      <span className="font-medium">{deploymentConfig.project_name || 'Not set'}</span>
+                      <span className="font-medium">
+                        {deploymentConfig.project_name || 'Not set'}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[var(--ff-text-muted)]">Framework:</span>
@@ -1005,7 +1043,9 @@ NODE_ENV=production"
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[var(--ff-text-muted)]">SSL:</span>
-                      <span className="font-medium">{deploymentConfig.ssl_enabled ? 'Enabled' : 'Disabled'}</span>
+                      <span className="font-medium">
+                        {deploymentConfig.ssl_enabled ? 'Enabled' : 'Disabled'}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1015,7 +1055,9 @@ NODE_ENV=production"
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-[var(--ff-text-muted)]">Monthly Base:</span>
-                      <span className="font-medium">${calculateCostEstimate(deploymentConfig)}</span>
+                      <span className="font-medium">
+                        ${calculateCostEstimate(deploymentConfig)}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[var(--ff-text-muted)]">Build Time:</span>
@@ -1023,7 +1065,9 @@ NODE_ENV=production"
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[var(--ff-text-muted)]">Free Tier:</span>
-                      <span className="font-medium text-green-600">{selectedPlatformData?.freeThreshold}</span>
+                      <span className="font-medium text-green-600">
+                        {selectedPlatformData?.freeThreshold}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1033,7 +1077,11 @@ NODE_ENV=production"
               <div className="text-center space-y-4">
                 <Button
                   onClick={handleDeploy}
-                  disabled={isDeploying || !deploymentConfig.project_name || !deploymentConfig.repository_url}
+                  disabled={
+                    isDeploying ||
+                    !deploymentConfig.project_name ||
+                    !deploymentConfig.repository_url
+                  }
                   className="ff-btn-primary font-['Sora'] font-semibold px-8 py-3 text-lg"
                   size="lg"
                 >
@@ -1059,22 +1107,32 @@ NODE_ENV=production"
 
               {/* Pre-deployment Checklist */}
               <div className="bg-[var(--ff-surface)]/50 p-4 rounded-lg">
-                <h4 className="font-semibold text-[var(--ff-text-primary)] mb-3">Pre-deployment Checklist</h4>
+                <h4 className="font-semibold text-[var(--ff-text-primary)] mb-3">
+                  Pre-deployment Checklist
+                </h4>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className={`h-4 w-4 ${deploymentConfig.project_name ? 'text-green-500' : 'text-gray-400'}`} />
+                    <CheckCircle
+                      className={`h-4 w-4 ${deploymentConfig.project_name ? 'text-green-500' : 'text-gray-400'}`}
+                    />
                     <span className="text-sm">Project name configured</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className={`h-4 w-4 ${deploymentConfig.repository_url ? 'text-green-500' : 'text-gray-400'}`} />
+                    <CheckCircle
+                      className={`h-4 w-4 ${deploymentConfig.repository_url ? 'text-green-500' : 'text-gray-400'}`}
+                    />
                     <span className="text-sm">Repository URL provided</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className={`h-4 w-4 ${deploymentConfig.build_command ? 'text-green-500' : 'text-gray-400'}`} />
+                    <CheckCircle
+                      className={`h-4 w-4 ${deploymentConfig.build_command ? 'text-green-500' : 'text-gray-400'}`}
+                    />
                     <span className="text-sm">Build command specified</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className={`h-4 w-4 ${deploymentConfig.region ? 'text-green-500' : 'text-gray-400'}`} />
+                    <CheckCircle
+                      className={`h-4 w-4 ${deploymentConfig.region ? 'text-green-500' : 'text-gray-400'}`}
+                    />
                     <span className="text-sm">Deployment region selected</span>
                   </div>
                 </div>
@@ -1091,11 +1149,15 @@ NODE_ENV=production"
                 <CardTitle className="flex items-center gap-2">
                   <Activity className="h-5 w-5 text-[var(--ff-primary)]" />
                   Deployment Status
-                  <Badge className={`ml-2 ${
-                    deploymentStatus.status === 'success' ? 'bg-green-500' :
-                    deploymentStatus.status === 'failed' ? 'bg-red-500' :
-                    'bg-blue-500'
-                  } text-white`}>
+                  <Badge
+                    className={`ml-2 ${
+                      deploymentStatus.status === 'success'
+                        ? 'bg-green-500'
+                        : deploymentStatus.status === 'failed'
+                          ? 'bg-red-500'
+                          : 'bg-blue-500'
+                    } text-white`}
+                  >
                     {deploymentStatus.status}
                   </Badge>
                 </CardTitle>
@@ -1114,10 +1176,12 @@ NODE_ENV=production"
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-[var(--ff-text-primary)]">
-                      {deploymentStatus.completed_at 
-                        ? Math.round((deploymentStatus.completed_at - deploymentStatus.started_at) / 1000)
-                        : Math.round((Date.now() - deploymentStatus.started_at) / 1000)
-                      }s
+                      {deploymentStatus.completed_at
+                        ? Math.round(
+                            (deploymentStatus.completed_at - deploymentStatus.started_at) / 1000
+                          )
+                        : Math.round((Date.now() - deploymentStatus.started_at) / 1000)}
+                      s
                     </div>
                     <div className="text-sm text-[var(--ff-text-muted)]">Duration</div>
                   </div>
@@ -1144,15 +1208,17 @@ NODE_ENV=production"
                   <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h4 className="font-semibold text-green-800 mb-1">Deployment Successful!</h4>
+                        <h4 className="font-semibold text-green-800 mb-1">
+                          Deployment Successful!
+                        </h4>
                         <p className="text-sm text-green-600">Your application is live at:</p>
                       </div>
                       <CheckCircle className="h-8 w-8 text-green-500" />
                     </div>
                     <div className="flex items-center gap-2 mt-3">
-                      <a 
-                        href={deploymentStatus.url} 
-                        target="_blank" 
+                      <a
+                        href={deploymentStatus.url}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="font-mono text-sm text-blue-600 hover:text-blue-800 break-all"
                       >
@@ -1185,12 +1251,18 @@ NODE_ENV=production"
                   <div className="bg-black rounded-lg p-4 max-h-64 overflow-y-auto">
                     <div className="space-y-1 font-mono text-sm">
                       {deploymentStatus.logs.map((log, index) => (
-                        <div key={index} className={`${
-                          log.level === 'error' ? 'text-red-400' :
-                          log.level === 'warning' ? 'text-yellow-400' :
-                          log.level === 'success' ? 'text-green-400' :
-                          'text-gray-300'
-                        }`}>
+                        <div
+                          key={index}
+                          className={`${
+                            log.level === 'error'
+                              ? 'text-red-400'
+                              : log.level === 'warning'
+                                ? 'text-yellow-400'
+                                : log.level === 'success'
+                                  ? 'text-green-400'
+                                  : 'text-gray-300'
+                          }`}
+                        >
                           <span className="text-gray-500">
                             [{new Date(log.timestamp).toLocaleTimeString()}]
                           </span>{' '}
@@ -1230,11 +1302,15 @@ NODE_ENV=production"
                       <CardContent className="pt-6">
                         <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center gap-3">
-                            <div className={`w-3 h-3 rounded-full ${
-                              deployment.status === 'success' ? 'bg-green-500' :
-                              deployment.status === 'failed' ? 'bg-red-500' :
-                              'bg-blue-500'
-                            }`} />
+                            <div
+                              className={`w-3 h-3 rounded-full ${
+                                deployment.status === 'success'
+                                  ? 'bg-green-500'
+                                  : deployment.status === 'failed'
+                                    ? 'bg-red-500'
+                                    : 'bg-blue-500'
+                              }`}
+                            />
                             <div>
                               <h4 className="font-semibold text-[var(--ff-text-primary)]">
                                 {deploymentConfig.project_name}
@@ -1244,7 +1320,7 @@ NODE_ENV=production"
                               </p>
                             </div>
                           </div>
-                          
+
                           <div className="flex items-center gap-2">
                             {deployment.url && (
                               <Button
@@ -1265,10 +1341,12 @@ NODE_ENV=production"
                           <div>
                             <span className="text-[var(--ff-text-muted)]">Duration:</span>
                             <div className="font-medium">
-                              {deployment.completed_at 
-                                ? Math.round((deployment.completed_at - deployment.started_at) / 1000)
-                                : 'In progress'
-                              }s
+                              {deployment.completed_at
+                                ? Math.round(
+                                    (deployment.completed_at - deployment.started_at) / 1000
+                                  )
+                                : 'In progress'}
+                              s
                             </div>
                           </div>
                           <div>
@@ -1287,7 +1365,9 @@ NODE_ENV=production"
               ) : (
                 <div className="text-center py-8">
                   <Server className="h-12 w-12 text-[var(--ff-text-muted)] mx-auto mb-4" />
-                  <h3 className="font-semibold text-[var(--ff-text-primary)] mb-2">No Deployments Yet</h3>
+                  <h3 className="font-semibold text-[var(--ff-text-primary)] mb-2">
+                    No Deployments Yet
+                  </h3>
                   <p className="text-[var(--ff-text-secondary)]">
                     Your deployment history will appear here
                   </p>

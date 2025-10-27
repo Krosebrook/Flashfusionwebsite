@@ -29,59 +29,68 @@ export function PlatformVerification({ onClose }: PlatformVerificationProps) {
         try {
           const showcaseExists = document.querySelector('[class*="ff-fade-in-up"]') !== null;
           return {
-            status: showcaseExists ? 'pass' : 'warning' as const,
-            message: showcaseExists ? 'Showcase component working correctly' : 'Showcase component not currently active',
-            details: 'FlashFusionPlatformShowcase with hero section, metrics, and testimonials'
+            status: showcaseExists ? 'pass' : ('warning' as const),
+            message: showcaseExists
+              ? 'Showcase component working correctly'
+              : 'Showcase component not currently active',
+            details: 'FlashFusionPlatformShowcase with hero section, metrics, and testimonials',
           };
         } catch (error) {
           return {
             status: 'fail' as const,
             message: 'Failed to verify showcase component',
-            details: String(error)
+            details: String(error),
           };
         }
-      }
+      },
     },
     {
       component: 'Mobile Optimization Center',
       check: () => {
         // Check if mobile optimization features are working
         try {
-          const isMobileResponsive = window.innerWidth <= 768 || document.querySelector('[class*="md:"]') !== null;
+          const isMobileResponsive =
+            window.innerWidth <= 768 || document.querySelector('[class*="md:"]') !== null;
           return {
-            status: isMobileResponsive ? 'pass' : 'warning' as const,
-            message: isMobileResponsive ? 'Mobile optimization active' : 'Mobile features available but not active',
-            details: 'Responsive design, touch targets, and mobile UX optimizations'
+            status: isMobileResponsive ? 'pass' : ('warning' as const),
+            message: isMobileResponsive
+              ? 'Mobile optimization active'
+              : 'Mobile features available but not active',
+            details: 'Responsive design, touch targets, and mobile UX optimizations',
           };
         } catch (error) {
           return {
             status: 'fail' as const,
             message: 'Mobile optimization check failed',
-            details: String(error)
+            details: String(error),
           };
         }
-      }
+      },
     },
     {
       component: 'Brand System',
       check: () => {
         // Check if FlashFusion brand colors and styling are applied
         try {
-          const hasFlashFusionColors = document.documentElement.style.getPropertyValue('--ff-primary') !== '' ||
-                                     document.querySelector('[class*="ff-"]') !== null;
+          const hasFlashFusionColors =
+            document.documentElement.style.getPropertyValue('--ff-primary') !== '' ||
+            document.querySelector('[class*="ff-"]') !== null;
           return {
-            status: hasFlashFusionColors ? 'pass' : 'warning' as const,
-            message: hasFlashFusionColors ? 'FlashFusion brand system active' : 'Brand system partially loaded',
-            details: 'Orange #FF7B00, Cyan #00B4D8, Magenta #E91E63 color scheme with Sora/Inter fonts'
+            status: hasFlashFusionColors ? 'pass' : ('warning' as const),
+            message: hasFlashFusionColors
+              ? 'FlashFusion brand system active'
+              : 'Brand system partially loaded',
+            details:
+              'Orange #FF7B00, Cyan #00B4D8, Magenta #E91E63 color scheme with Sora/Inter fonts',
           };
         } catch (error) {
           return {
             status: 'fail' as const,
             message: 'Brand system verification failed',
-            details: String(error)
+            details: String(error),
           };
         }
-      }
+      },
     },
     {
       component: 'Navigation System',
@@ -89,21 +98,25 @@ export function PlatformVerification({ onClose }: PlatformVerificationProps) {
         // Check if navigation is working
         try {
           const hasNavigation = document.querySelector('nav') !== null;
-          const hasShowcaseLink = document.querySelector('[data-state="active"]') !== null ||
-                                document.textContent?.includes('Platform') || false;
+          const hasShowcaseLink =
+            document.querySelector('[data-state="active"]') !== null ||
+            document.textContent?.includes('Platform') ||
+            false;
           return {
-            status: hasNavigation && hasShowcaseLink ? 'pass' : 'warning' as const,
-            message: hasNavigation ? 'Navigation system working' : 'Navigation system needs verification',
-            details: 'Navigation with Platform/Showcase access and proper routing'
+            status: hasNavigation && hasShowcaseLink ? 'pass' : ('warning' as const),
+            message: hasNavigation
+              ? 'Navigation system working'
+              : 'Navigation system needs verification',
+            details: 'Navigation with Platform/Showcase access and proper routing',
           };
         } catch (error) {
           return {
             status: 'fail' as const,
             message: 'Navigation verification failed',
-            details: String(error)
+            details: String(error),
           };
         }
-      }
+      },
     },
     {
       component: 'Image Loading System',
@@ -111,42 +124,44 @@ export function PlatformVerification({ onClose }: PlatformVerificationProps) {
         // Check if images and fallbacks are working
         try {
           const hasImages = document.querySelector('img') !== null;
-          const hasFallbackSystem = document.querySelector('[data-original-url]') !== null ||
-                                  window.hasOwnProperty('ImageWithFallback');
+          const hasFallbackSystem =
+            document.querySelector('[data-original-url]') !== null ||
+            window.hasOwnProperty('ImageWithFallback');
           return {
-            status: hasImages ? 'pass' : 'warning' as const,
+            status: hasImages ? 'pass' : ('warning' as const),
             message: hasImages ? 'Image system working' : 'Image loading available',
-            details: 'ImageWithFallback component with Figma asset integration'
+            details: 'ImageWithFallback component with Figma asset integration',
           };
         } catch (error) {
           return {
             status: 'fail' as const,
             message: 'Image system verification failed',
-            details: String(error)
+            details: String(error),
           };
         }
-      }
+      },
     },
     {
       component: 'Toast Notifications',
       check: () => {
         // Check if toast system is available
         try {
-          const hasToastContainer = document.querySelector('[data-sonner-toaster]') !== null ||
-                                  document.querySelector('[class*="toast"]') !== null;
+          const hasToastContainer =
+            document.querySelector('[data-sonner-toaster]') !== null ||
+            document.querySelector('[class*="toast"]') !== null;
           return {
             status: 'pass' as const,
             message: 'Toast notification system ready',
-            details: 'Sonner toast system integrated for user feedback'
+            details: 'Sonner toast system integrated for user feedback',
           };
         } catch (error) {
           return {
             status: 'warning' as const,
             message: 'Toast system available but not active',
-            details: 'Will activate when needed for notifications'
+            details: 'Will activate when needed for notifications',
           };
         }
-      }
+      },
     },
     {
       component: 'UI Component Library',
@@ -154,22 +169,23 @@ export function PlatformVerification({ onClose }: PlatformVerificationProps) {
         // Check if UI components are loaded
         try {
           const hasButtons = document.querySelector('button') !== null;
-          const hasCards = document.querySelector('[class*="card"]') !== null ||
-                          document.querySelector('[role="region"]') !== null;
+          const hasCards =
+            document.querySelector('[class*="card"]') !== null ||
+            document.querySelector('[role="region"]') !== null;
           return {
-            status: hasButtons && hasCards ? 'pass' : 'warning' as const,
+            status: hasButtons && hasCards ? 'pass' : ('warning' as const),
             message: hasButtons && hasCards ? 'UI components active' : 'UI components available',
-            details: 'ShadCN UI components with FlashFusion customizations'
+            details: 'ShadCN UI components with FlashFusion customizations',
           };
         } catch (error) {
           return {
             status: 'fail' as const,
             message: 'UI component verification failed',
-            details: String(error)
+            details: String(error),
           };
         }
-      }
-    }
+      },
+    },
   ];
 
   const runVerification = async () => {
@@ -179,26 +195,29 @@ export function PlatformVerification({ onClose }: PlatformVerificationProps) {
 
     for (let i = 0; i < verificationChecks.length; i++) {
       const check = verificationChecks[i];
-      
+
       // Set checking status
-      setResults(prev => [...prev, {
-        component: check.component,
-        status: 'checking',
-        message: 'Verifying...'
-      }]);
+      setResults((prev) => [
+        ...prev,
+        {
+          component: check.component,
+          status: 'checking',
+          message: 'Verifying...',
+        },
+      ]);
 
       // Simulate verification time
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       // Run the actual check
       const result = check.check();
-      
+
       // Update with result
-      setResults(prev => {
+      setResults((prev) => {
         const newResults = [...prev];
         newResults[i] = {
           component: check.component,
-          ...result
+          ...result,
         };
         return newResults;
       });
@@ -215,27 +234,37 @@ export function PlatformVerification({ onClose }: PlatformVerificationProps) {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'pass': return <CheckCircle className="h-4 w-4 text-green-500" />;
-      case 'warning': return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
-      case 'fail': return <X className="h-4 w-4 text-red-500" />;
-      case 'checking': return <RefreshCw className="h-4 w-4 text-blue-500 animate-spin" />;
-      default: return <Info className="h-4 w-4 text-gray-500" />;
+      case 'pass':
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
+      case 'warning':
+        return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+      case 'fail':
+        return <X className="h-4 w-4 text-red-500" />;
+      case 'checking':
+        return <RefreshCw className="h-4 w-4 text-blue-500 animate-spin" />;
+      default:
+        return <Info className="h-4 w-4 text-gray-500" />;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'pass': return 'border-green-500/30 bg-green-500/5';
-      case 'warning': return 'border-yellow-500/30 bg-yellow-500/5';
-      case 'fail': return 'border-red-500/30 bg-red-500/5';
-      case 'checking': return 'border-blue-500/30 bg-blue-500/5';
-      default: return 'border-gray-500/30 bg-gray-500/5';
+      case 'pass':
+        return 'border-green-500/30 bg-green-500/5';
+      case 'warning':
+        return 'border-yellow-500/30 bg-yellow-500/5';
+      case 'fail':
+        return 'border-red-500/30 bg-red-500/5';
+      case 'checking':
+        return 'border-blue-500/30 bg-blue-500/5';
+      default:
+        return 'border-gray-500/30 bg-gray-500/5';
     }
   };
 
-  const passedTests = results.filter(r => r.status === 'pass').length;
-  const warningTests = results.filter(r => r.status === 'warning').length;
-  const failedTests = results.filter(r => r.status === 'fail').length;
+  const passedTests = results.filter((r) => r.status === 'pass').length;
+  const warningTests = results.filter((r) => r.status === 'warning').length;
+  const failedTests = results.filter((r) => r.status === 'fail').length;
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -286,7 +315,7 @@ export function PlatformVerification({ onClose }: PlatformVerificationProps) {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Verification Results</h3>
-              <Button 
+              <Button
                 onClick={runVerification}
                 disabled={isRunning}
                 size="sm"
@@ -299,7 +328,7 @@ export function PlatformVerification({ onClose }: PlatformVerificationProps) {
             </div>
 
             {results.map((result, index) => (
-              <Card 
+              <Card
                 key={index}
                 className={`ff-card-interactive transition-all duration-200 ${getStatusColor(result.status)}`}
               >
@@ -313,9 +342,7 @@ export function PlatformVerification({ onClose }: PlatformVerificationProps) {
                           {result.status}
                         </Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground">
-                        {result.message}
-                      </p>
+                      <p className="text-sm text-muted-foreground">{result.message}</p>
                       {result.details && (
                         <p className="text-xs text-muted-foreground/75 bg-muted/30 p-2 rounded">
                           {result.details}
@@ -330,16 +357,22 @@ export function PlatformVerification({ onClose }: PlatformVerificationProps) {
 
           {/* Final Status */}
           {!isRunning && results.length > 0 && (
-            <Card className={`ff-card-interactive ${
-              failedTests === 0 ? 'border-green-500/30 bg-green-500/5' : 
-              failedTests > warningTests ? 'border-red-500/30 bg-red-500/5' :
-              'border-yellow-500/30 bg-yellow-500/5'
-            }`}>
+            <Card
+              className={`ff-card-interactive ${
+                failedTests === 0
+                  ? 'border-green-500/30 bg-green-500/5'
+                  : failedTests > warningTests
+                    ? 'border-red-500/30 bg-red-500/5'
+                    : 'border-yellow-500/30 bg-yellow-500/5'
+              }`}
+            >
               <CardContent className="p-4 text-center">
                 {failedTests === 0 ? (
                   <>
                     <CheckCircle className="h-8 w-8 text-green-500 mx-auto mb-2" />
-                    <h4 className="font-semibold text-green-700">Platform Verification Complete!</h4>
+                    <h4 className="font-semibold text-green-700">
+                      Platform Verification Complete!
+                    </h4>
                     <p className="text-sm text-green-600">
                       FlashFusion platform is fully operational and ready for use.
                     </p>

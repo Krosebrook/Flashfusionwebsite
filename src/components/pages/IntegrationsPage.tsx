@@ -11,14 +11,9 @@ interface IntegrationsPageProps {
 export function IntegrationsPage({ userRole = 'free' }: IntegrationsPageProps) {
   return (
     <div className="space-y-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-3xl font-bold ff-text-gradient">Integrations</h1>
-        <p className="text-muted-foreground mt-2">
-          Connect FlashFusion with your favorite tools
-        </p>
+        <p className="text-muted-foreground mt-2">Connect FlashFusion with your favorite tools</p>
       </motion.div>
 
       <Card>

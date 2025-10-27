@@ -17,12 +17,34 @@ import { useAppData } from '../../hooks/useAppData';
 
 // Simple routing utilities
 const shouldShowSidebar = (currentPage: string, isMobile: boolean, isAuthenticated: boolean) => {
-  const publicPages = ['home', 'about', 'features', 'pricing', 'contact', 'testimonials', 'faq', 'demo', 'terms', 'privacy'];
+  const publicPages = [
+    'home',
+    'about',
+    'features',
+    'pricing',
+    'contact',
+    'testimonials',
+    'faq',
+    'demo',
+    'terms',
+    'privacy',
+  ];
   return !publicPages.includes(currentPage) && isAuthenticated;
 };
 
 const shouldShowFooter = (currentPage: string) => {
-  const publicPages = ['home', 'about', 'features', 'pricing', 'contact', 'testimonials', 'faq', 'demo', 'terms', 'privacy'];
+  const publicPages = [
+    'home',
+    'about',
+    'features',
+    'pricing',
+    'contact',
+    'testimonials',
+    'faq',
+    'demo',
+    'terms',
+    'privacy',
+  ];
   return publicPages.includes(currentPage);
 };
 
@@ -35,22 +57,11 @@ interface ApplicationShellProps {
  * including header, sidebar, navigation, and footer
  */
 export function ApplicationShell({ children }: ApplicationShellProps) {
-  const {
-    currentPage,
-    sidebarOpen,
-    setCurrentPage,
-    setSidebarOpen,
-    setShowWizard,
-    toggleSidebar
-  } = useLayoutState();
-  
-  const { 
-    dailyTasks, 
-    userStats, 
-    isAuthenticated,
-    user
-  } = useAppData();
-  
+  const { currentPage, sidebarOpen, setCurrentPage, setSidebarOpen, setShowWizard, toggleSidebar } =
+    useLayoutState();
+
+  const { dailyTasks, userStats, isAuthenticated, user } = useAppData();
+
   // Simple mobile detection
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
@@ -107,7 +118,7 @@ export function ApplicationShell({ children }: ApplicationShellProps) {
         {/* Sidebar */}
         {showSidebar && (
           <ErrorBoundary>
-            <Sidebar 
+            <Sidebar
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               sidebarOpen={sidebarOpen}
@@ -119,34 +130,31 @@ export function ApplicationShell({ children }: ApplicationShellProps) {
             />
           </ErrorBoundary>
         )}
-        
+
         {/* Main Content Area */}
         <div className="flex-1 overflow-auto flex flex-col">
-          <main className={cn(
-            "flex-1",
-            showSidebar ? "container mx-auto px-6 py-8 lg:px-8" : "px-0 py-0",
-            isMobile && "pb-20"
-          )}>
+          <main
+            className={cn(
+              'flex-1',
+              showSidebar ? 'container mx-auto px-6 py-8 lg:px-8' : 'px-0 py-0',
+              isMobile && 'pb-20'
+            )}
+          >
             {/* Breadcrumb */}
             {showSidebar && !isMobile && (
               <ErrorBoundary>
                 <Breadcrumb currentPage={currentPage} />
               </ErrorBoundary>
             )}
-            
+
             {/* Page Content */}
-            <ErrorBoundary>
-              {children}
-            </ErrorBoundary>
+            <ErrorBoundary>{children}</ErrorBoundary>
           </main>
 
           {/* Footer */}
           {showFooter && (
             <ErrorBoundary>
-              <AppFooter 
-                setCurrentPage={setCurrentPage}
-                isAuthenticated={isAuthenticated}
-              />
+              <AppFooter setCurrentPage={setCurrentPage} isAuthenticated={isAuthenticated} />
             </ErrorBoundary>
           )}
         </div>

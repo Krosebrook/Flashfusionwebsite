@@ -4,19 +4,19 @@ import { Card, CardContent } from '../../ui/card';
 import { Badge } from '../../ui/badge';
 import { Button } from '../../ui/button';
 import { ImageWithFallback } from '../../figma/ImageWithFallback';
-import { 
-  Monitor, 
-  Smartphone, 
-  Tablet, 
-  Code, 
-  Palette, 
+import {
+  Monitor,
+  Smartphone,
+  Tablet,
+  Code,
+  Palette,
   BarChart3,
   Settings,
   Users,
   Play,
   ExternalLink,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react';
 
 export function ScreenshotsSection() {
@@ -28,38 +28,38 @@ export function ScreenshotsSection() {
       id: 'dashboard',
       name: 'Dashboard',
       icon: Monitor,
-      description: 'Main development interface'
+      description: 'Main development interface',
     },
     {
       id: 'ai-tools',
       name: 'AI Tools',
       icon: Code,
-      description: 'AI-powered development tools'
+      description: 'AI-powered development tools',
     },
     {
       id: 'design',
       name: 'Design System',
       icon: Palette,
-      description: 'UI/UX design capabilities'
+      description: 'UI/UX design capabilities',
     },
     {
       id: 'analytics',
       name: 'Analytics',
       icon: BarChart3,
-      description: 'Performance insights'
+      description: 'Performance insights',
     },
     {
       id: 'collaboration',
       name: 'Collaboration',
       icon: Users,
-      description: 'Team features'
+      description: 'Team features',
     },
     {
       id: 'mobile',
       name: 'Mobile',
       icon: Smartphone,
-      description: 'Mobile-responsive design'
-    }
+      description: 'Mobile-responsive design',
+    },
   ];
 
   const screenshots = {
@@ -68,121 +68,146 @@ export function ScreenshotsSection() {
         title: 'Main Dashboard',
         description: 'Overview of projects, XP progress, and daily tasks',
         image: 'dashboard main interface',
-        features: ['Project Overview', 'XP Progress', 'Daily Tasks', 'Quick Actions']
+        features: ['Project Overview', 'XP Progress', 'Daily Tasks', 'Quick Actions'],
       },
       {
         title: 'Project Management',
         description: 'Manage all your projects with AI-powered insights',
         image: 'project management interface',
-        features: ['Project List', 'Status Tracking', 'AI Recommendations', 'Team Collaboration']
+        features: ['Project List', 'Status Tracking', 'AI Recommendations', 'Team Collaboration'],
       },
       {
         title: 'Gamification System',
         description: 'Level up with XP, achievements, and leaderboards',
         image: 'gamification dashboard',
-        features: ['XP System', 'Achievements', 'Leaderboards', 'Daily Challenges']
-      }
+        features: ['XP System', 'Achievements', 'Leaderboards', 'Daily Challenges'],
+      },
     ],
     'ai-tools': [
       {
         title: 'Code Generation',
         description: 'Natural language to code with AI assistance',
         image: 'ai code generation interface',
-        features: ['Natural Language Input', 'Code Generation', 'Multi-language Support', 'Real-time Preview']
+        features: [
+          'Natural Language Input',
+          'Code Generation',
+          'Multi-language Support',
+          'Real-time Preview',
+        ],
       },
       {
         title: 'AI Code Review',
         description: 'Intelligent code analysis and improvement suggestions',
         image: 'ai code review interface',
-        features: ['Code Analysis', 'Security Scanning', 'Performance Tips', 'Best Practices']
+        features: ['Code Analysis', 'Security Scanning', 'Performance Tips', 'Best Practices'],
       },
       {
         title: 'Smart Documentation',
         description: 'Automated documentation generation with AI',
         image: 'ai documentation interface',
-        features: ['Auto Documentation', 'API Docs', 'Code Comments', 'README Generation']
-      }
+        features: ['Auto Documentation', 'API Docs', 'Code Comments', 'README Generation'],
+      },
     ],
     design: [
       {
         title: 'UI Generator',
         description: 'AI-powered UI component generation',
         image: 'ui generator interface',
-        features: ['Component Library', 'Design System', 'Responsive Design', 'Theme Customization']
+        features: [
+          'Component Library',
+          'Design System',
+          'Responsive Design',
+          'Theme Customization',
+        ],
       },
       {
         title: 'Design System Builder',
         description: 'Create comprehensive design systems automatically',
         image: 'design system interface',
-        features: ['Design Tokens', 'Component Variants', 'Color Palettes', 'Typography']
+        features: ['Design Tokens', 'Component Variants', 'Color Palettes', 'Typography'],
       },
       {
         title: 'Responsive Preview',
         description: 'See your designs across all device sizes',
         image: 'responsive preview interface',
-        features: ['Multi-device Preview', 'Breakpoint Testing', 'Interactive Elements', 'Performance Metrics']
-      }
+        features: [
+          'Multi-device Preview',
+          'Breakpoint Testing',
+          'Interactive Elements',
+          'Performance Metrics',
+        ],
+      },
     ],
     analytics: [
       {
         title: 'Performance Dashboard',
         description: 'Comprehensive application performance metrics',
         image: 'analytics dashboard interface',
-        features: ['Performance Metrics', 'User Analytics', 'Error Tracking', 'Usage Statistics']
+        features: ['Performance Metrics', 'User Analytics', 'Error Tracking', 'Usage Statistics'],
       },
       {
         title: 'Development Insights',
         description: 'Track your coding progress and productivity',
         image: 'development analytics interface',
-        features: ['Coding Activity', 'Productivity Metrics', 'Learning Progress', 'Goal Tracking']
+        features: ['Coding Activity', 'Productivity Metrics', 'Learning Progress', 'Goal Tracking'],
       },
       {
         title: 'Team Analytics',
         description: 'Monitor team performance and collaboration',
         image: 'team analytics interface',
-        features: ['Team Performance', 'Collaboration Metrics', 'Project Velocity', 'Resource Utilization']
-      }
+        features: [
+          'Team Performance',
+          'Collaboration Metrics',
+          'Project Velocity',
+          'Resource Utilization',
+        ],
+      },
     ],
     collaboration: [
       {
         title: 'Real-time Editing',
         description: 'Collaborate in real-time with live cursors',
         image: 'real-time collaboration interface',
-        features: ['Live Cursors', 'Real-time Sync', 'Comment System', 'Version History']
+        features: ['Live Cursors', 'Real-time Sync', 'Comment System', 'Version History'],
       },
       {
         title: 'Team Workspace',
         description: 'Organize projects and manage team access',
         image: 'team workspace interface',
-        features: ['Team Organization', 'Role Management', 'Shared Resources', 'Permission Control']
+        features: [
+          'Team Organization',
+          'Role Management',
+          'Shared Resources',
+          'Permission Control',
+        ],
       },
       {
         title: 'Code Reviews',
         description: 'Collaborative code review workflow',
         image: 'code review interface',
-        features: ['Review Workflow', 'Inline Comments', 'Approval Process', 'Merge Management']
-      }
+        features: ['Review Workflow', 'Inline Comments', 'Approval Process', 'Merge Management'],
+      },
     ],
     mobile: [
       {
         title: 'Mobile Dashboard',
         description: 'Full dashboard experience on mobile devices',
         image: 'mobile dashboard interface',
-        features: ['Touch Optimized', 'Responsive Layout', 'Mobile Navigation', 'Quick Actions']
+        features: ['Touch Optimized', 'Responsive Layout', 'Mobile Navigation', 'Quick Actions'],
       },
       {
         title: 'Mobile Code Editor',
         description: 'Edit code efficiently on mobile devices',
         image: 'mobile code editor interface',
-        features: ['Mobile Editor', 'Syntax Highlighting', 'Auto-complete', 'Touch Gestures']
+        features: ['Mobile Editor', 'Syntax Highlighting', 'Auto-complete', 'Touch Gestures'],
       },
       {
         title: 'Mobile Preview',
         description: 'Preview your applications on actual mobile devices',
         image: 'mobile preview interface',
-        features: ['Device Preview', 'Touch Testing', 'Performance Testing', 'Network Simulation']
-      }
-    ]
+        features: ['Device Preview', 'Touch Testing', 'Performance Testing', 'Network Simulation'],
+      },
+    ],
   };
 
   const currentScreenshots = screenshots[activeTab as keyof typeof screenshots];
@@ -192,7 +217,9 @@ export function ScreenshotsSection() {
   };
 
   const prevScreenshot = () => {
-    setCurrentScreenshot((prev) => (prev - 1 + currentScreenshots.length) % currentScreenshots.length);
+    setCurrentScreenshot(
+      (prev) => (prev - 1 + currentScreenshots.length) % currentScreenshots.length
+    );
   };
 
   return (
@@ -204,11 +231,10 @@ export function ScreenshotsSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-6 ff-text-gradient">
-            See FlashFusion in Action
-          </h2>
+          <h2 className="text-4xl font-bold mb-6 ff-text-gradient">See FlashFusion in Action</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Explore our intuitive interface and powerful features designed to accelerate your development workflow.
+            Explore our intuitive interface and powerful features designed to accelerate your
+            development workflow.
           </p>
         </motion.div>
 
@@ -222,7 +248,7 @@ export function ScreenshotsSection() {
           {screenshotCategories.map((category) => (
             <Button
               key={category.id}
-              variant={activeTab === category.id ? "default" : "outline"}
+              variant={activeTab === category.id ? 'default' : 'outline'}
               onClick={() => {
                 setActiveTab(category.id);
                 setCurrentScreenshot(0);
@@ -345,9 +371,7 @@ export function ScreenshotsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h3 className="text-2xl font-bold text-center mb-8">
-            Explore All Features
-          </h3>
+          <h3 className="text-2xl font-bold text-center mb-8">Explore All Features</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {currentScreenshots.map((screenshot, index) => (
               <motion.div
@@ -359,7 +383,9 @@ export function ScreenshotsSection() {
                 onClick={() => setCurrentScreenshot(index)}
                 className="cursor-pointer"
               >
-                <Card className={`ff-card-interactive ${currentScreenshot === index ? 'ring-2 ring-primary' : ''}`}>
+                <Card
+                  className={`ff-card-interactive ${currentScreenshot === index ? 'ring-2 ring-primary' : ''}`}
+                >
                   <CardContent className="p-4">
                     <div className="aspect-video bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg mb-3 flex items-center justify-center">
                       <Monitor className="w-8 h-8 text-primary/40" />
@@ -394,8 +420,8 @@ export function ScreenshotsSection() {
         >
           <h4 className="text-2xl font-bold mb-4">Experience FlashFusion Yourself</h4>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Ready to see how FlashFusion can transform your development workflow? 
-            Try our interactive demo or start building your first project for free.
+            Ready to see how FlashFusion can transform your development workflow? Try our
+            interactive demo or start building your first project for free.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button className="ff-btn-primary px-8 py-3">

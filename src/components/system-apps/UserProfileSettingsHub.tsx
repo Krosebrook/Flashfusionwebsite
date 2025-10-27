@@ -11,13 +11,45 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Separator } from '../ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Progress } from '../ui/progress';
-import { 
-  User, Settings, Palette, Bell, Shield, CreditCard, 
-  Key, Globe, Moon, Sun, Monitor, Upload, Download,
-  Trash2, Edit3, Save, X, Check, AlertTriangle,
-  Smartphone, Laptop, Tablet, Users, Crown, Star,
-  Activity, Clock, MapPin, Calendar, Github, Twitter,
-  Linkedin, Mail, Link, Eye, EyeOff, Zap, Database
+import {
+  User,
+  Settings,
+  Palette,
+  Bell,
+  Shield,
+  CreditCard,
+  Key,
+  Globe,
+  Moon,
+  Sun,
+  Monitor,
+  Upload,
+  Download,
+  Trash2,
+  Edit3,
+  Save,
+  X,
+  Check,
+  AlertTriangle,
+  Smartphone,
+  Laptop,
+  Tablet,
+  Users,
+  Crown,
+  Star,
+  Activity,
+  Clock,
+  MapPin,
+  Calendar,
+  Github,
+  Twitter,
+  Linkedin,
+  Mail,
+  Link,
+  Eye,
+  EyeOff,
+  Zap,
+  Database,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -135,8 +167,8 @@ const mockUserProfile: UserProfile = {
   socialLinks: {
     github: 'alexj_dev',
     twitter: 'alexjohnsondev',
-    linkedin: 'alexjohnson-dev'
-  }
+    linkedin: 'alexjohnson-dev',
+  },
 };
 
 const mockAppPreferences: AppPreferences = {
@@ -153,7 +185,7 @@ const mockAppPreferences: AppPreferences = {
   securityAlerts: true,
   collaborationNotifications: true,
   keyboardShortcuts: true,
-  reducedMotion: false
+  reducedMotion: false,
 };
 
 const mockSecuritySettings: SecuritySettings = {
@@ -168,15 +200,15 @@ const mockSecuritySettings: SecuritySettings = {
       name: 'MacBook Pro',
       type: 'desktop',
       lastUsed: new Date(Date.now() - 2 * 60 * 60 * 1000),
-      location: 'San Francisco, CA'
+      location: 'San Francisco, CA',
     },
     {
       id: 'device-2',
       name: 'iPhone 15 Pro',
       type: 'mobile',
       lastUsed: new Date(Date.now() - 30 * 60 * 1000),
-      location: 'San Francisco, CA'
-    }
+      location: 'San Francisco, CA',
+    },
   ],
   activeSession: [
     {
@@ -184,16 +216,16 @@ const mockSecuritySettings: SecuritySettings = {
       device: 'MacBook Pro - Chrome',
       location: 'San Francisco, CA',
       lastActive: new Date(),
-      current: true
+      current: true,
     },
     {
       id: 'session-2',
       device: 'iPhone 15 Pro - Safari',
       location: 'San Francisco, CA',
       lastActive: new Date(Date.now() - 1 * 60 * 60 * 1000),
-      current: false
-    }
-  ]
+      current: false,
+    },
+  ],
 };
 
 const mockBillingInfo: BillingInfo = {
@@ -205,7 +237,7 @@ const mockBillingInfo: BillingInfo = {
     last4: '4242',
     brand: 'Visa',
     expiryMonth: 12,
-    expiryYear: 2028
+    expiryYear: 2028,
   },
   billingHistory: [
     {
@@ -213,15 +245,15 @@ const mockBillingInfo: BillingInfo = {
       date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
       amount: 29.99,
       description: 'Pro Plan - Monthly',
-      status: 'paid'
+      status: 'paid',
     },
     {
       id: 'inv-122',
       date: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
       amount: 29.99,
       description: 'Pro Plan - Monthly',
-      status: 'paid'
-    }
+      status: 'paid',
+    },
   ],
   usage: {
     toolsUsed: 47,
@@ -232,22 +264,22 @@ const mockBillingInfo: BillingInfo = {
       tools: 100,
       projects: 50,
       storage: 10,
-      apiCalls: 50000
-    }
-  }
+      apiCalls: 50000,
+    },
+  },
 };
 
 export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps) {
   const [activeTab, setActiveTab] = useState('profile');
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  
+
   // Profile state
   const [profile, setProfile] = useState(mockUserProfile);
   const [preferences, setPreferences] = useState(mockAppPreferences);
   const [security, setSecurity] = useState(mockSecuritySettings);
   const [billing] = useState(mockBillingInfo);
-  
+
   // Form state
   const [formData, setFormData] = useState(profile);
   const [preferencesData, setPreferencesData] = useState(preferences);
@@ -256,11 +288,11 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
     setIsSaving(true);
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       setProfile(formData);
       setIsEditing(false);
-      
+
       toast.success('Profile updated successfully!');
     } catch (error) {
       console.error('Failed to save profile:', error);
@@ -274,10 +306,10 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
     setIsSaving(true);
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
       setPreferences(preferencesData);
-      
+
       toast.success('Preferences saved successfully!');
     } catch (error) {
       console.error('Failed to save preferences:', error);
@@ -297,7 +329,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
         const reader = new FileReader();
         reader.onload = (e) => {
           const avatarUrl = e.target?.result as string;
-          setFormData(prev => ({ ...prev, avatarUrl }));
+          setFormData((prev) => ({ ...prev, avatarUrl }));
         };
         reader.readAsDataURL(file);
       }
@@ -312,7 +344,9 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
 
   const handleDeleteAccount = useCallback(() => {
     // Show confirmation dialog
-    if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+    if (
+      window.confirm('Are you sure you want to delete your account? This action cannot be undone.')
+    ) {
       toast.error('Account deletion initiated. You will receive a confirmation email.');
     }
   }, []);
@@ -358,7 +392,10 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
           <Avatar className="w-12 h-12">
             <AvatarImage src={profile.avatarUrl} alt={profile.name} />
             <AvatarFallback className="bg-primary/10 text-primary text-lg font-semibold">
-              {profile.name.split(' ').map(n => n[0]).join('')}
+              {profile.name
+                .split(' ')
+                .map((n) => n[0])
+                .join('')}
             </AvatarFallback>
           </Avatar>
           <div>
@@ -456,7 +493,10 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                     <Avatar className="w-24 h-24">
                       <AvatarImage src={formData.avatarUrl} alt={formData.name} />
                       <AvatarFallback className="bg-primary/10 text-primary text-2xl font-semibold">
-                        {formData.name.split(' ').map(n => n[0]).join('')}
+                        {formData.name
+                          .split(' ')
+                          .map((n) => n[0])
+                          .join('')}
                       </AvatarFallback>
                     </Avatar>
                     {isEditing && (
@@ -470,7 +510,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       </Button>
                     )}
                   </div>
-                  
+
                   <div className="flex-1 space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
@@ -478,18 +518,22 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                         <Input
                           id="name"
                           value={formData.name}
-                          onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, name: e.target.value }))
+                          }
                           disabled={!isEditing}
                           className="ff-focus-ring"
                         />
                       </div>
-                      
+
                       <div className="space-y-2">
                         <Label htmlFor="username">Username</Label>
                         <Input
                           id="username"
                           value={formData.username}
-                          onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, username: e.target.value }))
+                          }
                           disabled={!isEditing}
                           className="ff-focus-ring"
                         />
@@ -502,7 +546,9 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                         id="email"
                         type="email"
                         value={formData.email}
-                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                        onChange={(e) =>
+                          setFormData((prev) => ({ ...prev, email: e.target.value }))
+                        }
                         disabled={!isEditing}
                         className="ff-focus-ring"
                       />
@@ -513,7 +559,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       <Textarea
                         id="bio"
                         value={formData.bio}
-                        onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
+                        onChange={(e) => setFormData((prev) => ({ ...prev, bio: e.target.value }))}
                         disabled={!isEditing}
                         rows={3}
                         className="ff-focus-ring"
@@ -532,7 +578,9 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       <Input
                         id="company"
                         value={formData.company}
-                        onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
+                        onChange={(e) =>
+                          setFormData((prev) => ({ ...prev, company: e.target.value }))
+                        }
                         disabled={!isEditing}
                         className="ff-focus-ring"
                       />
@@ -545,7 +593,9 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                         <Input
                           id="location"
                           value={formData.location}
-                          onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, location: e.target.value }))
+                          }
                           disabled={!isEditing}
                           className="pl-9 ff-focus-ring"
                         />
@@ -559,7 +609,9 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                         <Input
                           id="website"
                           value={formData.website}
-                          onChange={(e) => setFormData(prev => ({ ...prev, website: e.target.value }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, website: e.target.value }))
+                          }
                           disabled={!isEditing}
                           className="pl-9 ff-focus-ring"
                           placeholder="https://yourwebsite.com"
@@ -570,7 +622,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
 
                   <div className="space-y-4">
                     <h4 className="text-sm font-medium text-foreground">Social Links</h4>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="github">GitHub</Label>
                       <div className="relative">
@@ -578,10 +630,12 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                         <Input
                           id="github"
                           value={formData.socialLinks.github || ''}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            socialLinks: { ...prev.socialLinks, github: e.target.value }
-                          }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              socialLinks: { ...prev.socialLinks, github: e.target.value },
+                            }))
+                          }
                           disabled={!isEditing}
                           className="pl-9 ff-focus-ring"
                           placeholder="username"
@@ -596,10 +650,12 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                         <Input
                           id="twitter"
                           value={formData.socialLinks.twitter || ''}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            socialLinks: { ...prev.socialLinks, twitter: e.target.value }
-                          }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              socialLinks: { ...prev.socialLinks, twitter: e.target.value },
+                            }))
+                          }
                           disabled={!isEditing}
                           className="pl-9 ff-focus-ring"
                           placeholder="username"
@@ -614,10 +670,12 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                         <Input
                           id="linkedin"
                           value={formData.socialLinks.linkedin || ''}
-                          onChange={(e) => setFormData(prev => ({
-                            ...prev,
-                            socialLinks: { ...prev.socialLinks, linkedin: e.target.value }
-                          }))}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              socialLinks: { ...prev.socialLinks, linkedin: e.target.value },
+                            }))
+                          }
                           disabled={!isEditing}
                           className="pl-9 ff-focus-ring"
                           placeholder="username"
@@ -650,13 +708,13 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <h4 className="text-sm font-medium">Appearance</h4>
-                    
+
                     <div className="space-y-2">
                       <Label>Theme</Label>
                       <Select
                         value={preferencesData.theme}
                         onValueChange={(value: 'light' | 'dark' | 'system') =>
-                          setPreferencesData(prev => ({ ...prev, theme: value }))
+                          setPreferencesData((prev) => ({ ...prev, theme: value }))
                         }
                       >
                         <SelectTrigger className="ff-focus-ring">
@@ -690,7 +748,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       <Select
                         value={preferencesData.fontSize}
                         onValueChange={(value: 'small' | 'medium' | 'large') =>
-                          setPreferencesData(prev => ({ ...prev, fontSize: value }))
+                          setPreferencesData((prev) => ({ ...prev, fontSize: value }))
                         }
                       >
                         <SelectTrigger className="ff-focus-ring">
@@ -709,7 +767,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       <Select
                         value={preferencesData.language}
                         onValueChange={(value) =>
-                          setPreferencesData(prev => ({ ...prev, language: value }))
+                          setPreferencesData((prev) => ({ ...prev, language: value }))
                         }
                       >
                         <SelectTrigger className="ff-focus-ring">
@@ -728,7 +786,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
 
                   <div className="space-y-4">
                     <h4 className="text-sm font-medium">Behavior</h4>
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label>Auto-save</Label>
@@ -739,7 +797,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       <Switch
                         checked={preferencesData.autoSave}
                         onCheckedChange={(checked) =>
-                          setPreferencesData(prev => ({ ...prev, autoSave: checked }))
+                          setPreferencesData((prev) => ({ ...prev, autoSave: checked }))
                         }
                       />
                     </div>
@@ -747,14 +805,12 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label>Keyboard shortcuts</Label>
-                        <p className="text-xs text-muted-foreground">
-                          Enable keyboard navigation
-                        </p>
+                        <p className="text-xs text-muted-foreground">Enable keyboard navigation</p>
                       </div>
                       <Switch
                         checked={preferencesData.keyboardShortcuts}
                         onCheckedChange={(checked) =>
-                          setPreferencesData(prev => ({ ...prev, keyboardShortcuts: checked }))
+                          setPreferencesData((prev) => ({ ...prev, keyboardShortcuts: checked }))
                         }
                       />
                     </div>
@@ -762,14 +818,12 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label>Reduced motion</Label>
-                        <p className="text-xs text-muted-foreground">
-                          Minimize animations
-                        </p>
+                        <p className="text-xs text-muted-foreground">Minimize animations</p>
                       </div>
                       <Switch
                         checked={preferencesData.reducedMotion}
                         onCheckedChange={(checked) =>
-                          setPreferencesData(prev => ({ ...prev, reducedMotion: checked }))
+                          setPreferencesData((prev) => ({ ...prev, reducedMotion: checked }))
                         }
                       />
                     </div>
@@ -784,7 +838,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       <Switch
                         checked={preferencesData.betaFeatures}
                         onCheckedChange={(checked) =>
-                          setPreferencesData(prev => ({ ...prev, betaFeatures: checked }))
+                          setPreferencesData((prev) => ({ ...prev, betaFeatures: checked }))
                         }
                       />
                     </div>
@@ -795,7 +849,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
 
                 <div className="space-y-4">
                   <h4 className="text-sm font-medium">Notifications</h4>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
@@ -807,7 +861,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       <Switch
                         checked={preferencesData.productUpdates}
                         onCheckedChange={(checked) =>
-                          setPreferencesData(prev => ({ ...prev, productUpdates: checked }))
+                          setPreferencesData((prev) => ({ ...prev, productUpdates: checked }))
                         }
                       />
                     </div>
@@ -822,7 +876,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       <Switch
                         checked={preferencesData.securityAlerts}
                         onCheckedChange={(checked) =>
-                          setPreferencesData(prev => ({ ...prev, securityAlerts: checked }))
+                          setPreferencesData((prev) => ({ ...prev, securityAlerts: checked }))
                         }
                       />
                     </div>
@@ -837,7 +891,10 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       <Switch
                         checked={preferencesData.collaborationNotifications}
                         onCheckedChange={(checked) =>
-                          setPreferencesData(prev => ({ ...prev, collaborationNotifications: checked }))
+                          setPreferencesData((prev) => ({
+                            ...prev,
+                            collaborationNotifications: checked,
+                          }))
                         }
                       />
                     </div>
@@ -852,7 +909,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       <Switch
                         checked={preferencesData.marketingEmails}
                         onCheckedChange={(checked) =>
-                          setPreferencesData(prev => ({ ...prev, marketingEmails: checked }))
+                          setPreferencesData((prev) => ({ ...prev, marketingEmails: checked }))
                         }
                       />
                     </div>
@@ -860,7 +917,11 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                 </div>
 
                 <div className="flex justify-end">
-                  <Button onClick={handleSavePreferences} disabled={isSaving} className="ff-btn-primary">
+                  <Button
+                    onClick={handleSavePreferences}
+                    disabled={isSaving}
+                    className="ff-btn-primary"
+                  >
                     {isSaving ? (
                       <>
                         <Clock className="w-4 h-4 mr-2 animate-spin" />
@@ -887,7 +948,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <h4 className="text-sm font-medium">Authentication</h4>
-                    
+
                     <div className="flex items-center justify-between p-4 border border-border rounded-lg">
                       <div className="space-y-0.5">
                         <Label>Two-factor authentication</Label>
@@ -897,7 +958,10 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       </div>
                       <div className="flex items-center gap-2">
                         {security.twoFactorEnabled ? (
-                          <Badge variant="default" className="bg-success/10 text-success border-success/20">
+                          <Badge
+                            variant="default"
+                            className="bg-success/10 text-success border-success/20"
+                          >
                             <Check className="w-3 h-3 mr-1" />
                             Enabled
                           </Badge>
@@ -924,7 +988,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                         <Switch
                           checked={security.smsNotifications}
                           onCheckedChange={(checked) =>
-                            setSecurity(prev => ({ ...prev, smsNotifications: checked }))
+                            setSecurity((prev) => ({ ...prev, smsNotifications: checked }))
                           }
                         />
                       </div>
@@ -932,14 +996,12 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       <div className="flex items-center justify-between">
                         <div className="space-y-0.5">
                           <Label>Email notifications</Label>
-                          <p className="text-xs text-muted-foreground">
-                            Security alerts via email
-                          </p>
+                          <p className="text-xs text-muted-foreground">Security alerts via email</p>
                         </div>
                         <Switch
                           checked={security.emailNotifications}
                           onCheckedChange={(checked) =>
-                            setSecurity(prev => ({ ...prev, emailNotifications: checked }))
+                            setSecurity((prev) => ({ ...prev, emailNotifications: checked }))
                           }
                         />
                       </div>
@@ -954,7 +1016,7 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                         <Switch
                           checked={security.loginAlerts}
                           onCheckedChange={(checked) =>
-                            setSecurity(prev => ({ ...prev, loginAlerts: checked }))
+                            setSecurity((prev) => ({ ...prev, loginAlerts: checked }))
                           }
                         />
                       </div>
@@ -963,19 +1025,19 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
 
                   <div className="space-y-4">
                     <h4 className="text-sm font-medium">Password</h4>
-                    
+
                     <div className="space-y-3">
                       <Button variant="outline" className="w-full justify-start">
                         <Key className="w-4 h-4 mr-2" />
                         Change Password
                       </Button>
-                      
+
                       <div className="space-y-2">
                         <Label>Session timeout</Label>
                         <Select
                           value={security.sessionTimeout.toString()}
                           onValueChange={(value) =>
-                            setSecurity(prev => ({ ...prev, sessionTimeout: parseInt(value) }))
+                            setSecurity((prev) => ({ ...prev, sessionTimeout: parseInt(value) }))
                           }
                         >
                           <SelectTrigger className="ff-focus-ring">
@@ -1000,9 +1062,14 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                   <h4 className="text-sm font-medium">Active Sessions</h4>
                   <div className="space-y-3">
                     {security.activeSession.map((session) => (
-                      <div key={session.id} className="flex items-center justify-between p-3 border border-border rounded-lg">
+                      <div
+                        key={session.id}
+                        className="flex items-center justify-between p-3 border border-border rounded-lg"
+                      >
                         <div className="flex items-center gap-3">
-                          {getDeviceIcon(session.device.toLowerCase().includes('iphone') ? 'mobile' : 'desktop')}
+                          {getDeviceIcon(
+                            session.device.toLowerCase().includes('iphone') ? 'mobile' : 'desktop'
+                          )}
                           <div>
                             <p className="text-sm font-medium">{session.device}</p>
                             <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -1012,7 +1079,10 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                               {session.current && (
                                 <>
                                   <span>•</span>
-                                  <Badge variant="default" className="text-xs bg-success/10 text-success">
+                                  <Badge
+                                    variant="default"
+                                    className="text-xs bg-success/10 text-success"
+                                  >
                                     Current session
                                   </Badge>
                                 </>
@@ -1036,7 +1106,10 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                   <h4 className="text-sm font-medium">Trusted Devices</h4>
                   <div className="space-y-3">
                     {security.trustedDevices.map((device) => (
-                      <div key={device.id} className="flex items-center justify-between p-3 border border-border rounded-lg">
+                      <div
+                        key={device.id}
+                        className="flex items-center justify-between p-3 border border-border rounded-lg"
+                      >
                         <div className="flex items-center gap-3">
                           {getDeviceIcon(device.type)}
                           <div>
@@ -1070,7 +1143,9 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                     <div className="flex items-center gap-3">
                       {getTierIcon(billing.currentPlan)}
                       <div>
-                        <h3 className="text-lg font-semibold capitalize">{billing.currentPlan} Plan</h3>
+                        <h3 className="text-lg font-semibold capitalize">
+                          {billing.currentPlan} Plan
+                        </h3>
                         <p className="text-sm text-muted-foreground">
                           Billed {billing.billingCycle}
                         </p>
@@ -1089,7 +1164,9 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                     </div>
                     <div className="flex justify-between text-sm">
                       <span>Payment method</span>
-                      <span>{billing.paymentMethod.brand} •••• {billing.paymentMethod.last4}</span>
+                      <span>
+                        {billing.paymentMethod.brand} •••• {billing.paymentMethod.last4}
+                      </span>
                     </div>
                   </div>
 
@@ -1113,33 +1190,62 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>AI Tools Used</span>
-                        <span>{billing.usage.toolsUsed} / {billing.usage.limits.tools}</span>
+                        <span>
+                          {billing.usage.toolsUsed} / {billing.usage.limits.tools}
+                        </span>
                       </div>
-                      <Progress value={getUsagePercentage(billing.usage.toolsUsed, billing.usage.limits.tools)} />
+                      <Progress
+                        value={getUsagePercentage(
+                          billing.usage.toolsUsed,
+                          billing.usage.limits.tools
+                        )}
+                      />
                     </div>
 
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>Projects Created</span>
-                        <span>{billing.usage.projectsCreated} / {billing.usage.limits.projects}</span>
+                        <span>
+                          {billing.usage.projectsCreated} / {billing.usage.limits.projects}
+                        </span>
                       </div>
-                      <Progress value={getUsagePercentage(billing.usage.projectsCreated, billing.usage.limits.projects)} />
+                      <Progress
+                        value={getUsagePercentage(
+                          billing.usage.projectsCreated,
+                          billing.usage.limits.projects
+                        )}
+                      />
                     </div>
 
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>Storage Used</span>
-                        <span>{billing.usage.storageUsed} GB / {billing.usage.limits.storage} GB</span>
+                        <span>
+                          {billing.usage.storageUsed} GB / {billing.usage.limits.storage} GB
+                        </span>
                       </div>
-                      <Progress value={getUsagePercentage(billing.usage.storageUsed, billing.usage.limits.storage)} />
+                      <Progress
+                        value={getUsagePercentage(
+                          billing.usage.storageUsed,
+                          billing.usage.limits.storage
+                        )}
+                      />
                     </div>
 
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>API Calls</span>
-                        <span>{billing.usage.apiCalls.toLocaleString()} / {billing.usage.limits.apiCalls.toLocaleString()}</span>
+                        <span>
+                          {billing.usage.apiCalls.toLocaleString()} /{' '}
+                          {billing.usage.limits.apiCalls.toLocaleString()}
+                        </span>
                       </div>
-                      <Progress value={getUsagePercentage(billing.usage.apiCalls, billing.usage.limits.apiCalls)} />
+                      <Progress
+                        value={getUsagePercentage(
+                          billing.usage.apiCalls,
+                          billing.usage.limits.apiCalls
+                        )}
+                      />
                     </div>
                   </div>
                 </CardContent>
@@ -1153,7 +1259,10 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
               <CardContent>
                 <div className="space-y-3">
                   {billing.billingHistory.map((invoice) => (
-                    <div key={invoice.id} className="flex items-center justify-between p-3 border border-border rounded-lg">
+                    <div
+                      key={invoice.id}
+                      className="flex items-center justify-between p-3 border border-border rounded-lg"
+                    >
                       <div className="flex items-center gap-3">
                         <CreditCard className="w-4 h-4 text-muted-foreground" />
                         <div>
@@ -1165,12 +1274,14 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                       </div>
                       <div className="flex items-center gap-3">
                         <span className="text-sm font-medium">${invoice.amount}</span>
-                        <Badge 
+                        <Badge
                           variant={invoice.status === 'paid' ? 'default' : 'outline'}
                           className={
-                            invoice.status === 'paid' ? 'bg-success/10 text-success border-success/20' :
-                            invoice.status === 'pending' ? 'bg-warning/10 text-warning border-warning/20' :
-                            'bg-destructive/10 text-destructive border-destructive/20'
+                            invoice.status === 'paid'
+                              ? 'bg-success/10 text-success border-success/20'
+                              : invoice.status === 'pending'
+                                ? 'bg-warning/10 text-warning border-warning/20'
+                                : 'bg-destructive/10 text-destructive border-destructive/20'
                           }
                         >
                           {invoice.status}
@@ -1195,18 +1306,18 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <h4 className="text-sm font-medium">Data & Privacy</h4>
-                    
+
                     <div className="space-y-3">
                       <Button variant="outline" className="w-full justify-start">
                         <Download className="w-4 h-4 mr-2" />
                         Export My Data
                       </Button>
-                      
+
                       <Button variant="outline" className="w-full justify-start">
                         <Eye className="w-4 h-4 mr-2" />
                         View Privacy Settings
                       </Button>
-                      
+
                       <Button variant="outline" className="w-full justify-start">
                         <Activity className="w-4 h-4 mr-2" />
                         Download Activity Log
@@ -1216,13 +1327,13 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
 
                   <div className="space-y-4">
                     <h4 className="text-sm font-medium">Account Actions</h4>
-                    
+
                     <div className="space-y-3">
                       <Button variant="outline" className="w-full justify-start">
                         <Users className="w-4 h-4 mr-2" />
                         Transfer Ownership
                       </Button>
-                      
+
                       <Button variant="outline" className="w-full justify-start">
                         <Clock className="w-4 h-4 mr-2" />
                         Deactivate Account
@@ -1238,18 +1349,19 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
                     <AlertTriangle className="w-5 h-5 text-destructive" />
                     <h4 className="text-sm font-medium text-destructive">Danger Zone</h4>
                   </div>
-                  
+
                   <div className="p-4 border border-destructive/20 rounded-lg bg-destructive/5">
                     <div className="space-y-3">
                       <div>
                         <h5 className="text-sm font-medium">Delete Account</h5>
                         <p className="text-xs text-muted-foreground">
-                          Permanently delete your account and all associated data. This action cannot be undone.
+                          Permanently delete your account and all associated data. This action
+                          cannot be undone.
                         </p>
                       </div>
-                      
-                      <Button 
-                        variant="destructive" 
+
+                      <Button
+                        variant="destructive"
                         onClick={handleDeleteAccount}
                         className="w-full sm:w-auto"
                       >

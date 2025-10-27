@@ -7,11 +7,11 @@ import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Progress } from '../ui/progress';
-import { 
-  Palette, 
-  Type, 
-  Download, 
-  Copy, 
+import {
+  Palette,
+  Type,
+  Download,
+  Copy,
   RefreshCw,
   Sparkles,
   Eye,
@@ -32,7 +32,7 @@ import {
   Briefcase,
   Globe,
   Camera,
-  PaintBucket
+  PaintBucket,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -86,7 +86,7 @@ export function BrandKitGenerator() {
     brandPersonality: [],
     description: '',
     competitors: '',
-    goals: ''
+    goals: '',
   });
   const [generatedBrandKit, setGeneratedBrandKit] = useState<BrandKit | null>(null);
   const [activeTab, setActiveTab] = useState('input');
@@ -103,32 +103,68 @@ export function BrandKitGenerator() {
     'Real Estate',
     'Finance & Insurance',
     'Travel & Hospitality',
-    'Non-profit & Social'
+    'Non-profit & Social',
   ];
 
   const personalityTraits = [
-    'Professional', 'Friendly', 'Innovative', 'Trustworthy', 'Creative',
-    'Bold', 'Elegant', 'Playful', 'Sophisticated', 'Authentic',
-    'Energetic', 'Reliable', 'Inspiring', 'Approachable', 'Premium'
+    'Professional',
+    'Friendly',
+    'Innovative',
+    'Trustworthy',
+    'Creative',
+    'Bold',
+    'Elegant',
+    'Playful',
+    'Sophisticated',
+    'Authentic',
+    'Energetic',
+    'Reliable',
+    'Inspiring',
+    'Approachable',
+    'Premium',
   ];
 
   const colorPalettes = [
     {
       name: 'Modern Tech',
-      colors: { primary: '#2563eb', secondary: '#0ea5e9', accent: '#06b6d4', background: '#f8fafc', text: '#1e293b' }
+      colors: {
+        primary: '#2563eb',
+        secondary: '#0ea5e9',
+        accent: '#06b6d4',
+        background: '#f8fafc',
+        text: '#1e293b',
+      },
     },
     {
       name: 'Natural Organic',
-      colors: { primary: '#16a34a', secondary: '#84cc16', accent: '#65a30d', background: '#f7fee7', text: '#365314' }
+      colors: {
+        primary: '#16a34a',
+        secondary: '#84cc16',
+        accent: '#65a30d',
+        background: '#f7fee7',
+        text: '#365314',
+      },
     },
     {
       name: 'Creative Studio',
-      colors: { primary: '#dc2626', secondary: '#ea580c', accent: '#d97706', background: '#fef2f2', text: '#7f1d1d' }
+      colors: {
+        primary: '#dc2626',
+        secondary: '#ea580c',
+        accent: '#d97706',
+        background: '#fef2f2',
+        text: '#7f1d1d',
+      },
     },
     {
       name: 'Luxury Premium',
-      colors: { primary: '#7c3aed', secondary: '#a855f7', accent: '#c084fc', background: '#faf5ff', text: '#581c87' }
-    }
+      colors: {
+        primary: '#7c3aed',
+        secondary: '#a855f7',
+        accent: '#c084fc',
+        background: '#faf5ff',
+        text: '#581c87',
+      },
+    },
   ];
 
   const handleGenerate = async () => {
@@ -148,49 +184,55 @@ export function BrandKitGenerator() {
       { step: 60, message: 'Selecting typography...' },
       { step: 75, message: 'Creating brand voice...' },
       { step: 90, message: 'Designing logo concepts...' },
-      { step: 100, message: 'Finalizing brand kit...' }
+      { step: 100, message: 'Finalizing brand kit...' },
     ];
 
     for (const { step } of progressSteps) {
-      await new Promise(resolve => setTimeout(resolve, 800));
+      await new Promise((resolve) => setTimeout(resolve, 800));
       setGenerationProgress(step);
     }
 
     // Generate sample brand kit
     const selectedPalette = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
-    
+
     const brandKit: BrandKit = {
       id: Date.now().toString(),
       name: brandData.businessName,
-      description: brandData.description || `A modern ${brandData.industry.toLowerCase()} brand focused on ${brandData.targetAudience.toLowerCase()}`,
+      description:
+        brandData.description ||
+        `A modern ${brandData.industry.toLowerCase()} brand focused on ${brandData.targetAudience.toLowerCase()}`,
       industry: brandData.industry,
       colors: selectedPalette.colors,
       fonts: {
         primary: 'Inter',
         secondary: 'Open Sans',
-        display: 'Poppins'
+        display: 'Poppins',
       },
       tone: {
         personality: brandData.brandPersonality,
-        voice: brandData.brandPersonality.includes('Professional') ? 'Professional and authoritative' : 
-               brandData.brandPersonality.includes('Friendly') ? 'Warm and approachable' :
-               'Confident and engaging',
-        style: brandData.brandPersonality.includes('Bold') ? 'Direct and impactful' :
-               brandData.brandPersonality.includes('Elegant') ? 'Refined and sophisticated' :
-               'Clear and conversational'
+        voice: brandData.brandPersonality.includes('Professional')
+          ? 'Professional and authoritative'
+          : brandData.brandPersonality.includes('Friendly')
+            ? 'Warm and approachable'
+            : 'Confident and engaging',
+        style: brandData.brandPersonality.includes('Bold')
+          ? 'Direct and impactful'
+          : brandData.brandPersonality.includes('Elegant')
+            ? 'Refined and sophisticated'
+            : 'Clear and conversational',
       },
       logos: {
         main: 'Logo with symbol and text',
         icon: 'Symbol only',
-        wordmark: 'Text only'
+        wordmark: 'Text only',
       },
       templates: [
         'Business Card Template',
         'Social Media Template',
         'Email Signature Template',
         'Letterhead Template',
-        'Invoice Template'
-      ]
+        'Invoice Template',
+      ],
     };
 
     setGeneratedBrandKit(brandKit);
@@ -198,11 +240,11 @@ export function BrandKitGenerator() {
   };
 
   const handlePersonalityToggle = (trait: string) => {
-    setBrandData(prev => ({
+    setBrandData((prev) => ({
       ...prev,
       brandPersonality: prev.brandPersonality.includes(trait)
-        ? prev.brandPersonality.filter(p => p !== trait)
-        : [...prev.brandPersonality, trait]
+        ? prev.brandPersonality.filter((p) => p !== trait)
+        : [...prev.brandPersonality, trait],
     }));
   };
 
@@ -218,7 +260,7 @@ export function BrandKitGenerator() {
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Header */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -228,7 +270,8 @@ export function BrandKitGenerator() {
           <h1 className="ff-text-gradient">AI Brand Kit Generator</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Create a complete brand identity with AI-generated logos, color palettes, typography, and brand guidelines
+          Create a complete brand identity with AI-generated logos, color palettes, typography, and
+          brand guidelines
         </p>
       </motion.div>
 
@@ -254,9 +297,7 @@ export function BrandKitGenerator() {
                   <Briefcase className="w-5 h-5 text-primary" />
                   <span>Business Information</span>
                 </CardTitle>
-                <CardDescription>
-                  Tell us about your business
-                </CardDescription>
+                <CardDescription>Tell us about your business</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -264,20 +305,25 @@ export function BrandKitGenerator() {
                   <Input
                     placeholder="Your business name"
                     value={brandData.businessName}
-                    onChange={(e) => setBrandData(prev => ({ ...prev, businessName: e.target.value }))}
+                    onChange={(e) =>
+                      setBrandData((prev) => ({ ...prev, businessName: e.target.value }))
+                    }
                   />
                 </div>
 
                 <div>
                   <label className="text-sm font-medium mb-2 block">Industry</label>
-                  <Select value={brandData.industry} onValueChange={(value) => 
-                    setBrandData(prev => ({ ...prev, industry: value }))
-                  }>
+                  <Select
+                    value={brandData.industry}
+                    onValueChange={(value) =>
+                      setBrandData((prev) => ({ ...prev, industry: value }))
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select industry" />
                     </SelectTrigger>
                     <SelectContent>
-                      {industries.map(industry => (
+                      {industries.map((industry) => (
                         <SelectItem key={industry} value={industry}>
                           {industry}
                         </SelectItem>
@@ -291,7 +337,9 @@ export function BrandKitGenerator() {
                   <Input
                     placeholder="e.g., young professionals, creative entrepreneurs"
                     value={brandData.targetAudience}
-                    onChange={(e) => setBrandData(prev => ({ ...prev, targetAudience: e.target.value }))}
+                    onChange={(e) =>
+                      setBrandData((prev) => ({ ...prev, targetAudience: e.target.value }))
+                    }
                   />
                 </div>
 
@@ -300,7 +348,9 @@ export function BrandKitGenerator() {
                   <Textarea
                     placeholder="Describe what your business does and what makes it unique"
                     value={brandData.description}
-                    onChange={(e) => setBrandData(prev => ({ ...prev, description: e.target.value }))}
+                    onChange={(e) =>
+                      setBrandData((prev) => ({ ...prev, description: e.target.value }))
+                    }
                     rows={3}
                   />
                 </div>
@@ -313,13 +363,11 @@ export function BrandKitGenerator() {
                   <Smile className="w-5 h-5 text-secondary" />
                   <span>Brand Personality</span>
                 </CardTitle>
-                <CardDescription>
-                  Select traits that describe your brand
-                </CardDescription>
+                <CardDescription>Select traits that describe your brand</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-3 gap-2">
-                  {personalityTraits.map(trait => (
+                  {personalityTraits.map((trait) => (
                     <button
                       key={trait}
                       onClick={() => handlePersonalityToggle(trait)}
@@ -339,7 +387,9 @@ export function BrandKitGenerator() {
                   <Input
                     placeholder="e.g., Apple, Nike, Airbnb"
                     value={brandData.competitors}
-                    onChange={(e) => setBrandData(prev => ({ ...prev, competitors: e.target.value }))}
+                    onChange={(e) =>
+                      setBrandData((prev) => ({ ...prev, competitors: e.target.value }))
+                    }
                   />
                 </div>
 
@@ -348,13 +398,13 @@ export function BrandKitGenerator() {
                   <Textarea
                     placeholder="What do you want your brand to achieve?"
                     value={brandData.goals}
-                    onChange={(e) => setBrandData(prev => ({ ...prev, goals: e.target.value }))}
+                    onChange={(e) => setBrandData((prev) => ({ ...prev, goals: e.target.value }))}
                     rows={2}
                   />
                 </div>
 
-                <Button 
-                  onClick={handleGenerate} 
+                <Button
+                  onClick={handleGenerate}
                   disabled={!brandData.businessName || !brandData.industry || isGenerating}
                   className="w-full ff-btn-primary mt-6"
                   size="lg"
@@ -445,7 +495,7 @@ export function BrandKitGenerator() {
                         animate={{ opacity: 1, scale: 1 }}
                         className="space-y-2"
                       >
-                        <div 
+                        <div
                           className="w-full h-20 rounded-lg border cursor-pointer group relative overflow-hidden"
                           style={{ backgroundColor: color }}
                           onClick={() => copyColor(color)}
@@ -480,10 +530,7 @@ export function BrandKitGenerator() {
                           <h4 className="font-medium capitalize">{type} Font</h4>
                           <p className="text-sm text-muted-foreground">{font}</p>
                         </div>
-                        <div 
-                          className="p-4 border rounded-lg"
-                          style={{ fontFamily: font }}
-                        >
+                        <div className="p-4 border rounded-lg" style={{ fontFamily: font }}>
                           <h3 className="text-xl font-bold mb-2">{generatedBrandKit.name}</h3>
                           <p className="text-sm">The quick brown fox jumps over the lazy dog</p>
                         </div>
@@ -506,18 +553,24 @@ export function BrandKitGenerator() {
                     <div>
                       <h4 className="font-medium mb-3">Personality Traits</h4>
                       <div className="flex flex-wrap gap-2">
-                        {generatedBrandKit.tone.personality.map(trait => (
-                          <Badge key={trait} variant="outline">{trait}</Badge>
+                        {generatedBrandKit.tone.personality.map((trait) => (
+                          <Badge key={trait} variant="outline">
+                            {trait}
+                          </Badge>
                         ))}
                       </div>
                     </div>
                     <div>
                       <h4 className="font-medium mb-3">Voice</h4>
-                      <p className="text-sm text-muted-foreground">{generatedBrandKit.tone.voice}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {generatedBrandKit.tone.voice}
+                      </p>
                     </div>
                     <div>
                       <h4 className="font-medium mb-3">Communication Style</h4>
-                      <p className="text-sm text-muted-foreground">{generatedBrandKit.tone.style}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {generatedBrandKit.tone.style}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -590,10 +643,7 @@ export function BrandKitGenerator() {
 
         {/* Customize Tab */}
         <TabsContent value="customize" className="space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
@@ -609,7 +659,8 @@ export function BrandKitGenerator() {
                   <Wand2 className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                   <h3 className="font-medium mb-2">Customization Tools</h3>
                   <p className="text-muted-foreground">
-                    Advanced customization features coming soon. Fine-tune every aspect of your brand.
+                    Advanced customization features coming soon. Fine-tune every aspect of your
+                    brand.
                   </p>
                 </div>
               </CardContent>
@@ -619,10 +670,7 @@ export function BrandKitGenerator() {
 
         {/* Templates Tab */}
         <TabsContent value="templates" className="space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">

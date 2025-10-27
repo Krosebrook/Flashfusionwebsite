@@ -6,7 +6,20 @@ import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Switch } from '../ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { CheckCircle, BarChart3, TrendingUp, Users, DollarSign, Eye, Zap, Target, Brain, ArrowRight, Activity, PieChart } from 'lucide-react';
+import {
+  CheckCircle,
+  BarChart3,
+  TrendingUp,
+  Users,
+  DollarSign,
+  Eye,
+  Zap,
+  Target,
+  Brain,
+  ArrowRight,
+  Activity,
+  PieChart,
+} from 'lucide-react';
 
 interface SmartAnalyticsWorkflowProps {
   onComplete?: () => void;
@@ -30,7 +43,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       priority: 'critical',
       features: ['Core Web Vitals', 'Loading times', 'Error tracking', 'Performance scores'],
       kpis: ['Page load time', 'First contentful paint', 'Cumulative layout shift', 'Error rate'],
-      recommended: true
+      recommended: true,
     },
     {
       id: 'user-behavior',
@@ -41,7 +54,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       priority: 'critical',
       features: ['User journeys', 'Heatmaps', 'Session recordings', 'Conversion funnels'],
       kpis: ['Session duration', 'Bounce rate', 'Page views', 'User engagement'],
-      recommended: true
+      recommended: true,
     },
     {
       id: 'revenue',
@@ -51,7 +64,12 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       category: 'business',
       priority: 'high',
       features: ['Revenue tracking', 'Customer LTV', 'Conversion rates', 'Revenue attribution'],
-      kpis: ['Monthly recurring revenue', 'Customer acquisition cost', 'Conversion rate', 'Average order value']
+      kpis: [
+        'Monthly recurring revenue',
+        'Customer acquisition cost',
+        'Conversion rate',
+        'Average order value',
+      ],
     },
     {
       id: 'audience',
@@ -61,7 +79,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       category: 'marketing',
       priority: 'high',
       features: ['Demographics', 'Geographic data', 'Device analytics', 'Channel attribution'],
-      kpis: ['User demographics', 'Geographic distribution', 'Device usage', 'Traffic sources']
+      kpis: ['User demographics', 'Geographic distribution', 'Device usage', 'Traffic sources'],
     },
     {
       id: 'predictive',
@@ -71,7 +89,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       category: 'ai',
       priority: 'medium',
       features: ['Trend forecasting', 'Churn prediction', 'Demand forecasting', 'Risk analysis'],
-      kpis: ['Predicted growth', 'Churn probability', 'Forecast accuracy', 'Risk scores']
+      kpis: ['Predicted growth', 'Churn probability', 'Forecast accuracy', 'Risk scores'],
     },
     {
       id: 'competitive',
@@ -81,8 +99,8 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       category: 'market',
       priority: 'medium',
       features: ['Market share', 'Competitor tracking', 'Pricing analysis', 'Feature comparison'],
-      kpis: ['Market position', 'Competitive advantage', 'Price competitiveness', 'Feature gaps']
-    }
+      kpis: ['Market position', 'Competitive advantage', 'Price competitiveness', 'Feature gaps'],
+    },
   ];
 
   const dashboardTypes = [
@@ -92,7 +110,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       description: 'High-level KPIs and business metrics for leadership',
       audience: 'C-Suite, Executives',
       updateFrequency: 'Daily',
-      widgets: ['Revenue trends', 'User growth', 'Key metrics', 'Goal progress']
+      widgets: ['Revenue trends', 'User growth', 'Key metrics', 'Goal progress'],
     },
     {
       id: 'operational',
@@ -100,7 +118,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       description: 'Day-to-day operational metrics and performance indicators',
       audience: 'Operations, Managers',
       updateFrequency: 'Real-time',
-      widgets: ['System health', 'User activity', 'Support metrics', 'Performance alerts']
+      widgets: ['System health', 'User activity', 'Support metrics', 'Performance alerts'],
     },
     {
       id: 'marketing',
@@ -108,7 +126,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       description: 'Campaign performance and marketing attribution analytics',
       audience: 'Marketing team',
       updateFrequency: 'Hourly',
-      widgets: ['Campaign ROI', 'Channel performance', 'Lead generation', 'Conversion funnels']
+      widgets: ['Campaign ROI', 'Channel performance', 'Lead generation', 'Conversion funnels'],
     },
     {
       id: 'product',
@@ -116,38 +134,36 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       description: 'Product usage, feature adoption, and user experience metrics',
       audience: 'Product team',
       updateFrequency: 'Real-time',
-      widgets: ['Feature usage', 'User feedback', 'Product metrics', 'A/B test results']
-    }
+      widgets: ['Feature usage', 'User feedback', 'Product metrics', 'A/B test results'],
+    },
   ];
 
   const handleMetricToggle = (metricId: string) => {
-    setSelectedMetrics(prev => 
-      prev.includes(metricId) 
-        ? prev.filter(id => id !== metricId)
-        : [...prev, metricId]
+    setSelectedMetrics((prev) =>
+      prev.includes(metricId) ? prev.filter((id) => id !== metricId) : [...prev, metricId]
     );
   };
 
   const handleSetupAnalytics = async () => {
     setIsSettingUp(true);
     setCurrentStep(3);
-    
+
     // Simulate analytics setup
     for (let i = 0; i <= 100; i += 3) {
       setSetupProgress(i);
-      await new Promise(resolve => setTimeout(resolve, 60));
+      await new Promise((resolve) => setTimeout(resolve, 60));
     }
-    
+
     // Generate analytics results with realistic data
     setAnalyticsResults({
-      metrics: selectedMetrics.map(metricId => {
-        const metric = analyticsMetrics.find(m => m.id === metricId);
+      metrics: selectedMetrics.map((metricId) => {
+        const metric = analyticsMetrics.find((m) => m.id === metricId);
         return {
           id: metricId,
           name: metric?.name,
           status: 'active',
           dataPoints: generateMetricData(metricId),
-          insights: generateInsights(metricId)
+          insights: generateInsights(metricId),
         };
       }),
       dashboards: [
@@ -156,25 +172,25 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
           name: 'Executive Dashboard',
           status: 'active',
           widgets: 8,
-          lastUpdated: new Date().toISOString()
+          lastUpdated: new Date().toISOString(),
         },
         {
           id: 'operational',
           name: 'Operational Dashboard',
           status: 'active',
           widgets: 12,
-          lastUpdated: new Date().toISOString()
-        }
+          lastUpdated: new Date().toISOString(),
+        },
       ],
       realTimeData: {
         activeUsers: Math.floor(Math.random() * 500) + 200,
         pageViews: Math.floor(Math.random() * 10000) + 5000,
         revenue: Math.floor(Math.random() * 50000) + 25000,
-        conversionRate: (Math.random() * 5 + 2).toFixed(2) + '%'
+        conversionRate: (Math.random() * 5 + 2).toFixed(2) + '%',
       },
-      alerts: generateAlerts()
+      alerts: generateAlerts(),
     });
-    
+
     setIsSettingUp(false);
     setCurrentStep(4);
   };
@@ -185,26 +201,26 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
         pageLoadTime: (Math.random() * 2 + 1).toFixed(2) + 's',
         errorRate: (Math.random() * 2).toFixed(2) + '%',
         uptime: '99.9%',
-        coreWebVitals: 'Good'
+        coreWebVitals: 'Good',
       },
       'user-behavior': {
         averageSession: (Math.random() * 5 + 3).toFixed(1) + ' min',
         bounceRate: (Math.random() * 20 + 30).toFixed(1) + '%',
         pagesPerSession: (Math.random() * 3 + 2).toFixed(1),
-        engagement: (Math.random() * 30 + 60).toFixed(0) + '%'
+        engagement: (Math.random() * 30 + 60).toFixed(0) + '%',
       },
       revenue: {
         mrr: '$' + (Math.random() * 50000 + 25000).toFixed(0),
         arpu: '$' + (Math.random() * 200 + 100).toFixed(0),
         cac: '$' + (Math.random() * 100 + 50).toFixed(0),
-        ltv: '$' + (Math.random() * 2000 + 1000).toFixed(0)
+        ltv: '$' + (Math.random() * 2000 + 1000).toFixed(0),
       },
       audience: {
         totalUsers: Math.floor(Math.random() * 10000) + 5000,
         newUsers: Math.floor(Math.random() * 1000) + 500,
         returningUsers: Math.floor(Math.random() * 5000) + 2500,
-        demographics: 'Primary: 25-34 years'
-      }
+        demographics: 'Primary: 25-34 years',
+      },
     };
 
     return baseData[metricId as keyof typeof baseData] || {};
@@ -215,23 +231,23 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       performance: [
         'Page load time improved by 23% this week',
         'Core Web Vitals score is in the "Good" range',
-        'Error rate decreased by 40% after recent updates'
+        'Error rate decreased by 40% after recent updates',
       ],
       'user-behavior': [
         'User engagement increased by 15% this month',
         'Mobile users spend 20% more time on the platform',
-        'Feature adoption rate is above industry average'
+        'Feature adoption rate is above industry average',
       ],
       revenue: [
         'Revenue growth is trending 12% above forecast',
         'Customer acquisition cost decreased by 8%',
-        'Monthly recurring revenue hit a new high'
+        'Monthly recurring revenue hit a new high',
       ],
       audience: [
         'Primary audience is 25-34 years old professionals',
         '60% of users access from mobile devices',
-        'North American market shows strongest growth'
-      ]
+        'North American market shows strongest growth',
+      ],
     };
 
     return insights[metricId as keyof typeof insights] || [];
@@ -242,20 +258,20 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       type: 'success',
       message: 'Revenue exceeded monthly target by 15%',
       timestamp: new Date().toISOString(),
-      metric: 'Revenue'
+      metric: 'Revenue',
     },
     {
       type: 'warning',
       message: 'Page load time increased by 0.3s - investigate',
       timestamp: new Date(Date.now() - 3600000).toISOString(),
-      metric: 'Performance'
+      metric: 'Performance',
     },
     {
       type: 'info',
       message: 'New user acquisition up 25% this week',
       timestamp: new Date(Date.now() - 7200000).toISOString(),
-      metric: 'User Behavior'
-    }
+      metric: 'User Behavior',
+    },
   ];
 
   const renderStepContent = () => {
@@ -269,7 +285,9 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
               </div>
               <div>
                 <h2 className="ff-text-headline">Smart Analytics</h2>
-                <p className="ff-text-body">Track performance, audience insights, and revenue optimization in real-time</p>
+                <p className="ff-text-body">
+                  Track performance, audience insights, and revenue optimization in real-time
+                </p>
               </div>
             </div>
 
@@ -298,32 +316,32 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
 
             <div className="space-y-4">
               <h3 className="ff-text-title">Select Analytics Metrics</h3>
-              
-              {['critical', 'high', 'medium'].map(priority => {
-                const priorityMetrics = analyticsMetrics.filter(m => m.priority === priority);
+
+              {['critical', 'high', 'medium'].map((priority) => {
+                const priorityMetrics = analyticsMetrics.filter((m) => m.priority === priority);
                 const priorityLabels = {
                   critical: { name: 'Essential Analytics', color: 'text-red-500', icon: '🔴' },
                   high: { name: 'Business Intelligence', color: 'text-orange-500', icon: '🟠' },
-                  medium: { name: 'Advanced Insights', color: 'text-yellow-500', icon: '🟡' }
+                  medium: { name: 'Advanced Insights', color: 'text-yellow-500', icon: '🟡' },
                 };
                 const label = priorityLabels[priority as keyof typeof priorityLabels];
-                
+
                 return (
                   <div key={priority} className="space-y-3">
                     <div className="flex items-center space-x-2">
                       <span className="text-lg">{label.icon}</span>
                       <h4 className={`ff-text-title text-base ${label.color}`}>{label.name}</h4>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {priorityMetrics.map(metric => {
+                      {priorityMetrics.map((metric) => {
                         const Icon = metric.icon;
                         return (
-                          <Card 
+                          <Card
                             key={metric.id}
                             className={`ff-card-interactive cursor-pointer transition-all duration-200 ${
-                              selectedMetrics.includes(metric.id) 
-                                ? 'ring-2 ring-purple-500 bg-purple-500/10' 
+                              selectedMetrics.includes(metric.id)
+                                ? 'ring-2 ring-purple-500 bg-purple-500/10'
                                 : 'hover:bg-white/5'
                             }`}
                             onClick={() => handleMetricToggle(metric.id)}
@@ -338,9 +356,13 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                                     <div>
                                       <h5 className="font-semibold">{metric.name}</h5>
                                       <div className="flex items-center space-x-2 mt-1">
-                                        <Badge variant="secondary" className="text-xs">{metric.category}</Badge>
+                                        <Badge variant="secondary" className="text-xs">
+                                          {metric.category}
+                                        </Badge>
                                         {metric.recommended && (
-                                          <Badge className="ff-badge-primary text-xs">Recommended</Badge>
+                                          <Badge className="ff-badge-primary text-xs">
+                                            Recommended
+                                          </Badge>
                                         )}
                                       </div>
                                     </div>
@@ -349,13 +371,13 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                                     <CheckCircle className="w-5 h-5 text-purple-500" />
                                   )}
                                 </div>
-                                
+
                                 <p className="text-sm text-gray-400">{metric.description}</p>
-                                
+
                                 <div className="space-y-2">
                                   <div className="text-xs text-gray-500 font-medium">Features:</div>
                                   <div className="flex flex-wrap gap-1">
-                                    {metric.features.slice(0, 3).map(feature => (
+                                    {metric.features.slice(0, 3).map((feature) => (
                                       <Badge key={feature} variant="outline" className="text-xs">
                                         {feature}
                                       </Badge>
@@ -367,11 +389,13 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                                     )}
                                   </div>
                                 </div>
-                                
+
                                 <div className="space-y-1">
-                                  <div className="text-xs text-gray-500 font-medium">Key Metrics:</div>
+                                  <div className="text-xs text-gray-500 font-medium">
+                                    Key Metrics:
+                                  </div>
                                   <div className="flex flex-wrap gap-1">
-                                    {metric.kpis.slice(0, 2).map(kpi => (
+                                    {metric.kpis.slice(0, 2).map((kpi) => (
                                       <Badge key={kpi} variant="secondary" className="text-xs">
                                         {kpi}
                                       </Badge>
@@ -395,12 +419,13 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
             </div>
 
             <div className="flex justify-center">
-              <Button 
+              <Button
                 onClick={() => setCurrentStep(2)}
                 disabled={selectedMetrics.length === 0}
                 className="ff-btn-primary ff-btn-lg"
               >
-                Configure Analytics ({selectedMetrics.length} metric{selectedMetrics.length !== 1 ? 's' : ''})
+                Configure Analytics ({selectedMetrics.length} metric
+                {selectedMetrics.length !== 1 ? 's' : ''})
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
@@ -421,11 +446,14 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {selectedMetrics.map(metricId => {
-                    const metric = analyticsMetrics.find(m => m.id === metricId);
+                  {selectedMetrics.map((metricId) => {
+                    const metric = analyticsMetrics.find((m) => m.id === metricId);
                     const Icon = metric?.icon || BarChart3;
                     return (
-                      <div key={metricId} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg border">
+                      <div
+                        key={metricId}
+                        className="flex items-center justify-between p-3 bg-gray-800 rounded-lg border"
+                      >
                         <div className="flex items-center space-x-3">
                           <div className="p-2 rounded bg-gradient-to-r from-purple-500 to-pink-500">
                             <Icon className="w-4 h-4 text-white" />
@@ -447,60 +475,73 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                 <TabsTrigger value="reports">Reports</TabsTrigger>
                 <TabsTrigger value="integrations">Integrations</TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="dashboards" className="space-y-4">
                 <Card className="ff-card">
                   <CardContent className="p-6 space-y-4">
                     <h4 className="ff-text-title">Dashboard Configuration</h4>
-                    
+
                     <div className="space-y-4">
-                      {dashboardTypes.map(dashboard => (
-                        <div key={dashboard.id} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border">
+                      {dashboardTypes.map((dashboard) => (
+                        <div
+                          key={dashboard.id}
+                          className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border"
+                        >
                           <div className="space-y-1">
                             <div className="flex items-center space-x-2">
                               <h5 className="font-semibold">{dashboard.name}</h5>
-                              <Badge variant="secondary" className="text-xs">{dashboard.updateFrequency}</Badge>
+                              <Badge variant="secondary" className="text-xs">
+                                {dashboard.updateFrequency}
+                              </Badge>
                             </div>
                             <p className="text-sm text-gray-400">{dashboard.description}</p>
                             <div className="text-xs text-gray-500">For: {dashboard.audience}</div>
                             <div className="flex flex-wrap gap-1 mt-2">
-                              {dashboard.widgets.map(widget => (
+                              {dashboard.widgets.map((widget) => (
                                 <Badge key={widget} variant="outline" className="text-xs">
                                   {widget}
                                 </Badge>
                               ))}
                             </div>
                           </div>
-                          <Switch defaultChecked={dashboard.id === 'executive' || dashboard.id === 'operational'} />
+                          <Switch
+                            defaultChecked={
+                              dashboard.id === 'executive' || dashboard.id === 'operational'
+                            }
+                          />
                         </div>
                       ))}
                     </div>
                   </CardContent>
                 </Card>
               </TabsContent>
-              
+
               <TabsContent value="alerts" className="space-y-4">
                 <Card className="ff-card">
                   <CardContent className="p-6 space-y-4">
                     <h4 className="ff-text-title">Smart Alerts Configuration</h4>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">Performance Alerts</div>
-                          <div className="text-xs text-gray-400">Page load time, errors, uptime</div>
+                          <div className="text-xs text-gray-400">
+                            Page load time, errors, uptime
+                          </div>
                         </div>
                         <Switch defaultChecked />
                       </div>
-                      
+
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">Revenue Alerts</div>
-                          <div className="text-xs text-gray-400">Revenue goals, conversion drops</div>
+                          <div className="text-xs text-gray-400">
+                            Revenue goals, conversion drops
+                          </div>
                         </div>
                         <Switch defaultChecked />
                       </div>
-                      
+
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">User Behavior Alerts</div>
@@ -508,7 +549,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                         </div>
                         <Switch />
                       </div>
-                      
+
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">Predictive Alerts</div>
@@ -535,12 +576,12 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                   </CardContent>
                 </Card>
               </TabsContent>
-              
+
               <TabsContent value="reports" className="space-y-4">
                 <Card className="ff-card">
                   <CardContent className="p-6 space-y-4">
                     <h4 className="ff-text-title">Automated Reporting</h4>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
@@ -549,7 +590,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                         </div>
                         <Switch defaultChecked />
                       </div>
-                      
+
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">Performance Reports</div>
@@ -557,7 +598,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                         </div>
                         <Switch defaultChecked />
                       </div>
-                      
+
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">Marketing Reports</div>
@@ -565,7 +606,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                         </div>
                         <Switch />
                       </div>
-                      
+
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">Custom Reports</div>
@@ -590,7 +631,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                           </SelectContent>
                         </Select>
                       </div>
-                      
+
                       <div className="space-y-2">
                         <label className="ff-text-title text-sm">Delivery Schedule</label>
                         <Select defaultValue="weekly">
@@ -609,16 +650,18 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                   </CardContent>
                 </Card>
               </TabsContent>
-              
+
               <TabsContent value="integrations" className="space-y-4">
                 <Card className="ff-card">
                   <CardContent className="p-6 space-y-4">
                     <h4 className="ff-text-title">Analytics Integrations</h4>
-                    
+
                     <div className="space-y-3">
                       <div className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border">
                         <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 rounded bg-blue-500 flex items-center justify-center text-white text-sm font-bold">GA</div>
+                          <div className="w-8 h-8 rounded bg-blue-500 flex items-center justify-center text-white text-sm font-bold">
+                            GA
+                          </div>
                           <div>
                             <h5 className="font-semibold">Google Analytics 4</h5>
                             <p className="text-sm text-gray-400">Web analytics and reporting</p>
@@ -626,21 +669,27 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                         </div>
                         <Switch defaultChecked />
                       </div>
-                      
+
                       <div className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border">
                         <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 rounded bg-purple-500 flex items-center justify-center text-white text-sm font-bold">MI</div>
+                          <div className="w-8 h-8 rounded bg-purple-500 flex items-center justify-center text-white text-sm font-bold">
+                            MI
+                          </div>
                           <div>
                             <h5 className="font-semibold">Mixpanel</h5>
-                            <p className="text-sm text-gray-400">Product analytics and user tracking</p>
+                            <p className="text-sm text-gray-400">
+                              Product analytics and user tracking
+                            </p>
                           </div>
                         </div>
                         <Switch />
                       </div>
-                      
+
                       <div className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border">
                         <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 rounded bg-green-500 flex items-center justify-center text-white text-sm font-bold">HS</div>
+                          <div className="w-8 h-8 rounded bg-green-500 flex items-center justify-center text-white text-sm font-bold">
+                            HS
+                          </div>
                           <div>
                             <h5 className="font-semibold">HubSpot</h5>
                             <p className="text-sm text-gray-400">CRM and marketing analytics</p>
@@ -648,13 +697,17 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                         </div>
                         <Switch />
                       </div>
-                      
+
                       <div className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border">
                         <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 rounded bg-red-500 flex items-center justify-center text-white text-sm font-bold">SE</div>
+                          <div className="w-8 h-8 rounded bg-red-500 flex items-center justify-center text-white text-sm font-bold">
+                            SE
+                          </div>
                           <div>
                             <h5 className="font-semibold">Sentry</h5>
-                            <p className="text-sm text-gray-400">Error tracking and performance monitoring</p>
+                            <p className="text-sm text-gray-400">
+                              Error tracking and performance monitoring
+                            </p>
                           </div>
                         </div>
                         <Switch defaultChecked />
@@ -666,17 +719,14 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
             </Tabs>
 
             <div className="flex justify-between">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => setCurrentStep(1)}
                 className="ff-btn-outline"
               >
                 Back to Metrics
               </Button>
-              <Button 
-                onClick={handleSetupAnalytics}
-                className="ff-btn-primary ff-btn-lg"
-              >
+              <Button onClick={handleSetupAnalytics} className="ff-btn-primary ff-btn-lg">
                 Deploy Analytics System
                 <BarChart3 className="w-4 h-4 ml-2" />
               </Button>
@@ -693,7 +743,9 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
               </div>
               <div>
                 <h2 className="ff-text-headline">Setting Up Analytics</h2>
-                <p className="ff-text-body">Configuring tracking, dashboards, and intelligent insights</p>
+                <p className="ff-text-body">
+                  Configuring tracking, dashboards, and intelligent insights
+                </p>
               </div>
             </div>
 
@@ -709,10 +761,10 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
 
                 <div className="space-y-4">
                   {selectedMetrics.map((metricId, index) => {
-                    const metric = analyticsMetrics.find(m => m.id === metricId);
+                    const metric = analyticsMetrics.find((m) => m.id === metricId);
                     const Icon = metric?.icon || BarChart3;
                     const progress = Math.min(setupProgress * (Math.random() * 0.3 + 0.8), 100);
-                    
+
                     return (
                       <div key={metricId} className="p-4 bg-gray-800 rounded-lg border">
                         <div className="flex items-center justify-between mb-2">
@@ -729,7 +781,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                           )}
                         </div>
                         <div className="w-full bg-gray-700 rounded-full h-2">
-                          <div 
+                          <div
                             className="bg-purple-500 h-2 rounded-full transition-all duration-300"
                             style={{ width: `${progress}%` }}
                           />
@@ -768,7 +820,9 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
               </div>
               <div>
                 <h2 className="ff-text-headline">Analytics System Live!</h2>
-                <p className="ff-text-body">Smart analytics are now tracking your platform performance</p>
+                <p className="ff-text-body">
+                  Smart analytics are now tracking your platform performance
+                </p>
               </div>
             </div>
 
@@ -781,7 +835,9 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                   <CardContent className="space-y-4">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                       <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                        <div className="text-2xl font-bold text-blue-500">{analyticsResults.realTimeData.activeUsers}</div>
+                        <div className="text-2xl font-bold text-blue-500">
+                          {analyticsResults.realTimeData.activeUsers}
+                        </div>
                         <div className="text-sm text-gray-400">Active Users</div>
                       </div>
                       <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
@@ -812,7 +868,10 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {analyticsResults.metrics.map((metric: any) => (
-                      <div key={metric.id} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border">
+                      <div
+                        key={metric.id}
+                        className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border"
+                      >
                         <div className="flex items-center space-x-4">
                           <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center">
                             <CheckCircle className="w-4 h-4 text-white" />
@@ -834,7 +893,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                     <TabsTrigger value="alerts">Smart Alerts</TabsTrigger>
                     <TabsTrigger value="dashboards">Dashboards</TabsTrigger>
                   </TabsList>
-                  
+
                   <TabsContent value="insights" className="space-y-4">
                     <Card className="ff-card">
                       <CardContent className="p-6">
@@ -845,7 +904,10 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                               <h5 className="font-semibold text-sm">{metric.name}</h5>
                               <div className="space-y-1">
                                 {metric.insights.map((insight: string, index: number) => (
-                                  <div key={index} className="flex items-start space-x-2 p-3 bg-gray-800 rounded-lg">
+                                  <div
+                                    key={index}
+                                    className="flex items-start space-x-2 p-3 bg-gray-800 rounded-lg"
+                                  >
                                     <Brain className="w-4 h-4 text-purple-500 mt-0.5" />
                                     <span className="text-sm text-gray-300">{insight}</span>
                                   </div>
@@ -857,28 +919,39 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                       </CardContent>
                     </Card>
                   </TabsContent>
-                  
+
                   <TabsContent value="alerts" className="space-y-4">
                     <Card className="ff-card">
                       <CardContent className="p-6">
                         <h4 className="ff-text-title mb-4">Recent Alerts</h4>
                         <div className="space-y-3">
                           {analyticsResults.alerts.map((alert: any, index: number) => (
-                            <div key={index} className={`p-3 rounded-lg border ${
-                              alert.type === 'success' ? 'bg-green-500/10 border-green-500/20' :
-                              alert.type === 'warning' ? 'bg-yellow-500/10 border-yellow-500/20' :
-                              'bg-blue-500/10 border-blue-500/20'
-                            }`}>
+                            <div
+                              key={index}
+                              className={`p-3 rounded-lg border ${
+                                alert.type === 'success'
+                                  ? 'bg-green-500/10 border-green-500/20'
+                                  : alert.type === 'warning'
+                                    ? 'bg-yellow-500/10 border-yellow-500/20'
+                                    : 'bg-blue-500/10 border-blue-500/20'
+                              }`}
+                            >
                               <div className="flex items-start space-x-3">
-                                <div className={`w-2 h-2 rounded-full mt-2 ${
-                                  alert.type === 'success' ? 'bg-green-500' :
-                                  alert.type === 'warning' ? 'bg-yellow-500' :
-                                  'bg-blue-500'
-                                }`} />
+                                <div
+                                  className={`w-2 h-2 rounded-full mt-2 ${
+                                    alert.type === 'success'
+                                      ? 'bg-green-500'
+                                      : alert.type === 'warning'
+                                        ? 'bg-yellow-500'
+                                        : 'bg-blue-500'
+                                  }`}
+                                />
                                 <div className="flex-1">
                                   <p className="text-sm text-gray-200">{alert.message}</p>
                                   <div className="flex items-center space-x-2 mt-1">
-                                    <Badge variant="outline" className="text-xs">{alert.metric}</Badge>
+                                    <Badge variant="outline" className="text-xs">
+                                      {alert.metric}
+                                    </Badge>
                                     <span className="text-xs text-gray-500">
                                       {new Date(alert.timestamp).toLocaleTimeString()}
                                     </span>
@@ -891,14 +964,17 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                       </CardContent>
                     </Card>
                   </TabsContent>
-                  
+
                   <TabsContent value="dashboards" className="space-y-4">
                     <Card className="ff-card">
                       <CardContent className="p-6">
                         <h4 className="ff-text-title mb-4">Live Dashboards</h4>
                         <div className="space-y-3">
                           {analyticsResults.dashboards.map((dashboard: any) => (
-                            <div key={dashboard.id} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border">
+                            <div
+                              key={dashboard.id}
+                              className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border"
+                            >
                               <div className="flex items-center space-x-4">
                                 <div className="w-8 h-8 rounded-lg bg-purple-500 flex items-center justify-center">
                                   <PieChart className="w-4 h-4 text-white" />
@@ -906,13 +982,16 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
                                 <div>
                                   <h4 className="font-semibold">{dashboard.name}</h4>
                                   <p className="text-sm text-gray-400">
-                                    {dashboard.widgets} widgets • Updated {new Date(dashboard.lastUpdated).toLocaleTimeString()}
+                                    {dashboard.widgets} widgets • Updated{' '}
+                                    {new Date(dashboard.lastUpdated).toLocaleTimeString()}
                                   </p>
                                 </div>
                               </div>
                               <div className="flex items-center space-x-2">
                                 <Badge className="ff-badge-success">Live</Badge>
-                                <Button size="sm" variant="outline">View</Button>
+                                <Button size="sm" variant="outline">
+                                  View
+                                </Button>
                               </div>
                             </div>
                           ))}
@@ -925,8 +1004,8 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
             )}
 
             <div className="flex justify-center space-x-4">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => {
                   setCurrentStep(1);
                   setSelectedMetrics([]);
@@ -937,10 +1016,7 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
               >
                 Setup Another
               </Button>
-              <Button 
-                onClick={onComplete}
-                className="ff-btn-primary ff-btn-lg"
-              >
+              <Button onClick={onComplete} className="ff-btn-primary ff-btn-lg">
                 Continue to Quality Assurance
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -959,17 +1035,17 @@ export function SmartAnalyticsWorkflow({ onComplete }: SmartAnalyticsWorkflowPro
       <div className="flex items-center justify-center space-x-4 mb-8">
         {[1, 2, 3, 4].map((step) => (
           <div key={step} className="flex items-center">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-              step <= currentStep 
-                ? 'bg-purple-500 text-white' 
-                : 'bg-gray-700 text-gray-400'
-            }`}>
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
+                step <= currentStep ? 'bg-purple-500 text-white' : 'bg-gray-700 text-gray-400'
+              }`}
+            >
               {step < currentStep ? <CheckCircle className="w-4 h-4" /> : step}
             </div>
             {step < 4 && (
-              <div className={`w-16 h-1 mx-2 ${
-                step < currentStep ? 'bg-purple-500' : 'bg-gray-700'
-              }`} />
+              <div
+                className={`w-16 h-1 mx-2 ${step < currentStep ? 'bg-purple-500' : 'bg-gray-700'}`}
+              />
             )}
           </div>
         ))}

@@ -30,33 +30,23 @@ export function ProjectCard({ project, isSelected, onSelect, index }: ProjectCar
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
     >
-      <Card className={cn(
-        "p-4 transition-all duration-300",
-        isSelected && "ring-2 ring-primary"
-      )}>
+      <Card className={cn('p-4 transition-all duration-300', isSelected && 'ring-2 ring-primary')}>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3">
             <h3 className="font-semibold">{project.name}</h3>
-            <Badge className={cn("text-xs", getProjectStatusColor(project.status))}>
+            <Badge className={cn('text-xs', getProjectStatusColor(project.status))}>
               {project.status}
             </Badge>
             <Badge variant="outline" className="text-xs">
               {project.type}
             </Badge>
           </div>
-          
+
           <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onSelect(project.id)}
-            >
+            <Button variant="ghost" size="sm" onClick={() => onSelect(project.id)}>
               <Eye className="h-4 w-4" />
             </Button>
-            <Badge 
-              variant="outline" 
-              className={cn("text-xs", getPriorityColor(project.priority))}
-            >
+            <Badge variant="outline" className={cn('text-xs', getPriorityColor(project.priority))}>
               {project.priority} priority
             </Badge>
           </div>
@@ -68,7 +58,7 @@ export function ProjectCard({ project, isSelected, onSelect, index }: ProjectCar
             <span>{project.progress}%</span>
           </div>
           <Progress value={project.progress} className="h-2" />
-          
+
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1">

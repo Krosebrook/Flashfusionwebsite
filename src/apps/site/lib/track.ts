@@ -5,16 +5,16 @@
 
 export function track(eventName: string, params?: Record<string, unknown>) {
   if (typeof window === 'undefined') return;
-  
+
   // Check consent
   const consent = localStorage.getItem('consent');
   if (consent !== 'granted') return;
-  
+
   // Use gtag if available
   if ((window as any).gtag) {
     (window as any).gtag('event', eventName, params || {});
   }
-  
+
   // Log in development
   if (process.env.NODE_ENV === 'development') {
     console.log('📊 Analytics Event:', eventName, params);

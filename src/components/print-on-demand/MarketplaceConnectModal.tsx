@@ -25,14 +25,18 @@ export function MarketplaceConnectModal({
   onClose,
   selectedMarketplace,
   onConnect,
-  isConnecting
+  isConnecting,
 }: MarketplaceConnectModalProps) {
   const [credentials, setCredentials] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
 
-  const marketplace = selectedMarketplace ? MARKETPLACES[selectedMarketplace as keyof typeof MARKETPLACES] : null;
-  const credentialFields = selectedMarketplace ? MARKETPLACE_CREDENTIALS[selectedMarketplace as keyof typeof MARKETPLACE_CREDENTIALS] || [] : [];
+  const marketplace = selectedMarketplace
+    ? MARKETPLACES[selectedMarketplace as keyof typeof MARKETPLACES]
+    : null;
+  const credentialFields = selectedMarketplace
+    ? MARKETPLACE_CREDENTIALS[selectedMarketplace as keyof typeof MARKETPLACE_CREDENTIALS] || []
+    : [];
 
   useEffect(() => {
     if (isOpen && selectedMarketplace) {
@@ -43,7 +47,7 @@ export function MarketplaceConnectModal({
   }, [isOpen, selectedMarketplace]);
 
   const handleCredentialChange = (field: string, value: string) => {
-    setCredentials(prev => ({ ...prev, [field]: value }));
+    setCredentials((prev) => ({ ...prev, [field]: value }));
     if (errors.length > 0) {
       setErrors([]);
     }
@@ -53,7 +57,7 @@ export function MarketplaceConnectModal({
     if (!selectedMarketplace) return;
 
     const validation = validateMarketplaceCredentials(selectedMarketplace, credentials);
-    
+
     if (!validation.isValid) {
       setErrors(validation.errors);
       return;
@@ -66,16 +70,16 @@ export function MarketplaceConnectModal({
   const steps = [
     {
       title: 'Marketplace Information',
-      description: 'Learn about this marketplace and its requirements'
+      description: 'Learn about this marketplace and its requirements',
     },
     {
       title: 'API Credentials',
-      description: 'Enter your marketplace API credentials'
+      description: 'Enter your marketplace API credentials',
     },
     {
       title: 'Connection Test',
-      description: 'Verify and establish the connection'
-    }
+      description: 'Verify and establish the connection',
+    },
   ];
 
   if (!marketplace) return null;
@@ -104,24 +108,16 @@ export function MarketplaceConnectModal({
                   index < currentStep
                     ? 'bg-primary border-primary text-white'
                     : index === currentStep
-                    ? 'border-primary text-primary'
-                    : 'border-muted text-muted-foreground'
+                      ? 'border-primary text-primary'
+                      : 'border-muted text-muted-foreground'
                 }`}
               >
-                {index < currentStep ? (
-                  <CheckCircle className="h-4 w-4" />
-                ) : (
-                  index + 1
-                )}
+                {index < currentStep ? <CheckCircle className="h-4 w-4" /> : index + 1}
               </div>
               <span className="text-sm font-medium hidden sm:block">{step.title}</span>
-              
+
               {index < steps.length - 1 && (
-                <div
-                  className={`w-8 h-0.5 ${
-                    index < currentStep ? 'bg-primary' : 'bg-muted'
-                  }`}
-                />
+                <div className={`w-8 h-0.5 ${index < currentStep ? 'bg-primary' : 'bg-muted'}`} />
               )}
             </div>
           ))}
@@ -148,11 +144,11 @@ export function MarketplaceConnectModal({
                         {marketplace.category} marketplace
                       </p>
                       <div className="flex items-center space-x-4 text-sm">
-                        <Badge variant="outline">
-                          {marketplace.commission}% commission
-                        </Badge>
+                        <Badge variant="outline">{marketplace.commission}% commission</Badge>
                         <Badge variant="secondary">
-                          {marketplace.supportedProducts.includes('all') ? 'All Products' : 'Limited Products'}
+                          {marketplace.supportedProducts.includes('all')
+                            ? 'All Products'
+                            : 'Limited Products'}
                         </Badge>
                       </div>
                     </div>
@@ -165,9 +161,7 @@ export function MarketplaceConnectModal({
                     {marketplace.features.map((feature) => (
                       <div key={feature} className="flex items-center space-x-2">
                         <CheckCircle className="h-4 w-4 text-green-500" />
-                        <span className="text-sm capitalize">
-                          {feature.replace('_', ' ')}
-                        </span>
+                        <span className="text-sm capitalize">{feature.replace('_', ' ')}</span>
                       </div>
                     ))}
                   </div>
@@ -190,8 +184,9 @@ export function MarketplaceConnectModal({
                 <Alert>
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    You'll need to create an account and obtain API credentials from {marketplace.name} 
-                    before connecting. 
+                    You'll need to create an account and obtain API credentials from{' '}
+                    {marketplace.name}
+                    before connecting.
                     <Button variant="link" className="h-auto p-0 ml-1">
                       <ExternalLink className="h-3 w-3 mr-1" />
                       Get credentials
@@ -260,7 +255,8 @@ export function MarketplaceConnectModal({
                       <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
                       <h4 className="font-semibold mb-2">Ready to Connect</h4>
                       <p className="text-muted-foreground">
-                        Your credentials have been validated. Click connect to establish the connection.
+                        Your credentials have been validated. Click connect to establish the
+                        connection.
                       </p>
                     </div>
                   )}
@@ -280,7 +276,9 @@ export function MarketplaceConnectModal({
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Products:</span>
                       <span>
-                        {marketplace.supportedProducts.includes('all') ? 'All' : marketplace.supportedProducts.join(', ')}
+                        {marketplace.supportedProducts.includes('all')
+                          ? 'All'
+                          : marketplace.supportedProducts.join(', ')}
                       </span>
                     </div>
                   </div>
@@ -295,24 +293,25 @@ export function MarketplaceConnectModal({
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          
+
           <div className="flex items-center space-x-3">
             {currentStep > 0 && (
               <Button
                 variant="ghost"
-                onClick={() => setCurrentStep(prev => prev - 1)}
+                onClick={() => setCurrentStep((prev) => prev - 1)}
                 disabled={isConnecting}
               >
                 Back
               </Button>
             )}
-            
+
             {currentStep < steps.length - 1 ? (
               <Button
-                onClick={() => setCurrentStep(prev => prev + 1)}
-                disabled={currentStep === 1 && credentialFields.some(field => 
-                  field.required && !credentials[field.name]
-                )}
+                onClick={() => setCurrentStep((prev) => prev + 1)}
+                disabled={
+                  currentStep === 1 &&
+                  credentialFields.some((field) => field.required && !credentials[field.name])
+                }
                 className="bg-gradient-to-r from-primary to-secondary"
               >
                 Next

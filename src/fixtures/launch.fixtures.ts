@@ -55,7 +55,7 @@ export const mockLaunchAssets: LaunchAsset[] = [
     status: 'approved',
     priority: 'critical',
     progress: 95,
-    tags: ['documentation', 'user-guide']
+    tags: ['documentation', 'user-guide'],
   },
   {
     id: 'api-docs',
@@ -65,7 +65,7 @@ export const mockLaunchAssets: LaunchAsset[] = [
     status: 'review',
     priority: 'high',
     progress: 80,
-    tags: ['api', 'developers']
+    tags: ['api', 'developers'],
   },
   {
     id: 'launch-video',
@@ -75,7 +75,7 @@ export const mockLaunchAssets: LaunchAsset[] = [
     status: 'draft',
     priority: 'high',
     progress: 60,
-    tags: ['marketing', 'video']
+    tags: ['marketing', 'video'],
   },
   {
     id: 'press-kit',
@@ -85,8 +85,8 @@ export const mockLaunchAssets: LaunchAsset[] = [
     status: 'approved',
     priority: 'medium',
     progress: 100,
-    tags: ['press', 'media']
-  }
+    tags: ['press', 'media'],
+  },
 ];
 
 /**
@@ -104,7 +104,7 @@ export const mockMarketingCampaigns: MarketingCampaign[] = [
     budget: 5000,
     roi: 145,
     startDate: new Date(Date.now() + 86400000),
-    endDate: new Date(Date.now() + 604800000)
+    endDate: new Date(Date.now() + 604800000),
   },
   {
     id: 'email-sequence',
@@ -116,8 +116,8 @@ export const mockMarketingCampaigns: MarketingCampaign[] = [
     budget: 1200,
     roi: 280,
     startDate: new Date(Date.now() + 172800000),
-    endDate: new Date(Date.now() + 1209600000)
-  }
+    endDate: new Date(Date.now() + 1209600000),
+  },
 ];
 
 /**
@@ -132,7 +132,7 @@ export const mockSupportChannels: SupportChannel[] = [
     status: 'active',
     responseTime: '< 4 hours',
     satisfaction: 4.7,
-    volume: 150
+    volume: 150,
   },
   {
     id: 'live-chat',
@@ -141,7 +141,7 @@ export const mockSupportChannels: SupportChannel[] = [
     status: 'testing',
     responseTime: '< 2 minutes',
     satisfaction: 4.9,
-    volume: 89
+    volume: 89,
   },
   {
     id: 'docs-portal',
@@ -150,6 +150,6 @@ export const mockSupportChannels: SupportChannel[] = [
     status: 'active',
     responseTime: 'Instant',
     satisfaction: 4.5,
-    volume: 2400
-  }
+    volume: 2400,
+  },
 ];

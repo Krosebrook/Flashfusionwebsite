@@ -30,34 +30,33 @@ export async function generateDownloadableProject(
   try {
     // Create project structure
     const projectStructure = createProjectStructure(app);
-    
+
     // Add all files to zip
     await addFilesToZip(zip, projectStructure, '');
-    
+
     // Add additional project files
     if (options.includeGitIgnore) {
       zip.file('.gitignore', generateGitIgnore());
     }
-    
+
     // Add package.json files
     zip.file('package.json', generateRootPackageJson(app));
-    
+
     // Add README files
     zip.file('README.md', generateProjectReadme(app));
     zip.file('DEPLOYMENT.md', generateDeploymentGuide(app));
     zip.file('DEVELOPMENT.md', generateDevelopmentGuide(app));
-    
+
     // Generate and download zip file
-    const content = await zip.generateAsync({ 
+    const content = await zip.generateAsync({
       type: 'blob',
       compression: 'DEFLATE',
       compressionOptions: {
-        level: 6
-      }
+        level: 6,
+      },
     });
-    
+
     saveAs(content, `${projectName}-fullstack-project.zip`);
-    
   } catch (error) {
     console.error('Error generating downloadable project:', error);
     throw new Error('Failed to generate project files');
@@ -69,12 +68,12 @@ export async function generateDownloadableProject(
  */
 function createProjectStructure(app: GeneratedApp): ProjectFileStructure {
   const structure: ProjectFileStructure = {};
-  
+
   // Organize files by type and location
-  app.files.forEach(file => {
+  app.files.forEach((file) => {
     const pathParts = file.path.split('/');
     let current = structure;
-    
+
     // Navigate/create nested structure
     for (let i = 0; i < pathParts.length - 1; i++) {
       const part = pathParts[i];
@@ -83,12 +82,12 @@ function createProjectStructure(app: GeneratedApp): ProjectFileStructure {
       }
       current = current[part] as ProjectFileStructure;
     }
-    
+
     // Add the file content
     const fileName = pathParts[pathParts.length - 1];
     current[fileName] = file.content;
   });
-  
+
   return structure;
 }
 
@@ -96,13 +95,13 @@ function createProjectStructure(app: GeneratedApp): ProjectFileStructure {
  * Recursively add files to zip archive
  */
 async function addFilesToZip(
-  zip: JSZip, 
-  structure: ProjectFileStructure, 
+  zip: JSZip,
+  structure: ProjectFileStructure,
   basePath: string
 ): Promise<void> {
   for (const [name, content] of Object.entries(structure)) {
     const fullPath = basePath ? `${basePath}/${name}` : name;
-    
+
     if (typeof content === 'string') {
       // It's a file
       zip.file(fullPath, content);
@@ -120,58 +119,53 @@ async function addFilesToZip(
  * Generate root package.json for the entire project
  */
 function generateRootPackageJson(app: GeneratedApp): string {
-  return JSON.stringify({
-    name: app.name.toLowerCase().replace(/\s+/g, '-'),
-    version: '1.0.0',
-    description: app.description,
-    private: true,
-    workspaces: [
-      'frontend',
-      'backend'
-    ],
-    scripts: {
-      'dev': 'concurrently "npm run dev:backend" "npm run dev:frontend"',
-      'dev:frontend': 'cd frontend && npm run dev',
-      'dev:backend': 'cd backend && npm run dev',
-      'build': 'npm run build:backend && npm run build:frontend',
-      'build:frontend': 'cd frontend && npm run build',
-      'build:backend': 'cd backend && npm run build',
-      'start': 'npm run start:backend',
-      'start:backend': 'cd backend && npm start',
-      'test': 'npm run test:frontend && npm run test:backend',
-      'test:frontend': 'cd frontend && npm test',
-      'test:backend': 'cd backend && npm test',
-      'lint': 'npm run lint:frontend && npm run lint:backend',
-      'lint:frontend': 'cd frontend && npm run lint',
-      'lint:backend': 'cd backend && npm run lint',
-      'docker:dev': 'docker-compose up -d',
-      'docker:prod': 'docker-compose -f docker-compose.prod.yml up -d',
-      'docker:down': 'docker-compose down',
-      'setup': 'npm install && cd frontend && npm install && cd ../backend && npm install'
+  return JSON.stringify(
+    {
+      name: app.name.toLowerCase().replace(/\s+/g, '-'),
+      version: '1.0.0',
+      description: app.description,
+      private: true,
+      workspaces: ['frontend', 'backend'],
+      scripts: {
+        dev: 'concurrently "npm run dev:backend" "npm run dev:frontend"',
+        'dev:frontend': 'cd frontend && npm run dev',
+        'dev:backend': 'cd backend && npm run dev',
+        build: 'npm run build:backend && npm run build:frontend',
+        'build:frontend': 'cd frontend && npm run build',
+        'build:backend': 'cd backend && npm run build',
+        start: 'npm run start:backend',
+        'start:backend': 'cd backend && npm start',
+        test: 'npm run test:frontend && npm run test:backend',
+        'test:frontend': 'cd frontend && npm test',
+        'test:backend': 'cd backend && npm test',
+        lint: 'npm run lint:frontend && npm run lint:backend',
+        'lint:frontend': 'cd frontend && npm run lint',
+        'lint:backend': 'cd backend && npm run lint',
+        'docker:dev': 'docker-compose up -d',
+        'docker:prod': 'docker-compose -f docker-compose.prod.yml up -d',
+        'docker:down': 'docker-compose down',
+        setup: 'npm install && cd frontend && npm install && cd ../backend && npm install',
+      },
+      devDependencies: {
+        concurrently: '^8.2.0',
+        '@types/node': '^20.0.0',
+        typescript: '^5.0.0',
+      },
+      engines: {
+        node: '>=18.0.0',
+        npm: '>=8.0.0',
+      },
+      repository: {
+        type: 'git',
+        url: `https://github.com/username/${app.name.toLowerCase().replace(/\s+/g, '-')}.git`,
+      },
+      keywords: ['fullstack', 'react', 'nodejs', 'typescript', 'generated-by-flashfusion'],
+      author: 'Generated by FlashFusion',
+      license: 'MIT',
     },
-    devDependencies: {
-      'concurrently': '^8.2.0',
-      '@types/node': '^20.0.0',
-      'typescript': '^5.0.0'
-    },
-    engines: {
-      node: '>=18.0.0',
-      npm: '>=8.0.0'
-    },
-    repository: {
-      type: 'git',
-      url: `https://github.com/username/${app.name.toLowerCase().replace(/\s+/g, '-')}.git`
-    },
-    keywords: [
-      'fullstack',
-      'react',
-      'nodejs',
-      'typescript',
-      'generated-by-flashfusion'
-    ],
-    author: 'Generated by FlashFusion',
-    license: 'MIT'
-  }, null, 2);
+    null,
+    2
+  );
 }
 
 /**
@@ -228,7 +222,7 @@ This is a full-stack application with the following architecture:
 
 ## ✨ Features
 
-${app.features.map(feature => `- ✅ ${feature}`).join('\n')}
+${app.features.map((feature) => `- ✅ ${feature}`).join('\n')}
 
 ## 📁 Project Structure
 
@@ -279,7 +273,7 @@ ${app.name.toLowerCase().replace(/\s+/g, '-')}/
 
 The backend provides the following endpoints:
 
-${app.endpoints.map(endpoint => `- \`${endpoint.method} ${endpoint.path}\` - ${endpoint.description}`).join('\n')}
+${app.endpoints.map((endpoint) => `- \`${endpoint.method} ${endpoint.path}\` - ${endpoint.description}`).join('\n')}
 
 ## 🔧 Environment Configuration
 
@@ -921,7 +915,11 @@ dist/
 /**
  * Download individual file
  */
-export function downloadFile(filename: string, content: string, mimeType: string = 'text/plain'): void {
+export function downloadFile(
+  filename: string,
+  content: string,
+  mimeType: string = 'text/plain'
+): void {
   const blob = new Blob([content], { type: mimeType });
   saveAs(blob, filename);
 }
@@ -929,9 +927,11 @@ export function downloadFile(filename: string, content: string, mimeType: string
 /**
  * Download multiple files as separate downloads
  */
-export async function downloadMultipleFiles(files: Array<{ name: string; content: string; type?: string }>): Promise<void> {
+export async function downloadMultipleFiles(
+  files: Array<{ name: string; content: string; type?: string }>
+): Promise<void> {
   for (const file of files) {
-    await new Promise(resolve => setTimeout(resolve, 100)); // Small delay between downloads
+    await new Promise((resolve) => setTimeout(resolve, 100)); // Small delay between downloads
     downloadFile(file.name, file.content, file.type || 'text/plain');
   }
 }
@@ -958,23 +958,23 @@ export async function generateEnhancedDownload(
   options: EnhancedDownloadOptions = { format: 'zip' }
 ): Promise<void> {
   const { onProgress } = options;
-  
+
   try {
     onProgress?.(5, 'Analyzing project structure...');
-    
+
     const zip = new JSZip();
     const projectName = app.name.toLowerCase().replace(/\s+/g, '-');
-    
+
     onProgress?.(15, 'Creating project files...');
-    
+
     // Create enhanced project structure
     const projectStructure = createEnhancedProjectStructure(app, options);
-    
+
     onProgress?.(25, 'Adding application files...');
     await addFilesToZip(zip, projectStructure, '');
-    
+
     onProgress?.(40, 'Generating documentation...');
-    
+
     // Add enhanced documentation
     if (options.generateDocumentation !== false) {
       zip.file('README.md', generateEnhancedReadme(app, options));
@@ -983,65 +983,64 @@ export async function generateEnhancedDownload(
       zip.file('DEPLOYMENT_GUIDE.md', generateEnhancedDeploymentGuide(app));
       zip.file('CONTRIBUTING.md', generateContributingGuide(app));
     }
-    
+
     onProgress?.(55, 'Adding configuration files...');
-    
+
     // Enhanced configuration files
     zip.file('package.json', generateEnhancedRootPackageJson(app, options));
     zip.file('.env.example', generateEnhancedEnvExample(app));
     zip.file('docker-compose.yml', generateEnhancedDockerCompose(app));
     zip.file('docker-compose.prod.yml', generateProductionDockerCompose(app));
-    
+
     onProgress?.(70, 'Adding development tools...');
-    
+
     // Development tools
     zip.file('.eslintrc.js', generateESLintConfig());
     zip.file('.prettierrc.json', generatePrettierConfig());
     zip.file('jest.config.js', generateJestConfig());
     zip.file('tsconfig.json', generateTSConfig());
-    
+
     onProgress?.(80, 'Generating tests...');
-    
+
     // Add tests if requested
     if (options.generateTests) {
       zip.file('frontend/src/__tests__/App.test.tsx', generateFrontendTests(app));
       zip.file('backend/src/__tests__/app.test.ts', generateBackendTests(app));
       zip.file('backend/src/__tests__/auth.test.ts', generateAuthTests(app));
     }
-    
+
     onProgress?.(90, 'Adding CI/CD configurations...');
-    
+
     // CI/CD files
     zip.file('.github/workflows/ci.yml', generateGitHubActionsCI(app));
     zip.file('.github/workflows/deploy.yml', generateGitHubActionsDeploy(app));
     zip.file('.github/ISSUE_TEMPLATE/bug_report.md', generateIssueTemplate('bug'));
     zip.file('.github/ISSUE_TEMPLATE/feature_request.md', generateIssueTemplate('feature'));
-    
+
     onProgress?.(95, 'Finalizing download...');
-    
+
     // Add gitignore and other meta files
     zip.file('.gitignore', generateEnhancedGitIgnore());
     zip.file('LICENSE', generateMITLicense(app));
     zip.file('CHANGELOG.md', generateChangelog(app));
-    
+
     // Add FlashFusion branding and metadata
     zip.file('_flashfusion/metadata.json', generateFlashFusionMetadata(app, options));
     zip.file('_flashfusion/generation-report.html', generateGenerationReport(app, options));
-    
+
     onProgress?.(98, 'Compressing files...');
-    
+
     const content = await zip.generateAsync({
       type: 'blob',
       compression: 'DEFLATE',
       compressionOptions: {
-        level: options.format === 'zip' ? 6 : 0
-      }
+        level: options.format === 'zip' ? 6 : 0,
+      },
     });
-    
+
     onProgress?.(100, 'Download ready!');
-    
+
     saveAs(content, `${projectName}-enhanced-fullstack-project.zip`);
-    
   } catch (error) {
     console.error('Enhanced download failed:', error);
     throw new Error('Failed to generate enhanced project package');
@@ -1052,50 +1051,57 @@ export async function generateEnhancedDownload(
  * Generate package.json for npm install
  */
 export function generateInstallablePackage(app: GeneratedApp): string {
-  return JSON.stringify({
-    name: `@flashfusion/${app.name.toLowerCase().replace(/\s+/g, '-')}`,
-    version: '1.0.0',
-    description: app.description,
-    main: 'index.js',
-    scripts: {
-      postinstall: 'node setup.js'
+  return JSON.stringify(
+    {
+      name: `@flashfusion/${app.name.toLowerCase().replace(/\s+/g, '-')}`,
+      version: '1.0.0',
+      description: app.description,
+      main: 'index.js',
+      scripts: {
+        postinstall: 'node setup.js',
+      },
+      keywords: ['flashfusion', 'generated', 'fullstack'],
+      author: 'FlashFusion',
+      license: 'MIT',
+      files: [
+        'frontend/**/*',
+        'backend/**/*',
+        'database/**/*',
+        'docker-compose.yml',
+        'setup.js',
+        'README.md',
+      ],
     },
-    keywords: ['flashfusion', 'generated', 'fullstack'],
-    author: 'FlashFusion',
-    license: 'MIT',
-    files: [
-      'frontend/**/*',
-      'backend/**/*',
-      'database/**/*',
-      'docker-compose.yml',
-      'setup.js',
-      'README.md'
-    ]
-  }, null, 2);
+    null,
+    2
+  );
 }
 
 // Enhanced generator functions for the new download system
 
-function createEnhancedProjectStructure(app: GeneratedApp, options: EnhancedDownloadOptions): ProjectFileStructure {
+function createEnhancedProjectStructure(
+  app: GeneratedApp,
+  options: EnhancedDownloadOptions
+): ProjectFileStructure {
   const structure = createProjectStructure(app);
-  
+
   // Add enhanced structure elements
   if (options.generateTests) {
     structure['tests'] = {
-      'frontend': {},
-      'backend': {},
-      'e2e': {},
-      'integration': {}
+      frontend: {},
+      backend: {},
+      e2e: {},
+      integration: {},
     };
   }
-  
+
   if (options.includeAnalytics) {
     structure['analytics'] = {
       'tracking.js': '// Analytics tracking implementation',
-      'reports.js': '// Analytics reports generation'
+      'reports.js': '// Analytics reports generation',
     };
   }
-  
+
   return structure;
 }
 
@@ -1103,7 +1109,7 @@ function generateEnhancedReadme(app: GeneratedApp, options: EnhancedDownloadOpti
   const branding = options.customBranding;
   const projectName = app.name;
   const timestamp = new Date().toLocaleDateString();
-  
+
   return `# ${projectName}
 
 ${app.description}
@@ -1143,7 +1149,7 @@ This application follows a modern full-stack architecture:
 
 ## ✨ Features
 
-${app.features.map(feature => `- ✅ ${feature}`).join('\n')}
+${app.features.map((feature) => `- ✅ ${feature}`).join('\n')}
 
 ## 📁 Project Structure
 
@@ -1253,13 +1259,15 @@ docker-compose -f docker-compose.prod.yml up -d
 
 ## 📊 Monitoring & Analytics
 
-${options.includeAnalytics ? 
-  `This application includes built-in analytics and monitoring:
+${
+  options.includeAnalytics
+    ? `This application includes built-in analytics and monitoring:
 - User behavior tracking
 - Performance monitoring  
 - Error tracking and reporting
-- Custom event tracking` :
-  'Analytics can be added by setting includeAnalytics option during generation.'}
+- Custom event tracking`
+    : 'Analytics can be added by setting includeAnalytics option during generation.'
+}
 
 ## 🧪 Testing
 
@@ -1290,13 +1298,17 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - Generated on ${timestamp}
 - Stack: ${Object.values(app.stack).join(', ')}
 
-${branding ? `
+${
+  branding
+    ? `
 ## 📞 Support
 
 For support and questions:
 - Email: ${branding.email || 'support@yourcompany.com'}
 - Website: ${branding.website || 'https://yourcompany.com'}
-` : ''}
+`
+    : ''
+}
 
 ---
 
@@ -1368,7 +1380,9 @@ Authorization: Bearer <your-jwt-token>
 
 ## Endpoints
 
-${app.endpoints.map(endpoint => `
+${app.endpoints
+  .map(
+    (endpoint) => `
 ### ${endpoint.method.toUpperCase()} ${endpoint.path}
 ${endpoint.description}
 
@@ -1380,7 +1394,9 @@ ${endpoint.description}
   "message": "Success"
 }
 \`\`\`
-`).join('\n')}
+`
+  )
+  .join('\n')}
 
 ## Error Handling
 All endpoints return consistent error responses:
@@ -1486,84 +1502,88 @@ Use GitHub issues with appropriate labels:
 `;
 }
 
-function generateEnhancedRootPackageJson(app: GeneratedApp, options: EnhancedDownloadOptions): string {
+function generateEnhancedRootPackageJson(
+  app: GeneratedApp,
+  options: EnhancedDownloadOptions
+): string {
   const branding = options.customBranding;
-  
-  return JSON.stringify({
-    name: app.name.toLowerCase().replace(/\s+/g, '-'),
-    version: '1.0.0',
-    description: app.description,
-    private: true,
-    author: branding?.companyName || 'Generated by FlashFusion',
-    homepage: branding?.website || 'https://flashfusion.dev',
-    repository: {
-      type: 'git',
-      url: `https://github.com/username/${app.name.toLowerCase().replace(/\s+/g, '-')}.git`
+
+  return JSON.stringify(
+    {
+      name: app.name.toLowerCase().replace(/\s+/g, '-'),
+      version: '1.0.0',
+      description: app.description,
+      private: true,
+      author: branding?.companyName || 'Generated by FlashFusion',
+      homepage: branding?.website || 'https://flashfusion.dev',
+      repository: {
+        type: 'git',
+        url: `https://github.com/username/${app.name.toLowerCase().replace(/\s+/g, '-')}.git`,
+      },
+      workspaces: ['frontend', 'backend'],
+      scripts: {
+        setup: 'npm install && cd frontend && npm install && cd ../backend && npm install',
+        dev: 'concurrently "npm run dev:backend" "npm run dev:frontend"',
+        'dev:frontend': 'cd frontend && npm run dev',
+        'dev:backend': 'cd backend && npm run dev',
+        build: 'npm run build:backend && npm run build:frontend',
+        'build:frontend': 'cd frontend && npm run build',
+        'build:backend': 'cd backend && npm run build',
+        start: 'npm run start:backend',
+        'start:frontend': 'cd frontend && npm start',
+        'start:backend': 'cd backend && npm start',
+        test: 'npm run test:frontend && npm run test:backend',
+        'test:frontend': 'cd frontend && npm test',
+        'test:backend': 'cd backend && npm test',
+        'test:e2e': 'cypress run',
+        'test:coverage': 'npm run test -- --coverage',
+        lint: 'npm run lint:frontend && npm run lint:backend',
+        'lint:frontend': 'cd frontend && npm run lint',
+        'lint:backend': 'cd backend && npm run lint',
+        'lint:fix': 'npm run lint:frontend -- --fix && npm run lint:backend -- --fix',
+        format: 'prettier --write "**/*.{js,jsx,ts,tsx,json,css,md}"',
+        'type-check': 'npm run type-check:frontend && npm run type-check:backend',
+        'type-check:frontend': 'cd frontend && tsc --noEmit',
+        'type-check:backend': 'cd backend && tsc --noEmit',
+        'docker:dev': 'docker-compose up -d',
+        'docker:prod': 'docker-compose -f docker-compose.prod.yml up -d',
+        'docker:build': 'docker-compose build',
+        'docker:down': 'docker-compose down',
+        'db:migrate': 'cd backend && npm run db:migrate',
+        'db:seed': 'cd backend && npm run db:seed',
+        'db:reset': 'cd backend && npm run db:reset',
+        deploy: 'npm run build && npm run deploy:production',
+        'deploy:staging': 'echo "Deploy to staging"',
+        'deploy:production': 'echo "Deploy to production"',
+      },
+      devDependencies: {
+        concurrently: '^8.2.0',
+        '@types/node': '^20.0.0',
+        typescript: '^5.0.0',
+        prettier: '^3.0.0',
+        eslint: '^8.0.0',
+        husky: '^8.0.0',
+        'lint-staged': '^13.0.0',
+      },
+      engines: {
+        node: '>=18.0.0',
+        npm: '>=8.0.0',
+      },
+      keywords: [
+        'fullstack',
+        'react',
+        'nodejs',
+        'typescript',
+        app.stack.frontend,
+        app.stack.backend,
+        app.stack.database,
+        'generated-by-flashfusion',
+      ],
+      license: 'MIT',
     },
-    workspaces: [
-      'frontend',
-      'backend'
-    ],
-    scripts: {
-      'setup': 'npm install && cd frontend && npm install && cd ../backend && npm install',
-      'dev': 'concurrently "npm run dev:backend" "npm run dev:frontend"',
-      'dev:frontend': 'cd frontend && npm run dev',
-      'dev:backend': 'cd backend && npm run dev',
-      'build': 'npm run build:backend && npm run build:frontend',
-      'build:frontend': 'cd frontend && npm run build',
-      'build:backend': 'cd backend && npm run build',
-      'start': 'npm run start:backend',
-      'start:frontend': 'cd frontend && npm start',
-      'start:backend': 'cd backend && npm start',
-      'test': 'npm run test:frontend && npm run test:backend',
-      'test:frontend': 'cd frontend && npm test',
-      'test:backend': 'cd backend && npm test',
-      'test:e2e': 'cypress run',
-      'test:coverage': 'npm run test -- --coverage',
-      'lint': 'npm run lint:frontend && npm run lint:backend',
-      'lint:frontend': 'cd frontend && npm run lint',
-      'lint:backend': 'cd backend && npm run lint',
-      'lint:fix': 'npm run lint:frontend -- --fix && npm run lint:backend -- --fix',
-      'format': 'prettier --write "**/*.{js,jsx,ts,tsx,json,css,md}"',
-      'type-check': 'npm run type-check:frontend && npm run type-check:backend',
-      'type-check:frontend': 'cd frontend && tsc --noEmit',
-      'type-check:backend': 'cd backend && tsc --noEmit',
-      'docker:dev': 'docker-compose up -d',
-      'docker:prod': 'docker-compose -f docker-compose.prod.yml up -d',
-      'docker:build': 'docker-compose build',
-      'docker:down': 'docker-compose down',
-      'db:migrate': 'cd backend && npm run db:migrate',
-      'db:seed': 'cd backend && npm run db:seed',
-      'db:reset': 'cd backend && npm run db:reset',
-      'deploy': 'npm run build && npm run deploy:production',
-      'deploy:staging': 'echo "Deploy to staging"',
-      'deploy:production': 'echo "Deploy to production"'
-    },
-    devDependencies: {
-      'concurrently': '^8.2.0',
-      '@types/node': '^20.0.0',
-      'typescript': '^5.0.0',
-      'prettier': '^3.0.0',
-      'eslint': '^8.0.0',
-      'husky': '^8.0.0',
-      'lint-staged': '^13.0.0'
-    },
-    engines: {
-      node: '>=18.0.0',
-      npm: '>=8.0.0'
-    },
-    keywords: [
-      'fullstack',
-      'react',
-      'nodejs',
-      'typescript',
-      app.stack.frontend,
-      app.stack.backend,
-      app.stack.database,
-      'generated-by-flashfusion'
-    ],
-    license: 'MIT'
-  }, null, 2);
+    null,
+    2
+  );
 }
 
 function generateEnhancedEnvExample(app: GeneratedApp): string {
@@ -1769,14 +1789,18 @@ function generateESLintConfig(): string {
 }
 
 function generatePrettierConfig(): string {
-  return JSON.stringify({
-    semi: true,
-    trailingComma: 'es5',
-    singleQuote: true,
-    printWidth: 80,
-    tabWidth: 2,
-    useTabs: false
-  }, null, 2);
+  return JSON.stringify(
+    {
+      semi: true,
+      trailingComma: 'es5',
+      singleQuote: true,
+      printWidth: 80,
+      tabWidth: 2,
+      useTabs: false,
+    },
+    null,
+    2
+  );
 }
 
 function generateJestConfig(): string {
@@ -1796,27 +1820,31 @@ function generateJestConfig(): string {
 }
 
 function generateTSConfig(): string {
-  return JSON.stringify({
-    compilerOptions: {
-      target: 'ES2022',
-      lib: ['ES2022'],
-      module: 'commonjs',
-      declaration: true,
-      outDir: './dist',
-      rootDir: './src',
-      strict: true,
-      esModuleInterop: true,
-      skipLibCheck: true,
-      forceConsistentCasingInFileNames: true,
-      resolveJsonModule: true,
-      moduleResolution: 'node',
-      allowSyntheticDefaultImports: true,
-      experimentalDecorators: true,
-      emitDecoratorMetadata: true
+  return JSON.stringify(
+    {
+      compilerOptions: {
+        target: 'ES2022',
+        lib: ['ES2022'],
+        module: 'commonjs',
+        declaration: true,
+        outDir: './dist',
+        rootDir: './src',
+        strict: true,
+        esModuleInterop: true,
+        skipLibCheck: true,
+        forceConsistentCasingInFileNames: true,
+        resolveJsonModule: true,
+        moduleResolution: 'node',
+        allowSyntheticDefaultImports: true,
+        experimentalDecorators: true,
+        emitDecoratorMetadata: true,
+      },
+      include: ['src/**/*'],
+      exclude: ['node_modules', 'dist', '**/*.test.ts'],
     },
-    include: ['src/**/*'],
-    exclude: ['node_modules', 'dist', '**/*.test.ts']
-  }, null, 2);
+    null,
+    2
+  );
 }
 
 function generateFrontendTests(app: GeneratedApp): string {
@@ -2190,7 +2218,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - ${new Date().toISOString().split('T')[0]}
 
 ### Added
-${app.features.map(feature => `- ${feature}`).join('\n')}
+${app.features.map((feature) => `- ${feature}`).join('\n')}
 
 ### Changed
 - Initial release generated by FlashFusion
@@ -2203,34 +2231,38 @@ ${app.features.map(feature => `- ${feature}`).join('\n')}
 }
 
 function generateFlashFusionMetadata(app: GeneratedApp, options: EnhancedDownloadOptions): string {
-  return JSON.stringify({
-    generator: {
-      name: 'FlashFusion',
-      version: '2.0.0',
-      url: 'https://flashfusion.dev'
+  return JSON.stringify(
+    {
+      generator: {
+        name: 'FlashFusion',
+        version: '2.0.0',
+        url: 'https://flashfusion.dev',
+      },
+      project: {
+        name: app.name,
+        description: app.description,
+        version: '1.0.0',
+        generatedAt: new Date().toISOString(),
+        stack: app.stack,
+        features: app.features,
+        endpoints: app.endpoints,
+      },
+      options: {
+        format: options.format,
+        includeDocumentation: options.generateDocumentation,
+        includeTests: options.generateTests,
+        customBranding: options.customBranding,
+      },
+      stats: {
+        totalFiles: app.files.length,
+        codeFiles: app.files.filter((f) => f.type === 'frontend' || f.type === 'backend').length,
+        configFiles: app.files.filter((f) => f.type === 'config').length,
+        databaseFiles: app.files.filter((f) => f.type === 'database').length,
+      },
     },
-    project: {
-      name: app.name,
-      description: app.description,
-      version: '1.0.0',
-      generatedAt: new Date().toISOString(),
-      stack: app.stack,
-      features: app.features,
-      endpoints: app.endpoints
-    },
-    options: {
-      format: options.format,
-      includeDocumentation: options.generateDocumentation,
-      includeTests: options.generateTests,
-      customBranding: options.customBranding
-    },
-    stats: {
-      totalFiles: app.files.length,
-      codeFiles: app.files.filter(f => f.type === 'frontend' || f.type === 'backend').length,
-      configFiles: app.files.filter(f => f.type === 'config').length,
-      databaseFiles: app.files.filter(f => f.type === 'database').length
-    }
-  }, null, 2);
+    null,
+    2
+  );
 }
 
 function generateGenerationReport(app: GeneratedApp, options: EnhancedDownloadOptions): string {
@@ -2275,7 +2307,7 @@ function generateGenerationReport(app: GeneratedApp, options: EnhancedDownloadOp
   <div class="section">
     <h2>Features Included</h2>
     <div class="feature-list">
-      ${app.features.map(feature => `<div class="feature-item">✅ ${feature}</div>`).join('')}
+      ${app.features.map((feature) => `<div class="feature-item">✅ ${feature}</div>`).join('')}
     </div>
   </div>
 

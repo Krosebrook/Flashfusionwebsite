@@ -15,7 +15,7 @@ const Dashboard = memo(() => {
     projectsCreated: 0,
     toolsUsed: 0,
     deployments: 0,
-    teamMembers: 0
+    teamMembers: 0,
   });
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const Dashboard = memo(() => {
           current = target;
           clearInterval(timer);
         }
-        setStats(prev => ({ ...prev, [key]: Math.floor(current) }));
+        setStats((prev) => ({ ...prev, [key]: Math.floor(current) }));
       }, 100);
     };
 
@@ -45,29 +45,29 @@ const Dashboard = memo(() => {
       description: 'Create a complete application with AI assistance',
       icon: '🚀',
       gradient: 'from-primary to-orange-500',
-      action: () => console.log('Generate app')
+      action: () => console.log('Generate app'),
     },
     {
       title: 'AI Code Review',
       description: 'Get intelligent feedback on your code',
       icon: '🔍',
       gradient: 'from-secondary to-blue-500',
-      action: () => console.log('Code review')
+      action: () => console.log('Code review'),
     },
     {
       title: 'Deploy to Cloud',
       description: 'One-click deployment to multiple platforms',
       icon: '☁️',
       gradient: 'from-accent to-pink-500',
-      action: () => console.log('Deploy')
+      action: () => console.log('Deploy'),
     },
     {
       title: 'Team Collaboration',
       description: 'Invite team members and collaborate in real-time',
       icon: '👥',
       gradient: 'from-success to-green-500',
-      action: () => console.log('Collaborate')
-    }
+      action: () => console.log('Collaborate'),
+    },
   ];
 
   return (
@@ -77,7 +77,7 @@ const Dashboard = memo(() => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2">
-              Welcome back to 
+              Welcome back to
               <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent ml-2">
                 FlashFusion
               </span>
@@ -127,14 +127,16 @@ const Dashboard = memo(() => {
         <h2 className="text-2xl font-bold mb-6">Quick Actions</h2>
         <div className="grid md:grid-cols-2 gap-6">
           {quickActions.map((action, index) => (
-            <Card 
+            <Card
               key={index}
               className="ff-card-interactive cursor-pointer group"
               onClick={action.action}
             >
               <CardHeader>
                 <div className="flex items-center space-x-4">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                  <div
+                    className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}
+                  >
                     <span className="text-xl">{action.icon}</span>
                   </div>
                   <div>
@@ -158,15 +160,22 @@ const Dashboard = memo(() => {
                 { action: 'Generated React app', time: '2 minutes ago', status: 'success' },
                 { action: 'Deployed to Vercel', time: '1 hour ago', status: 'success' },
                 { action: 'Code review completed', time: '3 hours ago', status: 'info' },
-                { action: 'Team member invited', time: '1 day ago', status: 'secondary' }
+                { action: 'Team member invited', time: '1 day ago', status: 'secondary' },
               ].map((item, index) => (
-                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 rounded-lg bg-muted/50"
+                >
                   <div className="flex items-center space-x-3">
-                    <div className={`w-2 h-2 rounded-full ${
-                      item.status === 'success' ? 'bg-success' :
-                      item.status === 'info' ? 'bg-secondary' :
-                      'bg-muted-foreground'
-                    }`}></div>
+                    <div
+                      className={`w-2 h-2 rounded-full ${
+                        item.status === 'success'
+                          ? 'bg-success'
+                          : item.status === 'info'
+                            ? 'bg-secondary'
+                            : 'bg-muted-foreground'
+                      }`}
+                    ></div>
                     <span className="font-medium">{item.action}</span>
                   </div>
                   <span className="text-sm text-muted-foreground">{item.time}</span>
@@ -190,7 +199,7 @@ const Tools = memo(() => {
     { id: 'analysis', label: 'Code Analysis', count: 12 },
     { id: 'deployment', label: 'Deployment', count: 8 },
     { id: 'collaboration', label: 'Collaboration', count: 10 },
-    { id: 'optimization', label: 'Optimization', count: 15 }
+    { id: 'optimization', label: 'Optimization', count: 15 },
   ];
 
   const tools = [
@@ -200,7 +209,7 @@ const Tools = memo(() => {
       category: 'generation',
       icon: '🏗️',
       badge: 'Popular',
-      badgeColor: 'bg-primary'
+      badgeColor: 'bg-primary',
     },
     {
       name: 'Smart Code Review',
@@ -208,7 +217,7 @@ const Tools = memo(() => {
       category: 'analysis',
       icon: '🔍',
       badge: 'New',
-      badgeColor: 'bg-secondary'
+      badgeColor: 'bg-secondary',
     },
     {
       name: 'One-Click Deploy',
@@ -216,7 +225,7 @@ const Tools = memo(() => {
       category: 'deployment',
       icon: '🚀',
       badge: null,
-      badgeColor: ''
+      badgeColor: '',
     },
     {
       name: 'Team Workspace',
@@ -224,7 +233,7 @@ const Tools = memo(() => {
       category: 'collaboration',
       icon: '👥',
       badge: 'Featured',
-      badgeColor: 'bg-accent'
+      badgeColor: 'bg-accent',
     },
     {
       name: 'Performance Optimizer',
@@ -232,7 +241,7 @@ const Tools = memo(() => {
       category: 'optimization',
       icon: '⚡',
       badge: null,
-      badgeColor: ''
+      badgeColor: '',
     },
     {
       name: 'Database Designer',
@@ -240,13 +249,12 @@ const Tools = memo(() => {
       category: 'generation',
       icon: '🗄️',
       badge: null,
-      badgeColor: ''
-    }
+      badgeColor: '',
+    },
   ];
 
-  const filteredTools = selectedCategory === 'all' 
-    ? tools 
-    : tools.filter(tool => tool.category === selectedCategory);
+  const filteredTools =
+    selectedCategory === 'all' ? tools : tools.filter((tool) => tool.category === selectedCategory);
 
   return (
     <div className="space-y-8">
@@ -277,10 +285,7 @@ const Tools = memo(() => {
       {/* Tools Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredTools.map((tool, index) => (
-          <Card 
-            key={index}
-            className="ff-card-interactive cursor-pointer group"
-          >
+          <Card key={index} className="ff-card-interactive cursor-pointer group">
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="flex items-center space-x-3">
@@ -292,9 +297,7 @@ const Tools = memo(() => {
                   </div>
                 </div>
                 {tool.badge && (
-                  <Badge className={`${tool.badgeColor} text-white text-xs`}>
-                    {tool.badge}
-                  </Badge>
+                  <Badge className={`${tool.badgeColor} text-white text-xs`}>{tool.badge}</Badge>
                 )}
               </div>
             </CardHeader>
@@ -310,10 +313,7 @@ const Tools = memo(() => {
 
       {selectedCategory !== 'all' && (
         <div className="text-center">
-          <Button 
-            variant="outline" 
-            onClick={() => setSelectedCategory('all')}
-          >
+          <Button variant="outline" onClick={() => setSelectedCategory('all')}>
             View All Tools
           </Button>
         </div>
@@ -344,9 +344,9 @@ const About = memo(() => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                To democratize application development by providing AI-powered tools 
-                that enable anyone to build production-ready applications, regardless 
-                of their technical background.
+                To democratize application development by providing AI-powered tools that enable
+                anyone to build production-ready applications, regardless of their technical
+                background.
               </p>
             </CardContent>
           </Card>
@@ -360,8 +360,8 @@ const About = memo(() => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                A world where every idea can become a reality through the power of AI, 
-                breaking down barriers between concept and creation.
+                A world where every idea can become a reality through the power of AI, breaking down
+                barriers between concept and creation.
               </p>
             </CardContent>
           </Card>
@@ -400,8 +400,19 @@ const About = memo(() => {
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {['React', 'TypeScript', 'Node.js', 'Python', 'AI/ML', 'Cloud', 'Docker', 'Kubernetes'].map((tech) => (
-                  <Badge key={tech} variant="secondary">{tech}</Badge>
+                {[
+                  'React',
+                  'TypeScript',
+                  'Node.js',
+                  'Python',
+                  'AI/ML',
+                  'Cloud',
+                  'Docker',
+                  'Kubernetes',
+                ].map((tech) => (
+                  <Badge key={tech} variant="secondary">
+                    {tech}
+                  </Badge>
                 ))}
               </div>
             </CardContent>
@@ -413,106 +424,127 @@ const About = memo(() => {
 });
 
 // Navigation Component
-const AppNavigation = memo(({ currentRoute, onRouteChange, onNavigateToLanding }: {
-  currentRoute: string;
-  onRouteChange: (route: string) => void;
-  onNavigateToLanding: () => void;
-}) => {
-  const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-    { id: 'tools', label: 'AI Tools', icon: '🔧' },
-    { id: 'projects', label: 'Projects', icon: '📁' },
-    { id: 'deployments', label: 'Deployments', icon: '🚀' },
-    { id: 'team', label: 'Team', icon: '👥' },
-    { id: 'settings', label: 'Settings', icon: '⚙️' }
-  ];
+const AppNavigation = memo(
+  ({
+    currentRoute,
+    onRouteChange,
+    onNavigateToLanding,
+  }: {
+    currentRoute: string;
+    onRouteChange: (route: string) => void;
+    onNavigateToLanding: () => void;
+  }) => {
+    const navItems = [
+      { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+      { id: 'tools', label: 'AI Tools', icon: '🔧' },
+      { id: 'projects', label: 'Projects', icon: '📁' },
+      { id: 'deployments', label: 'Deployments', icon: '🚀' },
+      { id: 'team', label: 'Team', icon: '👥' },
+      { id: 'settings', label: 'Settings', icon: '⚙️' },
+    ];
 
-  return (
-    <nav className="bg-card border-b border-border">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <button 
-            onClick={onNavigateToLanding}
-            className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
-          >
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">FF</span>
+    return (
+      <nav className="bg-card border-b border-border">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <button
+              onClick={onNavigateToLanding}
+              className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+            >
+              <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">FF</span>
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                FlashFusion
+              </span>
+            </button>
+
+            {/* Navigation Items */}
+            <div className="hidden md:flex items-center space-x-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => onRouteChange(item.id)}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    currentRoute === item.id
+                      ? 'bg-primary/10 text-primary'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                  }`}
+                >
+                  <span>{item.icon}</span>
+                  <span>{item.label}</span>
+                </button>
+              ))}
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              FlashFusion
-            </span>
-          </button>
 
-          {/* Navigation Items */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => onRouteChange(item.id)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  currentRoute === item.id 
-                    ? 'bg-primary/10 text-primary' 
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-                }`}
-              >
-                <span>{item.icon}</span>
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </div>
+            {/* User Menu */}
+            <div className="flex items-center space-x-4">
+              <Button variant="outline" size="sm">
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 17h5l-5 5v-5z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                Upgrade
+              </Button>
 
-          {/* User Menu */}
-          <div className="flex items-center space-x-4">
-            <Button variant="outline" size="sm">
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Upgrade
-            </Button>
-            
-            <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
-              <span className="text-sm font-medium">U</span>
+              <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
+                <span className="text-sm font-medium">U</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </nav>
-  );
-});
+      </nav>
+    );
+  }
+);
 
 // Main App Interface Component
-const AppInterface = memo(({ currentRoute, onRouteChange, onNavigateToLanding }: AppInterfaceProps) => {
-  const renderContent = () => {
-    switch (currentRoute) {
-      case 'dashboard':
-        return <Dashboard />;
-      case 'tools':
-        return <Tools />;
-      case 'about':
-        return <About />;
-      default:
-        return <Dashboard />;
-    }
-  };
+const AppInterface = memo(
+  ({ currentRoute, onRouteChange, onNavigateToLanding }: AppInterfaceProps) => {
+    const renderContent = () => {
+      switch (currentRoute) {
+        case 'dashboard':
+          return <Dashboard />;
+        case 'tools':
+          return <Tools />;
+        case 'about':
+          return <About />;
+        default:
+          return <Dashboard />;
+      }
+    };
 
-  return (
-    <div className="min-h-screen bg-background">
-      <AppNavigation 
-        currentRoute={currentRoute}
-        onRouteChange={onRouteChange}
-        onNavigateToLanding={onNavigateToLanding}
-      />
-      
-      <main className="container mx-auto px-4 py-8">
-        <div className="max-w-7xl mx-auto">
-          {renderContent()}
-        </div>
-      </main>
-    </div>
-  );
-});
+    return (
+      <div className="min-h-screen bg-background">
+        <AppNavigation
+          currentRoute={currentRoute}
+          onRouteChange={onRouteChange}
+          onNavigateToLanding={onNavigateToLanding}
+        />
+
+        <main className="container mx-auto px-4 py-8">
+          <div className="max-w-7xl mx-auto">{renderContent()}</div>
+        </main>
+      </div>
+    );
+  }
+);
 
 export default AppInterface;

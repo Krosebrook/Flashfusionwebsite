@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { 
-  Eye, 
-  Edit, 
-  Trash2, 
-  ExternalLink, 
-  Star, 
+import {
+  Eye,
+  Edit,
+  Trash2,
+  ExternalLink,
+  Star,
   TrendingUp,
   Clock,
   DollarSign,
-  Heart
+  Heart,
 } from 'lucide-react';
 import { MarketplaceListing, SortState } from '../../types/marketplace';
 import { MARKETPLACES } from '../../constants/print-on-demand';
@@ -24,18 +24,13 @@ interface ListingsTableProps {
   onView: (listingId: string) => void;
 }
 
-export function ListingsTable({ 
-  listings, 
-  onEdit, 
-  onDelete, 
-  onView 
-}: ListingsTableProps) {
+export function ListingsTable({ listings, onEdit, onDelete, onView }: ListingsTableProps) {
   const [sortState, setSortState] = useState<SortState>({ column: 'updatedAt', direction: 'desc' });
 
   const handleSort = (column: string) => {
-    setSortState(prev => ({
+    setSortState((prev) => ({
       column,
-      direction: prev.column === column && prev.direction === 'asc' ? 'desc' : 'asc'
+      direction: prev.column === column && prev.direction === 'asc' ? 'desc' : 'asc',
     }));
   };
 
@@ -65,9 +60,9 @@ export function ListingsTable({
           <thead className="border-b border-border bg-muted/30">
             <tr>
               <th className="px-6 py-4 text-left">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => handleSort('title')}
                   className="font-semibold text-xs p-0 h-auto"
                 >
@@ -75,9 +70,9 @@ export function ListingsTable({
                 </Button>
               </th>
               <th className="px-6 py-4 text-left">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => handleSort('category')}
                   className="font-semibold text-xs p-0 h-auto"
                 >
@@ -86,9 +81,9 @@ export function ListingsTable({
               </th>
               <th className="px-6 py-4 text-left">Marketplaces</th>
               <th className="px-6 py-4 text-left">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => handleSort('price')}
                   className="font-semibold text-xs p-0 h-auto"
                 >
@@ -97,9 +92,9 @@ export function ListingsTable({
               </th>
               <th className="px-6 py-4 text-left">Performance</th>
               <th className="px-6 py-4 text-left">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => handleSort('updatedAt')}
                   className="font-semibold text-xs p-0 h-auto"
                 >
@@ -111,8 +106,8 @@ export function ListingsTable({
           </thead>
           <tbody>
             {listings.map((listing) => (
-              <tr 
-                key={listing.id} 
+              <tr
+                key={listing.id}
                 className="border-b border-border hover:bg-muted/20 transition-colors"
               >
                 {/* Product Info */}
@@ -120,8 +115,8 @@ export function ListingsTable({
                   <div className="flex items-start space-x-3">
                     <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center flex-shrink-0">
                       {listing.images[0] ? (
-                        <img 
-                          src={listing.images[0]} 
+                        <img
+                          src={listing.images[0]}
                           alt={listing.title}
                           className="w-10 h-10 object-cover rounded"
                         />
@@ -164,8 +159,8 @@ export function ListingsTable({
                       const marketplace = MARKETPLACES[marketplaceId as keyof typeof MARKETPLACES];
                       return (
                         <div key={marketplaceId} className="flex items-center space-x-1">
-                          <Badge 
-                            variant="outline" 
+                          <Badge
+                            variant="outline"
                             className={`text-xs ${getStatusBadgeColor(data.status)}`}
                           >
                             {marketplace?.name || marketplaceId}
@@ -200,11 +195,15 @@ export function ListingsTable({
                       <DollarSign className="h-3 w-3 text-muted-foreground" />
                       <span>{listing.totalSales} sales</span>
                     </div>
-                    {Object.values(listing.marketplaces).some(m => m.favorites > 0) && (
+                    {Object.values(listing.marketplaces).some((m) => m.favorites > 0) && (
                       <div className="flex items-center space-x-2 text-xs">
                         <Heart className="h-3 w-3 text-red-400" />
                         <span>
-                          {Object.values(listing.marketplaces).reduce((sum, m) => sum + m.favorites, 0)} likes
+                          {Object.values(listing.marketplaces).reduce(
+                            (sum, m) => sum + m.favorites,
+                            0
+                          )}{' '}
+                          likes
                         </span>
                       </div>
                     )}
@@ -244,7 +243,10 @@ export function ListingsTable({
                       onClick={() => {
                         const firstMarketplace = Object.entries(listing.marketplaces)[0];
                         if (firstMarketplace) {
-                          window.open(`https://example.com/listing/${firstMarketplace[1].listingId}`, '_blank');
+                          window.open(
+                            `https://example.com/listing/${firstMarketplace[1].listingId}`,
+                            '_blank'
+                          );
                         }
                       }}
                       className="h-8 w-8 p-0"

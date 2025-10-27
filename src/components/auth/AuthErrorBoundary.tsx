@@ -4,7 +4,7 @@
  * @category error-handling
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Specialized error boundary for authentication issues with mobile-specific
  * error handling and recovery mechanisms.
  */
@@ -14,16 +14,16 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Badge } from '../ui/badge';
-import { 
-  AlertCircle, 
-  RefreshCw, 
-  Smartphone, 
-  Wifi, 
+import {
+  AlertCircle,
+  RefreshCw,
+  Smartphone,
+  Wifi,
   WifiOff,
   Shield,
   Settings,
   Bug,
-  ExternalLink
+  ExternalLink,
 } from 'lucide-react';
 
 interface Props {
@@ -49,36 +49,37 @@ export class AuthErrorBoundary extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    
+
     this.state = {
       hasError: false,
       error: null,
       errorInfo: null,
       retryCount: 0,
       networkStatus: typeof navigator !== 'undefined' && navigator.onLine ? 'online' : 'offline',
-      isDebugMode: process.env.NODE_ENV === 'development' || localStorage.getItem('ff-debug') === 'true'
+      isDebugMode:
+        process.env.NODE_ENV === 'development' || localStorage.getItem('ff-debug') === 'true',
     };
   }
 
   static getDerivedStateFromError(error: Error): Partial<State> {
     return {
       hasError: true,
-      error
+      error,
     };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('🚨 Auth Error Boundary caught error:', error);
     console.error('Error Info:', errorInfo);
-    
+
     this.setState({
       error,
-      errorInfo
+      errorInfo,
     });
 
     // Log error for debugging
     this.logAuthError(error, errorInfo);
-    
+
     // Call optional error handler
     if (this.props.onError) {
       this.props.onError(error, errorInfo);
@@ -98,7 +99,7 @@ export class AuthErrorBoundary extends Component<Props, State> {
       window.removeEventListener('online', this.handleNetworkChange);
       window.removeEventListener('offline', this.handleNetworkChange);
     }
-    
+
     if (this.retryTimeoutId) {
       clearTimeout(this.retryTimeoutId);
     }
@@ -107,7 +108,7 @@ export class AuthErrorBoundary extends Component<Props, State> {
   private handleNetworkChange = () => {
     const networkStatus = navigator.onLine ? 'online' : 'offline';
     this.setState({ networkStatus });
-    
+
     // Auto-retry if network comes back online
     if (networkStatus === 'online' && this.state.hasError) {
       this.retryTimeoutId = setTimeout(() => {
@@ -127,14 +128,14 @@ export class AuthErrorBoundary extends Component<Props, State> {
         user_agent: navigator.userAgent,
         url: window.location.href,
         timestamp: new Date().toISOString(),
-        network_status: this.state.networkStatus
+        network_status: this.state.networkStatus,
       };
 
       // Store in localStorage for later sync if network is down
       const existingErrors = JSON.parse(localStorage.getItem('ff-auth-errors') || '[]');
       existingErrors.push(errorData);
       localStorage.setItem('ff-auth-errors', JSON.stringify(existingErrors.slice(-10))); // Keep last 10 errors
-      
+
       console.log('🔍 Auth error logged locally:', errorData);
     } catch (logError) {
       console.warn('Failed to log auth error:', logError);
@@ -143,12 +144,12 @@ export class AuthErrorBoundary extends Component<Props, State> {
 
   private handleRetry = () => {
     console.log('🔄 Retrying authentication component...');
-    
-    this.setState(prevState => ({
+
+    this.setState((prevState) => ({
       hasError: false,
       error: null,
       errorInfo: null,
-      retryCount: prevState.retryCount + 1
+      retryCount: prevState.retryCount + 1,
     }));
   };
 
@@ -160,16 +161,16 @@ export class AuthErrorBoundary extends Component<Props, State> {
         'ff-remember-user',
         'ff-auth-errors',
         'ff-session-data',
-        'supabase.auth.token'
+        'supabase.auth.token',
       ];
-      
-      keysToRemove.forEach(key => {
+
+      keysToRemove.forEach((key) => {
         localStorage.removeItem(key);
         sessionStorage.removeItem(key);
       });
-      
+
       console.log('🧹 Auth storage cleared');
-      
+
       // Retry after clearing storage
       setTimeout(() => {
         this.handleRetry();
@@ -181,7 +182,7 @@ export class AuthErrorBoundary extends Component<Props, State> {
 
   private getErrorCategory = (error: Error): string => {
     const message = error.message.toLowerCase();
-    
+
     if (message.includes('network') || message.includes('fetch')) {
       return 'network';
     } else if (message.includes('supabase') || message.includes('auth')) {
@@ -203,8 +204,8 @@ export class AuthErrorBoundary extends Component<Props, State> {
           actions: [
             'Check your internet connection',
             'Try switching between WiFi and mobile data',
-            'Wait a moment and try again'
-          ]
+            'Wait a moment and try again',
+          ],
         };
       case 'authentication':
         return {
@@ -212,8 +213,8 @@ export class AuthErrorBoundary extends Component<Props, State> {
           actions: [
             'Clear browser data and try again',
             'Try refreshing the page',
-            'Contact support if the issue persists'
-          ]
+            'Contact support if the issue persists',
+          ],
         };
       case 'loading':
         return {
@@ -221,8 +222,8 @@ export class AuthErrorBoundary extends Component<Props, State> {
           actions: [
             'Refresh the page to reload components',
             'Clear browser cache',
-            'Try using an incognito/private browser window'
-          ]
+            'Try using an incognito/private browser window',
+          ],
         };
       case 'module':
         return {
@@ -230,24 +231,22 @@ export class AuthErrorBoundary extends Component<Props, State> {
           actions: [
             'Refresh the page completely',
             'Clear browser cache and cookies',
-            'Try a different browser if available'
-          ]
+            'Try a different browser if available',
+          ],
         };
       default:
         return {
           title: 'Unexpected Error',
-          actions: [
-            'Refresh the page',
-            'Clear browser data',
-            'Contact support with error details'
-          ]
+          actions: ['Refresh the page', 'Clear browser data', 'Contact support with error details'],
         };
     }
   };
 
   private isMobile = (): boolean => {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent) ||
-           window.innerWidth <= 768;
+    return (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent) ||
+      window.innerWidth <= 768
+    );
   };
 
   render() {
@@ -284,7 +283,9 @@ export class AuthErrorBoundary extends Component<Props, State> {
 
                 {/* Network Status */}
                 <div className="flex items-center gap-2">
-                  <Badge variant={this.state.networkStatus === 'online' ? 'default' : 'destructive'}>
+                  <Badge
+                    variant={this.state.networkStatus === 'online' ? 'default' : 'destructive'}
+                  >
                     {this.state.networkStatus === 'online' ? (
                       <>
                         <Wifi className="w-3 h-3 mr-1" />
@@ -298,9 +299,7 @@ export class AuthErrorBoundary extends Component<Props, State> {
                     )}
                   </Badge>
                   {this.state.retryCount > 0 && (
-                    <Badge variant="outline">
-                      Retry #{this.state.retryCount}
-                    </Badge>
+                    <Badge variant="outline">Retry #{this.state.retryCount}</Badge>
                   )}
                 </div>
               </CardHeader>
@@ -364,7 +363,8 @@ export class AuthErrorBoundary extends Component<Props, State> {
                     <Alert className="border-blue-500/20 bg-blue-500/10">
                       <Smartphone className="h-4 w-4 text-blue-400" />
                       <AlertDescription className="text-blue-400 text-sm">
-                        <strong>Mobile Tip:</strong> Try switching between WiFi and mobile data, or try again in a few minutes.
+                        <strong>Mobile Tip:</strong> Try switching between WiFi and mobile data, or
+                        try again in a few minutes.
                       </AlertDescription>
                     </Alert>
                   )}
@@ -378,12 +378,25 @@ export class AuthErrorBoundary extends Component<Props, State> {
                       Debug Information
                     </summary>
                     <div className="mt-2 p-3 bg-[var(--ff-bg-dark)] rounded border text-xs text-[var(--ff-text-muted)] font-mono">
-                      <div><strong>Error:</strong> {error?.message}</div>
-                      <div><strong>Stack:</strong> {error?.stack?.slice(0, 200)}...</div>
-                      <div><strong>Component:</strong> {this.state.errorInfo?.componentStack?.slice(0, 200)}...</div>
-                      <div><strong>Retry Count:</strong> {this.state.retryCount}</div>
-                      <div><strong>Network:</strong> {this.state.networkStatus}</div>
-                      <div><strong>User Agent:</strong> {navigator.userAgent.slice(0, 100)}...</div>
+                      <div>
+                        <strong>Error:</strong> {error?.message}
+                      </div>
+                      <div>
+                        <strong>Stack:</strong> {error?.stack?.slice(0, 200)}...
+                      </div>
+                      <div>
+                        <strong>Component:</strong>{' '}
+                        {this.state.errorInfo?.componentStack?.slice(0, 200)}...
+                      </div>
+                      <div>
+                        <strong>Retry Count:</strong> {this.state.retryCount}
+                      </div>
+                      <div>
+                        <strong>Network:</strong> {this.state.networkStatus}
+                      </div>
+                      <div>
+                        <strong>User Agent:</strong> {navigator.userAgent.slice(0, 100)}...
+                      </div>
                     </div>
                   </details>
                 )}

@@ -6,20 +6,9 @@
  * Reduces 2,400+ instances of repeated Tailwind patterns
  */
 
-export {
-  Flex,
-  FlexCenterGap2,
-  FlexBetween,
-  FlexCenterGap3,
-  FlexCenterGap4,
-} from './flex';
+export { Flex, FlexCenterGap2, FlexBetween, FlexCenterGap3, FlexCenterGap4 } from './flex';
 
-export {
-  Grid,
-  GridResponsive2Cols,
-  GridResponsive2ColsGap4,
-  GridResponsive3Cols,
-} from './grid';
+export { Grid, GridResponsive2Cols, GridResponsive2ColsGap4, GridResponsive3Cols } from './grid';
 
 export type { FlexProps } from './flex';
 export type { GridProps } from './grid';

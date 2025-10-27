@@ -71,8 +71,8 @@ class FlashFusionAnalytics {
         isDesktop: this.isDesktop(),
         screenResolution: `${screen.width}x${screen.height}`,
         deviceMemory: (navigator as any).deviceMemory,
-        connectionType: (navigator as any).connection?.effectiveType
-      }
+        connectionType: (navigator as any).connection?.effectiveType,
+      },
     };
   }
 
@@ -85,7 +85,9 @@ class FlashFusionAnalytics {
   }
 
   private isMobile(): boolean {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
   }
 
   private isTablet(): boolean {
@@ -131,14 +133,14 @@ class FlashFusionAnalytics {
         filename: event.filename,
         lineno: event.lineno,
         colno: event.colno,
-        stack: event.error?.stack
+        stack: event.error?.stack,
       });
     });
 
     // Track unhandled promise rejections
     window.addEventListener('unhandledrejection', (event) => {
       this.trackError('unhandled_promise_rejection', {
-        reason: event.reason?.toString() || 'Unknown rejection'
+        reason: event.reason?.toString() || 'Unknown rejection',
       });
     });
   }
@@ -178,11 +180,11 @@ class FlashFusionAnalytics {
         url: window.location.href,
         path: window.location.pathname,
         userAgent: navigator.userAgent,
-        referrer: document.referrer || undefined
+        referrer: document.referrer || undefined,
       },
       timestamp: new Date().toISOString(),
       sessionId: this.sessionId,
-      userId: this.userId || undefined
+      userId: this.userId || undefined,
     };
 
     this.eventQueue.push(analyticsEvent);
@@ -191,7 +193,7 @@ class FlashFusionAnalytics {
 
     // Send immediately for critical events
     const criticalEvents = ['error', 'crash', 'payment_completed', 'signup_completed'];
-    if (criticalEvents.some(critical => event.includes(critical))) {
+    if (criticalEvents.some((critical) => event.includes(critical))) {
       this.flushEventQueue(true);
     }
 
@@ -206,7 +208,7 @@ class FlashFusionAnalytics {
     this.track('page_view', {
       page: page || window.location.pathname,
       title: title || document.title,
-      pageViewNumber: this.session.pageViews
+      pageViewNumber: this.session.pageViews,
     });
   }
 
@@ -217,7 +219,7 @@ class FlashFusionAnalytics {
     this.track('user_interaction', {
       interactionType: type,
       element,
-      ...properties
+      ...properties,
     });
   }
 
@@ -228,7 +230,7 @@ class FlashFusionAnalytics {
     this.track('performance_metric', {
       metricName: metric.name,
       metricValue: metric.value,
-      ...metric.additionalData
+      ...metric.additionalData,
     });
   }
 
@@ -239,7 +241,7 @@ class FlashFusionAnalytics {
     this.track('error', {
       errorType: type,
       ...errorDetails,
-      severity: 'error'
+      severity: 'error',
     });
   }
 
@@ -250,7 +252,7 @@ class FlashFusionAnalytics {
     this.track('feature_usage', {
       feature,
       action,
-      ...properties
+      ...properties,
     });
   }
 
@@ -261,7 +263,7 @@ class FlashFusionAnalytics {
     this.track('conversion', {
       conversionType: type,
       value,
-      ...properties
+      ...properties,
     });
   }
 
@@ -284,8 +286,8 @@ class FlashFusionAnalytics {
         body: JSON.stringify({
           events,
           session: this.session,
-          timestamp: new Date().toISOString()
-        })
+          timestamp: new Date().toISOString(),
+        }),
       });
 
       if (!response.ok) {
@@ -343,14 +345,16 @@ export const initializeAnalytics = (): FlashFusionAnalytics => {
   }
 
   analyticsInstance = new FlashFusionAnalytics();
-  
+
   // Auto-track initial page view
   analyticsInstance.trackPageView();
 
   // Track performance metrics
   if ('performance' in window && 'getEntriesByType' in performance) {
     window.addEventListener('load', () => {
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+      const navigation = performance.getEntriesByType(
+        'navigation'
+      )[0] as PerformanceNavigationTiming;
       if (navigation) {
         analyticsInstance?.trackPerformance({
           name: 'page_load_time',
@@ -359,8 +363,8 @@ export const initializeAnalytics = (): FlashFusionAnalytics => {
           additionalData: {
             domContentLoaded: navigation.domContentLoadedEventEnd - navigation.fetchStart,
             firstContentfulPaint: 0, // Would need additional measurement
-            timeToInteractive: 0 // Would need additional measurement
-          }
+            timeToInteractive: 0, // Would need additional measurement
+          },
         });
       }
     });
@@ -387,11 +391,19 @@ export const trackPageView = (page?: string, title?: string) => {
   analyticsInstance?.trackPageView(page, title);
 };
 
-export const trackInteraction = (type: string, element: string, properties?: Record<string, any>) => {
+export const trackInteraction = (
+  type: string,
+  element: string,
+  properties?: Record<string, any>
+) => {
   analyticsInstance?.trackInteraction(type, element, properties);
 };
 
-export const trackFeatureUsage = (feature: string, action: string, properties?: Record<string, any>) => {
+export const trackFeatureUsage = (
+  feature: string,
+  action: string,
+  properties?: Record<string, any>
+) => {
   analyticsInstance?.trackFeatureUsage(feature, action, properties);
 };
 

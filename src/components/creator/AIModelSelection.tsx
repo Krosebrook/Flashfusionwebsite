@@ -10,10 +10,7 @@ interface AIModelSelectionProps {
   setSelectedModel: (modelId: string) => void;
 }
 
-export function AIModelSelection({
-  selectedModel,
-  setSelectedModel
-}: AIModelSelectionProps) {
+export function AIModelSelection({ selectedModel, setSelectedModel }: AIModelSelectionProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -26,8 +23,8 @@ export function AIModelSelection({
           <Card
             key={model.id}
             className={cn(
-              "p-6 cursor-pointer transition-all duration-300 hover:shadow-lg",
-              selectedModel === model.id && "ring-2 ring-primary bg-primary/5"
+              'p-6 cursor-pointer transition-all duration-300 hover:shadow-lg',
+              selectedModel === model.id && 'ring-2 ring-primary bg-primary/5'
             )}
             onClick={() => setSelectedModel(model.id)}
           >
@@ -38,9 +35,7 @@ export function AIModelSelection({
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold">{model.name}</h3>
-                  <p className="text-muted-foreground text-sm mt-1">
-                    {model.description}
-                  </p>
+                  <p className="text-muted-foreground text-sm mt-1">{model.description}</p>
                   <div className="flex flex-wrap gap-1 mt-3">
                     {model.strengths.map((strength) => (
                       <Badge key={strength} variant="secondary" className="text-xs">
@@ -50,9 +45,7 @@ export function AIModelSelection({
                   </div>
                 </div>
               </div>
-              {selectedModel === model.id && (
-                <Check className="h-5 w-5 text-primary" />
-              )}
+              {selectedModel === model.id && <Check className="h-5 w-5 text-primary" />}
             </div>
           </Card>
         );

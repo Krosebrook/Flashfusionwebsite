@@ -4,12 +4,12 @@
  * @category generation
  * @version 2.0.0
  * @author FlashFusion Team
- * 
+ *
  * FLASHFUSION - AI AGENT DESIGNER
- * 
+ *
  * Create custom AI agents for top 10+ platforms with parameter selection,
  * workflow design, and deployment automation based on current best practices.
- * 
+ *
  * Features:
  * - Support for 10+ agent platforms
  * - Visual workflow builder
@@ -34,12 +34,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Switch } from '../../ui/switch';
 import { Slider } from '../../ui/slider';
 import { Separator } from '../../ui/separator';
-import { 
-  Bot, 
-  Zap, 
-  Settings, 
-  Workflow, 
-  BarChart3, 
+import {
+  Bot,
+  Zap,
+  Settings,
+  Workflow,
+  BarChart3,
   Download,
   Upload,
   Play,
@@ -73,7 +73,7 @@ import {
   ExternalLink,
   Layers,
   Filter,
-  Search
+  Search,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
@@ -190,7 +190,7 @@ const AGENT_PLATFORMS: AgentPlatform[] = [
     max_conversations: 100000,
     free_tier: false,
     requires_api_key: true,
-    documentation_url: 'https://platform.openai.com/docs/assistants'
+    documentation_url: 'https://platform.openai.com/docs/assistants',
   },
   {
     id: 'anthropic_claude',
@@ -207,7 +207,7 @@ const AGENT_PLATFORMS: AgentPlatform[] = [
     max_conversations: 50000,
     free_tier: false,
     requires_api_key: true,
-    documentation_url: 'https://docs.anthropic.com'
+    documentation_url: 'https://docs.anthropic.com',
   },
   {
     id: 'dialogflow',
@@ -224,7 +224,7 @@ const AGENT_PLATFORMS: AgentPlatform[] = [
     max_conversations: 1000000,
     free_tier: true,
     requires_api_key: true,
-    documentation_url: 'https://cloud.google.com/dialogflow/docs'
+    documentation_url: 'https://cloud.google.com/dialogflow/docs',
   },
   {
     id: 'microsoft_bot',
@@ -241,7 +241,7 @@ const AGENT_PLATFORMS: AgentPlatform[] = [
     max_conversations: 500000,
     free_tier: true,
     requires_api_key: true,
-    documentation_url: 'https://docs.microsoft.com/bot-framework'
+    documentation_url: 'https://docs.microsoft.com/bot-framework',
   },
   {
     id: 'rasa',
@@ -251,14 +251,19 @@ const AGENT_PLATFORMS: AgentPlatform[] = [
     description: 'Open source conversational AI with full control and customization',
     pricing: 'Free + Rasa Pro $25/month',
     features: ['Open Source', 'Self-hosted', 'Custom NLU', 'Machine Learning'],
-    capabilities: ['Intent Classification', 'Entity Extraction', 'Dialog Management', 'Custom Actions'],
+    capabilities: [
+      'Intent Classification',
+      'Entity Extraction',
+      'Dialog Management',
+      'Custom Actions',
+    ],
     deployment_types: ['Self-hosted', 'Docker', 'Kubernetes', 'Cloud'],
     supported_models: ['SpaCy', 'BERT', 'Custom Models'],
     integration_apis: ['REST API', 'Webhooks', 'Custom Connectors'],
     max_conversations: 999999,
     free_tier: true,
     requires_api_key: false,
-    documentation_url: 'https://rasa.com/docs'
+    documentation_url: 'https://rasa.com/docs',
   },
   {
     id: 'voiceflow',
@@ -275,7 +280,7 @@ const AGENT_PLATFORMS: AgentPlatform[] = [
     max_conversations: 100000,
     free_tier: true,
     requires_api_key: false,
-    documentation_url: 'https://docs.voiceflow.com'
+    documentation_url: 'https://docs.voiceflow.com',
   },
   {
     id: 'chatfuel',
@@ -292,7 +297,7 @@ const AGENT_PLATFORMS: AgentPlatform[] = [
     max_conversations: 50000,
     free_tier: true,
     requires_api_key: false,
-    documentation_url: 'https://docs.chatfuel.com'
+    documentation_url: 'https://docs.chatfuel.com',
   },
   {
     id: 'botpress',
@@ -309,7 +314,7 @@ const AGENT_PLATFORMS: AgentPlatform[] = [
     max_conversations: 200000,
     free_tier: true,
     requires_api_key: false,
-    documentation_url: 'https://botpress.com/docs'
+    documentation_url: 'https://botpress.com/docs',
   },
   {
     id: 'zapier',
@@ -326,7 +331,7 @@ const AGENT_PLATFORMS: AgentPlatform[] = [
     max_conversations: 100000,
     free_tier: true,
     requires_api_key: true,
-    documentation_url: 'https://zapier.com/help/ai'
+    documentation_url: 'https://zapier.com/help/ai',
   },
   {
     id: 'n8n',
@@ -343,8 +348,8 @@ const AGENT_PLATFORMS: AgentPlatform[] = [
     max_conversations: 999999,
     free_tier: true,
     requires_api_key: false,
-    documentation_url: 'https://docs.n8n.io'
-  }
+    documentation_url: 'https://docs.n8n.io',
+  },
 ];
 
 const AGENT_TEMPLATES = [
@@ -354,7 +359,7 @@ const AGENT_TEMPLATES = [
     description: 'Handle customer inquiries, troubleshooting, and support tickets',
     type: 'chatbot',
     use_cases: ['FAQ Answers', 'Ticket Routing', 'Product Support', 'Order Tracking'],
-    personality: { tone: 'helpful', formality: 'professional', empathy: 8 }
+    personality: { tone: 'helpful', formality: 'professional', empathy: 8 },
   },
   {
     id: 'sales_assistant',
@@ -362,7 +367,7 @@ const AGENT_TEMPLATES = [
     description: 'Qualify leads, provide product information, and schedule demos',
     type: 'chatbot',
     use_cases: ['Lead Qualification', 'Product Demos', 'Pricing Info', 'Meeting Scheduling'],
-    personality: { tone: 'persuasive', formality: 'friendly', empathy: 7 }
+    personality: { tone: 'persuasive', formality: 'friendly', empathy: 7 },
   },
   {
     id: 'code_reviewer',
@@ -370,7 +375,7 @@ const AGENT_TEMPLATES = [
     description: 'Analyze code quality, suggest improvements, and check best practices',
     type: 'assistant',
     use_cases: ['Code Analysis', 'Security Scanning', 'Performance Tips', 'Documentation'],
-    personality: { tone: 'technical', formality: 'professional', empathy: 5 }
+    personality: { tone: 'technical', formality: 'professional', empathy: 5 },
   },
   {
     id: 'content_creator',
@@ -378,7 +383,7 @@ const AGENT_TEMPLATES = [
     description: 'Generate blog posts, social media content, and marketing copy',
     type: 'assistant',
     use_cases: ['Blog Writing', 'Social Media', 'Email Campaigns', 'SEO Content'],
-    personality: { tone: 'creative', formality: 'casual', empathy: 6 }
+    personality: { tone: 'creative', formality: 'casual', empathy: 6 },
   },
   {
     id: 'data_analyst',
@@ -386,8 +391,8 @@ const AGENT_TEMPLATES = [
     description: 'Process data, generate insights, and create visualizations',
     type: 'assistant',
     use_cases: ['Data Processing', 'Report Generation', 'Trend Analysis', 'Visualization'],
-    personality: { tone: 'analytical', formality: 'professional', empathy: 4 }
-  }
+    personality: { tone: 'analytical', formality: 'professional', empathy: 4 },
+  },
 ];
 
 export function AgentDesignerTool(): JSX.Element {
@@ -415,42 +420,42 @@ export function AgentDesignerTool(): JSX.Element {
       humor: 5,
       empathy: 7,
       creativity: 5,
-      technical_depth: 5
+      technical_depth: 5,
     },
     constraints: {
       max_conversation_length: 10,
       allowed_topics: [],
       blocked_topics: [],
       response_time_limit: 30,
-      safety_level: 8
+      safety_level: 8,
     },
     deployment: {
       environment: 'cloud',
       scaling: 'auto',
       monitoring: true,
       logging: true,
-      fallback_enabled: true
-    }
+      fallback_enabled: true,
+    },
   });
   const [workflowNodes, setWorkflowNodes] = useState<WorkflowNode[]>([]);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [generatedCode, setGeneratedCode] = useState<string>('');
   const [testResults, setTestResults] = useState<any>(null);
 
-  const selectedPlatformData = AGENT_PLATFORMS.find(p => p.id === selectedPlatform);
-  const selectedTemplateData = AGENT_TEMPLATES.find(t => t.id === selectedTemplate);
+  const selectedPlatformData = AGENT_PLATFORMS.find((p) => p.id === selectedPlatform);
+  const selectedTemplateData = AGENT_TEMPLATES.find((t) => t.id === selectedTemplate);
 
   /**
    * Handle platform selection
    */
   const handlePlatformSelect = useCallback((platformId: string): void => {
-    const platform = AGENT_PLATFORMS.find(p => p.id === platformId);
+    const platform = AGENT_PLATFORMS.find((p) => p.id === platformId);
     if (platform) {
       setSelectedPlatform(platformId);
-      setAgentConfig(prev => ({
+      setAgentConfig((prev) => ({
         ...prev,
         platform: platformId,
-        model: platform.supported_models[0]
+        model: platform.supported_models[0],
       }));
     }
   }, []);
@@ -459,15 +464,15 @@ export function AgentDesignerTool(): JSX.Element {
    * Handle template application
    */
   const handleApplyTemplate = useCallback((templateId: string): void => {
-    const template = AGENT_TEMPLATES.find(t => t.id === templateId);
+    const template = AGENT_TEMPLATES.find((t) => t.id === templateId);
     if (template) {
       setSelectedTemplate(templateId);
-      setAgentConfig(prev => ({
+      setAgentConfig((prev) => ({
         ...prev,
         name: template.name,
         description: template.description,
         type: template.type,
-        personality: { ...prev.personality, ...template.personality }
+        personality: { ...prev.personality, ...template.personality },
       }));
       toast.success(`Applied ${template.name} template`);
     }
@@ -483,15 +488,15 @@ export function AgentDesignerTool(): JSX.Element {
     }
 
     setIsGenerating(true);
-    
+
     try {
       // Simulate code generation
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
       const code = generateAgentCode(agentConfig, selectedPlatformData!);
       setGeneratedCode(code);
       setActiveTab('code');
-      
+
       toast.success('Agent code generated successfully!');
     } catch (error) {
       toast.error('Failed to generate agent code');
@@ -505,11 +510,11 @@ export function AgentDesignerTool(): JSX.Element {
    */
   const handleTestAgent = useCallback(async (): Promise<void> => {
     setIsGenerating(true);
-    
+
     try {
       // Simulate testing
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       const results = {
         response_time: Math.floor(Math.random() * 500) + 100,
         accuracy: Math.floor(Math.random() * 20) + 80,
@@ -517,9 +522,9 @@ export function AgentDesignerTool(): JSX.Element {
         user_satisfaction: Math.floor(Math.random() * 15) + 85,
         test_conversations: 25,
         passed_tests: 23,
-        failed_tests: 2
+        failed_tests: 2,
       };
-      
+
       setTestResults(results);
       setActiveTab('testing');
       toast.success('Agent testing completed!');
@@ -535,11 +540,11 @@ export function AgentDesignerTool(): JSX.Element {
    */
   const handleDeployAgent = useCallback(async (): Promise<void> => {
     setIsGenerating(true);
-    
+
     try {
       // Simulate deployment
-      await new Promise(resolve => setTimeout(resolve, 4000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 4000));
+
       toast.success(`Agent deployed to ${selectedPlatformData?.name}!`);
     } catch (error) {
       toast.error('Deployment failed');
@@ -565,7 +570,7 @@ export function AgentDesignerTool(): JSX.Element {
             </p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-3">
           <Badge variant="secondary" className="text-xs">
             {AGENT_PLATFORMS.length} Platforms
@@ -673,18 +678,24 @@ export function AgentDesignerTool(): JSX.Element {
                           </div>
                           <div className="flex items-center justify-between text-xs">
                             <span className="text-[var(--ff-text-muted)]">Max Conversations:</span>
-                            <span className="font-medium">{platform.max_conversations.toLocaleString()}</span>
+                            <span className="font-medium">
+                              {platform.max_conversations.toLocaleString()}
+                            </span>
                           </div>
                           <div className="flex items-center justify-between text-xs">
                             <span className="text-[var(--ff-text-muted)]">Free Tier:</span>
-                            <span className={`font-medium ${platform.free_tier ? 'text-green-600' : 'text-red-600'}`}>
+                            <span
+                              className={`font-medium ${platform.free_tier ? 'text-green-600' : 'text-red-600'}`}
+                            >
                               {platform.free_tier ? 'Yes' : 'No'}
                             </span>
                           </div>
                         </div>
 
                         <div className="space-y-2">
-                          <div className="text-xs font-medium text-[var(--ff-text-muted)]">Key Features:</div>
+                          <div className="text-xs font-medium text-[var(--ff-text-muted)]">
+                            Key Features:
+                          </div>
                           <div className="flex flex-wrap gap-1">
                             {platform.features.slice(0, 3).map((feature, index) => (
                               <Badge key={index} variant="outline" className="text-xs">
@@ -763,7 +774,9 @@ export function AgentDesignerTool(): JSX.Element {
                         </p>
 
                         <div className="space-y-1">
-                          <div className="text-xs font-medium text-[var(--ff-text-muted)]">Use Cases:</div>
+                          <div className="text-xs font-medium text-[var(--ff-text-muted)]">
+                            Use Cases:
+                          </div>
                           <div className="flex flex-wrap gap-1">
                             {template.use_cases.slice(0, 2).map((useCase, index) => (
                               <Badge key={index} variant="outline" className="text-xs">
@@ -798,7 +811,7 @@ export function AgentDesignerTool(): JSX.Element {
                   <Input
                     placeholder="Customer Support Bot"
                     value={agentConfig.name}
-                    onChange={(e) => setAgentConfig(prev => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => setAgentConfig((prev) => ({ ...prev, name: e.target.value }))}
                     className="ff-input"
                   />
                 </div>
@@ -808,7 +821,9 @@ export function AgentDesignerTool(): JSX.Element {
                   <Textarea
                     placeholder="Describe what your agent does and its primary purpose..."
                     value={agentConfig.description}
-                    onChange={(e) => setAgentConfig(prev => ({ ...prev, description: e.target.value }))}
+                    onChange={(e) =>
+                      setAgentConfig((prev) => ({ ...prev, description: e.target.value }))
+                    }
                     className="ff-input min-h-[80px]"
                   />
                 </div>
@@ -816,9 +831,11 @@ export function AgentDesignerTool(): JSX.Element {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Agent Type</Label>
-                    <Select 
-                      value={agentConfig.type} 
-                      onValueChange={(value) => setAgentConfig(prev => ({ ...prev, type: value }))}
+                    <Select
+                      value={agentConfig.type}
+                      onValueChange={(value) =>
+                        setAgentConfig((prev) => ({ ...prev, type: value }))
+                      }
                     >
                       <SelectTrigger className="ff-input">
                         <SelectValue />
@@ -835,9 +852,11 @@ export function AgentDesignerTool(): JSX.Element {
 
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Model</Label>
-                    <Select 
-                      value={agentConfig.model} 
-                      onValueChange={(value) => setAgentConfig(prev => ({ ...prev, model: value }))}
+                    <Select
+                      value={agentConfig.model}
+                      onValueChange={(value) =>
+                        setAgentConfig((prev) => ({ ...prev, model: value }))
+                      }
                     >
                       <SelectTrigger className="ff-input">
                         <SelectValue />
@@ -858,7 +877,9 @@ export function AgentDesignerTool(): JSX.Element {
                   <Textarea
                     placeholder="You are a helpful customer support agent. Always be polite and professional..."
                     value={agentConfig.system_prompt}
-                    onChange={(e) => setAgentConfig(prev => ({ ...prev, system_prompt: e.target.value }))}
+                    onChange={(e) =>
+                      setAgentConfig((prev) => ({ ...prev, system_prompt: e.target.value }))
+                    }
                     className="ff-input min-h-[120px]"
                   />
                 </div>
@@ -877,11 +898,15 @@ export function AgentDesignerTool(): JSX.Element {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <Label className="text-sm font-semibold">Temperature</Label>
-                    <span className="text-sm text-[var(--ff-text-muted)]">{agentConfig.temperature}</span>
+                    <span className="text-sm text-[var(--ff-text-muted)]">
+                      {agentConfig.temperature}
+                    </span>
                   </div>
                   <Slider
                     value={[agentConfig.temperature]}
-                    onValueChange={([value]) => setAgentConfig(prev => ({ ...prev, temperature: value }))}
+                    onValueChange={([value]) =>
+                      setAgentConfig((prev) => ({ ...prev, temperature: value }))
+                    }
                     max={2}
                     min={0}
                     step={0.1}
@@ -895,11 +920,15 @@ export function AgentDesignerTool(): JSX.Element {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <Label className="text-sm font-semibold">Max Tokens</Label>
-                    <span className="text-sm text-[var(--ff-text-muted)]">{agentConfig.max_tokens}</span>
+                    <span className="text-sm text-[var(--ff-text-muted)]">
+                      {agentConfig.max_tokens}
+                    </span>
                   </div>
                   <Slider
                     value={[agentConfig.max_tokens]}
-                    onValueChange={([value]) => setAgentConfig(prev => ({ ...prev, max_tokens: value }))}
+                    onValueChange={([value]) =>
+                      setAgentConfig((prev) => ({ ...prev, max_tokens: value }))
+                    }
                     max={4000}
                     min={100}
                     step={100}
@@ -914,7 +943,9 @@ export function AgentDesignerTool(): JSX.Element {
                   </div>
                   <Slider
                     value={[agentConfig.top_p]}
-                    onValueChange={([value]) => setAgentConfig(prev => ({ ...prev, top_p: value }))}
+                    onValueChange={([value]) =>
+                      setAgentConfig((prev) => ({ ...prev, top_p: value }))
+                    }
                     max={1}
                     min={0}
                     step={0.1}
@@ -927,7 +958,9 @@ export function AgentDesignerTool(): JSX.Element {
                     <Label className="text-sm font-semibold">Frequency Penalty</Label>
                     <Slider
                       value={[agentConfig.frequency_penalty]}
-                      onValueChange={([value]) => setAgentConfig(prev => ({ ...prev, frequency_penalty: value }))}
+                      onValueChange={([value]) =>
+                        setAgentConfig((prev) => ({ ...prev, frequency_penalty: value }))
+                      }
                       max={2}
                       min={-2}
                       step={0.1}
@@ -939,7 +972,9 @@ export function AgentDesignerTool(): JSX.Element {
                     <Label className="text-sm font-semibold">Presence Penalty</Label>
                     <Slider
                       value={[agentConfig.presence_penalty]}
-                      onValueChange={([value]) => setAgentConfig(prev => ({ ...prev, presence_penalty: value }))}
+                      onValueChange={([value]) =>
+                        setAgentConfig((prev) => ({ ...prev, presence_penalty: value }))
+                      }
                       max={2}
                       min={-2}
                       step={0.1}
@@ -962,12 +997,14 @@ export function AgentDesignerTool(): JSX.Element {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Tone</Label>
-                    <Select 
-                      value={agentConfig.personality.tone} 
-                      onValueChange={(value) => setAgentConfig(prev => ({ 
-                        ...prev, 
-                        personality: { ...prev.personality, tone: value }
-                      }))}
+                    <Select
+                      value={agentConfig.personality.tone}
+                      onValueChange={(value) =>
+                        setAgentConfig((prev) => ({
+                          ...prev,
+                          personality: { ...prev.personality, tone: value },
+                        }))
+                      }
                     >
                       <SelectTrigger className="ff-input">
                         <SelectValue />
@@ -985,12 +1022,14 @@ export function AgentDesignerTool(): JSX.Element {
 
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Formality</Label>
-                    <Select 
-                      value={agentConfig.personality.formality} 
-                      onValueChange={(value) => setAgentConfig(prev => ({ 
-                        ...prev, 
-                        personality: { ...prev.personality, formality: value }
-                      }))}
+                    <Select
+                      value={agentConfig.personality.formality}
+                      onValueChange={(value) =>
+                        setAgentConfig((prev) => ({
+                          ...prev,
+                          personality: { ...prev.personality, formality: value },
+                        }))
+                      }
                     >
                       <SelectTrigger className="ff-input">
                         <SelectValue />
@@ -1009,17 +1048,25 @@ export function AgentDesignerTool(): JSX.Element {
                 {['humor', 'empathy', 'creativity', 'technical_depth'].map((trait) => (
                   <div key={trait} className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <Label className="text-sm font-semibold capitalize">{trait.replace('_', ' ')}</Label>
+                      <Label className="text-sm font-semibold capitalize">
+                        {trait.replace('_', ' ')}
+                      </Label>
                       <span className="text-sm text-[var(--ff-text-muted)]">
                         {agentConfig.personality[trait as keyof typeof agentConfig.personality]}/10
                       </span>
                     </div>
                     <Slider
-                      value={[agentConfig.personality[trait as keyof typeof agentConfig.personality] as number]}
-                      onValueChange={([value]) => setAgentConfig(prev => ({ 
-                        ...prev, 
-                        personality: { ...prev.personality, [trait]: value }
-                      }))}
+                      value={[
+                        agentConfig.personality[
+                          trait as keyof typeof agentConfig.personality
+                        ] as number,
+                      ]}
+                      onValueChange={([value]) =>
+                        setAgentConfig((prev) => ({
+                          ...prev,
+                          personality: { ...prev.personality, [trait]: value },
+                        }))
+                      }
                       max={10}
                       min={1}
                       step={1}
@@ -1044,10 +1091,12 @@ export function AgentDesignerTool(): JSX.Element {
                   <div className="flex items-center gap-2">
                     <Slider
                       value={[agentConfig.constraints.max_conversation_length]}
-                      onValueChange={([value]) => setAgentConfig(prev => ({ 
-                        ...prev, 
-                        constraints: { ...prev.constraints, max_conversation_length: value }
-                      }))}
+                      onValueChange={([value]) =>
+                        setAgentConfig((prev) => ({
+                          ...prev,
+                          constraints: { ...prev.constraints, max_conversation_length: value },
+                        }))
+                      }
                       max={50}
                       min={1}
                       step={1}
@@ -1064,10 +1113,12 @@ export function AgentDesignerTool(): JSX.Element {
                   <div className="flex items-center gap-2">
                     <Slider
                       value={[agentConfig.constraints.response_time_limit]}
-                      onValueChange={([value]) => setAgentConfig(prev => ({ 
-                        ...prev, 
-                        constraints: { ...prev.constraints, response_time_limit: value }
-                      }))}
+                      onValueChange={([value]) =>
+                        setAgentConfig((prev) => ({
+                          ...prev,
+                          constraints: { ...prev.constraints, response_time_limit: value },
+                        }))
+                      }
                       max={300}
                       min={5}
                       step={5}
@@ -1084,10 +1135,12 @@ export function AgentDesignerTool(): JSX.Element {
                   <div className="flex items-center gap-2">
                     <Slider
                       value={[agentConfig.constraints.safety_level]}
-                      onValueChange={([value]) => setAgentConfig(prev => ({ 
-                        ...prev, 
-                        constraints: { ...prev.constraints, safety_level: value }
-                      }))}
+                      onValueChange={([value]) =>
+                        setAgentConfig((prev) => ({
+                          ...prev,
+                          constraints: { ...prev.constraints, safety_level: value },
+                        }))
+                      }
                       max={10}
                       min={1}
                       step={1}
@@ -1104,10 +1157,15 @@ export function AgentDesignerTool(): JSX.Element {
                   <Textarea
                     placeholder="Enter topics to block (one per line)..."
                     value={agentConfig.constraints.blocked_topics.join('\n')}
-                    onChange={(e) => setAgentConfig(prev => ({ 
-                      ...prev, 
-                      constraints: { ...prev.constraints, blocked_topics: e.target.value.split('\n').filter(t => t.trim()) }
-                    }))}
+                    onChange={(e) =>
+                      setAgentConfig((prev) => ({
+                        ...prev,
+                        constraints: {
+                          ...prev.constraints,
+                          blocked_topics: e.target.value.split('\n').filter((t) => t.trim()),
+                        },
+                      }))
+                    }
                     className="ff-input min-h-[80px]"
                   />
                 </div>
@@ -1134,8 +1192,8 @@ export function AgentDesignerTool(): JSX.Element {
                       Workflow Builder Coming Soon
                     </h3>
                     <p className="text-[var(--ff-text-secondary)] max-w-md">
-                      Drag and drop interface to create complex conversation flows, 
-                      conditional logic, and integrations.
+                      Drag and drop interface to create complex conversation flows, conditional
+                      logic, and integrations.
                     </p>
                   </div>
                   <Button className="ff-btn-primary">
@@ -1191,24 +1249,32 @@ export function AgentDesignerTool(): JSX.Element {
                       {generatedCode}
                     </pre>
                   </div>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <Card className="ff-card">
                       <CardContent className="pt-6 text-center">
                         <CheckCircle className="h-8 w-8 text-green-500 mx-auto mb-2" />
-                        <p className="font-semibold text-[var(--ff-text-primary)]">Ready to Deploy</p>
-                        <p className="text-sm text-[var(--ff-text-secondary)]">Code generated successfully</p>
+                        <p className="font-semibold text-[var(--ff-text-primary)]">
+                          Ready to Deploy
+                        </p>
+                        <p className="text-sm text-[var(--ff-text-secondary)]">
+                          Code generated successfully
+                        </p>
                       </CardContent>
                     </Card>
-                    
+
                     <Card className="ff-card">
                       <CardContent className="pt-6 text-center">
                         <Target className="h-8 w-8 text-blue-500 mx-auto mb-2" />
-                        <p className="font-semibold text-[var(--ff-text-primary)]">Platform Ready</p>
-                        <p className="text-sm text-[var(--ff-text-secondary)]">{selectedPlatformData?.name}</p>
+                        <p className="font-semibold text-[var(--ff-text-primary)]">
+                          Platform Ready
+                        </p>
+                        <p className="text-sm text-[var(--ff-text-secondary)]">
+                          {selectedPlatformData?.name}
+                        </p>
                       </CardContent>
                     </Card>
-                    
+
                     <Card className="ff-card">
                       <CardContent className="pt-6 text-center">
                         <Clock className="h-8 w-8 text-purple-500 mx-auto mb-2" />
@@ -1337,7 +1403,9 @@ export function AgentDesignerTool(): JSX.Element {
                       </div>
                       <div className="flex justify-between text-sm">
                         <span>Passed Tests:</span>
-                        <span className="font-medium text-green-600">{testResults.passed_tests}</span>
+                        <span className="font-medium text-green-600">
+                          {testResults.passed_tests}
+                        </span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span>Failed Tests:</span>
@@ -1383,7 +1451,9 @@ export function AgentDesignerTool(): JSX.Element {
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="font-semibold text-[var(--ff-text-primary)]">Deployment Summary</h4>
+                  <h4 className="font-semibold text-[var(--ff-text-primary)]">
+                    Deployment Summary
+                  </h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-[var(--ff-text-muted)]">Platform:</span>
@@ -1399,7 +1469,9 @@ export function AgentDesignerTool(): JSX.Element {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[var(--ff-text-muted)]">Environment:</span>
-                      <span className="font-medium capitalize">{agentConfig.deployment.environment}</span>
+                      <span className="font-medium capitalize">
+                        {agentConfig.deployment.environment}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1408,19 +1480,27 @@ export function AgentDesignerTool(): JSX.Element {
                   <h4 className="font-semibold text-[var(--ff-text-primary)]">Requirements</h4>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                      <CheckCircle className={`h-4 w-4 ${agentConfig.name ? 'text-green-500' : 'text-gray-400'}`} />
+                      <CheckCircle
+                        className={`h-4 w-4 ${agentConfig.name ? 'text-green-500' : 'text-gray-400'}`}
+                      />
                       <span className="text-sm">Agent configured</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <CheckCircle className={`h-4 w-4 ${generatedCode ? 'text-green-500' : 'text-gray-400'}`} />
+                      <CheckCircle
+                        className={`h-4 w-4 ${generatedCode ? 'text-green-500' : 'text-gray-400'}`}
+                      />
                       <span className="text-sm">Code generated</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <CheckCircle className={`h-4 w-4 ${testResults ? 'text-green-500' : 'text-gray-400'}`} />
+                      <CheckCircle
+                        className={`h-4 w-4 ${testResults ? 'text-green-500' : 'text-gray-400'}`}
+                      />
                       <span className="text-sm">Tests completed</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <CheckCircle className={`h-4 w-4 ${selectedPlatformData?.requires_api_key ? 'text-gray-400' : 'text-green-500'}`} />
+                      <CheckCircle
+                        className={`h-4 w-4 ${selectedPlatformData?.requires_api_key ? 'text-gray-400' : 'text-green-500'}`}
+                      />
                       <span className="text-sm">API key configured</span>
                     </div>
                   </div>
@@ -1455,7 +1535,9 @@ export function AgentDesignerTool(): JSX.Element {
               </div>
 
               <div className="bg-[var(--ff-surface)]/50 p-4 rounded-lg">
-                <h4 className="font-semibold text-[var(--ff-text-primary)] mb-3">Post-Deployment</h4>
+                <h4 className="font-semibold text-[var(--ff-text-primary)] mb-3">
+                  Post-Deployment
+                </h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div className="text-center">
                     <Monitor className="h-6 w-6 text-[var(--ff-primary)] mx-auto mb-2" />
@@ -1674,10 +1756,12 @@ agent_config = ${JSON.stringify(config, null, 2)}
 # Usage Example:
 agent = ${config.name.replace(/\s+/g, '')}Agent()
 response = agent.process_message("Hello, what can you do?")
-`
+`,
   };
 
-  return platformTemplates[platform.id as keyof typeof platformTemplates] || platformTemplates.default;
+  return (
+    platformTemplates[platform.id as keyof typeof platformTemplates] || platformTemplates.default
+  );
 }
 
 export default AgentDesignerTool;

@@ -8,5 +8,5 @@ export {
   creatorRoutes,
   validationRoutes,
   validatorRoutes,
-  coreSystemRoutes
+  coreSystemRoutes,
 } from './route-handlers/index';

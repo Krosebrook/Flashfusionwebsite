@@ -6,7 +6,7 @@ import { motion } from 'motion/react';
 export default function ContactPage() {
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -30,13 +30,12 @@ export default function ContactPage() {
             <Zap className="w-12 h-12 text-primary mx-auto mb-4" />
             <CardTitle>Contact Form Coming Soon</CardTitle>
             <CardDescription>
-              We're building a comprehensive contact system with multiple ways to reach our team and get support.
+              We're building a comprehensive contact system with multiple ways to reach our team and
+              get support.
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center">
-            <Badge className="ff-badge-glow">
-              In Development
-            </Badge>
+            <Badge className="ff-badge-glow">In Development</Badge>
           </CardContent>
         </Card>
       </motion.div>

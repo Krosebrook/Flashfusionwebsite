@@ -2,7 +2,7 @@ import { Button } from '../ui/button';
 import { NotificationBell } from '../notifications/NotificationSystem';
 import { AuthButton } from '../auth/AuthSystem';
 import { ErrorBoundary } from '../ErrorBoundary';
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -20,12 +20,12 @@ interface AppHeaderProps {
   setShowWizard: (show: boolean) => void;
 }
 
-export function AppHeader({ 
-  showSidebar, 
-  isAuthenticated, 
-  currentPage, 
-  setCurrentPage, 
-  setShowWizard 
+export function AppHeader({
+  showSidebar,
+  isAuthenticated,
+  currentPage,
+  setCurrentPage,
+  setShowWizard,
 }: AppHeaderProps) {
   return (
     <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
@@ -37,25 +37,25 @@ export function AppHeader({
             </div>
             <span className="font-bold ff-text-gradient">FlashFusion</span>
           </div>
-          
+
           {/* Public navigation for marketing pages */}
           {!showSidebar && !isAuthenticated && (
             <nav className="hidden md:flex items-center gap-6">
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 onClick={() => setCurrentPage('features')}
                 className={currentPage === 'features' ? 'text-primary' : ''}
               >
                 Features
               </Button>
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 onClick={() => setCurrentPage('pricing')}
                 className={currentPage === 'pricing' ? 'text-primary' : ''}
               >
                 Pricing
               </Button>
-              
+
               {/* Resources Dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -71,9 +71,7 @@ export function AppHeader({
                   <DropdownMenuItem onClick={() => setCurrentPage('testimonials')}>
                     Success Stories
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setCurrentPage('faq')}>
-                    FAQ
-                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setCurrentPage('faq')}>FAQ</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => setCurrentPage('about')}>
                     About Us
@@ -83,16 +81,13 @@ export function AppHeader({
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              
-              <Button 
-                variant="outline" 
-                onClick={() => setShowWizard(true)}
-              >
+
+              <Button variant="outline" onClick={() => setShowWizard(true)}>
                 Get Started
               </Button>
             </nav>
           )}
-          
+
           <div className="flex items-center gap-2">
             {isAuthenticated && <NotificationBell />}
             <ErrorBoundary>
@@ -101,7 +96,7 @@ export function AppHeader({
           </div>
         </div>
       </div>
-      
+
       {/* Footer for public pages */}
       {!showSidebar && !isAuthenticated && (
         <div className="border-t border-border bg-card/30">
@@ -115,38 +110,60 @@ export function AppHeader({
                   <span className="font-bold ff-text-gradient">FlashFusion</span>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Build apps with AI in minutes, not months. The comprehensive platform for modern development.
+                  Build apps with AI in minutes, not months. The comprehensive platform for modern
+                  development.
                 </p>
               </div>
-              
+
               <div>
                 <h4 className="font-semibold mb-4">Product</h4>
                 <div className="space-y-2 text-sm">
-                  <button onClick={() => setCurrentPage('features')} className="block text-muted-foreground hover:text-primary">
+                  <button
+                    onClick={() => setCurrentPage('features')}
+                    className="block text-muted-foreground hover:text-primary"
+                  >
                     Features
                   </button>
-                  <button onClick={() => setCurrentPage('pricing')} className="block text-muted-foreground hover:text-primary">
+                  <button
+                    onClick={() => setCurrentPage('pricing')}
+                    className="block text-muted-foreground hover:text-primary"
+                  >
                     Pricing
                   </button>
-                  <button onClick={() => setCurrentPage('demo')} className="block text-muted-foreground hover:text-primary">
+                  <button
+                    onClick={() => setCurrentPage('demo')}
+                    className="block text-muted-foreground hover:text-primary"
+                  >
                     Demo
                   </button>
-                  <button onClick={() => setCurrentPage('testimonials')} className="block text-muted-foreground hover:text-primary">
+                  <button
+                    onClick={() => setCurrentPage('testimonials')}
+                    className="block text-muted-foreground hover:text-primary"
+                  >
                     Testimonials
                   </button>
                 </div>
               </div>
-              
+
               <div>
                 <h4 className="font-semibold mb-4">Company</h4>
                 <div className="space-y-2 text-sm">
-                  <button onClick={() => setCurrentPage('about')} className="block text-muted-foreground hover:text-primary">
+                  <button
+                    onClick={() => setCurrentPage('about')}
+                    className="block text-muted-foreground hover:text-primary"
+                  >
                     About Us
                   </button>
-                  <button onClick={() => setCurrentPage('contact')} className="block text-muted-foreground hover:text-primary">
+                  <button
+                    onClick={() => setCurrentPage('contact')}
+                    className="block text-muted-foreground hover:text-primary"
+                  >
                     Contact
                   </button>
-                  <button onClick={() => setCurrentPage('faq')} className="block text-muted-foreground hover:text-primary">
+                  <button
+                    onClick={() => setCurrentPage('faq')}
+                    className="block text-muted-foreground hover:text-primary"
+                  >
                     FAQ
                   </button>
                   <a href="#careers" className="block text-muted-foreground hover:text-primary">
@@ -154,14 +171,20 @@ export function AppHeader({
                   </a>
                 </div>
               </div>
-              
+
               <div>
                 <h4 className="font-semibold mb-4">Legal</h4>
                 <div className="space-y-2 text-sm">
-                  <button onClick={() => setCurrentPage('privacy')} className="block text-muted-foreground hover:text-primary">
+                  <button
+                    onClick={() => setCurrentPage('privacy')}
+                    className="block text-muted-foreground hover:text-primary"
+                  >
                     Privacy Policy
                   </button>
-                  <button onClick={() => setCurrentPage('terms')} className="block text-muted-foreground hover:text-primary">
+                  <button
+                    onClick={() => setCurrentPage('terms')}
+                    className="block text-muted-foreground hover:text-primary"
+                  >
                     Terms of Service
                   </button>
                   <a href="#security" className="block text-muted-foreground hover:text-primary">
@@ -173,7 +196,7 @@ export function AppHeader({
                 </div>
               </div>
             </div>
-            
+
             <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
               <p className="text-sm text-muted-foreground">
                 © 2024 FlashFusion Inc. All rights reserved.

@@ -8,7 +8,7 @@ export const MOCK_PERFORMANCE_METRICS: PerformanceMetric[] = [
     target: 1.5,
     status: 'needs-improvement',
     trend: 'down',
-    description: 'Time until the first piece of content is painted on screen'
+    description: 'Time until the first piece of content is painted on screen',
   },
   {
     name: 'Largest Contentful Paint',
@@ -17,7 +17,7 @@ export const MOCK_PERFORMANCE_METRICS: PerformanceMetric[] = [
     target: 2.5,
     status: 'good',
     trend: 'stable',
-    description: 'Time until the largest content element is painted'
+    description: 'Time until the largest content element is painted',
   },
   {
     name: 'Cumulative Layout Shift',
@@ -26,7 +26,7 @@ export const MOCK_PERFORMANCE_METRICS: PerformanceMetric[] = [
     target: 0.1,
     status: 'needs-improvement',
     trend: 'up',
-    description: 'Measures visual stability during page load'
+    description: 'Measures visual stability during page load',
   },
   {
     name: 'First Input Delay',
@@ -35,7 +35,7 @@ export const MOCK_PERFORMANCE_METRICS: PerformanceMetric[] = [
     target: 100,
     status: 'good',
     trend: 'stable',
-    description: 'Time from first user interaction to browser response'
+    description: 'Time from first user interaction to browser response',
   },
   {
     name: 'Bundle Size',
@@ -44,7 +44,7 @@ export const MOCK_PERFORMANCE_METRICS: PerformanceMetric[] = [
     target: 300,
     status: 'poor',
     trend: 'up',
-    description: 'Total JavaScript bundle size'
+    description: 'Total JavaScript bundle size',
   },
   {
     name: 'Time to Interactive',
@@ -53,8 +53,8 @@ export const MOCK_PERFORMANCE_METRICS: PerformanceMetric[] = [
     target: 3.0,
     status: 'needs-improvement',
     trend: 'down',
-    description: 'Time until page is fully interactive'
-  }
+    description: 'Time until page is fully interactive',
+  },
 ];
 
 export const MOCK_OPTIMIZATION_SUGGESTIONS: OptimizationSuggestion[] = [
@@ -67,7 +67,7 @@ export const MOCK_OPTIMIZATION_SUGGESTIONS: OptimizationSuggestion[] = [
     category: 'loading',
     potentialSavings: '30-40% faster initial load',
     isImplemented: false,
-    autoImplementable: true
+    autoImplementable: true,
   },
   {
     id: '2',
@@ -78,7 +78,7 @@ export const MOCK_OPTIMIZATION_SUGGESTIONS: OptimizationSuggestion[] = [
     category: 'loading',
     potentialSavings: '50-70% smaller image sizes',
     isImplemented: true,
-    autoImplementable: true
+    autoImplementable: true,
   },
   {
     id: '3',
@@ -89,7 +89,7 @@ export const MOCK_OPTIMIZATION_SUGGESTIONS: OptimizationSuggestion[] = [
     category: 'network',
     potentialSavings: '80-90% faster repeat visits',
     isImplemented: false,
-    autoImplementable: true
+    autoImplementable: true,
   },
   {
     id: '4',
@@ -100,7 +100,7 @@ export const MOCK_OPTIMIZATION_SUGGESTIONS: OptimizationSuggestion[] = [
     category: 'loading',
     potentialSavings: '15-25% smaller bundle',
     isImplemented: false,
-    autoImplementable: false
+    autoImplementable: false,
   },
   {
     id: '5',
@@ -111,8 +111,8 @@ export const MOCK_OPTIMIZATION_SUGGESTIONS: OptimizationSuggestion[] = [
     category: 'runtime',
     potentialSavings: '60-80% better list performance',
     isImplemented: false,
-    autoImplementable: false
-  }
+    autoImplementable: false,
+  },
 ];
 
 export const MOCK_BUNDLE_ANALYSIS: BundleAnalysis = {
@@ -122,38 +122,33 @@ export const MOCK_BUNDLE_ANALYSIS: BundleAnalysis = {
     { name: 'vendor', size: 280000, type: 'vendor', modules: 45 },
     { name: 'main', size: 120000, type: 'main', modules: 23 },
     { name: 'about', size: 35000, type: 'async', modules: 8 },
-    { name: 'dashboard', size: 15000, type: 'async', modules: 4 }
+    { name: 'dashboard', size: 15000, type: 'async', modules: 4 },
   ],
   dependencies: [
     { name: 'react', size: 45000, percentage: 10, treeshakeable: false },
     { name: 'lodash', size: 67000, percentage: 15, treeshakeable: true },
     { name: 'moment', size: 56000, percentage: 12, treeshakeable: false },
     { name: 'chart.js', size: 89000, percentage: 20, treeshakeable: true },
-    { name: 'framer-motion', size: 78000, percentage: 17, treeshakeable: true }
-  ]
+    { name: 'framer-motion', size: 78000, percentage: 17, treeshakeable: true },
+  ],
 };
 
-export const OPTIMIZATION_CATEGORIES = [
-  'loading',
-  'runtime', 
-  'memory',
-  'network'
-] as const;
+export const OPTIMIZATION_CATEGORIES = ['loading', 'runtime', 'memory', 'network'] as const;
 
 export const METRIC_STATUS_COLORS = {
   good: 'text-green-500',
   'needs-improvement': 'text-yellow-500',
-  poor: 'text-red-500'
+  poor: 'text-red-500',
 } as const;
 
 export const IMPACT_COLORS = {
   high: 'text-red-500',
   medium: 'text-yellow-500',
-  low: 'text-blue-500'
+  low: 'text-blue-500',
 } as const;
 
 export const EFFORT_COLORS = {
   low: 'text-green-500',
   medium: 'text-yellow-500',
-  high: 'text-red-500'
+  high: 'text-red-500',
 } as const;

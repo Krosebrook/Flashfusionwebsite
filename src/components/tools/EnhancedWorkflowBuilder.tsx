@@ -17,14 +17,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Badge } from '../ui/badge';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Progress } from '../ui/progress';
-import { 
-  Play, 
-  Download, 
-  Save, 
-  Settings, 
-  Zap, 
-  GitBranch, 
-  Network, 
+import {
+  Play,
+  Download,
+  Save,
+  Settings,
+  Zap,
+  GitBranch,
+  Network,
   Workflow,
   FileCode,
   Database,
@@ -41,7 +41,7 @@ import {
   Loader2,
   Code,
   FileJson,
-  FileText
+  FileText,
 } from 'lucide-react';
 
 interface WorkflowNode {
@@ -83,7 +83,7 @@ export function EnhancedWorkflowBuilder() {
     description: '',
     type: 'langchain',
     nodes: [],
-    metadata: {}
+    metadata: {},
   });
 
   // LangChain specific state
@@ -107,7 +107,7 @@ export function EnhancedWorkflowBuilder() {
   const generateLangChainWorkflow = useCallback(async () => {
     const template = langchainTemplate || 'Create a comprehensive AI workflow';
     const chains = langchainChains.length > 0 ? langchainChains : ['LLMChain', 'SequentialChain'];
-    
+
     const code = `"""
 FlashFusion Generated LangChain Workflow
 Generated: ${new Date().toISOString()}
@@ -378,7 +378,7 @@ result = workflow.process_workflow({
     "input_text": "Blog content plan for tech startup",
     "context": "Content marketing and audience engagement",
     "requirements": "Content calendar and SEO optimization"
-})`
+})`,
     ];
 
     const testSuite = `"""
@@ -471,7 +471,7 @@ GOOGLE_CSE_ID=your_cse_id
       examples,
       testSuite,
       deployment,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
   }, [langchainTemplate, langchainModel, langchainChains, workflowConfig]);
 
@@ -487,14 +487,14 @@ GOOGLE_CSE_ID=your_cse_id
         'Creating documentation...',
         'Generating examples...',
         'Building test suite...',
-        'Finalizing deployment config...'
+        'Finalizing deployment config...',
       ];
 
       let workflow: GeneratedWorkflow;
 
       for (let i = 0; i < steps.length; i++) {
         setProgress(((i + 1) / steps.length) * 100);
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise((resolve) => setTimeout(resolve, 800));
 
         if (i === steps.length - 1) {
           // Generate based on active tab
@@ -519,19 +519,20 @@ GOOGLE_CSE_ID=your_cse_id
   }, [activeTab, generateLangChainWorkflow]);
 
   // Download generated files
-  const downloadWorkflow = useCallback((type: 'code' | 'docs' | 'tests' | 'deployment' | 'all') => {
-    if (!generatedWorkflow) return;
+  const downloadWorkflow = useCallback(
+    (type: 'code' | 'docs' | 'tests' | 'deployment' | 'all') => {
+      if (!generatedWorkflow) return;
 
-    const files: Record<string, string> = {
-      code: generatedWorkflow.code,
-      docs: generatedWorkflow.documentation,
-      tests: generatedWorkflow.testSuite,
-      deployment: generatedWorkflow.deployment
-    };
+      const files: Record<string, string> = {
+        code: generatedWorkflow.code,
+        docs: generatedWorkflow.documentation,
+        tests: generatedWorkflow.testSuite,
+        deployment: generatedWorkflow.deployment,
+      };
 
-    if (type === 'all') {
-      // Create zip-like structure
-      const allFiles = `# FlashFusion Workflow Package
+      if (type === 'all') {
+        // Create zip-like structure
+        const allFiles = `# FlashFusion Workflow Package
 # Generated: ${generatedWorkflow.timestamp.toISOString()}
 
 ## Main Code File (workflow.py)
@@ -550,47 +551,53 @@ ${generatedWorkflow.deployment}
 ${generatedWorkflow.examples.join('\n\n')}
 `;
 
-      const blob = new Blob([allFiles], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `flashfusion-workflow-${generatedWorkflow.config.type}.txt`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    } else {
-      // Download individual file
-      const content = files[type];
-      const extensions: Record<string, string> = {
-        code: 'py',
-        docs: 'md',
-        tests: 'py',
-        deployment: 'md'
-      };
+        const blob = new Blob([allFiles], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `flashfusion-workflow-${generatedWorkflow.config.type}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } else {
+        // Download individual file
+        const content = files[type];
+        const extensions: Record<string, string> = {
+          code: 'py',
+          docs: 'md',
+          tests: 'py',
+          deployment: 'md',
+        };
 
-      const blob = new Blob([content], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `flashfusion-${type}.${extensions[type]}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-  }, [generatedWorkflow]);
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `flashfusion-${type}.${extensions[type]}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+    },
+    [generatedWorkflow]
+  );
 
   return (
     <div className="space-y-6" style={{ fontFamily: 'var(--ff-font-secondary)' }}>
       <Card className="bg-[var(--ff-surface)] border-[var(--border)]">
         <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
+          <CardTitle
+            className="flex items-center gap-3 text-[var(--ff-text-primary)]"
+            style={{ fontFamily: 'var(--ff-font-primary)' }}
+          >
             <Workflow className="w-6 h-6 text-[var(--ff-primary)]" />
             Enhanced Workflow Builder
           </CardTitle>
           <CardDescription className="text-[var(--ff-text-secondary)]">
-            Create comprehensive AI workflows with LangChain, graph processing, forge automation, and flow diagrams.
+            Create comprehensive AI workflows with LangChain, graph processing, forge automation,
+            and flow diagrams.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -618,7 +625,8 @@ ${generatedWorkflow.examples.join('\n\n')}
               <Alert className="border-[var(--ff-primary)] bg-[var(--ff-primary)]/10">
                 <Brain className="h-4 w-4 text-[var(--ff-primary)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-primary)]">LangChain Workflow:</strong> Build AI-powered workflows with sequential chains, agents, and memory.
+                  <strong className="text-[var(--ff-primary)]">LangChain Workflow:</strong> Build
+                  AI-powered workflows with sequential chains, agents, and memory.
                 </AlertDescription>
               </Alert>
 
@@ -634,7 +642,9 @@ ${generatedWorkflow.examples.join('\n\n')}
                         id="workflow-name"
                         placeholder="e.g., AI Content Analyzer"
                         value={workflowConfig.name}
-                        onChange={(e) => setWorkflowConfig(prev => ({ ...prev, name: e.target.value }))}
+                        onChange={(e) =>
+                          setWorkflowConfig((prev) => ({ ...prev, name: e.target.value }))
+                        }
                         className="bg-[var(--ff-surface)] border-[var(--border)]"
                       />
                     </div>
@@ -645,7 +655,9 @@ ${generatedWorkflow.examples.join('\n\n')}
                         id="workflow-description"
                         placeholder="Describe your workflow purpose..."
                         value={workflowConfig.description}
-                        onChange={(e) => setWorkflowConfig(prev => ({ ...prev, description: e.target.value }))}
+                        onChange={(e) =>
+                          setWorkflowConfig((prev) => ({ ...prev, description: e.target.value }))
+                        }
                         className="bg-[var(--ff-surface)] border-[var(--border)]"
                         rows={3}
                       />
@@ -682,33 +694,37 @@ ${generatedWorkflow.examples.join('\n\n')}
 
                 <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
                   <CardHeader>
-                    <CardTitle className="text-[var(--ff-text-primary)]">Chain Configuration</CardTitle>
+                    <CardTitle className="text-[var(--ff-text-primary)]">
+                      Chain Configuration
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
                       <Label>Chain Types</Label>
                       <div className="grid grid-cols-2 gap-2">
-                        {['LLMChain', 'SequentialChain', 'RouterChain', 'TransformChain'].map((chain) => (
-                          <Button
-                            key={chain}
-                            variant={langchainChains.includes(chain) ? 'default' : 'outline'}
-                            size="sm"
-                            onClick={() => {
-                              setLangchainChains(prev => 
-                                prev.includes(chain) 
-                                  ? prev.filter(c => c !== chain)
-                                  : [...prev, chain]
-                              );
-                            }}
-                            className={
-                              langchainChains.includes(chain)
-                                ? 'bg-[var(--ff-primary)] text-white'
-                                : 'border-[var(--border)]'
-                            }
-                          >
-                            {chain}
-                          </Button>
-                        ))}
+                        {['LLMChain', 'SequentialChain', 'RouterChain', 'TransformChain'].map(
+                          (chain) => (
+                            <Button
+                              key={chain}
+                              variant={langchainChains.includes(chain) ? 'default' : 'outline'}
+                              size="sm"
+                              onClick={() => {
+                                setLangchainChains((prev) =>
+                                  prev.includes(chain)
+                                    ? prev.filter((c) => c !== chain)
+                                    : [...prev, chain]
+                                );
+                              }}
+                              className={
+                                langchainChains.includes(chain)
+                                  ? 'bg-[var(--ff-primary)] text-white'
+                                  : 'border-[var(--border)]'
+                              }
+                            >
+                              {chain}
+                            </Button>
+                          )
+                        )}
                       </div>
                     </div>
 
@@ -719,7 +735,9 @@ ${generatedWorkflow.examples.join('\n\n')}
                           <Badge key={chain} className="bg-[var(--ff-primary)] text-white">
                             {chain}
                             <button
-                              onClick={() => setLangchainChains(prev => prev.filter(c => c !== chain))}
+                              onClick={() =>
+                                setLangchainChains((prev) => prev.filter((c) => c !== chain))
+                              }
                               className="ml-1 hover:text-red-300"
                             >
                               ×
@@ -755,7 +773,9 @@ ${generatedWorkflow.examples.join('\n\n')}
               {isGenerating && (
                 <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
                   <CardHeader>
-                    <CardTitle className="text-[var(--ff-text-primary)]">Generation Progress</CardTitle>
+                    <CardTitle className="text-[var(--ff-text-primary)]">
+                      Generation Progress
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <Progress value={progress} className="h-2" />
@@ -769,7 +789,9 @@ ${generatedWorkflow.examples.join('\n\n')}
               {generatedWorkflow && (
                 <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
                   <CardHeader>
-                    <CardTitle className="text-[var(--ff-text-primary)]">Generated Workflow</CardTitle>
+                    <CardTitle className="text-[var(--ff-text-primary)]">
+                      Generated Workflow
+                    </CardTitle>
                     <CardDescription className="text-[var(--ff-text-muted)]">
                       Your workflow has been generated successfully. Download the files below.
                     </CardDescription>
@@ -823,23 +845,33 @@ ${generatedWorkflow.examples.join('\n\n')}
                     </div>
 
                     <div className="p-4 bg-[var(--ff-surface)] rounded-lg border border-[var(--border)]">
-                      <h4 className="text-sm font-semibold text-[var(--ff-text-primary)] mb-2">Workflow Summary</h4>
+                      <h4 className="text-sm font-semibold text-[var(--ff-text-primary)] mb-2">
+                        Workflow Summary
+                      </h4>
                       <div className="grid grid-cols-2 gap-4 text-xs">
                         <div>
                           <span className="text-[var(--ff-text-muted)]">Type:</span>
-                          <span className="text-[var(--ff-text-primary)] ml-2 capitalize">{generatedWorkflow.config.type}</span>
+                          <span className="text-[var(--ff-text-primary)] ml-2 capitalize">
+                            {generatedWorkflow.config.type}
+                          </span>
                         </div>
                         <div>
                           <span className="text-[var(--ff-text-muted)]">Generated:</span>
-                          <span className="text-[var(--ff-text-primary)] ml-2">{generatedWorkflow.timestamp.toLocaleString()}</span>
+                          <span className="text-[var(--ff-text-primary)] ml-2">
+                            {generatedWorkflow.timestamp.toLocaleString()}
+                          </span>
                         </div>
                         <div>
                           <span className="text-[var(--ff-text-muted)]">Model:</span>
-                          <span className="text-[var(--ff-text-primary)] ml-2">{langchainModel}</span>
+                          <span className="text-[var(--ff-text-primary)] ml-2">
+                            {langchainModel}
+                          </span>
                         </div>
                         <div>
                           <span className="text-[var(--ff-text-muted)]">Chains:</span>
-                          <span className="text-[var(--ff-text-primary)] ml-2">{langchainChains.length || 2}</span>
+                          <span className="text-[var(--ff-text-primary)] ml-2">
+                            {langchainChains.length || 2}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -852,13 +884,16 @@ ${generatedWorkflow.examples.join('\n\n')}
               <Alert className="border-[var(--ff-secondary)] bg-[var(--ff-secondary)]/10">
                 <Network className="h-4 w-4 text-[var(--ff-secondary)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-secondary)]">Graph Workflow:</strong> Build node-based processing pipelines with conditional logic and data flow.
+                  <strong className="text-[var(--ff-secondary)]">Graph Workflow:</strong> Build
+                  node-based processing pipelines with conditional logic and data flow.
                 </AlertDescription>
               </Alert>
-              
+
               <div className="text-center py-12">
                 <Network className="w-16 h-16 text-[var(--ff-text-muted)] mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-[var(--ff-text-primary)] mb-2">Graph Workflow Builder</h3>
+                <h3 className="text-lg font-semibold text-[var(--ff-text-primary)] mb-2">
+                  Graph Workflow Builder
+                </h3>
                 <p className="text-[var(--ff-text-muted)] mb-4">Coming soon in the next update</p>
                 <Button variant="outline" className="border-[var(--border)]">
                   Request Early Access
@@ -870,13 +905,16 @@ ${generatedWorkflow.examples.join('\n\n')}
               <Alert className="border-[var(--ff-accent)] bg-[var(--ff-accent)]/10">
                 <Settings className="h-4 w-4 text-[var(--ff-accent)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-accent)]">Forge Process:</strong> Automated build and deployment workflows with custom steps.
+                  <strong className="text-[var(--ff-accent)]">Forge Process:</strong> Automated
+                  build and deployment workflows with custom steps.
                 </AlertDescription>
               </Alert>
-              
+
               <div className="text-center py-12">
                 <Settings className="w-16 h-16 text-[var(--ff-text-muted)] mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-[var(--ff-text-primary)] mb-2">Forge Process Builder</h3>
+                <h3 className="text-lg font-semibold text-[var(--ff-text-primary)] mb-2">
+                  Forge Process Builder
+                </h3>
                 <p className="text-[var(--ff-text-muted)] mb-4">Coming soon in the next update</p>
                 <Button variant="outline" className="border-[var(--border)]">
                   Request Early Access
@@ -888,13 +926,16 @@ ${generatedWorkflow.examples.join('\n\n')}
               <Alert className="border-[var(--ff-warning)] bg-[var(--ff-warning)]/10">
                 <GitBranch className="h-4 w-4 text-[var(--ff-warning)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-warning)]">Flow Diagrams:</strong> Visual workflow representation with interactive elements.
+                  <strong className="text-[var(--ff-warning)]">Flow Diagrams:</strong> Visual
+                  workflow representation with interactive elements.
                 </AlertDescription>
               </Alert>
-              
+
               <div className="text-center py-12">
                 <GitBranch className="w-16 h-16 text-[var(--ff-text-muted)] mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-[var(--ff-text-primary)] mb-2">Flow Diagram Builder</h3>
+                <h3 className="text-lg font-semibold text-[var(--ff-text-primary)] mb-2">
+                  Flow Diagram Builder
+                </h3>
                 <p className="text-[var(--ff-text-muted)] mb-4">Coming soon in the next update</p>
                 <Button variant="outline" className="border-[var(--border)]">
                   Request Early Access

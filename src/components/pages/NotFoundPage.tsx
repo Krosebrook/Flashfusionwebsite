@@ -25,7 +25,7 @@ export function NotFoundPage({ onPageChange }: NotFoundPageProps) {
   const popularPages = [
     { name: 'AI Tools', path: 'tools', icon: Compass },
     { name: 'Features', path: 'features', icon: Search },
-    { name: 'Pricing', path: 'pricing', icon: Home }
+    { name: 'Pricing', path: 'pricing', icon: Home },
   ];
 
   return (
@@ -63,12 +63,9 @@ export function NotFoundPage({ onPageChange }: NotFoundPageProps) {
             transition={{ delay: 0.3 }}
             className="space-y-4"
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-              Lost in Space
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground">Lost in Space</h1>
             <p className="text-xl text-muted-foreground max-w-lg mx-auto">
-              Looks like this page took a detour through a black hole. 
-              Let's get you back on course!
+              Looks like this page took a detour through a black hole. Let's get you back on course!
             </p>
           </motion.div>
 
@@ -79,19 +76,11 @@ export function NotFoundPage({ onPageChange }: NotFoundPageProps) {
             transition={{ delay: 0.5 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Button 
-              size="lg" 
-              className="ff-btn-primary"
-              onClick={handleGoHome}
-            >
+            <Button size="lg" className="ff-btn-primary" onClick={handleGoHome}>
               <Home className="w-5 h-5 mr-2" />
               Return Home
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              onClick={handleGoBack}
-            >
+            <Button size="lg" variant="outline" onClick={handleGoBack}>
               <ArrowLeft className="w-5 h-5 mr-2" />
               Go Back
             </Button>
@@ -115,7 +104,7 @@ export function NotFoundPage({ onPageChange }: NotFoundPageProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.8 + index * 0.1 }}
                 >
-                  <Card 
+                  <Card
                     className="ff-card-interactive cursor-pointer"
                     onClick={() => onPageChange?.(page.path)}
                   >
@@ -123,9 +112,7 @@ export function NotFoundPage({ onPageChange }: NotFoundPageProps) {
                       <page.icon className="w-6 h-6 text-primary mx-auto" />
                     </CardHeader>
                     <CardContent className="pt-0">
-                      <CardTitle className="text-sm font-medium text-center">
-                        {page.name}
-                      </CardTitle>
+                      <CardTitle className="text-sm font-medium text-center">{page.name}</CardTitle>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -141,8 +128,8 @@ export function NotFoundPage({ onPageChange }: NotFoundPageProps) {
             className="pt-8 text-sm text-muted-foreground"
           >
             <p>
-              Still having trouble? 
-              <button 
+              Still having trouble?
+              <button
                 onClick={() => onPageChange?.('contact')}
                 className="text-primary hover:underline ml-1"
               >

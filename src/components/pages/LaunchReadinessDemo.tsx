@@ -4,15 +4,7 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { LaunchReadinessToggle } from '../launch/LaunchReadinessToggle';
-import { 
-  Rocket, 
-  Info, 
-  CheckCircle, 
-  AlertTriangle,
-  ArrowRight,
-  Eye,
-  Settings
-} from 'lucide-react';
+import { Rocket, Info, CheckCircle, AlertTriangle, ArrowRight, Eye, Settings } from 'lucide-react';
 
 interface LaunchReadinessDemoProps {
   onNavigateToTool?: (tool: string) => void;
@@ -35,7 +27,7 @@ export function LaunchReadinessDemo({ onNavigateToTool }: LaunchReadinessDemoPro
             Launch Readiness System Demo
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-inter">
-            FlashFusion's comprehensive launch readiness system ensures your application is 
+            FlashFusion's comprehensive launch readiness system ensures your application is
             production-ready before going live. Test the toggle and see real-time validation.
           </p>
         </div>
@@ -50,10 +42,10 @@ export function LaunchReadinessDemo({ onNavigateToTool }: LaunchReadinessDemoPro
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground font-inter">
-              The Launch Readiness Toggle is a critical component of FlashFusion that validates 
-              your application's production readiness across multiple categories:
+              The Launch Readiness Toggle is a critical component of FlashFusion that validates your
+              application's production readiness across multiple categories:
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <h4 className="font-semibold text-sm font-sora">Automated Checks:</h4>
@@ -76,7 +68,7 @@ export function LaunchReadinessDemo({ onNavigateToTool }: LaunchReadinessDemoPro
                   </li>
                 </ul>
               </div>
-              
+
               <div className="space-y-2">
                 <h4 className="font-semibold text-sm font-sora">Manual Validations:</h4>
                 <ul className="text-sm text-muted-foreground space-y-1 font-inter">
@@ -117,40 +109,32 @@ export function LaunchReadinessDemo({ onNavigateToTool }: LaunchReadinessDemoPro
                   <div className="text-2xl font-bold text-primary mb-1">
                     {Math.round(launchState.overallScore)}%
                   </div>
-                  <div className="text-sm text-muted-foreground font-sora">
-                    Readiness Score
-                  </div>
+                  <div className="text-sm text-muted-foreground font-sora">Readiness Score</div>
                 </div>
-                
+
                 <div className="text-center p-4 rounded-lg bg-muted/30">
                   <div className="text-2xl font-bold text-destructive mb-1">
                     {launchState.blockers.length}
                   </div>
-                  <div className="text-sm text-muted-foreground font-sora">
-                    Critical Blockers
-                  </div>
+                  <div className="text-sm text-muted-foreground font-sora">Critical Blockers</div>
                 </div>
-                
+
                 <div className="text-center p-4 rounded-lg bg-muted/30">
                   <div className="text-2xl font-bold text-warning mb-1">
                     {launchState.warnings.length}
                   </div>
-                  <div className="text-sm text-muted-foreground font-sora">
-                    Warnings
-                  </div>
+                  <div className="text-sm text-muted-foreground font-sora">Warnings</div>
                 </div>
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Badge variant={launchState.isReady ? 'default' : 'destructive'}>
                     {launchState.isReady ? 'READY FOR LAUNCH' : 'NOT READY'}
                   </Badge>
-                  <Badge variant="outline">
-                    {launchState.environment.toUpperCase()}
-                  </Badge>
+                  <Badge variant="outline">{launchState.environment.toUpperCase()}</Badge>
                 </div>
-                
+
                 <div className="text-sm text-muted-foreground">
                   Last updated: {new Date(launchState.lastUpdated).toLocaleTimeString()}
                 </div>
@@ -164,56 +148,69 @@ export function LaunchReadinessDemo({ onNavigateToTool }: LaunchReadinessDemoPro
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold font-sora">Try the Launch Readiness Toggle</h2>
             <p className="text-muted-foreground font-inter">
-              Click "Run Checks" to validate your application's launch readiness, then use 
-              the toggle to activate launch mode.
+              Click "Run Checks" to validate your application's launch readiness, then use the
+              toggle to activate launch mode.
             </p>
-            
+
             <LaunchReadinessToggle
               onReadinessChange={handleReadinessChange}
               onNavigateToTool={onNavigateToTool}
               className="w-full"
             />
           </div>
-          
+
           <div className="space-y-4">
             <h3 className="text-xl font-semibold font-sora">Integration Guide</h3>
             <Card className="ff-card-interactive">
               <CardContent className="p-4">
                 <div className="space-y-3">
                   <h4 className="font-semibold text-sm font-sora">Implementation Steps:</h4>
-                  
+
                   <ol className="space-y-2 text-sm text-muted-foreground font-inter">
                     <li className="flex items-start gap-2">
-                      <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">1</span>
+                      <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">
+                        1
+                      </span>
                       <span>Import the LaunchReadinessToggle component</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">2</span>
+                      <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">
+                        2
+                      </span>
                       <span>Add readiness change handler to track state</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">3</span>
+                      <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">
+                        3
+                      </span>
                       <span>Configure navigation handler for tools</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">4</span>
+                      <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mt-0.5">
+                        4
+                      </span>
                       <span>Position component for optimal accessibility</span>
                     </li>
                   </ol>
-                  
+
                   <div className="bg-muted/50 p-3 rounded-lg mt-4">
                     <code className="text-xs font-mono">
-                      {'<LaunchReadinessToggle'}<br/>
-                      {'  onReadinessChange={handleReadinessChange}'}<br/>
-                      {'  onNavigateToTool={handlePageChange}'}<br/>
-                      {'  className="fixed bottom-4 right-4"'}<br/>
-                      {'/>'}<br/>
+                      {'<LaunchReadinessToggle'}
+                      <br />
+                      {'  onReadinessChange={handleReadinessChange}'}
+                      <br />
+                      {'  onNavigateToTool={handlePageChange}'}
+                      <br />
+                      {'  className="fixed bottom-4 right-4"'}
+                      <br />
+                      {'/>'}
+                      <br />
                     </code>
                   </div>
                 </div>
               </CardContent>
             </Card>
-            
+
             {/* Action Buttons */}
             <div className="flex gap-2">
               {onNavigateToTool && (
@@ -225,7 +222,7 @@ export function LaunchReadinessDemo({ onNavigateToTool }: LaunchReadinessDemoPro
                     <Rocket className="h-4 w-4 mr-2" />
                     View Deployments
                   </Button>
-                  
+
                   <Button
                     onClick={() => onNavigateToTool('settings')}
                     variant="outline"
@@ -251,7 +248,7 @@ export function LaunchReadinessDemo({ onNavigateToTool }: LaunchReadinessDemoPro
               </p>
             </CardContent>
           </Card>
-          
+
           <Card className="ff-card-interactive">
             <CardContent className="p-6 text-center">
               <Eye className="h-8 w-8 text-primary mx-auto mb-3" />
@@ -261,7 +258,7 @@ export function LaunchReadinessDemo({ onNavigateToTool }: LaunchReadinessDemoPro
               </p>
             </CardContent>
           </Card>
-          
+
           <Card className="ff-card-interactive">
             <CardContent className="p-6 text-center">
               <Rocket className="h-8 w-8 text-accent mx-auto mb-3" />

@@ -7,13 +7,13 @@ import type { GeneratedApp } from '../types/full-stack-builder';
  * Provides downloadable content in various formats and packaging options
  */
 
-export type DownloadFormat = 
-  | 'zip' 
-  | 'tar' 
-  | 'individual' 
-  | 'json' 
-  | 'yaml' 
-  | 'docker' 
+export type DownloadFormat =
+  | 'zip'
+  | 'tar'
+  | 'individual'
+  | 'json'
+  | 'yaml'
+  | 'docker'
   | 'github-template'
   | 'vscode-workspace'
   | 'npm-package'
@@ -61,12 +61,9 @@ export interface DownloadPackage {
 /**
  * Main multi-format download function
  */
-export async function downloadInFormat(
-  app: GeneratedApp,
-  options: DownloadOptions
-): Promise<void> {
+export async function downloadInFormat(app: GeneratedApp, options: DownloadOptions): Promise<void> {
   const packageData = await prepareDownloadPackage(app, options);
-  
+
   switch (options.format) {
     case 'zip':
       return await downloadAsZip(packageData, options);
@@ -106,7 +103,7 @@ async function prepareDownloadPackage(
   let totalSize = 0;
 
   // Core application files
-  app.files.forEach(file => {
+  app.files.forEach((file) => {
     const content = file.content;
     const size = new Blob([content]).size;
     files.push({
@@ -114,7 +111,7 @@ async function prepareDownloadPackage(
       content,
       mimeType: getMimeType(file.path),
       size,
-      encoding: 'utf8'
+      encoding: 'utf8',
     });
     totalSize += size;
   });
@@ -122,7 +119,7 @@ async function prepareDownloadPackage(
   // Documentation files
   if (options.includeDocumentation !== false) {
     const docs = generateDocumentationFiles(app);
-    docs.forEach(doc => {
+    docs.forEach((doc) => {
       const size = new Blob([doc.content]).size;
       files.push({ ...doc, size });
       totalSize += size;
@@ -131,7 +128,7 @@ async function prepareDownloadPackage(
 
   // Configuration files
   const configFiles = generateConfigurationFiles(app, options);
-  configFiles.forEach(config => {
+  configFiles.forEach((config) => {
     const size = new Blob([config.content]).size;
     files.push({ ...config, size });
     totalSize += size;
@@ -143,14 +140,14 @@ async function prepareDownloadPackage(
       name: '.gitignore',
       content: generateGitIgnore(),
       mimeType: 'text/plain',
-      size: new Blob([generateGitIgnore()]).size
+      size: new Blob([generateGitIgnore()]).size,
     });
   }
 
   // VS Code configuration
   if (options.includeVSCodeConfig) {
     const vscodeFiles = generateVSCodeConfig(app);
-    vscodeFiles.forEach(file => {
+    vscodeFiles.forEach((file) => {
       const size = new Blob([file.content]).size;
       files.push({ ...file, size });
       totalSize += size;
@@ -160,7 +157,7 @@ async function prepareDownloadPackage(
   // Docker files
   if (options.includeDockerFiles) {
     const dockerFiles = generateDockerFiles(app);
-    dockerFiles.forEach(file => {
+    dockerFiles.forEach((file) => {
       const size = new Blob([file.content]).size;
       files.push({ ...file, size });
       totalSize += size;
@@ -170,7 +167,7 @@ async function prepareDownloadPackage(
   // CI/CD files
   if (options.includeCICD) {
     const cicdFiles = generateCICDFiles(app, options.platformSpecific);
-    cicdFiles.forEach(file => {
+    cicdFiles.forEach((file) => {
       const size = new Blob([file.content]).size;
       files.push({ ...file, size });
       totalSize += size;
@@ -180,7 +177,7 @@ async function prepareDownloadPackage(
   // Tests
   if (options.includeTests) {
     const testFiles = generateTestFiles(app);
-    testFiles.forEach(file => {
+    testFiles.forEach((file) => {
       const size = new Blob([file.content]).size;
       files.push({ ...file, size });
       totalSize += size;
@@ -195,8 +192,8 @@ async function prepareDownloadPackage(
       totalFiles: files.length,
       totalSize,
       appName: app.name,
-      version: '1.0.0'
-    }
+      version: '1.0.0',
+    },
   };
 }
 
@@ -211,7 +208,7 @@ async function downloadAsZip(
   const compressionLevel = getCompressionLevel(options.compression);
 
   // Add all files to zip
-  packageData.files.forEach(file => {
+  packageData.files.forEach((file) => {
     const pathParts = file.name.split('/');
     let currentFolder = zip;
 
@@ -236,12 +233,13 @@ async function downloadAsZip(
   const content = await zip.generateAsync({
     type: 'blob',
     compression: 'DEFLATE',
-    compressionOptions: { level: compressionLevel }
+    compressionOptions: { level: compressionLevel },
   });
 
-  const fileName = options.customName || 
+  const fileName =
+    options.customName ||
     `${packageData.metadata.appName.toLowerCase().replace(/\s+/g, '-')}-${packageData.metadata.format}.zip`;
-  
+
   saveAs(content, fileName);
 }
 
@@ -256,7 +254,7 @@ async function downloadAsTar(
   // We'll create a ZIP but name it as TAR for download consistency
   const zip = new JSZip();
 
-  packageData.files.forEach(file => {
+  packageData.files.forEach((file) => {
     zip.file(file.name, file.content);
   });
 
@@ -264,12 +262,13 @@ async function downloadAsTar(
 
   const content = await zip.generateAsync({
     type: 'blob',
-    compression: 'STORE' // No compression for TAR-like behavior
+    compression: 'STORE', // No compression for TAR-like behavior
   });
 
-  const fileName = options.customName || 
+  const fileName =
+    options.customName ||
     `${packageData.metadata.appName.toLowerCase().replace(/\s+/g, '-')}-${packageData.metadata.format}.tar.gz`;
-  
+
   saveAs(content, fileName);
 }
 
@@ -279,10 +278,10 @@ async function downloadAsTar(
 async function downloadAsIndividualFiles(packageData: DownloadPackage): Promise<void> {
   for (let i = 0; i < packageData.files.length; i++) {
     const file = packageData.files[i];
-    
+
     // Small delay between downloads to prevent browser blocking
     if (i > 0) {
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
     }
 
     const blob = new Blob([file.content], { type: file.mimeType || 'text/plain' });
@@ -291,9 +290,9 @@ async function downloadAsIndividualFiles(packageData: DownloadPackage): Promise<
   }
 
   // Download metadata last
-  await new Promise(resolve => setTimeout(resolve, 200));
-  const metadataBlob = new Blob([JSON.stringify(packageData.metadata, null, 2)], { 
-    type: 'application/json' 
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  const metadataBlob = new Blob([JSON.stringify(packageData.metadata, null, 2)], {
+    type: 'application/json',
   });
   saveAs(metadataBlob, '_flashfusion-metadata.json');
 }
@@ -309,17 +308,20 @@ async function downloadAsJSON(packageData: DownloadPackage, app: GeneratedApp): 
       description: app.description,
       stack: app.stack,
       features: app.features,
-      endpoints: app.endpoints
+      endpoints: app.endpoints,
     },
-    files: packageData.files.reduce((acc, file) => {
-      acc[file.name] = file.content;
-      return acc;
-    }, {} as Record<string, string>),
+    files: packageData.files.reduce(
+      (acc, file) => {
+        acc[file.name] = file.content;
+        return acc;
+      },
+      {} as Record<string, string>
+    ),
     configuration: {
       package: generatePackageJSON(app),
       docker: generateDockerCompose(app),
-      environment: generateEnvironmentConfig(app)
-    }
+      environment: generateEnvironmentConfig(app),
+    },
   };
 
   const blob = new Blob([JSON.stringify(jsonExport, null, 2)], { type: 'application/json' });
@@ -339,9 +341,9 @@ async function downloadAsYAML(packageData: DownloadPackage, app: GeneratedApp): 
       description: app.description,
       stack: app.stack,
       features: app.features,
-      endpoints: app.endpoints
+      endpoints: app.endpoints,
     },
-    files: Object.fromEntries(packageData.files.map(f => [f.name, f.content]))
+    files: Object.fromEntries(packageData.files.map((f) => [f.name, f.content])),
   });
 
   const blob = new Blob([yamlContent], { type: 'application/x-yaml' });
@@ -360,7 +362,7 @@ async function downloadAsDockerPackage(
   const zip = new JSZip();
 
   // Add all application files
-  packageData.files.forEach(file => {
+  packageData.files.forEach((file) => {
     zip.file(file.name, file.content);
   });
 
@@ -377,7 +379,7 @@ async function downloadAsDockerPackage(
   const content = await zip.generateAsync({
     type: 'blob',
     compression: 'DEFLATE',
-    compressionOptions: { level: 6 }
+    compressionOptions: { level: 6 },
   });
 
   const fileName = `${app.name.toLowerCase().replace(/\s+/g, '-')}-docker-package.zip`;
@@ -394,7 +396,7 @@ async function downloadAsGitHubTemplate(
   const zip = new JSZip();
 
   // Add all files
-  packageData.files.forEach(file => {
+  packageData.files.forEach((file) => {
     zip.file(file.name, file.content);
   });
 
@@ -410,7 +412,7 @@ async function downloadAsGitHubTemplate(
   const content = await zip.generateAsync({
     type: 'blob',
     compression: 'DEFLATE',
-    compressionOptions: { level: 6 }
+    compressionOptions: { level: 6 },
   });
 
   const fileName = `${app.name.toLowerCase().replace(/\s+/g, '-')}-github-template.zip`;
@@ -427,24 +429,23 @@ async function downloadAsVSCodeWorkspace(
   const zip = new JSZip();
 
   // Add all files
-  packageData.files.forEach(file => {
+  packageData.files.forEach((file) => {
     zip.file(file.name, file.content);
   });
 
   // Add VS Code workspace files
   const workspaceConfig = {
-    folders: [
-      { path: './frontend' },
-      { path: './backend' }
-    ],
+    folders: [{ path: './frontend' }, { path: './backend' }],
     settings: generateVSCodeSettings(),
     extensions: generateVSCodeExtensions(),
     tasks: generateVSCodeTasks(app),
-    launch: generateVSCodeLaunchConfig(app)
+    launch: generateVSCodeLaunchConfig(app),
   };
 
-  zip.file(`${app.name.toLowerCase().replace(/\s+/g, '-')}.code-workspace`, 
-    JSON.stringify(workspaceConfig, null, 2));
+  zip.file(
+    `${app.name.toLowerCase().replace(/\s+/g, '-')}.code-workspace`,
+    JSON.stringify(workspaceConfig, null, 2)
+  );
   zip.file('.vscode/settings.json', JSON.stringify(workspaceConfig.settings, null, 2));
   zip.file('.vscode/extensions.json', JSON.stringify(workspaceConfig.extensions, null, 2));
   zip.file('.vscode/tasks.json', JSON.stringify(workspaceConfig.tasks, null, 2));
@@ -453,7 +454,7 @@ async function downloadAsVSCodeWorkspace(
   const content = await zip.generateAsync({
     type: 'blob',
     compression: 'DEFLATE',
-    compressionOptions: { level: 6 }
+    compressionOptions: { level: 6 },
   });
 
   const fileName = `${app.name.toLowerCase().replace(/\s+/g, '-')}-vscode-workspace.zip`;
@@ -470,7 +471,7 @@ async function downloadAsNPMPackage(
   const zip = new JSZip();
 
   // Add all files
-  packageData.files.forEach(file => {
+  packageData.files.forEach((file) => {
     zip.file(file.name, file.content);
   });
 
@@ -483,7 +484,7 @@ async function downloadAsNPMPackage(
   const content = await zip.generateAsync({
     type: 'blob',
     compression: 'DEFLATE',
-    compressionOptions: { level: 6 }
+    compressionOptions: { level: 6 },
   });
 
   const fileName = `${app.name.toLowerCase().replace(/\s+/g, '-')}-npm-package.zip`;
@@ -493,25 +494,22 @@ async function downloadAsNPMPackage(
 /**
  * Download code files only (no config/docs)
  */
-async function downloadCodeOnly(
-  packageData: DownloadPackage,
-  app: GeneratedApp
-): Promise<void> {
+async function downloadCodeOnly(packageData: DownloadPackage, app: GeneratedApp): Promise<void> {
   const zip = new JSZip();
 
   // Filter only code files
-  const codeFiles = packageData.files.filter(file => 
-    isCodeFile(file.name) && !isConfigFile(file.name)
+  const codeFiles = packageData.files.filter(
+    (file) => isCodeFile(file.name) && !isConfigFile(file.name)
   );
 
-  codeFiles.forEach(file => {
+  codeFiles.forEach((file) => {
     zip.file(file.name, file.content);
   });
 
   const content = await zip.generateAsync({
     type: 'blob',
     compression: 'DEFLATE',
-    compressionOptions: { level: 6 }
+    compressionOptions: { level: 6 },
   });
 
   const fileName = `${app.name.toLowerCase().replace(/\s+/g, '-')}-code-only.zip`;
@@ -521,16 +519,13 @@ async function downloadCodeOnly(
 /**
  * Download configuration files only
  */
-async function downloadConfigOnly(
-  packageData: DownloadPackage,
-  app: GeneratedApp
-): Promise<void> {
+async function downloadConfigOnly(packageData: DownloadPackage, app: GeneratedApp): Promise<void> {
   const zip = new JSZip();
 
   // Filter only config files
-  const configFiles = packageData.files.filter(file => isConfigFile(file.name));
+  const configFiles = packageData.files.filter((file) => isConfigFile(file.name));
 
-  configFiles.forEach(file => {
+  configFiles.forEach((file) => {
     zip.file(file.name, file.content);
   });
 
@@ -542,7 +537,7 @@ async function downloadConfigOnly(
   const content = await zip.generateAsync({
     type: 'blob',
     compression: 'DEFLATE',
-    compressionOptions: { level: 6 }
+    compressionOptions: { level: 6 },
   });
 
   const fileName = `${app.name.toLowerCase().replace(/\s+/g, '-')}-config-only.zip`;
@@ -554,43 +549,51 @@ async function downloadConfigOnly(
 function getMimeType(filename: string): string {
   const ext = filename.split('.').pop()?.toLowerCase();
   const mimeTypes: Record<string, string> = {
-    'js': 'text/javascript',
-    'ts': 'text/typescript',
-    'tsx': 'text/typescript',
-    'jsx': 'text/javascript',
-    'json': 'application/json',
-    'html': 'text/html',
-    'css': 'text/css',
-    'md': 'text/markdown',
-    'yml': 'application/x-yaml',
-    'yaml': 'application/x-yaml',
-    'xml': 'application/xml',
-    'txt': 'text/plain'
+    js: 'text/javascript',
+    ts: 'text/typescript',
+    tsx: 'text/typescript',
+    jsx: 'text/javascript',
+    json: 'application/json',
+    html: 'text/html',
+    css: 'text/css',
+    md: 'text/markdown',
+    yml: 'application/x-yaml',
+    yaml: 'application/x-yaml',
+    xml: 'application/xml',
+    txt: 'text/plain',
   };
   return mimeTypes[ext || ''] || 'text/plain';
 }
 
 function getCompressionLevel(level?: CompressionLevel): number {
   switch (level) {
-    case 'none': return 0;
-    case 'low': return 2;
-    case 'medium': return 4;
-    case 'high': return 6;
-    case 'maximum': return 9;
-    default: return 6;
+    case 'none':
+      return 0;
+    case 'low':
+      return 2;
+    case 'medium':
+      return 4;
+    case 'high':
+      return 6;
+    case 'maximum':
+      return 9;
+    default:
+      return 6;
   }
 }
 
 function isCodeFile(filename: string): boolean {
   const codeExtensions = ['.js', '.ts', '.tsx', '.jsx', '.py', '.java', '.css', '.scss', '.html'];
-  return codeExtensions.some(ext => filename.endsWith(ext));
+  return codeExtensions.some((ext) => filename.endsWith(ext));
 }
 
 function isConfigFile(filename: string): boolean {
   const configFiles = ['package.json', 'tsconfig.json', '.env', 'docker-compose.yml', 'Dockerfile'];
   const configExtensions = ['.config.js', '.config.ts', '.json', '.yml', '.yaml'];
-  return configFiles.some(file => filename.includes(file)) ||
-         configExtensions.some(ext => filename.endsWith(ext));
+  return (
+    configFiles.some((file) => filename.includes(file)) ||
+    configExtensions.some((ext) => filename.endsWith(ext))
+  );
 }
 
 function convertToYAML(obj: any, indent = 0): string {
@@ -602,7 +605,7 @@ function convertToYAML(obj: any, indent = 0): string {
       yaml += `${indentStr}${key}:\n${convertToYAML(value, indent + 1)}`;
     } else if (Array.isArray(value)) {
       yaml += `${indentStr}${key}:\n`;
-      value.forEach(item => {
+      value.forEach((item) => {
         yaml += `${indentStr}  - ${JSON.stringify(item)}\n`;
       });
     } else {
@@ -620,13 +623,13 @@ function generateDocumentationFiles(app: GeneratedApp): FileExport[] {
     {
       name: 'README.md',
       content: `# ${app.name}\n\n${app.description}\n\n## Generated by FlashFusion\n\nThis project was generated using FlashFusion AI platform.`,
-      mimeType: 'text/markdown'
+      mimeType: 'text/markdown',
     },
     {
       name: 'DEPLOYMENT.md',
       content: '# Deployment Guide\n\nDetailed deployment instructions for your application.',
-      mimeType: 'text/markdown'
-    }
+      mimeType: 'text/markdown',
+    },
   ];
 }
 
@@ -636,14 +639,14 @@ function generateConfigurationFiles(app: GeneratedApp, options: DownloadOptions)
   files.push({
     name: 'package.json',
     content: generatePackageJSON(app),
-    mimeType: 'application/json'
+    mimeType: 'application/json',
   });
 
   if (options.includeDockerFiles) {
     files.push({
       name: 'docker-compose.yml',
       content: generateDockerCompose(app),
-      mimeType: 'application/x-yaml'
+      mimeType: 'application/x-yaml',
     });
   }
 
@@ -651,20 +654,24 @@ function generateConfigurationFiles(app: GeneratedApp, options: DownloadOptions)
 }
 
 function generatePackageJSON(app: GeneratedApp): string {
-  return JSON.stringify({
-    name: app.name.toLowerCase().replace(/\s+/g, '-'),
-    version: '1.0.0',
-    description: app.description,
-    scripts: {
-      dev: 'concurrently "npm run dev:backend" "npm run dev:frontend"',
-      build: 'npm run build:backend && npm run build:frontend',
-      start: 'npm run start:backend'
+  return JSON.stringify(
+    {
+      name: app.name.toLowerCase().replace(/\s+/g, '-'),
+      version: '1.0.0',
+      description: app.description,
+      scripts: {
+        dev: 'concurrently "npm run dev:backend" "npm run dev:frontend"',
+        build: 'npm run build:backend && npm run build:frontend',
+        start: 'npm run start:backend',
+      },
+      dependencies: {},
+      devDependencies: {
+        concurrently: '^8.2.0',
+      },
     },
-    dependencies: {},
-    devDependencies: {
-      concurrently: '^8.2.0'
-    }
-  }, null, 2);
+    null,
+    2
+  );
 }
 
 function generateDockerCompose(app: GeneratedApp): string {
@@ -703,59 +710,59 @@ function generateVSCodeConfig(app: GeneratedApp): FileExport[] {
     {
       name: '.vscode/settings.json',
       content: JSON.stringify(generateVSCodeSettings(), null, 2),
-      mimeType: 'application/json'
+      mimeType: 'application/json',
     },
     {
       name: '.vscode/extensions.json',
       content: JSON.stringify(generateVSCodeExtensions(), null, 2),
-      mimeType: 'application/json'
-    }
+      mimeType: 'application/json',
+    },
   ];
 }
 
 function generateVSCodeSettings(): object {
   return {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "typescript.preferences.importModuleSpecifier": "relative"
+    'editor.formatOnSave': true,
+    'editor.defaultFormatter': 'esbenp.prettier-vscode',
+    'typescript.preferences.importModuleSpecifier': 'relative',
   };
 }
 
 function generateVSCodeExtensions(): object {
   return {
     recommendations: [
-      "esbenp.prettier-vscode",
-      "ms-vscode.vscode-typescript-next",
-      "bradlc.vscode-tailwindcss"
-    ]
+      'esbenp.prettier-vscode',
+      'ms-vscode.vscode-typescript-next',
+      'bradlc.vscode-tailwindcss',
+    ],
   };
 }
 
 function generateVSCodeTasks(app: GeneratedApp): object {
   return {
-    version: "2.0.0",
+    version: '2.0.0',
     tasks: [
       {
-        label: "dev",
-        type: "shell",
-        command: "npm run dev",
-        group: "build"
-      }
-    ]
+        label: 'dev',
+        type: 'shell',
+        command: 'npm run dev',
+        group: 'build',
+      },
+    ],
   };
 }
 
 function generateVSCodeLaunchConfig(app: GeneratedApp): object {
   return {
-    version: "0.2.0",
+    version: '0.2.0',
     configurations: [
       {
-        name: "Launch Frontend",
-        type: "node",
-        request: "launch",
-        program: "${workspaceFolder}/frontend/src/index.ts"
-      }
-    ]
+        name: 'Launch Frontend',
+        type: 'node',
+        request: 'launch',
+        program: '${workspaceFolder}/frontend/src/index.ts',
+      },
+    ],
   };
 }
 
@@ -764,13 +771,13 @@ function generateDockerFiles(app: GeneratedApp): FileExport[] {
     {
       name: 'Dockerfile',
       content: generateDockerfile(app),
-      mimeType: 'text/plain'
+      mimeType: 'text/plain',
     },
     {
       name: '.dockerignore',
       content: generateDockerIgnore(),
-      mimeType: 'text/plain'
-    }
+      mimeType: 'text/plain',
+    },
   ];
 }
 
@@ -817,14 +824,14 @@ function generateCICDFiles(app: GeneratedApp, platform?: string): FileExport[] {
   files.push({
     name: '.github/workflows/ci.yml',
     content: generateGitHubActions(app),
-    mimeType: 'application/x-yaml'
+    mimeType: 'application/x-yaml',
   });
 
   if (platform) {
     files.push({
       name: `.github/workflows/deploy-${platform}.yml`,
       content: generatePlatformDeploy(app, platform),
-      mimeType: 'application/x-yaml'
+      mimeType: 'application/x-yaml',
     });
   }
 
@@ -883,8 +890,8 @@ function generateTestFiles(app: GeneratedApp): FileExport[] {
     expect(true).toBe(true);
   });
 });`,
-      mimeType: 'text/typescript'
-    }
+      mimeType: 'text/typescript',
+    },
   ];
 }
 
@@ -965,18 +972,22 @@ Examples of behavior that contributes to a positive environment:
 }
 
 function generateNPMPackageJSON(app: GeneratedApp): string {
-  return JSON.stringify({
-    name: `@flashfusion/${app.name.toLowerCase().replace(/\s+/g, '-')}`,
-    version: '1.0.0',
-    description: app.description,
-    main: 'index.js',
-    scripts: {
-      postinstall: 'node setup.js'
+  return JSON.stringify(
+    {
+      name: `@flashfusion/${app.name.toLowerCase().replace(/\s+/g, '-')}`,
+      version: '1.0.0',
+      description: app.description,
+      main: 'index.js',
+      scripts: {
+        postinstall: 'node setup.js',
+      },
+      keywords: ['flashfusion', 'generated'],
+      author: 'FlashFusion',
+      license: 'MIT',
     },
-    keywords: ['flashfusion', 'generated'],
-    author: 'FlashFusion',
-    license: 'MIT'
-  }, null, 2);
+    null,
+    2
+  );
 }
 
 function generateNPMIgnore(): string {
@@ -1008,7 +1019,7 @@ function generateEnvironmentConfig(app: GeneratedApp): Record<string, string> {
   return {
     NODE_ENV: 'development',
     DATABASE_URL: 'postgresql://localhost:5432/app',
-    JWT_SECRET: 'your-secret-key'
+    JWT_SECRET: 'your-secret-key',
   };
 }
 
@@ -1024,5 +1035,5 @@ export {
   type CompressionLevel,
   type DownloadOptions,
   type FileExport,
-  type DownloadPackage
+  type DownloadPackage,
 };

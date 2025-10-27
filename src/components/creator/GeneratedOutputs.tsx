@@ -3,15 +3,7 @@ import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Progress } from '../ui/progress';
-import { 
-  Download, 
-  Calendar, 
-  Copy, 
-  Check, 
-  Share2, 
-  RotateCcw, 
-  TrendingUp 
-} from 'lucide-react';
+import { Download, Calendar, Copy, Check, Share2, RotateCcw, TrendingUp } from 'lucide-react';
 import { ContentOutput } from '../../types/creator-content-pipeline';
 
 interface GeneratedOutputsProps {
@@ -29,7 +21,7 @@ export function GeneratedOutputs({
   outputs,
   copiedId,
   onCopyToClipboard,
-  onDownloadOutputs
+  onDownloadOutputs,
 }: GeneratedOutputsProps) {
   return (
     <div className="space-y-6">
@@ -60,10 +52,7 @@ export function GeneratedOutputs({
               <Download className="h-4 w-4" />
               Download All
             </Button>
-            <Button
-              variant="outline"
-              className="flex items-center gap-2"
-            >
+            <Button variant="outline" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
               Schedule Posts
             </Button>
@@ -82,9 +71,7 @@ export function GeneratedOutputs({
             <Card className="p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <Badge variant="secondary">
-                    {output.platform}
-                  </Badge>
+                  <Badge variant="secondary">{output.platform}</Badge>
                   <span className="text-sm font-medium">{output.type}</span>
                   {output.status === 'generating' && (
                     <div className="flex items-center gap-2 text-muted-foreground">
@@ -93,7 +80,7 @@ export function GeneratedOutputs({
                     </div>
                   )}
                 </div>
-                
+
                 {output.status === 'completed' && (
                   <div className="flex items-center gap-2">
                     {output.estimatedEngagement && (
@@ -120,19 +107,13 @@ export function GeneratedOutputs({
               {output.status === 'completed' && (
                 <>
                   <div className="bg-muted/50 rounded-lg p-4 mb-4">
-                    <pre className="whitespace-pre-wrap text-sm font-mono">
-                      {output.content}
-                    </pre>
+                    <pre className="whitespace-pre-wrap text-sm font-mono">{output.content}</pre>
                   </div>
-                  
+
                   <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <div className="flex items-center gap-4">
-                      {output.wordCount && (
-                        <span>{output.wordCount} words</span>
-                      )}
-                      {output.characterCount && (
-                        <span>{output.characterCount} characters</span>
-                      )}
+                      {output.wordCount && <span>{output.wordCount} words</span>}
+                      {output.characterCount && <span>{output.characterCount} characters</span>}
                     </div>
                     <div className="flex items-center gap-2">
                       <Button variant="ghost" size="sm">

@@ -3,7 +3,7 @@
  * @chunk stripe-checkout
  * @category payment
  * @version 1.0.0
- * 
+ *
  * Secure Stripe integration for FlashFusion promotional pricing with
  * PCI-compliant payment processing and security best practices.
  */
@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
 import { Separator } from '../ui/separator';
-import { 
+import {
   CreditCard,
   Shield,
   Lock,
@@ -31,7 +31,7 @@ import {
   Calendar,
   Zap,
   ArrowRight,
-  Info
+  Info,
 } from 'lucide-react';
 
 interface StripeCheckoutPromoProps {
@@ -69,7 +69,7 @@ export function StripeCheckoutPromo({
   onSuccess,
   onError,
   userEmail = '',
-  userName = ''
+  userName = '',
 }: StripeCheckoutPromoProps) {
   const [selectedPlan, setSelectedPlan] = useState<string>('professional');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('card');
@@ -85,7 +85,7 @@ export function StripeCheckoutPromo({
       name: 'Starter Pro',
       description: 'Perfect for individual creators getting started',
       originalPrice: 29,
-      discountedPrice: 14.50,
+      discountedPrice: 14.5,
       discountPercentage: 50,
       billingPeriod: 'monthly',
       features: [
@@ -94,18 +94,18 @@ export function StripeCheckoutPromo({
         'Priority support',
         '5GB storage',
         'Advanced analytics',
-        'Custom branding'
+        'Custom branding',
       ],
       popular: false,
       stripePriceId: 'price_starter_promo_50off',
-      promoCode: 'FLASHFUSION50'
+      promoCode: 'FLASHFUSION50',
     },
     {
       id: 'professional-promo',
       name: 'Professional Pro',
       description: 'Best value for growing businesses and agencies',
       originalPrice: 79,
-      discountedPrice: 39.50,
+      discountedPrice: 39.5,
       discountPercentage: 50,
       billingPeriod: 'monthly',
       features: [
@@ -117,18 +117,18 @@ export function StripeCheckoutPromo({
         'White-label solutions',
         'API access & webhooks',
         'Team collaboration tools',
-        'Custom integrations'
+        'Custom integrations',
       ],
       popular: true,
       stripePriceId: 'price_professional_promo_50off',
-      promoCode: 'FLASHFUSION50'
+      promoCode: 'FLASHFUSION50',
     },
     {
       id: 'enterprise-promo',
       name: 'Enterprise Pro',
       description: 'Custom solutions for large organizations',
       originalPrice: 199,
-      discountedPrice: 99.50,
+      discountedPrice: 99.5,
       discountPercentage: 50,
       billingPeriod: 'monthly',
       features: [
@@ -140,12 +140,12 @@ export function StripeCheckoutPromo({
         'On-premise deployment options',
         'Custom AI model training',
         'SLA guarantees',
-        'Advanced reporting & analytics'
+        'Advanced reporting & analytics',
       ],
       popular: false,
       stripePriceId: 'price_enterprise_promo_50off',
-      promoCode: 'FLASHFUSION50'
-    }
+      promoCode: 'FLASHFUSION50',
+    },
   ];
 
   const paymentMethods: PaymentMethod[] = [
@@ -154,7 +154,7 @@ export function StripeCheckoutPromo({
       type: 'card',
       name: 'Credit/Debit Card',
       icon: <CreditCard className="w-5 h-5" />,
-      available: true
+      available: true,
     },
     {
       id: 'paypal',
@@ -162,10 +162,10 @@ export function StripeCheckoutPromo({
       name: 'PayPal',
       icon: (
         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.028-.026.058-.04.086-1.348 6.797-5.472 8.966-10.906 8.966H7.13l-.464 2.93h3.65c.454 0 .834-.331.908-.777l.057-.285 1.08-6.844.07-.378c.073-.446.454-.777.908-.777h.571c3.735 0 6.654-1.518 7.497-5.908.354-1.844.174-3.382-.665-4.47z"/>
+          <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.028-.026.058-.04.086-1.348 6.797-5.472 8.966-10.906 8.966H7.13l-.464 2.93h3.65c.454 0 .834-.331.908-.777l.057-.285 1.08-6.844.07-.378c.073-.446.454-.777.908-.777h.571c3.735 0 6.654-1.518 7.497-5.908.354-1.844.174-3.382-.665-4.47z" />
         </svg>
       ),
-      available: true
+      available: true,
     },
     {
       id: 'googlepay',
@@ -173,13 +173,13 @@ export function StripeCheckoutPromo({
       name: 'Google Pay',
       icon: (
         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
         </svg>
       ),
-      available: true
+      available: true,
     },
     {
       id: 'applepay',
@@ -187,17 +187,17 @@ export function StripeCheckoutPromo({
       name: 'Apple Pay',
       icon: (
         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
         </svg>
       ),
-      available: false // Will be enabled based on browser support
-    }
+      available: false, // Will be enabled based on browser support
+    },
   ];
 
   // Countdown timer for promotional offer
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeRemaining(prev => {
+      setTimeRemaining((prev) => {
         if (prev <= 0) {
           setDiscountApplied(false);
           return 0;
@@ -229,7 +229,7 @@ export function StripeCheckoutPromo({
     setIsProcessing(true);
 
     try {
-      const plan = pricingPlans.find(p => p.id === selectedPlan);
+      const plan = pricingPlans.find((p) => p.id === selectedPlan);
       if (!plan) throw new Error('Invalid plan selected');
 
       // Create Stripe checkout session
@@ -237,7 +237,7 @@ export function StripeCheckoutPromo({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('ff-auth-token')}`
+          Authorization: `Bearer ${localStorage.getItem('ff-auth-token')}`,
         },
         body: JSON.stringify({
           priceId: plan.stripePriceId,
@@ -250,9 +250,9 @@ export function StripeCheckoutPromo({
             planId: plan.id,
             discountApplied: discountApplied.toString(),
             signupSource: 'authentication_modal',
-            userAgent: navigator.userAgent
-          }
-        })
+            userAgent: navigator.userAgent,
+          },
+        }),
       });
 
       if (!response.ok) {
@@ -264,7 +264,6 @@ export function StripeCheckoutPromo({
 
       // Redirect to Stripe Checkout
       window.location.href = checkoutUrl;
-
     } catch (error) {
       console.error('Stripe checkout error:', error);
       onError(error instanceof Error ? error.message : 'Payment setup failed. Please try again.');
@@ -286,7 +285,7 @@ export function StripeCheckoutPromo({
     }
   }, [authMode]);
 
-  const selectedPlanData = pricingPlans.find(p => p.id === selectedPlan);
+  const selectedPlanData = pricingPlans.find((p) => p.id === selectedPlan);
 
   if (showDiscountOffer && authMode === 'signup') {
     return (
@@ -312,7 +311,10 @@ export function StripeCheckoutPromo({
               </div>
 
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold text-white" style={{ fontFamily: 'var(--ff-font-primary)' }}>
+                <h1
+                  className="text-3xl font-bold text-white"
+                  style={{ fontFamily: 'var(--ff-font-primary)' }}
+                >
                   Welcome to FlashFusion!
                 </h1>
                 <div className="flex items-center justify-center space-x-2">
@@ -346,7 +348,7 @@ export function StripeCheckoutPromo({
             {/* Plan Selection */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-white text-center">Choose Your Plan</h3>
-              
+
               <div className="grid md:grid-cols-3 gap-4">
                 {pricingPlans.map((plan) => (
                   <div
@@ -370,8 +372,10 @@ export function StripeCheckoutPromo({
                     <div className="space-y-4">
                       <div className="text-center">
                         <h4 className="text-lg font-bold text-white mb-2">{plan.name}</h4>
-                        <p className="text-xs text-[var(--ff-text-muted)] mb-4">{plan.description}</p>
-                        
+                        <p className="text-xs text-[var(--ff-text-muted)] mb-4">
+                          {plan.description}
+                        </p>
+
                         <div className="space-y-2">
                           {discountApplied && (
                             <div className="flex items-center justify-center space-x-2">
@@ -401,7 +405,9 @@ export function StripeCheckoutPromo({
                         {plan.features.map((feature, index) => (
                           <li key={index} className="flex items-start space-x-2">
                             <CheckCircle className="w-4 h-4 text-[var(--ff-primary)] mt-0.5 flex-shrink-0" />
-                            <span className="text-xs text-[var(--ff-text-secondary)]">{feature}</span>
+                            <span className="text-xs text-[var(--ff-text-secondary)]">
+                              {feature}
+                            </span>
                           </li>
                         ))}
                       </ul>
@@ -414,7 +420,7 @@ export function StripeCheckoutPromo({
             {/* Payment Method Selection */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-white">Payment Method</h3>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {paymentMethods.map((method) => (
                   <button
@@ -425,12 +431,18 @@ export function StripeCheckoutPromo({
                       selectedPaymentMethod === method.id && method.available
                         ? 'border-[var(--ff-primary)] bg-[var(--ff-primary)]/10 text-white'
                         : method.available
-                        ? 'border-white/20 bg-white/5 text-[var(--ff-text-muted)] hover:bg-white/10'
-                        : 'border-white/10 bg-white/5 text-[var(--ff-text-muted)]/50 cursor-not-allowed'
+                          ? 'border-white/20 bg-white/5 text-[var(--ff-text-muted)] hover:bg-white/10'
+                          : 'border-white/10 bg-white/5 text-[var(--ff-text-muted)]/50 cursor-not-allowed'
                     }`}
                   >
                     <div className="flex flex-col items-center space-y-2">
-                      <div className={selectedPaymentMethod === method.id && method.available ? 'text-[var(--ff-primary)]' : ''}>
+                      <div
+                        className={
+                          selectedPaymentMethod === method.id && method.available
+                            ? 'text-[var(--ff-primary)]'
+                            : ''
+                        }
+                      >
                         {method.icon}
                       </div>
                       <span className="text-xs font-medium">{method.name}</span>
@@ -449,7 +461,9 @@ export function StripeCheckoutPromo({
                 <div className="flex items-start space-x-3">
                   <Shield className="w-5 h-5 text-green-400 mt-0.5" />
                   <div className="flex-1">
-                    <h4 className="text-sm font-semibold text-white mb-1">Secure Payment Processing</h4>
+                    <h4 className="text-sm font-semibold text-white mb-1">
+                      Secure Payment Processing
+                    </h4>
                     <p className="text-xs text-[var(--ff-text-muted)] mb-2">
                       Powered by Stripe with bank-level security and PCI DSS compliance
                     </p>
@@ -484,15 +498,22 @@ export function StripeCheckoutPromo({
                   <div className="space-y-3 text-xs text-[var(--ff-text-muted)]">
                     <div className="flex items-start space-x-2">
                       <CheckCircle className="w-3 h-3 text-green-400 mt-0.5 flex-shrink-0" />
-                      <span>Your payment information is encrypted and never stored on our servers</span>
+                      <span>
+                        Your payment information is encrypted and never stored on our servers
+                      </span>
                     </div>
                     <div className="flex items-start space-x-2">
                       <CheckCircle className="w-3 h-3 text-green-400 mt-0.5 flex-shrink-0" />
-                      <span>All transactions are processed through Stripe's secure payment infrastructure</span>
+                      <span>
+                        All transactions are processed through Stripe's secure payment
+                        infrastructure
+                      </span>
                     </div>
                     <div className="flex items-start space-x-2">
                       <CheckCircle className="w-3 h-3 text-green-400 mt-0.5 flex-shrink-0" />
-                      <span>We comply with GDPR, CCPA, and international data protection standards</span>
+                      <span>
+                        We comply with GDPR, CCPA, and international data protection standards
+                      </span>
                     </div>
                     <div className="flex items-start space-x-2">
                       <CheckCircle className="w-3 h-3 text-green-400 mt-0.5 flex-shrink-0" />
@@ -518,18 +539,26 @@ export function StripeCheckoutPromo({
                     {discountApplied && (
                       <>
                         <div className="flex justify-between items-center">
-                          <span className="text-sm text-[var(--ff-text-muted)]">Monthly Plan (Regular)</span>
+                          <span className="text-sm text-[var(--ff-text-muted)]">
+                            Monthly Plan (Regular)
+                          </span>
                           <span className="text-sm text-[var(--ff-text-muted)] line-through">
                             ${selectedPlanData.originalPrice.toFixed(2)}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
                           <div className="flex items-center space-x-2">
-                            <span className="text-sm text-[var(--ff-accent)]">Promotional Discount (50% off)</span>
+                            <span className="text-sm text-[var(--ff-accent)]">
+                              Promotional Discount (50% off)
+                            </span>
                             <Gift className="w-4 h-4 text-[var(--ff-accent)]" />
                           </div>
                           <span className="text-sm text-[var(--ff-accent)] font-semibold">
-                            -${((selectedPlanData.originalPrice - selectedPlanData.discountedPrice) * 4).toFixed(2)}
+                            -$
+                            {(
+                              (selectedPlanData.originalPrice - selectedPlanData.discountedPrice) *
+                              4
+                            ).toFixed(2)}
                           </span>
                         </div>
                         <Separator className="bg-white/20" />
@@ -541,8 +570,17 @@ export function StripeCheckoutPromo({
                         {discountApplied ? 'First 4 months' : 'Monthly charge'}
                       </span>
                       <span className="text-lg font-bold text-white">
-                        ${(discountApplied ? selectedPlanData.discountedPrice * 4 : selectedPlanData.originalPrice).toFixed(2)}
-                        {discountApplied && <span className="text-sm font-normal text-[var(--ff-text-muted)]"> total</span>}
+                        $
+                        {(discountApplied
+                          ? selectedPlanData.discountedPrice * 4
+                          : selectedPlanData.originalPrice
+                        ).toFixed(2)}
+                        {discountApplied && (
+                          <span className="text-sm font-normal text-[var(--ff-text-muted)]">
+                            {' '}
+                            total
+                          </span>
+                        )}
                       </span>
                     </div>
 
@@ -559,7 +597,12 @@ export function StripeCheckoutPromo({
                       <div className="flex items-center space-x-2">
                         <Star className="w-4 h-4 text-green-400" />
                         <span className="text-sm font-medium text-green-400">
-                          You're saving ${((selectedPlanData.originalPrice - selectedPlanData.discountedPrice) * 4).toFixed(2)} with this offer!
+                          You're saving $
+                          {(
+                            (selectedPlanData.originalPrice - selectedPlanData.discountedPrice) *
+                            4
+                          ).toFixed(2)}{' '}
+                          with this offer!
                         </span>
                       </div>
                     </div>
@@ -583,7 +626,9 @@ export function StripeCheckoutPromo({
                 ) : (
                   <>
                     <CreditCard className="w-5 h-5 mr-2" />
-                    {discountApplied ? `Claim 50% Discount - $${selectedPlanData?.discountedPrice.toFixed(2)}/mo` : 'Proceed to Payment'}
+                    {discountApplied
+                      ? `Claim 50% Discount - $${selectedPlanData?.discountedPrice.toFixed(2)}/mo`
+                      : 'Proceed to Payment'}
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </>
                 )}

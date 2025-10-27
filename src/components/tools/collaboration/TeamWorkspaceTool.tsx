@@ -4,12 +4,12 @@
  * @category collaboration
  * @version 2.0.0
  * @author FlashFusion Team
- * 
+ *
  * FLASHFUSION - TEAM WORKSPACE PRO
- * 
+ *
  * Real-time collaboration with live editing, integrated chat, project management,
  * and AI-powered insights for distributed development teams.
- * 
+ *
  * Features:
  * - Real-time collaborative code editing
  * - Integrated team chat and video calls
@@ -34,12 +34,12 @@ import { Textarea } from '../../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
 import { Switch } from '../../ui/switch';
 import { Separator } from '../../ui/separator';
-import { 
-  Users, 
-  MessageCircle, 
-  Video, 
-  GitBranch, 
-  FileText, 
+import {
+  Users,
+  MessageCircle,
+  Video,
+  GitBranch,
+  FileText,
   Calendar,
   Clock,
   Target,
@@ -81,7 +81,7 @@ import {
   CameraOff,
   ScreenShare,
   Volume2,
-  VolumeX
+  VolumeX,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
@@ -192,7 +192,7 @@ const MOCK_TEAM_MEMBERS: TeamMember[] = [
     current_file: 'src/components/App.tsx',
     permissions: ['read', 'write', 'admin'],
     timezone: 'PST',
-    joined_at: Date.now() - 86400000 * 30
+    joined_at: Date.now() - 86400000 * 30,
   },
   {
     id: '2',
@@ -205,7 +205,7 @@ const MOCK_TEAM_MEMBERS: TeamMember[] = [
     current_file: 'src/utils/api.ts',
     permissions: ['read', 'write'],
     timezone: 'EST',
-    joined_at: Date.now() - 86400000 * 20
+    joined_at: Date.now() - 86400000 * 20,
   },
   {
     id: '3',
@@ -217,8 +217,8 @@ const MOCK_TEAM_MEMBERS: TeamMember[] = [
     last_seen: Date.now() - 1800000,
     permissions: ['read', 'write'],
     timezone: 'MST',
-    joined_at: Date.now() - 86400000 * 15
-  }
+    joined_at: Date.now() - 86400000 * 15,
+  },
 ];
 
 const MOCK_PROJECTS: Project[] = [
@@ -233,7 +233,7 @@ const MOCK_PROJECTS: Project[] = [
     tasks: [],
     files: [],
     repository_url: 'https://github.com/team/ecommerce-platform',
-    tech_stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Stripe', 'Prisma']
+    tech_stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Stripe', 'Prisma'],
   },
   {
     id: '2',
@@ -246,8 +246,8 @@ const MOCK_PROJECTS: Project[] = [
     tasks: [],
     files: [],
     repository_url: 'https://github.com/team/mobile-backend',
-    tech_stack: ['Node.js', 'Express', 'MongoDB', 'JWT', 'Socket.io']
-  }
+    tech_stack: ['Node.js', 'Express', 'MongoDB', 'JWT', 'Socket.io'],
+  },
 ];
 
 export function TeamWorkspaceTool(): JSX.Element {
@@ -264,8 +264,8 @@ export function TeamWorkspaceTool(): JSX.Element {
   const [timeTracking, setTimeTracking] = useState<boolean>(false);
   const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
 
-  const currentProject = projects.find(p => p.id === selectedProject);
-  const projectMembers = teamMembers.filter(member => 
+  const currentProject = projects.find((p) => p.id === selectedProject);
+  const projectMembers = teamMembers.filter((member) =>
     currentProject?.members.includes(member.id)
   );
 
@@ -282,10 +282,10 @@ export function TeamWorkspaceTool(): JSX.Element {
       type: 'text',
       timestamp: Date.now(),
       edited: false,
-      reactions: {}
+      reactions: {},
     };
 
-    setChatMessages(prev => [...prev, message]);
+    setChatMessages((prev) => [...prev, message]);
     setNewMessage('');
     toast.success('Message sent');
   }, [newMessage]);
@@ -299,7 +299,7 @@ export function TeamWorkspaceTool(): JSX.Element {
       participants: ['1'], // Start with current user
       status: 'active',
       started_at: Date.now(),
-      recording: false
+      recording: false,
     };
 
     setVideoCall(call);
@@ -321,7 +321,7 @@ export function TeamWorkspaceTool(): JSX.Element {
    * Handle time tracking
    */
   const handleToggleTimeTracking = useCallback((): void => {
-    setTimeTracking(prev => !prev);
+    setTimeTracking((prev) => !prev);
     toast.success(timeTracking ? 'Time tracking stopped' : 'Time tracking started');
   }, [timeTracking]);
 
@@ -330,11 +330,16 @@ export function TeamWorkspaceTool(): JSX.Element {
    */
   const getStatusColor = (status: string): string => {
     switch (status) {
-      case 'online': return 'bg-green-500';
-      case 'busy': return 'bg-red-500';
-      case 'away': return 'bg-yellow-500';
-      case 'offline': return 'bg-gray-400';
-      default: return 'bg-gray-400';
+      case 'online':
+        return 'bg-green-500';
+      case 'busy':
+        return 'bg-red-500';
+      case 'away':
+        return 'bg-yellow-500';
+      case 'offline':
+        return 'bg-gray-400';
+      default:
+        return 'bg-gray-400';
     }
   };
 
@@ -343,11 +348,16 @@ export function TeamWorkspaceTool(): JSX.Element {
    */
   const getRoleIcon = (role: string): JSX.Element => {
     switch (role) {
-      case 'owner': return <Crown className="h-3 w-3 text-yellow-500" />;
-      case 'admin': return <Shield className="h-3 w-3 text-blue-500" />;
-      case 'member': return <User className="h-3 w-3 text-gray-500" />;
-      case 'viewer': return <Eye className="h-3 w-3 text-gray-400" />;
-      default: return <User className="h-3 w-3 text-gray-500" />;
+      case 'owner':
+        return <Crown className="h-3 w-3 text-yellow-500" />;
+      case 'admin':
+        return <Shield className="h-3 w-3 text-blue-500" />;
+      case 'member':
+        return <User className="h-3 w-3 text-gray-500" />;
+      case 'viewer':
+        return <Eye className="h-3 w-3 text-gray-400" />;
+      default:
+        return <User className="h-3 w-3 text-gray-500" />;
     }
   };
 
@@ -368,7 +378,7 @@ export function TeamWorkspaceTool(): JSX.Element {
             </p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1">
             {projectMembers.slice(0, 5).map((member) => (
@@ -377,7 +387,9 @@ export function TeamWorkspaceTool(): JSX.Element {
                   <AvatarImage src={member.avatar} alt={member.name} />
                   <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white ${getStatusColor(member.status)}`} />
+                <div
+                  className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white ${getStatusColor(member.status)}`}
+                />
               </div>
             ))}
             {projectMembers.length > 5 && (
@@ -386,7 +398,7 @@ export function TeamWorkspaceTool(): JSX.Element {
               </div>
             )}
           </div>
-          
+
           <Button
             variant="outline"
             size="sm"
@@ -414,12 +426,17 @@ export function TeamWorkspaceTool(): JSX.Element {
                     {projects.map((project) => (
                       <SelectItem key={project.id} value={project.id}>
                         <div className="flex items-center gap-2">
-                          <div className={`w-2 h-2 rounded-full ${
-                            project.status === 'active' ? 'bg-green-500' :
-                            project.status === 'paused' ? 'bg-yellow-500' :
-                            project.status === 'completed' ? 'bg-blue-500' :
-                            'bg-gray-400'
-                          }`} />
+                          <div
+                            className={`w-2 h-2 rounded-full ${
+                              project.status === 'active'
+                                ? 'bg-green-500'
+                                : project.status === 'paused'
+                                  ? 'bg-yellow-500'
+                                  : project.status === 'completed'
+                                    ? 'bg-blue-500'
+                                    : 'bg-gray-400'
+                            }`}
+                          />
                           <span>{project.name}</span>
                         </div>
                       </SelectItem>
@@ -453,10 +470,10 @@ export function TeamWorkspaceTool(): JSX.Element {
 
             <div className="flex items-center gap-2">
               <Button
-                variant={timeTracking ? "default" : "outline"}
+                variant={timeTracking ? 'default' : 'outline'}
                 size="sm"
                 onClick={handleToggleTimeTracking}
-                className={timeTracking ? "ff-btn-primary" : "ff-btn-ghost"}
+                className={timeTracking ? 'ff-btn-primary' : 'ff-btn-ghost'}
               >
                 {timeTracking ? (
                   <>
@@ -470,7 +487,7 @@ export function TeamWorkspaceTool(): JSX.Element {
                   </>
                 )}
               </Button>
-              
+
               <Button variant="outline" size="sm" className="ff-btn-ghost">
                 <Settings className="h-4 w-4" />
               </Button>
@@ -514,7 +531,9 @@ export function TeamWorkspaceTool(): JSX.Element {
                   <CardContent className="pt-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-[var(--ff-text-secondary)]">Active Tasks</p>
+                        <p className="text-sm font-medium text-[var(--ff-text-secondary)]">
+                          Active Tasks
+                        </p>
                         <p className="text-2xl font-bold text-[var(--ff-text-primary)]">12</p>
                       </div>
                       <Target className="h-8 w-8 text-[var(--ff-primary)]" />
@@ -526,8 +545,12 @@ export function TeamWorkspaceTool(): JSX.Element {
                   <CardContent className="pt-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-[var(--ff-text-secondary)]">Team Members</p>
-                        <p className="text-2xl font-bold text-[var(--ff-text-primary)]">{projectMembers.length}</p>
+                        <p className="text-sm font-medium text-[var(--ff-text-secondary)]">
+                          Team Members
+                        </p>
+                        <p className="text-2xl font-bold text-[var(--ff-text-primary)]">
+                          {projectMembers.length}
+                        </p>
                       </div>
                       <Users className="h-8 w-8 text-[var(--ff-secondary)]" />
                     </div>
@@ -538,7 +561,9 @@ export function TeamWorkspaceTool(): JSX.Element {
                   <CardContent className="pt-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-[var(--ff-text-secondary)]">Time Today</p>
+                        <p className="text-sm font-medium text-[var(--ff-text-secondary)]">
+                          Time Today
+                        </p>
                         <p className="text-2xl font-bold text-[var(--ff-text-primary)]">6.5h</p>
                       </div>
                       <Clock className="h-8 w-8 text-[var(--ff-accent)]" />
@@ -550,7 +575,9 @@ export function TeamWorkspaceTool(): JSX.Element {
                   <CardContent className="pt-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-[var(--ff-text-secondary)]">Completion</p>
+                        <p className="text-sm font-medium text-[var(--ff-text-secondary)]">
+                          Completion
+                        </p>
                         <p className="text-2xl font-bold text-[var(--ff-text-primary)]">78%</p>
                       </div>
                       <TrendingUp className="h-8 w-8 text-green-500" />
@@ -570,19 +597,44 @@ export function TeamWorkspaceTool(): JSX.Element {
                 <CardContent>
                   <div className="space-y-4">
                     {[
-                      { user: 'Alex Chen', action: 'completed task', target: 'User Authentication', time: '2 minutes ago' },
-                      { user: 'Sarah Johnson', action: 'updated file', target: 'api.ts', time: '15 minutes ago' },
-                      { user: 'Mike Rodriguez', action: 'started task', target: 'Payment Integration', time: '1 hour ago' },
-                      { user: 'Alex Chen', action: 'merged pull request', target: '#24', time: '2 hours ago' }
+                      {
+                        user: 'Alex Chen',
+                        action: 'completed task',
+                        target: 'User Authentication',
+                        time: '2 minutes ago',
+                      },
+                      {
+                        user: 'Sarah Johnson',
+                        action: 'updated file',
+                        target: 'api.ts',
+                        time: '15 minutes ago',
+                      },
+                      {
+                        user: 'Mike Rodriguez',
+                        action: 'started task',
+                        target: 'Payment Integration',
+                        time: '1 hour ago',
+                      },
+                      {
+                        user: 'Alex Chen',
+                        action: 'merged pull request',
+                        target: '#24',
+                        time: '2 hours ago',
+                      },
                     ].map((activity, index) => (
-                      <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-[var(--ff-surface)]/50">
+                      <div
+                        key={index}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-[var(--ff-surface)]/50"
+                      >
                         <Avatar className="w-8 h-8">
                           <AvatarFallback>{activity.user.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div className="flex-1">
                           <p className="text-sm">
                             <span className="font-medium">{activity.user}</span>{' '}
-                            <span className="text-[var(--ff-text-secondary)]">{activity.action}</span>{' '}
+                            <span className="text-[var(--ff-text-secondary)]">
+                              {activity.action}
+                            </span>{' '}
                             <span className="font-medium">{activity.target}</span>
                           </p>
                           <p className="text-xs text-[var(--ff-text-muted)]">{activity.time}</p>
@@ -621,32 +673,46 @@ export function TeamWorkspaceTool(): JSX.Element {
                             {Math.floor(Math.random() * 10) + 1}
                           </Badge>
                         </div>
-                        
+
                         <div className="space-y-2">
-                          {Array.from({ length: Math.floor(Math.random() * 3) + 1 }).map((_, index) => (
-                            <Card key={index} className="ff-card p-3 cursor-pointer hover:shadow-md transition-shadow">
-                              <div className="space-y-2">
-                                <h4 className="font-medium text-sm text-[var(--ff-text-primary)]">
-                                  {status === 'todo' ? 'Implement user profiles' :
-                                   status === 'in_progress' ? 'Fix payment gateway' :
-                                   status === 'review' ? 'Update documentation' :
-                                   'Setup CI/CD pipeline'}
-                                </h4>
-                                <div className="flex items-center justify-between">
-                                  <Badge className={`text-xs ${
-                                    Math.random() > 0.5 ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
-                                  }`}>
-                                    {Math.random() > 0.5 ? 'High' : 'Medium'}
-                                  </Badge>
-                                  <Avatar className="w-5 h-5">
-                                    <AvatarFallback className="text-xs">
-                                      {teamMembers[Math.floor(Math.random() * teamMembers.length)].name.charAt(0)}
-                                    </AvatarFallback>
-                                  </Avatar>
+                          {Array.from({ length: Math.floor(Math.random() * 3) + 1 }).map(
+                            (_, index) => (
+                              <Card
+                                key={index}
+                                className="ff-card p-3 cursor-pointer hover:shadow-md transition-shadow"
+                              >
+                                <div className="space-y-2">
+                                  <h4 className="font-medium text-sm text-[var(--ff-text-primary)]">
+                                    {status === 'todo'
+                                      ? 'Implement user profiles'
+                                      : status === 'in_progress'
+                                        ? 'Fix payment gateway'
+                                        : status === 'review'
+                                          ? 'Update documentation'
+                                          : 'Setup CI/CD pipeline'}
+                                  </h4>
+                                  <div className="flex items-center justify-between">
+                                    <Badge
+                                      className={`text-xs ${
+                                        Math.random() > 0.5
+                                          ? 'bg-red-100 text-red-700'
+                                          : 'bg-blue-100 text-blue-700'
+                                      }`}
+                                    >
+                                      {Math.random() > 0.5 ? 'High' : 'Medium'}
+                                    </Badge>
+                                    <Avatar className="w-5 h-5">
+                                      <AvatarFallback className="text-xs">
+                                        {teamMembers[
+                                          Math.floor(Math.random() * teamMembers.length)
+                                        ].name.charAt(0)}
+                                      </AvatarFallback>
+                                    </Avatar>
+                                  </div>
                                 </div>
-                              </div>
-                            </Card>
-                          ))}
+                              </Card>
+                            )
+                          )}
                         </div>
                       </div>
                     ))}
@@ -679,13 +745,43 @@ export function TeamWorkspaceTool(): JSX.Element {
                   <div className="space-y-2">
                     {[
                       { name: 'src', type: 'folder', modified: '2 hours ago', editor: 'Alex Chen' },
-                      { name: 'components', type: 'folder', modified: '1 hour ago', editor: 'Sarah Johnson' },
-                      { name: 'App.tsx', type: 'file', modified: '30 minutes ago', editor: 'Alex Chen', editing: true },
-                      { name: 'api.ts', type: 'file', modified: '15 minutes ago', editor: 'Sarah Johnson', editing: true },
-                      { name: 'utils.ts', type: 'file', modified: '1 hour ago', editor: 'Mike Rodriguez' },
-                      { name: 'package.json', type: 'file', modified: '3 hours ago', editor: 'Alex Chen' }
+                      {
+                        name: 'components',
+                        type: 'folder',
+                        modified: '1 hour ago',
+                        editor: 'Sarah Johnson',
+                      },
+                      {
+                        name: 'App.tsx',
+                        type: 'file',
+                        modified: '30 minutes ago',
+                        editor: 'Alex Chen',
+                        editing: true,
+                      },
+                      {
+                        name: 'api.ts',
+                        type: 'file',
+                        modified: '15 minutes ago',
+                        editor: 'Sarah Johnson',
+                        editing: true,
+                      },
+                      {
+                        name: 'utils.ts',
+                        type: 'file',
+                        modified: '1 hour ago',
+                        editor: 'Mike Rodriguez',
+                      },
+                      {
+                        name: 'package.json',
+                        type: 'file',
+                        modified: '3 hours ago',
+                        editor: 'Alex Chen',
+                      },
                     ].map((file, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 rounded-lg hover:bg-[var(--ff-surface)]/50 cursor-pointer group">
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-3 rounded-lg hover:bg-[var(--ff-surface)]/50 cursor-pointer group"
+                      >
                         <div className="flex items-center gap-3">
                           {file.type === 'folder' ? (
                             <Folder className="h-4 w-4 text-blue-500" />
@@ -699,12 +795,10 @@ export function TeamWorkspaceTool(): JSX.Element {
                             </p>
                           </div>
                           {file.editing && (
-                            <Badge className="text-xs bg-green-100 text-green-700">
-                              Editing
-                            </Badge>
+                            <Badge className="text-xs bg-green-100 text-green-700">Editing</Badge>
                           )}
                         </div>
-                        
+
                         <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           <Button variant="ghost" size="sm">
                             <Edit className="h-4 w-4" />
@@ -742,7 +836,9 @@ export function TeamWorkspaceTool(): JSX.Element {
                             <span className="text-sm font-medium">{member.name}</span>
                           </div>
                           <div className="text-right">
-                            <div className="text-sm font-medium">{Math.floor(Math.random() * 8) + 1}h</div>
+                            <div className="text-sm font-medium">
+                              {Math.floor(Math.random() * 8) + 1}h
+                            </div>
                             <div className="text-xs text-[var(--ff-text-muted)]">today</div>
                           </div>
                         </div>
@@ -762,9 +858,12 @@ export function TeamWorkspaceTool(): JSX.Element {
                         <span className="font-medium">18/25 tasks</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-[var(--ff-primary)] h-2 rounded-full" style={{ width: '72%' }} />
+                        <div
+                          className="bg-[var(--ff-primary)] h-2 rounded-full"
+                          style={{ width: '72%' }}
+                        />
                       </div>
-                      
+
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
                           <div className="text-[var(--ff-text-muted)]">Completed</div>
@@ -795,28 +894,32 @@ export function TeamWorkspaceTool(): JSX.Element {
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                       <h4 className="font-semibold text-blue-800 mb-2">Performance Insight</h4>
                       <p className="text-sm text-blue-700">
-                        Team productivity has increased by 23% this week. Consider maintaining current workflow patterns.
+                        Team productivity has increased by 23% this week. Consider maintaining
+                        current workflow patterns.
                       </p>
                     </div>
 
                     <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                       <h4 className="font-semibold text-yellow-800 mb-2">Bottleneck Alert</h4>
                       <p className="text-sm text-yellow-700">
-                        Code review process is taking 2x longer than usual. Consider adding more reviewers.
+                        Code review process is taking 2x longer than usual. Consider adding more
+                        reviewers.
                       </p>
                     </div>
 
                     <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                       <h4 className="font-semibold text-green-800 mb-2">Collaboration Success</h4>
                       <p className="text-sm text-green-700">
-                        Pair programming sessions have reduced bug count by 40%. Continue this practice.
+                        Pair programming sessions have reduced bug count by 40%. Continue this
+                        practice.
                       </p>
                     </div>
 
                     <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
                       <h4 className="font-semibold text-purple-800 mb-2">Skill Development</h4>
                       <p className="text-sm text-purple-700">
-                        Recommend TypeScript training for Mike Rodriguez based on recent code patterns.
+                        Recommend TypeScript training for Mike Rodriguez based on recent code
+                        patterns.
                       </p>
                     </div>
                   </div>
@@ -846,16 +949,20 @@ export function TeamWorkspaceTool(): JSX.Element {
                           <AvatarImage src={member.avatar} alt={member.name} />
                           <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                         </Avatar>
-                        <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border border-white ${getStatusColor(member.status)}`} />
+                        <div
+                          className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border border-white ${getStatusColor(member.status)}`}
+                        />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-[var(--ff-text-primary)]">{member.name}</p>
-                        <p className="text-xs text-[var(--ff-text-muted)]">{member.current_file || 'Idle'}</p>
+                        <p className="text-sm font-medium text-[var(--ff-text-primary)]">
+                          {member.name}
+                        </p>
+                        <p className="text-xs text-[var(--ff-text-muted)]">
+                          {member.current_file || 'Idle'}
+                        </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1">
-                      {getRoleIcon(member.role)}
-                    </div>
+                    <div className="flex items-center gap-1">{getRoleIcon(member.role)}</div>
                   </div>
                 ))}
               </div>
@@ -879,7 +986,7 @@ export function TeamWorkspaceTool(): JSX.Element {
                     </p>
                   ) : (
                     chatMessages.map((message) => {
-                      const sender = teamMembers.find(m => m.id === message.sender_id);
+                      const sender = teamMembers.find((m) => m.id === message.sender_id);
                       return (
                         <div key={message.id} className="flex gap-2">
                           <Avatar className="w-6 h-6">
@@ -893,14 +1000,16 @@ export function TeamWorkspaceTool(): JSX.Element {
                                 {new Date(message.timestamp).toLocaleTimeString()}
                               </span>
                             </p>
-                            <p className="text-sm text-[var(--ff-text-primary)]">{message.content}</p>
+                            <p className="text-sm text-[var(--ff-text-primary)]">
+                              {message.content}
+                            </p>
                           </div>
                         </div>
                       );
                     })
                   )}
                 </div>
-                
+
                 <div className="flex gap-2">
                   <Input
                     placeholder="Type a message..."
@@ -936,24 +1045,28 @@ export function TeamWorkspaceTool(): JSX.Element {
                   <div className="bg-black rounded-lg aspect-video flex items-center justify-center">
                     <p className="text-white text-sm">Video call active</p>
                   </div>
-                  
+
                   <div className="flex items-center justify-center gap-2">
                     <Button
-                      variant={isMuted ? "destructive" : "outline"}
+                      variant={isMuted ? 'destructive' : 'outline'}
                       size="sm"
                       onClick={() => setIsMuted(!isMuted)}
                     >
                       {isMuted ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                     </Button>
-                    
+
                     <Button
-                      variant={isVideoOff ? "destructive" : "outline"}
+                      variant={isVideoOff ? 'destructive' : 'outline'}
                       size="sm"
                       onClick={() => setIsVideoOff(!isVideoOff)}
                     >
-                      {isVideoOff ? <CameraOff className="h-4 w-4" /> : <Camera className="h-4 w-4" />}
+                      {isVideoOff ? (
+                        <CameraOff className="h-4 w-4" />
+                      ) : (
+                        <Camera className="h-4 w-4" />
+                      )}
                     </Button>
-                    
+
                     <Button
                       variant="outline"
                       size="sm"
@@ -961,12 +1074,8 @@ export function TeamWorkspaceTool(): JSX.Element {
                     >
                       <ScreenShare className="h-4 w-4" />
                     </Button>
-                    
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={handleEndVideoCall}
-                    >
+
+                    <Button variant="destructive" size="sm" onClick={handleEndVideoCall}>
                       <Phone className="h-4 w-4" />
                     </Button>
                   </div>

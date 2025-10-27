@@ -15,7 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Badge } from '../ui/badge';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Progress } from '../ui/progress';
-import { 
+import {
   Rocket,
   Server,
   Shield,
@@ -26,7 +26,7 @@ import {
   Globe,
   Loader2,
   ExternalLink,
-  Download
+  Download,
 } from 'lucide-react';
 
 interface DeploymentEnvironment {
@@ -73,7 +73,7 @@ export function AdvancedProductionDeployment() {
       lastDeployment: new Date(Date.now() - 86400000),
       version: 'v1.2.3',
       health: { uptime: 99.9, responseTime: 145, errorRate: 0.02, status: 'healthy' },
-      resources: { cpu: 45, memory: 62, storage: 34 }
+      resources: { cpu: 45, memory: 62, storage: 34 },
     },
     {
       id: 'staging',
@@ -84,7 +84,7 @@ export function AdvancedProductionDeployment() {
       lastDeployment: new Date(Date.now() - 3600000),
       version: 'v1.2.4-rc.1',
       health: { uptime: 99.5, responseTime: 98, errorRate: 0.01, status: 'healthy' },
-      resources: { cpu: 23, memory: 41, storage: 18 }
+      resources: { cpu: 23, memory: 41, storage: 18 },
     },
     {
       id: 'dev',
@@ -95,8 +95,8 @@ export function AdvancedProductionDeployment() {
       lastDeployment: new Date(),
       version: 'v1.2.4-dev',
       health: { uptime: 98.2, responseTime: 89, errorRate: 0.05, status: 'warning' },
-      resources: { cpu: 67, memory: 78, storage: 45 }
-    }
+      resources: { cpu: 67, memory: 78, storage: 45 },
+    },
   ]);
 
   const [securityScans, setSecurityScans] = useState<SecurityScan[]>([
@@ -109,7 +109,7 @@ export function AdvancedProductionDeployment() {
       high: 0,
       medium: 0,
       low: 0,
-      lastScan: new Date(Date.now() - 7200000)
+      lastScan: new Date(Date.now() - 7200000),
     },
     {
       id: 'dep-scan',
@@ -120,8 +120,8 @@ export function AdvancedProductionDeployment() {
       high: 0,
       medium: 2,
       low: 1,
-      lastScan: new Date(Date.now() - 3600000)
-    }
+      lastScan: new Date(Date.now() - 3600000),
+    },
   ]);
 
   const [isDeploying, setIsDeploying] = useState(false);
@@ -137,26 +137,28 @@ export function AdvancedProductionDeployment() {
       'Building application...',
       'Running tests...',
       'Deploying to environment...',
-      'Deployment complete!'
+      'Deployment complete!',
     ];
 
     try {
       for (let i = 0; i < steps.length; i++) {
         setDeployProgress(((i + 1) / steps.length) * 100);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
 
-      setEnvironments(prev => prev.map(env => 
-        env.id === environmentId 
-          ? { 
-              ...env, 
-              status: 'active', 
-              lastDeployment: new Date(),
-              version: `v1.2.${Math.floor(Math.random() * 10)}`,
-              health: { ...env.health, status: 'healthy' }
-            }
-          : env
-      ));
+      setEnvironments((prev) =>
+        prev.map((env) =>
+          env.id === environmentId
+            ? {
+                ...env,
+                status: 'active',
+                lastDeployment: new Date(),
+                version: `v1.2.${Math.floor(Math.random() * 10)}`,
+                health: { ...env.health, status: 'healthy' },
+              }
+            : env
+        )
+      );
 
       console.log('✅ Deployment completed successfully');
     } catch (error) {
@@ -169,7 +171,7 @@ export function AdvancedProductionDeployment() {
 
   const runSecurityScan = useCallback(async (scanType: SecurityScan['type']) => {
     const scanId = `${scanType}-${Date.now()}`;
-    
+
     const newScan: SecurityScan = {
       id: scanId,
       type: scanType,
@@ -179,54 +181,55 @@ export function AdvancedProductionDeployment() {
       high: 0,
       medium: 0,
       low: 0,
-      lastScan: new Date()
+      lastScan: new Date(),
     };
 
-    setSecurityScans(prev => prev.map(scan => 
-      scan.type === scanType ? newScan : scan
-    ));
+    setSecurityScans((prev) => prev.map((scan) => (scan.type === scanType ? newScan : scan)));
 
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const results = {
       critical: Math.floor(Math.random() * 2),
       high: Math.floor(Math.random() * 3),
       medium: Math.floor(Math.random() * 5),
-      low: Math.floor(Math.random() * 8)
+      low: Math.floor(Math.random() * 8),
     };
 
     const totalIssues = results.critical + results.high + results.medium + results.low;
-    const status: SecurityScan['status'] = 
-      results.critical > 0 ? 'failed' :
-      results.high > 0 ? 'warning' : 'passed';
+    const status: SecurityScan['status'] =
+      results.critical > 0 ? 'failed' : results.high > 0 ? 'warning' : 'passed';
 
-    setSecurityScans(prev => prev.map(scan => 
-      scan.id === scanId ? {
-        ...scan,
-        status,
-        issues: totalIssues,
-        ...results
-      } : scan
-    ));
+    setSecurityScans((prev) =>
+      prev.map((scan) =>
+        scan.id === scanId
+          ? {
+              ...scan,
+              status,
+              issues: totalIssues,
+              ...results,
+            }
+          : scan
+      )
+    );
   }, []);
 
   const generateDeploymentConfig = useCallback(() => {
     const config = {
-      name: "FlashFusion Production Deployment",
-      version: "1.0.0",
+      name: 'FlashFusion Production Deployment',
+      version: '1.0.0',
       infrastructure: {
-        provider: "AWS/Vercel",
-        regions: ["us-east-1", "eu-west-1", "ap-southeast-1"],
-        cdn: "CloudFlare",
-        database: "Supabase PostgreSQL",
-        storage: "Supabase Storage"
+        provider: 'AWS/Vercel',
+        regions: ['us-east-1', 'eu-west-1', 'ap-southeast-1'],
+        cdn: 'CloudFlare',
+        database: 'Supabase PostgreSQL',
+        storage: 'Supabase Storage',
       },
-      environments: environments.map(env => ({
+      environments: environments.map((env) => ({
         name: env.name,
         type: env.type,
         url: env.url,
-        autoDeployment: env.type !== 'production'
-      }))
+        autoDeployment: env.type !== 'production',
+      })),
     };
 
     const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
@@ -244,12 +247,16 @@ export function AdvancedProductionDeployment() {
     <div className="space-y-6" style={{ fontFamily: 'var(--ff-font-secondary)' }}>
       <Card className="bg-[var(--ff-surface)] border-[var(--border)]">
         <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
+          <CardTitle
+            className="flex items-center gap-3 text-[var(--ff-text-primary)]"
+            style={{ fontFamily: 'var(--ff-font-primary)' }}
+          >
             <Rocket className="w-6 h-6 text-[var(--ff-primary)]" />
             Advanced Production Deployment
           </CardTitle>
           <CardDescription className="text-[var(--ff-text-secondary)]">
-            Enterprise-grade deployment pipeline with CI/CD automation, security scanning, monitoring, and multi-environment management.
+            Enterprise-grade deployment pipeline with CI/CD automation, security scanning,
+            monitoring, and multi-environment management.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -281,31 +288,46 @@ export function AdvancedProductionDeployment() {
               <Alert className="border-[var(--ff-primary)] bg-[var(--ff-primary)]/10">
                 <Cloud className="h-4 w-4 text-[var(--ff-primary)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-primary)]">Multi-Environment Management:</strong> Monitor and deploy across development, staging, and production environments.
+                  <strong className="text-[var(--ff-primary)]">
+                    Multi-Environment Management:
+                  </strong>{' '}
+                  Monitor and deploy across development, staging, and production environments.
                 </AlertDescription>
               </Alert>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {environments.map((env) => (
-                  <Card 
-                    key={env.id} 
+                  <Card
+                    key={env.id}
                     className={`bg-[var(--ff-surface-light)] border-[var(--border)] cursor-pointer transition-all duration-200 ${
                       selectedEnvironment === env.id ? 'ring-2 ring-[var(--ff-primary)]' : ''
-                    }`} 
+                    }`}
                     onClick={() => setSelectedEnvironment(env.id)}
                   >
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-lg text-[var(--ff-text-primary)]">{env.name}</CardTitle>
-                        <Badge 
-                          variant={env.status === 'active' ? 'default' : env.status === 'deploying' ? 'secondary' : 'destructive'}
+                        <CardTitle className="text-lg text-[var(--ff-text-primary)]">
+                          {env.name}
+                        </CardTitle>
+                        <Badge
+                          variant={
+                            env.status === 'active'
+                              ? 'default'
+                              : env.status === 'deploying'
+                                ? 'secondary'
+                                : 'destructive'
+                          }
                           className={
-                            env.status === 'active' ? 'bg-[var(--ff-success)] text-white' :
-                            env.status === 'deploying' ? 'bg-[var(--ff-warning)] text-white' :
-                            'bg-[var(--ff-error)] text-white'
+                            env.status === 'active'
+                              ? 'bg-[var(--ff-success)] text-white'
+                              : env.status === 'deploying'
+                                ? 'bg-[var(--ff-warning)] text-white'
+                                : 'bg-[var(--ff-error)] text-white'
                           }
                         >
-                          {env.status === 'deploying' && <Loader2 className="w-3 h-3 mr-1 animate-spin" />}
+                          {env.status === 'deploying' && (
+                            <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                          )}
                           {env.status}
                         </Badge>
                       </div>
@@ -324,18 +346,28 @@ export function AdvancedProductionDeployment() {
                         </div>
                         <div>
                           <p className="text-[var(--ff-text-muted)]">Last Deploy</p>
-                          <p className="text-[var(--ff-text-primary)]">{env.lastDeployment?.toLocaleDateString()}</p>
+                          <p className="text-[var(--ff-text-primary)]">
+                            {env.lastDeployment?.toLocaleDateString()}
+                          </p>
                         </div>
                       </div>
 
                       <div className="space-y-2">
                         <div className="flex items-center justify-between text-sm">
                           <span className="text-[var(--ff-text-muted)]">Health Status</span>
-                          <Badge variant={env.health.status === 'healthy' ? 'default' : env.health.status === 'warning' ? 'secondary' : 'destructive'}>
+                          <Badge
+                            variant={
+                              env.health.status === 'healthy'
+                                ? 'default'
+                                : env.health.status === 'warning'
+                                  ? 'secondary'
+                                  : 'destructive'
+                            }
+                          >
                             {env.health.status}
                           </Badge>
                         </div>
-                        
+
                         <div className="grid grid-cols-3 gap-2 text-xs">
                           <div>
                             <p className="text-[var(--ff-text-muted)]">Uptime</p>
@@ -343,7 +375,9 @@ export function AdvancedProductionDeployment() {
                           </div>
                           <div>
                             <p className="text-[var(--ff-text-muted)]">Response</p>
-                            <p className="text-[var(--ff-text-primary)]">{env.health.responseTime}ms</p>
+                            <p className="text-[var(--ff-text-primary)]">
+                              {env.health.responseTime}ms
+                            </p>
                           </div>
                           <div>
                             <p className="text-[var(--ff-text-muted)]">Errors</p>
@@ -410,12 +444,15 @@ export function AdvancedProductionDeployment() {
               {isDeploying && (
                 <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
                   <CardHeader>
-                    <CardTitle className="text-[var(--ff-text-primary)]">Deployment Progress</CardTitle>
+                    <CardTitle className="text-[var(--ff-text-primary)]">
+                      Deployment Progress
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <Progress value={deployProgress} className="h-2" />
                     <p className="text-sm text-[var(--ff-text-secondary)]">
-                      Deploying to {environments.find(env => env.id === selectedEnvironment)?.name}...
+                      Deploying to{' '}
+                      {environments.find((env) => env.id === selectedEnvironment)?.name}...
                     </p>
                   </CardContent>
                 </Card>
@@ -426,31 +463,45 @@ export function AdvancedProductionDeployment() {
               <Alert className="border-[var(--ff-secondary)] bg-[var(--ff-secondary)]/10">
                 <Shield className="h-4 w-4 text-[var(--ff-secondary)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-secondary)]">Security Scanning:</strong> Automated vulnerability detection and compliance monitoring.
+                  <strong className="text-[var(--ff-secondary)]">Security Scanning:</strong>{' '}
+                  Automated vulnerability detection and compliance monitoring.
                 </AlertDescription>
               </Alert>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {securityScans.map((scan) => (
-                  <Card key={scan.id} className="bg-[var(--ff-surface-light)] border-[var(--border)]">
+                  <Card
+                    key={scan.id}
+                    className="bg-[var(--ff-surface-light)] border-[var(--border)]"
+                  >
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-lg text-[var(--ff-text-primary)] capitalize">{scan.type}</CardTitle>
-                        <Badge 
+                        <CardTitle className="text-lg text-[var(--ff-text-primary)] capitalize">
+                          {scan.type}
+                        </CardTitle>
+                        <Badge
                           variant={
-                            scan.status === 'passed' ? 'default' : 
-                            scan.status === 'warning' ? 'secondary' : 
-                            scan.status === 'scanning' ? 'secondary' : 
-                            'destructive'
+                            scan.status === 'passed'
+                              ? 'default'
+                              : scan.status === 'warning'
+                                ? 'secondary'
+                                : scan.status === 'scanning'
+                                  ? 'secondary'
+                                  : 'destructive'
                           }
                           className={
-                            scan.status === 'passed' ? 'bg-[var(--ff-success)] text-white' :
-                            scan.status === 'warning' ? 'bg-[var(--ff-warning)] text-black' :
-                            scan.status === 'scanning' ? 'bg-[var(--ff-secondary)] text-white' :
-                            'bg-[var(--ff-error)] text-white'
+                            scan.status === 'passed'
+                              ? 'bg-[var(--ff-success)] text-white'
+                              : scan.status === 'warning'
+                                ? 'bg-[var(--ff-warning)] text-black'
+                                : scan.status === 'scanning'
+                                  ? 'bg-[var(--ff-secondary)] text-white'
+                                  : 'bg-[var(--ff-error)] text-white'
                           }
                         >
-                          {scan.status === 'scanning' && <Loader2 className="w-3 h-3 mr-1 animate-spin" />}
+                          {scan.status === 'scanning' && (
+                            <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                          )}
                           {scan.status}
                         </Badge>
                       </div>
@@ -463,7 +514,9 @@ export function AdvancedProductionDeployment() {
                         </div>
                         <div>
                           <p className="text-[var(--ff-text-muted)]">Last Scan</p>
-                          <p className="text-[var(--ff-text-primary)]">{scan.lastScan.toLocaleDateString()}</p>
+                          <p className="text-[var(--ff-text-primary)]">
+                            {scan.lastScan.toLocaleDateString()}
+                          </p>
                         </div>
                       </div>
 
@@ -508,14 +561,17 @@ export function AdvancedProductionDeployment() {
               <Alert className="border-[var(--ff-accent)] bg-[var(--ff-accent)]/10">
                 <Settings className="h-4 w-4 text-[var(--ff-accent)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-accent)]">Configuration Export:</strong> Download deployment configurations and CI/CD pipeline files.
+                  <strong className="text-[var(--ff-accent)]">Configuration Export:</strong>{' '}
+                  Download deployment configurations and CI/CD pipeline files.
                 </AlertDescription>
               </Alert>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
                   <CardHeader>
-                    <CardTitle className="text-[var(--ff-text-primary)]">Deployment Config</CardTitle>
+                    <CardTitle className="text-[var(--ff-text-primary)]">
+                      Deployment Config
+                    </CardTitle>
                     <CardDescription className="text-[var(--ff-text-muted)]">
                       Export infrastructure and environment configuration
                     </CardDescription>
@@ -533,7 +589,9 @@ export function AdvancedProductionDeployment() {
 
                 <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
                   <CardHeader>
-                    <CardTitle className="text-[var(--ff-text-primary)]">Environment Setup</CardTitle>
+                    <CardTitle className="text-[var(--ff-text-primary)]">
+                      Environment Setup
+                    </CardTitle>
                     <CardDescription className="text-[var(--ff-text-muted)]">
                       Configure new deployment environment
                     </CardDescription>
@@ -555,9 +613,7 @@ export function AdvancedProductionDeployment() {
                         className="bg-[var(--ff-surface)] border-[var(--border)]"
                       />
                     </div>
-                    <Button
-                      className="w-full bg-[var(--ff-accent)] hover:bg-[var(--ff-accent-600)] text-white"
-                    >
+                    <Button className="w-full bg-[var(--ff-accent)] hover:bg-[var(--ff-accent-600)] text-white">
                       Add Environment
                     </Button>
                   </CardContent>

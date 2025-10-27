@@ -4,10 +4,10 @@
  * @category advanced-devops
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Comprehensive deployment orchestration platform with intelligent deployment optimization,
  * advanced CI/CD pipelines, infrastructure as code, and deployment analytics.
- * 
+ *
  * Features:
  * - Intelligent deployment orchestration with AI-powered optimization
  * - Advanced CI/CD pipelines with multi-environment management
@@ -23,10 +23,10 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Rocket, 
-  GitBranch, 
-  Server, 
+import {
+  Rocket,
+  GitBranch,
+  Server,
   Cloud,
   CheckCircle,
   XCircle,
@@ -75,7 +75,7 @@ import {
   Timer,
   Gauge,
   Eye,
-  BarChart2
+  BarChart2,
 } from 'lucide-react';
 
 // Deployment interfaces
@@ -153,7 +153,9 @@ interface CanaryDeployment {
  * Advanced Deployment Orchestrator Component
  */
 export function AdvancedDeploymentOrchestrator() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'pipelines' | 'infrastructure' | 'canary' | 'analytics'>('overview');
+  const [activeTab, setActiveTab] = useState<
+    'overview' | 'pipelines' | 'infrastructure' | 'canary' | 'analytics'
+  >('overview');
   const [isDeploying, setIsDeploying] = useState(false);
   const [autoRollback, setAutoRollback] = useState(true);
 
@@ -166,7 +168,7 @@ export function AdvancedDeploymentOrchestrator() {
     deploymentFrequency: 4.2,
     rollbackRate: 2.1,
     uptime: 99.94,
-    performanceImpact: 1.2
+    performanceImpact: 1.2,
   });
 
   // Active pipelines
@@ -185,10 +187,34 @@ export function AdvancedDeploymentOrchestrator() {
       branch: 'main',
       version: 'v2.1.4',
       stages: [
-        { id: 'build', name: 'Build & Test', status: 'success', duration: 180000, logs: ['Build completed successfully'], startTime: new Date(Date.now() - 1000 * 60 * 15), endTime: new Date(Date.now() - 1000 * 60 * 12) },
-        { id: 'security', name: 'Security Scan', status: 'success', duration: 120000, logs: ['No vulnerabilities found'], startTime: new Date(Date.now() - 1000 * 60 * 12), endTime: new Date(Date.now() - 1000 * 60 * 10) },
-        { id: 'deploy', name: 'Deploy to Production', status: 'success', duration: 300000, logs: ['Deployment completed'], startTime: new Date(Date.now() - 1000 * 60 * 10), endTime: new Date(Date.now() - 1000 * 60 * 5) }
-      ]
+        {
+          id: 'build',
+          name: 'Build & Test',
+          status: 'success',
+          duration: 180000,
+          logs: ['Build completed successfully'],
+          startTime: new Date(Date.now() - 1000 * 60 * 15),
+          endTime: new Date(Date.now() - 1000 * 60 * 12),
+        },
+        {
+          id: 'security',
+          name: 'Security Scan',
+          status: 'success',
+          duration: 120000,
+          logs: ['No vulnerabilities found'],
+          startTime: new Date(Date.now() - 1000 * 60 * 12),
+          endTime: new Date(Date.now() - 1000 * 60 * 10),
+        },
+        {
+          id: 'deploy',
+          name: 'Deploy to Production',
+          status: 'success',
+          duration: 300000,
+          logs: ['Deployment completed'],
+          startTime: new Date(Date.now() - 1000 * 60 * 10),
+          endTime: new Date(Date.now() - 1000 * 60 * 5),
+        },
+      ],
     },
     {
       id: 'pipeline-staging',
@@ -202,64 +228,81 @@ export function AdvancedDeploymentOrchestrator() {
       branch: 'develop',
       version: 'v2.2.0-beta',
       stages: [
-        { id: 'build', name: 'Build & Test', status: 'success', duration: 150000, logs: ['Build completed'], startTime: new Date(Date.now() - 1000 * 60 * 8), endTime: new Date(Date.now() - 1000 * 60 * 6) },
-        { id: 'security', name: 'Security Scan', status: 'running', logs: ['Scanning in progress...'], startTime: new Date(Date.now() - 1000 * 60 * 6) },
-        { id: 'deploy', name: 'Deploy to Staging', status: 'pending', logs: [] }
-      ]
-    }
+        {
+          id: 'build',
+          name: 'Build & Test',
+          status: 'success',
+          duration: 150000,
+          logs: ['Build completed'],
+          startTime: new Date(Date.now() - 1000 * 60 * 8),
+          endTime: new Date(Date.now() - 1000 * 60 * 6),
+        },
+        {
+          id: 'security',
+          name: 'Security Scan',
+          status: 'running',
+          logs: ['Scanning in progress...'],
+          startTime: new Date(Date.now() - 1000 * 60 * 6),
+        },
+        { id: 'deploy', name: 'Deploy to Staging', status: 'pending', logs: [] },
+      ],
+    },
   ]);
 
   // Infrastructure resources
-  const infrastructureResources: InfrastructureResource[] = useMemo(() => [
-    {
-      id: 'web-servers',
-      type: 'compute',
-      name: 'Web Server Cluster',
-      status: 'healthy',
-      utilization: 68,
-      cost: 245.50,
-      region: 'us-east-1',
-      lastUpdated: new Date(),
-      tags: ['production', 'web'],
-      autoScaling: true
-    },
-    {
-      id: 'database',
-      type: 'database',
-      name: 'Primary Database',
-      status: 'healthy',
-      utilization: 42,
-      cost: 189.75,
-      region: 'us-east-1',
-      lastUpdated: new Date(),
-      tags: ['production', 'database'],
-      autoScaling: false
-    },
-    {
-      id: 'cache-cluster',
-      type: 'cache',
-      name: 'Redis Cluster',
-      status: 'warning',
-      utilization: 87,
-      cost: 95.25,
-      region: 'us-east-1',
-      lastUpdated: new Date(),
-      tags: ['production', 'cache'],
-      autoScaling: true
-    },
-    {
-      id: 'storage',
-      type: 'storage',
-      name: 'File Storage',
-      status: 'healthy',
-      utilization: 34,
-      cost: 67.80,
-      region: 'us-east-1',
-      lastUpdated: new Date(),
-      tags: ['production', 'storage'],
-      autoScaling: false
-    }
-  ], []);
+  const infrastructureResources: InfrastructureResource[] = useMemo(
+    () => [
+      {
+        id: 'web-servers',
+        type: 'compute',
+        name: 'Web Server Cluster',
+        status: 'healthy',
+        utilization: 68,
+        cost: 245.5,
+        region: 'us-east-1',
+        lastUpdated: new Date(),
+        tags: ['production', 'web'],
+        autoScaling: true,
+      },
+      {
+        id: 'database',
+        type: 'database',
+        name: 'Primary Database',
+        status: 'healthy',
+        utilization: 42,
+        cost: 189.75,
+        region: 'us-east-1',
+        lastUpdated: new Date(),
+        tags: ['production', 'database'],
+        autoScaling: false,
+      },
+      {
+        id: 'cache-cluster',
+        type: 'cache',
+        name: 'Redis Cluster',
+        status: 'warning',
+        utilization: 87,
+        cost: 95.25,
+        region: 'us-east-1',
+        lastUpdated: new Date(),
+        tags: ['production', 'cache'],
+        autoScaling: true,
+      },
+      {
+        id: 'storage',
+        type: 'storage',
+        name: 'File Storage',
+        status: 'healthy',
+        utilization: 34,
+        cost: 67.8,
+        region: 'us-east-1',
+        lastUpdated: new Date(),
+        tags: ['production', 'storage'],
+        autoScaling: false,
+      },
+    ],
+    []
+  );
 
   // Canary deployment
   const [canaryDeployment, setCanaryDeployment] = useState<CanaryDeployment>({
@@ -273,40 +316,42 @@ export function AdvancedDeploymentOrchestrator() {
       errorRate: 0.08,
       responseTime: 245,
       throughput: 1240,
-      userSatisfaction: 4.7
+      userSatisfaction: 4.7,
     },
     healthChecks: [
       { name: 'API Response Time', status: 'pass', message: 'Average response time: 245ms' },
       { name: 'Error Rate', status: 'pass', message: 'Error rate: 0.08%' },
       { name: 'Database Connectivity', status: 'pass', message: 'All connections healthy' },
-      { name: 'Memory Usage', status: 'warning', message: 'Memory usage at 78%' }
-    ]
+      { name: 'Memory Usage', status: 'warning', message: 'Memory usage at 78%' },
+    ],
   });
 
   // Real-time deployment monitoring
   useEffect(() => {
     const interval = setInterval(() => {
       // Simulate real-time updates
-      setPipelines(prev => prev.map(pipeline => {
-        if (pipeline.status === 'running') {
-          const newProgress = Math.min(100, pipeline.progress + Math.random() * 10);
-          if (newProgress >= 100) {
-            return { ...pipeline, status: 'success', progress: 100, endTime: new Date() };
+      setPipelines((prev) =>
+        prev.map((pipeline) => {
+          if (pipeline.status === 'running') {
+            const newProgress = Math.min(100, pipeline.progress + Math.random() * 10);
+            if (newProgress >= 100) {
+              return { ...pipeline, status: 'success', progress: 100, endTime: new Date() };
+            }
+            return { ...pipeline, progress: newProgress };
           }
-          return { ...pipeline, progress: newProgress };
-        }
-        return pipeline;
-      }));
+          return pipeline;
+        })
+      );
 
-      setCanaryDeployment(prev => ({
+      setCanaryDeployment((prev) => ({
         ...prev,
         trafficSplit: Math.min(100, prev.trafficSplit + (Math.random() - 0.3) * 5),
         metrics: {
           ...prev.metrics,
           errorRate: Math.max(0, prev.metrics.errorRate + (Math.random() - 0.7) * 0.1),
           responseTime: Math.max(0, prev.metrics.responseTime + (Math.random() - 0.5) * 20),
-          throughput: Math.max(0, prev.metrics.throughput + (Math.random() - 0.5) * 100)
-        }
+          throughput: Math.max(0, prev.metrics.throughput + (Math.random() - 0.5) * 100),
+        },
       }));
     }, 3000);
 
@@ -316,7 +361,7 @@ export function AdvancedDeploymentOrchestrator() {
   // Deployment handler
   const handleDeploy = useCallback(async (environment: string) => {
     setIsDeploying(true);
-    
+
     try {
       // Simulate deployment process
       const newPipeline: DeploymentPipeline = {
@@ -333,17 +378,16 @@ export function AdvancedDeploymentOrchestrator() {
         stages: [
           { id: 'build', name: 'Build & Test', status: 'pending', logs: [] },
           { id: 'security', name: 'Security Scan', status: 'pending', logs: [] },
-          { id: 'deploy', name: `Deploy to ${environment}`, status: 'pending', logs: [] }
-        ]
+          { id: 'deploy', name: `Deploy to ${environment}`, status: 'pending', logs: [] },
+        ],
       };
-      
-      setPipelines(prev => [...prev, newPipeline]);
-      
+
+      setPipelines((prev) => [...prev, newPipeline]);
+
       // Simulate stage progression
       for (let i = 0; i < 100; i += 20) {
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 200));
       }
-      
     } finally {
       setIsDeploying(false);
     }
@@ -351,21 +395,41 @@ export function AdvancedDeploymentOrchestrator() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'success': case 'healthy': case 'pass': return 'var(--ff-success)';
-      case 'warning': return 'var(--ff-warning)';
-      case 'failed': case 'critical': case 'fail': return 'var(--ff-error)';
-      case 'running': case 'provisioning': return 'var(--ff-secondary)';
-      default: return 'var(--ff-text-muted)';
+      case 'success':
+      case 'healthy':
+      case 'pass':
+        return 'var(--ff-success)';
+      case 'warning':
+        return 'var(--ff-warning)';
+      case 'failed':
+      case 'critical':
+      case 'fail':
+        return 'var(--ff-error)';
+      case 'running':
+      case 'provisioning':
+        return 'var(--ff-secondary)';
+      default:
+        return 'var(--ff-text-muted)';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'success': case 'healthy': case 'pass': return CheckCircle;
-      case 'warning': return AlertTriangle;
-      case 'failed': case 'critical': case 'fail': return XCircle;
-      case 'running': case 'provisioning': return Clock;
-      default: return Clock;
+      case 'success':
+      case 'healthy':
+      case 'pass':
+        return CheckCircle;
+      case 'warning':
+        return AlertTriangle;
+      case 'failed':
+      case 'critical':
+      case 'fail':
+        return XCircle;
+      case 'running':
+      case 'provisioning':
+        return Clock;
+      default:
+        return Clock;
     }
   };
 
@@ -377,24 +441,27 @@ export function AdvancedDeploymentOrchestrator() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--ff-bg-dark)]" style={{ fontFamily: 'var(--ff-font-secondary)' }}>
+    <div
+      className="min-h-screen bg-[var(--ff-bg-dark)]"
+      style={{ fontFamily: 'var(--ff-font-secondary)' }}
+    >
       <div className="max-w-7xl mx-auto p-6 space-y-8">
-        
         {/* Header */}
         <div className="text-center space-y-4 ff-fade-in-up">
           <Badge className="ff-badge-accent mb-4">
             <Rocket className="w-4 h-4 mr-2" />
             Advanced DevOps Suite
           </Badge>
-          
+
           <h1 className="ff-text-display">
             Deployment
             <span className="ff-text-gradient"> Orchestrator</span>
           </h1>
-          
+
           <p className="ff-text-body max-w-3xl mx-auto">
-            Enterprise-grade deployment orchestration with intelligent optimization, advanced CI/CD pipelines, 
-            infrastructure as code, and comprehensive deployment analytics for seamless DevOps automation.
+            Enterprise-grade deployment orchestration with intelligent optimization, advanced CI/CD
+            pipelines, infrastructure as code, and comprehensive deployment analytics for seamless
+            DevOps automation.
           </p>
         </div>
 
@@ -404,7 +471,10 @@ export function AdvancedDeploymentOrchestrator() {
             <div className="w-10 h-10 bg-[var(--ff-success)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
               <Rocket className="w-5 h-5 text-[var(--ff-success)]" />
             </div>
-            <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+            <div
+              className="ff-text-2xl text-[var(--ff-text-primary)]"
+              style={{ fontWeight: 'var(--ff-weight-bold)' }}
+            >
               {deploymentMetrics.successRate.toFixed(1)}%
             </div>
             <div className="ff-text-sm text-[var(--ff-text-muted)]">Success Rate</div>
@@ -417,7 +487,10 @@ export function AdvancedDeploymentOrchestrator() {
             <div className="w-10 h-10 bg-[var(--ff-primary)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
               <Timer className="w-5 h-5 text-[var(--ff-primary)]" />
             </div>
-            <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+            <div
+              className="ff-text-2xl text-[var(--ff-text-primary)]"
+              style={{ fontWeight: 'var(--ff-weight-bold)' }}
+            >
               {deploymentMetrics.avgDeploymentTime.toFixed(1)}m
             </div>
             <div className="ff-text-sm text-[var(--ff-text-muted)]">Avg Deploy Time</div>
@@ -430,7 +503,10 @@ export function AdvancedDeploymentOrchestrator() {
             <div className="w-10 h-10 bg-[var(--ff-secondary)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
               <Activity className="w-5 h-5 text-[var(--ff-secondary)]" />
             </div>
-            <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+            <div
+              className="ff-text-2xl text-[var(--ff-text-primary)]"
+              style={{ fontWeight: 'var(--ff-weight-bold)' }}
+            >
               {deploymentMetrics.uptime.toFixed(2)}%
             </div>
             <div className="ff-text-sm text-[var(--ff-text-muted)]">Uptime</div>
@@ -443,7 +519,10 @@ export function AdvancedDeploymentOrchestrator() {
             <div className="w-10 h-10 bg-[var(--ff-accent)]/20 rounded-full flex items-center justify-center mx-auto mb-2">
               <BarChart2 className="w-5 h-5 text-[var(--ff-accent)]" />
             </div>
-            <div className="ff-text-2xl text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+            <div
+              className="ff-text-2xl text-[var(--ff-text-primary)]"
+              style={{ fontWeight: 'var(--ff-weight-bold)' }}
+            >
               {deploymentMetrics.deploymentFrequency.toFixed(1)}
             </div>
             <div className="ff-text-sm text-[var(--ff-text-muted)]">Deploys/Day</div>
@@ -472,7 +551,7 @@ export function AdvancedDeploymentOrchestrator() {
                   style={{
                     fontFamily: 'var(--ff-font-primary)',
                     fontWeight: 'var(--ff-weight-semibold)',
-                    fontSize: 'var(--ff-text-sm)'
+                    fontSize: 'var(--ff-text-sm)',
                   }}
                 >
                   <Rocket className="w-4 h-4 mr-2" />
@@ -485,7 +564,7 @@ export function AdvancedDeploymentOrchestrator() {
                   style={{
                     fontFamily: 'var(--ff-font-primary)',
                     fontWeight: 'var(--ff-weight-semibold)',
-                    fontSize: 'var(--ff-text-sm)'
+                    fontSize: 'var(--ff-text-sm)',
                   }}
                 >
                   <Rocket className="w-4 h-4 mr-2" />
@@ -497,7 +576,10 @@ export function AdvancedDeploymentOrchestrator() {
           <CardContent>
             <div className="grid md:grid-cols-4 gap-6">
               <div className="space-y-3">
-                <h4 className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                <h4
+                  className="ff-text-sm text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                >
                   Pipeline Status
                 </h4>
                 <div className="space-y-2">
@@ -515,9 +597,12 @@ export function AdvancedDeploymentOrchestrator() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="space-y-3">
-                <h4 className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                <h4
+                  className="ff-text-sm text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                >
                   Infrastructure Health
                 </h4>
                 <div className="space-y-2">
@@ -533,9 +618,12 @@ export function AdvancedDeploymentOrchestrator() {
                   <Progress value={42} className="h-2" />
                 </div>
               </div>
-              
+
               <div className="space-y-3">
-                <h4 className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                <h4
+                  className="ff-text-sm text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                >
                   Cost Optimization
                 </h4>
                 <div className="space-y-2">
@@ -553,23 +641,32 @@ export function AdvancedDeploymentOrchestrator() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="space-y-3">
-                <h4 className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                <h4
+                  className="ff-text-sm text-[var(--ff-text-primary)]"
+                  style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                >
                   Deployment Metrics
                 </h4>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="ff-text-xs text-[var(--ff-text-muted)]">MTTR</span>
-                    <span className="ff-text-xs text-[var(--ff-text-primary)]">{deploymentMetrics.meanTimeToRecovery.toFixed(1)}m</span>
+                    <span className="ff-text-xs text-[var(--ff-text-primary)]">
+                      {deploymentMetrics.meanTimeToRecovery.toFixed(1)}m
+                    </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="ff-text-xs text-[var(--ff-text-muted)]">Rollback Rate</span>
-                    <span className="ff-text-xs text-[var(--ff-text-primary)]">{deploymentMetrics.rollbackRate.toFixed(1)}%</span>
+                    <span className="ff-text-xs text-[var(--ff-text-primary)]">
+                      {deploymentMetrics.rollbackRate.toFixed(1)}%
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-[var(--ff-success)]" />
-                    <span className="ff-text-xs text-[var(--ff-text-muted)]">Performance impact: Low</span>
+                    <span className="ff-text-xs text-[var(--ff-text-muted)]">
+                      Performance impact: Low
+                    </span>
                   </div>
                 </div>
               </div>
@@ -580,7 +677,11 @@ export function AdvancedDeploymentOrchestrator() {
         {/* Detailed Deployment Tabs */}
         <Card className="ff-card">
           <CardContent className="p-0">
-            <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="w-full">
+            <Tabs
+              value={activeTab}
+              onValueChange={(value) => setActiveTab(value as any)}
+              className="w-full"
+            >
               <div className="border-b border-[var(--border)]">
                 <TabsList className="grid w-full grid-cols-5 bg-[var(--ff-surface)] rounded-none">
                   <TabsTrigger value="overview" className="flex items-center gap-2">
@@ -612,35 +713,41 @@ export function AdvancedDeploymentOrchestrator() {
                   <h3 className="ff-text-title">Active Deployment Pipelines</h3>
                   <div className="flex items-center gap-2">
                     <Badge className="ff-badge-secondary">
-                      {pipelines.filter(p => p.status === 'running').length} Running
+                      {pipelines.filter((p) => p.status === 'running').length} Running
                     </Badge>
                     <Badge className="ff-badge-success">
-                      {pipelines.filter(p => p.status === 'success').length} Success
+                      {pipelines.filter((p) => p.status === 'success').length} Success
                     </Badge>
                   </div>
                 </div>
-                
+
                 <div className="space-y-4">
                   {pipelines.map((pipeline) => {
                     const StatusIcon = getStatusIcon(pipeline.status);
-                    
+
                     return (
                       <Card key={pipeline.id} className="ff-card">
                         <CardContent className="p-6">
                           <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-3">
-                              <div 
+                              <div
                                 className="w-10 h-10 rounded-lg flex items-center justify-center"
                                 style={{ backgroundColor: getStatusColor(pipeline.status) + '20' }}
                               >
-                                <Rocket className="w-5 h-5" style={{ color: getStatusColor(pipeline.status) }} />
+                                <Rocket
+                                  className="w-5 h-5"
+                                  style={{ color: getStatusColor(pipeline.status) }}
+                                />
                               </div>
                               <div>
-                                <h4 className="ff-text-base text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                                <h4
+                                  className="ff-text-base text-[var(--ff-text-primary)]"
+                                  style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                                >
                                   {pipeline.name}
                                 </h4>
                                 <div className="flex items-center gap-2 mt-1">
-                                  <Badge 
+                                  <Badge
                                     className={`ff-badge-${pipeline.environment === 'production' ? 'error' : pipeline.environment === 'staging' ? 'warning' : 'secondary'} text-xs`}
                                   >
                                     {pipeline.environment}
@@ -648,59 +755,85 @@ export function AdvancedDeploymentOrchestrator() {
                                   <Badge className="ff-badge-secondary text-xs">
                                     {pipeline.version}
                                   </Badge>
-                                  <StatusIcon 
-                                    className="w-4 h-4" 
+                                  <StatusIcon
+                                    className="w-4 h-4"
                                     style={{ color: getStatusColor(pipeline.status) }}
                                   />
                                 </div>
                               </div>
                             </div>
-                            
+
                             <div className="text-right">
-                              <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                              <div
+                                className="ff-text-lg text-[var(--ff-text-primary)]"
+                                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                              >
                                 {pipeline.progress}%
                               </div>
                               <div className="ff-text-xs text-[var(--ff-text-muted)]">
-                                {pipeline.duration ? formatDuration(pipeline.duration) : 'In Progress'}
+                                {pipeline.duration
+                                  ? formatDuration(pipeline.duration)
+                                  : 'In Progress'}
                               </div>
                             </div>
                           </div>
-                          
+
                           <div className="mb-4">
                             <Progress value={pipeline.progress} className="h-3" />
                           </div>
-                          
+
                           <div className="grid md:grid-cols-3 gap-4 mb-4">
                             <div>
-                              <span className="ff-text-xs text-[var(--ff-text-muted)]">Deployed by:</span>
-                              <div className="ff-text-sm text-[var(--ff-text-primary)]">{pipeline.deployedBy}</div>
+                              <span className="ff-text-xs text-[var(--ff-text-muted)]">
+                                Deployed by:
+                              </span>
+                              <div className="ff-text-sm text-[var(--ff-text-primary)]">
+                                {pipeline.deployedBy}
+                              </div>
                             </div>
                             <div>
-                              <span className="ff-text-xs text-[var(--ff-text-muted)]">Branch:</span>
-                              <div className="ff-text-sm text-[var(--ff-text-primary)]">{pipeline.branch}</div>
+                              <span className="ff-text-xs text-[var(--ff-text-muted)]">
+                                Branch:
+                              </span>
+                              <div className="ff-text-sm text-[var(--ff-text-primary)]">
+                                {pipeline.branch}
+                              </div>
                             </div>
                             <div>
-                              <span className="ff-text-xs text-[var(--ff-text-muted)]">Commit:</span>
-                              <div className="ff-text-sm text-[var(--ff-text-primary)] font-mono">{pipeline.commitHash}</div>
+                              <span className="ff-text-xs text-[var(--ff-text-muted)]">
+                                Commit:
+                              </span>
+                              <div className="ff-text-sm text-[var(--ff-text-primary)] font-mono">
+                                {pipeline.commitHash}
+                              </div>
                             </div>
                           </div>
-                          
+
                           <div className="space-y-2">
-                            <h5 className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                            <h5
+                              className="ff-text-sm text-[var(--ff-text-primary)]"
+                              style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                            >
                               Deployment Stages
                             </h5>
                             <div className="grid md:grid-cols-3 gap-3">
                               {pipeline.stages.map((stage) => {
                                 const StageIcon = getStatusIcon(stage.status);
-                                
+
                                 return (
-                                  <div key={stage.id} className="p-3 bg-[var(--ff-surface)] rounded-lg">
+                                  <div
+                                    key={stage.id}
+                                    className="p-3 bg-[var(--ff-surface)] rounded-lg"
+                                  >
                                     <div className="flex items-center gap-2 mb-2">
-                                      <StageIcon 
-                                        className="w-4 h-4" 
+                                      <StageIcon
+                                        className="w-4 h-4"
                                         style={{ color: getStatusColor(stage.status) }}
                                       />
-                                      <span className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                                      <span
+                                        className="ff-text-sm text-[var(--ff-text-primary)]"
+                                        style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                                      >
                                         {stage.name}
                                       </span>
                                     </div>
@@ -725,14 +858,14 @@ export function AdvancedDeploymentOrchestrator() {
                   <h3 className="ff-text-title">Infrastructure Resources</h3>
                   <div className="flex items-center gap-2">
                     <Badge className="ff-badge-success">
-                      {infrastructureResources.filter(r => r.status === 'healthy').length} Healthy
+                      {infrastructureResources.filter((r) => r.status === 'healthy').length} Healthy
                     </Badge>
                     <Badge className="ff-badge-warning">
-                      {infrastructureResources.filter(r => r.status === 'warning').length} Warning
+                      {infrastructureResources.filter((r) => r.status === 'warning').length} Warning
                     </Badge>
                   </div>
                 </div>
-                
+
                 <div className="grid md:grid-cols-2 gap-6">
                   {infrastructureResources.map((resource) => {
                     const StatusIcon = getStatusIcon(resource.status);
@@ -741,74 +874,98 @@ export function AdvancedDeploymentOrchestrator() {
                       storage: HardDrive,
                       network: Wifi,
                       database: Database,
-                      cache: Server
+                      cache: Server,
                     };
                     const TypeIcon = typeIcons[resource.type];
-                    
+
                     return (
                       <Card key={resource.id} className="ff-card">
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-3">
-                              <div 
+                              <div
                                 className="w-10 h-10 rounded-lg flex items-center justify-center"
                                 style={{ backgroundColor: getStatusColor(resource.status) + '20' }}
                               >
-                                <TypeIcon className="w-5 h-5" style={{ color: getStatusColor(resource.status) }} />
+                                <TypeIcon
+                                  className="w-5 h-5"
+                                  style={{ color: getStatusColor(resource.status) }}
+                                />
                               </div>
                               <div>
-                                <h4 className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                                <h4
+                                  className="ff-text-sm text-[var(--ff-text-primary)]"
+                                  style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                                >
                                   {resource.name}
                                 </h4>
                                 <div className="flex items-center gap-2 mt-1">
                                   <Badge className="ff-badge-secondary text-xs">
                                     {resource.type}
                                   </Badge>
-                                  <StatusIcon 
-                                    className="w-4 h-4" 
+                                  <StatusIcon
+                                    className="w-4 h-4"
                                     style={{ color: getStatusColor(resource.status) }}
                                   />
                                 </div>
                               </div>
                             </div>
-                            
+
                             <div className="text-right">
-                              <div className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                              <div
+                                className="ff-text-sm text-[var(--ff-text-primary)]"
+                                style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                              >
                                 ${resource.cost.toFixed(2)}
                               </div>
-                              <div className="ff-text-xs text-[var(--ff-text-muted)]">
-                                /month
-                              </div>
+                              <div className="ff-text-xs text-[var(--ff-text-muted)]">/month</div>
                             </div>
                           </div>
-                          
+
                           <div className="space-y-3">
                             <div>
                               <div className="flex items-center justify-between mb-1">
-                                <span className="ff-text-xs text-[var(--ff-text-muted)]">Utilization</span>
-                                <span className="ff-text-xs text-[var(--ff-text-primary)]">{resource.utilization}%</span>
+                                <span className="ff-text-xs text-[var(--ff-text-muted)]">
+                                  Utilization
+                                </span>
+                                <span className="ff-text-xs text-[var(--ff-text-primary)]">
+                                  {resource.utilization}%
+                                </span>
                               </div>
-                              <Progress 
-                                value={resource.utilization} 
+                              <Progress
+                                value={resource.utilization}
                                 className="h-2"
-                                style={{
-                                  '--progress-background': resource.utilization > 80 ? 'var(--ff-warning)' : 'var(--ff-success)'
-                                } as React.CSSProperties}
+                                style={
+                                  {
+                                    '--progress-background':
+                                      resource.utilization > 80
+                                        ? 'var(--ff-warning)'
+                                        : 'var(--ff-success)',
+                                  } as React.CSSProperties
+                                }
                               />
                             </div>
-                            
+
                             <div className="flex items-center justify-between">
-                              <span className="ff-text-xs text-[var(--ff-text-muted)]">Region:</span>
-                              <span className="ff-text-xs text-[var(--ff-text-primary)]">{resource.region}</span>
+                              <span className="ff-text-xs text-[var(--ff-text-muted)]">
+                                Region:
+                              </span>
+                              <span className="ff-text-xs text-[var(--ff-text-primary)]">
+                                {resource.region}
+                              </span>
                             </div>
-                            
+
                             <div className="flex items-center justify-between">
-                              <span className="ff-text-xs text-[var(--ff-text-muted)]">Auto-Scaling:</span>
-                              <Badge className={`ff-badge-${resource.autoScaling ? 'success' : 'secondary'} text-xs`}>
+                              <span className="ff-text-xs text-[var(--ff-text-muted)]">
+                                Auto-Scaling:
+                              </span>
+                              <Badge
+                                className={`ff-badge-${resource.autoScaling ? 'success' : 'secondary'} text-xs`}
+                              >
                                 {resource.autoScaling ? 'Enabled' : 'Disabled'}
                               </Badge>
                             </div>
-                            
+
                             <div>
                               <span className="ff-text-xs text-[var(--ff-text-muted)]">Tags:</span>
                               <div className="flex flex-wrap gap-1 mt-1">
@@ -831,54 +988,78 @@ export function AdvancedDeploymentOrchestrator() {
               <TabsContent value="canary" className="p-6 space-y-6">
                 <div className="flex items-center justify-between">
                   <h3 className="ff-text-title">Canary Deployment Status</h3>
-                  <Badge 
+                  <Badge
                     className={`ff-badge-${canaryDeployment.status === 'running' ? 'secondary' : canaryDeployment.status === 'success' ? 'success' : 'warning'}`}
                   >
                     {canaryDeployment.status}
                   </Badge>
                 </div>
-                
+
                 <Card className="ff-card">
                   <CardContent className="p-6">
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-6">
                         <div>
-                          <h4 className="ff-text-base text-[var(--ff-text-primary)] mb-3" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                          <h4
+                            className="ff-text-base text-[var(--ff-text-primary)] mb-3"
+                            style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                          >
                             Deployment Details
                           </h4>
                           <div className="space-y-3">
                             <div className="flex items-center justify-between">
-                              <span className="ff-text-sm text-[var(--ff-text-muted)]">Current Version:</span>
-                              <span className="ff-text-sm text-[var(--ff-text-primary)]">{canaryDeployment.currentVersion}</span>
+                              <span className="ff-text-sm text-[var(--ff-text-muted)]">
+                                Current Version:
+                              </span>
+                              <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                                {canaryDeployment.currentVersion}
+                              </span>
                             </div>
                             <div className="flex items-center justify-between">
-                              <span className="ff-text-sm text-[var(--ff-text-muted)]">Target Version:</span>
-                              <span className="ff-text-sm text-[var(--ff-text-primary)]">{canaryDeployment.targetVersion}</span>
+                              <span className="ff-text-sm text-[var(--ff-text-muted)]">
+                                Target Version:
+                              </span>
+                              <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                                {canaryDeployment.targetVersion}
+                              </span>
                             </div>
                             <div className="flex items-center justify-between">
-                              <span className="ff-text-sm text-[var(--ff-text-muted)]">Traffic Split:</span>
-                              <span className="ff-text-sm text-[var(--ff-text-primary)]">{Math.round(canaryDeployment.trafficSplit)}%</span>
+                              <span className="ff-text-sm text-[var(--ff-text-muted)]">
+                                Traffic Split:
+                              </span>
+                              <span className="ff-text-sm text-[var(--ff-text-primary)]">
+                                {Math.round(canaryDeployment.trafficSplit)}%
+                              </span>
                             </div>
                             <Progress value={canaryDeployment.trafficSplit} className="h-3" />
                           </div>
                         </div>
-                        
+
                         <div>
-                          <h4 className="ff-text-base text-[var(--ff-text-primary)] mb-3" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                          <h4
+                            className="ff-text-base text-[var(--ff-text-primary)] mb-3"
+                            style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                          >
                             Health Checks
                           </h4>
                           <div className="space-y-2">
                             {canaryDeployment.healthChecks.map((check, index) => {
                               const CheckIcon = getStatusIcon(check.status);
-                              
+
                               return (
-                                <div key={index} className="flex items-center gap-3 p-2 bg-[var(--ff-surface)] rounded">
-                                  <CheckIcon 
-                                    className="w-4 h-4" 
+                                <div
+                                  key={index}
+                                  className="flex items-center gap-3 p-2 bg-[var(--ff-surface)] rounded"
+                                >
+                                  <CheckIcon
+                                    className="w-4 h-4"
                                     style={{ color: getStatusColor(check.status) }}
                                   />
                                   <div className="flex-1">
-                                    <div className="ff-text-sm text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                                    <div
+                                      className="ff-text-sm text-[var(--ff-text-primary)]"
+                                      style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                                    >
                                       {check.name}
                                     </div>
                                     <div className="ff-text-xs text-[var(--ff-text-muted)]">
@@ -891,50 +1072,73 @@ export function AdvancedDeploymentOrchestrator() {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="space-y-6">
                         <div>
-                          <h4 className="ff-text-base text-[var(--ff-text-primary)] mb-3" style={{ fontWeight: 'var(--ff-weight-semibold)' }}>
+                          <h4
+                            className="ff-text-base text-[var(--ff-text-primary)] mb-3"
+                            style={{ fontWeight: 'var(--ff-weight-semibold)' }}
+                          >
                             Performance Metrics
                           </h4>
                           <div className="grid grid-cols-2 gap-4">
                             <div className="text-center p-3 bg-[var(--ff-surface)] rounded-lg">
-                              <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                              <div
+                                className="ff-text-lg text-[var(--ff-text-primary)]"
+                                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                              >
                                 {canaryDeployment.metrics.errorRate.toFixed(2)}%
                               </div>
-                              <div className="ff-text-xs text-[var(--ff-text-muted)]">Error Rate</div>
+                              <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                                Error Rate
+                              </div>
                             </div>
-                            
+
                             <div className="text-center p-3 bg-[var(--ff-surface)] rounded-lg">
-                              <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                              <div
+                                className="ff-text-lg text-[var(--ff-text-primary)]"
+                                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                              >
                                 {Math.round(canaryDeployment.metrics.responseTime)}ms
                               </div>
-                              <div className="ff-text-xs text-[var(--ff-text-muted)]">Response Time</div>
+                              <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                                Response Time
+                              </div>
                             </div>
-                            
+
                             <div className="text-center p-3 bg-[var(--ff-surface)] rounded-lg">
-                              <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                              <div
+                                className="ff-text-lg text-[var(--ff-text-primary)]"
+                                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                              >
                                 {canaryDeployment.metrics.throughput.toLocaleString()}
                               </div>
-                              <div className="ff-text-xs text-[var(--ff-text-muted)]">Requests/min</div>
+                              <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                                Requests/min
+                              </div>
                             </div>
-                            
+
                             <div className="text-center p-3 bg-[var(--ff-surface)] rounded-lg">
-                              <div className="ff-text-lg text-[var(--ff-text-primary)]" style={{ fontWeight: 'var(--ff-weight-bold)' }}>
+                              <div
+                                className="ff-text-lg text-[var(--ff-text-primary)]"
+                                style={{ fontWeight: 'var(--ff-weight-bold)' }}
+                              >
                                 {canaryDeployment.metrics.userSatisfaction.toFixed(1)}
                               </div>
-                              <div className="ff-text-xs text-[var(--ff-text-muted)]">User Rating</div>
+                              <div className="ff-text-xs text-[var(--ff-text-muted)]">
+                                User Rating
+                              </div>
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="flex gap-3">
                           <Button
                             className="flex-1 ff-btn-success"
                             style={{
                               fontFamily: 'var(--ff-font-primary)',
                               fontWeight: 'var(--ff-weight-semibold)',
-                              fontSize: 'var(--ff-text-sm)'
+                              fontSize: 'var(--ff-text-sm)',
                             }}
                           >
                             <CheckCircle className="w-4 h-4 mr-2" />
@@ -945,7 +1149,7 @@ export function AdvancedDeploymentOrchestrator() {
                             style={{
                               fontFamily: 'var(--ff-font-primary)',
                               fontWeight: 'var(--ff-weight-semibold)',
-                              fontSize: 'var(--ff-text-sm)'
+                              fontSize: 'var(--ff-text-sm)',
                             }}
                           >
                             <RotateCcw className="w-4 h-4 mr-2" />

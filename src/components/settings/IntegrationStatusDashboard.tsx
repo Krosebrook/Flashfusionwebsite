@@ -4,11 +4,11 @@ import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Progress } from '../ui/progress';
-import { 
-  CheckCircle, 
-  XCircle, 
-  AlertTriangle, 
-  RefreshCw, 
+import {
+  CheckCircle,
+  XCircle,
+  AlertTriangle,
+  RefreshCw,
   Shield,
   Zap,
   Database,
@@ -22,7 +22,7 @@ import {
   Package,
   Clock,
   TrendingUp,
-  Activity
+  Activity,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import { APIKeyService, type APIProvider } from '../../services/APIKeyService';
@@ -49,15 +49,15 @@ export function IntegrationStatusDashboard() {
   const loadIntegrationStatuses = async () => {
     try {
       setIsLoading(true);
-      
+
       // Get all integration statuses
       const statuses = await IntegrationService.getAllStatuses();
       setIntegrationStatuses(statuses);
-      
+
       // Calculate service health by category
       const healthByCategory = calculateServiceHealth(statuses);
       setServiceHealth(healthByCategory);
-      
+
       setLastRefresh(new Date());
     } catch (error) {
       console.error('Failed to load integration statuses:', error);
@@ -71,10 +71,10 @@ export function IntegrationStatusDashboard() {
     try {
       setIsRefreshing(true);
       toast.info('Refreshing all integration statuses...');
-      
+
       await IntegrationService.refreshAllStatuses();
       await loadIntegrationStatuses();
-      
+
       toast.success('All integration statuses refreshed');
     } catch (error) {
       console.error('Failed to refresh statuses:', error);
@@ -88,41 +88,42 @@ export function IntegrationStatusDashboard() {
     const categories = {
       'AI Models': {
         providers: ['openai', 'anthropic', 'google', 'xai', 'deepseek'],
-        color: '#FF7B00'
+        color: '#FF7B00',
       },
-      'Development': {
+      Development: {
         providers: ['github', 'vercel'],
-        color: '#00B4D8'
+        color: '#00B4D8',
       },
       'Content & Media': {
         providers: ['firecrawl', 'notion', 'leap', 'elevenlabs'],
-        color: '#E91E63'
+        color: '#E91E63',
       },
       'E-commerce': {
         providers: ['stripe', 'printify'],
-        color: '#10B981'
+        color: '#10B981',
       },
-      'Automation': {
+      Automation: {
         providers: ['openrouter'],
-        color: '#8B5CF6'
-      }
+        color: '#8B5CF6',
+      },
     };
 
     return Object.entries(categories).map(([category, config]) => {
-      const categoryStatuses = statuses.filter(status => 
+      const categoryStatuses = statuses.filter((status) =>
         config.providers.includes(status.provider)
       );
-      
-      const connectedCount = categoryStatuses.filter(status => status.connected).length;
-      const healthScore = categoryStatuses.length > 0 
-        ? Math.round((connectedCount / categoryStatuses.length) * 100)
-        : 0;
+
+      const connectedCount = categoryStatuses.filter((status) => status.connected).length;
+      const healthScore =
+        categoryStatuses.length > 0
+          ? Math.round((connectedCount / categoryStatuses.length) * 100)
+          : 0;
 
       return {
         category,
         services: categoryStatuses,
         healthScore,
-        color: config.color
+        color: config.color,
       };
     });
   };
@@ -173,13 +174,18 @@ export function IntegrationStatusDashboard() {
     return 'text-red-500';
   };
 
-  const overallHealth = serviceHealth.length > 0 
-    ? Math.round(serviceHealth.reduce((acc, health) => acc + health.healthScore, 0) / serviceHealth.length)
-    : 0;
+  const overallHealth =
+    serviceHealth.length > 0
+      ? Math.round(
+          serviceHealth.reduce((acc, health) => acc + health.healthScore, 0) / serviceHealth.length
+        )
+      : 0;
 
   const totalServices = integrationStatuses.length;
-  const connectedServices = integrationStatuses.filter(status => status.connected).length;
-  const errorServices = integrationStatuses.filter(status => status.error && !status.connected).length;
+  const connectedServices = integrationStatuses.filter((status) => status.connected).length;
+  const errorServices = integrationStatuses.filter(
+    (status) => status.error && !status.connected
+  ).length;
 
   if (isLoading) {
     return (
@@ -209,8 +215,8 @@ export function IntegrationStatusDashboard() {
               Last updated: {lastRefresh.toLocaleTimeString()}
             </div>
           )}
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={refreshAllStatuses}
             disabled={isRefreshing}
             className="ff-hover-scale"
@@ -238,25 +244,19 @@ export function IntegrationStatusDashboard() {
               <p className="text-sm text-muted-foreground">Overall Health</p>
               <Progress value={overallHealth} className="mt-2" />
             </div>
-            
+
             <div className="text-center">
-              <div className="text-3xl font-bold mb-2 text-primary">
-                {totalServices}
-              </div>
+              <div className="text-3xl font-bold mb-2 text-primary">{totalServices}</div>
               <p className="text-sm text-muted-foreground">Total Services</p>
             </div>
-            
+
             <div className="text-center">
-              <div className="text-3xl font-bold mb-2 text-green-500">
-                {connectedServices}
-              </div>
+              <div className="text-3xl font-bold mb-2 text-green-500">{connectedServices}</div>
               <p className="text-sm text-muted-foreground">Connected</p>
             </div>
-            
+
             <div className="text-center">
-              <div className="text-3xl font-bold mb-2 text-red-500">
-                {errorServices}
-              </div>
+              <div className="text-3xl font-bold mb-2 text-red-500">{errorServices}</div>
               <p className="text-sm text-muted-foreground">With Errors</p>
             </div>
           </div>
@@ -270,19 +270,21 @@ export function IntegrationStatusDashboard() {
             <CardHeader className="pb-3">
               <CardTitle className="text-lg flex items-center justify-between">
                 <span>{health.category}</span>
-                <Badge 
-                  variant="outline" 
+                <Badge
+                  variant="outline"
                   className={`${getHealthScoreColor(health.healthScore)} border-current`}
                 >
                   {health.healthScore}%
                 </Badge>
               </CardTitle>
-              <Progress 
-                value={health.healthScore} 
+              <Progress
+                value={health.healthScore}
                 className="mt-2"
-                style={{ 
-                  '--progress-color': health.color 
-                } as React.CSSProperties}
+                style={
+                  {
+                    '--progress-color': health.color,
+                  } as React.CSSProperties
+                }
               />
             </CardHeader>
             <CardContent className="space-y-3">
@@ -316,7 +318,10 @@ export function IntegrationStatusDashboard() {
         <CardContent>
           <div className="space-y-3">
             {integrationStatuses.map((status) => (
-              <div key={status.provider} className="flex items-center justify-between p-3 border border-muted rounded-lg">
+              <div
+                key={status.provider}
+                className="flex items-center justify-between p-3 border border-muted rounded-lg"
+              >
                 <div className="flex items-center gap-3">
                   {getProviderIcon(status.provider)}
                   <div>
@@ -326,28 +331,30 @@ export function IntegrationStatusDashboard() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   {status.error && (
-                    <div className="text-sm text-red-500 max-w-xs truncate">
-                      {status.error}
-                    </div>
+                    <div className="text-sm text-red-500 max-w-xs truncate">{status.error}</div>
                   )}
-                  
+
                   <div className="flex items-center gap-2">
                     {getStatusIcon(status)}
-                    <Badge 
-                      variant={status.connected ? "default" : "destructive"}
-                      className={status.connected ? "bg-green-500" : ""}
+                    <Badge
+                      variant={status.connected ? 'default' : 'destructive'}
+                      className={status.connected ? 'bg-green-500' : ''}
                     >
                       {status.connected ? 'Connected' : 'Disconnected'}
                     </Badge>
                   </div>
-                  
-                  <Button 
-                    size="sm" 
+
+                  <Button
+                    size="sm"
                     variant="outline"
-                    onClick={() => IntegrationService.checkIntegration(status.provider).then(() => loadIntegrationStatuses())}
+                    onClick={() =>
+                      IntegrationService.checkIntegration(status.provider).then(() =>
+                        loadIntegrationStatuses()
+                      )
+                    }
                   >
                     <RefreshCw className="h-4 w-4" />
                   </Button>
@@ -363,8 +370,9 @@ export function IntegrationStatusDashboard() {
         <Alert>
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription>
-            <strong>Action Required:</strong> {errorServices} service{errorServices > 1 ? 's' : ''} 
-            {errorServices > 1 ? ' have' : ' has'} connection issues. Check your API keys and network connectivity.
+            <strong>Action Required:</strong> {errorServices} service{errorServices > 1 ? 's' : ''}
+            {errorServices > 1 ? ' have' : ' has'} connection issues. Check your API keys and
+            network connectivity.
           </AlertDescription>
         </Alert>
       )}
@@ -373,8 +381,8 @@ export function IntegrationStatusDashboard() {
         <Alert>
           <TrendingUp className="h-4 w-4" />
           <AlertDescription>
-            <strong>Performance Notice:</strong> System health is at {overallHealth}%. 
-            Consider reviewing your integration configurations to improve performance.
+            <strong>Performance Notice:</strong> System health is at {overallHealth}%. Consider
+            reviewing your integration configurations to improve performance.
           </AlertDescription>
         </Alert>
       )}

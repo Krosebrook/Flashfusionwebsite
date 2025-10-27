@@ -4,7 +4,7 @@
  * @category components
  * @version 1.1.0
  * @author FlashFusion Team
- * 
+ *
  * Simplified error state component with FlashFusion design system compliance.
  * Handles app initialization errors with recovery options.
  */
@@ -31,18 +31,18 @@ interface ErrorStateProps {
 
 /**
  * FlashFusion Error State Component (Simplified)
- * 
+ *
  * Displays error information with recovery options.
  * Follows FlashFusion design system patterns and provides actionable solutions.
- * 
+ *
  * @param props - Error state configuration
  * @returns Error state JSX
  */
-export function ErrorState({ 
-  error, 
+export function ErrorState({
+  error,
   mode = 'lite',
   onRetry,
-  onRefresh = () => window.location.reload()
+  onRefresh = () => window.location.reload(),
 }: ErrorStateProps) {
   return (
     <div className="min-h-screen bg-[var(--ff-bg-dark)] flex items-center justify-center p-4">
@@ -52,7 +52,7 @@ export function ErrorState({
             <div className="mx-auto w-16 h-16 bg-gradient-to-br from-[var(--ff-warning)] to-[var(--ff-error)] rounded-full flex items-center justify-center">
               <AlertTriangle className="w-8 h-8 text-white" />
             </div>
-            
+
             <div className="space-y-2">
               <CardTitle className="ff-text-title text-[var(--ff-text-primary)]">
                 Initialization Issue
@@ -76,9 +76,7 @@ export function ErrorState({
                     <h4 className="ff-text-sm font-semibold text-[var(--ff-error)] mb-1">
                       Error Details
                     </h4>
-                    <p className="ff-text-sm text-[var(--ff-text-secondary)]">
-                      {error}
-                    </p>
+                    <p className="ff-text-sm text-[var(--ff-text-secondary)]">{error}</p>
                   </div>
                 </div>
               </CardContent>
@@ -87,15 +85,12 @@ export function ErrorState({
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
               {onRetry && (
-                <Button
-                  onClick={onRetry}
-                  className="ff-btn-primary flex-1"
-                >
+                <Button onClick={onRetry} className="ff-btn-primary flex-1">
                   <RotateCcw className="w-4 h-4 mr-2" />
                   Try Again
                 </Button>
               )}
-              
+
               <Button
                 onClick={onRefresh}
                 variant="outline"

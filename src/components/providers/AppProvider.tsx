@@ -14,7 +14,7 @@ interface AppProviderProps {
 /**
  * Core application provider that wraps all context providers
  * and global error boundaries for the FlashFusion platform
- * 
+ *
  * Provider hierarchy:
  * 1. ErrorBoundary - Global error handling
  * 2. ConfigurationManager - App-wide configuration
@@ -23,7 +23,7 @@ interface AppProviderProps {
  * 5. NotificationProvider - Real-time notifications
  * 6. Analytics - User tracking and analytics
  */
-export function AppProvider({ children, userId = "current-user" }: AppProviderProps) {
+export function AppProvider({ children, userId = 'current-user' }: AppProviderProps) {
   return (
     <ErrorBoundary>
       <ConfigurationManager>

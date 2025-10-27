@@ -6,14 +6,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Label } from '../../ui/label';
 import { Switch } from '../../ui/switch';
 import { Alert, AlertDescription } from '../../ui/alert';
-import { 
-  GitBranch, 
-  Github, 
-  AlertCircle, 
-  CheckCircle2, 
+import {
+  GitBranch,
+  Github,
+  AlertCircle,
+  CheckCircle2,
   ExternalLink,
   Lock,
-  Unlock
+  Unlock,
 } from 'lucide-react';
 
 interface RepositoryIntegrationCardProps {
@@ -31,7 +31,7 @@ export function RepositoryIntegrationCard({
   connectedRepositories,
   selectedRepository,
   setSelectedRepository,
-  onRefreshRepositories
+  onRefreshRepositories,
 }: RepositoryIntegrationCardProps) {
   return (
     <Card className="ff-card-interactive">
@@ -41,13 +41,10 @@ export function RepositoryIntegrationCard({
             <GitBranch className="w-5 h-5 text-ff-secondary" />
             Repository Integration
           </div>
-          <Switch
-            checked={useRepository}
-            onCheckedChange={setUseRepository}
-          />
+          <Switch checked={useRepository} onCheckedChange={setUseRepository} />
         </CardTitle>
       </CardHeader>
-      
+
       <CardContent className="space-y-4">
         <div className="flex items-center justify-between">
           <p className="text-sm text-ff-text-secondary">
@@ -64,11 +61,13 @@ export function RepositoryIntegrationCard({
               <Alert>
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription className="flex items-center justify-between">
-                  <span>No repositories connected. Connect a repository to enable this feature.</span>
-                  <Button 
-                    variant="outline" 
+                  <span>
+                    No repositories connected. Connect a repository to enable this feature.
+                  </span>
+                  <Button
+                    variant="outline"
                     size="sm"
-                    onClick={() => window.location.href = '/settings?tab=repositories'}
+                    onClick={() => (window.location.href = '/settings?tab=repositories')}
                   >
                     <ExternalLink className="w-3 h-3 mr-1" />
                     Connect
@@ -99,7 +98,7 @@ export function RepositoryIntegrationCard({
                 {selectedRepository && (
                   <div className="bg-ff-surface/50 p-3 rounded-lg space-y-2">
                     {(() => {
-                      const repo = connectedRepositories.find(r => r.id === selectedRepository);
+                      const repo = connectedRepositories.find((r) => r.id === selectedRepository);
                       return repo ? (
                         <div className="space-y-2">
                           <div className="flex items-center justify-between">
@@ -117,11 +116,12 @@ export function RepositoryIntegrationCard({
                               </Badge>
                             </div>
                           </div>
-                          
+
                           {repo.analysisResult && (
                             <div className="space-y-1">
                               <p className="text-xs text-ff-text-muted">
-                                Technologies: {repo.analysisResult.technologies.slice(0, 3).join(', ')}
+                                Technologies:{' '}
+                                {repo.analysisResult.technologies.slice(0, 3).join(', ')}
                                 {repo.analysisResult.technologies.length > 3 && '...'}
                               </p>
                               <p className="text-xs text-ff-text-secondary line-clamp-2">
@@ -139,11 +139,7 @@ export function RepositoryIntegrationCard({
                   <p className="text-xs text-ff-text-muted">
                     ✨ AI will analyze your repository structure and coding patterns
                   </p>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={onRefreshRepositories}
-                  >
+                  <Button variant="ghost" size="sm" onClick={onRefreshRepositories}>
                     <GitBranch className="w-3 h-3 mr-1" />
                     Refresh
                   </Button>

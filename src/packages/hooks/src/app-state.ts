@@ -22,42 +22,44 @@ export function useAppState() {
     currentPage: 'home',
     isAuthenticated: false,
     isLoading: true,
-    connectionStatus: 'checking'
+    connectionStatus: 'checking',
   });
 
   const [error, setError] = useState<AppError | null>(null);
-  const [errorSeverity, setErrorSeverity] = useState<'info' | 'warning' | 'error' | 'critical'>('error');
+  const [errorSeverity, setErrorSeverity] = useState<'info' | 'warning' | 'error' | 'critical'>(
+    'error'
+  );
   const [retryCount, setRetryCount] = useState(0);
 
   const handleAuthToggle = useCallback(() => {
-    setAppState(prev => ({
+    setAppState((prev) => ({
       ...prev,
-      isAuthenticated: !prev.isAuthenticated
+      isAuthenticated: !prev.isAuthenticated,
     }));
   }, []);
 
   const handlePageChange = useCallback((page: PageType) => {
-    setAppState(prev => ({
+    setAppState((prev) => ({
       ...prev,
-      currentPage: page
+      currentPage: page,
     }));
   }, []);
 
   const handleRetry = useCallback(() => {
-    setRetryCount(prev => prev + 1);
+    setRetryCount((prev) => prev + 1);
     setError(null);
-    setAppState(prev => ({
+    setAppState((prev) => ({
       ...prev,
       isLoading: true,
-      connectionStatus: 'checking'
+      connectionStatus: 'checking',
     }));
 
     // Simulate retry logic
     setTimeout(() => {
-      setAppState(prev => ({
+      setAppState((prev) => ({
         ...prev,
         isLoading: false,
-        connectionStatus: 'connected'
+        connectionStatus: 'connected',
       }));
     }, 1000);
   }, []);
@@ -67,24 +69,24 @@ export function useAppState() {
     const initializeApp = async () => {
       try {
         // Simulate initialization
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        setAppState(prev => ({
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        setAppState((prev) => ({
           ...prev,
           isLoading: false,
-          connectionStatus: 'connected'
+          connectionStatus: 'connected',
         }));
       } catch (err) {
         setError({
           type: 'INITIALIZATION_ERROR',
           message: 'Failed to initialize application',
           recoverable: true,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         });
-        setAppState(prev => ({
+        setAppState((prev) => ({
           ...prev,
           isLoading: false,
-          connectionStatus: 'disconnected'
+          connectionStatus: 'disconnected',
         }));
       }
     };
@@ -99,6 +101,6 @@ export function useAppState() {
     retryCount,
     handleAuthToggle,
     handlePageChange,
-    handleRetry
+    handleRetry,
   };
 }

@@ -6,7 +6,7 @@ import { motion } from 'motion/react';
 export default function FAQPage() {
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -16,7 +16,8 @@ export default function FAQPage() {
           <h1 className="ff-text-gradient">Frequently Asked Questions</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Find answers to common questions about FlashFusion, our platform features, and how to get the most out of our tools.
+          Find answers to common questions about FlashFusion, our platform features, and how to get
+          the most out of our tools.
         </p>
       </motion.div>
 
@@ -30,13 +31,12 @@ export default function FAQPage() {
             <Zap className="w-12 h-12 text-primary mx-auto mb-4" />
             <CardTitle>FAQ Coming Soon</CardTitle>
             <CardDescription>
-              We're compiling the most frequently asked questions and comprehensive answers to help you get started quickly.
+              We're compiling the most frequently asked questions and comprehensive answers to help
+              you get started quickly.
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center">
-            <Badge className="ff-badge-glow">
-              In Development
-            </Badge>
+            <Badge className="ff-badge-glow">In Development</Badge>
           </CardContent>
         </Card>
       </motion.div>

@@ -14,7 +14,11 @@ import { Input } from '../../../ui/input';
 import { ScrollArea } from '../../../ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../ui/tabs';
 import { Search, Star, Sparkles, Crown } from 'lucide-react';
-import { STYLE_PRESETS, type StylePreset, type StyleCategory } from '../../../../types/image-generation';
+import {
+  STYLE_PRESETS,
+  type StylePreset,
+  type StyleCategory,
+} from '../../../../types/image-generation';
 
 interface StylePresetSelectorProps {
   selectedStyle: string;
@@ -23,46 +27,47 @@ interface StylePresetSelectorProps {
 }
 
 const CATEGORY_ICONS: Record<StyleCategory, React.ComponentType<{ className?: string }>> = {
-  'photorealistic': Search,
-  'artistic': Star,
-  'anime': Sparkles,
+  photorealistic: Search,
+  artistic: Star,
+  anime: Sparkles,
   'digital-art': Star,
   'concept-art': Star,
-  'portrait': Search,
-  'landscape': Search,
-  'abstract': Star,
-  'vintage': Star,
-  'minimalist': Star,
-  'cyberpunk': Sparkles,
-  'fantasy': Sparkles,
+  portrait: Search,
+  landscape: Search,
+  abstract: Star,
+  vintage: Star,
+  minimalist: Star,
+  cyberpunk: Sparkles,
+  fantasy: Sparkles,
   'sci-fi': Sparkles,
-  'architecture': Search,
-  'fashion': Search
+  architecture: Search,
+  fashion: Search,
 };
 
 export function StylePresetSelector({
   selectedStyle,
   onStyleSelect,
-  showAdvanced = false
+  showAdvanced = false,
 }: StylePresetSelectorProps): JSX.Element {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<StyleCategory | 'all'>('all');
 
   // Get unique categories
   const categories = useMemo(() => {
-    const cats = [...new Set(STYLE_PRESETS.map(preset => preset.category))];
+    const cats = [...new Set(STYLE_PRESETS.map((preset) => preset.category))];
     return cats.sort();
   }, []);
 
   // Filter presets based on search and category
   const filteredPresets = useMemo(() => {
-    return STYLE_PRESETS.filter(preset => {
-      const matchesSearch = preset.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           preset.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           preset.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-      
+    return STYLE_PRESETS.filter((preset) => {
+      const matchesSearch =
+        preset.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        preset.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        preset.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+
       const matchesCategory = selectedCategory === 'all' || preset.category === selectedCategory;
-      
+
       return matchesSearch && matchesCategory;
     }).sort((a, b) => b.popularity - a.popularity);
   }, [searchTerm, selectedCategory]);
@@ -70,11 +75,11 @@ export function StylePresetSelector({
   // Group presets by category for tabbed view
   const presetsByCategory = useMemo(() => {
     const grouped: Record<StyleCategory | 'all', StylePreset[]> = { all: filteredPresets };
-    
-    categories.forEach(category => {
-      grouped[category] = filteredPresets.filter(preset => preset.category === category);
+
+    categories.forEach((category) => {
+      grouped[category] = filteredPresets.filter((preset) => preset.category === category);
     });
-    
+
     return grouped;
   }, [filteredPresets, categories]);
 
@@ -103,7 +108,10 @@ export function StylePresetSelector({
         </div>
 
         {/* Category Tabs */}
-        <Tabs value={selectedCategory} onValueChange={(value) => setSelectedCategory(value as StyleCategory | 'all')}>
+        <Tabs
+          value={selectedCategory}
+          onValueChange={(value) => setSelectedCategory(value as StyleCategory | 'all')}
+        >
           <TabsList className="grid grid-cols-3 lg:grid-cols-5 w-full">
             <TabsTrigger value="all" className="text-xs">
               All
@@ -125,13 +133,13 @@ export function StylePresetSelector({
               {filteredPresets.map((preset) => {
                 const isSelected = selectedStyle === preset.id;
                 const Icon = CATEGORY_ICONS[preset.category];
-                
+
                 return (
                   <Card
                     key={preset.id}
                     className={`cursor-pointer transition-all duration-200 hover:scale-105 ${
-                      isSelected 
-                        ? 'ring-2 ring-[var(--ff-primary)] bg-gradient-to-br from-[var(--ff-primary)]/10 to-transparent' 
+                      isSelected
+                        ? 'ring-2 ring-[var(--ff-primary)] bg-gradient-to-br from-[var(--ff-primary)]/10 to-transparent'
                         : 'hover:shadow-lg'
                     }`}
                     onClick={() => handleStyleSelect(preset)}
@@ -151,17 +159,20 @@ export function StylePresetSelector({
                             <Icon className="h-8 w-8 text-[var(--ff-text-muted)]" />
                           </div>
                         )}
-                        
+
                         {/* Premium Badge */}
                         {preset.isPremium && (
                           <div className="absolute top-1 right-1">
-                            <Badge variant="secondary" className="text-xs bg-gradient-to-r from-yellow-400 to-yellow-600 text-black">
+                            <Badge
+                              variant="secondary"
+                              className="text-xs bg-gradient-to-r from-yellow-400 to-yellow-600 text-black"
+                            >
                               <Crown className="h-3 w-3 mr-1" />
                               Pro
                             </Badge>
                           </div>
                         )}
-                        
+
                         {/* Selection Indicator */}
                         {isSelected && (
                           <div className="absolute inset-0 bg-[var(--ff-primary)]/20 flex items-center justify-center">
@@ -185,19 +196,15 @@ export function StylePresetSelector({
                             </span>
                           </div>
                         </div>
-                        
+
                         <p className="text-xs text-[var(--ff-text-secondary)] line-clamp-2">
                           {preset.description}
                         </p>
-                        
+
                         {/* Tags */}
                         <div className="flex flex-wrap gap-1 pt-1">
                           {preset.tags.slice(0, 2).map((tag) => (
-                            <Badge
-                              key={tag}
-                              variant="outline"
-                              className="text-xs px-1 py-0"
-                            >
+                            <Badge key={tag} variant="outline" className="text-xs px-1 py-0">
                               {tag}
                             </Badge>
                           ))}
@@ -213,7 +220,7 @@ export function StylePresetSelector({
                 );
               })}
             </div>
-            
+
             {filteredPresets.length === 0 && (
               <div className="flex flex-col items-center justify-center py-8 space-y-2">
                 <Search className="h-8 w-8 text-[var(--ff-text-muted)]" />
@@ -241,9 +248,9 @@ export function StylePresetSelector({
           <Card className="bg-[var(--ff-surface-light)]/50 border-[var(--ff-primary)]/20">
             <CardContent className="pt-4">
               {(() => {
-                const preset = STYLE_PRESETS.find(p => p.id === selectedStyle);
+                const preset = STYLE_PRESETS.find((p) => p.id === selectedStyle);
                 if (!preset) return null;
-                
+
                 return (
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
@@ -251,7 +258,10 @@ export function StylePresetSelector({
                         {preset.category.replace('-', ' ')}
                       </Badge>
                       {preset.isPremium && (
-                        <Badge variant="outline" className="text-xs text-yellow-600 border-yellow-600/20">
+                        <Badge
+                          variant="outline"
+                          className="text-xs text-yellow-600 border-yellow-600/20"
+                        >
                           Premium
                         </Badge>
                       )}
@@ -259,7 +269,7 @@ export function StylePresetSelector({
                         Popularity: {preset.popularity}%
                       </Badge>
                     </div>
-                    
+
                     {preset.recommendedSettings && (
                       <div className="space-y-2">
                         <h5 className="text-sm font-semibold text-[var(--ff-text-primary)]">
@@ -275,12 +285,13 @@ export function StylePresetSelector({
                         </div>
                         {preset.recommendedSettings.negativePrompt && (
                           <div className="text-xs text-[var(--ff-text-secondary)]">
-                            <strong>Negative prompt:</strong> {preset.recommendedSettings.negativePrompt}
+                            <strong>Negative prompt:</strong>{' '}
+                            {preset.recommendedSettings.negativePrompt}
                           </div>
                         )}
                       </div>
                     )}
-                    
+
                     {preset.promptEnhancements && preset.promptEnhancements.length > 0 && (
                       <div className="space-y-2">
                         <h5 className="text-sm font-semibold text-[var(--ff-text-primary)]">

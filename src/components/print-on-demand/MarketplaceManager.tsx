@@ -11,8 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Progress } from '../ui/progress';
 import { Switch } from '../ui/switch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
-import { toast } from "sonner@2.0.3";
-import { 
+import { toast } from 'sonner@2.0.3';
+import {
   Plus,
   RefreshCw,
   Settings,
@@ -44,7 +44,7 @@ import {
   Link,
   Unlink,
   Power,
-  PowerOff
+  PowerOff,
 } from 'lucide-react';
 import { MARKETPLACES, ORDER_STATUSES } from '../../constants/print-on-demand';
 
@@ -130,17 +130,17 @@ const MOCK_CONNECTIONS: MarketplaceConnection[] = [
       totalListings: 47,
       activeListings: 43,
       totalSales: 284,
-      monthlyRevenue: 2847.50,
+      monthlyRevenue: 2847.5,
       conversionRate: 3.2,
-      averageOrderValue: 18.95
+      averageOrderValue: 18.95,
     },
     settings: {
       autoSync: true,
       syncInterval: 6,
       autoPublish: false,
       priceSync: true,
-      inventorySync: true
-    }
+      inventorySync: true,
+    },
   },
   {
     id: 'conn_amazon_001',
@@ -156,15 +156,15 @@ const MOCK_CONNECTIONS: MarketplaceConnection[] = [
       totalSales: 156,
       monthlyRevenue: 1923.75,
       conversionRate: 5.1,
-      averageOrderValue: 24.50
+      averageOrderValue: 24.5,
     },
     settings: {
       autoSync: true,
       syncInterval: 12,
       autoPublish: true,
       priceSync: true,
-      inventorySync: true
-    }
+      inventorySync: true,
+    },
   },
   {
     id: 'conn_shopify_001',
@@ -180,16 +180,16 @@ const MOCK_CONNECTIONS: MarketplaceConnection[] = [
       totalSales: 0,
       monthlyRevenue: 0,
       conversionRate: 0,
-      averageOrderValue: 0
+      averageOrderValue: 0,
     },
     settings: {
       autoSync: false,
       syncInterval: 24,
       autoPublish: false,
       priceSync: false,
-      inventorySync: false
-    }
-  }
+      inventorySync: false,
+    },
+  },
 ];
 
 // Mock listings data
@@ -199,7 +199,8 @@ const MOCK_LISTINGS: ProductListing[] = [
     marketplaceId: 'etsy',
     productId: 'prod_001',
     title: 'Motivational Quote T-Shirt - Dream Big Work Hard',
-    description: 'Premium cotton t-shirt with inspirational design perfect for entrepreneurs and go-getters.',
+    description:
+      'Premium cotton t-shirt with inspirational design perfect for entrepreneurs and go-getters.',
     price: 24.99,
     status: 'active',
     views: 1247,
@@ -211,8 +212,8 @@ const MOCK_LISTINGS: ProductListing[] = [
     tags: ['motivational', 't-shirt', 'entrepreneur', 'inspiration'],
     marketplace: {
       name: 'Etsy',
-      listingUrl: 'https://etsy.com/listing/123456789'
-    }
+      listingUrl: 'https://etsy.com/listing/123456789',
+    },
   },
   {
     id: 'listing_002',
@@ -231,8 +232,8 @@ const MOCK_LISTINGS: ProductListing[] = [
     tags: ['poster', 'wall-art', 'geometric', 'modern'],
     marketplace: {
       name: 'Amazon',
-      listingUrl: 'https://amazon.com/dp/B08XYZ123'
-    }
+      listingUrl: 'https://amazon.com/dp/B08XYZ123',
+    },
   },
   {
     id: 'listing_003',
@@ -251,12 +252,17 @@ const MOCK_LISTINGS: ProductListing[] = [
     tags: ['hoodie', 'vintage', 'badge', 'casual'],
     marketplace: {
       name: 'Etsy',
-      listingUrl: ''
-    }
-  }
+      listingUrl: '',
+    },
+  },
 ];
 
-export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyncListings }: MarketplaceManagerProps) {
+export function MarketplaceManager({
+  user,
+  userTier,
+  onConnectMarketplace,
+  onSyncListings,
+}: MarketplaceManagerProps) {
   const [connections, setConnections] = useState<MarketplaceConnection[]>(MOCK_CONNECTIONS);
   const [listings, setListings] = useState<ProductListing[]>(MOCK_LISTINGS);
   const [syncOperations, setSyncOperations] = useState<SyncOperation[]>([]);
@@ -271,12 +277,12 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
 
   // Connect to marketplace
   const connectMarketplace = async (marketplaceId: string, credentials: any) => {
-    const marketplace = Object.values(MARKETPLACES).find(m => m.id === marketplaceId);
+    const marketplace = Object.values(MARKETPLACES).find((m) => m.id === marketplaceId);
     if (!marketplace) return;
 
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       const newConnection: MarketplaceConnection = {
         id: `conn_${marketplaceId}_${Date.now()}`,
@@ -292,22 +298,21 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
           totalSales: 0,
           monthlyRevenue: 0,
           conversionRate: 0,
-          averageOrderValue: 0
+          averageOrderValue: 0,
         },
         settings: {
           autoSync: true,
           syncInterval: 6,
           autoPublish: false,
           priceSync: true,
-          inventorySync: true
-        }
+          inventorySync: true,
+        },
       };
 
-      setConnections(prev => [...prev, newConnection]);
+      setConnections((prev) => [...prev, newConnection]);
       onConnectMarketplace(marketplaceId, credentials);
       setShowConnectModal(false);
       toast.success(`Connected to ${marketplace.name} successfully!`);
-      
     } catch (error) {
       toast.error(`Failed to connect to ${marketplace.name}. Please check your credentials.`);
     }
@@ -315,19 +320,24 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
 
   // Disconnect marketplace
   const disconnectMarketplace = (connectionId: string) => {
-    const connection = connections.find(c => c.id === connectionId);
+    const connection = connections.find((c) => c.id === connectionId);
     if (!connection) return;
 
-    setConnections(prev => prev.map(c => 
-      c.id === connectionId ? { ...c, connected: false, status: 'error' as const } : c
-    ));
-    
+    setConnections((prev) =>
+      prev.map((c) =>
+        c.id === connectionId ? { ...c, connected: false, status: 'error' as const } : c
+      )
+    );
+
     toast.success(`Disconnected from ${connection.name}`);
   };
 
   // Sync marketplace data
-  const syncMarketplace = async (connectionId: string, type: SyncOperation['type'] = 'listings') => {
-    const connection = connections.find(c => c.id === connectionId);
+  const syncMarketplace = async (
+    connectionId: string,
+    type: SyncOperation['type'] = 'listings'
+  ) => {
+    const connection = connections.find((c) => c.id === connectionId);
     if (!connection) return;
 
     const operationId = `sync_${Date.now()}`;
@@ -337,11 +347,11 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
       status: 'running',
       progress: 0,
       message: `Starting ${type} sync...`,
-      startTime: new Date().toISOString()
+      startTime: new Date().toISOString(),
     };
 
-    setSyncOperations(prev => [...prev, newOperation]);
-    
+    setSyncOperations((prev) => [...prev, newOperation]);
+
     try {
       // Simulate sync progress
       const stages = [
@@ -349,88 +359,108 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
         { progress: 40, message: 'Fetching data...' },
         { progress: 60, message: 'Processing updates...' },
         { progress: 80, message: 'Saving changes...' },
-        { progress: 100, message: 'Sync completed successfully!' }
+        { progress: 100, message: 'Sync completed successfully!' },
       ];
 
       for (const stage of stages) {
-        setSyncOperations(prev => prev.map(op => 
-          op.id === operationId ? { ...op, progress: stage.progress, message: stage.message } : op
-        ));
-        await new Promise(resolve => setTimeout(resolve, 800));
+        setSyncOperations((prev) =>
+          prev.map((op) =>
+            op.id === operationId ? { ...op, progress: stage.progress, message: stage.message } : op
+          )
+        );
+        await new Promise((resolve) => setTimeout(resolve, 800));
       }
 
       // Update connection stats
-      setConnections(prev => prev.map(c => 
-        c.id === connectionId ? { 
-          ...c, 
-          lastSync: new Date().toISOString(),
-          stats: {
-            ...c.stats,
-            totalListings: c.stats.totalListings + Math.floor(Math.random() * 5),
-            activeListings: c.stats.activeListings + Math.floor(Math.random() * 3),
-            monthlyRevenue: c.stats.monthlyRevenue + (Math.random() * 100)
-          }
-        } : c
-      ));
+      setConnections((prev) =>
+        prev.map((c) =>
+          c.id === connectionId
+            ? {
+                ...c,
+                lastSync: new Date().toISOString(),
+                stats: {
+                  ...c.stats,
+                  totalListings: c.stats.totalListings + Math.floor(Math.random() * 5),
+                  activeListings: c.stats.activeListings + Math.floor(Math.random() * 3),
+                  monthlyRevenue: c.stats.monthlyRevenue + Math.random() * 100,
+                },
+              }
+            : c
+        )
+      );
 
       // Complete operation
-      setSyncOperations(prev => prev.map(op => 
-        op.id === operationId ? { 
-          ...op, 
-          status: 'completed' as const, 
-          endTime: new Date().toISOString(),
-          results: {
-            processed: 25,
-            updated: 23,
-            errors: 0
-          }
-        } : op
-      ));
+      setSyncOperations((prev) =>
+        prev.map((op) =>
+          op.id === operationId
+            ? {
+                ...op,
+                status: 'completed' as const,
+                endTime: new Date().toISOString(),
+                results: {
+                  processed: 25,
+                  updated: 23,
+                  errors: 0,
+                },
+              }
+            : op
+        )
+      );
 
       onSyncListings();
       toast.success(`${type} sync completed successfully!`);
-      
     } catch (error) {
-      setSyncOperations(prev => prev.map(op => 
-        op.id === operationId ? { 
-          ...op, 
-          status: 'failed' as const,
-          message: 'Sync failed. Please try again.',
-          endTime: new Date().toISOString()
-        } : op
-      ));
+      setSyncOperations((prev) =>
+        prev.map((op) =>
+          op.id === operationId
+            ? {
+                ...op,
+                status: 'failed' as const,
+                message: 'Sync failed. Please try again.',
+                endTime: new Date().toISOString(),
+              }
+            : op
+        )
+      );
       toast.error('Sync failed. Please check your connection and try again.');
     }
   };
 
   // Update listing status
   const updateListingStatus = (listingId: string, status: ProductListing['status']) => {
-    setListings(prev => prev.map(listing => 
-      listing.id === listingId ? { ...listing, status, lastUpdated: new Date().toISOString() } : listing
-    ));
+    setListings((prev) =>
+      prev.map((listing) =>
+        listing.id === listingId
+          ? { ...listing, status, lastUpdated: new Date().toISOString() }
+          : listing
+      )
+    );
     toast.success('Listing status updated');
   };
 
   // Calculate total stats
-  const totalStats = connections.reduce((acc, conn) => ({
-    totalListings: acc.totalListings + conn.stats.totalListings,
-    activeListings: acc.activeListings + conn.stats.activeListings,
-    totalSales: acc.totalSales + conn.stats.totalSales,
-    monthlyRevenue: acc.monthlyRevenue + conn.stats.monthlyRevenue,
-    avgConversionRate: acc.avgConversionRate + conn.stats.conversionRate,
-    avgOrderValue: acc.avgOrderValue + conn.stats.averageOrderValue
-  }), {
-    totalListings: 0,
-    activeListings: 0,
-    totalSales: 0,
-    monthlyRevenue: 0,
-    avgConversionRate: 0,
-    avgOrderValue: 0
-  });
+  const totalStats = connections.reduce(
+    (acc, conn) => ({
+      totalListings: acc.totalListings + conn.stats.totalListings,
+      activeListings: acc.activeListings + conn.stats.activeListings,
+      totalSales: acc.totalSales + conn.stats.totalSales,
+      monthlyRevenue: acc.monthlyRevenue + conn.stats.monthlyRevenue,
+      avgConversionRate: acc.avgConversionRate + conn.stats.conversionRate,
+      avgOrderValue: acc.avgOrderValue + conn.stats.averageOrderValue,
+    }),
+    {
+      totalListings: 0,
+      activeListings: 0,
+      totalSales: 0,
+      monthlyRevenue: 0,
+      avgConversionRate: 0,
+      avgOrderValue: 0,
+    }
+  );
 
   // Filter and sort listings
   const filteredListings = listings
-    .filter(listing => {
+    .filter((listing) => {
       if (filterStatus !== 'all' && listing.status !== filterStatus) return false;
       if (filterMarketplace !== 'all' && listing.marketplaceId !== filterMarketplace) return false;
       return true;
@@ -445,7 +475,7 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
     const [credentials, setCredentials] = useState<Record<string, string>>({});
     const [isConnecting, setIsConnecting] = useState(false);
 
-    const marketplace = Object.values(MARKETPLACES).find(m => m.id === selectedMarketplace);
+    const marketplace = Object.values(MARKETPLACES).find((m) => m.id === selectedMarketplace);
     if (!marketplace) return null;
 
     const handleConnect = async () => {
@@ -461,7 +491,7 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
           <DialogHeader>
             <DialogTitle>Connect to {marketplace.name}</DialogTitle>
           </DialogHeader>
-          
+
           <div className="space-y-4">
             <div className="flex items-center space-x-3 p-3 bg-muted/30 rounded-lg">
               <Globe className="h-8 w-8 text-primary" />
@@ -477,12 +507,18 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
               <div key={requirement}>
                 <Label className="capitalize">{requirement.replace('_', ' ')}</Label>
                 <Input
-                  type={requirement.includes('key') || requirement.includes('token') ? 'password' : 'text'}
+                  type={
+                    requirement.includes('key') || requirement.includes('token')
+                      ? 'password'
+                      : 'text'
+                  }
                   value={credentials[requirement] || ''}
-                  onChange={(e) => setCredentials(prev => ({ 
-                    ...prev, 
-                    [requirement]: e.target.value 
-                  }))}
+                  onChange={(e) =>
+                    setCredentials((prev) => ({
+                      ...prev,
+                      [requirement]: e.target.value,
+                    }))
+                  }
                   placeholder={`Enter your ${requirement.replace('_', ' ')}`}
                 />
               </div>
@@ -504,7 +540,7 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
               </Button>
               <Button
                 onClick={handleConnect}
-                disabled={isConnecting || marketplace.requirements.some(req => !credentials[req])}
+                disabled={isConnecting || marketplace.requirements.some((req) => !credentials[req])}
                 className="flex-1 bg-gradient-to-r from-primary to-secondary"
               >
                 {isConnecting ? (
@@ -538,21 +574,23 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
             Connect and manage your listings across multiple marketplaces
           </p>
         </div>
-        
+
         <div className="flex gap-3">
           <Button
             variant="outline"
             onClick={() => {
-              connections.forEach(conn => {
+              connections.forEach((conn) => {
                 if (conn.connected) syncMarketplace(conn.id);
               });
             }}
-            disabled={syncOperations.some(op => op.status === 'running')}
+            disabled={syncOperations.some((op) => op.status === 'running')}
           >
-            <RefreshCw className={`h-4 w-4 mr-2 ${syncOperations.some(op => op.status === 'running') ? 'animate-spin' : ''}`} />
+            <RefreshCw
+              className={`h-4 w-4 mr-2 ${syncOperations.some((op) => op.status === 'running') ? 'animate-spin' : ''}`}
+            />
             Sync All
           </Button>
-          <Button 
+          <Button
             className="bg-gradient-to-r from-primary to-secondary"
             onClick={() => setShowConnectModal(true)}
           >
@@ -569,9 +607,7 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
             <div>
               <p className="text-sm text-muted-foreground">Total Listings</p>
               <p className="text-2xl font-bold">{totalStats.totalListings}</p>
-              <p className="text-xs text-muted-foreground">
-                {totalStats.activeListings} active
-              </p>
+              <p className="text-xs text-muted-foreground">{totalStats.activeListings} active</p>
             </div>
             <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
               <ShoppingBag className="h-6 w-6 text-primary" />
@@ -641,18 +677,22 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
           {/* Connected Marketplaces */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {Object.values(MARKETPLACES).map((marketplace) => {
-              const connection = connections.find(c => c.marketplaceId === marketplace.id);
-              
+              const connection = connections.find((c) => c.marketplaceId === marketplace.id);
+
               return (
                 <Card key={marketplace.id} className="p-6 ff-card-interactive">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center space-x-3">
-                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                        connection?.connected ? 'bg-green-100 dark:bg-green-900/30' : 'bg-muted'
-                      }`}>
-                        <Globe className={`h-6 w-6 ${
-                          connection?.connected ? 'text-green-600' : 'text-muted-foreground'
-                        }`} />
+                      <div
+                        className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                          connection?.connected ? 'bg-green-100 dark:bg-green-900/30' : 'bg-muted'
+                        }`}
+                      >
+                        <Globe
+                          className={`h-6 w-6 ${
+                            connection?.connected ? 'text-green-600' : 'text-muted-foreground'
+                          }`}
+                        />
                       </div>
                       <div>
                         <h3 className="font-semibold">{marketplace.name}</h3>
@@ -661,7 +701,7 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
                         </p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-2">
                       {connection?.connected ? (
                         <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
@@ -681,7 +721,9 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div className="text-center">
-                          <div className="text-lg font-semibold">{connection.stats.totalListings}</div>
+                          <div className="text-lg font-semibold">
+                            {connection.stats.totalListings}
+                          </div>
                           <div className="text-xs text-muted-foreground">Total Listings</div>
                         </div>
                         <div className="text-center">
@@ -702,7 +744,7 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
                           variant="outline"
                           size="sm"
                           onClick={() => syncMarketplace(connection.id)}
-                          disabled={syncOperations.some(op => op.status === 'running')}
+                          disabled={syncOperations.some((op) => op.status === 'running')}
                           className="flex-1"
                         >
                           <RefreshCw className="h-3 w-3 mr-1" />
@@ -730,7 +772,7 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
                       <div className="text-sm text-muted-foreground">
                         Connect to start listing your products on {marketplace.name}
                       </div>
-                      
+
                       <div className="space-y-2">
                         <div className="text-sm">Features:</div>
                         <div className="flex flex-wrap gap-1">
@@ -812,7 +854,11 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
                   size="sm"
                   onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
                 >
-                  {sortOrder === 'desc' ? <TrendingDown className="h-4 w-4" /> : <TrendingUp className="h-4 w-4" />}
+                  {sortOrder === 'desc' ? (
+                    <TrendingDown className="h-4 w-4" />
+                  ) : (
+                    <TrendingUp className="h-4 w-4" />
+                  )}
                 </Button>
               </div>
 
@@ -834,17 +880,21 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
             {filteredListings.map((listing) => (
               <Card key={listing.id} className="overflow-hidden ff-card-interactive">
                 <div className="aspect-video bg-muted relative">
-                  <img 
-                    src={listing.images[0]} 
+                  <img
+                    src={listing.images[0]}
                     alt={listing.title}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute top-2 right-2">
-                    <Badge 
+                    <Badge
                       className={
-                        listing.status === 'active' ? 'bg-green-500' :
-                        listing.status === 'pending' ? 'bg-yellow-500' :
-                        listing.status === 'inactive' ? 'bg-gray-500' : 'bg-red-500'
+                        listing.status === 'active'
+                          ? 'bg-green-500'
+                          : listing.status === 'pending'
+                            ? 'bg-yellow-500'
+                            : listing.status === 'inactive'
+                              ? 'bg-gray-500'
+                              : 'bg-red-500'
                       }
                     >
                       {listing.status}
@@ -856,7 +906,7 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
                     </Badge>
                   </div>
                 </div>
-                
+
                 <div className="p-4 space-y-3">
                   <div>
                     <h3 className="font-semibold line-clamp-2 text-sm">{listing.title}</h3>
@@ -878,7 +928,9 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div>
                       <span className="text-muted-foreground">Revenue:</span>
-                      <div className="font-semibold text-green-600">${listing.revenue.toFixed(2)}</div>
+                      <div className="font-semibold text-green-600">
+                        ${listing.revenue.toFixed(2)}
+                      </div>
                     </div>
                     <div>
                       <span className="text-muted-foreground">Favorites:</span>
@@ -908,15 +960,21 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
                     <Button variant="outline" size="sm">
                       <Edit className="h-3 w-3" />
                     </Button>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
-                      onClick={() => updateListingStatus(
-                        listing.id, 
-                        listing.status === 'active' ? 'inactive' : 'active'
-                      )}
+                      onClick={() =>
+                        updateListingStatus(
+                          listing.id,
+                          listing.status === 'active' ? 'inactive' : 'active'
+                        )
+                      }
                     >
-                      {listing.status === 'active' ? <PowerOff className="h-3 w-3" /> : <Power className="h-3 w-3" />}
+                      {listing.status === 'active' ? (
+                        <PowerOff className="h-3 w-3" />
+                      ) : (
+                        <Power className="h-3 w-3" />
+                      )}
                     </Button>
                   </div>
                 </div>
@@ -929,10 +987,9 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
               <ShoppingBag className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
               <h3 className="text-lg font-semibold mb-2">No listings found</h3>
               <p className="text-muted-foreground mb-4">
-                {filterStatus !== 'all' || filterMarketplace !== 'all' 
+                {filterStatus !== 'all' || filterMarketplace !== 'all'
                   ? 'Try adjusting your filters to see more listings'
-                  : 'Create your first listing to start selling your designs'
-                }
+                  : 'Create your first listing to start selling your designs'}
               </p>
               <Button className="bg-gradient-to-r from-primary to-secondary">
                 <Plus className="h-4 w-4 mr-2" />
@@ -946,7 +1003,7 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
           {/* Active Sync Operations */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Sync Operations</h3>
-            
+
             {syncOperations.length === 0 ? (
               <Card className="p-8 text-center">
                 <Activity className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
@@ -962,20 +1019,27 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <div className="flex items-center space-x-2">
-                          <Badge className={
-                            operation.status === 'running' ? 'bg-blue-500' :
-                            operation.status === 'completed' ? 'bg-green-500' : 'bg-red-500'
-                          }>
-                            {operation.status === 'running' && <RefreshCw className="h-3 w-3 mr-1 animate-spin" />}
-                            {operation.status === 'completed' && <CheckCircle className="h-3 w-3 mr-1" />}
+                          <Badge
+                            className={
+                              operation.status === 'running'
+                                ? 'bg-blue-500'
+                                : operation.status === 'completed'
+                                  ? 'bg-green-500'
+                                  : 'bg-red-500'
+                            }
+                          >
+                            {operation.status === 'running' && (
+                              <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+                            )}
+                            {operation.status === 'completed' && (
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                            )}
                             {operation.status === 'failed' && <XCircle className="h-3 w-3 mr-1" />}
                             {operation.status}
                           </Badge>
                           <span className="font-medium capitalize">{operation.type} Sync</span>
                         </div>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {operation.message}
-                        </p>
+                        <p className="text-sm text-muted-foreground mt-1">{operation.message}</p>
                       </div>
                       <div className="text-sm text-muted-foreground">
                         {new Date(operation.startTime).toLocaleTimeString()}
@@ -998,11 +1062,15 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
                           <div className="text-xs text-muted-foreground">Processed</div>
                         </div>
                         <div className="text-center">
-                          <div className="text-lg font-semibold text-green-600">{operation.results.updated}</div>
+                          <div className="text-lg font-semibold text-green-600">
+                            {operation.results.updated}
+                          </div>
                           <div className="text-xs text-muted-foreground">Updated</div>
                         </div>
                         <div className="text-center">
-                          <div className="text-lg font-semibold text-red-600">{operation.results.errors}</div>
+                          <div className="text-lg font-semibold text-red-600">
+                            {operation.results.errors}
+                          </div>
                           <div className="text-xs text-muted-foreground">Errors</div>
                         </div>
                       </div>
@@ -1020,25 +1088,31 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
             <Card className="p-6">
               <h3 className="text-lg font-semibold mb-4">Performance by Marketplace</h3>
               <div className="space-y-4">
-                {connections.filter(c => c.connected).map((connection) => (
-                  <div key={connection.id} className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium">{connection.name}</span>
-                      <span className="text-sm text-muted-foreground">
-                        ${connection.stats.monthlyRevenue.toFixed(2)}
-                      </span>
+                {connections
+                  .filter((c) => c.connected)
+                  .map((connection) => (
+                    <div key={connection.id} className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium">{connection.name}</span>
+                        <span className="text-sm text-muted-foreground">
+                          ${connection.stats.monthlyRevenue.toFixed(2)}
+                        </span>
+                      </div>
+                      <Progress
+                        value={
+                          (connection.stats.monthlyRevenue /
+                            Math.max(...connections.map((c) => c.stats.monthlyRevenue))) *
+                          100
+                        }
+                        className="h-2"
+                      />
+                      <div className="grid grid-cols-3 gap-2 text-xs text-muted-foreground">
+                        <div>{connection.stats.totalListings} listings</div>
+                        <div>{connection.stats.totalSales} sales</div>
+                        <div>{connection.stats.conversionRate}% conversion</div>
+                      </div>
                     </div>
-                    <Progress 
-                      value={(connection.stats.monthlyRevenue / Math.max(...connections.map(c => c.stats.monthlyRevenue))) * 100} 
-                      className="h-2" 
-                    />
-                    <div className="grid grid-cols-3 gap-2 text-xs text-muted-foreground">
-                      <div>{connection.stats.totalListings} listings</div>
-                      <div>{connection.stats.totalSales} sales</div>
-                      <div>{connection.stats.conversionRate}% conversion</div>
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </Card>
 
@@ -1051,9 +1125,12 @@ export function MarketplaceManager({ user, userTier, onConnectMarketplace, onSyn
                   { time: '4 hours ago', action: 'Listing updated on Amazon', amount: '' },
                   { time: '6 hours ago', action: 'New listing published', amount: '' },
                   { time: '1 day ago', action: 'Sync completed successfully', amount: '' },
-                  { time: '1 day ago', action: 'New order on Amazon', amount: '$18.95' }
+                  { time: '1 day ago', action: 'New order on Amazon', amount: '$18.95' },
                 ].map((activity, index) => (
-                  <div key={index} className="flex items-center justify-between py-2 border-b border-border last:border-0">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between py-2 border-b border-border last:border-0"
+                  >
                     <div>
                       <div className="text-sm font-medium">{activity.action}</div>
                       <div className="text-xs text-muted-foreground">{activity.time}</div>

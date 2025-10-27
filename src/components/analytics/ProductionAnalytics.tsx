@@ -19,9 +19,9 @@ import {
   Pie,
   Cell,
   AreaChart,
-  Area
+  Area,
 } from 'recharts';
-import { 
+import {
   Activity,
   Users,
   TrendingUp,
@@ -35,7 +35,7 @@ import {
   Monitor,
   Target,
   RefreshCw,
-  Download
+  Download,
 } from 'lucide-react';
 import { cn } from '../ui/utils';
 
@@ -133,7 +133,7 @@ export const ProductionAnalytics: React.FC<ProductionAnalyticsProps> = ({ classN
   // Real-time data updates
   useEffect(() => {
     const interval = setInterval(() => {
-      setData(prevData => ({
+      setData((prevData) => ({
         ...prevData,
         overview: {
           ...prevData.overview,
@@ -149,7 +149,7 @@ export const ProductionAnalytics: React.FC<ProductionAnalyticsProps> = ({ classN
   const refreshData = async () => {
     setIsLoading(true);
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setIsLoading(false);
   };
 
@@ -215,14 +215,9 @@ export const ProductionAnalytics: React.FC<ProductionAnalyticsProps> = ({ classN
             Real-time insights into FlashFusion platform performance
           </p>
         </div>
-        
+
         <div className="flex items-center space-x-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={refreshData}
-            disabled={isLoading}
-          >
+          <Button variant="outline" size="sm" onClick={refreshData} disabled={isLoading}>
             <RefreshCw className={cn('w-4 h-4 mr-2', isLoading && 'animate-spin')} />
             Refresh
           </Button>
@@ -289,7 +284,9 @@ export const ProductionAnalytics: React.FC<ProductionAnalyticsProps> = ({ classN
               <Clock className="w-8 h-8 text-accent" />
               <div>
                 <p className="text-sm text-muted-foreground">Avg Session</p>
-                <p className="text-2xl font-bold">{Math.floor(data.overview.avgSessionDuration / 60)}m</p>
+                <p className="text-2xl font-bold">
+                  {Math.floor(data.overview.avgSessionDuration / 60)}m
+                </p>
               </div>
             </div>
             <div className="mt-2 flex items-center text-sm">
@@ -324,11 +321,11 @@ export const ProductionAnalytics: React.FC<ProductionAnalyticsProps> = ({ classN
                     <XAxis dataKey="date" />
                     <YAxis />
                     <Tooltip />
-                    <Area 
-                      type="monotone" 
-                      dataKey="totalUsers" 
-                      stroke="var(--ff-primary)" 
-                      fill="var(--ff-primary)" 
+                    <Area
+                      type="monotone"
+                      dataKey="totalUsers"
+                      stroke="var(--ff-primary)"
+                      fill="var(--ff-primary)"
                       fillOpacity={0.3}
                     />
                   </AreaChart>
@@ -347,11 +344,13 @@ export const ProductionAnalytics: React.FC<ProductionAnalyticsProps> = ({ classN
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" />
                     <YAxis />
-                    <Tooltip formatter={([value]) => [formatCurrency(value as number), 'Revenue']} />
-                    <Line 
-                      type="monotone" 
-                      dataKey="revenue" 
-                      stroke="var(--ff-secondary)" 
+                    <Tooltip
+                      formatter={([value]) => [formatCurrency(value as number), 'Revenue']}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="revenue"
+                      stroke="var(--ff-secondary)"
                       strokeWidth={3}
                     />
                   </LineChart>
@@ -442,13 +441,12 @@ export const ProductionAnalytics: React.FC<ProductionAnalyticsProps> = ({ classN
                         <span className="text-sm text-muted-foreground">
                           {feature.usage}% usage
                         </span>
-                        <Badge 
-                          variant={feature.trend > 0 ? "default" : "secondary"}
-                          className={cn(
-                            feature.trend > 0 ? "text-green-500" : "text-red-500"
-                          )}
+                        <Badge
+                          variant={feature.trend > 0 ? 'default' : 'secondary'}
+                          className={cn(feature.trend > 0 ? 'text-green-500' : 'text-red-500')}
                         >
-                          {feature.trend > 0 ? '+' : ''}{feature.trend}%
+                          {feature.trend > 0 ? '+' : ''}
+                          {feature.trend}%
                         </Badge>
                       </div>
                     </div>
@@ -463,38 +461,38 @@ export const ProductionAnalytics: React.FC<ProductionAnalyticsProps> = ({ classN
         <TabsContent value="performance" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              { 
-                key: 'pageLoadTime', 
-                label: 'Page Load Time', 
-                value: data.performance.pageLoadTime, 
+              {
+                key: 'pageLoadTime',
+                label: 'Page Load Time',
+                value: data.performance.pageLoadTime,
                 unit: 's',
-                icon: Zap
+                icon: Zap,
               },
-              { 
-                key: 'apiResponseTime', 
-                label: 'API Response Time', 
-                value: data.performance.apiResponseTime, 
+              {
+                key: 'apiResponseTime',
+                label: 'API Response Time',
+                value: data.performance.apiResponseTime,
                 unit: 'ms',
-                icon: Activity
+                icon: Activity,
               },
-              { 
-                key: 'errorRate', 
-                label: 'Error Rate', 
-                value: data.performance.errorRate, 
+              {
+                key: 'errorRate',
+                label: 'Error Rate',
+                value: data.performance.errorRate,
                 unit: '%',
-                icon: AlertTriangle
+                icon: AlertTriangle,
               },
-              { 
-                key: 'uptime', 
-                label: 'Uptime', 
-                value: data.performance.uptime, 
+              {
+                key: 'uptime',
+                label: 'Uptime',
+                value: data.performance.uptime,
                 unit: '%',
-                icon: CheckCircle
+                icon: CheckCircle,
               },
             ].map((metric) => {
               const status = getPerformanceStatus(metric.key, metric.value);
               const IconComponent = metric.icon;
-              
+
               return (
                 <Card key={metric.key} className="ff-hover-lift">
                   <CardContent className="p-6">
@@ -504,7 +502,8 @@ export const ProductionAnalytics: React.FC<ProductionAnalyticsProps> = ({ classN
                         <div>
                           <p className="text-sm text-muted-foreground">{metric.label}</p>
                           <p className="text-2xl font-bold">
-                            {metric.value}{metric.unit}
+                            {metric.value}
+                            {metric.unit}
                           </p>
                         </div>
                       </div>
@@ -525,7 +524,10 @@ export const ProductionAnalytics: React.FC<ProductionAnalyticsProps> = ({ classN
             <CardContent>
               <div className="space-y-4">
                 {data.geography.map((country, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 rounded-lg bg-muted/50"
+                  >
                     <div className="flex items-center space-x-3">
                       <Globe className="w-5 h-5 text-primary" />
                       <div>

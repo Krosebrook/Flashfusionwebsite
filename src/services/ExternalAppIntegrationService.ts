@@ -4,7 +4,7 @@
  * @category integrations
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Service layer for managing integrations with external platforms
  * like Bolt.new, Replit, Loveable.dev, etc.
  */
@@ -17,71 +17,71 @@ export const PLATFORM_CONFIGS = {
     webhookEvents: ['app.deployed', 'app.updated', 'build.completed'],
     requiredScopes: ['read:apps', 'write:apps', 'read:deployments'],
     exportFormats: ['zip', 'git', 'docker'],
-    syncCapabilities: ['code', 'assets', 'config', 'dependencies']
+    syncCapabilities: ['code', 'assets', 'config', 'dependencies'],
   },
-  
+
   'app.base.44': {
     apiBase: 'https://api.app.base.44/v2',
     oauthUrl: 'https://app.base.44/oauth/authorize',
     webhookEvents: ['app.published', 'data.updated', 'user.action'],
     requiredScopes: ['read:apps', 'read:data', 'write:data'],
     exportFormats: ['json', 'csv', 'api'],
-    syncCapabilities: ['data', 'users', 'workflows', 'settings']
+    syncCapabilities: ['data', 'users', 'workflows', 'settings'],
   },
-  
+
   'replit.com': {
     apiBase: 'https://replit.com/graphql',
     oauthUrl: 'https://replit.com/oauth/authorize',
     webhookEvents: ['repl.run', 'repl.stop', 'git.push'],
     requiredScopes: ['read:repls', 'write:repls', 'read:git'],
     exportFormats: ['git', 'zip', 'docker'],
-    syncCapabilities: ['code', 'environment', 'secrets', 'collaborators']
+    syncCapabilities: ['code', 'environment', 'secrets', 'collaborators'],
   },
-  
+
   'loveable.dev': {
     apiBase: 'https://api.loveable.dev/v1',
     oauthUrl: 'https://loveable.dev/oauth/authorize',
     webhookEvents: ['generation.completed', 'app.deployed', 'template.updated'],
     requiredScopes: ['read:apps', 'read:generations', 'write:apps'],
     exportFormats: ['react', 'vue', 'angular', 'zip'],
-    syncCapabilities: ['components', 'themes', 'assets', 'config']
+    syncCapabilities: ['components', 'themes', 'assets', 'config'],
   },
-  
+
   'leap.new': {
     apiBase: 'https://api.leap.new/v1',
     oauthUrl: 'https://leap.new/oauth/authorize',
     webhookEvents: ['model.trained', 'inference.completed', 'deployment.ready'],
     requiredScopes: ['read:models', 'write:models', 'read:deployments'],
     exportFormats: ['api', 'sdk', 'docker'],
-    syncCapabilities: ['models', 'datasets', 'apis', 'analytics']
+    syncCapabilities: ['models', 'datasets', 'apis', 'analytics'],
   },
-  
+
   'vercel.com': {
     apiBase: 'https://api.vercel.com/v13',
     oauthUrl: 'https://vercel.com/oauth/authorize',
     webhookEvents: ['deployment.created', 'deployment.ready', 'domain.created'],
     requiredScopes: ['read:projects', 'write:projects', 'read:deployments'],
     exportFormats: ['git', 'env', 'config'],
-    syncCapabilities: ['deployments', 'domains', 'env-vars', 'analytics']
+    syncCapabilities: ['deployments', 'domains', 'env-vars', 'analytics'],
   },
-  
+
   'netlify.com': {
     apiBase: 'https://api.netlify.com/api/v1',
     oauthUrl: 'https://app.netlify.com/authorize',
     webhookEvents: ['deploy-created', 'deploy-succeeded', 'deploy-failed'],
     requiredScopes: ['read:sites', 'write:sites', 'read:deploys'],
     exportFormats: ['git', 'zip', 'functions'],
-    syncCapabilities: ['sites', 'forms', 'functions', 'redirects']
+    syncCapabilities: ['sites', 'forms', 'functions', 'redirects'],
   },
-  
+
   'railway.app': {
     apiBase: 'https://backboard.railway.app/graphql',
     oauthUrl: 'https://railway.app/oauth/authorize',
     webhookEvents: ['deployment.success', 'deployment.failed', 'service.updated'],
     requiredScopes: ['read:projects', 'write:projects', 'read:deployments'],
     exportFormats: ['docker', 'env', 'config'],
-    syncCapabilities: ['services', 'databases', 'variables', 'logs']
-  }
+    syncCapabilities: ['services', 'databases', 'variables', 'logs'],
+  },
 };
 
 export interface IntegrationCredentials {
@@ -133,14 +133,18 @@ export class ExternalAppIntegrationService {
       redirect_uri: redirectUri,
       scope: config.requiredScopes.join(' '),
       response_type: 'code',
-      state: this.generateState()
+      state: this.generateState(),
     });
 
     return `${config.oauthUrl}?${params.toString()}`;
   }
 
   // Exchange OAuth code for access token
-  async exchangeOAuthCode(platform: string, code: string, redirectUri: string): Promise<IntegrationCredentials> {
+  async exchangeOAuthCode(
+    platform: string,
+    code: string,
+    redirectUri: string
+  ): Promise<IntegrationCredentials> {
     const config = PLATFORM_CONFIGS[platform as keyof typeof PLATFORM_CONFIGS];
     if (!config) {
       throw new Error(`Platform ${platform} not supported`);
@@ -151,15 +155,15 @@ export class ExternalAppIntegrationService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           client_id: this.getClientId(platform),
           client_secret: this.getClientSecret(platform),
           code,
           redirect_uri: redirectUri,
-          grant_type: 'authorization_code'
-        })
+          grant_type: 'authorization_code',
+        }),
       });
 
       if (!response.ok) {
@@ -167,13 +171,13 @@ export class ExternalAppIntegrationService {
       }
 
       const tokenData = await response.json();
-      
+
       const credentials: IntegrationCredentials = {
         accessToken: tokenData.access_token,
         refreshToken: tokenData.refresh_token,
-        expiresAt: tokenData.expires_in 
+        expiresAt: tokenData.expires_in
           ? new Date(Date.now() + tokenData.expires_in * 1000)
-          : undefined
+          : undefined,
       };
 
       this.credentials.set(platform, credentials);
@@ -188,7 +192,7 @@ export class ExternalAppIntegrationService {
   async setApiKey(platform: string, apiKey: string, secretKey?: string): Promise<void> {
     const credentials: IntegrationCredentials = {
       apiKey,
-      secretKey
+      secretKey,
     };
 
     // Validate API key by making a test request
@@ -201,13 +205,16 @@ export class ExternalAppIntegrationService {
   }
 
   // Validate credentials
-  private async validateCredentials(platform: string, credentials: IntegrationCredentials): Promise<boolean> {
+  private async validateCredentials(
+    platform: string,
+    credentials: IntegrationCredentials
+  ): Promise<boolean> {
     const config = PLATFORM_CONFIGS[platform as keyof typeof PLATFORM_CONFIGS];
     if (!config) return false;
 
     try {
       const headers: Record<string, string> = {
-        'Accept': 'application/json'
+        Accept: 'application/json',
       };
 
       if (credentials.accessToken) {
@@ -231,7 +238,7 @@ export class ExternalAppIntegrationService {
       return {
         success: false,
         message: 'No credentials found for platform',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     }
 
@@ -240,7 +247,7 @@ export class ExternalAppIntegrationService {
       return {
         success: false,
         message: 'Platform not supported',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     }
 
@@ -253,7 +260,7 @@ export class ExternalAppIntegrationService {
       }
 
       const appData = await response.json();
-      
+
       // Platform-specific data processing
       const processedData = await this.processAppData(platform, appData);
 
@@ -261,7 +268,7 @@ export class ExternalAppIntegrationService {
         success: true,
         message: 'App data synced successfully',
         data: processedData,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     } catch (error) {
       console.error(`Sync failed for ${platform}:`, error);
@@ -269,7 +276,7 @@ export class ExternalAppIntegrationService {
         success: false,
         message: error instanceof Error ? error.message : 'Unknown error',
         errors: [error instanceof Error ? error.message : 'Unknown error'],
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     }
   }
@@ -288,7 +295,7 @@ export class ExternalAppIntegrationService {
 
     const headers = this.getRequestHeaders(platform, credentials);
     const response = await fetch(`${config.apiBase}/apps/${appId}/export?format=${format}`, {
-      headers
+      headers,
     });
 
     if (!response.ok) {
@@ -309,7 +316,7 @@ export class ExternalAppIntegrationService {
       return {
         success: false,
         message: 'No credentials found for platform',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     }
 
@@ -318,7 +325,7 @@ export class ExternalAppIntegrationService {
       return {
         success: false,
         message: 'Platform not supported',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     }
 
@@ -329,7 +336,7 @@ export class ExternalAppIntegrationService {
       const response = await fetch(`${config.apiBase}/apps`, {
         method: 'POST',
         headers,
-        body: JSON.stringify(appConfig)
+        body: JSON.stringify(appConfig),
       });
 
       if (!response.ok) {
@@ -342,7 +349,7 @@ export class ExternalAppIntegrationService {
         success: true,
         message: 'App deployed successfully',
         data: deploymentData,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     } catch (error) {
       console.error(`Deployment failed for ${platform}:`, error);
@@ -350,7 +357,7 @@ export class ExternalAppIntegrationService {
         success: false,
         message: error instanceof Error ? error.message : 'Unknown error',
         errors: [error instanceof Error ? error.message : 'Unknown error'],
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     }
   }
@@ -362,7 +369,7 @@ export class ExternalAppIntegrationService {
       return {
         success: false,
         message: 'No credentials found for platform',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     }
 
@@ -371,7 +378,7 @@ export class ExternalAppIntegrationService {
       return {
         success: false,
         message: 'Platform not supported',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     }
 
@@ -381,14 +388,14 @@ export class ExternalAppIntegrationService {
 
       const webhookConfig = {
         url: webhookUrl,
-        events: events.filter(event => config.webhookEvents.includes(event)),
-        secret: this.generateWebhookSecret()
+        events: events.filter((event) => config.webhookEvents.includes(event)),
+        secret: this.generateWebhookSecret(),
       };
 
       const response = await fetch(`${config.apiBase}/webhooks`, {
         method: 'POST',
         headers,
-        body: JSON.stringify(webhookConfig)
+        body: JSON.stringify(webhookConfig),
       });
 
       if (!response.ok) {
@@ -405,7 +412,7 @@ export class ExternalAppIntegrationService {
         success: true,
         message: 'Webhook configured successfully',
         data: webhookData,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     } catch (error) {
       console.error(`Webhook setup failed for ${platform}:`, error);
@@ -413,7 +420,7 @@ export class ExternalAppIntegrationService {
         success: false,
         message: error instanceof Error ? error.message : 'Unknown error',
         errors: [error instanceof Error ? error.message : 'Unknown error'],
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     }
   }
@@ -483,7 +490,7 @@ export class ExternalAppIntegrationService {
           deploymentUrl: rawData.deployment?.url,
           lastUpdate: new Date(rawData.updatedAt),
           status: rawData.status,
-          repository: rawData.git?.repository
+          repository: rawData.git?.repository,
         };
 
       case 'replit.com':
@@ -494,7 +501,7 @@ export class ExternalAppIntegrationService {
           deploymentUrl: rawData.hostedUrl,
           lastUpdate: new Date(rawData.timeUpdated),
           status: rawData.isPrivate ? 'private' : 'public',
-          repository: rawData.origin?.type === 'github' ? rawData.origin.url : null
+          repository: rawData.origin?.type === 'github' ? rawData.origin.url : null,
         };
 
       case 'vercel.com':
@@ -505,7 +512,7 @@ export class ExternalAppIntegrationService {
           deploymentUrl: `https://${rawData.alias?.[0] || rawData.url}`,
           lastUpdate: new Date(rawData.updatedAt),
           status: rawData.readyState,
-          repository: rawData.link?.repo
+          repository: rawData.link?.repo,
         };
 
       default:
@@ -514,10 +521,13 @@ export class ExternalAppIntegrationService {
   }
 
   // Helper methods
-  private getRequestHeaders(platform: string, credentials: IntegrationCredentials): Record<string, string> {
+  private getRequestHeaders(
+    platform: string,
+    credentials: IntegrationCredentials
+  ): Record<string, string> {
     const headers: Record<string, string> = {
-      'Accept': 'application/json',
-      'User-Agent': 'FlashFusion/1.0'
+      Accept: 'application/json',
+      'User-Agent': 'FlashFusion/1.0',
     };
 
     if (credentials.accessToken) {
@@ -538,11 +548,15 @@ export class ExternalAppIntegrationService {
   }
 
   private generateState(): string {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    return (
+      Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+    );
   }
 
   private generateWebhookSecret(): string {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    return (
+      Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+    );
   }
 
   private verifyWebhookSignature(payload: WebhookPayload, secret: string): boolean {
@@ -567,14 +581,14 @@ export class ExternalAppIntegrationService {
       const response = await fetch(`${config.apiBase}/oauth/token`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           client_id: this.getClientId(platform),
           client_secret: this.getClientSecret(platform),
           refresh_token: credentials.refreshToken,
-          grant_type: 'refresh_token'
-        })
+          grant_type: 'refresh_token',
+        }),
       });
 
       if (!response.ok) {
@@ -582,14 +596,14 @@ export class ExternalAppIntegrationService {
       }
 
       const tokenData = await response.json();
-      
+
       const updatedCredentials: IntegrationCredentials = {
         ...credentials,
         accessToken: tokenData.access_token,
         refreshToken: tokenData.refresh_token || credentials.refreshToken,
-        expiresAt: tokenData.expires_in 
+        expiresAt: tokenData.expires_in
           ? new Date(Date.now() + tokenData.expires_in * 1000)
-          : undefined
+          : undefined,
       };
 
       this.credentials.set(platform, updatedCredentials);
@@ -603,12 +617,13 @@ export class ExternalAppIntegrationService {
   // Disconnect platform
   async disconnect(platform: string): Promise<void> {
     this.credentials.delete(platform);
-    
+
     // Clean up webhook handlers
-    const handlersToRemove = Array.from(this.webhookHandlers.keys())
-      .filter(key => key.startsWith(`${platform}:`));
-    
-    handlersToRemove.forEach(key => {
+    const handlersToRemove = Array.from(this.webhookHandlers.keys()).filter((key) =>
+      key.startsWith(`${platform}:`)
+    );
+
+    handlersToRemove.forEach((key) => {
       this.webhookHandlers.delete(key);
     });
   }

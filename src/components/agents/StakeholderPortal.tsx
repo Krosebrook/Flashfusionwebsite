@@ -4,11 +4,11 @@ import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
-import { 
-  Users, 
-  Clock, 
-  CheckCircle2, 
-  TrendingUp, 
+import {
+  Users,
+  Clock,
+  CheckCircle2,
+  TrendingUp,
   MessageSquare,
   Calendar,
   Target,
@@ -17,7 +17,7 @@ import {
   Download,
   Share2,
   Eye,
-  Bell
+  Bell,
 } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { Agent, AgentInteraction, ProjectRisk } from '../../types/multi-agent-orchestration';
@@ -41,7 +41,7 @@ export function StakeholderPortal({
   agents,
   interactions,
   risks,
-  stats
+  stats,
 }: StakeholderPortalProps) {
   const [selectedUpdate, setSelectedUpdate] = useState<string>('');
   const [feedbackText, setFeedbackText] = useState('');
@@ -53,32 +53,35 @@ export function StakeholderPortal({
       id: 'milestone-1',
       type: 'milestone' as const,
       title: 'UI Design Phase Completed',
-      description: 'Our design team has successfully completed all user interface mockups and prototypes. The new design system ensures consistency across all platforms.',
+      description:
+        'Our design team has successfully completed all user interface mockups and prototypes. The new design system ensures consistency across all platforms.',
       timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
       agentsInvolved: ['agent-ui_designer', 'agent-ux_designer'],
       impact: 'high',
-      clientVisible: true
+      clientVisible: true,
     },
     {
       id: 'progress-1',
       type: 'progress' as const,
       title: 'Development Sprint Progress',
-      description: 'Great progress this week! Our development team completed 15 tasks and we\'re ahead of schedule for the next milestone.',
+      description:
+        "Great progress this week! Our development team completed 15 tasks and we're ahead of schedule for the next milestone.",
       timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
       agentsInvolved: ['agent-frontend_developer', 'agent-backend_developer'],
       impact: 'medium',
-      clientVisible: true
+      clientVisible: true,
     },
     {
       id: 'decision-1',
       type: 'decision' as const,
       title: 'Technology Stack Finalized',
-      description: 'After careful evaluation, we\'ve selected React and Node.js for optimal performance and scalability.',
+      description:
+        "After careful evaluation, we've selected React and Node.js for optimal performance and scalability.",
       timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
       agentsInvolved: ['agent-visionary', 'agent-backend_developer'],
       impact: 'high',
-      clientVisible: true
-    }
+      clientVisible: true,
+    },
   ];
 
   const upcomingMilestones = [
@@ -88,7 +91,7 @@ export function StakeholderPortal({
       description: 'Backend services and database integration',
       targetDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
       progress: 78,
-      responsible: 'Backend Development Team'
+      responsible: 'Backend Development Team',
     },
     {
       id: 'milestone-testing',
@@ -96,7 +99,7 @@ export function StakeholderPortal({
       description: 'Comprehensive testing and bug fixes',
       targetDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // 10 days from now
       progress: 25,
-      responsible: 'QA Team'
+      responsible: 'QA Team',
     },
     {
       id: 'milestone-deployment',
@@ -104,25 +107,33 @@ export function StakeholderPortal({
       description: 'Launch preparation and go-live',
       targetDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // 14 days from now
       progress: 10,
-      responsible: 'DevOps Team'
-    }
+      responsible: 'DevOps Team',
+    },
   ];
 
   const getUpdateIcon = (type: string) => {
     switch (type) {
-      case 'milestone': return <CheckCircle2 className="h-5 w-5 text-green-600" />;
-      case 'progress': return <TrendingUp className="h-5 w-5 text-blue-600" />;
-      case 'decision': return <Target className="h-5 w-5 text-purple-600" />;
-      default: return <Activity className="h-5 w-5 text-gray-600" />;
+      case 'milestone':
+        return <CheckCircle2 className="h-5 w-5 text-green-600" />;
+      case 'progress':
+        return <TrendingUp className="h-5 w-5 text-blue-600" />;
+      case 'decision':
+        return <Target className="h-5 w-5 text-purple-600" />;
+      default:
+        return <Activity className="h-5 w-5 text-gray-600" />;
     }
   };
 
   const getImpactColor = (impact: string) => {
     switch (impact) {
-      case 'high': return 'border-l-green-500 bg-green-50/50';
-      case 'medium': return 'border-l-blue-500 bg-blue-50/50';
-      case 'low': return 'border-l-gray-500 bg-gray-50/50';
-      default: return 'border-l-gray-500 bg-gray-50/50';
+      case 'high':
+        return 'border-l-green-500 bg-green-50/50';
+      case 'medium':
+        return 'border-l-blue-500 bg-blue-50/50';
+      case 'low':
+        return 'border-l-gray-500 bg-gray-50/50';
+      default:
+        return 'border-l-gray-500 bg-gray-50/50';
     }
   };
 
@@ -140,14 +151,14 @@ export function StakeholderPortal({
       stats,
       milestones: upcomingMilestones,
       updates: stakeholderUpdates,
-      risks: risks.map(risk => ({
+      risks: risks.map((risk) => ({
         type: risk.type,
         severity: risk.severity,
         description: risk.description,
-        status: risk.status
-      }))
+        status: risk.status,
+      })),
     };
-    
+
     const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -214,7 +225,7 @@ export function StakeholderPortal({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className={cn("p-4 border-l-4", getImpactColor(update.impact))}>
+              <Card className={cn('p-4 border-l-4', getImpactColor(update.impact))}>
                 <div className="flex items-start gap-3">
                   {getUpdateIcon(update.type)}
                   <div className="flex-1">
@@ -233,8 +244,8 @@ export function StakeholderPortal({
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1">
                         <span className="text-xs text-muted-foreground">Team members:</span>
-                        {update.agentsInvolved.map(agentId => {
-                          const agent = agents.find(a => a.id === agentId);
+                        {update.agentsInvolved.map((agentId) => {
+                          const agent = agents.find((a) => a.id === agentId);
                           return agent ? (
                             <Badge key={agentId} variant="outline" className="text-xs">
                               {agent.name}
@@ -245,7 +256,9 @@ export function StakeholderPortal({
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => setSelectedUpdate(selectedUpdate === update.id ? '' : update.id)}
+                        onClick={() =>
+                          setSelectedUpdate(selectedUpdate === update.id ? '' : update.id)
+                        }
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
@@ -273,9 +286,7 @@ export function StakeholderPortal({
                   <div className="text-sm font-medium">
                     {milestone.targetDate.toLocaleDateString()}
                   </div>
-                  <div className="text-xs text-muted-foreground">
-                    {milestone.responsible}
-                  </div>
+                  <div className="text-xs text-muted-foreground">{milestone.responsible}</div>
                 </div>
               </div>
               <div className="space-y-1">
@@ -320,25 +331,27 @@ export function StakeholderPortal({
           <div>
             <h3 className="font-medium mb-3">Risk Assessment</h3>
             <div className="space-y-2">
-              {risks.filter(risk => risk.severity !== 'low').map(risk => (
-                <div key={risk.id} className="text-sm p-2 rounded bg-muted/50">
-                  <div className="flex justify-between items-center">
-                    <span>{risk.type.replace('_', ' ')}</span>
-                    <Badge 
-                      variant="outline" 
-                      className={cn(
-                        "text-xs",
-                        risk.severity === 'critical' && "border-red-500 text-red-700",
-                        risk.severity === 'high' && "border-orange-500 text-orange-700",
-                        risk.severity === 'medium' && "border-yellow-500 text-yellow-700"
-                      )}
-                    >
-                      {risk.severity}
-                    </Badge>
+              {risks
+                .filter((risk) => risk.severity !== 'low')
+                .map((risk) => (
+                  <div key={risk.id} className="text-sm p-2 rounded bg-muted/50">
+                    <div className="flex justify-between items-center">
+                      <span>{risk.type.replace('_', ' ')}</span>
+                      <Badge
+                        variant="outline"
+                        className={cn(
+                          'text-xs',
+                          risk.severity === 'critical' && 'border-red-500 text-red-700',
+                          risk.severity === 'high' && 'border-orange-500 text-orange-700',
+                          risk.severity === 'medium' && 'border-yellow-500 text-yellow-700'
+                        )}
+                      >
+                        {risk.severity}
+                      </Badge>
+                    </div>
                   </div>
-                </div>
-              ))}
-              {risks.filter(risk => risk.severity !== 'low').length === 0 && (
+                ))}
+              {risks.filter((risk) => risk.severity !== 'low').length === 0 && (
                 <div className="text-sm text-muted-foreground text-center py-4">
                   No significant risks detected
                 </div>
@@ -392,7 +405,7 @@ export function StakeholderPortal({
         )}
 
         <div className="text-sm text-muted-foreground">
-          Your feedback helps us improve the project and ensures we're meeting your expectations. 
+          Your feedback helps us improve the project and ensures we're meeting your expectations.
           Our AI team will review and incorporate your input into the development process.
         </div>
       </Card>
@@ -406,7 +419,8 @@ export function StakeholderPortal({
             <div>
               <div className="font-medium">API Development Sprint</div>
               <div className="text-sm text-muted-foreground">
-                Starting tomorrow, our backend team will focus on API development and database integration
+                Starting tomorrow, our backend team will focus on API development and database
+                integration
               </div>
             </div>
           </div>

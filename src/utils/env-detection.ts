@@ -12,13 +12,15 @@ export function isDevMode(): boolean {
     if (typeof window !== 'undefined') {
       const hostname = window.location.hostname;
       const port = window.location.port;
-      
-      if (hostname === 'localhost' || 
-          hostname === '127.0.0.1' ||
-          hostname.includes('127.0.0.1') ||
-          port === '5173' ||
-          port === '3000' ||
-          port === '8080') {
+
+      if (
+        hostname === 'localhost' ||
+        hostname === '127.0.0.1' ||
+        hostname.includes('127.0.0.1') ||
+        port === '5173' ||
+        port === '3000' ||
+        port === '8080'
+      ) {
         return true;
       }
     }
@@ -86,25 +88,25 @@ export const devLog = {
       console.debug(...args);
     }
   },
-  
+
   log: (...args: any[]) => {
     if (isDevMode()) {
       console.log(...args);
     }
   },
-  
+
   warn: (...args: any[]) => {
     console.warn(...args);
   },
-  
+
   error: (...args: any[]) => {
     console.error(...args);
-  }
+  },
 };
 
 export default {
   isDevMode,
   isProdMode,
   getEnvVar,
-  devLog
+  devLog,
 };

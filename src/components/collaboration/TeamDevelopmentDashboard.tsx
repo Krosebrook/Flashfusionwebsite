@@ -9,17 +9,17 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Separator } from '../ui/separator';
 import { Alert, AlertDescription } from '../ui/alert';
-import { 
-  Users, 
-  MessageSquare, 
-  GitBranch, 
-  Code, 
-  Eye, 
-  Settings, 
-  Play, 
-  Pause, 
-  Share2, 
-  Download, 
+import {
+  Users,
+  MessageSquare,
+  GitBranch,
+  Code,
+  Eye,
+  Settings,
+  Play,
+  Pause,
+  Share2,
+  Download,
   Upload,
   RefreshCw,
   CheckCircle2,
@@ -36,7 +36,7 @@ import {
   Plus,
   Edit3,
   Save,
-  X
+  X,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
@@ -84,10 +84,10 @@ interface TeamDevelopmentDashboardProps {
   onSessionJoin?: (sessionId: string) => void;
 }
 
-export function TeamDevelopmentDashboard({ 
-  userId, 
-  onSessionCreate, 
-  onSessionJoin 
+export function TeamDevelopmentDashboard({
+  userId,
+  onSessionCreate,
+  onSessionJoin,
 }: TeamDevelopmentDashboardProps) {
   const [activeSessions, setActiveSessions] = useState<CollaborationSession[]>([]);
   const [currentSession, setCurrentSession] = useState<CollaborationSession | null>(null);
@@ -111,7 +111,7 @@ export function TeamDevelopmentDashboard({
         status: 'online',
         lastSeen: new Date(),
         currentActivity: 'Analyzing React components',
-        permissionLevel: 8
+        permissionLevel: 8,
       },
       {
         id: '2',
@@ -121,7 +121,7 @@ export function TeamDevelopmentDashboard({
         status: 'online',
         lastSeen: new Date(Date.now() - 5 * 60 * 1000),
         currentActivity: 'Generating API endpoints',
-        permissionLevel: 6
+        permissionLevel: 6,
       },
       {
         id: '3',
@@ -131,7 +131,7 @@ export function TeamDevelopmentDashboard({
         status: 'away',
         lastSeen: new Date(Date.now() - 15 * 60 * 1000),
         currentActivity: 'Code review',
-        permissionLevel: 6
+        permissionLevel: 6,
       },
       {
         id: '4',
@@ -140,8 +140,8 @@ export function TeamDevelopmentDashboard({
         role: 'viewer',
         status: 'offline',
         lastSeen: new Date(Date.now() - 2 * 60 * 60 * 1000),
-        permissionLevel: 3
-      }
+        permissionLevel: 3,
+      },
     ];
 
     const mockSessions: CollaborationSession[] = [
@@ -151,7 +151,7 @@ export function TeamDevelopmentDashboard({
         repository: {
           url: 'https://github.com/team/ecommerce-platform',
           branch: 'main',
-          provider: 'github'
+          provider: 'github',
         },
         members: mockTeamMembers.slice(0, 3),
         status: 'active',
@@ -163,19 +163,21 @@ export function TeamDevelopmentDashboard({
             {
               id: 'comment-1',
               author: 'Sarah Chen',
-              content: 'The generated payment component looks great! Can we add error handling for failed transactions?',
+              content:
+                'The generated payment component looks great! Can we add error handling for failed transactions?',
               timestamp: new Date(Date.now() - 10 * 60 * 1000),
-              type: 'suggestion'
+              type: 'suggestion',
             },
             {
               id: 'comment-2',
               author: 'Marcus Johnson',
-              content: 'Agreed on the error handling. Also suggest adding loading states for better UX.',
+              content:
+                'Agreed on the error handling. Also suggest adding loading states for better UX.',
               timestamp: new Date(Date.now() - 5 * 60 * 1000),
-              type: 'comment'
-            }
-          ]
-        }
+              type: 'comment',
+            },
+          ],
+        },
       },
       {
         id: 'session-2',
@@ -186,9 +188,9 @@ export function TeamDevelopmentDashboard({
         lastActivity: new Date(Date.now() - 30 * 60 * 1000),
         sharedState: {
           currentTool: 'repository-analyzer',
-          comments: []
-        }
-      }
+          comments: [],
+        },
+      },
     ];
 
     setTeamMembers(mockTeamMembers);
@@ -202,18 +204,18 @@ export function TeamDevelopmentDashboard({
     const newSession: CollaborationSession = {
       id: `session-${Date.now()}`,
       name: sessionName,
-      members: [teamMembers.find(m => m.id === userId) || teamMembers[0]],
+      members: [teamMembers.find((m) => m.id === userId) || teamMembers[0]],
       status: 'active',
       startTime: new Date(),
       lastActivity: new Date(),
       sharedState: {
-        comments: []
-      }
+        comments: [],
+      },
     };
 
-    setActiveSessions(prev => [...prev, newSession]);
+    setActiveSessions((prev) => [...prev, newSession]);
     setCurrentSession(newSession);
-    
+
     if (onSessionCreate) {
       onSessionCreate(newSession);
     }
@@ -221,15 +223,18 @@ export function TeamDevelopmentDashboard({
     toast.success(`Created collaboration session: ${sessionName}`);
   }, [teamMembers, userId, onSessionCreate]);
 
-  const joinSession = useCallback((session: CollaborationSession) => {
-    setCurrentSession(session);
-    
-    if (onSessionJoin) {
-      onSessionJoin(session.id);
-    }
+  const joinSession = useCallback(
+    (session: CollaborationSession) => {
+      setCurrentSession(session);
 
-    toast.success(`Joined session: ${session.name}`);
-  }, [onSessionJoin]);
+      if (onSessionJoin) {
+        onSessionJoin(session.id);
+      }
+
+      toast.success(`Joined session: ${session.name}`);
+    },
+    [onSessionJoin]
+  );
 
   const leaveSession = useCallback(() => {
     if (currentSession) {
@@ -239,20 +244,20 @@ export function TeamDevelopmentDashboard({
   }, [currentSession]);
 
   const toggleVideoCall = useCallback(() => {
-    setIsVideoCallActive(prev => !prev);
+    setIsVideoCallActive((prev) => !prev);
     toast.info(isVideoCallActive ? 'Video call ended' : 'Video call started');
   }, [isVideoCallActive]);
 
   const toggleMic = useCallback(() => {
-    setIsMicMuted(prev => !prev);
+    setIsMicMuted((prev) => !prev);
   }, []);
 
   const toggleCamera = useCallback(() => {
-    setIsCameraOff(prev => !prev);
+    setIsCameraOff((prev) => !prev);
   }, []);
 
   const toggleScreenShare = useCallback(() => {
-    setIsScreenSharing(prev => !prev);
+    setIsScreenSharing((prev) => !prev);
     toast.info(isScreenSharing ? 'Screen sharing stopped' : 'Screen sharing started');
   }, [isScreenSharing]);
 
@@ -261,19 +266,23 @@ export function TeamDevelopmentDashboard({
 
     const comment = {
       id: `comment-${Date.now()}`,
-      author: teamMembers.find(m => m.id === userId)?.name || 'Unknown User',
+      author: teamMembers.find((m) => m.id === userId)?.name || 'Unknown User',
       content: newComment,
       timestamp: new Date(),
-      type: 'comment' as const
+      type: 'comment' as const,
     };
 
-    setCurrentSession(prev => prev ? {
-      ...prev,
-      sharedState: {
-        ...prev.sharedState,
-        comments: [...prev.sharedState.comments, comment]
-      }
-    } : null);
+    setCurrentSession((prev) =>
+      prev
+        ? {
+            ...prev,
+            sharedState: {
+              ...prev.sharedState,
+              comments: [...prev.sharedState.comments, comment],
+            },
+          }
+        : null
+    );
 
     setNewComment('');
     toast.success('Comment added');
@@ -281,27 +290,38 @@ export function TeamDevelopmentDashboard({
 
   const getStatusColor = (status: TeamMember['status']) => {
     switch (status) {
-      case 'online': return 'bg-ff-success';
-      case 'away': return 'bg-ff-warning';
-      case 'offline': return 'bg-ff-text-muted';
+      case 'online':
+        return 'bg-ff-success';
+      case 'away':
+        return 'bg-ff-warning';
+      case 'offline':
+        return 'bg-ff-text-muted';
     }
   };
 
   const getRoleColor = (role: TeamMember['role']) => {
     switch (role) {
-      case 'owner': return 'bg-ff-accent/10 text-ff-accent';
-      case 'admin': return 'bg-ff-primary/10 text-ff-primary';
-      case 'developer': return 'bg-ff-secondary/10 text-ff-secondary';
-      case 'viewer': return 'bg-ff-text-muted/10 text-ff-text-muted';
+      case 'owner':
+        return 'bg-ff-accent/10 text-ff-accent';
+      case 'admin':
+        return 'bg-ff-primary/10 text-ff-primary';
+      case 'developer':
+        return 'bg-ff-secondary/10 text-ff-secondary';
+      case 'viewer':
+        return 'bg-ff-text-muted/10 text-ff-text-muted';
     }
   };
 
   const getCommentTypeIcon = (type: string) => {
     switch (type) {
-      case 'suggestion': return <Zap className="w-3 h-3 text-ff-warning" />;
-      case 'approval': return <CheckCircle2 className="w-3 h-3 text-ff-success" />;
-      case 'concern': return <AlertCircle className="w-3 h-3 text-ff-error" />;
-      default: return <MessageSquare className="w-3 h-3 text-ff-primary" />;
+      case 'suggestion':
+        return <Zap className="w-3 h-3 text-ff-warning" />;
+      case 'approval':
+        return <CheckCircle2 className="w-3 h-3 text-ff-success" />;
+      case 'concern':
+        return <AlertCircle className="w-3 h-3 text-ff-error" />;
+      default:
+        return <MessageSquare className="w-3 h-3 text-ff-primary" />;
     }
   };
 
@@ -315,7 +335,7 @@ export function TeamDevelopmentDashboard({
             Real-time collaboration for AI-powered development
           </p>
         </div>
-        
+
         <div className="flex items-center gap-3">
           {currentSession && (
             <div className="flex items-center gap-2">
@@ -325,11 +345,8 @@ export function TeamDevelopmentDashboard({
               </span>
             </div>
           )}
-          
-          <Button 
-            onClick={createNewSession}
-            className="ff-btn-primary ff-hover-glow"
-          >
+
+          <Button onClick={createNewSession} className="ff-btn-primary ff-hover-glow">
             <Plus className="w-4 h-4 mr-2" />
             New Session
           </Button>
@@ -347,9 +364,13 @@ export function TeamDevelopmentDashboard({
                   <CardTitle className="flex items-center gap-2">
                     <Users className="w-5 h-5 text-ff-primary" />
                     {currentSession.name}
-                    <Badge className={`${
-                      currentSession.status === 'active' ? 'ff-btn-secondary' : 'bg-ff-warning/10 text-ff-warning'
-                    }`}>
+                    <Badge
+                      className={`${
+                        currentSession.status === 'active'
+                          ? 'ff-btn-secondary'
+                          : 'bg-ff-warning/10 text-ff-warning'
+                      }`}
+                    >
                       {currentSession.status}
                     </Badge>
                   </CardTitle>
@@ -362,39 +383,39 @@ export function TeamDevelopmentDashboard({
                     </div>
                   )}
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   {/* Video Call Controls */}
                   <div className="flex items-center gap-1 border rounded-lg p-1">
                     <Button
                       size="sm"
-                      variant={isVideoCallActive ? "default" : "outline"}
+                      variant={isVideoCallActive ? 'default' : 'outline'}
                       onClick={toggleVideoCall}
                       className="h-8 w-8 p-0"
                     >
                       <Video className="w-3 h-3" />
                     </Button>
-                    
+
                     <Button
                       size="sm"
-                      variant={isMicMuted ? "outline" : "default"}
+                      variant={isMicMuted ? 'outline' : 'default'}
                       onClick={toggleMic}
                       className="h-8 w-8 p-0"
                     >
                       {isMicMuted ? <MicOff className="w-3 h-3" /> : <Mic className="w-3 h-3" />}
                     </Button>
-                    
+
                     <Button
                       size="sm"
-                      variant={isScreenSharing ? "default" : "outline"}
+                      variant={isScreenSharing ? 'default' : 'outline'}
                       onClick={toggleScreenShare}
                       className="h-8 w-8 p-0"
                     >
                       <Monitor className="w-3 h-3" />
                     </Button>
                   </div>
-                  
-                  <Button 
+
+                  <Button
                     onClick={leaveSession}
                     variant="outline"
                     size="sm"
@@ -406,7 +427,7 @@ export function TeamDevelopmentDashboard({
                 </div>
               </div>
             </CardHeader>
-            
+
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-center">
@@ -415,14 +436,14 @@ export function TeamDevelopmentDashboard({
                   </div>
                   <div className="text-xs text-ff-text-muted">Active Members</div>
                 </div>
-                
+
                 <div className="text-center">
                   <div className="text-lg font-bold text-ff-secondary">
                     {Math.round((Date.now() - currentSession.startTime.getTime()) / (1000 * 60))}m
                   </div>
                   <div className="text-xs text-ff-text-muted">Session Duration</div>
                 </div>
-                
+
                 <div className="text-center">
                   <div className="text-lg font-bold text-ff-accent">
                     {currentSession.sharedState.comments.length}
@@ -465,7 +486,7 @@ export function TeamDevelopmentDashboard({
                           </Button>
                         </div>
                       </div>
-                      
+
                       <div className="bg-ff-surface rounded-lg p-4 max-h-64 overflow-auto">
                         <pre className="text-sm text-ff-text-primary">
                           <code>{currentSession.sharedState.generatedCode}</code>
@@ -496,9 +517,7 @@ export function TeamDevelopmentDashboard({
                   <div className="space-y-3 max-h-64 overflow-auto">
                     {currentSession.sharedState.comments.map((comment) => (
                       <div key={comment.id} className="flex gap-3 p-3 bg-ff-surface/50 rounded-lg">
-                        <div className="shrink-0">
-                          {getCommentTypeIcon(comment.type)}
-                        </div>
+                        <div className="shrink-0">{getCommentTypeIcon(comment.type)}</div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
                             <span className="font-medium text-sm text-ff-text-primary">
@@ -511,9 +530,7 @@ export function TeamDevelopmentDashboard({
                               {comment.timestamp.toLocaleTimeString()}
                             </span>
                           </div>
-                          <p className="text-sm text-ff-text-secondary">
-                            {comment.content}
-                          </p>
+                          <p className="text-sm text-ff-text-secondary">{comment.content}</p>
                         </div>
                       </div>
                     ))}
@@ -528,7 +545,7 @@ export function TeamDevelopmentDashboard({
                       className="flex-1 ff-focus-ring resize-none"
                       rows={2}
                     />
-                    <Button 
+                    <Button
                       onClick={addComment}
                       disabled={!newComment.trim()}
                       className="ff-btn-primary"
@@ -555,17 +572,25 @@ export function TeamDevelopmentDashboard({
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {currentSession.members.map((member) => (
-                    <div key={member.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-ff-surface/30 transition-colors">
+                    <div
+                      key={member.id}
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-ff-surface/30 transition-colors"
+                    >
                       <div className="relative">
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={member.avatar} />
                           <AvatarFallback className="text-xs">
-                            {member.name.split(' ').map(n => n[0]).join('')}
+                            {member.name
+                              .split(' ')
+                              .map((n) => n[0])
+                              .join('')}
                           </AvatarFallback>
                         </Avatar>
-                        <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-background ${getStatusColor(member.status)}`} />
+                        <div
+                          className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-background ${getStatusColor(member.status)}`}
+                        />
                       </div>
-                      
+
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <span className="font-medium text-sm text-ff-text-primary truncate">
@@ -575,7 +600,7 @@ export function TeamDevelopmentDashboard({
                             {member.role}
                           </Badge>
                         </div>
-                        
+
                         {member.currentActivity && (
                           <p className="text-xs text-ff-text-muted truncate">
                             {member.currentActivity}
@@ -600,20 +625,23 @@ export function TeamDevelopmentDashboard({
                     <Share2 className="w-4 h-4 mr-2" />
                     Share Session Link
                   </Button>
-                  
+
                   <Button variant="outline" className="w-full justify-start ff-focus-ring">
                     <Download className="w-4 h-4 mr-2" />
                     Export Session Data
                   </Button>
-                  
+
                   <Button variant="outline" className="w-full justify-start ff-focus-ring">
                     <RefreshCw className="w-4 h-4 mr-2" />
                     Sync Repository
                   </Button>
-                  
+
                   <Separator />
-                  
-                  <Button variant="outline" className="w-full justify-start text-ff-error hover:text-ff-error ff-focus-ring">
+
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-ff-error hover:text-ff-error ff-focus-ring"
+                  >
                     <X className="w-4 h-4 mr-2" />
                     End Session
                   </Button>
@@ -635,32 +663,37 @@ export function TeamDevelopmentDashboard({
             {activeSessions.length > 0 ? (
               <div className="grid gap-4">
                 {activeSessions.map((session) => (
-                  <Card key={session.id} className="ff-card-interactive ff-hover-lift cursor-pointer">
+                  <Card
+                    key={session.id}
+                    className="ff-card-interactive ff-hover-lift cursor-pointer"
+                  >
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="font-semibold text-ff-text-primary">
-                              {session.name}
-                            </h3>
-                            <Badge className={`${
-                              session.status === 'active' ? 'ff-btn-secondary' : 'bg-ff-warning/10 text-ff-warning'
-                            }`}>
+                            <h3 className="font-semibold text-ff-text-primary">{session.name}</h3>
+                            <Badge
+                              className={`${
+                                session.status === 'active'
+                                  ? 'ff-btn-secondary'
+                                  : 'bg-ff-warning/10 text-ff-warning'
+                              }`}
+                            >
                               {session.status}
                             </Badge>
                           </div>
-                          
+
                           <div className="flex items-center gap-4 text-sm text-ff-text-muted">
                             <div className="flex items-center gap-1">
                               <Users className="w-3 h-3" />
                               {session.members.length} members
                             </div>
-                            
+
                             <div className="flex items-center gap-1">
                               <Clock className="w-3 h-3" />
                               Started {session.startTime.toLocaleTimeString()}
                             </div>
-                            
+
                             {session.repository && (
                               <div className="flex items-center gap-1">
                                 <GitBranch className="w-3 h-3" />
@@ -668,13 +701,16 @@ export function TeamDevelopmentDashboard({
                               </div>
                             )}
                           </div>
-                          
+
                           <div className="flex items-center gap-2 mt-3">
                             {session.members.slice(0, 4).map((member) => (
                               <Avatar key={member.id} className="h-6 w-6">
                                 <AvatarImage src={member.avatar} />
                                 <AvatarFallback className="text-xs">
-                                  {member.name.split(' ').map(n => n[0]).join('')}
+                                  {member.name
+                                    .split(' ')
+                                    .map((n) => n[0])
+                                    .join('')}
                                 </AvatarFallback>
                               </Avatar>
                             ))}
@@ -685,8 +721,8 @@ export function TeamDevelopmentDashboard({
                             )}
                           </div>
                         </div>
-                        
-                        <Button 
+
+                        <Button
                           onClick={() => joinSession(session)}
                           className="ff-btn-primary ff-hover-glow"
                         >
@@ -723,34 +759,40 @@ export function TeamDevelopmentDashboard({
                         <Avatar className="h-12 w-12">
                           <AvatarImage src={member.avatar} />
                           <AvatarFallback>
-                            {member.name.split(' ').map(n => n[0]).join('')}
+                            {member.name
+                              .split(' ')
+                              .map((n) => n[0])
+                              .join('')}
                           </AvatarFallback>
                         </Avatar>
-                        <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-background ${getStatusColor(member.status)}`} />
+                        <div
+                          className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-background ${getStatusColor(member.status)}`}
+                        />
                       </div>
-                      
+
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
                           <h3 className="font-medium text-ff-text-primary">{member.name}</h3>
                           <Badge className={getRoleColor(member.role)}>{member.role}</Badge>
                         </div>
-                        
+
                         <p className="text-sm text-ff-text-muted">{member.email}</p>
-                        
+
                         {member.currentActivity && (
                           <p className="text-sm text-ff-text-secondary mt-1">
                             {member.currentActivity}
                           </p>
                         )}
                       </div>
-                      
+
                       <div className="text-right">
                         <div className="text-sm font-medium text-ff-text-primary">
                           {member.status}
                         </div>
                         <div className="text-xs text-ff-text-muted">
-                          {member.status === 'online' ? 'Active now' : 
-                           `Last seen ${member.lastSeen.toLocaleString()}`}
+                          {member.status === 'online'
+                            ? 'Active now'
+                            : `Last seen ${member.lastSeen.toLocaleString()}`}
                         </div>
                       </div>
                     </div>

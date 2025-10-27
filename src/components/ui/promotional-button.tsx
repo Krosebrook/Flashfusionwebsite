@@ -4,7 +4,7 @@
  * @category components
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Specialized button component designed for promotional CTAs with
  * multi-line text, discount badges, and responsive layouts.
  */
@@ -20,30 +20,30 @@ interface PromotionalButtonProps {
   // Main content
   primaryText: string;
   secondaryText?: string;
-  
+
   // Discount/promotional info
   discountText?: string;
   discountBadge?: string;
-  
+
   // Button configuration
   onClick?: () => void;
   variant?: 'primary' | 'secondary' | 'outline' | 'accent';
   size?: 'default' | 'lg' | 'xl';
-  
+
   // Icons
   leftIcon?: LucideIcon;
   rightIcon?: LucideIcon;
   iconSize?: IconSize;
-  
+
   // Layout
   layout?: 'horizontal' | 'vertical' | 'responsive';
   fullWidth?: boolean;
-  
+
   // Styling
   className?: string;
   disabled?: boolean;
   loading?: boolean;
-  
+
   // Analytics
   trackingId?: string;
 }
@@ -64,34 +64,33 @@ export function PromotionalButton({
   className,
   disabled = false,
   loading = false,
-  trackingId
+  trackingId,
 }: PromotionalButtonProps) {
-  
   const handleClick = () => {
     if (disabled || loading) return;
-    
+
     // Analytics tracking
     if (trackingId) {
       console.log(`🎯 Promotional button clicked: ${trackingId}`);
     }
-    
+
     onClick?.();
   };
-  
+
   // Determine layout classes based on screen size and layout prop
   const getLayoutClasses = () => {
     if (layout === 'vertical') {
       return 'flex-col items-center text-center';
     }
-    
+
     if (layout === 'horizontal') {
       return 'flex-row items-center justify-center';
     }
-    
+
     // Responsive layout - stack on mobile, horizontal on desktop
     return 'flex-col sm:flex-row items-center justify-center text-center sm:text-left';
   };
-  
+
   // Get size-specific padding and text sizes
   const getSizeClasses = () => {
     switch (size) {
@@ -100,27 +99,27 @@ export function PromotionalButton({
           container: 'px-8 py-4 min-h-[4rem]',
           primary: 'text-lg sm:text-xl font-bold',
           secondary: 'text-sm sm:text-base',
-          spacing: 'gap-3 sm:gap-4'
+          spacing: 'gap-3 sm:gap-4',
         };
       case 'lg':
         return {
           container: 'px-6 py-3 min-h-[3.5rem]',
           primary: 'text-base sm:text-lg font-bold',
           secondary: 'text-xs sm:text-sm',
-          spacing: 'gap-2 sm:gap-3'
+          spacing: 'gap-2 sm:gap-3',
         };
       default:
         return {
           container: 'px-4 py-2 min-h-[3rem]',
           primary: 'text-sm sm:text-base font-semibold',
           secondary: 'text-xs',
-          spacing: 'gap-2'
+          spacing: 'gap-2',
         };
     }
   };
-  
+
   const sizeClasses = getSizeClasses();
-  
+
   return (
     <div className="relative inline-block">
       <Button
@@ -131,21 +130,16 @@ export function PromotionalButton({
           // Base styles
           'relative overflow-hidden group transition-all duration-300',
           'hover:scale-105 active:scale-95',
-          
+
           // Size and layout
           sizeClasses.container,
           fullWidth ? 'w-full' : 'w-auto',
-          
+
           // Custom styles
           className
         )}
       >
-        <div className={cn(
-          'flex relative z-10',
-          getLayoutClasses(),
-          sizeClasses.spacing
-        )}>
-          
+        <div className={cn('flex relative z-10', getLayoutClasses(), sizeClasses.spacing)}>
           {/* Left Icon */}
           {leftIcon && (
             <ProfessionalIcon
@@ -156,41 +150,47 @@ export function PromotionalButton({
               className="flex-shrink-0"
             />
           )}
-          
+
           {/* Text Content */}
           <div className="flex flex-col min-w-0 flex-1">
             {/* Primary Text */}
-            <span className={cn(
-              sizeClasses.primary,
-              'leading-tight truncate sm:whitespace-normal',
-              'font-sora'
-            )}>
+            <span
+              className={cn(
+                sizeClasses.primary,
+                'leading-tight truncate sm:whitespace-normal',
+                'font-sora'
+              )}
+            >
               {primaryText}
             </span>
-            
+
             {/* Secondary Text */}
             {secondaryText && (
-              <span className={cn(
-                sizeClasses.secondary,
-                'opacity-90 leading-tight',
-                'font-inter text-white/90'
-              )}>
+              <span
+                className={cn(
+                  sizeClasses.secondary,
+                  'opacity-90 leading-tight',
+                  'font-inter text-white/90'
+                )}
+              >
                 {secondaryText}
               </span>
             )}
-            
+
             {/* Discount Text - Mobile only */}
             {discountText && (
-              <span className={cn(
-                'text-xs font-medium opacity-95 leading-tight',
-                'sm:hidden', // Hide on desktop (will be shown in badge)
-                'text-current'
-              )}>
+              <span
+                className={cn(
+                  'text-xs font-medium opacity-95 leading-tight',
+                  'sm:hidden', // Hide on desktop (will be shown in badge)
+                  'text-current'
+                )}
+              >
                 {discountText}
               </span>
             )}
           </div>
-          
+
           {/* Right Icon */}
           {rightIcon && (
             <ProfessionalIcon
@@ -202,7 +202,7 @@ export function PromotionalButton({
             />
           )}
         </div>
-        
+
         {/* Loading State */}
         {loading && (
           <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
@@ -210,16 +210,18 @@ export function PromotionalButton({
           </div>
         )}
       </Button>
-      
+
       {/* Discount Badge - Desktop only */}
       {discountBadge && (
-        <Badge className={cn(
-          'absolute -top-2 -right-2 z-20',
-          'bg-accent text-accent-foreground',
-          'text-xs font-bold px-2 py-1 rounded-full',
-          'hidden sm:flex', // Only show on desktop
-          'animate-pulse'
-        )}>
+        <Badge
+          className={cn(
+            'absolute -top-2 -right-2 z-20',
+            'bg-accent text-accent-foreground',
+            'text-xs font-bold px-2 py-1 rounded-full',
+            'hidden sm:flex', // Only show on desktop
+            'animate-pulse'
+          )}
+        >
           {discountBadge}
         </Badge>
       )}
@@ -254,11 +256,7 @@ export function GetStartedPromoButton({
   );
 }
 
-export function TryDemoButton({
-  onClick,
-  className,
-  ...props
-}: Partial<PromotionalButtonProps>) {
+export function TryDemoButton({ onClick, className, ...props }: Partial<PromotionalButtonProps>) {
   return (
     <PromotionalButton
       primaryText="Try Interactive Demo"

@@ -3,7 +3,7 @@
  * @category Fix Mode - State Synchronization
  * @category Build Mode - Simplified Auth State Machine
  * @version 1.0.0
- * 
+ *
  * Centralized authentication state management with proper error handling,
  * memory leak prevention, and state synchronization.
  */
@@ -20,7 +20,7 @@ interface AuthState {
   isLoading: boolean;
   user: AuthUser | null;
   error: string | null;
-  
+
   // Navigation State
   showAuthModal: boolean;
   shouldShowApp: boolean;
@@ -29,7 +29,7 @@ interface AuthState {
     hasStoredPreference: boolean;
     currentPath: string;
   };
-  
+
   // UI State
   retryCount: number;
   lastError: string | null;
@@ -194,7 +194,7 @@ function authStateReducer(state: AuthState, action: AuthAction): AuthState {
 export function useAuthStateReducer() {
   const [state, dispatch] = useReducer(authStateReducer, initialState);
   const { isAuthenticated, isInitialized, user, clearError } = useAuthentication();
-  
+
   // Cleanup tracker for memory leak prevention
   const cleanupRefs = useRef<Set<() => void>>(new Set());
   const isUnmountedRef = useRef(false);
@@ -219,7 +219,7 @@ export function useAuthStateReducer() {
     if (isInitialized) {
       safeDispatch({
         type: 'AUTH_INIT_SUCCESS',
-        payload: { user: isAuthenticated ? user : null }
+        payload: { user: isAuthenticated ? user : null },
       });
     }
   }, [isAuthenticated, isInitialized, user, safeDispatch]);
@@ -242,15 +242,15 @@ export function useAuthStateReducer() {
               hasAppParam,
               hasStoredPreference,
               currentPath,
-            }
-          }
+            },
+          },
         });
 
         // Determine if should show app
         const shouldShow = hasAppParam || hasStoredPreference;
         safeDispatch({
           type: 'SET_SHOULD_SHOW_APP',
-          payload: { show: shouldShow }
+          payload: { show: shouldShow },
         });
 
         console.log('🔍 Navigation State Updated:', {
@@ -258,14 +258,13 @@ export function useAuthStateReducer() {
           hasStoredPreference,
           shouldShow,
           isAuthenticated,
-          currentPath
+          currentPath,
         });
-
       } catch (error) {
         console.error('Navigation detection error:', error);
         safeDispatch({
           type: 'AUTH_INIT_ERROR',
-          payload: { error: 'Navigation detection failed' }
+          payload: { error: 'Navigation detection failed' },
         });
       }
     };
@@ -309,27 +308,33 @@ export function useAuthStateReducer() {
 
   // Enhanced Action Creators
   const actions = {
-    login: useCallback((user: AuthUser) => {
-      safeDispatch({ type: 'AUTH_LOGIN_SUCCESS', payload: { user } });
-      
-      // Clear navigation flags on successful login
-      try {
-        localStorage.removeItem('ff-show-app');
-        const url = new URL(window.location.href);
-        url.searchParams.delete('app');
-        window.history.replaceState({}, '', url.toString());
-      } catch (error) {
-        console.error('Error clearing navigation flags:', error);
-      }
-    }, [safeDispatch]),
+    login: useCallback(
+      (user: AuthUser) => {
+        safeDispatch({ type: 'AUTH_LOGIN_SUCCESS', payload: { user } });
+
+        // Clear navigation flags on successful login
+        try {
+          localStorage.removeItem('ff-show-app');
+          const url = new URL(window.location.href);
+          url.searchParams.delete('app');
+          window.history.replaceState({}, '', url.toString());
+        } catch (error) {
+          console.error('Error clearing navigation flags:', error);
+        }
+      },
+      [safeDispatch]
+    ),
 
     logout: useCallback(() => {
       safeDispatch({ type: 'AUTH_LOGOUT' });
     }, [safeDispatch]),
 
-    showAuthModal: useCallback((show: boolean) => {
-      safeDispatch({ type: 'SHOW_AUTH_MODAL', payload: { show } });
-    }, [safeDispatch]),
+    showAuthModal: useCallback(
+      (show: boolean) => {
+        safeDispatch({ type: 'SHOW_AUTH_MODAL', payload: { show } });
+      },
+      [safeDispatch]
+    ),
 
     clearError: useCallback(() => {
       safeDispatch({ type: 'CLEAR_ERROR' });
@@ -340,13 +345,16 @@ export function useAuthStateReducer() {
       safeDispatch({ type: 'RETRY_AUTH' });
     }, [safeDispatch]),
 
-    handleAuthError: useCallback((error: string) => {
-      safeDispatch({ type: 'AUTH_LOGIN_ERROR', payload: { error } });
-    }, [safeDispatch]),
+    handleAuthError: useCallback(
+      (error: string) => {
+        safeDispatch({ type: 'AUTH_LOGIN_ERROR', payload: { error } });
+      },
+      [safeDispatch]
+    ),
 
     closeAuthModal: useCallback(() => {
       safeDispatch({ type: 'SHOW_AUTH_MODAL', payload: { show: false } });
-      
+
       // Clear navigation flags when closing modal
       try {
         localStorage.removeItem('ff-show-app');
@@ -363,16 +371,16 @@ export function useAuthStateReducer() {
   useEffect(() => {
     return () => {
       isUnmountedRef.current = true;
-      
+
       // Run all registered cleanup functions
-      cleanupRefs.current.forEach(cleanup => {
+      cleanupRefs.current.forEach((cleanup) => {
         try {
           cleanup();
         } catch (error) {
           console.error('Cleanup error:', error);
         }
       });
-      
+
       cleanupRefs.current.clear();
     };
   }, []);

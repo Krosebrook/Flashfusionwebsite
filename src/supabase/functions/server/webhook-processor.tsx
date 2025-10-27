@@ -24,13 +24,13 @@ interface ProcessingResult {
 
 /**
  * Webhook Event Processor
- * 
+ *
  * Handles incoming webhooks from GitHub, GitLab, deployments, and internal FlashFusion events.
  * Provides real-time updates, automatic repository analysis, and team notifications.
  */
 class WebhookProcessor {
   private supabase: any;
-  
+
   constructor() {
     this.supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
@@ -41,7 +41,11 @@ class WebhookProcessor {
   /**
    * Verify webhook signature for security
    */
-  private async verifySignature(payload: string, signature: string, secret: string): Promise<boolean> {
+  private async verifySignature(
+    payload: string,
+    signature: string,
+    secret: string
+  ): Promise<boolean> {
     try {
       const encoder = new TextEncoder();
       const key = await crypto.subtle.importKey(
@@ -51,12 +55,12 @@ class WebhookProcessor {
         false,
         ['sign']
       );
-      
+
       const expectedSignature = await crypto.subtle.sign('HMAC', key, encoder.encode(payload));
       const expectedHex = Array.from(new Uint8Array(expectedSignature))
-        .map(b => b.toString(16).padStart(2, '0'))
+        .map((b) => b.toString(16).padStart(2, '0'))
         .join('');
-      
+
       const providedSignature = signature.replace('sha256=', '');
       return providedSignature === expectedHex;
     } catch (error) {
@@ -77,27 +81,27 @@ class WebhookProcessor {
       switch (type) {
         case 'push':
           return await this.handleGitHubPush(payload, actions);
-        
+
         case 'pull_request':
           return await this.handleGitHubPullRequest(payload, actions);
-        
+
         case 'issues':
           return await this.handleGitHubIssues(payload, actions);
-        
+
         case 'release':
           return await this.handleGitHubRelease(payload, actions);
-        
+
         case 'deployment_status':
           return await this.handleGitHubDeployment(payload, actions);
-        
+
         case 'workflow_run':
           return await this.handleGitHubWorkflow(payload, actions);
-        
+
         default:
           return {
             success: true,
             message: `GitHub ${type} event received but not processed`,
-            actions: ['logged']
+            actions: ['logged'],
           };
       }
     } catch (error) {
@@ -120,10 +124,11 @@ class WebhookProcessor {
 
     // Trigger AI re-analysis if significant changes
     if (commits.length > 0) {
-      const significantFiles = commits.flatMap((commit: any) => 
-        [...(commit.added || []), ...(commit.modified || [])]
-      );
-      
+      const significantFiles = commits.flatMap((commit: any) => [
+        ...(commit.added || []),
+        ...(commit.modified || []),
+      ]);
+
       if (this.hasSignificantChanges(significantFiles)) {
         await this.triggerRepositoryAnalysis(repository.clone_url, branch);
         actions.push('analysis_triggered');
@@ -134,21 +139,24 @@ class WebhookProcessor {
     await this.notifyTeamMembers(repository.full_name, 'push', {
       branch,
       commits: commits.length,
-      pusher: payload.pusher?.name || 'Unknown'
+      pusher: payload.pusher?.name || 'Unknown',
     });
     actions.push('team_notified');
 
     return {
       success: true,
       message: `Processed ${commits.length} commits on ${branch} branch`,
-      actions
+      actions,
     };
   }
 
   /**
    * Handle GitHub pull request events
    */
-  private async handleGitHubPullRequest(payload: any, actions: string[]): Promise<ProcessingResult> {
+  private async handleGitHubPullRequest(
+    payload: any,
+    actions: string[]
+  ): Promise<ProcessingResult> {
     const pr = payload.pull_request;
     const action = payload.action;
     const repository = payload.repository;
@@ -177,14 +185,14 @@ class WebhookProcessor {
       action,
       title: pr.title,
       author: pr.user?.login || 'Unknown',
-      url: pr.html_url
+      url: pr.html_url,
     });
     actions.push('team_notified');
 
     return {
       success: true,
       message: `Processed PR ${action}: ${pr.title}`,
-      actions
+      actions,
     };
   }
 
@@ -214,14 +222,14 @@ class WebhookProcessor {
       action,
       title: issue.title,
       author: issue.user?.login || 'Unknown',
-      url: issue.html_url
+      url: issue.html_url,
     });
     actions.push('team_notified');
 
     return {
       success: true,
       message: `Processed issue ${action}: ${issue.title}`,
-      actions
+      actions,
     };
   }
 
@@ -254,7 +262,7 @@ class WebhookProcessor {
     return {
       success: true,
       message: `Processed release ${action}: ${release.tag_name}`,
-      actions
+      actions,
     };
   }
 
@@ -279,14 +287,14 @@ class WebhookProcessor {
     await this.notifyTeamMembers(repository.full_name, 'deployment', {
       state: deployment.state,
       environment: deployment.environment,
-      url: deployment.target_url
+      url: deployment.target_url,
     });
     actions.push('team_notified');
 
     return {
       success: true,
       message: `Processed deployment status: ${deployment.state}`,
-      actions
+      actions,
     };
   }
 
@@ -310,7 +318,7 @@ class WebhookProcessor {
     return {
       success: true,
       message: `Processed workflow: ${workflow.name} - ${workflow.status}`,
-      actions
+      actions,
     };
   }
 
@@ -325,21 +333,21 @@ class WebhookProcessor {
       switch (type) {
         case 'project_generated':
           return await this.handleProjectGenerated(payload, actions);
-        
+
         case 'export_completed':
           return await this.handleExportCompleted(payload, actions);
-        
+
         case 'team_member_added':
           return await this.handleTeamMemberAdded(payload, actions);
-        
+
         case 'analysis_completed':
           return await this.handleAnalysisCompleted(payload, actions);
-        
+
         default:
           return {
             success: true,
             message: `Internal ${type} event received but not processed`,
-            actions: ['logged']
+            actions: ['logged'],
           };
       }
     } catch (error) {
@@ -347,7 +355,7 @@ class WebhookProcessor {
         success: false,
         message: 'Internal webhook processing failed',
         actions,
-        errors: [error.message]
+        errors: [error.message],
       };
     }
   }
@@ -371,7 +379,7 @@ class WebhookProcessor {
     return {
       success: true,
       message: 'Project generation completed successfully',
-      actions
+      actions,
     };
   }
 
@@ -390,7 +398,7 @@ class WebhookProcessor {
     return {
       success: true,
       message: 'Export completed successfully',
-      actions
+      actions,
     };
   }
 
@@ -413,7 +421,7 @@ class WebhookProcessor {
     return {
       success: true,
       message: 'Team member added successfully',
-      actions
+      actions,
     };
   }
 
@@ -421,28 +429,40 @@ class WebhookProcessor {
    * Utility functions
    */
   private hasSignificantChanges(files: string[]): boolean {
-    const significantExtensions = ['.js', '.ts', '.tsx', '.jsx', '.py', '.java', '.php', '.go', '.rs'];
+    const significantExtensions = [
+      '.js',
+      '.ts',
+      '.tsx',
+      '.jsx',
+      '.py',
+      '.java',
+      '.php',
+      '.go',
+      '.rs',
+    ];
     const configFiles = ['package.json', 'requirements.txt', 'Dockerfile', '.env'];
-    
-    return files.some(file => 
-      significantExtensions.some(ext => file.endsWith(ext)) ||
-      configFiles.some(config => file.includes(config))
+
+    return files.some(
+      (file) =>
+        significantExtensions.some((ext) => file.endsWith(ext)) ||
+        configFiles.some((config) => file.includes(config))
     );
   }
 
   private async updateRepositoryInfo(repository: any, branch: string): Promise<void> {
     try {
-      const { error } = await this.supabase
-        .from('repositories')
-        .upsert({
+      const { error } = await this.supabase.from('repositories').upsert(
+        {
           github_id: repository.id,
           name: repository.name,
           full_name: repository.full_name,
           url: repository.clone_url,
           default_branch: branch,
           updated_at: new Date().toISOString(),
-          last_push_at: new Date().toISOString()
-        }, { onConflict: 'github_id' });
+          last_push_at: new Date().toISOString(),
+        },
+        { onConflict: 'github_id' }
+      );
 
       if (error) {
         console.error('Failed to update repository info:', error);
@@ -458,7 +478,7 @@ class WebhookProcessor {
       repository_url: repoUrl,
       branch: branch,
       timestamp: new Date().toISOString(),
-      trigger: 'webhook_push'
+      trigger: 'webhook_push',
     };
 
     // In a real implementation, this would trigger the analysis service
@@ -471,7 +491,7 @@ class WebhookProcessor {
       repository: repoName,
       event_type: eventType,
       data: data,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     // In a real implementation, this would send notifications via email, Slack, etc.
@@ -484,7 +504,7 @@ class WebhookProcessor {
         .from('projects')
         .update({
           status: status,
-          updated_at: new Date().toISOString()
+          updated_at: new Date().toISOString(),
         })
         .eq('id', projectId);
 
@@ -503,13 +523,11 @@ class WebhookProcessor {
       type: type,
       payload: payload,
       timestamp: new Date().toISOString(),
-      read: false
+      read: false,
     };
 
     try {
-      const { error } = await this.supabase
-        .from('notifications')
-        .insert(notification);
+      const { error } = await this.supabase.from('notifications').insert(notification);
 
       if (error) {
         console.error('Failed to create notification:', error);
@@ -526,24 +544,24 @@ class WebhookProcessor {
     try {
       const body = await request.text();
       const headers = Object.fromEntries(request.headers.entries());
-      
+
       // Determine webhook source
       const source = this.determineWebhookSource(headers);
       const eventType = this.extractEventType(headers, source);
-      
+
       // Parse payload
       const payload = JSON.parse(body);
-      
+
       // Verify signature if required
       const signature = headers['x-hub-signature-256'] || headers['x-gitlab-token'];
       if (signature) {
         const secret = Deno.env.get(`${source.toUpperCase()}_WEBHOOK_SECRET`) || '';
         const isValid = await this.verifySignature(body, signature, secret);
-        
+
         if (!isValid) {
-          return new Response('Invalid signature', { 
+          return new Response('Invalid signature', {
             status: 401,
-            headers: corsHeaders 
+            headers: corsHeaders,
           });
         }
       }
@@ -558,12 +576,12 @@ class WebhookProcessor {
         signature: signature,
         processed: false,
         retryCount: 0,
-        processingLog: []
+        processingLog: [],
       };
 
       // Process webhook based on source
       let result: ProcessingResult;
-      
+
       switch (source) {
         case 'github':
           result = await this.processGitHubWebhook(webhookEvent);
@@ -578,14 +596,14 @@ class WebhookProcessor {
           result = {
             success: false,
             message: `Unsupported webhook source: ${source}`,
-            actions: []
+            actions: [],
           };
       }
 
       // Update webhook event with processing result
       webhookEvent.processed = result.success;
       webhookEvent.processingLog.push(result.message);
-      
+
       if (result.errors) {
         webhookEvent.processingLog.push(...result.errors);
       }
@@ -598,24 +616,26 @@ class WebhookProcessor {
         status: result.success ? 200 : 500,
         headers: {
           ...corsHeaders,
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       });
-
     } catch (error) {
       console.error('Webhook processing error:', error);
-      
-      return new Response(JSON.stringify({
-        success: false,
-        message: 'Webhook processing failed',
-        error: error.message
-      }), {
-        status: 500,
-        headers: {
-          ...corsHeaders,
-          'Content-Type': 'application/json'
+
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: 'Webhook processing failed',
+          error: error.message,
+        }),
+        {
+          status: 500,
+          headers: {
+            ...corsHeaders,
+            'Content-Type': 'application/json',
+          },
         }
-      });
+      );
     }
   }
 
@@ -644,24 +664,22 @@ class WebhookProcessor {
     return {
       success: true,
       message: 'GitLab webhook processed',
-      actions: ['logged']
+      actions: ['logged'],
     };
   }
 
   private async storeWebhookEvent(event: WebhookEvent): Promise<void> {
     try {
-      const { error } = await this.supabase
-        .from('webhook_events')
-        .insert({
-          id: event.id,
-          type: event.type,
-          source: event.source,
-          timestamp: event.timestamp,
-          payload: event.payload,
-          processed: event.processed,
-          retry_count: event.retryCount,
-          processing_log: event.processingLog
-        });
+      const { error } = await this.supabase.from('webhook_events').insert({
+        id: event.id,
+        type: event.type,
+        source: event.source,
+        timestamp: event.timestamp,
+        payload: event.payload,
+        processed: event.processed,
+        retry_count: event.retryCount,
+        processing_log: event.processingLog,
+      });
 
       if (error) {
         console.error('Failed to store webhook event:', error);
@@ -672,24 +690,69 @@ class WebhookProcessor {
   }
 
   // Placeholder functions for complete implementation
-  private async updatePullRequestInfo(pr: any, repository: any): Promise<void> { /* Implementation */ }
-  private async triggerCodeReviewAnalysis(pr: any): Promise<void> { /* Implementation */ }
-  private async getRecommendedReviewers(changedFiles: any): Promise<string[]> { return []; }
-  private async updateIssueInfo(issue: any, repository: any): Promise<void> { /* Implementation */ }
-  private async analyzeIssueForLabels(issue: any): Promise<string[]> { return []; }
-  private async updateReleaseInfo(release: any, repository: any): Promise<void> { /* Implementation */ }
-  private async triggerDeploymentWorkflows(repository: any, release: any): Promise<void> { /* Implementation */ }
-  private async updateProjectDocumentation(repository: any, release: any): Promise<void> { /* Implementation */ }
-  private async notifyRelease(repoName: string, release: any): Promise<void> { /* Implementation */ }
-  private async updateDeploymentStatus(deployment: any, repository: any): Promise<void> { /* Implementation */ }
-  private async triggerPostDeploymentAnalysis(deployment: any, repository: any): Promise<void> { /* Implementation */ }
-  private async updateWorkflowStatus(workflow: any, repository: any): Promise<void> { /* Implementation */ }
-  private async analyzeWorkflowPerformance(workflow: any): Promise<void> { /* Implementation */ }
-  private async triggerProjectAnalysis(projectId: string): Promise<void> { /* Implementation */ }
-  private async updateExportJobStatus(jobId: string, status: string, downloadUrl?: string): Promise<void> { /* Implementation */ }
-  private async updateTeamMemberStatus(teamId: string, memberId: string, status: string): Promise<void> { /* Implementation */ }
-  private async notifyTeam(teamId: string, type: string, payload: any): Promise<void> { /* Implementation */ }
-  private async handleAnalysisCompleted(payload: any, actions: string[]): Promise<ProcessingResult> { 
+  private async updatePullRequestInfo(pr: any, repository: any): Promise<void> {
+    /* Implementation */
+  }
+  private async triggerCodeReviewAnalysis(pr: any): Promise<void> {
+    /* Implementation */
+  }
+  private async getRecommendedReviewers(changedFiles: any): Promise<string[]> {
+    return [];
+  }
+  private async updateIssueInfo(issue: any, repository: any): Promise<void> {
+    /* Implementation */
+  }
+  private async analyzeIssueForLabels(issue: any): Promise<string[]> {
+    return [];
+  }
+  private async updateReleaseInfo(release: any, repository: any): Promise<void> {
+    /* Implementation */
+  }
+  private async triggerDeploymentWorkflows(repository: any, release: any): Promise<void> {
+    /* Implementation */
+  }
+  private async updateProjectDocumentation(repository: any, release: any): Promise<void> {
+    /* Implementation */
+  }
+  private async notifyRelease(repoName: string, release: any): Promise<void> {
+    /* Implementation */
+  }
+  private async updateDeploymentStatus(deployment: any, repository: any): Promise<void> {
+    /* Implementation */
+  }
+  private async triggerPostDeploymentAnalysis(deployment: any, repository: any): Promise<void> {
+    /* Implementation */
+  }
+  private async updateWorkflowStatus(workflow: any, repository: any): Promise<void> {
+    /* Implementation */
+  }
+  private async analyzeWorkflowPerformance(workflow: any): Promise<void> {
+    /* Implementation */
+  }
+  private async triggerProjectAnalysis(projectId: string): Promise<void> {
+    /* Implementation */
+  }
+  private async updateExportJobStatus(
+    jobId: string,
+    status: string,
+    downloadUrl?: string
+  ): Promise<void> {
+    /* Implementation */
+  }
+  private async updateTeamMemberStatus(
+    teamId: string,
+    memberId: string,
+    status: string
+  ): Promise<void> {
+    /* Implementation */
+  }
+  private async notifyTeam(teamId: string, type: string, payload: any): Promise<void> {
+    /* Implementation */
+  }
+  private async handleAnalysisCompleted(
+    payload: any,
+    actions: string[]
+  ): Promise<ProcessingResult> {
     return { success: true, message: 'Analysis completed', actions };
   }
 }
@@ -702,9 +765,9 @@ serve(async (req) => {
   }
 
   if (req.method !== 'POST') {
-    return new Response('Method not allowed', { 
-      status: 405, 
-      headers: corsHeaders 
+    return new Response('Method not allowed', {
+      status: 405,
+      headers: corsHeaders,
     });
   }
 

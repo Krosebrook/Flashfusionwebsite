@@ -4,7 +4,7 @@
  * @category pricing
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Interactive pricing dropdown with hover/click functionality
  * featuring promotional offers, feature comparisons, and sub-plan options.
  */
@@ -13,7 +13,7 @@ import React, { useState, useCallback } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -24,7 +24,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { 
+import {
   Crown,
   Star,
   Zap,
@@ -42,7 +42,7 @@ import {
   ArrowRight,
   Info,
   Heart,
-  TrendingUp
+  TrendingUp,
 } from 'lucide-react';
 
 interface PricingPlan {
@@ -79,10 +79,10 @@ interface PricingDropdownMenuProps {
   showPromotionalOffer?: boolean;
 }
 
-export function PricingDropdownMenu({ 
-  onSelectPlan, 
+export function PricingDropdownMenu({
+  onSelectPlan,
   onGetStarted,
-  showPromotionalOffer = true 
+  showPromotionalOffer = true,
 }: PricingDropdownMenuProps) {
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -105,7 +105,7 @@ export function PricingDropdownMenu({
         'Priority support',
         '5GB storage',
         'Advanced analytics',
-        'Custom branding'
+        'Custom branding',
       ],
       subPlans: [
         {
@@ -114,7 +114,7 @@ export function PricingDropdownMenu({
           price: showPromotionalOffer ? '$14.50' : '$29',
           period: '/month',
           description: 'Pay monthly, cancel anytime',
-          features: ['All Starter Pro features', 'Monthly billing', 'Cancel anytime']
+          features: ['All Starter Pro features', 'Monthly billing', 'Cancel anytime'],
         },
         {
           id: 'starter-yearly',
@@ -122,23 +122,23 @@ export function PricingDropdownMenu({
           price: showPromotionalOffer ? '$145' : '$290',
           period: '/year',
           description: 'Save 2 months with yearly plan',
-          features: ['All Starter Pro features', '2 months free', 'Yearly billing']
-        }
+          features: ['All Starter Pro features', '2 months free', 'Yearly billing'],
+        },
       ],
       addOns: [
         {
           id: 'extra-storage',
           name: 'Extra Storage',
           price: '+$5',
-          description: 'Additional 10GB storage'
+          description: 'Additional 10GB storage',
         },
         {
           id: 'priority-generation',
           name: 'Priority Queue',
           price: '+$10',
-          description: 'Skip generation queues'
-        }
-      ]
+          description: 'Skip generation queues',
+        },
+      ],
     },
     {
       id: 'professional',
@@ -159,7 +159,7 @@ export function PricingDropdownMenu({
         'Advanced analytics & insights',
         'White-label solutions',
         'API access & webhooks',
-        'Team collaboration tools'
+        'Team collaboration tools',
       ],
       subPlans: [
         {
@@ -168,7 +168,7 @@ export function PricingDropdownMenu({
           price: showPromotionalOffer ? '$39.50' : '$79',
           period: '/month',
           description: 'Full professional features',
-          features: ['All Professional features', 'Monthly billing', 'Priority support']
+          features: ['All Professional features', 'Monthly billing', 'Priority support'],
         },
         {
           id: 'pro-yearly',
@@ -176,7 +176,7 @@ export function PricingDropdownMenu({
           price: showPromotionalOffer ? '$395' : '$790',
           period: '/year',
           description: 'Best value for professionals',
-          features: ['All Professional features', '2 months free', 'Extended support']
+          features: ['All Professional features', '2 months free', 'Extended support'],
         },
         {
           id: 'pro-quarterly',
@@ -184,29 +184,29 @@ export function PricingDropdownMenu({
           price: showPromotionalOffer ? '$118.50' : '$237',
           period: '/quarter',
           description: 'Flexible quarterly billing',
-          features: ['All Professional features', 'Quarterly billing', 'Flexible commitment']
-        }
+          features: ['All Professional features', 'Quarterly billing', 'Flexible commitment'],
+        },
       ],
       addOns: [
         {
           id: 'team-seats',
           name: 'Additional Team Seats',
           price: '+$15',
-          description: 'Per additional team member'
+          description: 'Per additional team member',
         },
         {
           id: 'advanced-analytics',
           name: 'Advanced Analytics',
           price: '+$20',
-          description: 'Deep insights and reporting'
+          description: 'Deep insights and reporting',
         },
         {
           id: 'white-label-plus',
           name: 'White Label Plus',
           price: '+$25',
-          description: 'Complete branding customization'
-        }
-      ]
+          description: 'Complete branding customization',
+        },
+      ],
     },
     {
       id: 'enterprise',
@@ -226,7 +226,7 @@ export function PricingDropdownMenu({
         'Enterprise security & compliance',
         'On-premise deployment options',
         'Custom AI model training',
-        'SLA guarantees'
+        'SLA guarantees',
       ],
       subPlans: [
         {
@@ -235,7 +235,7 @@ export function PricingDropdownMenu({
           price: showPromotionalOffer ? '$99.50' : '$199',
           period: '/month',
           description: 'Full enterprise features',
-          features: ['All Enterprise features', 'Dedicated support', 'SLA included']
+          features: ['All Enterprise features', 'Dedicated support', 'SLA included'],
         },
         {
           id: 'enterprise-premium',
@@ -243,7 +243,7 @@ export function PricingDropdownMenu({
           price: showPromotionalOffer ? '$149.50' : '$299',
           period: '/month',
           description: 'Enhanced enterprise package',
-          features: ['Everything in Standard', 'Custom integrations', 'On-premise option']
+          features: ['Everything in Standard', 'Custom integrations', 'On-premise option'],
         },
         {
           id: 'enterprise-custom',
@@ -251,45 +251,51 @@ export function PricingDropdownMenu({
           price: 'Contact Sales',
           period: '',
           description: 'Tailored to your needs',
-          features: ['Custom pricing', 'Unlimited everything', 'Personal account manager']
-        }
+          features: ['Custom pricing', 'Unlimited everything', 'Personal account manager'],
+        },
       ],
       addOns: [
         {
           id: 'dedicated-infrastructure',
           name: 'Dedicated Infrastructure',
           price: '+$500',
-          description: 'Private cloud deployment'
+          description: 'Private cloud deployment',
         },
         {
           id: 'custom-model-training',
           name: 'Custom AI Model',
           price: '+$1000',
-          description: 'Train AI on your data'
+          description: 'Train AI on your data',
         },
         {
           id: 'professional-services',
           name: 'Professional Services',
           price: 'Contact Sales',
-          description: 'Implementation and consulting'
-        }
-      ]
-    }
+          description: 'Implementation and consulting',
+        },
+      ],
+    },
   ];
 
-  const handlePlanSelect = useCallback((planId: string, subPlanId?: string) => {
-    setSelectedPlan(planId);
-    onSelectPlan?.(planId, subPlanId);
-  }, [onSelectPlan]);
+  const handlePlanSelect = useCallback(
+    (planId: string, subPlanId?: string) => {
+      setSelectedPlan(planId);
+      onSelectPlan?.(planId, subPlanId);
+    },
+    [onSelectPlan]
+  );
 
-  const handleGetStarted = useCallback((planId: string) => {
-    onGetStarted?.(planId);
-  }, [onGetStarted]);
+  const handleGetStarted = useCallback(
+    (planId: string) => {
+      onGetStarted?.(planId);
+    },
+    [onGetStarted]
+  );
 
   const PlanDropdown = ({ plan }: { plan: PricingPlan }) => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Card 
+        <Card
           className={`ff-card-interactive cursor-pointer transition-all duration-300 ${
             plan.popular ? 'ring-2 ring-[var(--ff-primary)] ring-opacity-50' : ''
           } ${hoveredPlan === plan.id ? 'ff-hover-lift' : ''}`}
@@ -301,7 +307,7 @@ export function PricingDropdownMenu({
         >
           <CardHeader className="relative pb-6">
             {plan.badge && (
-              <Badge 
+              <Badge
                 variant={plan.badgeVariant || 'default'}
                 className="absolute -top-2 -right-2 ff-badge-glow"
               >
@@ -322,11 +328,14 @@ export function PricingDropdownMenu({
                 </CardDescription>
               </div>
             </div>
-            
+
             <div className="flex items-baseline gap-2 mb-4">
               {plan.discountedPrice && (
                 <>
-                  <span className="text-3xl font-bold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
+                  <span
+                    className="text-3xl font-bold text-[var(--ff-text-primary)]"
+                    style={{ fontFamily: 'var(--ff-font-primary)' }}
+                  >
                     {plan.discountedPrice}
                   </span>
                   <span className="text-lg text-[var(--ff-text-muted)] line-through">
@@ -335,13 +344,14 @@ export function PricingDropdownMenu({
                 </>
               )}
               {!plan.discountedPrice && (
-                <span className="text-3xl font-bold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
+                <span
+                  className="text-3xl font-bold text-[var(--ff-text-primary)]"
+                  style={{ fontFamily: 'var(--ff-font-primary)' }}
+                >
                   {plan.basePrice}
                 </span>
               )}
-              <span className="text-[var(--ff-text-muted)] ff-text-caption">
-                {plan.period}
-              </span>
+              <span className="text-[var(--ff-text-muted)] ff-text-caption">{plan.period}</span>
             </div>
 
             <div className="flex items-center gap-2 text-[var(--ff-text-secondary)] ff-text-caption">
@@ -352,7 +362,7 @@ export function PricingDropdownMenu({
         </Card>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent 
+      <DropdownMenuContent
         className="w-80 bg-[var(--ff-surface)] border-[var(--border)] ff-fade-in-up"
         align="center"
         side="bottom"
@@ -384,7 +394,10 @@ export function PricingDropdownMenu({
                     <div className="flex flex-col gap-1 w-full">
                       <div className="flex items-center justify-between">
                         <span className="font-semibold">{subPlan.name}</span>
-                        <span className="text-[var(--ff-primary)] font-bold">{subPlan.price}{subPlan.period}</span>
+                        <span className="text-[var(--ff-primary)] font-bold">
+                          {subPlan.price}
+                          {subPlan.period}
+                        </span>
                       </div>
                       <p className="text-xs text-[var(--ff-text-muted)]">{subPlan.description}</p>
                     </div>
@@ -439,7 +452,9 @@ export function PricingDropdownMenu({
                     <div className="flex flex-col gap-1 w-full">
                       <div className="flex items-center justify-between">
                         <span className="font-medium">{addOn.name}</span>
-                        <span className="text-[var(--ff-secondary)] font-semibold">{addOn.price}</span>
+                        <span className="text-[var(--ff-secondary)] font-semibold">
+                          {addOn.price}
+                        </span>
                       </div>
                       <p className="text-xs text-[var(--ff-text-muted)]">{addOn.description}</p>
                     </div>
@@ -451,7 +466,7 @@ export function PricingDropdownMenu({
         )}
 
         <DropdownMenuSeparator className="bg-[var(--border)]" />
-        
+
         {/* Action Buttons */}
         <div className="p-3 space-y-2">
           <Button
@@ -464,7 +479,9 @@ export function PricingDropdownMenu({
           <Button
             variant="outline"
             className="w-full text-[var(--ff-text-primary)] border-[var(--border)] hover:bg-[var(--ff-surface-light)]"
-            onClick={() => {/* Handle learn more */}}
+            onClick={() => {
+              /* Handle learn more */
+            }}
           >
             <Info className="w-4 h-4 mr-2" />
             Learn More
@@ -482,21 +499,20 @@ export function PricingDropdownMenu({
           <div className="w-12 h-12 bg-gradient-to-br from-[var(--ff-primary)] to-[var(--ff-secondary)] rounded-xl flex items-center justify-center">
             <Crown className="w-6 h-6 text-white" />
           </div>
-          <h2 className="ff-text-headline">
-            Choose Your Plan
-          </h2>
+          <h2 className="ff-text-headline">Choose Your Plan</h2>
         </div>
-        
+
         {showPromotionalOffer && (
           <div className="flex items-center justify-center gap-2 p-4 bg-gradient-to-r from-[var(--ff-primary)]/10 to-[var(--ff-secondary)]/10 rounded-lg border border-[var(--ff-primary)]/20">
             <Percent className="w-5 h-5 text-[var(--ff-primary)]" />
             <p className="text-[var(--ff-text-primary)] ff-text-body">
-              <span className="font-bold text-[var(--ff-primary)]">Limited Time:</span> 50% OFF all plans - Save up to $1,200/year!
+              <span className="font-bold text-[var(--ff-primary)]">Limited Time:</span> 50% OFF all
+              plans - Save up to $1,200/year!
             </p>
             <TrendingUp className="w-5 h-5 text-[var(--ff-success)]" />
           </div>
         )}
-        
+
         <p className="text-[var(--ff-text-secondary)] ff-text-body max-w-2xl mx-auto">
           Hover or click on any plan to explore billing options, features, and available add-ons.
           All plans include our core AI development platform with premium support.
@@ -528,9 +544,13 @@ export function PricingDropdownMenu({
             <span>24/7 support included</span>
           </div>
         </div>
-        
+
         <p className="text-[var(--ff-text-muted)] ff-text-caption">
-          Need a custom solution? <button className="text-[var(--ff-primary)] hover:underline font-semibold">Contact our sales team</button> for enterprise pricing and features.
+          Need a custom solution?{' '}
+          <button className="text-[var(--ff-primary)] hover:underline font-semibold">
+            Contact our sales team
+          </button>{' '}
+          for enterprise pricing and features.
         </p>
       </div>
     </div>

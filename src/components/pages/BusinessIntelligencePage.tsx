@@ -4,7 +4,7 @@
  * @category pages
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * This page provides access to the comprehensive business intelligence hub
  * with enterprise-grade analytics and monitoring capabilities.
  */

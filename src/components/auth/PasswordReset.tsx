@@ -4,7 +4,7 @@
  * @category authentication
  * @version 1.0.0
  * @author FlashFusion Team
- * 
+ *
  * Handles password reset for users who forgot their password
  */
 
@@ -15,15 +15,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Alert, AlertDescription } from '../ui/alert';
-import { 
-  Eye, 
-  EyeOff, 
-  Lock, 
-  CheckCircle, 
-  AlertCircle, 
-  Loader2,
-  ArrowLeft 
-} from 'lucide-react';
+import { Eye, EyeOff, Lock, CheckCircle, AlertCircle, Loader2, ArrowLeft } from 'lucide-react';
 
 export function PasswordReset() {
   const [password, setPassword] = useState('');
@@ -68,48 +60,50 @@ export function PasswordReset() {
     return true;
   }, []);
 
-  const handlePasswordReset = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validatePassword(password)) return;
-    
-    if (password !== confirmPassword) {
-      setPasswordError('Passwords do not match');
-      return;
-    }
+  const handlePasswordReset = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
 
-    setIsLoading(true);
-    setError('');
+      if (!validatePassword(password)) return;
 
-    try {
-      console.log('🔑 Updating password...');
-      
-      // Update the user's password
-      const { error } = await supabase.auth.updateUser({
-        password: password
-      });
-
-      if (error) {
-        console.error('❌ Password update error:', error);
-        throw new Error(error.message);
+      if (password !== confirmPassword) {
+        setPasswordError('Passwords do not match');
+        return;
       }
 
-      console.log('✅ Password updated successfully');
-      setIsComplete(true);
-      
-      // Redirect to app after a brief delay
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 3000);
+      setIsLoading(true);
+      setError('');
 
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to reset password';
-      console.error('❌ Password reset failed:', errorMessage);
-      setError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [password, confirmPassword, validatePassword]);
+      try {
+        console.log('🔑 Updating password...');
+
+        // Update the user's password
+        const { error } = await supabase.auth.updateUser({
+          password: password,
+        });
+
+        if (error) {
+          console.error('❌ Password update error:', error);
+          throw new Error(error.message);
+        }
+
+        console.log('✅ Password updated successfully');
+        setIsComplete(true);
+
+        // Redirect to app after a brief delay
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 3000);
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to reset password';
+        console.error('❌ Password reset failed:', errorMessage);
+        setError(errorMessage);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [password, confirmPassword, validatePassword]
+  );
 
   const handleReturnToLogin = () => {
     window.location.href = '/';
@@ -124,8 +118,8 @@ export function PasswordReset() {
               <div className="w-16 h-16 mx-auto bg-[var(--ff-success)] bg-opacity-10 rounded-full flex items-center justify-center mb-4">
                 <CheckCircle className="w-8 h-8 text-[var(--ff-success)]" />
               </div>
-              <CardTitle 
-                className="text-2xl font-bold text-[var(--ff-success)]" 
+              <CardTitle
+                className="text-2xl font-bold text-[var(--ff-success)]"
                 style={{ fontFamily: 'var(--ff-font-primary)' }}
               >
                 Password Updated!
@@ -136,14 +130,15 @@ export function PasswordReset() {
               <Alert className="border-[var(--ff-success)] bg-[var(--ff-success)] bg-opacity-10">
                 <CheckCircle className="h-4 w-4 text-[var(--ff-success)]" />
                 <AlertDescription className="text-[var(--ff-success)]">
-                  Your password has been successfully updated. You can now sign in with your new password.
+                  Your password has been successfully updated. You can now sign in with your new
+                  password.
                 </AlertDescription>
               </Alert>
-              
+
               <p className="text-center text-[var(--ff-text-secondary)] text-sm">
                 You will be redirected to the app automatically, or you can click the button below.
               </p>
-              
+
               <Button
                 onClick={handleReturnToLogin}
                 className="w-full bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white font-semibold py-3 rounded-lg transition-all duration-200"
@@ -166,8 +161,8 @@ export function PasswordReset() {
             <div className="w-12 h-12 mx-auto bg-[var(--ff-primary)] bg-opacity-10 rounded-full flex items-center justify-center mb-4">
               <Lock className="w-6 h-6 text-[var(--ff-primary)]" />
             </div>
-            <CardTitle 
-              className="text-2xl font-bold text-[var(--ff-text-primary)]" 
+            <CardTitle
+              className="text-2xl font-bold text-[var(--ff-text-primary)]"
               style={{ fontFamily: 'var(--ff-font-primary)' }}
             >
               Reset Your Password
@@ -183,17 +178,15 @@ export function PasswordReset() {
               {error && (
                 <Alert className="border-[var(--ff-error)] bg-[var(--ff-error)] bg-opacity-10">
                   <AlertCircle className="h-4 w-4 text-[var(--ff-error)]" />
-                  <AlertDescription className="text-[var(--ff-error)]">
-                    {error}
-                  </AlertDescription>
+                  <AlertDescription className="text-[var(--ff-error)]">{error}</AlertDescription>
                 </Alert>
               )}
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label 
-                    htmlFor="new-password" 
-                    className="text-sm font-semibold text-[var(--ff-text-primary)]" 
+                  <Label
+                    htmlFor="new-password"
+                    className="text-sm font-semibold text-[var(--ff-text-primary)]"
                     style={{ fontFamily: 'var(--ff-font-primary)' }}
                   >
                     New Password
@@ -229,9 +222,9 @@ export function PasswordReset() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label 
-                    htmlFor="confirm-password" 
-                    className="text-sm font-semibold text-[var(--ff-text-primary)]" 
+                  <Label
+                    htmlFor="confirm-password"
+                    className="text-sm font-semibold text-[var(--ff-text-primary)]"
                     style={{ fontFamily: 'var(--ff-font-primary)' }}
                   >
                     Confirm New Password
@@ -254,7 +247,11 @@ export function PasswordReset() {
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[var(--ff-text-muted)] hover:text-[var(--ff-text-primary)] transition-colors"
                       disabled={isLoading}
                     >
-                      {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      {showConfirmPassword ? (
+                        <EyeOff className="w-5 h-5" />
+                      ) : (
+                        <Eye className="w-5 h-5" />
+                      )}
                     </button>
                   </div>
                   {password !== confirmPassword && confirmPassword && (
@@ -266,7 +263,13 @@ export function PasswordReset() {
               <div className="space-y-4">
                 <Button
                   type="submit"
-                  disabled={isLoading || !password || !confirmPassword || password !== confirmPassword || !!passwordError}
+                  disabled={
+                    isLoading ||
+                    !password ||
+                    !confirmPassword ||
+                    password !== confirmPassword ||
+                    !!passwordError
+                  }
                   className="w-full bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white font-semibold py-3 rounded-lg transition-all duration-200 hover:transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   style={{ fontFamily: 'var(--ff-font-primary)' }}
                 >

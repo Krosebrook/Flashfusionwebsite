@@ -22,13 +22,13 @@ export async function submitLead(formData: FormData) {
     };
 
     const parsed = leadSchema.safeParse(rawData);
-    
+
     if (!parsed.success) {
       console.error('Validation error:', parsed.error);
       return {
         ok: false,
         error: 'invalid',
-        message: parsed.error.errors[0]?.message || 'Invalid form data'
+        message: parsed.error.errors[0]?.message || 'Invalid form data',
       };
     }
 
@@ -43,7 +43,7 @@ export async function submitLead(formData: FormData) {
       return {
         ok: false,
         error: 'config',
-        message: 'Server configuration error'
+        message: 'Server configuration error',
       };
     }
 
@@ -56,33 +56,31 @@ export async function submitLead(formData: FormData) {
     const ip = forwardedFor ? forwardedFor.split(',')[0]?.trim() : null;
 
     // Insert lead into database
-    const { error: dbError } = await supabase
-      .from('leads')
-      .insert({
-        email: data.email,
-        source: data.source,
-        plan: data.plan || 'free',
-        ua: userAgent,
-        ip: ip,
-        created_at: new Date().toISOString(),
-      });
+    const { error: dbError } = await supabase.from('leads').insert({
+      email: data.email,
+      source: data.source,
+      plan: data.plan || 'free',
+      ua: userAgent,
+      ip: ip,
+      created_at: new Date().toISOString(),
+    });
 
     if (dbError) {
       console.error('Database error:', dbError);
-      
+
       // Check for duplicate email
       if (dbError.code === '23505') {
         return {
           ok: false,
           error: 'duplicate',
-          message: 'This email is already on the waitlist'
+          message: 'This email is already on the waitlist',
         };
       }
 
       return {
         ok: false,
         error: 'db',
-        message: 'Failed to save your information. Please try again.'
+        message: 'Failed to save your information. Please try again.',
       };
     }
 
@@ -105,15 +103,14 @@ export async function submitLead(formData: FormData) {
 
     return {
       ok: true,
-      message: 'Successfully joined the waitlist! Check your email for confirmation.'
+      message: 'Successfully joined the waitlist! Check your email for confirmation.',
     };
-
   } catch (error) {
     console.error('Unexpected error in submitLead:', error);
     return {
       ok: false,
       error: 'unknown',
-      message: 'An unexpected error occurred. Please try again.'
+      message: 'An unexpected error occurred. Please try again.',
     };
   }
 }

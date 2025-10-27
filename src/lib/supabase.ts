@@ -1,9 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Environment variables with fallbacks for development
-const supabaseUrl = (typeof window !== 'undefined' && window.location?.origin) 
-  ? (import.meta?.env?.VITE_SUPABASE_URL || 'https://demo.supabase.co')
-  : 'https://demo.supabase.co';
+const supabaseUrl =
+  typeof window !== 'undefined' && window.location?.origin
+    ? import.meta?.env?.VITE_SUPABASE_URL || 'https://demo.supabase.co'
+    : 'https://demo.supabase.co';
 
 const supabaseAnonKey = import.meta?.env?.VITE_SUPABASE_ANON_KEY || 'demo-key';
 
@@ -11,7 +12,11 @@ const supabaseAnonKey = import.meta?.env?.VITE_SUPABASE_ANON_KEY || 'demo-key';
 const isDemoMode = supabaseUrl === 'https://demo.supabase.co' || supabaseAnonKey === 'demo-key';
 
 // Only show warning once per session
-if (isDemoMode && typeof window !== 'undefined' && !sessionStorage.getItem('ff-demo-warning-shown')) {
+if (
+  isDemoMode &&
+  typeof window !== 'undefined' &&
+  !sessionStorage.getItem('ff-demo-warning-shown')
+) {
   console.log('🚀 FlashFusion Demo Mode: Database features are simulated for exploration.');
   console.log('💡 To enable full functionality, see SETUP.md for Supabase configuration.');
   sessionStorage.setItem('ff-demo-warning-shown', 'true');
@@ -22,8 +27,14 @@ const createMockSupabaseClient = () => {
   return {
     auth: {
       signUp: async () => ({ data: null, error: { message: 'Demo mode - Sign up disabled' } }),
-      signInWithPassword: async () => ({ data: null, error: { message: 'Demo mode - Sign in disabled' } }),
-      signInWithOAuth: async () => ({ data: null, error: { message: 'Demo mode - OAuth disabled' } }),
+      signInWithPassword: async () => ({
+        data: null,
+        error: { message: 'Demo mode - Sign in disabled' },
+      }),
+      signInWithOAuth: async () => ({
+        data: null,
+        error: { message: 'Demo mode - OAuth disabled' },
+      }),
       signOut: async () => ({ error: null }),
       getSession: async () => ({ data: { session: null }, error: null }),
       onAuthStateChange: (callback: any) => {
@@ -31,61 +42,61 @@ const createMockSupabaseClient = () => {
         return {
           data: {
             subscription: {
-              unsubscribe: () => {}
-            }
-          }
+              unsubscribe: () => {},
+            },
+          },
         };
-      }
+      },
     },
     from: (table: string) => ({
       select: () => ({
         eq: () => ({
           single: async () => ({ data: null, error: { message: 'Demo mode - Database disabled' } }),
           order: () => ({
-            limit: async () => ({ data: [], error: null })
-          })
+            limit: async () => ({ data: [], error: null }),
+          }),
         }),
         order: () => ({
-          limit: async () => ({ data: [], error: null })
-        })
+          limit: async () => ({ data: [], error: null }),
+        }),
       }),
       insert: () => ({
         select: () => ({
-          single: async () => ({ data: null, error: { message: 'Demo mode - Database disabled' } })
-        })
+          single: async () => ({ data: null, error: { message: 'Demo mode - Database disabled' } }),
+        }),
       }),
       update: () => ({
-        eq: async () => ({ data: null, error: { message: 'Demo mode - Database disabled' } })
+        eq: async () => ({ data: null, error: { message: 'Demo mode - Database disabled' } }),
       }),
       delete: () => ({
-        eq: async () => ({ data: null, error: { message: 'Demo mode - Database disabled' } })
+        eq: async () => ({ data: null, error: { message: 'Demo mode - Database disabled' } }),
       }),
       upsert: () => ({
         select: () => ({
-          single: async () => ({ data: null, error: { message: 'Demo mode - Database disabled' } })
-        })
-      })
+          single: async () => ({ data: null, error: { message: 'Demo mode - Database disabled' } }),
+        }),
+      }),
     }),
     rpc: async () => ({ data: null, error: { message: 'Demo mode - Functions disabled' } }),
     channel: () => ({
       on: () => ({
         subscribe: () => ({
-          unsubscribe: () => {}
-        })
-      })
-    })
+          unsubscribe: () => {},
+        }),
+      }),
+    }),
   };
 };
 
 // Create either real or mock client based on configuration
-export const supabase = isDemoMode 
+export const supabase = isDemoMode
   ? createMockSupabaseClient()
   : createClient(supabaseUrl, supabaseAnonKey, {
       auth: {
         autoRefreshToken: true,
         persistSession: true,
-        detectSessionInUrl: true
-      }
+        detectSessionInUrl: true,
+      },
     });
 
 // Database Types (same as before)

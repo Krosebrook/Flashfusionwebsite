@@ -10,13 +10,15 @@ interface SmartDownloadButtonProps {
   className?: string;
 }
 
-export default function SmartDownloadButton({ 
+export default function SmartDownloadButton({
   variant = 'primary',
   size = 'md',
   showIcon = true,
-  className = ''
+  className = '',
 }: SmartDownloadButtonProps) {
-  const [platform, setPlatform] = useState<'windows' | 'macos' | 'linux' | 'ios' | 'android' | null>(null);
+  const [platform, setPlatform] = useState<
+    'windows' | 'macos' | 'linux' | 'ios' | 'android' | null
+  >(null);
   const [buttonText, setButtonText] = useState('Download FlashFusion');
   const [downloadUrl, setDownloadUrl] = useState('/download');
 
@@ -44,11 +46,13 @@ export default function SmartDownloadButton({
     } else if (platformCheck.includes('win')) {
       detectedPlatform = 'windows';
       text = 'Download for Windows';
-      url = 'https://github.com/flashfusion/desktop/releases/download/v1.0.0/FlashFusion-Setup-1.0.0.exe';
+      url =
+        'https://github.com/flashfusion/desktop/releases/download/v1.0.0/FlashFusion-Setup-1.0.0.exe';
     } else if (platformCheck.includes('linux')) {
       detectedPlatform = 'linux';
       text = 'Download for Linux';
-      url = 'https://github.com/flashfusion/desktop/releases/download/v1.0.0/FlashFusion-1.0.0.AppImage';
+      url =
+        'https://github.com/flashfusion/desktop/releases/download/v1.0.0/FlashFusion-1.0.0.AppImage';
     }
 
     setPlatform(detectedPlatform);
@@ -62,11 +66,19 @@ export default function SmartDownloadButton({
     switch (platform) {
       case 'ios':
       case 'macos':
-        return <Apple className={size === 'sm' ? 'h-4 w-4' : size === 'lg' ? 'h-6 w-6' : 'h-5 w-5'} />;
+        return (
+          <Apple className={size === 'sm' ? 'h-4 w-4' : size === 'lg' ? 'h-6 w-6' : 'h-5 w-5'} />
+        );
       case 'android':
-        return <Smartphone className={size === 'sm' ? 'h-4 w-4' : size === 'lg' ? 'h-6 w-6' : 'h-5 w-5'} />;
+        return (
+          <Smartphone
+            className={size === 'sm' ? 'h-4 w-4' : size === 'lg' ? 'h-6 w-6' : 'h-5 w-5'}
+          />
+        );
       default:
-        return <Download className={size === 'sm' ? 'h-4 w-4' : size === 'lg' ? 'h-6 w-6' : 'h-5 w-5'} />;
+        return (
+          <Download className={size === 'sm' ? 'h-4 w-4' : size === 'lg' ? 'h-6 w-6' : 'h-5 w-5'} />
+        );
     }
   };
 
@@ -96,16 +108,15 @@ export default function SmartDownloadButton({
       onClick={handleClick}
       className={`inline-flex items-center gap-2 rounded-lg transition-all hover:scale-105 ${getSizeClasses()} ${className}`}
       style={{
-        background: variant === 'primary' 
-          ? 'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)'
-          : 'transparent',
-        border: variant === 'secondary' 
-          ? '2px solid var(--ff-primary)' 
-          : 'none',
+        background:
+          variant === 'primary'
+            ? 'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)'
+            : 'transparent',
+        border: variant === 'secondary' ? '2px solid var(--ff-primary)' : 'none',
         color: variant === 'primary' ? 'white' : 'var(--ff-primary)',
         fontFamily: 'var(--ff-font-primary)',
         fontWeight: 'var(--ff-weight-semibold)',
-        boxShadow: variant === 'primary' ? 'var(--ff-glow)' : 'none'
+        boxShadow: variant === 'primary' ? 'var(--ff-glow)' : 'none',
       }}
     >
       {getIcon()}

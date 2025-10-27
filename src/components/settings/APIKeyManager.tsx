@@ -7,13 +7,13 @@ import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Alert, AlertDescription } from '../ui/alert';
-import { 
-  Key, 
-  CheckCircle, 
-  XCircle, 
-  AlertTriangle, 
-  RefreshCw, 
-  Eye, 
+import {
+  Key,
+  CheckCircle,
+  XCircle,
+  AlertTriangle,
+  RefreshCw,
+  Eye,
   EyeOff,
   Copy,
   ExternalLink,
@@ -27,14 +27,16 @@ import {
   Palette,
   Globe,
   Users,
-  Package
+  Package,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import { APIKeyService, type APIProvider } from '../../services/APIKeyService';
 import { IntegrationService, type IntegrationStatus } from '../../services/IntegrationService';
 
 export function APIKeyManager() {
-  const [keyStatus, setKeyStatus] = useState<Record<string, { available: boolean; required: boolean; description: string }>>({});
+  const [keyStatus, setKeyStatus] = useState<
+    Record<string, { available: boolean; required: boolean; description: string }>
+  >({});
   const [integrationStatuses, setIntegrationStatuses] = useState<IntegrationStatus[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [visibleKeys, setVisibleKeys] = useState<Set<string>>(new Set());
@@ -49,15 +51,14 @@ export function APIKeyManager() {
   const loadAPIKeyStatus = async () => {
     try {
       setIsLoading(true);
-      
+
       // Get API key status from our service
       const status = await APIKeyService.getKeyStatus();
       setKeyStatus(status);
-      
+
       // Get integration statuses
       const integrations = await IntegrationService.getAllStatuses();
       setIntegrationStatuses(integrations);
-      
     } catch (error) {
       console.error('Failed to load API key status:', error);
       toast.error('Failed to load API key configurations');
@@ -85,13 +86,13 @@ export function APIKeyManager() {
     try {
       toast.info('Testing connection...');
       const status = await IntegrationService.checkIntegration(provider);
-      
+
       if (status.connected) {
         toast.success(`${provider} connection successful`);
       } else {
         toast.error(`${provider} connection failed: ${status.error || 'Unknown error'}`);
       }
-      
+
       // Refresh status after test
       await loadAPIKeyStatus();
     } catch (error) {
@@ -141,9 +142,9 @@ export function APIKeyManager() {
   };
 
   const getStatusIcon = (provider: APIProvider) => {
-    const integration = integrationStatuses.find(i => i.provider === provider);
+    const integration = integrationStatuses.find((i) => i.provider === provider);
     const keyAvailable = keyStatus[provider]?.available;
-    
+
     if (keyAvailable && integration?.connected) {
       return <CheckCircle className="h-4 w-4 text-green-500" />;
     } else if (keyAvailable && !integration?.connected) {
@@ -154,9 +155,9 @@ export function APIKeyManager() {
   };
 
   const getStatusColor = (provider: APIProvider) => {
-    const integration = integrationStatuses.find(i => i.provider === provider);
+    const integration = integrationStatuses.find((i) => i.provider === provider);
     const keyAvailable = keyStatus[provider]?.available;
-    
+
     if (keyAvailable && integration?.connected) {
       return 'bg-green-500/10 text-green-500 border-green-500/20';
     } else if (keyAvailable && !integration?.connected) {
@@ -167,9 +168,9 @@ export function APIKeyManager() {
   };
 
   const getStatusText = (provider: APIProvider) => {
-    const integration = integrationStatuses.find(i => i.provider === provider);
+    const integration = integrationStatuses.find((i) => i.provider === provider);
     const keyAvailable = keyStatus[provider]?.available;
-    
+
     if (keyAvailable && integration?.connected) {
       return 'Connected';
     } else if (keyAvailable && !integration?.connected) {
@@ -195,7 +196,7 @@ export function APIKeyManager() {
       printify: 'https://developers.printify.com/',
       elevenlabs: 'https://docs.elevenlabs.io/',
       stripe: 'https://stripe.com/docs/api',
-      gemini: 'https://ai.google.dev/docs'
+      gemini: 'https://ai.google.dev/docs',
     };
     return urls[provider] || '#';
   };
@@ -214,7 +215,7 @@ export function APIKeyManager() {
   const requiredKeys = Object.entries(keyStatus).filter(([_, config]) => config.required);
   const optionalKeys = Object.entries(keyStatus).filter(([_, config]) => !config.required);
   const activeCount = Object.entries(keyStatus).filter(([_, config]) => config.available).length;
-  const connectedCount = integrationStatuses.filter(status => status.connected).length;
+  const connectedCount = integrationStatuses.filter((status) => status.connected).length;
 
   return (
     <div className="space-y-6 ff-stagger-fade">
@@ -225,8 +226,8 @@ export function APIKeyManager() {
             Manage your API keys and service integrations. All keys are securely stored in Supabase.
           </p>
         </div>
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           onClick={refreshStatus}
           disabled={isRefreshing}
           className="ff-hover-scale"
@@ -303,8 +304,8 @@ export function APIKeyManager() {
           <Alert>
             <Shield className="h-4 w-4" />
             <AlertDescription>
-              These API keys are required for core FlashFusion functionality. 
-              Some features may not work without them.
+              These API keys are required for core FlashFusion functionality. Some features may not
+              work without them.
             </AlertDescription>
           </Alert>
 
@@ -318,23 +319,22 @@ export function APIKeyManager() {
                       {getStatusIcon(provider as APIProvider)}
                       <CardTitle className="text-lg capitalize">{provider}</CardTitle>
                     </div>
-                    <Badge 
-                      variant="outline" 
-                      className={getStatusColor(provider as APIProvider)}
-                    >
+                    <Badge variant="outline" className={getStatusColor(provider as APIProvider)}>
                       {getStatusText(provider as APIProvider)}
                     </Badge>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       variant="ghost"
-                      onClick={() => window.open(getDocumentationUrl(provider as APIProvider), '_blank')}
+                      onClick={() =>
+                        window.open(getDocumentationUrl(provider as APIProvider), '_blank')
+                      }
                     >
                       <ExternalLink className="h-4 w-4" />
                     </Button>
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       variant="outline"
                       onClick={() => testConnection(provider as APIProvider)}
                       disabled={!config.available}
@@ -345,12 +345,10 @@ export function APIKeyManager() {
                   </div>
                 </div>
               </CardHeader>
-              
+
               <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  {config.description}
-                </p>
-                
+                <p className="text-sm text-muted-foreground">{config.description}</p>
+
                 <div className="flex items-center justify-between text-sm">
                   <span className="font-medium">Status:</span>
                   <span className={`${config.available ? 'text-green-500' : 'text-gray-500'}`}>
@@ -358,9 +356,14 @@ export function APIKeyManager() {
                   </span>
                 </div>
 
-                {integrationStatuses.find(i => i.provider === provider as APIProvider)?.error && (
+                {integrationStatuses.find((i) => i.provider === (provider as APIProvider))
+                  ?.error && (
                   <div className="text-sm text-red-500 bg-red-500/10 p-2 rounded">
-                    Error: {integrationStatuses.find(i => i.provider === provider as APIProvider)?.error}
+                    Error:{' '}
+                    {
+                      integrationStatuses.find((i) => i.provider === (provider as APIProvider))
+                        ?.error
+                    }
                   </div>
                 )}
               </CardContent>
@@ -372,8 +375,8 @@ export function APIKeyManager() {
           <Alert>
             <Key className="h-4 w-4" />
             <AlertDescription>
-              These API keys unlock additional features and integrations. 
-              FlashFusion works without them, but you'll have access to more capabilities with them configured.
+              These API keys unlock additional features and integrations. FlashFusion works without
+              them, but you'll have access to more capabilities with them configured.
             </AlertDescription>
           </Alert>
 
@@ -387,23 +390,22 @@ export function APIKeyManager() {
                       {getStatusIcon(provider as APIProvider)}
                       <CardTitle className="text-lg capitalize">{provider}</CardTitle>
                     </div>
-                    <Badge 
-                      variant="outline" 
-                      className={getStatusColor(provider as APIProvider)}
-                    >
+                    <Badge variant="outline" className={getStatusColor(provider as APIProvider)}>
                       {getStatusText(provider as APIProvider)}
                     </Badge>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       variant="ghost"
-                      onClick={() => window.open(getDocumentationUrl(provider as APIProvider), '_blank')}
+                      onClick={() =>
+                        window.open(getDocumentationUrl(provider as APIProvider), '_blank')
+                      }
                     >
                       <ExternalLink className="h-4 w-4" />
                     </Button>
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       variant="outline"
                       onClick={() => testConnection(provider as APIProvider)}
                       disabled={!config.available}
@@ -414,12 +416,10 @@ export function APIKeyManager() {
                   </div>
                 </div>
               </CardHeader>
-              
+
               <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  {config.description}
-                </p>
-                
+                <p className="text-sm text-muted-foreground">{config.description}</p>
+
                 <div className="flex items-center justify-between text-sm">
                   <span className="font-medium">Status:</span>
                   <span className={`${config.available ? 'text-green-500' : 'text-gray-500'}`}>
@@ -427,9 +427,14 @@ export function APIKeyManager() {
                   </span>
                 </div>
 
-                {integrationStatuses.find(i => i.provider === provider as APIProvider)?.error && (
+                {integrationStatuses.find((i) => i.provider === (provider as APIProvider))
+                  ?.error && (
                   <div className="text-sm text-red-500 bg-red-500/10 p-2 rounded">
-                    Error: {integrationStatuses.find(i => i.provider === provider as APIProvider)?.error}
+                    Error:{' '}
+                    {
+                      integrationStatuses.find((i) => i.provider === (provider as APIProvider))
+                        ?.error
+                    }
                   </div>
                 )}
               </CardContent>
@@ -446,7 +451,9 @@ export function APIKeyManager() {
             <div>
               <h3 className="font-semibold text-primary mb-2">Security Information</h3>
               <div className="space-y-1 text-sm text-muted-foreground">
-                <p>• All API keys are encrypted and stored securely in Supabase environment variables</p>
+                <p>
+                  • All API keys are encrypted and stored securely in Supabase environment variables
+                </p>
                 <p>• Keys are never exposed in client-side code or logs</p>
                 <p>• Server-side functions access keys from secure environment variables</p>
                 <p>• Regular key rotation and monitoring is recommended</p>
@@ -468,7 +475,10 @@ export function APIKeyManager() {
         <CardContent>
           <div className="grid gap-2">
             {integrationStatuses.map((status) => (
-              <div key={status.provider} className="flex items-center justify-between py-2 border-b border-muted last:border-0">
+              <div
+                key={status.provider}
+                className="flex items-center justify-between py-2 border-b border-muted last:border-0"
+              >
                 <div className="flex items-center gap-2">
                   {getProviderIcon(status.provider)}
                   <span className="capitalize font-medium">{status.provider}</span>

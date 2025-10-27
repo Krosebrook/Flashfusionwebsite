@@ -8,11 +8,11 @@ import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Progress } from '../ui/progress';
-import { 
-  Webhook, 
-  Activity, 
-  GitBranch, 
-  Settings, 
+import {
+  Webhook,
+  Activity,
+  GitBranch,
+  Settings,
   RefreshCw,
   CheckCircle,
   XCircle,
@@ -25,7 +25,7 @@ import {
   Zap,
   Bell,
   Shield,
-  Globe
+  Globe,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
@@ -65,9 +65,17 @@ const WEBHOOK_EVENT_TYPES = [
   { id: 'repository', label: 'Repository', description: 'Repository settings changes' },
   { id: 'deployment', label: 'Deployments', description: 'Deployment status updates' },
   { id: 'workflow_run', label: 'Workflow Runs', description: 'GitHub Actions workflow events' },
-  { id: 'project_analysis', label: 'AI Analysis', description: 'FlashFusion project analysis events' },
-  { id: 'export_complete', label: 'Export Complete', description: 'Project export completion events' },
-  { id: 'collaboration', label: 'Collaboration', description: 'Team collaboration events' }
+  {
+    id: 'project_analysis',
+    label: 'AI Analysis',
+    description: 'FlashFusion project analysis events',
+  },
+  {
+    id: 'export_complete',
+    label: 'Export Complete',
+    description: 'Project export completion events',
+  },
+  { id: 'collaboration', label: 'Collaboration', description: 'Team collaboration events' },
 ];
 
 export function WebhookManager() {
@@ -76,13 +84,13 @@ export function WebhookManager() {
   const [isLoading, setIsLoading] = useState(false);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [selectedWebhook, setSelectedWebhook] = useState<string | null>(null);
-  
+
   const [newWebhook, setNewWebhook] = useState({
     url: '',
     events: [] as string[],
     secret: '',
     description: '',
-    active: true
+    active: true,
   });
 
   useEffect(() => {
@@ -120,9 +128,9 @@ export function WebhookManager() {
 
   const generateWebhookSecret = () => {
     const secret = Array.from(crypto.getRandomValues(new Uint8Array(32)))
-      .map(b => b.toString(16).padStart(2, '0'))
+      .map((b) => b.toString(16).padStart(2, '0'))
       .join('');
-    setNewWebhook(prev => ({ ...prev, secret }));
+    setNewWebhook((prev) => ({ ...prev, secret }));
   };
 
   const createWebhook = async () => {
@@ -132,7 +140,7 @@ export function WebhookManager() {
     }
 
     setIsLoading(true);
-    
+
     try {
       const webhook: WebhookEndpoint = {
         id: `webhook_${Date.now()}`,
@@ -142,7 +150,7 @@ export function WebhookManager() {
         active: newWebhook.active,
         description: newWebhook.description,
         deliveryCount: 0,
-        failureCount: 0
+        failureCount: 0,
       };
 
       // Register webhook with GitHub if it's a GitHub repository webhook
@@ -158,7 +166,7 @@ export function WebhookManager() {
         events: [],
         secret: '',
         description: '',
-        active: true
+        active: true,
       });
       setShowCreateForm(false);
 
@@ -175,7 +183,7 @@ export function WebhookManager() {
     // This would register the webhook with GitHub API
     // For demo purposes, we'll simulate this
     console.log('Registering GitHub webhook:', webhook);
-    
+
     // In production, this would make an API call like:
     /*
     const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/hooks`, {
@@ -200,7 +208,7 @@ export function WebhookManager() {
   };
 
   const deleteWebhook = async (webhookId: string) => {
-    const webhook = webhooks.find(w => w.id === webhookId);
+    const webhook = webhooks.find((w) => w.id === webhookId);
     if (!webhook) return;
 
     try {
@@ -209,7 +217,7 @@ export function WebhookManager() {
         await unregisterGitHubWebhook(webhook);
       }
 
-      const updatedWebhooks = webhooks.filter(w => w.id !== webhookId);
+      const updatedWebhooks = webhooks.filter((w) => w.id !== webhookId);
       saveWebhooks(updatedWebhooks);
       toast.success('Webhook deleted successfully');
     } catch (error) {
@@ -224,33 +232,31 @@ export function WebhookManager() {
   };
 
   const toggleWebhook = async (webhookId: string) => {
-    const updatedWebhooks = webhooks.map(webhook => 
-      webhook.id === webhookId 
-        ? { ...webhook, active: !webhook.active }
-        : webhook
+    const updatedWebhooks = webhooks.map((webhook) =>
+      webhook.id === webhookId ? { ...webhook, active: !webhook.active } : webhook
     );
     saveWebhooks(updatedWebhooks);
     toast.success('Webhook status updated');
   };
 
   const testWebhook = async (webhookId: string) => {
-    const webhook = webhooks.find(w => w.id === webhookId);
+    const webhook = webhooks.find((w) => w.id === webhookId);
     if (!webhook) return;
 
     setIsLoading(true);
-    
+
     try {
       // Simulate webhook test
       const testPayload = {
         test: true,
         timestamp: new Date().toISOString(),
         event_type: 'ping',
-        source: 'FlashFusion'
+        source: 'FlashFusion',
       };
 
       // In production, this would make an actual HTTP request
       console.log('Testing webhook:', webhook.url, testPayload);
-      
+
       // Simulate success
       const event: WebhookEvent = {
         id: `event_${Date.now()}`,
@@ -263,15 +269,15 @@ export function WebhookManager() {
         processingTime: Math.floor(Math.random() * 500) + 100,
         response: {
           status: 200,
-          body: 'OK'
-        }
+          body: 'OK',
+        },
       };
 
       const savedEvents = localStorage.getItem('ff_webhook_events');
       const allEvents = savedEvents ? JSON.parse(savedEvents) : [];
       const updatedEvents = [event, ...allEvents];
       localStorage.setItem('ff_webhook_events', JSON.stringify(updatedEvents));
-      
+
       loadRecentEvents();
       toast.success('Webhook test completed successfully');
     } catch (error) {
@@ -302,7 +308,8 @@ export function WebhookManager() {
 
   const getWebhookHealthScore = (webhook: WebhookEndpoint) => {
     if (webhook.deliveryCount === 0) return 100;
-    const successRate = ((webhook.deliveryCount - webhook.failureCount) / webhook.deliveryCount) * 100;
+    const successRate =
+      ((webhook.deliveryCount - webhook.failureCount) / webhook.deliveryCount) * 100;
     return Math.round(successRate);
   };
 
@@ -312,13 +319,11 @@ export function WebhookManager() {
         <div>
           <h2 className="ff-text-gradient mb-2">Webhook Management</h2>
           <p className="text-ff-text-secondary">
-            Configure real-time webhooks for repository updates, deployment notifications, and collaboration events.
+            Configure real-time webhooks for repository updates, deployment notifications, and
+            collaboration events.
           </p>
         </div>
-        <Button
-          onClick={() => setShowCreateForm(true)}
-          className="ff-btn-primary ff-hover-glow"
-        >
+        <Button onClick={() => setShowCreateForm(true)} className="ff-btn-primary ff-hover-glow">
           <Plus className="h-4 w-4 mr-2" />
           Create Webhook
         </Button>
@@ -358,7 +363,7 @@ export function WebhookManager() {
                       id="webhook-url"
                       placeholder="https://your-service.com/webhooks/github"
                       value={newWebhook.url}
-                      onChange={(e) => setNewWebhook(prev => ({ ...prev, url: e.target.value }))}
+                      onChange={(e) => setNewWebhook((prev) => ({ ...prev, url: e.target.value }))}
                       className="ff-focus-ring"
                     />
                   </div>
@@ -369,7 +374,9 @@ export function WebhookManager() {
                       id="webhook-description"
                       placeholder="GitHub repository updates for main project"
                       value={newWebhook.description}
-                      onChange={(e) => setNewWebhook(prev => ({ ...prev, description: e.target.value }))}
+                      onChange={(e) =>
+                        setNewWebhook((prev) => ({ ...prev, description: e.target.value }))
+                      }
                       className="ff-focus-ring"
                     />
                   </div>
@@ -385,26 +392,27 @@ export function WebhookManager() {
                             checked={newWebhook.events.includes(eventType.id)}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setNewWebhook(prev => ({
+                                setNewWebhook((prev) => ({
                                   ...prev,
-                                  events: [...prev.events, eventType.id]
+                                  events: [...prev.events, eventType.id],
                                 }));
                               } else {
-                                setNewWebhook(prev => ({
+                                setNewWebhook((prev) => ({
                                   ...prev,
-                                  events: prev.events.filter(event => event !== eventType.id)
+                                  events: prev.events.filter((event) => event !== eventType.id),
                                 }));
                               }
                             }}
                             className="mt-1"
                           />
                           <div className="flex-1 min-w-0">
-                            <Label htmlFor={`event-${eventType.id}`} className="text-sm font-medium">
+                            <Label
+                              htmlFor={`event-${eventType.id}`}
+                              className="text-sm font-medium"
+                            >
                               {eventType.label}
                             </Label>
-                            <p className="text-xs text-ff-text-muted">
-                              {eventType.description}
-                            </p>
+                            <p className="text-xs text-ff-text-muted">{eventType.description}</p>
                           </div>
                         </div>
                       ))}
@@ -429,7 +437,9 @@ export function WebhookManager() {
                       type="password"
                       placeholder="Leave empty to auto-generate"
                       value={newWebhook.secret}
-                      onChange={(e) => setNewWebhook(prev => ({ ...prev, secret: e.target.value }))}
+                      onChange={(e) =>
+                        setNewWebhook((prev) => ({ ...prev, secret: e.target.value }))
+                      }
                       className="ff-focus-ring"
                     />
                   </div>
@@ -438,24 +448,19 @@ export function WebhookManager() {
                     <Switch
                       id="webhook-active"
                       checked={newWebhook.active}
-                      onCheckedChange={(checked) => setNewWebhook(prev => ({ ...prev, active: checked }))}
+                      onCheckedChange={(checked) =>
+                        setNewWebhook((prev) => ({ ...prev, active: checked }))
+                      }
                     />
                     <Label htmlFor="webhook-active">Active</Label>
                   </div>
                 </div>
 
                 <div className="flex gap-3">
-                  <Button
-                    onClick={createWebhook}
-                    disabled={isLoading}
-                    className="ff-btn-primary"
-                  >
+                  <Button onClick={createWebhook} disabled={isLoading} className="ff-btn-primary">
                     {isLoading ? 'Creating...' : 'Create Webhook'}
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setShowCreateForm(false)}
-                  >
+                  <Button variant="outline" onClick={() => setShowCreateForm(false)}>
                     Cancel
                   </Button>
                 </div>
@@ -472,14 +477,14 @@ export function WebhookManager() {
                     <Webhook className="h-8 w-8 text-ff-text-muted" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-ff-text-primary mb-2">No webhooks configured</h3>
+                    <h3 className="font-semibold text-ff-text-primary mb-2">
+                      No webhooks configured
+                    </h3>
                     <p className="text-ff-text-muted mb-4">
-                      Create your first webhook to receive real-time updates from repositories and services
+                      Create your first webhook to receive real-time updates from repositories and
+                      services
                     </p>
-                    <Button 
-                      onClick={() => setShowCreateForm(true)}
-                      className="ff-btn-primary"
-                    >
+                    <Button onClick={() => setShowCreateForm(true)} className="ff-btn-primary">
                       Create Webhook
                     </Button>
                   </div>
@@ -491,8 +496,12 @@ export function WebhookManager() {
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className={`p-2 rounded-lg ${webhook.active ? 'bg-ff-success/20' : 'bg-ff-surface'}`}>
-                          <Webhook className={`h-4 w-4 ${webhook.active ? 'text-ff-success' : 'text-ff-text-muted'}`} />
+                        <div
+                          className={`p-2 rounded-lg ${webhook.active ? 'bg-ff-success/20' : 'bg-ff-surface'}`}
+                        >
+                          <Webhook
+                            className={`h-4 w-4 ${webhook.active ? 'text-ff-success' : 'text-ff-text-muted'}`}
+                          />
                         </div>
                         <div>
                           <CardTitle className="text-lg font-semibold text-ff-text-primary">
@@ -506,16 +515,21 @@ export function WebhookManager() {
                           {webhook.active ? 'Active' : 'Disabled'}
                         </Badge>
                         <div className="flex items-center gap-1 text-xs text-ff-text-muted">
-                          <div className={`w-2 h-2 rounded-full ${
-                            getWebhookHealthScore(webhook) >= 95 ? 'bg-ff-success' :
-                            getWebhookHealthScore(webhook) >= 80 ? 'bg-ff-warning' : 'bg-ff-error'
-                          }`} />
+                          <div
+                            className={`w-2 h-2 rounded-full ${
+                              getWebhookHealthScore(webhook) >= 95
+                                ? 'bg-ff-success'
+                                : getWebhookHealthScore(webhook) >= 80
+                                  ? 'bg-ff-warning'
+                                  : 'bg-ff-error'
+                            }`}
+                          />
                           {getWebhookHealthScore(webhook)}% uptime
                         </div>
                       </div>
                     </div>
                   </CardHeader>
-                  
+
                   <CardContent className="space-y-4">
                     <div className="flex items-center justify-between text-sm">
                       <div className="flex items-center space-x-6">
@@ -540,18 +554,18 @@ export function WebhookManager() {
                           </div>
                         )}
                       </div>
-                      
+
                       <div className="flex space-x-2">
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="outline"
                           onClick={() => copyWebhookURL(webhook.url)}
                           className="ff-hover-scale"
                         >
                           <Copy className="h-3 w-3" />
                         </Button>
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="outline"
                           onClick={() => testWebhook(webhook.id)}
                           disabled={isLoading}
@@ -559,16 +573,20 @@ export function WebhookManager() {
                         >
                           <Zap className="h-3 w-3" />
                         </Button>
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="outline"
                           onClick={() => toggleWebhook(webhook.id)}
                           className="ff-hover-scale"
                         >
-                          {webhook.active ? <Eye className="h-3 w-3" /> : <RefreshCw className="h-3 w-3" />}
+                          {webhook.active ? (
+                            <Eye className="h-3 w-3" />
+                          ) : (
+                            <RefreshCw className="h-3 w-3" />
+                          )}
                         </Button>
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="destructive"
                           onClick={() => deleteWebhook(webhook.id)}
                           className="ff-hover-scale"
@@ -582,7 +600,7 @@ export function WebhookManager() {
                       <Label className="text-sm font-medium">Subscribed Events</Label>
                       <div className="flex flex-wrap gap-1 mt-1">
                         {webhook.events.map((eventType) => {
-                          const event = WEBHOOK_EVENT_TYPES.find(e => e.id === eventType);
+                          const event = WEBHOOK_EVENT_TYPES.find((e) => e.id === eventType);
                           return (
                             <Badge key={eventType} variant="secondary" className="text-xs">
                               {event?.label || eventType}
@@ -596,7 +614,7 @@ export function WebhookManager() {
                       <Alert>
                         <Shield className="h-4 w-4" />
                         <AlertDescription>
-                          This webhook has a {getWebhookHealthScore(webhook)}% success rate. 
+                          This webhook has a {getWebhookHealthScore(webhook)}% success rate.
                           Consider checking the endpoint or reviewing recent failures.
                         </AlertDescription>
                       </Alert>
@@ -625,7 +643,10 @@ export function WebhookManager() {
                   </div>
                 ) : (
                   events.map((event) => (
-                    <div key={event.id} className="flex items-center justify-between p-3 border border-ff-border rounded-lg">
+                    <div
+                      key={event.id}
+                      className="flex items-center justify-between p-3 border border-ff-border rounded-lg"
+                    >
                       <div className="flex items-center space-x-3">
                         {getStatusIcon(event.status)}
                         <div>
@@ -664,7 +685,8 @@ export function WebhookManager() {
               <Alert>
                 <Globe className="h-4 w-4" />
                 <AlertDescription>
-                  <strong>Webhook Endpoint URL:</strong> Configure this URL in your GitHub repository settings to receive webhooks.
+                  <strong>Webhook Endpoint URL:</strong> Configure this URL in your GitHub
+                  repository settings to receive webhooks.
                   <br />
                   <code className="bg-ff-surface px-2 py-1 rounded mt-2 inline-block">
                     https://your-flashfusion-instance.com/api/webhooks/github

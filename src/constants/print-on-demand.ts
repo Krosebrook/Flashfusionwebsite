@@ -18,7 +18,7 @@ export const PRODUCT_TYPES = {
       sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
       colors: ['white', 'black', 'gray', 'navy', 'red', 'blue'],
       dimensions: { width: 4800, height: 6000, dpi: 300 },
-      materials: ['cotton', 'polyester', 'blend']
+      materials: ['cotton', 'polyester', 'blend'],
     },
     HOODIE: {
       id: 'hoodie',
@@ -29,7 +29,7 @@ export const PRODUCT_TYPES = {
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
       colors: ['white', 'black', 'gray', 'navy', 'red'],
       dimensions: { width: 4800, height: 6000, dpi: 300 },
-      materials: ['cotton', 'fleece']
+      materials: ['cotton', 'fleece'],
     },
     TANK_TOP: {
       id: 'tank',
@@ -40,10 +40,10 @@ export const PRODUCT_TYPES = {
       sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
       colors: ['white', 'black', 'gray', 'navy'],
       dimensions: { width: 4800, height: 6000, dpi: 300 },
-      materials: ['cotton', 'polyester']
-    }
+      materials: ['cotton', 'polyester'],
+    },
   },
-  
+
   HOME_DECOR: {
     POSTER: {
       id: 'poster',
@@ -54,7 +54,7 @@ export const PRODUCT_TYPES = {
       sizes: ['8x10', '11x14', '16x20', '18x24', '24x36'],
       colors: ['white', 'matte'],
       dimensions: { width: 7200, height: 10800, dpi: 300 },
-      materials: ['paper', 'canvas']
+      materials: ['paper', 'canvas'],
     },
     MUG: {
       id: 'mug',
@@ -65,7 +65,7 @@ export const PRODUCT_TYPES = {
       sizes: ['11oz', '15oz'],
       colors: ['white', 'black', 'color'],
       dimensions: { width: 2362, height: 1181, dpi: 300 },
-      materials: ['ceramic', 'stainless_steel']
+      materials: ['ceramic', 'stainless_steel'],
     },
     PILLOW: {
       id: 'pillow',
@@ -76,10 +76,10 @@ export const PRODUCT_TYPES = {
       sizes: ['16x16', '18x18', '20x20'],
       colors: ['white', 'natural'],
       dimensions: { width: 4800, height: 4800, dpi: 300 },
-      materials: ['polyester', 'canvas']
-    }
+      materials: ['polyester', 'canvas'],
+    },
   },
-  
+
   STATIONERY: {
     STICKER: {
       id: 'sticker',
@@ -90,7 +90,7 @@ export const PRODUCT_TYPES = {
       sizes: ['2x2', '3x3', '4x4', '5x5'],
       colors: ['white', 'clear', 'holographic'],
       dimensions: { width: 1200, height: 1200, dpi: 300 },
-      materials: ['vinyl', 'paper', 'holographic']
+      materials: ['vinyl', 'paper', 'holographic'],
     },
     NOTEBOOK: {
       id: 'notebook',
@@ -101,10 +101,10 @@ export const PRODUCT_TYPES = {
       sizes: ['5x7', '6x9', '8x10'],
       colors: ['white', 'cream'],
       dimensions: { width: 2400, height: 3000, dpi: 300 },
-      materials: ['paper', 'hardcover', 'softcover']
-    }
+      materials: ['paper', 'hardcover', 'softcover'],
+    },
   },
-  
+
   ACCESSORIES: {
     PHONE_CASE: {
       id: 'phone_case',
@@ -115,7 +115,7 @@ export const PRODUCT_TYPES = {
       sizes: ['iphone_14', 'iphone_14_pro', 'samsung_s23', 'universal'],
       colors: ['clear', 'white', 'black'],
       dimensions: { width: 1500, height: 3000, dpi: 300 },
-      materials: ['tpu', 'hard_plastic', 'leather']
+      materials: ['tpu', 'hard_plastic', 'leather'],
     },
     TOTE_BAG: {
       id: 'tote',
@@ -126,9 +126,9 @@ export const PRODUCT_TYPES = {
       sizes: ['standard', 'large'],
       colors: ['natural', 'white', 'black'],
       dimensions: { width: 4800, height: 4800, dpi: 300 },
-      materials: ['canvas', 'cotton']
-    }
-  }
+      materials: ['canvas', 'cotton'],
+    },
+  },
 } as const;
 
 /**
@@ -147,9 +147,9 @@ export const MARKETPLACES = {
     supportedProducts: ['all'],
     maxImages: 10,
     maxTitleLength: 140,
-    maxDescriptionLength: 13000
+    maxDescriptionLength: 13000,
   },
-  
+
   AMAZON: {
     id: 'amazon',
     name: 'Amazon',
@@ -161,9 +161,9 @@ export const MARKETPLACES = {
     supportedProducts: ['apparel', 'home_decor', 'accessories'],
     maxImages: 9,
     maxTitleLength: 200,
-    maxDescriptionLength: 2000
+    maxDescriptionLength: 2000,
   },
-  
+
   SHOPIFY: {
     id: 'shopify',
     name: 'Shopify',
@@ -175,9 +175,9 @@ export const MARKETPLACES = {
     supportedProducts: ['all'],
     maxImages: 250,
     maxTitleLength: 255,
-    maxDescriptionLength: 'unlimited'
+    maxDescriptionLength: 'unlimited',
   },
-  
+
   PRINTFUL: {
     id: 'printful',
     name: 'Printful',
@@ -189,9 +189,9 @@ export const MARKETPLACES = {
     supportedProducts: ['apparel', 'home_decor', 'accessories'],
     maxImages: 20,
     maxTitleLength: 'unlimited',
-    maxDescriptionLength: 'unlimited'
+    maxDescriptionLength: 'unlimited',
   },
-  
+
   REDBUBBLE: {
     id: 'redbubble',
     name: 'RedBubble',
@@ -203,9 +203,9 @@ export const MARKETPLACES = {
     supportedProducts: ['apparel', 'home_decor', 'stationery', 'accessories'],
     maxImages: 1,
     maxTitleLength: 50,
-    maxDescriptionLength: 500
+    maxDescriptionLength: 500,
   },
-  
+
   SOCIETY6: {
     id: 'society6',
     name: 'Society6',
@@ -217,8 +217,8 @@ export const MARKETPLACES = {
     supportedProducts: ['home_decor', 'apparel', 'accessories'],
     maxImages: 1,
     maxTitleLength: 40,
-    maxDescriptionLength: 300
-  }
+    maxDescriptionLength: 300,
+  },
 } as const;
 
 /**
@@ -232,25 +232,25 @@ export const DESIGN_TOOLS = {
     features: ['layers', 'shapes', 'text', 'images', 'effects', 'templates'],
     supportedFormats: ['png', 'jpg', 'svg', 'pdf'],
     maxLayers: 50,
-    maxCanvasSize: { width: 10000, height: 10000 }
+    maxCanvasSize: { width: 10000, height: 10000 },
   },
-  
+
   AI_GENERATOR: {
     id: 'ai_generator',
     name: 'AI Design Generator',
     features: ['text_to_image', 'style_transfer', 'background_removal', 'upscaling'],
     models: ['stable_diffusion', 'dall_e', 'midjourney'],
     maxResolution: { width: 2048, height: 2048 },
-    creditsPerGeneration: 1
+    creditsPerGeneration: 1,
   },
-  
+
   TEMPLATE_BUILDER: {
     id: 'template_builder',
     name: 'Template Builder',
     features: ['drag_drop', 'smart_resize', 'brand_kit_integration', 'bulk_generation'],
     categories: ['minimalist', 'vintage', 'modern', 'playful', 'professional'],
-    customizable: ['colors', 'fonts', 'layouts', 'elements']
-  }
+    customizable: ['colors', 'fonts', 'layouts', 'elements'],
+  },
 } as const;
 
 /**
@@ -261,30 +261,30 @@ export const PRINT_SPECS = {
   RESOLUTION: {
     MINIMUM: 150, // DPI
     RECOMMENDED: 300, // DPI
-    HIGH_QUALITY: 600 // DPI
+    HIGH_QUALITY: 600, // DPI
   },
-  
+
   COLOR_MODES: {
     RGB: 'rgb',
     CMYK: 'cmyk',
-    PANTONE: 'pantone'
+    PANTONE: 'pantone',
   },
-  
+
   FILE_FORMATS: {
     VECTOR: ['svg', 'ai', 'eps'],
     RASTER: ['png', 'jpg', 'tiff', 'psd'],
-    PRINT_READY: ['pdf', 'eps', 'ai']
+    PRINT_READY: ['pdf', 'eps', 'ai'],
   },
-  
+
   BLEED_AREAS: {
     STANDARD: 3, // mm
-    LARGE_FORMAT: 5 // mm
+    LARGE_FORMAT: 5, // mm
   },
-  
+
   SAFE_ZONES: {
     TEXT: 6, // mm from edge
-    GRAPHICS: 3 // mm from edge
-  }
+    GRAPHICS: 3, // mm from edge
+  },
 } as const;
 
 /**
@@ -297,104 +297,104 @@ export const ORDER_STATUSES = {
     name: 'Draft',
     description: 'Order being created',
     color: '#94A3B8',
-    nextStates: ['pending', 'cancelled']
+    nextStates: ['pending', 'cancelled'],
   },
-  
+
   PENDING: {
     id: 'pending',
     name: 'Pending',
     description: 'Waiting for payment',
     color: '#F59E0B',
-    nextStates: ['paid', 'cancelled']
+    nextStates: ['paid', 'cancelled'],
   },
-  
+
   PAID: {
     id: 'paid',
     name: 'Paid',
     description: 'Payment received',
     color: '#10B981',
-    nextStates: ['processing', 'refunded']
+    nextStates: ['processing', 'refunded'],
   },
-  
+
   PROCESSING: {
     id: 'processing',
     name: 'Processing',
     description: 'Being prepared for printing',
     color: '#3B82F6',
-    nextStates: ['printing', 'cancelled']
+    nextStates: ['printing', 'cancelled'],
   },
-  
+
   PRINTING: {
     id: 'printing',
     name: 'Printing',
     description: 'Currently being printed',
     color: '#8B5CF6',
-    nextStates: ['quality_check', 'failed']
+    nextStates: ['quality_check', 'failed'],
   },
-  
+
   QUALITY_CHECK: {
     id: 'quality_check',
     name: 'Quality Check',
     description: 'Undergoing quality inspection',
     color: '#06B6D4',
-    nextStates: ['shipping', 'reprint', 'failed']
+    nextStates: ['shipping', 'reprint', 'failed'],
   },
-  
+
   SHIPPING: {
     id: 'shipping',
     name: 'Shipping',
     description: 'Package shipped',
     color: '#84CC16',
-    nextStates: ['delivered', 'returned']
+    nextStates: ['delivered', 'returned'],
   },
-  
+
   DELIVERED: {
     id: 'delivered',
     name: 'Delivered',
     description: 'Successfully delivered',
     color: '#22C55E',
-    nextStates: []
+    nextStates: [],
   },
-  
+
   CANCELLED: {
     id: 'cancelled',
     name: 'Cancelled',
     description: 'Order cancelled',
     color: '#EF4444',
-    nextStates: []
+    nextStates: [],
   },
-  
+
   FAILED: {
     id: 'failed',
     name: 'Failed',
     description: 'Print or shipping failed',
     color: '#DC2626',
-    nextStates: ['reprint', 'refunded']
+    nextStates: ['reprint', 'refunded'],
   },
-  
+
   REPRINT: {
     id: 'reprint',
     name: 'Reprint',
     description: 'Being reprinted',
     color: '#F97316',
-    nextStates: ['printing', 'cancelled']
+    nextStates: ['printing', 'cancelled'],
   },
-  
+
   REFUNDED: {
     id: 'refunded',
     name: 'Refunded',
     description: 'Payment refunded',
     color: '#6B7280',
-    nextStates: []
+    nextStates: [],
   },
-  
+
   RETURNED: {
     id: 'returned',
     name: 'Returned',
     description: 'Package returned',
     color: '#9CA3AF',
-    nextStates: ['refunded', 'reprint']
-  }
+    nextStates: ['refunded', 'reprint'],
+  },
 } as const;
 
 /**
@@ -409,9 +409,9 @@ export const FULFILLMENT_PROVIDERS = {
     features: ['white_label', 'custom_branding', 'express_shipping'],
     specialties: ['apparel', 'accessories'],
     avgFulfillmentTime: 5, // days
-    apiEndpoint: 'https://api.printful.com'
+    apiEndpoint: 'https://api.printful.com',
   },
-  
+
   PRINTIFY: {
     id: 'printify',
     name: 'Printify',
@@ -419,9 +419,9 @@ export const FULFILLMENT_PROVIDERS = {
     features: ['multiple_suppliers', 'competitive_pricing', 'quality_guarantee'],
     specialties: ['home_decor', 'apparel'],
     avgFulfillmentTime: 7, // days
-    apiEndpoint: 'https://api.printify.com'
+    apiEndpoint: 'https://api.printify.com',
   },
-  
+
   GOOTEN: {
     id: 'gooten',
     name: 'Gooten',
@@ -429,8 +429,8 @@ export const FULFILLMENT_PROVIDERS = {
     features: ['fast_shipping', 'premium_quality', 'eco_friendly'],
     specialties: ['stationery', 'home_decor'],
     avgFulfillmentTime: 3, // days
-    apiEndpoint: 'https://api.gooten.com'
-  }
+    apiEndpoint: 'https://api.gooten.com',
+  },
 } as const;
 
 /**
@@ -443,40 +443,40 @@ export const DESIGN_CATEGORIES = {
     name: 'Business & Professional',
     subcategories: ['corporate', 'startup', 'consulting', 'finance'],
     colorPalettes: ['corporate_blue', 'professional_gray', 'minimal_black'],
-    fonts: ['modern_sans', 'clean_serif', 'corporate']
+    fonts: ['modern_sans', 'clean_serif', 'corporate'],
   },
-  
+
   LIFESTYLE: {
     id: 'lifestyle',
     name: 'Lifestyle & Fashion',
     subcategories: ['fashion', 'beauty', 'wellness', 'travel'],
     colorPalettes: ['pastel_dreams', 'earth_tones', 'bold_fashion'],
-    fonts: ['elegant_script', 'modern_sans', 'fashion_display']
+    fonts: ['elegant_script', 'modern_sans', 'fashion_display'],
   },
-  
+
   CREATIVE: {
     id: 'creative',
     name: 'Creative & Artistic',
     subcategories: ['art', 'design', 'photography', 'music'],
     colorPalettes: ['rainbow', 'artistic_bold', 'monochrome'],
-    fonts: ['creative_display', 'artistic_script', 'modern_geometric']
+    fonts: ['creative_display', 'artistic_script', 'modern_geometric'],
   },
-  
+
   TECH: {
     id: 'tech',
     name: 'Technology & Gaming',
     subcategories: ['software', 'gaming', 'AI', 'crypto'],
     colorPalettes: ['neon_cyber', 'tech_blue', 'dark_theme'],
-    fonts: ['futuristic', 'code_mono', 'tech_sans']
+    fonts: ['futuristic', 'code_mono', 'tech_sans'],
   },
-  
+
   EDUCATION: {
     id: 'education',
     name: 'Education & Learning',
     subcategories: ['academic', 'kids', 'online_courses', 'tutorials'],
     colorPalettes: ['friendly_warm', 'academic_traditional', 'playful_kids'],
-    fonts: ['readable_sans', 'friendly_rounded', 'academic_serif']
-  }
+    fonts: ['readable_sans', 'friendly_rounded', 'academic_serif'],
+  },
 } as const;
 
 /**
@@ -489,30 +489,35 @@ export const PRICING_TIERS = {
     name: 'Economy',
     margin: 20, // %
     features: ['basic_materials', 'standard_shipping'],
-    targetMarket: 'budget_conscious'
+    targetMarket: 'budget_conscious',
   },
-  
+
   STANDARD: {
     id: 'standard',
     name: 'Standard',
     margin: 35, // %
     features: ['quality_materials', 'fast_shipping', 'basic_customization'],
-    targetMarket: 'general_market'
+    targetMarket: 'general_market',
   },
-  
+
   PREMIUM: {
     id: 'premium',
     name: 'Premium',
     margin: 50, // %
     features: ['premium_materials', 'express_shipping', 'custom_packaging', 'quality_guarantee'],
-    targetMarket: 'premium_buyers'
+    targetMarket: 'premium_buyers',
   },
-  
+
   LUXURY: {
     id: 'luxury',
     name: 'Luxury',
     margin: 75, // %
-    features: ['luxury_materials', 'white_glove_service', 'custom_branding', 'personal_consultation'],
-    targetMarket: 'luxury_market'
-  }
+    features: [
+      'luxury_materials',
+      'white_glove_service',
+      'custom_branding',
+      'personal_consultation',
+    ],
+    targetMarket: 'luxury_market',
+  },
 } as const;

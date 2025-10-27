@@ -1,6 +1,6 @@
 /**
  * DISABLED MEMORY OPTIMIZER - CRISIS MODE
- * 
+ *
  * This file has been disabled to reduce memory usage during crisis mode.
  * All functions return safe defaults to prevent errors.
  */
@@ -10,7 +10,7 @@ export const memoryOptimizer = {
   getMemoryStats: () => null,
   cleanup: () => {},
   initialize: () => {},
-  destroy: () => {}
+  destroy: () => {},
 };
 
 export const forceMemoryCleanup = () => {

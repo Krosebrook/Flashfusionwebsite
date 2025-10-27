@@ -15,14 +15,14 @@ const steps = [
   { id: 'project', title: 'Project Details', description: 'Basic information about your project' },
   { id: 'framework', title: 'Framework', description: 'Choose your preferred framework' },
   { id: 'features', title: 'Features', description: 'Select the features you need' },
-  { id: 'review', title: 'Review', description: 'Review your configuration' }
+  { id: 'review', title: 'Review', description: 'Review your configuration' },
 ];
 
 const frameworks = [
   { id: 'react', name: 'React', description: 'Popular UI library', icon: '⚛️' },
   { id: 'vue', name: 'Vue.js', description: 'Progressive framework', icon: '💚' },
   { id: 'angular', name: 'Angular', description: 'Full-featured framework', icon: '🅰️' },
-  { id: 'svelte', name: 'Svelte', description: 'Compile-time framework', icon: '🧡' }
+  { id: 'svelte', name: 'Svelte', description: 'Compile-time framework', icon: '🧡' },
 ];
 
 const features = [
@@ -31,7 +31,7 @@ const features = [
   { id: 'api', name: 'REST API', description: 'Backend API endpoints' },
   { id: 'payments', name: 'Payments', description: 'Payment processing' },
   { id: 'admin', name: 'Admin Panel', description: 'Administrative interface' },
-  { id: 'analytics', name: 'Analytics', description: 'Usage tracking' }
+  { id: 'analytics', name: 'Analytics', description: 'Usage tracking' },
 ];
 
 export function ConfigWizard({ onComplete }: ConfigWizardProps) {
@@ -40,7 +40,7 @@ export function ConfigWizard({ onComplete }: ConfigWizardProps) {
     projectName: '',
     description: '',
     framework: '',
-    selectedFeatures: [] as string[]
+    selectedFeatures: [] as string[],
   });
 
   const nextStep = () => {
@@ -56,21 +56,26 @@ export function ConfigWizard({ onComplete }: ConfigWizardProps) {
   };
 
   const handleFeatureToggle = (featureId: string) => {
-    setConfig(prev => ({
+    setConfig((prev) => ({
       ...prev,
       selectedFeatures: prev.selectedFeatures.includes(featureId)
-        ? prev.selectedFeatures.filter(id => id !== featureId)
-        : [...prev.selectedFeatures, featureId]
+        ? prev.selectedFeatures.filter((id) => id !== featureId)
+        : [...prev.selectedFeatures, featureId],
     }));
   };
 
   const canProceed = () => {
     switch (currentStep) {
-      case 0: return config.projectName.trim() !== '';
-      case 1: return config.framework !== '';
-      case 2: return config.selectedFeatures.length > 0;
-      case 3: return true;
-      default: return false;
+      case 0:
+        return config.projectName.trim() !== '';
+      case 1:
+        return config.framework !== '';
+      case 2:
+        return config.selectedFeatures.length > 0;
+      case 3:
+        return true;
+      default:
+        return false;
     }
   };
 
@@ -84,7 +89,7 @@ export function ConfigWizard({ onComplete }: ConfigWizardProps) {
               <Input
                 id="projectName"
                 value={config.projectName}
-                onChange={(e) => setConfig(prev => ({ ...prev, projectName: e.target.value }))}
+                onChange={(e) => setConfig((prev) => ({ ...prev, projectName: e.target.value }))}
                 placeholder="My Awesome Project"
                 className="mt-2"
               />
@@ -94,7 +99,7 @@ export function ConfigWizard({ onComplete }: ConfigWizardProps) {
               <Input
                 id="description"
                 value={config.description}
-                onChange={(e) => setConfig(prev => ({ ...prev, description: e.target.value }))}
+                onChange={(e) => setConfig((prev) => ({ ...prev, description: e.target.value }))}
                 placeholder="Brief description of your project"
                 className="mt-2"
               />
@@ -113,7 +118,7 @@ export function ConfigWizard({ onComplete }: ConfigWizardProps) {
                     ? 'ring-2 ring-primary bg-primary/5'
                     : 'hover:bg-muted/50'
                 }`}
-                onClick={() => setConfig(prev => ({ ...prev, framework: framework.id }))}
+                onClick={() => setConfig((prev) => ({ ...prev, framework: framework.id }))}
               >
                 <CardContent className="p-6 text-center">
                   <div className="text-4xl mb-2">{framework.icon}</div>
@@ -161,26 +166,26 @@ export function ConfigWizard({ onComplete }: ConfigWizardProps) {
               <h3 className="font-medium mb-2">Project Name</h3>
               <p className="text-muted-foreground">{config.projectName}</p>
             </div>
-            
+
             {config.description && (
               <div>
                 <h3 className="font-medium mb-2">Description</h3>
                 <p className="text-muted-foreground">{config.description}</p>
               </div>
             )}
-            
+
             <div>
               <h3 className="font-medium mb-2">Framework</h3>
               <Badge variant="secondary" className="capitalize">
                 {config.framework}
               </Badge>
             </div>
-            
+
             <div>
               <h3 className="font-medium mb-2">Features</h3>
               <div className="flex flex-wrap gap-2">
-                {config.selectedFeatures.map(featureId => {
-                  const feature = features.find(f => f.id === featureId);
+                {config.selectedFeatures.map((featureId) => {
+                  const feature = features.find((f) => f.id === featureId);
                   return (
                     <Badge key={featureId} variant="outline">
                       {feature?.name}
@@ -211,7 +216,7 @@ export function ConfigWizard({ onComplete }: ConfigWizardProps) {
             {Math.round(((currentStep + 1) / steps.length) * 100)}% complete
           </div>
         </div>
-        
+
         {/* Progress Bar */}
         <div className="w-full bg-muted rounded-full h-2 mt-4">
           <motion.div
@@ -235,11 +240,7 @@ export function ConfigWizard({ onComplete }: ConfigWizardProps) {
         </motion.div>
 
         <div className="flex justify-between mt-8">
-          <Button
-            variant="outline"
-            onClick={prevStep}
-            disabled={currentStep === 0}
-          >
+          <Button variant="outline" onClick={prevStep} disabled={currentStep === 0}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Previous
           </Button>
@@ -250,11 +251,7 @@ export function ConfigWizard({ onComplete }: ConfigWizardProps) {
               Create Project
             </Button>
           ) : (
-            <Button
-              onClick={nextStep}
-              disabled={!canProceed()}
-              className="ff-btn-primary"
-            >
+            <Button onClick={nextStep} disabled={!canProceed()} className="ff-btn-primary">
               Next
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>

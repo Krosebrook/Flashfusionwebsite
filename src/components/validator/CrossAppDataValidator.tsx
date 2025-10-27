@@ -4,10 +4,10 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { 
-  Database, 
-  CheckCircle, 
-  AlertTriangle, 
+import {
+  Database,
+  CheckCircle,
+  AlertTriangle,
   XCircle,
   RefreshCw,
   Link,
@@ -26,7 +26,7 @@ import {
   AlertCircle,
   Info,
   TrendingUp,
-  Clock
+  Clock,
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -70,7 +70,7 @@ export function CrossAppDataValidator() {
         status: 'connected',
         lastSync: '2 minutes ago',
         dataTypes: ['Products', 'Orders', 'Analytics', 'Brand Kits'],
-        syncHealth: 95
+        syncHealth: 95,
       },
       {
         id: 'validation-nexus',
@@ -79,7 +79,7 @@ export function CrossAppDataValidator() {
         status: 'connected',
         lastSync: '1 minute ago',
         dataTypes: ['Ideas', 'Analyses', 'Reports', 'Benchmarks'],
-        syncHealth: 88
+        syncHealth: 88,
       },
       {
         id: 'project-manager',
@@ -88,7 +88,7 @@ export function CrossAppDataValidator() {
         status: 'degraded',
         lastSync: '15 minutes ago',
         dataTypes: ['Projects', 'Tasks', 'Teams', 'Resources'],
-        syncHealth: 72
+        syncHealth: 72,
       },
       {
         id: 'collaboration-hub',
@@ -97,7 +97,7 @@ export function CrossAppDataValidator() {
         status: 'connected',
         lastSync: '30 seconds ago',
         dataTypes: ['Users', 'Permissions', 'Comments', 'Revisions'],
-        syncHealth: 92
+        syncHealth: 92,
       },
       {
         id: 'analytics-dashboard',
@@ -106,7 +106,7 @@ export function CrossAppDataValidator() {
         status: 'connected',
         lastSync: '5 minutes ago',
         dataTypes: ['Events', 'Metrics', 'Reports', 'KPIs'],
-        syncHealth: 89
+        syncHealth: 89,
       },
       {
         id: 'subscription-system',
@@ -115,8 +115,8 @@ export function CrossAppDataValidator() {
         status: 'connected',
         lastSync: '3 minutes ago',
         dataTypes: ['Subscriptions', 'Payments', 'Usage', 'Billing'],
-        syncHealth: 97
-      }
+        syncHealth: 97,
+      },
     ];
 
     const initialChecks: DataIntegrityCheck[] = [
@@ -130,7 +130,7 @@ export function CrossAppDataValidator() {
         lastSync: '1 minute ago',
         recordCount: 12847,
         errorCount: 0,
-        severity: 'critical'
+        severity: 'critical',
       },
       {
         id: 'creator-products',
@@ -142,7 +142,7 @@ export function CrossAppDataValidator() {
         lastSync: '10 minutes ago',
         recordCount: 486,
         errorCount: 23,
-        severity: 'medium'
+        severity: 'medium',
       },
       {
         id: 'project-tasks',
@@ -154,7 +154,7 @@ export function CrossAppDataValidator() {
         lastSync: '25 minutes ago',
         recordCount: 1203,
         errorCount: 45,
-        severity: 'high'
+        severity: 'high',
       },
       {
         id: 'validation-reports',
@@ -166,7 +166,7 @@ export function CrossAppDataValidator() {
         lastSync: '3 minutes ago',
         recordCount: 189,
         errorCount: 0,
-        severity: 'medium'
+        severity: 'medium',
       },
       {
         id: 'subscription-usage',
@@ -178,7 +178,7 @@ export function CrossAppDataValidator() {
         lastSync: '45 minutes ago',
         recordCount: 8954,
         errorCount: 127,
-        severity: 'high'
+        severity: 'high',
       },
       {
         id: 'brand-assets',
@@ -190,8 +190,8 @@ export function CrossAppDataValidator() {
         lastSync: '8 minutes ago',
         recordCount: 342,
         errorCount: 2,
-        severity: 'low'
-      }
+        severity: 'low',
+      },
     ];
 
     setAppConnections(initialConnections);
@@ -204,23 +204,32 @@ export function CrossAppDataValidator() {
 
     // Simulate sync process
     for (let i = 0; i <= 100; i += 5) {
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
       setSyncProgress(i);
     }
 
     // Update some results after sync
-    setIntegrityChecks(prev => prev.map(check => ({
-      ...check,
-      lastSync: 'just now',
-      errorCount: Math.max(0, check.errorCount - Math.floor(Math.random() * 10)),
-      status: check.status === 'conflict' ? 'mismatch' : check.status === 'missing' ? 'synced' : check.status
-    })));
+    setIntegrityChecks((prev) =>
+      prev.map((check) => ({
+        ...check,
+        lastSync: 'just now',
+        errorCount: Math.max(0, check.errorCount - Math.floor(Math.random() * 10)),
+        status:
+          check.status === 'conflict'
+            ? 'mismatch'
+            : check.status === 'missing'
+              ? 'synced'
+              : check.status,
+      }))
+    );
 
-    setAppConnections(prev => prev.map(conn => ({
-      ...conn,
-      lastSync: 'just now',
-      syncHealth: Math.min(100, conn.syncHealth + Math.floor(Math.random() * 10))
-    })));
+    setAppConnections((prev) =>
+      prev.map((conn) => ({
+        ...conn,
+        lastSync: 'just now',
+        syncHealth: Math.min(100, conn.syncHealth + Math.floor(Math.random() * 10)),
+      }))
+    );
 
     setIsRunningSync(false);
   };
@@ -258,13 +267,13 @@ export function CrossAppDataValidator() {
   };
 
   const totalErrors = integrityChecks.reduce((sum, check) => sum + check.errorCount, 0);
-  const syncedCount = integrityChecks.filter(check => check.status === 'synced').length;
-  const issueCount = integrityChecks.filter(check => check.status !== 'synced').length;
+  const syncedCount = integrityChecks.filter((check) => check.status === 'synced').length;
+  const issueCount = integrityChecks.filter((check) => check.status !== 'synced').length;
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Header */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -274,12 +283,13 @@ export function CrossAppDataValidator() {
           <h1 className="ff-text-gradient">Cross-App Data Validator</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Ensure data consistency and integrity across all FlashFusion applications with real-time synchronization monitoring and conflict resolution.
+          Ensure data consistency and integrity across all FlashFusion applications with real-time
+          synchronization monitoring and conflict resolution.
         </p>
       </motion.div>
 
       {/* Data Health Overview */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
@@ -346,7 +356,7 @@ export function CrossAppDataValidator() {
               <XCircle className="w-8 h-8 text-red-500" />
             </div>
             <div className="mt-2">
-              <Badge variant={totalErrors === 0 ? "outline" : "destructive"}>
+              <Badge variant={totalErrors === 0 ? 'outline' : 'destructive'}>
                 {totalErrors === 0 ? 'Clean' : 'Action Required'}
               </Badge>
             </div>
@@ -361,12 +371,7 @@ export function CrossAppDataValidator() {
         transition={{ delay: 0.2 }}
         className="flex flex-wrap gap-4"
       >
-        <Button 
-          onClick={runDataSync} 
-          disabled={isRunningSync}
-          className="ff-btn-primary"
-          size="lg"
-        >
+        <Button onClick={runDataSync} disabled={isRunningSync} className="ff-btn-primary" size="lg">
           {isRunningSync ? (
             <>
               <RefreshCw className="w-5 h-5 mr-2 animate-spin" />
@@ -398,10 +403,7 @@ export function CrossAppDataValidator() {
 
       {/* Sync Progress */}
       {isRunningSync && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <Card className="border-primary/20">
             <CardContent className="p-6">
               <div className="space-y-4">
@@ -452,7 +454,9 @@ export function CrossAppDataValidator() {
                           </div>
                           <div>
                             <h4 className="font-medium">{app.name}</h4>
-                            <p className="text-sm text-muted-foreground">Last sync: {app.lastSync}</p>
+                            <p className="text-sm text-muted-foreground">
+                              Last sync: {app.lastSync}
+                            </p>
                           </div>
                         </div>
                         {getStatusIcon(app.status)}
@@ -516,8 +520,10 @@ export function CrossAppDataValidator() {
                                 {check.severity.toUpperCase()}
                               </Badge>
                             </div>
-                            <p className="text-sm text-muted-foreground mb-3">{check.description}</p>
-                            
+                            <p className="text-sm text-muted-foreground mb-3">
+                              {check.description}
+                            </p>
+
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                               <div>
                                 <span className="text-muted-foreground">Source:</span>
@@ -533,14 +539,16 @@ export function CrossAppDataValidator() {
                               </div>
                               <div>
                                 <span className="text-muted-foreground">Errors:</span>
-                                <p className={`font-medium ${check.errorCount > 0 ? 'text-red-500' : 'text-green-500'}`}>
+                                <p
+                                  className={`font-medium ${check.errorCount > 0 ? 'text-red-500' : 'text-green-500'}`}
+                                >
                                   {check.errorCount}
                                 </p>
                               </div>
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="flex space-x-2">
                           <Button size="sm" variant="outline">
                             <Eye className="w-3 h-3 mr-1" />
@@ -554,12 +562,14 @@ export function CrossAppDataValidator() {
                           )}
                         </div>
                       </div>
-                      
+
                       <div className="mt-4 pt-4 border-t flex items-center justify-between text-sm text-muted-foreground">
                         <span>Last checked: {check.lastSync}</span>
                         <div className="flex items-center space-x-2">
                           <Link className="w-3 h-3" />
-                          <span>{check.sourceApp} ↔ {check.targetApp}</span>
+                          <span>
+                            {check.sourceApp} ↔ {check.targetApp}
+                          </span>
                         </div>
                       </div>
                     </CardContent>
@@ -572,69 +582,79 @@ export function CrossAppDataValidator() {
           {/* Conflicts Tab */}
           <TabsContent value="conflicts" className="space-y-6">
             <div className="space-y-4">
-              {integrityChecks.filter(check => check.status === 'conflict' || check.status === 'mismatch').map((conflict, index) => (
-                <motion.div
-                  key={conflict.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Card className="border-yellow-500/20 bg-yellow-500/5">
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-start space-x-3">
-                          <AlertCircle className="w-6 h-6 text-yellow-500 mt-0.5" />
-                          <div>
-                            <h4 className="font-medium text-yellow-500">{conflict.name}</h4>
-                            <p className="text-sm text-muted-foreground mt-1">{conflict.description}</p>
+              {integrityChecks
+                .filter((check) => check.status === 'conflict' || check.status === 'mismatch')
+                .map((conflict, index) => (
+                  <motion.div
+                    key={conflict.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Card className="border-yellow-500/20 bg-yellow-500/5">
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex items-start space-x-3">
+                            <AlertCircle className="w-6 h-6 text-yellow-500 mt-0.5" />
+                            <div>
+                              <h4 className="font-medium text-yellow-500">{conflict.name}</h4>
+                              <p className="text-sm text-muted-foreground mt-1">
+                                {conflict.description}
+                              </p>
+                            </div>
+                          </div>
+                          <Badge className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20">
+                            {conflict.status.toUpperCase()}
+                          </Badge>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                          <div className="p-3 bg-muted/50 rounded-lg">
+                            <p className="text-sm font-medium mb-1">Affected Records</p>
+                            <p className="text-lg font-bold">{conflict.errorCount}</p>
+                          </div>
+                          <div className="p-3 bg-muted/50 rounded-lg">
+                            <p className="text-sm font-medium mb-1">Total Records</p>
+                            <p className="text-lg font-bold">
+                              {conflict.recordCount.toLocaleString()}
+                            </p>
+                          </div>
+                          <div className="p-3 bg-muted/50 rounded-lg">
+                            <p className="text-sm font-medium mb-1">Error Rate</p>
+                            <p className="text-lg font-bold">
+                              {((conflict.errorCount / conflict.recordCount) * 100).toFixed(2)}%
+                            </p>
                           </div>
                         </div>
-                        <Badge className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20">
-                          {conflict.status.toUpperCase()}
-                        </Badge>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                        <div className="p-3 bg-muted/50 rounded-lg">
-                          <p className="text-sm font-medium mb-1">Affected Records</p>
-                          <p className="text-lg font-bold">{conflict.errorCount}</p>
-                        </div>
-                        <div className="p-3 bg-muted/50 rounded-lg">
-                          <p className="text-sm font-medium mb-1">Total Records</p>
-                          <p className="text-lg font-bold">{conflict.recordCount.toLocaleString()}</p>
-                        </div>
-                        <div className="p-3 bg-muted/50 rounded-lg">
-                          <p className="text-sm font-medium mb-1">Error Rate</p>
-                          <p className="text-lg font-bold">
-                            {((conflict.errorCount / conflict.recordCount) * 100).toFixed(2)}%
-                          </p>
-                        </div>
-                      </div>
 
-                      <div className="flex space-x-2">
-                        <Button size="sm" className="ff-btn-primary">
-                          <GitMerge className="w-3 h-3 mr-1" />
-                          Auto-Resolve
-                        </Button>
-                        <Button size="sm" variant="outline">
-                          <Eye className="w-3 h-3 mr-1" />
-                          Manual Review
-                        </Button>
-                        <Button size="sm" variant="outline">
-                          <Info className="w-3 h-3 mr-1" />
-                          View Details
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+                        <div className="flex space-x-2">
+                          <Button size="sm" className="ff-btn-primary">
+                            <GitMerge className="w-3 h-3 mr-1" />
+                            Auto-Resolve
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            <Eye className="w-3 h-3 mr-1" />
+                            Manual Review
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            <Info className="w-3 h-3 mr-1" />
+                            View Details
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
 
-              {integrityChecks.every(check => check.status !== 'conflict' && check.status !== 'mismatch') && (
+              {integrityChecks.every(
+                (check) => check.status !== 'conflict' && check.status !== 'mismatch'
+              ) && (
                 <div className="text-center py-12">
                   <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
                   <h3 className="font-medium mb-2">No Data Conflicts</h3>
-                  <p className="text-muted-foreground">All data streams are synchronized and consistent</p>
+                  <p className="text-muted-foreground">
+                    All data streams are synchronized and consistent
+                  </p>
                 </div>
               )}
             </div>

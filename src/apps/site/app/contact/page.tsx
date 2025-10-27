@@ -10,7 +10,7 @@ export default function ContactPage() {
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -43,50 +43,55 @@ export default function ContactPage() {
     }, 1000);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section 
+      <section
         className="py-20 px-6"
         style={{
-          background: 'linear-gradient(135deg, rgba(255, 123, 0, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)'
+          background:
+            'linear-gradient(135deg, rgba(255, 123, 0, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)',
         }}
       >
         <div className="max-w-7xl mx-auto">
           <BackButton href="/" label="Back to Home" className="mb-8" />
-          
+
           <div className="text-center">
-            <h1 
+            <h1
               className="mb-6"
               style={{
                 fontFamily: 'var(--ff-font-primary)',
                 fontSize: 'var(--ff-text-5xl)',
                 fontWeight: 'var(--ff-weight-extrabold)',
                 lineHeight: 'var(--ff-leading-tight)',
-                background: 'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
+                background:
+                  'linear-gradient(135deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
+                backgroundClip: 'text',
               }}
             >
               Get in Touch
             </h1>
-            <p 
+            <p
               className="text-xl max-w-2xl mx-auto"
               style={{
                 color: 'var(--ff-text-secondary)',
                 fontFamily: 'var(--ff-font-secondary)',
-                lineHeight: 'var(--ff-leading-relaxed)'
+                lineHeight: 'var(--ff-leading-relaxed)',
               }}
             >
-              Have questions? We're here to help. Send us a message and we'll respond as soon as possible.
+              Have questions? We're here to help. Send us a message and we'll respond as soon as
+              possible.
             </p>
           </div>
         </div>
@@ -98,20 +103,20 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
             <div>
-              <div 
+              <div
                 className="p-8 rounded-2xl border"
                 style={{
                   background: 'var(--ff-surface)',
-                  borderColor: 'rgba(255, 255, 255, 0.1)'
+                  borderColor: 'rgba(255, 255, 255, 0.1)',
                 }}
               >
-                <h2 
+                <h2
                   className="mb-6"
                   style={{
                     fontFamily: 'var(--ff-font-primary)',
                     fontSize: 'var(--ff-text-2xl)',
                     fontWeight: 'var(--ff-weight-bold)',
-                    color: 'var(--ff-text-primary)'
+                    color: 'var(--ff-text-primary)',
                   }}
                 >
                   Send us a message
@@ -120,14 +125,14 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Name */}
                   <div>
-                    <label 
+                    <label
                       htmlFor="name"
                       className="block mb-2"
                       style={{
                         color: 'var(--ff-text-primary)',
                         fontFamily: 'var(--ff-font-primary)',
                         fontSize: 'var(--ff-text-sm)',
-                        fontWeight: 'var(--ff-weight-semibold)'
+                        fontWeight: 'var(--ff-weight-semibold)',
                       }}
                     >
                       Name *
@@ -145,21 +150,21 @@ export default function ContactPage() {
                         background: 'var(--ff-bg-dark)',
                         borderColor: 'rgba(255, 255, 255, 0.1)',
                         color: 'var(--ff-text-primary)',
-                        fontFamily: 'var(--ff-font-secondary)'
+                        fontFamily: 'var(--ff-font-secondary)',
                       }}
                     />
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label 
+                    <label
                       htmlFor="email"
                       className="block mb-2"
                       style={{
                         color: 'var(--ff-text-primary)',
                         fontFamily: 'var(--ff-font-primary)',
                         fontSize: 'var(--ff-text-sm)',
-                        fontWeight: 'var(--ff-weight-semibold)'
+                        fontWeight: 'var(--ff-weight-semibold)',
                       }}
                     >
                       Email *
@@ -177,21 +182,21 @@ export default function ContactPage() {
                         background: 'var(--ff-bg-dark)',
                         borderColor: 'rgba(255, 255, 255, 0.1)',
                         color: 'var(--ff-text-primary)',
-                        fontFamily: 'var(--ff-font-secondary)'
+                        fontFamily: 'var(--ff-font-secondary)',
                       }}
                     />
                   </div>
 
                   {/* Subject */}
                   <div>
-                    <label 
+                    <label
                       htmlFor="subject"
                       className="block mb-2"
                       style={{
                         color: 'var(--ff-text-primary)',
                         fontFamily: 'var(--ff-font-primary)',
                         fontSize: 'var(--ff-text-sm)',
-                        fontWeight: 'var(--ff-weight-semibold)'
+                        fontWeight: 'var(--ff-weight-semibold)',
                       }}
                     >
                       Subject
@@ -206,7 +211,7 @@ export default function ContactPage() {
                         background: 'var(--ff-bg-dark)',
                         borderColor: 'rgba(255, 255, 255, 0.1)',
                         color: 'var(--ff-text-primary)',
-                        fontFamily: 'var(--ff-font-secondary)'
+                        fontFamily: 'var(--ff-font-secondary)',
                       }}
                     >
                       <option value="">Select a topic...</option>
@@ -221,14 +226,14 @@ export default function ContactPage() {
 
                   {/* Message */}
                   <div>
-                    <label 
+                    <label
                       htmlFor="message"
                       className="block mb-2"
                       style={{
                         color: 'var(--ff-text-primary)',
                         fontFamily: 'var(--ff-font-primary)',
                         fontSize: 'var(--ff-text-sm)',
-                        fontWeight: 'var(--ff-weight-semibold)'
+                        fontWeight: 'var(--ff-weight-semibold)',
                       }}
                     >
                       Message *
@@ -246,26 +251,26 @@ export default function ContactPage() {
                         background: 'var(--ff-bg-dark)',
                         borderColor: 'rgba(255, 255, 255, 0.1)',
                         color: 'var(--ff-text-primary)',
-                        fontFamily: 'var(--ff-font-secondary)'
+                        fontFamily: 'var(--ff-font-secondary)',
                       }}
                     />
                   </div>
 
                   {/* Error Message */}
                   {error && (
-                    <div 
+                    <div
                       className="flex items-center gap-2 p-3 rounded-lg"
                       style={{
                         background: 'rgba(239, 68, 68, 0.1)',
-                        border: '1px solid rgba(239, 68, 68, 0.3)'
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
                       }}
                     >
                       <AlertCircle className="h-5 w-5" style={{ color: 'var(--ff-error)' }} />
-                      <p 
+                      <p
                         style={{
                           color: 'var(--ff-error)',
                           fontFamily: 'var(--ff-font-secondary)',
-                          fontSize: 'var(--ff-text-sm)'
+                          fontSize: 'var(--ff-text-sm)',
                         }}
                       >
                         {error}
@@ -275,19 +280,19 @@ export default function ContactPage() {
 
                   {/* Success Message */}
                   {success && (
-                    <div 
+                    <div
                       className="flex items-center gap-2 p-3 rounded-lg"
                       style={{
                         background: 'rgba(16, 185, 129, 0.1)',
-                        border: '1px solid rgba(16, 185, 129, 0.3)'
+                        border: '1px solid rgba(16, 185, 129, 0.3)',
                       }}
                     >
                       <CheckCircle className="h-5 w-5" style={{ color: 'var(--ff-success)' }} />
-                      <p 
+                      <p
                         style={{
                           color: 'var(--ff-success)',
                           fontFamily: 'var(--ff-font-secondary)',
-                          fontSize: 'var(--ff-text-sm)'
+                          fontSize: 'var(--ff-text-sm)',
                         }}
                       >
                         Message sent! We'll get back to you within 24 hours.
@@ -305,7 +310,7 @@ export default function ContactPage() {
                       color: 'white',
                       fontFamily: 'var(--ff-font-primary)',
                       fontWeight: 'var(--ff-weight-semibold)',
-                      boxShadow: 'var(--ff-glow)'
+                      boxShadow: 'var(--ff-glow)',
                     }}
                   >
                     {isSubmitting ? (
@@ -327,13 +332,13 @@ export default function ContactPage() {
             {/* Contact Info */}
             <div className="space-y-6">
               <div>
-                <h2 
+                <h2
                   className="mb-6"
                   style={{
                     fontFamily: 'var(--ff-font-primary)',
                     fontSize: 'var(--ff-text-2xl)',
                     fontWeight: 'var(--ff-weight-bold)',
-                    color: 'var(--ff-text-primary)'
+                    color: 'var(--ff-text-primary)',
                   }}
                 >
                   Other ways to reach us
@@ -341,41 +346,41 @@ export default function ContactPage() {
 
                 <div className="space-y-4">
                   {/* Email */}
-                  <div 
+                  <div
                     className="p-6 rounded-xl border"
                     style={{
                       background: 'var(--ff-surface)',
-                      borderColor: 'rgba(255, 255, 255, 0.1)'
+                      borderColor: 'rgba(255, 255, 255, 0.1)',
                     }}
                   >
                     <div className="flex items-start gap-4">
-                      <div 
+                      <div
                         className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
                         style={{
                           background: 'rgba(255, 123, 0, 0.1)',
-                          color: 'var(--ff-primary)'
+                          color: 'var(--ff-primary)',
                         }}
                       >
                         <Mail className="h-6 w-6" />
                       </div>
                       <div>
-                        <h3 
+                        <h3
                           className="mb-1"
                           style={{
                             fontFamily: 'var(--ff-font-primary)',
                             fontSize: 'var(--ff-text-lg)',
                             fontWeight: 'var(--ff-weight-semibold)',
-                            color: 'var(--ff-text-primary)'
+                            color: 'var(--ff-text-primary)',
                           }}
                         >
                           Email Support
                         </h3>
-                        <p 
+                        <p
                           style={{
                             color: 'var(--ff-text-secondary)',
                             fontFamily: 'var(--ff-font-secondary)',
                             fontSize: 'var(--ff-text-sm)',
-                            marginBottom: '0.5rem'
+                            marginBottom: '0.5rem',
                           }}
                         >
                           For general inquiries and support
@@ -386,7 +391,7 @@ export default function ContactPage() {
                             color: 'var(--ff-primary)',
                             fontFamily: 'var(--ff-font-secondary)',
                             fontSize: 'var(--ff-text-sm)',
-                            fontWeight: 'var(--ff-weight-semibold)'
+                            fontWeight: 'var(--ff-weight-semibold)',
                           }}
                         >
                           support@flashfusion.co
@@ -396,41 +401,41 @@ export default function ContactPage() {
                   </div>
 
                   {/* Sales */}
-                  <div 
+                  <div
                     className="p-6 rounded-xl border"
                     style={{
                       background: 'var(--ff-surface)',
-                      borderColor: 'rgba(255, 255, 255, 0.1)'
+                      borderColor: 'rgba(255, 255, 255, 0.1)',
                     }}
                   >
                     <div className="flex items-start gap-4">
-                      <div 
+                      <div
                         className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
                         style={{
                           background: 'rgba(0, 180, 216, 0.1)',
-                          color: 'var(--ff-secondary)'
+                          color: 'var(--ff-secondary)',
                         }}
                       >
                         <MessageSquare className="h-6 w-6" />
                       </div>
                       <div>
-                        <h3 
+                        <h3
                           className="mb-1"
                           style={{
                             fontFamily: 'var(--ff-font-primary)',
                             fontSize: 'var(--ff-text-lg)',
                             fontWeight: 'var(--ff-weight-semibold)',
-                            color: 'var(--ff-text-primary)'
+                            color: 'var(--ff-text-primary)',
                           }}
                         >
                           Sales Team
                         </h3>
-                        <p 
+                        <p
                           style={{
                             color: 'var(--ff-text-secondary)',
                             fontFamily: 'var(--ff-font-secondary)',
                             fontSize: 'var(--ff-text-sm)',
-                            marginBottom: '0.5rem'
+                            marginBottom: '0.5rem',
                           }}
                         >
                           Enterprise plans and partnerships
@@ -441,7 +446,7 @@ export default function ContactPage() {
                             color: 'var(--ff-secondary)',
                             fontFamily: 'var(--ff-font-secondary)',
                             fontSize: 'var(--ff-text-sm)',
-                            fontWeight: 'var(--ff-weight-semibold)'
+                            fontWeight: 'var(--ff-weight-semibold)',
                           }}
                         >
                           sales@flashfusion.co
@@ -453,30 +458,31 @@ export default function ContactPage() {
               </div>
 
               {/* FAQ Link */}
-              <div 
+              <div
                 className="p-6 rounded-xl"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(255, 123, 0, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)',
-                  border: '1px solid rgba(255, 123, 0, 0.2)'
+                  background:
+                    'linear-gradient(135deg, rgba(255, 123, 0, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)',
+                  border: '1px solid rgba(255, 123, 0, 0.2)',
                 }}
               >
-                <h3 
+                <h3
                   className="mb-2"
                   style={{
                     fontFamily: 'var(--ff-font-primary)',
                     fontSize: 'var(--ff-text-lg)',
                     fontWeight: 'var(--ff-weight-semibold)',
-                    color: 'var(--ff-text-primary)'
+                    color: 'var(--ff-text-primary)',
                   }}
                 >
                   Need help quickly?
                 </h3>
-                <p 
+                <p
                   className="mb-4"
                   style={{
                     color: 'var(--ff-text-secondary)',
                     fontFamily: 'var(--ff-font-secondary)',
-                    fontSize: 'var(--ff-text-sm)'
+                    fontSize: 'var(--ff-text-sm)',
                   }}
                 >
                   Check out our FAQ for instant answers to common questions
@@ -488,7 +494,7 @@ export default function ContactPage() {
                     background: 'var(--ff-gradient-primary)',
                     color: 'white',
                     fontFamily: 'var(--ff-font-primary)',
-                    fontWeight: 'var(--ff-weight-semibold)'
+                    fontWeight: 'var(--ff-weight-semibold)',
                   }}
                 >
                   View FAQ
@@ -496,57 +502,75 @@ export default function ContactPage() {
               </div>
 
               {/* Response Time */}
-              <div 
+              <div
                 className="p-6 rounded-xl border"
                 style={{
                   background: 'var(--ff-surface)',
-                  borderColor: 'rgba(255, 255, 255, 0.1)'
+                  borderColor: 'rgba(255, 255, 255, 0.1)',
                 }}
               >
-                <h3 
+                <h3
                   className="mb-4"
                   style={{
                     fontFamily: 'var(--ff-font-primary)',
                     fontSize: 'var(--ff-text-lg)',
                     fontWeight: 'var(--ff-weight-semibold)',
-                    color: 'var(--ff-text-primary)'
+                    color: 'var(--ff-text-primary)',
                   }}
                 >
                   Response Times
                 </h3>
                 <ul className="space-y-3">
-                  <li 
+                  <li
                     style={{
                       color: 'var(--ff-text-secondary)',
                       fontFamily: 'var(--ff-font-secondary)',
-                      fontSize: 'var(--ff-text-sm)'
+                      fontSize: 'var(--ff-text-sm)',
                     }}
                   >
-                    <span style={{ color: 'var(--ff-success)', fontWeight: 'var(--ff-weight-semibold)' }}>
+                    <span
+                      style={{
+                        color: 'var(--ff-success)',
+                        fontWeight: 'var(--ff-weight-semibold)',
+                      }}
+                    >
                       General inquiries:
-                    </span> Within 24 hours
+                    </span>{' '}
+                    Within 24 hours
                   </li>
-                  <li 
+                  <li
                     style={{
                       color: 'var(--ff-text-secondary)',
                       fontFamily: 'var(--ff-font-secondary)',
-                      fontSize: 'var(--ff-text-sm)'
+                      fontSize: 'var(--ff-text-sm)',
                     }}
                   >
-                    <span style={{ color: 'var(--ff-success)', fontWeight: 'var(--ff-weight-semibold)' }}>
+                    <span
+                      style={{
+                        color: 'var(--ff-success)',
+                        fontWeight: 'var(--ff-weight-semibold)',
+                      }}
+                    >
                       Technical support:
-                    </span> Within 12 hours
+                    </span>{' '}
+                    Within 12 hours
                   </li>
-                  <li 
+                  <li
                     style={{
                       color: 'var(--ff-text-secondary)',
                       fontFamily: 'var(--ff-font-secondary)',
-                      fontSize: 'var(--ff-text-sm)'
+                      fontSize: 'var(--ff-text-sm)',
                     }}
                   >
-                    <span style={{ color: 'var(--ff-success)', fontWeight: 'var(--ff-weight-semibold)' }}>
+                    <span
+                      style={{
+                        color: 'var(--ff-success)',
+                        fontWeight: 'var(--ff-weight-semibold)',
+                      }}
+                    >
                       Enterprise clients:
-                    </span> Within 1 hour
+                    </span>{' '}
+                    Within 1 hour
                   </li>
                 </ul>
               </div>

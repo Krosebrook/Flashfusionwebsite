@@ -87,10 +87,10 @@ export const calculateEngagementEstimate = (): number => {
 };
 
 export const downloadContent = (outputs: ContentOutput[]) => {
-  const content = outputs.map(output => 
-    `=== ${output.platform} - ${output.type} ===\n\n${output.content}\n\n`
-  ).join('');
-  
+  const content = outputs
+    .map((output) => `=== ${output.platform} - ${output.type} ===\n\n${output.content}\n\n`)
+    .join('');
+
   const blob = new Blob([content], { type: 'text/plain' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');

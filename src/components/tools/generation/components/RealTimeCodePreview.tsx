@@ -5,18 +5,18 @@ import { Button } from '../../../ui/button';
 import { Badge } from '../../../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../ui/tabs';
 import { ScrollArea } from '../../../ui/scroll-area';
-import { 
-  Eye, 
-  Code, 
-  Download, 
-  Copy, 
-  RefreshCw, 
-  Zap, 
+import {
+  Eye,
+  Code,
+  Download,
+  Copy,
+  RefreshCw,
+  Zap,
   CheckCircle,
   FileText,
   Image,
   Archive,
-  ExternalLink
+  ExternalLink,
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -38,16 +38,18 @@ export function RealTimeCodePreview({
   onFileSelect,
   onCopyCode,
   onDownloadFile,
-  isLoading = false
+  isLoading = false,
 }: RealTimeCodePreviewProps) {
   const [previewMode, setPreviewMode] = useState<'code' | 'visual' | 'structure'>('code');
-  const [fileFilter, setFileFilter] = useState<'all' | 'frontend' | 'backend' | 'config' | 'database'>('all');
+  const [fileFilter, setFileFilter] = useState<
+    'all' | 'frontend' | 'backend' | 'config' | 'database'
+  >('all');
   const [selectedFileContent, setSelectedFileContent] = useState<string>('');
   const [fileLanguage, setFileLanguage] = useState<string>('typescript');
 
   useEffect(() => {
     if (selectedFile && generatedApp) {
-      const file = generatedApp.files.find(f => f.path === selectedFile);
+      const file = generatedApp.files.find((f) => f.path === selectedFile);
       if (file) {
         setSelectedFileContent(file.content);
         setFileLanguage(getFileLanguage(file.path));
@@ -58,21 +60,21 @@ export function RealTimeCodePreview({
   const getFileLanguage = (filePath: string): string => {
     const extension = filePath.split('.').pop()?.toLowerCase();
     const languageMap: Record<string, string> = {
-      'tsx': 'tsx',
-      'ts': 'typescript',
-      'jsx': 'jsx', 
-      'js': 'javascript',
-      'json': 'json',
-      'md': 'markdown',
-      'sql': 'sql',
-      'yml': 'yaml',
-      'yaml': 'yaml',
-      'dockerfile': 'docker',
-      'env': 'bash',
-      'gitignore': 'bash',
-      'css': 'css',
-      'scss': 'scss',
-      'html': 'html'
+      tsx: 'tsx',
+      ts: 'typescript',
+      jsx: 'jsx',
+      js: 'javascript',
+      json: 'json',
+      md: 'markdown',
+      sql: 'sql',
+      yml: 'yaml',
+      yaml: 'yaml',
+      dockerfile: 'docker',
+      env: 'bash',
+      gitignore: 'bash',
+      css: 'css',
+      scss: 'scss',
+      html: 'html',
     };
     return languageMap[extension || ''] || 'text';
   };
@@ -94,7 +96,7 @@ export function RealTimeCodePreview({
     return <FileText className="h-4 w-4 text-muted-foreground" />;
   };
 
-  const filteredFiles = generatedApp.files.filter(file => {
+  const filteredFiles = generatedApp.files.filter((file) => {
     if (fileFilter === 'all') return true;
     return file.type === fileFilter;
   });
@@ -104,7 +106,7 @@ export function RealTimeCodePreview({
       frontend: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
       backend: 'bg-green-500/10 text-green-500 border-green-500/20',
       database: 'bg-purple-500/10 text-purple-500 border-purple-500/20',
-      config: 'bg-orange-500/10 text-orange-500 border-orange-500/20'
+      config: 'bg-orange-500/10 text-orange-500 border-orange-500/20',
     };
     return colors[type as keyof typeof colors] || 'bg-muted text-muted-foreground';
   };
@@ -119,12 +121,12 @@ export function RealTimeCodePreview({
     const totalFiles = generatedApp.files.length;
     const totalSize = generatedApp.files.reduce((sum, file) => sum + (file.size || 0), 0);
     const fileTypes = {
-      frontend: generatedApp.files.filter(f => f.type === 'frontend').length,
-      backend: generatedApp.files.filter(f => f.type === 'backend').length,
-      database: generatedApp.files.filter(f => f.type === 'database').length,
-      config: generatedApp.files.filter(f => f.type === 'config').length
+      frontend: generatedApp.files.filter((f) => f.type === 'frontend').length,
+      backend: generatedApp.files.filter((f) => f.type === 'backend').length,
+      database: generatedApp.files.filter((f) => f.type === 'database').length,
+      config: generatedApp.files.filter((f) => f.type === 'config').length,
     };
-    
+
     return { totalFiles, totalSize, fileTypes };
   };
 
@@ -249,7 +251,7 @@ export function RealTimeCodePreview({
                   {(['all', 'frontend', 'backend', 'config', 'database'] as const).map((type) => (
                     <Button
                       key={type}
-                      variant={fileFilter === type ? "default" : "outline"}
+                      variant={fileFilter === type ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => setFileFilter(type)}
                       className="capitalize"
@@ -277,25 +279,22 @@ export function RealTimeCodePreview({
                             className={`
                               flex items-center gap-2 p-2 rounded cursor-pointer text-sm
                               transition-colors duration-200
-                              ${selectedFile === file.path 
-                                ? 'bg-primary/10 border border-primary/20' 
-                                : 'hover:bg-muted/50'
+                              ${
+                                selectedFile === file.path
+                                  ? 'bg-primary/10 border border-primary/20'
+                                  : 'hover:bg-muted/50'
                               }
                             `}
                             onClick={() => onFileSelect(file.path)}
                           >
                             {getFileIcon(file.path)}
                             <div className="flex-1 min-w-0">
-                              <p className="truncate font-medium">
-                                {file.path.split('/').pop()}
-                              </p>
-                              <p className="text-xs text-muted-foreground truncate">
-                                {file.path}
-                              </p>
+                              <p className="truncate font-medium">{file.path.split('/').pop()}</p>
+                              <p className="text-xs text-muted-foreground truncate">{file.path}</p>
                             </div>
                             <div className="flex flex-col items-end gap-1">
-                              <Badge 
-                                variant="outline" 
+                              <Badge
+                                variant="outline"
                                 className={`text-xs px-1 py-0 ${getFileTypeColor(file.type)}`}
                               >
                                 {file.type}
@@ -352,7 +351,7 @@ export function RealTimeCodePreview({
                             margin: 0,
                             background: 'transparent',
                             fontSize: '14px',
-                            lineHeight: '1.5'
+                            lineHeight: '1.5',
                           }}
                           showLineNumbers
                           wrapLines
@@ -440,11 +439,15 @@ export function RealTimeCodePreview({
                             <Badge
                               variant="outline"
                               className={
-                                endpoint.method === 'GET' ? 'text-blue-500' :
-                                endpoint.method === 'POST' ? 'text-green-500' :
-                                endpoint.method === 'PUT' ? 'text-yellow-500' :
-                                endpoint.method === 'DELETE' ? 'text-red-500' :
-                                'text-muted-foreground'
+                                endpoint.method === 'GET'
+                                  ? 'text-blue-500'
+                                  : endpoint.method === 'POST'
+                                    ? 'text-green-500'
+                                    : endpoint.method === 'PUT'
+                                      ? 'text-yellow-500'
+                                      : endpoint.method === 'DELETE'
+                                        ? 'text-red-500'
+                                        : 'text-muted-foreground'
                               }
                             >
                               {endpoint.method}

@@ -5,11 +5,11 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Alert, AlertDescription } from '../ui/alert';
-import { 
-  Shield, 
-  Zap, 
-  Brain, 
-  BarChart3, 
+import {
+  Shield,
+  Zap,
+  Brain,
+  BarChart3,
   Wand2,
   Gauge,
   Eye,
@@ -26,7 +26,7 @@ import {
   Star,
   Heart,
   Users,
-  Clock
+  Clock,
 } from 'lucide-react';
 
 interface ShowcaseProps {
@@ -44,8 +44,8 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
     if (!isLive) return;
 
     const interval = setInterval(() => {
-      setPerformanceScore(prev => Math.max(75, Math.min(100, prev + (Math.random() - 0.5) * 3)));
-      setSecurityScore(prev => Math.max(85, Math.min(100, prev + (Math.random() - 0.5) * 2)));
+      setPerformanceScore((prev) => Math.max(75, Math.min(100, prev + (Math.random() - 0.5) * 3)));
+      setSecurityScore((prev) => Math.max(85, Math.min(100, prev + (Math.random() - 0.5) * 2)));
     }, 3000);
 
     return () => clearInterval(interval);
@@ -55,55 +55,90 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
     {
       icon: <Activity className="h-6 w-6" />,
       title: 'Real-Time Performance Monitor',
-      description: 'Live performance metrics with Core Web Vitals tracking, intelligent alerting, and optimization recommendations.',
+      description:
+        'Live performance metrics with Core Web Vitals tracking, intelligent alerting, and optimization recommendations.',
       route: 'performance-monitor',
       highlights: ['Live metrics', 'Core Web Vitals', 'Smart alerts', 'Auto-optimization'],
       score: performanceScore,
-      color: 'text-blue-500'
+      color: 'text-blue-500',
     },
     {
       icon: <Shield className="h-6 w-6" />,
       title: 'Comprehensive Security Scanner',
-      description: 'Advanced threat detection, vulnerability assessment, and compliance monitoring with real-time alerts.',
+      description:
+        'Advanced threat detection, vulnerability assessment, and compliance monitoring with real-time alerts.',
       route: 'security-scanner',
-      highlights: ['Threat detection', 'Vulnerability scan', 'Compliance check', 'Real-time alerts'],
+      highlights: [
+        'Threat detection',
+        'Vulnerability scan',
+        'Compliance check',
+        'Real-time alerts',
+      ],
       score: securityScore,
-      color: 'text-green-500'
+      color: 'text-green-500',
     },
     {
       icon: <Wand2 className="h-6 w-6" />,
       title: 'Premium Micro-Interactions',
-      description: 'Sophisticated UI animations and micro-interactions that enhance user experience without overstimulation.',
+      description:
+        'Sophisticated UI animations and micro-interactions that enhance user experience without overstimulation.',
       route: 'micro-interactions',
       highlights: ['Subtle animations', 'Magnetic buttons', 'Progress rings', 'Morphing icons'],
       score: 95,
-      color: 'text-purple-500'
+      color: 'text-purple-500',
     },
     {
       icon: <Brain className="h-6 w-6" />,
       title: 'Intelligent Analytics',
-      description: 'AI-powered insights with real-time user behavior analysis, conversion optimization, and business intelligence.',
+      description:
+        'AI-powered insights with real-time user behavior analysis, conversion optimization, and business intelligence.',
       route: 'intelligent-analytics',
       highlights: ['AI insights', 'Real-time data', 'User behavior', 'Conversion opt'],
       score: 89,
-      color: 'text-orange-500'
+      color: 'text-orange-500',
     },
     {
       icon: <Zap className="h-6 w-6" />,
       title: 'Smart Optimization Engine',
-      description: 'Automated performance optimization with actionable recommendations and implementation roadmaps.',
+      description:
+        'Automated performance optimization with actionable recommendations and implementation roadmaps.',
       route: 'optimization-engine',
-      highlights: ['Auto optimization', 'Smart recommendations', 'Implementation plans', 'ROI tracking'],
+      highlights: [
+        'Auto optimization',
+        'Smart recommendations',
+        'Implementation plans',
+        'ROI tracking',
+      ],
       score: 91,
-      color: 'text-yellow-500'
-    }
+      color: 'text-yellow-500',
+    },
   ];
 
   const metrics = [
-    { label: 'Page Load Time', value: '1.2s', improvement: '+45%', icon: <Clock className="h-4 w-4" /> },
-    { label: 'Security Score', value: `${securityScore}%`, improvement: '+12%', icon: <Shield className="h-4 w-4" /> },
-    { label: 'User Engagement', value: '94%', improvement: '+28%', icon: <Users className="h-4 w-4" /> },
-    { label: 'Conversion Rate', value: '3.4%', improvement: '+18%', icon: <TrendingUp className="h-4 w-4" /> }
+    {
+      label: 'Page Load Time',
+      value: '1.2s',
+      improvement: '+45%',
+      icon: <Clock className="h-4 w-4" />,
+    },
+    {
+      label: 'Security Score',
+      value: `${securityScore}%`,
+      improvement: '+12%',
+      icon: <Shield className="h-4 w-4" />,
+    },
+    {
+      label: 'User Engagement',
+      value: '94%',
+      improvement: '+28%',
+      icon: <Users className="h-4 w-4" />,
+    },
+    {
+      label: 'Conversion Rate',
+      value: '3.4%',
+      improvement: '+18%',
+      icon: <TrendingUp className="h-4 w-4" />,
+    },
   ];
 
   const handleFeatureClick = (route: string) => {
@@ -135,10 +170,7 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
         </motion.div>
 
         <div className="flex items-center justify-center gap-4">
-          <Badge 
-            variant={isLive ? "default" : "secondary"} 
-            className="ff-badge-glow px-4 py-2"
-          >
+          <Badge variant={isLive ? 'default' : 'secondary'} className="ff-badge-glow px-4 py-2">
             {isLive ? (
               <>
                 <div className="ff-status-dot ff-status-active mr-2"></div>
@@ -151,7 +183,7 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
               </>
             )}
           </Badge>
-          
+
           <Button
             onClick={() => setIsLive(!isLive)}
             variant="outline"
@@ -181,15 +213,11 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
                 transition={{ duration: 0.3, delay: index * 0.1 }}
                 className="text-center p-4 rounded-lg bg-background/50 ff-hover-lift"
               >
-                <div className="flex items-center justify-center mb-2">
-                  {metric.icon}
-                </div>
+                <div className="flex items-center justify-center mb-2">{metric.icon}</div>
                 <div className="ff-text-2xl font-bold text-foreground font-sora">
                   {metric.value}
                 </div>
-                <p className="ff-text-sm text-muted-foreground font-inter">
-                  {metric.label}
-                </p>
+                <p className="ff-text-sm text-muted-foreground font-inter">{metric.label}</p>
                 <div className="flex items-center justify-center gap-1 mt-2 ff-text-xs text-green-600">
                   <TrendingUp className="h-3 w-3" />
                   {metric.improvement}
@@ -225,9 +253,7 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
                           {feature.icon}
                         </div>
                         <div>
-                          <CardTitle className="ff-text-lg font-sora">
-                            {feature.title}
-                          </CardTitle>
+                          <CardTitle className="ff-text-lg font-sora">{feature.title}</CardTitle>
                           <div className="flex items-center gap-2 mt-1">
                             <Badge variant="outline" className="ff-text-xs">
                               Score: {feature.score}%
@@ -244,7 +270,7 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
                     <p className="ff-text-sm text-muted-foreground font-inter">
                       {feature.description}
                     </p>
-                    
+
                     <div className="grid grid-cols-2 gap-2">
                       {feature.highlights.map((highlight, idx) => (
                         <div key={idx} className="flex items-center gap-2">
@@ -255,7 +281,7 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
                         </div>
                       ))}
                     </div>
-                    
+
                     <div className="flex items-center gap-2 pt-2">
                       <Button
                         onClick={() => handleFeatureClick(feature.route)}
@@ -265,11 +291,7 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
                         <Play className="h-4 w-4 mr-2" />
                         Try Live Demo
                       </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="ff-hover-scale"
-                      >
+                      <Button variant="outline" size="sm" className="ff-hover-scale">
                         <Eye className="h-4 w-4" />
                       </Button>
                     </div>
@@ -284,8 +306,8 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
           <Alert className="border-blue-500/20 bg-blue-500/5">
             <Sparkles className="h-4 w-4 text-blue-500" />
             <AlertDescription className="text-blue-700 dark:text-blue-300">
-              <strong>Interactive Demo Mode:</strong> Experience real-time monitoring, 
-              security scanning, and optimization recommendations in action.
+              <strong>Interactive Demo Mode:</strong> Experience real-time monitoring, security
+              scanning, and optimization recommendations in action.
             </AlertDescription>
           </Alert>
 
@@ -418,7 +440,7 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-3">
                     <Shield className="h-5 w-5 text-green-500" />
                     <div>
@@ -428,7 +450,7 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-3">
                     <Brain className="h-5 w-5 text-purple-500" />
                     <div>
@@ -452,17 +474,17 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
                     <span className="ff-text-sm font-semibold font-sora">Performance Gain</span>
                     <span className="ff-text-sm text-green-600 font-sora">+45%</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                     <span className="ff-text-sm font-semibold font-sora">Security Score</span>
                     <span className="ff-text-sm text-green-600 font-sora">+12 points</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                     <span className="ff-text-sm font-semibold font-sora">User Engagement</span>
                     <span className="ff-text-sm text-green-600 font-sora">+28%</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                     <span className="ff-text-sm font-semibold font-sora">Conversion Rate</span>
                     <span className="ff-text-sm text-green-600 font-sora">+18%</span>
@@ -491,7 +513,7 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
                     </li>
                   </ul>
                 </div>
-                
+
                 <div className="space-y-2">
                   <h4 className="font-semibold font-sora">Phase 2: Optimization</h4>
                   <ul className="space-y-1 ff-text-sm text-muted-foreground">
@@ -505,7 +527,7 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
                     </li>
                   </ul>
                 </div>
-                
+
                 <div className="space-y-2">
                   <h4 className="font-semibold font-sora">Phase 3: Enhancement</h4>
                   <ul className="space-y-1 ff-text-sm text-muted-foreground">
@@ -533,8 +555,8 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
               Ready to Experience the Future of Web Development?
             </h3>
             <p className="ff-text-base text-muted-foreground max-w-2xl mx-auto font-inter">
-              Take your applications to the next level with our comprehensive performance monitoring, 
-              security scanning, and user experience optimization suite.
+              Take your applications to the next level with our comprehensive performance
+              monitoring, security scanning, and user experience optimization suite.
             </p>
             <div className="flex items-center justify-center gap-4">
               <Button
@@ -544,10 +566,7 @@ const PerformanceSecurityShowcase: React.FC<ShowcaseProps> = ({ onNavigateToTool
                 <Sparkles className="h-4 w-4 mr-2" />
                 Start Free Trial
               </Button>
-              <Button
-                variant="outline"
-                className="ff-hover-scale"
-              >
+              <Button variant="outline" className="ff-hover-scale">
                 <Download className="h-4 w-4 mr-2" />
                 View Documentation
               </Button>

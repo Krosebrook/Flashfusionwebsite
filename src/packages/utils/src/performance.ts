@@ -5,19 +5,19 @@
 export const addCriticalResourceHints = () => {
   // Add preconnect links for external resources
   const head = document.head;
-  
+
   // Supabase
   const supabasePreconnect = document.createElement('link');
   supabasePreconnect.rel = 'preconnect';
   supabasePreconnect.href = 'https://api.supabase.co';
   head.appendChild(supabasePreconnect);
-  
+
   // Google Fonts
   const fontsPreconnect = document.createElement('link');
   fontsPreconnect.rel = 'preconnect';
   fontsPreconnect.href = 'https://fonts.googleapis.com';
   head.appendChild(fontsPreconnect);
-  
+
   const fontStaticPreconnect = document.createElement('link');
   fontStaticPreconnect.rel = 'preconnect';
   fontStaticPreconnect.href = 'https://fonts.gstatic.com';

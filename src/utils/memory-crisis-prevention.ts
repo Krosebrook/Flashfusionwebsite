@@ -1,6 +1,6 @@
 /**
  * DISABLED MEMORY CRISIS PREVENTION - CRISIS MODE
- * 
+ *
  * This file has been disabled to reduce memory usage during crisis mode.
  * All functions return safe defaults to prevent errors.
  */
@@ -9,11 +9,11 @@
 export const memoryCrisisPrevention = {
   onCrisis: () => () => {},
   destroy: () => {},
-  initialize: () => {}
+  initialize: () => {},
 };
 
 export const crisisUtils = {
-  getCurrentLevel: () => 'normal' as const
+  getCurrentLevel: () => 'normal' as const,
 };
 
 export default memoryCrisisPrevention;

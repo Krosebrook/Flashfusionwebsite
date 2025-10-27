@@ -3,19 +3,23 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import { 
-  Maximize2, 
-  Minimize2, 
-  RotateCcw, 
-  Zap, 
-  AlertTriangle, 
+import {
+  Maximize2,
+  Minimize2,
+  RotateCcw,
+  Zap,
+  AlertTriangle,
   TrendingUp,
   Users,
-  GitBranch
+  GitBranch,
 } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { Agent, AgentInteraction } from '../../types/multi-agent-orchestration';
-import { AGENT_DEFINITIONS, CANVAS_DIMENSIONS, AGENT_CANVAS_SETTINGS } from '../../constants/multi-agent-orchestration';
+import {
+  AGENT_DEFINITIONS,
+  CANVAS_DIMENSIONS,
+  AGENT_CANVAS_SETTINGS,
+} from '../../constants/multi-agent-orchestration';
 
 interface LiveCollaborationCanvasProps {
   agents: Agent[];
@@ -32,7 +36,7 @@ export function LiveCollaborationCanvas({
   mode,
   onAgentSelect,
   onModeChange,
-  isActive
+  isActive,
 }: LiveCollaborationCanvasProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string>('');
@@ -46,11 +50,11 @@ export function LiveCollaborationCanvas({
 
   const updateConnectionLines = () => {
     const lines: any[] = [];
-    
-    interactions.forEach(interaction => {
-      const fromAgent = agents.find(a => a.id === interaction.fromAgent);
-      const toAgent = agents.find(a => a.id === interaction.toAgent);
-      
+
+    interactions.forEach((interaction) => {
+      const fromAgent = agents.find((a) => a.id === interaction.fromAgent);
+      const toAgent = agents.find((a) => a.id === interaction.toAgent);
+
       if (fromAgent && toAgent) {
         lines.push({
           id: interaction.id,
@@ -58,22 +62,28 @@ export function LiveCollaborationCanvas({
           to: toAgent.location,
           type: interaction.type,
           status: interaction.status,
-          priority: interaction.priority
+          priority: interaction.priority,
         });
       }
     });
-    
+
     setConnectionLines(lines);
   };
 
   const getAgentStatusColor = (agent: Agent) => {
     switch (agent.status) {
-      case 'active': return '#10B981';
-      case 'busy': return '#F59E0B';
-      case 'idle': return '#6B7280';
-      case 'collaborating': return '#3B82F6';
-      case 'problem_solving': return '#EF4444';
-      default: return '#6B7280';
+      case 'active':
+        return '#10B981';
+      case 'busy':
+        return '#F59E0B';
+      case 'idle':
+        return '#6B7280';
+      case 'collaborating':
+        return '#3B82F6';
+      case 'problem_solving':
+        return '#EF4444';
+      default:
+        return '#6B7280';
     }
   };
 
@@ -96,7 +106,7 @@ export function LiveCollaborationCanvas({
     }
     if (mode === 'collaboration') {
       const collaborationCount = interactions.filter(
-        i => i.fromAgent === agent.id || i.toAgent === agent.id
+        (i) => i.fromAgent === agent.id || i.toAgent === agent.id
       ).length;
       return Math.min(1.5, 1 + collaborationCount * 0.1);
     }
@@ -124,10 +134,12 @@ export function LiveCollaborationCanvas({
   };
 
   return (
-    <Card className={cn(
-      "relative overflow-hidden transition-all duration-300",
-      isFullscreen ? "fixed inset-0 z-50" : "h-[600px]"
-    )}>
+    <Card
+      className={cn(
+        'relative overflow-hidden transition-all duration-300',
+        isFullscreen ? 'fixed inset-0 z-50' : 'h-[600px]'
+      )}
+    >
       {/* Canvas Controls */}
       <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
         <div className="flex bg-background/90 backdrop-blur-sm rounded-lg p-1">
@@ -202,12 +214,7 @@ export function LiveCollaborationCanvas({
         >
           {/* Grid Pattern */}
           <defs>
-            <pattern
-              id="grid"
-              width="40"
-              height="40"
-              patternUnits="userSpaceOnUse"
-            >
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
               <path
                 d="M 40 0 L 0 0 0 40"
                 fill="none"
@@ -243,13 +250,14 @@ export function LiveCollaborationCanvas({
           {mode === 'collaboration' && (
             <>
               {agents
-                .filter(agent => 
-                  interactions.some(i => 
-                    (i.fromAgent === agent.id || i.toAgent === agent.id) && 
-                    i.type === 'collaboration'
+                .filter((agent) =>
+                  interactions.some(
+                    (i) =>
+                      (i.fromAgent === agent.id || i.toAgent === agent.id) &&
+                      i.type === 'collaboration'
                   )
                 )
-                .map(agent => (
+                .map((agent) => (
                   <circle
                     key={`zone-${agent.id}`}
                     cx={agent.location.x}
@@ -271,7 +279,7 @@ export function LiveCollaborationCanvas({
             const definition = AGENT_DEFINITIONS[agent.role];
             const IconComponent = definition.icon;
             const sizeModifier = getAgentSizeModifier(agent);
-            
+
             return (
               <motion.div
                 key={agent.id}
@@ -280,11 +288,11 @@ export function LiveCollaborationCanvas({
                   left: agent.location.x - (AGENT_CANVAS_SETTINGS.agentSize * sizeModifier) / 2,
                   top: agent.location.y - (AGENT_CANVAS_SETTINGS.agentSize * sizeModifier) / 2,
                   width: AGENT_CANVAS_SETTINGS.agentSize * sizeModifier,
-                  height: AGENT_CANVAS_SETTINGS.agentSize * sizeModifier
+                  height: AGENT_CANVAS_SETTINGS.agentSize * sizeModifier,
                 }}
                 animate={{
                   scale: selectedAgent === agent.id ? 1.2 : 1,
-                  z: selectedAgent === agent.id ? 10 : 1
+                  z: selectedAgent === agent.id ? 10 : 1,
                 }}
                 whileHover={{ scale: 1.1 }}
                 onClick={() => handleAgentClick(agent)}
@@ -294,14 +302,14 @@ export function LiveCollaborationCanvas({
                 {/* Agent Avatar */}
                 <div
                   className={cn(
-                    "w-full h-full rounded-full border-4 flex items-center justify-center",
-                    "transition-all duration-300 bg-gradient-to-br",
+                    'w-full h-full rounded-full border-4 flex items-center justify-center',
+                    'transition-all duration-300 bg-gradient-to-br',
                     definition.color,
-                    selectedAgent === agent.id && "ring-4 ring-primary/50",
-                    agent.status === 'active' && "animate-pulse"
+                    selectedAgent === agent.id && 'ring-4 ring-primary/50',
+                    agent.status === 'active' && 'animate-pulse'
                   )}
                   style={{
-                    borderColor: getAgentStatusColor(agent)
+                    borderColor: getAgentStatusColor(agent),
                   }}
                 >
                   <IconComponent className="h-1/2 w-1/2 text-white" />
@@ -342,7 +350,7 @@ export function LiveCollaborationCanvas({
                               {agent.status}
                             </Badge>
                           </div>
-                          
+
                           <div className="space-y-1 text-xs">
                             <div className="flex justify-between">
                               <span className="text-muted-foreground">Workload:</span>
@@ -406,17 +414,15 @@ export function LiveCollaborationCanvas({
               <h4 className="font-semibold text-sm">Recent Activity</h4>
               <div className="space-y-1 max-h-32 overflow-y-auto">
                 {interactions.slice(0, 3).map((interaction) => {
-                  const fromAgent = agents.find(a => a.id === interaction.fromAgent);
-                  const toAgent = agents.find(a => a.id === interaction.toAgent);
-                  
+                  const fromAgent = agents.find((a) => a.id === interaction.fromAgent);
+                  const toAgent = agents.find((a) => a.id === interaction.toAgent);
+
                   return (
                     <div key={interaction.id} className="text-xs text-muted-foreground">
                       <span className="font-medium">{fromAgent?.name}</span>
                       <span className="mx-1">→</span>
                       <span className="font-medium">{toAgent?.name}</span>
-                      <div className="text-xs opacity-75">
-                        {interaction.type.replace('_', ' ')}
-                      </div>
+                      <div className="text-xs opacity-75">{interaction.type.replace('_', ' ')}</div>
                     </div>
                   );
                 })}

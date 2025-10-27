@@ -3,7 +3,18 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import BackButton from '../../../components/BackButton';
-import { ArrowLeft, Play, Pause, RotateCcw, Check, Loader2, Code, Sparkles, Layout, Eye } from 'lucide-react';
+import {
+  ArrowLeft,
+  Play,
+  Pause,
+  RotateCcw,
+  Check,
+  Loader2,
+  Code,
+  Sparkles,
+  Layout,
+  Eye,
+} from 'lucide-react';
 
 interface Step {
   id: number;
@@ -37,7 +48,7 @@ const projectSpec = {
     "Due date tracking"
   ]
 };`,
-    duration: 3000
+    duration: 3000,
   },
   {
     id: 2,
@@ -66,7 +77,7 @@ const architectureDecision = {
 };
 
 console.log("✅ Architecture validated by AI");`,
-    duration: 3000
+    duration: 3000,
   },
   {
     id: 3,
@@ -104,7 +115,7 @@ export function TaskList() {
     </div>
   );
 }`,
-    duration: 4000
+    duration: 4000,
   },
   {
     id: 4,
@@ -137,7 +148,7 @@ export default {
     {/* Task cards with hover effects */}
   </div>
 </div>`,
-    duration: 3000
+    duration: 3000,
   },
   {
     id: 5,
@@ -167,8 +178,8 @@ const deploymentOptions = [
 // 2. Customize as needed
 // 3. Deploy with one click
 // 4. Share with your team!`,
-    duration: 2000
-  }
+    duration: 2000,
+  },
 ];
 
 export default function AICreationDemo() {
@@ -190,7 +201,7 @@ export default function AICreationDemo() {
         if (next >= 100) {
           clearInterval(interval);
           setCompletedSteps((prev) => [...prev, currentStep]);
-          
+
           // Move to next step after a brief pause
           setTimeout(() => {
             if (currentStep < steps.length - 1) {
@@ -200,7 +211,7 @@ export default function AICreationDemo() {
               setIsRunning(false);
             }
           }, 500);
-          
+
           return 100;
         }
         return next;
@@ -238,11 +249,11 @@ export default function AICreationDemo() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div 
+      <div
         className="border-b py-4 px-6"
         style={{
           background: 'var(--ff-surface)',
-          borderColor: 'rgba(255, 255, 255, 0.1)'
+          borderColor: 'rgba(255, 255, 255, 0.1)',
         }}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -257,7 +268,7 @@ export default function AICreationDemo() {
                   background: 'var(--ff-gradient-primary)',
                   color: 'white',
                   fontFamily: 'var(--ff-font-primary)',
-                  fontWeight: 'var(--ff-weight-semibold)'
+                  fontWeight: 'var(--ff-weight-semibold)',
                 }}
               >
                 <Play className="h-4 w-4" />
@@ -273,7 +284,7 @@ export default function AICreationDemo() {
                   borderColor: 'var(--ff-primary)',
                   color: 'var(--ff-primary)',
                   fontFamily: 'var(--ff-font-primary)',
-                  fontWeight: 'var(--ff-weight-semibold)'
+                  fontWeight: 'var(--ff-weight-semibold)',
                 }}
               >
                 {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
@@ -289,7 +300,7 @@ export default function AICreationDemo() {
                   borderColor: 'rgba(255, 255, 255, 0.2)',
                   color: 'var(--ff-text-secondary)',
                   fontFamily: 'var(--ff-font-primary)',
-                  fontWeight: 'var(--ff-weight-semibold)'
+                  fontWeight: 'var(--ff-weight-semibold)',
                 }}
               >
                 <RotateCcw className="h-4 w-4" />
@@ -304,7 +315,7 @@ export default function AICreationDemo() {
                 background: 'var(--ff-secondary)',
                 color: 'white',
                 fontFamily: 'var(--ff-font-primary)',
-                fontWeight: 'var(--ff-weight-semibold)'
+                fontWeight: 'var(--ff-weight-semibold)',
               }}
             >
               Sign Up to Build Real Apps
@@ -318,13 +329,13 @@ export default function AICreationDemo() {
         <div className="grid grid-cols-12 gap-8">
           {/* Steps Sidebar */}
           <div className="col-span-12 lg:col-span-3">
-            <h2 
+            <h2
               className="mb-4"
               style={{
                 fontFamily: 'var(--ff-font-primary)',
                 fontSize: 'var(--ff-text-lg)',
                 fontWeight: 'var(--ff-weight-semibold)',
-                color: 'var(--ff-text-primary)'
+                color: 'var(--ff-text-primary)',
               }}
             >
               Generation Steps
@@ -338,26 +349,28 @@ export default function AICreationDemo() {
                   disabled={isRunning}
                   className="w-full text-left p-4 rounded-lg transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{
-                    background: currentStep === index 
-                      ? 'rgba(255, 123, 0, 0.1)'
-                      : completedSteps.includes(index)
-                      ? 'rgba(16, 185, 129, 0.1)'
-                      : 'var(--ff-surface)',
-                    border: currentStep === index
-                      ? '2px solid var(--ff-primary)'
-                      : '1px solid rgba(255, 255, 255, 0.1)'
+                    background:
+                      currentStep === index
+                        ? 'rgba(255, 123, 0, 0.1)'
+                        : completedSteps.includes(index)
+                          ? 'rgba(16, 185, 129, 0.1)'
+                          : 'var(--ff-surface)',
+                    border:
+                      currentStep === index
+                        ? '2px solid var(--ff-primary)'
+                        : '1px solid rgba(255, 255, 255, 0.1)',
                   }}
                 >
                   <div className="flex items-center gap-3">
-                    <div 
+                    <div
                       className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
                       style={{
                         background: completedSteps.includes(index)
                           ? 'var(--ff-success)'
                           : currentStep === index
-                          ? 'var(--ff-primary)'
-                          : 'rgba(255, 255, 255, 0.1)',
-                        color: 'white'
+                            ? 'var(--ff-primary)'
+                            : 'rgba(255, 255, 255, 0.1)',
+                        color: 'white',
                       }}
                     >
                       {completedSteps.includes(index) ? (
@@ -365,22 +378,28 @@ export default function AICreationDemo() {
                       ) : currentStep === index && isRunning && !isPaused ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
                       ) : (
-                        <span style={{ fontFamily: 'var(--ff-font-primary)', fontSize: 'var(--ff-text-sm)' }}>
+                        <span
+                          style={{
+                            fontFamily: 'var(--ff-font-primary)',
+                            fontSize: 'var(--ff-text-sm)',
+                          }}
+                        >
                           {step.id}
                         </span>
                       )}
                     </div>
-                    
-                    <span 
+
+                    <span
                       style={{
                         fontFamily: 'var(--ff-font-primary)',
                         fontSize: 'var(--ff-text-sm)',
                         fontWeight: 'var(--ff-weight-semibold)',
-                        color: currentStep === index
-                          ? 'var(--ff-primary)'
-                          : completedSteps.includes(index)
-                          ? 'var(--ff-success)'
-                          : 'var(--ff-text-secondary)'
+                        color:
+                          currentStep === index
+                            ? 'var(--ff-primary)'
+                            : completedSteps.includes(index)
+                              ? 'var(--ff-success)'
+                              : 'var(--ff-text-secondary)',
                       }}
                     >
                       {step.title}
@@ -393,57 +412,58 @@ export default function AICreationDemo() {
 
           {/* Code Preview */}
           <div className="col-span-12 lg:col-span-9">
-            <div 
+            <div
               className="p-6 rounded-xl border"
               style={{
                 background: 'var(--ff-surface)',
-                borderColor: 'rgba(255, 255, 255, 0.1)'
+                borderColor: 'rgba(255, 255, 255, 0.1)',
               }}
             >
               {/* Progress Bar */}
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 
+                  <h3
                     style={{
                       fontFamily: 'var(--ff-font-primary)',
                       fontSize: 'var(--ff-text-2xl)',
                       fontWeight: 'var(--ff-weight-bold)',
-                      color: 'var(--ff-text-primary)'
+                      color: 'var(--ff-text-primary)',
                     }}
                   >
                     {steps[currentStep].title}
                   </h3>
-                  <span 
+                  <span
                     style={{
                       fontFamily: 'var(--ff-font-primary)',
                       fontSize: 'var(--ff-text-sm)',
                       color: 'var(--ff-primary)',
-                      fontWeight: 'var(--ff-weight-semibold)'
+                      fontWeight: 'var(--ff-weight-semibold)',
                     }}
                   >
                     {Math.round(progress)}%
                   </span>
                 </div>
 
-                <div 
+                <div
                   className="h-2 rounded-full overflow-hidden"
                   style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                 >
-                  <div 
+                  <div
                     className="h-full transition-all duration-300"
                     style={{
                       width: `${progress}%`,
-                      background: 'linear-gradient(90deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)'
+                      background:
+                        'linear-gradient(90deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
                     }}
                   />
                 </div>
 
-                <p 
+                <p
                   className="mt-2"
                   style={{
                     color: 'var(--ff-text-muted)',
                     fontFamily: 'var(--ff-font-secondary)',
-                    fontSize: 'var(--ff-text-sm)'
+                    fontSize: 'var(--ff-text-sm)',
                   }}
                 >
                   {steps[currentStep].description}
@@ -451,19 +471,19 @@ export default function AICreationDemo() {
               </div>
 
               {/* Code Display */}
-              <div 
+              <div
                 className="p-6 rounded-lg overflow-x-auto"
                 style={{
                   background: 'var(--ff-bg-dark)',
-                  border: '1px solid rgba(255, 255, 255, 0.05)'
+                  border: '1px solid rgba(255, 255, 255, 0.05)',
                 }}
               >
-                <pre 
+                <pre
                   style={{
                     fontFamily: 'JetBrains Mono, monospace',
                     fontSize: 'var(--ff-text-sm)',
                     color: 'var(--ff-text-secondary)',
-                    lineHeight: '1.7'
+                    lineHeight: '1.7',
                   }}
                 >
                   {steps[currentStep].code}
@@ -472,41 +492,42 @@ export default function AICreationDemo() {
 
               {/* Completion Message */}
               {currentStep === steps.length - 1 && completedSteps.includes(currentStep) && (
-                <div 
+                <div
                   className="mt-6 p-6 rounded-lg"
                   style={{
                     background: 'rgba(16, 185, 129, 0.1)',
-                    border: '1px solid rgba(16, 185, 129, 0.3)'
+                    border: '1px solid rgba(16, 185, 129, 0.3)',
                   }}
                 >
                   <div className="flex items-start gap-4">
-                    <div 
+                    <div
                       className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
                       style={{ background: 'var(--ff-success)' }}
                     >
                       <Check className="h-5 w-5 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h4 
+                      <h4
                         className="mb-2"
                         style={{
                           fontFamily: 'var(--ff-font-primary)',
                           fontSize: 'var(--ff-text-lg)',
                           fontWeight: 'var(--ff-weight-semibold)',
-                          color: 'var(--ff-success)'
+                          color: 'var(--ff-success)',
                         }}
                       >
                         Application Generated Successfully!
                       </h4>
-                      <p 
+                      <p
                         style={{
                           color: 'var(--ff-text-secondary)',
                           fontFamily: 'var(--ff-font-secondary)',
                           fontSize: 'var(--ff-text-sm)',
-                          lineHeight: 'var(--ff-leading-relaxed)'
+                          lineHeight: 'var(--ff-leading-relaxed)',
                         }}
                       >
-                        Your full-stack application is ready to deploy. Sign up now to download the code, customize it, and deploy to your preferred platform!
+                        Your full-stack application is ready to deploy. Sign up now to download the
+                        code, customize it, and deploy to your preferred platform!
                       </p>
                     </div>
                   </div>
