@@ -63,190 +63,50 @@ import {
   Calendar,
   Loader2,
 } from 'lucide-react';
+import type {
+  LaunchAsset,
+  MarketingCampaign,
+  SupportChannel,
+} from './LaunchPreparationHub.types';
+import {
+  LAUNCH_CHECKLIST,
+  INITIAL_ASSETS,
+  INITIAL_CAMPAIGNS,
+  INITIAL_SUPPORT_CHANNELS,
+  CONTENT_REQUESTS,
+} from '../../fixtures/launch/launch-preparation-fixtures';
 
-interface LaunchAsset {
-  id: string;
-  type: 'documentation' | 'video' | 'image' | 'press-kit' | 'legal' | 'tutorial';
-  title: string;
-  description: string;
-  status: 'draft' | 'review' | 'approved' | 'published';
-  priority: 'low' | 'medium' | 'high' | 'critical';
-  progress: number;
-  dueDate?: Date;
-  assignee?: string;
-  tags: string[];
-}
-
-interface MarketingCampaign {
-  id: string;
-  name: string;
-  type: 'social' | 'email' | 'press' | 'influencer' | 'content';
-  status: 'planning' | 'created' | 'scheduled' | 'active' | 'completed';
-  reach: number;
-  engagement: number;
-  budget: number;
-  roi: number;
-  startDate: Date;
-  endDate: Date;
-}
-
-interface SupportChannel {
-  id: string;
-  name: string;
-  type: 'email' | 'chat' | 'phone' | 'docs' | 'community' | 'video';
-  status: 'active' | 'setup' | 'testing';
-  responseTime: string;
-  satisfaction: number;
-  volume: number;
-}
-
-const LAUNCH_CHECKLIST = [
-  {
-    category: 'Documentation',
-    items: [
-      'User Manual and Getting Started Guide',
-      'API Documentation and Reference',
-      'Video Tutorials and Walkthroughs',
-      'FAQ and Troubleshooting Guide',
-      'Developer Documentation',
-      'Release Notes and Changelog',
-    ],
-  },
-  {
-    category: 'Marketing',
-    items: [
-      'Landing Page Optimization',
-      'Social Media Campaign',
-      'Press Release and Media Kit',
-      'Influencer Outreach Program',
-      'Email Marketing Sequence',
-      'SEO and Content Strategy',
-    ],
-  },
-  {
-    category: 'Legal & Compliance',
-    items: [
-      'Terms of Service',
-      'Privacy Policy',
-      'GDPR Compliance Documentation',
-      'Security and Data Protection',
-      'Intellectual Property Review',
-      'Compliance Certifications',
-    ],
-  },
-  {
-    category: 'Support Systems',
-    items: [
-      'Help Desk Setup',
-      'Community Forum Launch',
-      'Knowledge Base Creation',
-      'Support Team Training',
-      'Escalation Procedures',
-      'Feedback Collection System',
-    ],
-  },
-];
+// Re-export types for backward compatibility
+export type {
+  LaunchAsset,
+  MarketingCampaign,
+  SupportChannel,
+} from './LaunchPreparationHub.types';
 
 export function LaunchPreparationHub() {
-  const [assets, setAssets] = useState<LaunchAsset[]>([
-    {
-      id: 'user-manual',
-      type: 'documentation',
-      title: 'Complete User Manual',
-      description: 'Comprehensive guide covering all FlashFusion features',
-      status: 'approved',
-      priority: 'critical',
-      progress: 95,
-      tags: ['documentation', 'user-guide'],
-    },
-    {
-      id: 'api-docs',
-      type: 'documentation',
-      title: 'API Documentation',
-      description: 'Developer-focused API reference and examples',
-      status: 'review',
-      priority: 'high',
-      progress: 80,
-      tags: ['api', 'developers'],
-    },
-    {
-      id: 'launch-video',
-      type: 'video',
-      title: 'Product Launch Video',
-      description: '2-minute product demonstration and overview',
-      status: 'draft',
-      priority: 'high',
-      progress: 60,
-      tags: ['marketing', 'video'],
-    },
-    {
-      id: 'press-kit',
-      type: 'press-kit',
-      title: 'Media Press Kit',
-      description: 'Complete press kit with assets and information',
-      status: 'approved',
-      priority: 'medium',
-      progress: 100,
-      tags: ['press', 'media'],
-    },
-  ]);
+  const [assets, setAssets] = useState<LaunchAsset[]>(INITIAL_ASSETS as LaunchAsset[]);
 
   const [campaigns, setCampaigns] = useState<MarketingCampaign[]>([
-    {
-      id: 'social-launch',
-      name: 'Social Media Launch Campaign',
-      type: 'social',
-      status: 'scheduled',
-      reach: 50000,
-      engagement: 3.2,
-      budget: 5000,
+    ...INITIAL_CAMPAIGNS.map(c => ({
+      ...c,
+      type: c.platform === 'multi' ? 'social' as const : 'influencer' as const,
+      status: c.status as MarketingCampaign['status'],
+      engagement: c.engagement / 100, // Convert to percentage
       roi: 145,
       startDate: new Date(Date.now() + 86400000),
       endDate: new Date(Date.now() + 604800000),
-    },
-    {
-      id: 'email-sequence',
-      name: 'Launch Email Sequence',
-      type: 'email',
-      status: 'created',
-      reach: 15000,
-      engagement: 12.5,
-      budget: 1200,
-      roi: 280,
-      startDate: new Date(Date.now() + 172800000),
-      endDate: new Date(Date.now() + 1209600000),
-    },
+    })),
   ]);
 
-  const [supportChannels, setSupportChannels] = useState<SupportChannel[]>([
-    {
-      id: 'email-support',
-      name: 'Email Support',
-      type: 'email',
-      status: 'active',
-      responseTime: '< 4 hours',
-      satisfaction: 4.7,
-      volume: 150,
-    },
-    {
-      id: 'live-chat',
-      name: 'Live Chat',
-      type: 'chat',
-      status: 'testing',
-      responseTime: '< 2 minutes',
-      satisfaction: 4.9,
-      volume: 89,
-    },
-    {
-      id: 'docs-portal',
-      name: 'Documentation Portal',
-      type: 'docs',
-      status: 'active',
-      responseTime: 'Instant',
-      satisfaction: 4.5,
-      volume: 2400,
-    },
-  ]);
+  const [supportChannels, setSupportChannels] = useState<SupportChannel[]>(
+    INITIAL_SUPPORT_CHANNELS.map(c => ({
+      ...c,
+      type: c.type === 'forum' ? 'community' as const : c.type as SupportChannel['type'],
+      status: c.status === 'beta' ? 'testing' as const : c.status as SupportChannel['status'],
+      responseTime: `< ${c.responseTime} ${c.responseTime === 1 ? 'hour' : 'hours'}`,
+      satisfaction: c.satisfaction / 20, // Convert 0-100 scale to 0-5 scale
+    }))
+  );
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
