@@ -9,7 +9,8 @@ export function cn(...inputs: ClassValue[]) {
 export * from './performance';
 
 // File utilities
-export * from './file-generators';
+// Note: File generators have been moved to src/utils/generators/
+// Import directly from 'src/utils/generators' if needed
 
 // Creator utilities
 export * from './creator-content-pipeline';
