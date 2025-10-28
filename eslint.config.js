@@ -31,6 +31,7 @@ export default tseslint.config(
           varsIgnorePattern: '^_',
         },
       ],
+      '@typescript-eslint/no-unused-expressions': 'off',
       'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
     },
   }

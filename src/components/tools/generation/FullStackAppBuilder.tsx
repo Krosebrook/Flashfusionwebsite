@@ -9,7 +9,7 @@ import { Label } from '../../ui/label';
 import { Switch } from '../../ui/switch';
 import { Progress } from '../../ui/progress';
 import { Layers, CloudUpload, Download, Monitor, Settings, Loader2, Zap } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 // Import constants and types
 import {

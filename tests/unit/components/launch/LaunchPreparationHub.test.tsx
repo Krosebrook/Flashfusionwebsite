@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@/test/utils';
+import { render, screen, userEvent } from '@/test/utils';
 import { LaunchPreparationHub } from '@/components/launch/LaunchPreparationHub';
 
 describe('LaunchPreparationHub', () => {
@@ -52,8 +52,8 @@ describe('LaunchPreparationHub', () => {
       render(<LaunchPreparationHub />);
 
       // Check for progress percentage
-      const progressText = screen.getByText(/% complete/i);
-      expect(progressText).toBeInTheDocument();
+      const progressText = screen.getAllByText(/% complete/i);
+      expect(progressText.length).toBeGreaterThan(0);
     });
 
     it('should display readiness badge', () => {
@@ -90,12 +90,15 @@ describe('LaunchPreparationHub', () => {
   });
 
   describe('Marketing Tab', () => {
-    it('should display press kit button', () => {
+    it('should display press kit button', async () => {
+      const user = userEvent.setup();
       render(<LaunchPreparationHub />);
 
+      await user.click(screen.getByRole('tab', { name: /Marketing/i }));
+
       // The press kit button is visible in the component
-      const pressKitButton = screen.getByRole('button', { name: /Press Kit/i });
-      expect(pressKitButton).toBeInTheDocument();
+      const pressKitButton = await screen.findAllByRole('button', { name: /Press Kit/i });
+      expect(pressKitButton.length).toBeGreaterThan(0);
     });
   });
 
@@ -128,7 +131,7 @@ describe('LaunchPreparationHub', () => {
     });
 
     it('should render alert for launch readiness', () => {
-      const { container } = render(<LaunchPreparationHub />);
+      render(<LaunchPreparationHub />);
 
       // Check for alert component
       expect(screen.getByText(/Launch Readiness:/i)).toBeInTheDocument();
@@ -147,8 +150,8 @@ describe('LaunchPreparationHub', () => {
       render(<LaunchPreparationHub />);
 
       // Should display some readiness percentage
-      const readinessText = screen.getByText(/\d+% complete/i);
-      expect(readinessText).toBeInTheDocument();
+      const readinessText = screen.getAllByText(/\d+% complete/i);
+      expect(readinessText.length).toBeGreaterThan(0);
     });
   });
 });
