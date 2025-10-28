@@ -2,7 +2,7 @@
  * @fileoverview Try Demo Interface
  * @category demo
  * @version 1.0.0
- *
+ * 
  * Interactive demo interface that showcases FlashFusion capabilities
  * without requiring authentication or registration.
  */
@@ -13,14 +13,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  ArrowLeft,
-  Rocket,
-  Zap,
-  DollarSign,
-  BarChart3,
-  Users,
-  Play,
+import { 
+  ArrowLeft, 
+  Rocket, 
+  Zap, 
+  DollarSign, 
+  BarChart3, 
+  Users, 
+  Play, 
   CheckCircle,
   Star,
   Code,
@@ -32,7 +32,7 @@ import {
   ChevronRight,
   FileText,
   Database,
-  Settings,
+  Settings
 } from 'lucide-react';
 
 interface DemoStep {
@@ -66,8 +66,7 @@ export const TryDemoInterface: React.FC = () => {
     {
       id: 'ai-creation',
       name: 'AI-Powered Creation',
-      description:
-        'Watch as FlashFusion generates a complete web application from a simple description',
+      description: 'Watch as FlashFusion generates a complete web application from a simple description',
       icon: <Zap className="w-6 h-6" />,
       color: 'from-orange-500 to-red-500',
       estimatedTime: '3 min',
@@ -79,7 +78,7 @@ export const TryDemoInterface: React.FC = () => {
           icon: <FileText className="w-5 h-5" />,
           duration: 2000,
           interactive: true,
-          completed: false,
+          completed: false
         },
         {
           id: 'ai-analysis',
@@ -88,7 +87,7 @@ export const TryDemoInterface: React.FC = () => {
           icon: <Sparkles className="w-5 h-5" />,
           duration: 3000,
           interactive: false,
-          completed: false,
+          completed: false
         },
         {
           id: 'code-generation',
@@ -97,7 +96,7 @@ export const TryDemoInterface: React.FC = () => {
           icon: <Code className="w-5 h-5" />,
           duration: 4000,
           interactive: false,
-          completed: false,
+          completed: false
         },
         {
           id: 'ui-design',
@@ -106,7 +105,7 @@ export const TryDemoInterface: React.FC = () => {
           icon: <Palette className="w-5 h-5" />,
           duration: 3000,
           interactive: false,
-          completed: false,
+          completed: false
         },
         {
           id: 'preview-ready',
@@ -115,9 +114,9 @@ export const TryDemoInterface: React.FC = () => {
           icon: <CheckCircle className="w-5 h-5" />,
           duration: 1000,
           interactive: true,
-          completed: false,
-        },
-      ],
+          completed: false
+        }
+      ]
     },
     {
       id: 'one-click-publishing',
@@ -134,7 +133,7 @@ export const TryDemoInterface: React.FC = () => {
           icon: <Globe className="w-5 h-5" />,
           duration: 2000,
           interactive: true,
-          completed: false,
+          completed: false
         },
         {
           id: 'environment-setup',
@@ -143,7 +142,7 @@ export const TryDemoInterface: React.FC = () => {
           icon: <Settings className="w-5 h-5" />,
           duration: 3000,
           interactive: false,
-          completed: false,
+          completed: false
         },
         {
           id: 'deployment-process',
@@ -152,7 +151,7 @@ export const TryDemoInterface: React.FC = () => {
           icon: <Activity className="w-5 h-5" />,
           duration: 4000,
           interactive: false,
-          completed: false,
+          completed: false
         },
         {
           id: 'live-monitoring',
@@ -161,9 +160,9 @@ export const TryDemoInterface: React.FC = () => {
           icon: <BarChart3 className="w-5 h-5" />,
           duration: 1000,
           interactive: true,
-          completed: false,
-        },
-      ],
+          completed: false
+        }
+      ]
     },
     {
       id: 'creator-commerce',
@@ -180,7 +179,7 @@ export const TryDemoInterface: React.FC = () => {
           icon: <Database className="w-5 h-5" />,
           duration: 3000,
           interactive: false,
-          completed: false,
+          completed: false
         },
         {
           id: 'payment-integration',
@@ -189,7 +188,7 @@ export const TryDemoInterface: React.FC = () => {
           icon: <DollarSign className="w-5 h-5" />,
           duration: 3000,
           interactive: false,
-          completed: false,
+          completed: false
         },
         {
           id: 'marketing-tools',
@@ -198,7 +197,7 @@ export const TryDemoInterface: React.FC = () => {
           icon: <Users className="w-5 h-5" />,
           duration: 3000,
           interactive: false,
-          completed: false,
+          completed: false
         },
         {
           id: 'revenue-dashboard',
@@ -207,10 +206,10 @@ export const TryDemoInterface: React.FC = () => {
           icon: <BarChart3 className="w-5 h-5" />,
           duration: 2000,
           interactive: true,
-          completed: false,
-        },
-      ],
-    },
+          completed: false
+        }
+      ]
+    }
   ];
 
   const handleBackToLanding = () => {
@@ -232,21 +231,21 @@ export const TryDemoInterface: React.FC = () => {
   };
 
   const playNextStep = () => {
-    const workflow = demoWorkflows.find((w) => w.id === currentWorkflow);
+    const workflow = demoWorkflows.find(w => w.id === currentWorkflow);
     if (!workflow || currentStep >= workflow.steps.length) {
       setIsPlaying(false);
       return;
     }
 
     const step = workflow.steps[currentStep];
-
+    
     // Simulate step execution
     setTimeout(() => {
-      setCompletedSteps((prev) => new Set([...prev, step.id]));
+      setCompletedSteps(prev => new Set([...prev, step.id]));
       setDemoProgress(((currentStep + 1) / workflow.steps.length) * 100);
-
+      
       if (currentStep < workflow.steps.length - 1) {
-        setCurrentStep((prev) => prev + 1);
+        setCurrentStep(prev => prev + 1);
         playNextStep();
       } else {
         setIsPlaying(false);
@@ -261,7 +260,7 @@ export const TryDemoInterface: React.FC = () => {
       if (typeof window !== 'undefined' && (window as any).gtag) {
         (window as any).gtag('event', 'demo_completed', {
           demo_type: currentWorkflow || 'overview',
-          conversion_source: 'demo_interface',
+          conversion_source: 'demo_interface'
         });
       }
 
@@ -271,7 +270,7 @@ export const TryDemoInterface: React.FC = () => {
       signupUrl.searchParams.set('source', 'demo');
       signupUrl.searchParams.set('promo', '50OFF');
       signupUrl.searchParams.set('workflow', currentWorkflow || 'general');
-
+      
       window.location.href = signupUrl.toString();
     } catch (error) {
       console.error('Demo signup navigation error:', error);
@@ -280,7 +279,7 @@ export const TryDemoInterface: React.FC = () => {
     }
   };
 
-  const currentWorkflowData = demoWorkflows.find((w) => w.id === currentWorkflow);
+  const currentWorkflowData = demoWorkflows.find(w => w.id === currentWorkflow);
 
   if (currentWorkflow && currentWorkflowData) {
     return (
@@ -300,9 +299,7 @@ export const TryDemoInterface: React.FC = () => {
               </Button>
               <div className="h-6 w-px bg-white/20" />
               <div className="flex items-center space-x-3">
-                <div
-                  className={`w-8 h-8 bg-gradient-to-br ${currentWorkflowData.color} rounded-lg flex items-center justify-center`}
-                >
+                <div className={`w-8 h-8 bg-gradient-to-br ${currentWorkflowData.color} rounded-lg flex items-center justify-center`}>
                   {currentWorkflowData.icon}
                 </div>
                 <div>
@@ -312,11 +309,10 @@ export const TryDemoInterface: React.FC = () => {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Badge className="bg-[var(--ff-primary)] text-white">🎯 Demo Mode</Badge>
-              <Button
-                onClick={handleSignUp}
-                className="bg-[var(--ff-primary)] hover:bg-[var(--ff-primary)]/90"
-              >
+              <Badge className="bg-[var(--ff-primary)] text-white">
+                🎯 Demo Mode
+              </Badge>
+              <Button onClick={handleSignUp} className="bg-[var(--ff-primary)] hover:bg-[var(--ff-primary)]/90">
                 Sign Up to Build Real Apps
               </Button>
             </div>
@@ -355,19 +351,17 @@ export const TryDemoInterface: React.FC = () => {
                           index === currentStep && isPlaying
                             ? 'bg-[var(--ff-primary)]/20 border border-[var(--ff-primary)]/40'
                             : completedSteps.has(step.id)
-                              ? 'bg-green-500/20 border border-green-500/40'
-                              : 'bg-white/5'
+                            ? 'bg-green-500/20 border border-green-500/40'
+                            : 'bg-white/5'
                         }`}
                       >
-                        <div
-                          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                            completedSteps.has(step.id)
-                              ? 'bg-green-500 text-white'
-                              : index === currentStep && isPlaying
-                                ? 'bg-[var(--ff-primary)] text-white animate-pulse'
-                                : 'bg-white/10 text-white/60'
-                          }`}
-                        >
+                        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                          completedSteps.has(step.id)
+                            ? 'bg-green-500 text-white'
+                            : index === currentStep && isPlaying
+                            ? 'bg-[var(--ff-primary)] text-white animate-pulse'
+                            : 'bg-white/10 text-white/60'
+                        }`}>
                           {completedSteps.has(step.id) ? (
                             <CheckCircle className="w-4 h-4" />
                           ) : (
@@ -379,9 +373,7 @@ export const TryDemoInterface: React.FC = () => {
                           <div className="text-sm text-white/60">{step.description}</div>
                           {index === currentStep && isPlaying && (
                             <div className="mt-2">
-                              <div className="text-xs text-[var(--ff-primary)] font-medium">
-                                Processing...
-                              </div>
+                              <div className="text-xs text-[var(--ff-primary)] font-medium">Processing...</div>
                               <Progress value={50} className="h-1 mt-1" />
                             </div>
                           )}
@@ -389,7 +381,7 @@ export const TryDemoInterface: React.FC = () => {
                       </div>
                     ))}
                   </div>
-
+                  
                   {!isPlaying && completedSteps.size === 0 && (
                     <Button
                       onClick={handlePlayDemo}
@@ -399,12 +391,14 @@ export const TryDemoInterface: React.FC = () => {
                       Start Demo
                     </Button>
                   )}
-
+                  
                   {completedSteps.size === currentWorkflowData.steps.length && (
                     <div className="mt-6 p-4 bg-green-500/20 border border-green-500/40 rounded-lg text-center">
                       <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-2" />
                       <div className="font-medium text-white">Demo Complete!</div>
-                      <div className="text-sm text-white/60 mb-3">Ready to build your own app?</div>
+                      <div className="text-sm text-white/60 mb-3">
+                        Ready to build your own app?
+                      </div>
                       <Button
                         onClick={handleSignUp}
                         className="w-full bg-green-500 hover:bg-green-600 text-white"
@@ -441,40 +435,26 @@ export const TryDemoInterface: React.FC = () => {
                       <div className="p-4 font-mono text-sm">
                         {isPlaying || completedSteps.size > 0 ? (
                           <div className="space-y-2">
-                            <div className="text-green-400">
-                              // FlashFusion AI is generating your application...
-                            </div>
+                            <div className="text-green-400">// FlashFusion AI is generating your application...</div>
                             <div className="text-blue-400">import React from 'react';</div>
-                            <div className="text-blue-400">
-                              import {'{Component}'} from './components';
-                            </div>
+                            <div className="text-blue-400">import {'{Component}'} from './components';</div>
                             <div className="text-white/80">
                               {completedSteps.has('ai-analysis') && (
                                 <div className="mt-2">
-                                  <div className="text-yellow-400">
-                                    // Architecture analysis complete ✓
-                                  </div>
+                                  <div className="text-yellow-400">// Architecture analysis complete ✓</div>
                                 </div>
                               )}
                               {completedSteps.has('code-generation') && (
                                 <div className="mt-2">
-                                  <div className="text-purple-400">
-                                    export const App = () =&gt; {'{'}
-                                  </div>
-                                  <div className="text-white/60 ml-4">
-                                    return &lt;YourAmazingApp /&gt;;
-                                  </div>
+                                  <div className="text-purple-400">export const App = () =&gt; {'{'}</div>
+                                  <div className="text-white/60 ml-4">return &lt;YourAmazingApp /&gt;;</div>
                                   <div className="text-purple-400">{'}'}</div>
                                 </div>
                               )}
                               {completedSteps.has('ui-design') && (
                                 <div className="mt-2">
-                                  <div className="text-cyan-400">
-                                    // Beautiful UI components generated ✓
-                                  </div>
-                                  <div className="text-cyan-400">
-                                    // Responsive design applied ✓
-                                  </div>
+                                  <div className="text-cyan-400">// Beautiful UI components generated ✓</div>
+                                  <div className="text-cyan-400">// Responsive design applied ✓</div>
                                 </div>
                               )}
                             </div>
@@ -484,7 +464,7 @@ export const TryDemoInterface: React.FC = () => {
                             Click "Start Demo" to watch FlashFusion build your app
                           </div>
                         )}
-
+                        
                         {isPlaying && (
                           <div className="absolute bottom-4 right-4">
                             <div className="flex items-center space-x-2 text-[var(--ff-primary)]">
@@ -496,7 +476,7 @@ export const TryDemoInterface: React.FC = () => {
                       </div>
                     </div>
                   </div>
-
+                  
                   {/* Demo Stats */}
                   <div className="grid grid-cols-3 gap-4 mt-6">
                     <div className="text-center p-3 bg-white/5 rounded-lg">
@@ -550,11 +530,10 @@ export const TryDemoInterface: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <Badge className="bg-[var(--ff-primary)] text-white">🎯 No Sign-up Required</Badge>
-            <Button
-              onClick={handleSignUp}
-              className="bg-[var(--ff-primary)] hover:bg-[var(--ff-primary)]/90"
-            >
+            <Badge className="bg-[var(--ff-primary)] text-white">
+              🎯 No Sign-up Required
+            </Badge>
+            <Button onClick={handleSignUp} className="bg-[var(--ff-primary)] hover:bg-[var(--ff-primary)]/90">
               Sign Up to Build Real Apps
             </Button>
           </div>
@@ -564,10 +543,12 @@ export const TryDemoInterface: React.FC = () => {
       {/* Demo Introduction */}
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">See FlashFusion in Action</h2>
+          <h2 className="text-4xl font-bold mb-4">
+            See FlashFusion in Action
+          </h2>
           <p className="text-xl text-white/80 max-w-3xl mx-auto">
-            Choose a workflow below to watch how FlashFusion transforms ideas into production-ready
-            applications using the power of AI.
+            Choose a workflow below to watch how FlashFusion transforms ideas into 
+            production-ready applications using the power of AI.
           </p>
         </div>
 
@@ -581,9 +562,7 @@ export const TryDemoInterface: React.FC = () => {
             >
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  <div
-                    className={`w-16 h-16 bg-gradient-to-br ${workflow.color} rounded-2xl flex items-center justify-center mx-auto text-white group-hover:scale-110 transition-transform`}
-                  >
+                  <div className={`w-16 h-16 bg-gradient-to-br ${workflow.color} rounded-2xl flex items-center justify-center mx-auto text-white group-hover:scale-110 transition-transform`}>
                     {workflow.icon}
                   </div>
                   <div className="text-center space-y-2">
@@ -618,8 +597,7 @@ export const TryDemoInterface: React.FC = () => {
                 </div>
                 <h3 className="font-semibold text-white">AI in Action</h3>
                 <p className="text-sm text-white/60">
-                  Watch our AI analyze requirements, generate code, and create beautiful interfaces
-                  automatically.
+                  Watch our AI analyze requirements, generate code, and create beautiful interfaces automatically.
                 </p>
               </div>
               <div className="text-center space-y-3">
@@ -628,8 +606,7 @@ export const TryDemoInterface: React.FC = () => {
                 </div>
                 <h3 className="font-semibold text-white">Real Workflows</h3>
                 <p className="text-sm text-white/60">
-                  Experience authentic development workflows that mirror real-world application
-                  building.
+                  Experience authentic development workflows that mirror real-world application building.
                 </p>
               </div>
               <div className="text-center space-y-3">

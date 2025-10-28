@@ -49,7 +49,7 @@ export function ConfigurationManager({ children }: ConfigurationManagerProps) {
       performance: true,
       errors: true,
       userTracking: true,
-    },
+    }
   });
 
   // Initialize configuration on mount
@@ -57,12 +57,11 @@ export function ConfigurationManager({ children }: ConfigurationManagerProps) {
     const initializeConfiguration = async () => {
       try {
         // Determine environment
-        const environment =
-          process.env.NODE_ENV === 'production'
-            ? 'production'
-            : process.env.NODE_ENV === 'staging'
-              ? 'staging'
-              : 'development';
+        const environment = process.env.NODE_ENV === 'production' 
+          ? 'production' 
+          : process.env.NODE_ENV === 'staging' 
+            ? 'staging' 
+            : 'development';
 
         // Initialize monitoring if enabled
         if (configState.monitoring.performance) {
@@ -70,7 +69,7 @@ export function ConfigurationManager({ children }: ConfigurationManagerProps) {
         }
 
         // Update configuration state
-        setConfigState((prev) => ({
+        setConfigState(prev => ({
           ...prev,
           isInitialized: true,
           environment,
@@ -86,7 +85,7 @@ export function ConfigurationManager({ children }: ConfigurationManagerProps) {
   }, []);
 
   const updateFeature = (feature: keyof ConfigurationState['features'], enabled: boolean) => {
-    setConfigState((prev) => ({
+    setConfigState(prev => ({
       ...prev,
       features: {
         ...prev.features,
@@ -96,7 +95,7 @@ export function ConfigurationManager({ children }: ConfigurationManagerProps) {
   };
 
   const updateMonitoring = (monitor: keyof ConfigurationState['monitoring'], enabled: boolean) => {
-    setConfigState((prev) => ({
+    setConfigState(prev => ({
       ...prev,
       monitoring: {
         ...prev.monitoring,
@@ -112,7 +111,9 @@ export function ConfigurationManager({ children }: ConfigurationManagerProps) {
   };
 
   return (
-    <ConfigurationContext.Provider value={contextValue}>{children}</ConfigurationContext.Provider>
+    <ConfigurationContext.Provider value={contextValue}>
+      {children}
+    </ConfigurationContext.Provider>
   );
 }
 

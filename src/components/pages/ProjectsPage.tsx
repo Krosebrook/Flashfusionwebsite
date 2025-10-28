@@ -5,25 +5,18 @@ import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '../ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Progress } from '../ui/progress';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import {
-  Plus,
-  Search,
-  Filter,
-  MoreHorizontal,
-  Edit,
-  Trash2,
-  Users,
+import { 
+  Plus, 
+  Search, 
+  Filter, 
+  MoreHorizontal, 
+  Edit, 
+  Trash2, 
+  Users, 
   GitBranch,
   Rocket,
   Code2,
@@ -37,9 +30,9 @@ import {
   Pause,
   CheckCircle,
   AlertCircle,
-  Calendar,
+  Calendar
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface Project {
   id: string;
@@ -86,7 +79,7 @@ const MOCK_PROJECTS: Project[] = [
     collaborators: [
       { id: '1', name: 'Alice Johnson', role: 'owner' },
       { id: '2', name: 'Bob Smith', role: 'editor' },
-      { id: '3', name: 'Carol Davis', role: 'viewer' },
+      { id: '3', name: 'Carol Davis', role: 'viewer' }
     ],
     createdBy: '1',
     createdAt: '2024-01-15',
@@ -94,7 +87,7 @@ const MOCK_PROJECTS: Project[] = [
     deployments: 12,
     lastDeployment: '1 day ago',
     isStarred: true,
-    visibility: 'private',
+    visibility: 'private'
   },
   {
     id: '2',
@@ -106,7 +99,7 @@ const MOCK_PROJECTS: Project[] = [
     techStack: ['React Native', 'Node.js', 'MongoDB', 'Auth0'],
     collaborators: [
       { id: '1', name: 'Alice Johnson', role: 'owner' },
-      { id: '4', name: 'David Wilson', role: 'editor' },
+      { id: '4', name: 'David Wilson', role: 'editor' }
     ],
     createdBy: '1',
     createdAt: '2024-02-01',
@@ -114,7 +107,7 @@ const MOCK_PROJECTS: Project[] = [
     deployments: 6,
     lastDeployment: '3 days ago',
     isStarred: false,
-    visibility: 'team',
+    visibility: 'team'
   },
   {
     id: '3',
@@ -124,14 +117,16 @@ const MOCK_PROJECTS: Project[] = [
     status: 'completed',
     progress: 100,
     techStack: ['Next.js', 'Tailwind CSS', 'Framer Motion'],
-    collaborators: [{ id: '1', name: 'Alice Johnson', role: 'owner' }],
+    collaborators: [
+      { id: '1', name: 'Alice Johnson', role: 'owner' }
+    ],
     createdBy: '1',
     createdAt: '2024-01-10',
     updatedAt: '1 week ago',
     deployments: 8,
     lastDeployment: '1 week ago',
     isStarred: true,
-    visibility: 'public',
+    visibility: 'public'
   },
   {
     id: '4',
@@ -143,15 +138,15 @@ const MOCK_PROJECTS: Project[] = [
     techStack: ['Python', 'FastAPI', 'OpenAI', 'React'],
     collaborators: [
       { id: '1', name: 'Alice Johnson', role: 'owner' },
-      { id: '5', name: 'Eve Brown', role: 'editor' },
+      { id: '5', name: 'Eve Brown', role: 'editor' }
     ],
     createdBy: '1',
     createdAt: '2024-02-10',
     updatedAt: '1 day ago',
     deployments: 0,
     isStarred: false,
-    visibility: 'private',
-  },
+    visibility: 'private'
+  }
 ];
 
 const PROJECT_TYPES = [
@@ -159,36 +154,16 @@ const PROJECT_TYPES = [
   { value: 'mobile-app', label: 'Mobile App', icon: '📱' },
   { value: 'api', label: 'API Service', icon: '🔌' },
   { value: 'website', label: 'Website', icon: '🖥️' },
-  { value: 'ai-app', label: 'AI Application', icon: '🤖' },
+  { value: 'ai-app', label: 'AI Application', icon: '🤖' }
 ];
 
 const TECH_STACK_OPTIONS = [
-  'React',
-  'Vue.js',
-  'Angular',
-  'Next.js',
-  'Nuxt.js',
-  'Node.js',
-  'Express',
-  'FastAPI',
-  'Django',
-  'Flask',
-  'PostgreSQL',
-  'MongoDB',
-  'MySQL',
-  'Redis',
-  'TypeScript',
-  'JavaScript',
-  'Python',
-  'Java',
-  'AWS',
-  'Vercel',
-  'Netlify',
-  'Docker',
-  'Stripe',
-  'Auth0',
-  'Firebase',
-  'Supabase',
+  'React', 'Vue.js', 'Angular', 'Next.js', 'Nuxt.js',
+  'Node.js', 'Express', 'FastAPI', 'Django', 'Flask',
+  'PostgreSQL', 'MongoDB', 'MySQL', 'Redis',
+  'TypeScript', 'JavaScript', 'Python', 'Java',
+  'AWS', 'Vercel', 'Netlify', 'Docker',
+  'Stripe', 'Auth0', 'Firebase', 'Supabase'
 ];
 
 export function ProjectsPage() {
@@ -203,13 +178,13 @@ export function ProjectsPage() {
   const [isCreating, setIsCreating] = useState(false);
   const [sortBy, setSortBy] = useState<'name' | 'updated' | 'progress'>('updated');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-
+  
   const [formData, setFormData] = useState<ProjectFormData>({
     name: '',
     description: '',
     type: 'web-app',
     visibility: 'private',
-    techStack: [],
+    techStack: []
   });
 
   // Filter and search projects
@@ -218,22 +193,21 @@ export function ProjectsPage() {
 
     // Search filter
     if (searchQuery) {
-      filtered = filtered.filter(
-        (project) =>
-          project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          project.techStack.some((tech) => tech.toLowerCase().includes(searchQuery.toLowerCase()))
+      filtered = filtered.filter(project => 
+        project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.techStack.some(tech => tech.toLowerCase().includes(searchQuery.toLowerCase()))
       );
     }
 
     // Status filter
     if (statusFilter !== 'all') {
-      filtered = filtered.filter((project) => project.status === statusFilter);
+      filtered = filtered.filter(project => project.status === statusFilter);
     }
 
     // Type filter
     if (typeFilter !== 'all') {
-      filtered = filtered.filter((project) => project.type === typeFilter);
+      filtered = filtered.filter(project => project.type === typeFilter);
     }
 
     // Sort
@@ -260,11 +234,11 @@ export function ProjectsPage() {
     }
 
     setIsCreating(true);
-
+    
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
       const newProject: Project = {
         id: Date.now().toString(),
         name: formData.name,
@@ -279,19 +253,13 @@ export function ProjectsPage() {
         updatedAt: 'just now',
         deployments: 0,
         isStarred: false,
-        visibility: formData.visibility as Project['visibility'],
+        visibility: formData.visibility as Project['visibility']
       };
 
-      setProjects((prev) => [newProject, ...prev]);
+      setProjects(prev => [newProject, ...prev]);
       setShowCreateDialog(false);
-      setFormData({
-        name: '',
-        description: '',
-        type: 'web-app',
-        visibility: 'private',
-        techStack: [],
-      });
-
+      setFormData({ name: '', description: '', type: 'web-app', visibility: 'private', techStack: [] });
+      
       toast.success('Project created successfully!');
     } catch (error) {
       toast.error('Failed to create project');
@@ -302,38 +270,35 @@ export function ProjectsPage() {
 
   // Toggle project star
   const toggleStar = (projectId: string) => {
-    setProjects((prev) =>
-      prev.map((project) =>
-        project.id === projectId ? { ...project, isStarred: !project.isStarred } : project
+    setProjects(prev => 
+      prev.map(project => 
+        project.id === projectId 
+          ? { ...project, isStarred: !project.isStarred }
+          : project
       )
     );
   };
 
   // Delete project
   const deleteProject = (projectId: string) => {
-    setProjects((prev) => prev.filter((project) => project.id !== projectId));
+    setProjects(prev => prev.filter(project => project.id !== projectId));
     toast.success('Project deleted');
   };
 
   // Get status color
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active':
-        return 'bg-primary text-primary-foreground';
-      case 'completed':
-        return 'bg-success text-success-foreground';
-      case 'draft':
-        return 'bg-warning text-warning-foreground';
-      case 'archived':
-        return 'bg-muted text-muted-foreground';
-      default:
-        return 'bg-muted text-muted-foreground';
+      case 'active': return 'bg-primary text-primary-foreground';
+      case 'completed': return 'bg-success text-success-foreground';
+      case 'draft': return 'bg-warning text-warning-foreground';
+      case 'archived': return 'bg-muted text-muted-foreground';
+      default: return 'bg-muted text-muted-foreground';
     }
   };
 
   // Get type icon
   const getTypeIcon = (type: string) => {
-    return PROJECT_TYPES.find((t) => t.value === type)?.icon || '📄';
+    return PROJECT_TYPES.find(t => t.value === type)?.icon || '📄';
   };
 
   return (
@@ -342,9 +307,11 @@ export function ProjectsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
         <div>
           <h1 className="ff-text-headline">Projects</h1>
-          <p className="ff-text-body">Manage and track your development projects</p>
+          <p className="ff-text-body">
+            Manage and track your development projects
+          </p>
         </div>
-
+        
         <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
           <DialogTrigger asChild>
             <Button className="ff-btn-primary">
@@ -359,38 +326,33 @@ export function ProjectsPage() {
                 Start a new development project with FlashFusion AI assistance
               </DialogDescription>
             </DialogHeader>
-
+            
             <div className="space-y-4">
               <div>
                 <label className="ff-text-sm font-medium mb-2 block">Project Name</label>
                 <Input
                   value={formData.name}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                   placeholder="Enter project name..."
                   className="ff-input"
                 />
               </div>
-
+              
               <div>
                 <label className="ff-text-sm font-medium mb-2 block">Description</label>
                 <Textarea
                   value={formData.description}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, description: e.target.value }))
-                  }
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                   placeholder="Describe your project..."
                   className="ff-input"
                   rows={3}
                 />
               </div>
-
+              
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="ff-text-sm font-medium mb-2 block">Type</label>
-                  <Select
-                    value={formData.type}
-                    onValueChange={(value) => setFormData((prev) => ({ ...prev, type: value }))}
-                  >
+                  <Select value={formData.type} onValueChange={(value) => setFormData(prev => ({ ...prev, type: value }))}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -403,15 +365,10 @@ export function ProjectsPage() {
                     </SelectContent>
                   </Select>
                 </div>
-
+                
                 <div>
                   <label className="ff-text-sm font-medium mb-2 block">Visibility</label>
-                  <Select
-                    value={formData.visibility}
-                    onValueChange={(value) =>
-                      setFormData((prev) => ({ ...prev, visibility: value }))
-                    }
-                  >
+                  <Select value={formData.visibility} onValueChange={(value) => setFormData(prev => ({ ...prev, visibility: value }))}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -424,7 +381,7 @@ export function ProjectsPage() {
                 </div>
               </div>
             </div>
-
+            
             <div className="flex justify-end space-x-3 pt-4">
               <Button variant="outline" onClick={() => setShowCreateDialog(false)}>
                 Cancel
@@ -452,7 +409,7 @@ export function ProjectsPage() {
                 />
               </div>
             </div>
-
+            
             <div className="flex items-center space-x-3">
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-32">
@@ -466,7 +423,7 @@ export function ProjectsPage() {
                   <SelectItem value="archived">Archived</SelectItem>
                 </SelectContent>
               </Select>
-
+              
               <Select value={typeFilter} onValueChange={setTypeFilter}>
                 <SelectTrigger className="w-36">
                   <SelectValue placeholder="Type" />
@@ -480,7 +437,7 @@ export function ProjectsPage() {
                   ))}
                 </SelectContent>
               </Select>
-
+              
               <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
                 <SelectTrigger className="w-32">
                   <SelectValue placeholder="Sort by" />
@@ -505,7 +462,7 @@ export function ProjectsPage() {
           <CardContent>
             <div className="ff-text-2xl font-bold text-primary">{projects.length}</div>
             <p className="text-xs text-muted-foreground">
-              {projects.filter((p) => p.status === 'active').length} active
+              {projects.filter(p => p.status === 'active').length} active
             </p>
           </CardContent>
         </Card>
@@ -516,13 +473,10 @@ export function ProjectsPage() {
           </CardHeader>
           <CardContent>
             <div className="ff-text-2xl font-bold text-success">
-              {projects.filter((p) => p.status === 'completed').length}
+              {projects.filter(p => p.status === 'completed').length}
             </div>
             <p className="text-xs text-muted-foreground">
-              {Math.round(
-                (projects.filter((p) => p.status === 'completed').length / projects.length) * 100
-              )}
-              % success rate
+              {Math.round((projects.filter(p => p.status === 'completed').length / projects.length) * 100)}% success rate
             </p>
           </CardContent>
         </Card>
@@ -535,7 +489,9 @@ export function ProjectsPage() {
             <div className="ff-text-2xl font-bold text-secondary">
               {projects.reduce((sum, p) => sum + p.deployments, 0)}
             </div>
-            <p className="text-xs text-muted-foreground">Across all projects</p>
+            <p className="text-xs text-muted-foreground">
+              Across all projects
+            </p>
           </CardContent>
         </Card>
 
@@ -545,12 +501,11 @@ export function ProjectsPage() {
           </CardHeader>
           <CardContent>
             <div className="ff-text-2xl font-bold text-accent">
-              {
-                Array.from(new Set(projects.flatMap((p) => p.collaborators.map((c) => c.id))))
-                  .length
-              }
+              {Array.from(new Set(projects.flatMap(p => p.collaborators.map(c => c.id)))).length}
             </div>
-            <p className="text-xs text-muted-foreground">Unique team members</p>
+            <p className="text-xs text-muted-foreground">
+              Unique team members
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -558,10 +513,7 @@ export function ProjectsPage() {
       {/* Projects Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 ff-stagger-fade">
         {filteredProjects.map((project) => (
-          <Card
-            key={project.id}
-            className="ff-card-interactive hover:shadow-lg transition-all duration-200"
-          >
+          <Card key={project.id} className="ff-card-interactive hover:shadow-lg transition-all duration-200">
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
                 <div className="flex items-center space-x-2">
@@ -569,16 +521,16 @@ export function ProjectsPage() {
                   <div>
                     <CardTitle className="ff-text-base leading-tight">{project.name}</CardTitle>
                     <div className="flex items-center space-x-2 mt-1">
-                      <Badge className={getStatusColor(project.status)}>{project.status}</Badge>
+                      <Badge className={getStatusColor(project.status)}>
+                        {project.status}
+                      </Badge>
                       {project.visibility === 'public' && (
-                        <Badge variant="outline" className="text-xs">
-                          Public
-                        </Badge>
+                        <Badge variant="outline" className="text-xs">Public</Badge>
                       )}
                     </div>
                   </div>
                 </div>
-
+                
                 <div className="flex items-center space-x-1">
                   <Button
                     variant="ghost"
@@ -586,8 +538,8 @@ export function ProjectsPage() {
                     onClick={() => toggleStar(project.id)}
                     className="h-8 w-8 p-0"
                   >
-                    <Star
-                      className={`h-4 w-4 ${project.isStarred ? 'fill-warning text-warning' : 'text-muted-foreground'}`}
+                    <Star 
+                      className={`h-4 w-4 ${project.isStarred ? 'fill-warning text-warning' : 'text-muted-foreground'}`} 
                     />
                   </Button>
                   <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
@@ -596,10 +548,12 @@ export function ProjectsPage() {
                 </div>
               </div>
             </CardHeader>
-
+            
             <CardContent className="space-y-4">
-              <p className="ff-text-sm text-muted-foreground line-clamp-2">{project.description}</p>
-
+              <p className="ff-text-sm text-muted-foreground line-clamp-2">
+                {project.description}
+              </p>
+              
               {/* Progress */}
               <div className="space-y-2">
                 <div className="flex justify-between text-xs">
@@ -608,7 +562,7 @@ export function ProjectsPage() {
                 </div>
                 <Progress value={project.progress} className="h-2" />
               </div>
-
+              
               {/* Tech Stack */}
               <div className="flex flex-wrap gap-1">
                 {project.techStack.slice(0, 3).map((tech) => (
@@ -622,7 +576,7 @@ export function ProjectsPage() {
                   </Badge>
                 )}
               </div>
-
+              
               {/* Collaborators */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
@@ -650,10 +604,12 @@ export function ProjectsPage() {
                     </div>
                   )}
                 </div>
-
-                <span className="text-xs text-muted-foreground">{project.updatedAt}</span>
+                
+                <span className="text-xs text-muted-foreground">
+                  {project.updatedAt}
+                </span>
               </div>
-
+              
               {/* Actions */}
               <div className="flex items-center space-x-2 pt-2">
                 <Button variant="outline" size="sm" className="flex-1">
@@ -672,16 +628,14 @@ export function ProjectsPage() {
           </Card>
         ))}
       </div>
-
+      
       {filteredProjects.length === 0 && (
         <Card className="ff-card">
           <CardContent className="py-12 text-center">
             <Code2 className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
             <h3 className="ff-text-lg font-medium mb-2">No Projects Found</h3>
             <p className="ff-text-sm text-muted-foreground mb-4">
-              {searchQuery
-                ? 'Try adjusting your search or filters'
-                : 'Create your first project to get started'}
+              {searchQuery ? 'Try adjusting your search or filters' : 'Create your first project to get started'}
             </p>
             {!searchQuery && (
               <Button onClick={() => setShowCreateDialog(true)} className="ff-btn-primary">

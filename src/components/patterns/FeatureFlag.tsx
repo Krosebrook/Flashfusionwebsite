@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';
 import { motion } from 'motion/react';
 import { isDevelopment, isProduction } from '../../utils/environment';
 import { Switch } from '../ui/switch';
@@ -23,21 +16,21 @@ export interface FeatureFlags {
   advancedAnalytics: boolean;
   multiAgentOrchestration: boolean;
   realTimeCollaboration: boolean;
-
+  
   // AI Features
   enhancedCodeGeneration: boolean;
   aiValidation: boolean;
   predictiveAnalytics: boolean;
-
+  
   // Platform Features
   betaDeployments: boolean;
   experimentalUI: boolean;
   advancedSecurity: boolean;
-
+  
   // Monetization
   premiumFeatures: boolean;
   enterpriseFeatures: boolean;
-
+  
   // Development
   debugMode: boolean;
   performanceMonitoring: boolean;
@@ -50,25 +43,25 @@ const defaultFeatureFlags: FeatureFlags = {
   advancedAnalytics: true,
   multiAgentOrchestration: true,
   realTimeCollaboration: true,
-
+  
   // AI Features - Enabled for production
   enhancedCodeGeneration: true,
   aiValidation: true,
   predictiveAnalytics: true,
-
+  
   // Platform Features - Configurable
   betaDeployments: isDevelopment(),
   experimentalUI: isDevelopment(),
   advancedSecurity: true,
-
+  
   // Monetization - Based on environment
   premiumFeatures: true,
   enterpriseFeatures: true,
-
+  
   // Development - Only in dev
   debugMode: isDevelopment(),
   performanceMonitoring: true,
-  errorReporting: isProduction(),
+  errorReporting: isProduction()
 };
 
 // Feature flag context with toggle functionality
@@ -93,19 +86,19 @@ interface FeatureFlagProviderProps {
   userTier?: 'free' | 'pro' | 'enterprise';
 }
 
-export function FeatureFlagProvider({
-  children,
-  flags = {},
+export function FeatureFlagProvider({ 
+  children, 
+  flags = {}, 
   userId,
-  userTier = 'free',
+  userTier = 'free'
 }: FeatureFlagProviderProps) {
   // Storage key for persisting flag overrides
   const STORAGE_KEY = 'ff-feature-flags-overrides';
-
+  
   // State for current flags and overrides
   const [flagOverrides, setFlagOverrides] = useState<Partial<FeatureFlags>>({});
   const [isInitialized, setIsInitialized] = useState(false);
-
+  
   // Load overrides from localStorage on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -140,62 +133,56 @@ export function FeatureFlagProvider({
   const baseFlags: FeatureFlags = {
     ...defaultFeatureFlags,
     ...getUserSpecificFlags(userId, userTier),
-    ...flags,
+    ...flags
   };
 
   // Compute final flags with proper precedence
   const computedFlags: FeatureFlags = {
     ...baseFlags,
-    ...flagOverrides, // Overrides have highest priority
+    ...flagOverrides // Overrides have highest priority
   };
 
   // Toggle a specific flag
-  const toggleFlag = useCallback(
-    (flagName: keyof FeatureFlags) => {
-      setFlagOverrides((prev) => {
-        const baseValue = baseFlags[flagName];
-        const currentOverride = prev[flagName];
-        const newOverrides = { ...prev };
-
-        if (currentOverride !== undefined) {
-          // If already overridden, remove the override to revert to base
-          delete newOverrides[flagName];
-          toast.success(`${flagName} reset to default (${baseValue ? 'ON' : 'OFF'})`);
-        } else {
-          // Create new override with opposite of base value
-          const newValue = !baseValue;
-          newOverrides[flagName] = newValue;
-          toast.success(`${flagName} overridden to ${newValue ? 'ON' : 'OFF'}`);
-        }
-
-        return newOverrides;
-      });
-    },
-    [baseFlags]
-  );
+  const toggleFlag = useCallback((flagName: keyof FeatureFlags) => {
+    setFlagOverrides(prev => {
+      const baseValue = baseFlags[flagName];
+      const currentOverride = prev[flagName];
+      const newOverrides = { ...prev };
+      
+      if (currentOverride !== undefined) {
+        // If already overridden, remove the override to revert to base
+        delete newOverrides[flagName];
+        toast.success(`${flagName} reset to default (${baseValue ? 'ON' : 'OFF'})`);
+      } else {
+        // Create new override with opposite of base value
+        const newValue = !baseValue;
+        newOverrides[flagName] = newValue;
+        toast.success(`${flagName} overridden to ${newValue ? 'ON' : 'OFF'}`);
+      }
+      
+      return newOverrides;
+    });
+  }, [baseFlags]);
 
   // Set a specific flag value
-  const setFlag = useCallback(
-    (flagName: keyof FeatureFlags, value: boolean) => {
-      setFlagOverrides((prev) => {
-        const baseValue = baseFlags[flagName];
-        const newOverrides = { ...prev };
-
-        if (baseValue === value) {
-          // If setting to base value, remove override
-          delete newOverrides[flagName];
-          toast.success(`${flagName} reset to default`);
-        } else {
-          // Set override
-          newOverrides[flagName] = value;
-          toast.success(`${flagName} set to ${value ? 'ON' : 'OFF'}`);
-        }
-
-        return newOverrides;
-      });
-    },
-    [baseFlags]
-  );
+  const setFlag = useCallback((flagName: keyof FeatureFlags, value: boolean) => {
+    setFlagOverrides(prev => {
+      const baseValue = baseFlags[flagName];
+      const newOverrides = { ...prev };
+      
+      if (baseValue === value) {
+        // If setting to base value, remove override
+        delete newOverrides[flagName];
+        toast.success(`${flagName} reset to default`);
+      } else {
+        // Set override
+        newOverrides[flagName] = value;
+        toast.success(`${flagName} set to ${value ? 'ON' : 'OFF'}`);
+      }
+      
+      return newOverrides;
+    });
+  }, [baseFlags]);
 
   // Reset all flag overrides
   const resetFlags = useCallback(() => {
@@ -211,7 +198,7 @@ export function FeatureFlagProvider({
       userId,
       baseFlags,
       overrides: flagOverrides,
-      finalFlags: computedFlags,
+      finalFlags: computedFlags
     };
     return JSON.stringify(exportData, null, 2);
   }, [baseFlags, flagOverrides, computedFlags, userTier, userId]);
@@ -232,20 +219,14 @@ export function FeatureFlagProvider({
   }, []);
 
   // Check if a flag is overridden
-  const isOverridden = useCallback(
-    (flagName: keyof FeatureFlags) => {
-      return flagName in flagOverrides;
-    },
-    [flagOverrides]
-  );
+  const isOverridden = useCallback((flagName: keyof FeatureFlags) => {
+    return flagName in flagOverrides;
+  }, [flagOverrides]);
 
   // Get the base value of a flag (without overrides)
-  const getBaseValue = useCallback(
-    (flagName: keyof FeatureFlags) => {
-      return baseFlags[flagName];
-    },
-    [baseFlags]
-  );
+  const getBaseValue = useCallback((flagName: keyof FeatureFlags) => {
+    return baseFlags[flagName];
+  }, [baseFlags]);
 
   const contextValue: FeatureFlagContextType = {
     flags: computedFlags,
@@ -255,10 +236,14 @@ export function FeatureFlagProvider({
     exportFlags,
     importFlags,
     isOverridden,
-    getBaseValue,
+    getBaseValue
   };
 
-  return <FeatureFlagContext.Provider value={contextValue}>{children}</FeatureFlagContext.Provider>;
+  return (
+    <FeatureFlagContext.Provider value={contextValue}>
+      {children}
+    </FeatureFlagContext.Provider>
+  );
 }
 
 // Get user-specific feature flags based on tier
@@ -327,13 +312,13 @@ export function useFeatureFlagToggle(flagName: keyof FeatureFlags) {
   const { toggleFlag, setFlag, isOverridden, getBaseValue } = useFeatureFlagContext();
   const isEnabled = useFeatureFlag(flagName);
   const baseValue = getBaseValue(flagName);
-
+  
   return {
     isEnabled,
     baseValue,
     toggle: () => toggleFlag(flagName),
     setEnabled: (value: boolean) => setFlag(flagName, value),
-    isOverridden: isOverridden(flagName),
+    isOverridden: isOverridden(flagName)
   };
 }
 
@@ -348,7 +333,7 @@ interface FeatureFlagProps {
 export function FeatureFlag({ flag, children, fallback = null, invert = false }: FeatureFlagProps) {
   const isEnabled = useFeatureFlag(flag);
   const shouldRender = invert ? !isEnabled : isEnabled;
-
+  
   return shouldRender ? <>{children}</> : <>{fallback}</>;
 }
 
@@ -370,47 +355,40 @@ export function FeatureFlagToggle({
   size = 'md',
   showOverrideIndicator = true,
   disabled = false,
-  className = '',
+  className = ''
 }: FeatureFlagToggleProps) {
-  const {
-    isEnabled,
-    baseValue,
-    toggle,
-    isOverridden: isOverriddenFlag,
-  } = useFeatureFlagToggle(flag);
+  const { isEnabled, baseValue, toggle, isOverridden: isOverriddenFlag } = useFeatureFlagToggle(flag);
   const [isToggling, setIsToggling] = useState(false);
 
   // Auto-generate label if not provided
-  const displayLabel =
-    label || flag.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
+  const displayLabel = label || flag.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
 
   const sizeClasses = {
     sm: 'text-xs p-2',
     md: 'text-sm p-3',
-    lg: 'text-base p-4',
+    lg: 'text-base p-4'
   };
 
   const handleToggle = async () => {
     if (disabled || isToggling) return;
-
+    
     setIsToggling(true);
     try {
       toggle();
       // Small delay for better UX feedback
-      await new Promise((resolve) => setTimeout(resolve, 150));
+      await new Promise(resolve => setTimeout(resolve, 150));
     } finally {
       setIsToggling(false);
     }
   };
 
   return (
-    <motion.div
+    <motion.div 
       className={`
         flex items-center justify-between rounded-lg border transition-all duration-200
-        ${
-          isOverriddenFlag
-            ? 'border-primary/40 bg-gradient-to-r from-primary/10 to-primary/5 ff-hover-glow'
-            : 'border-border bg-card hover:border-primary/20 hover:bg-card/50'
+        ${isOverriddenFlag 
+          ? 'border-primary/40 bg-gradient-to-r from-primary/10 to-primary/5 ff-hover-glow' 
+          : 'border-border bg-card hover:border-primary/20 hover:bg-card/50'
         } 
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer ff-hover-lift'}
         ${sizeClasses[size]}
@@ -422,7 +400,7 @@ export function FeatureFlagToggle({
     >
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
-          <label
+          <label 
             htmlFor={`toggle-${flag}`}
             className={`font-semibold text-foreground cursor-pointer select-none ${
               size === 'sm' ? 'text-xs' : size === 'lg' ? 'text-base' : 'text-sm'
@@ -430,15 +408,15 @@ export function FeatureFlagToggle({
           >
             {displayLabel}
           </label>
-
+          
           {showOverrideIndicator && isOverriddenFlag && (
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               className="flex items-center gap-1"
             >
-              <Badge
-                variant="outline"
+              <Badge 
+                variant="outline" 
                 className="text-xs border-primary/30 bg-primary/10 text-primary font-medium"
               >
                 Override
@@ -449,23 +427,21 @@ export function FeatureFlagToggle({
             </motion.div>
           )}
         </div>
-
+        
         {description && (
-          <p
-            className={`text-muted-foreground leading-tight ${
-              size === 'sm' ? 'text-xs' : size === 'lg' ? 'text-sm' : 'text-xs'
-            }`}
-          >
+          <p className={`text-muted-foreground leading-tight ${
+            size === 'sm' ? 'text-xs' : size === 'lg' ? 'text-sm' : 'text-xs'
+          }`}>
             {description}
           </p>
         )}
       </div>
-
+      
       <div className="flex items-center gap-3 ml-4">
         <motion.div
-          animate={{
+          animate={{ 
             scale: isToggling ? 0.9 : 1,
-            rotate: isToggling ? 180 : 0,
+            rotate: isToggling ? 180 : 0 
           }}
           transition={{ duration: 0.15 }}
         >
@@ -481,7 +457,7 @@ export function FeatureFlagToggle({
             `}
           />
         </motion.div>
-
+        
         <motion.div
           key={isEnabled ? 'on' : 'off'}
           initial={{ scale: 0.8, opacity: 0 }}
@@ -489,13 +465,12 @@ export function FeatureFlagToggle({
           transition={{ duration: 0.15 }}
         >
           <Badge
-            variant={isEnabled ? 'default' : 'secondary'}
+            variant={isEnabled ? "default" : "secondary"}
             className={`
               text-xs min-w-[2.5rem] justify-center font-bold transition-all duration-200
-              ${
-                isEnabled
-                  ? 'bg-gradient-to-r from-success to-success/80 text-white shadow-lg shadow-success/25'
-                  : 'bg-muted text-muted-foreground'
+              ${isEnabled 
+                ? 'bg-gradient-to-r from-success to-success/80 text-white shadow-lg shadow-success/25' 
+                : 'bg-muted text-muted-foreground'
               }
             `}
           >
@@ -511,10 +486,10 @@ export function FeatureFlagToggle({
 export function QuickFeatureFlagPanel() {
   const { flags } = useFeatureFlagContext();
   const [isExpanded, setIsExpanded] = useState(true);
-
-  const commonFlags: Array<{
-    flag: keyof FeatureFlags;
-    label: string;
+  
+  const commonFlags: Array<{ 
+    flag: keyof FeatureFlags; 
+    label: string; 
     description: string;
     icon: string;
     category: 'development' | 'ui' | 'features' | 'performance';
@@ -524,29 +499,29 @@ export function QuickFeatureFlagPanel() {
       label: 'Debug Mode',
       description: 'Show debugging information and development tools',
       icon: '🔧',
-      category: 'development',
+      category: 'development'
     },
     {
       flag: 'experimentalUI',
       label: 'Experimental UI',
       description: 'Enable experimental user interface features',
       icon: '🧪',
-      category: 'ui',
+      category: 'ui'
     },
     {
       flag: 'betaDeployments',
       label: 'Beta Deployments',
       description: 'Access to beta deployment features and platforms',
       icon: '🚀',
-      category: 'features',
+      category: 'features'
     },
     {
       flag: 'performanceMonitoring',
       label: 'Performance Monitoring',
       description: 'Track application performance metrics',
       icon: '📊',
-      category: 'performance',
-    },
+      category: 'performance'
+    }
   ];
 
   const activeCount = commonFlags.filter(({ flag }) => flags[flag]).length;
@@ -561,31 +536,38 @@ export function QuickFeatureFlagPanel() {
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-base ff-text-gradient flex items-center gap-2">
-              <motion.div animate={{ rotate: isExpanded ? 0 : 90 }} transition={{ duration: 0.2 }}>
+              <motion.div
+                animate={{ rotate: isExpanded ? 0 : 90 }}
+                transition={{ duration: 0.2 }}
+              >
                 <Settings className="h-5 w-5" />
               </motion.div>
               Quick Settings
-              <Badge
-                variant="outline"
+              
+              <Badge 
+                variant="outline" 
                 className="bg-primary/10 border-primary/30 text-primary font-bold"
               >
                 {activeCount}/{commonFlags.length}
               </Badge>
             </CardTitle>
-
+            
             <Button
               size="sm"
               variant="ghost"
               onClick={() => setIsExpanded(!isExpanded)}
               className="h-8 w-8 p-0 ff-hover-scale"
             >
-              <motion.div animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
+              <motion.div
+                animate={{ rotate: isExpanded ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
                 <ChevronDown className="h-3 w-3" />
               </motion.div>
             </Button>
           </div>
         </CardHeader>
-
+        
         <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
           <CollapsibleContent>
             <CardContent className="pt-0 space-y-2">
@@ -620,8 +602,7 @@ export function QuickFeatureFlagPanel() {
 
 // Enhanced Feature Flag Debug Panel with Toggle Controls
 export function FeatureFlagDebugPanel() {
-  const { flags, toggleFlag, resetFlags, exportFlags, importFlags, isOverridden } =
-    useFeatureFlagContext();
+  const { flags, toggleFlag, resetFlags, exportFlags, importFlags, isOverridden } = useFeatureFlagContext();
   const isDebugMode = useFeatureFlag('debugMode');
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -657,34 +638,29 @@ export function FeatureFlagDebugPanel() {
     'Core Features': ['advancedAnalytics', 'multiAgentOrchestration', 'realTimeCollaboration'],
     'AI Features': ['enhancedCodeGeneration', 'aiValidation', 'predictiveAnalytics'],
     'Platform Features': ['betaDeployments', 'experimentalUI', 'advancedSecurity'],
-    Monetization: ['premiumFeatures', 'enterpriseFeatures'],
-    Development: ['debugMode', 'performanceMonitoring', 'errorReporting'],
+    'Monetization': ['premiumFeatures', 'enterpriseFeatures'],
+    'Development': ['debugMode', 'performanceMonitoring', 'errorReporting']
   };
 
   const activeFlags = Object.values(flags).filter(Boolean).length;
   const totalFlags = Object.keys(flags).length;
-  const overrideCount = Object.keys(flags).filter((key) =>
-    isOverridden(key as keyof FeatureFlags)
-  ).length;
+  const overrideCount = Object.keys(flags).filter(key => isOverridden(key as keyof FeatureFlags)).length;
 
   const handleExport = () => {
     const data = exportFlags();
-    navigator.clipboard
-      .writeText(data)
-      .then(() => {
-        toast.success('Feature flags exported to clipboard');
-      })
-      .catch(() => {
-        // Fallback for older browsers
-        const blob = new Blob([data], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `ff-flags-${new Date().toISOString().split('T')[0]}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-        toast.success('Feature flags downloaded');
-      });
+    navigator.clipboard.writeText(data).then(() => {
+      toast.success('Feature flags exported to clipboard');
+    }).catch(() => {
+      // Fallback for older browsers
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ff-flags-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success('Feature flags downloaded');
+    });
   };
 
   const handleImport = () => {
@@ -706,26 +682,30 @@ export function FeatureFlagDebugPanel() {
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-sm font-bold ff-text-gradient flex items-center gap-2">
-              <motion.div animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.3 }}>
+              <motion.div
+                animate={{ rotate: isExpanded ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
                 <Settings className="h-4 w-4" />
               </motion.div>
               Feature Flags
+              
               <div className="flex items-center gap-2">
-                <Badge
-                  variant="outline"
+                <Badge 
+                  variant="outline" 
                   className="text-xs bg-primary/10 border-primary/30 text-primary font-bold"
                 >
                   {activeFlags}/{totalFlags}
                 </Badge>
-
+                
                 {overrideCount > 0 && (
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     className="flex items-center"
                   >
-                    <Badge
-                      variant="secondary"
+                    <Badge 
+                      variant="secondary" 
                       className="text-xs bg-accent/20 border-accent/30 text-accent font-bold"
                     >
                       {overrideCount} Override{overrideCount !== 1 ? 's' : ''}
@@ -734,7 +714,7 @@ export function FeatureFlagDebugPanel() {
                 )}
               </div>
             </CardTitle>
-
+            
             <div className="flex items-center gap-1">
               <Button
                 size="sm"
@@ -749,7 +729,7 @@ export function FeatureFlagDebugPanel() {
                   <ChevronDown className="h-3 w-3" />
                 </motion.div>
               </Button>
-
+              
               <Button
                 size="sm"
                 variant="ghost"
@@ -811,17 +791,13 @@ export function FeatureFlagDebugPanel() {
                     className="w-full h-20 text-xs bg-background border border-border rounded resize-none p-2 ff-focus-ring"
                   />
                   <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      onClick={handleImport}
-                      className="text-xs flex-1 ff-btn-primary"
-                    >
+                    <Button size="sm" onClick={handleImport} className="text-xs flex-1 ff-btn-primary">
                       Import
                     </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => setShowImport(false)}
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      onClick={() => setShowImport(false)} 
                       className="text-xs flex-1"
                     >
                       Cancel
@@ -833,8 +809,8 @@ export function FeatureFlagDebugPanel() {
               {/* Feature Flag Categories */}
               <div className="space-y-4 max-h-80 overflow-auto scrollbar-thin">
                 {Object.entries(flagCategories).map(([category, flagNames], categoryIndex) => (
-                  <motion.div
-                    key={category}
+                  <motion.div 
+                    key={category} 
                     className="space-y-2"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -844,24 +820,23 @@ export function FeatureFlagDebugPanel() {
                       <div className="w-2 h-2 rounded-full bg-primary/50" />
                       {category}
                     </h4>
-
+                    
                     <div className="space-y-1">
                       {flagNames.map((flagName, flagIndex) => {
                         const isEnabled = flags[flagName as keyof FeatureFlags];
                         const isOverriddenFlag = isOverridden(flagName as keyof FeatureFlags);
-
+                        
                         return (
                           <motion.div
                             key={flagName}
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: categoryIndex * 0.1 + flagIndex * 0.05 }}
+                            transition={{ delay: (categoryIndex * 0.1) + (flagIndex * 0.05) }}
                             className={`
                               flex items-center justify-between p-2 rounded-lg transition-all duration-200 cursor-pointer
-                              ${
-                                isOverriddenFlag
-                                  ? 'bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 ff-hover-glow'
-                                  : 'bg-muted/30 hover:bg-muted/50 border border-transparent hover:border-primary/20'
+                              ${isOverriddenFlag 
+                                ? 'bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 ff-hover-glow' 
+                                : 'bg-muted/30 hover:bg-muted/50 border border-transparent hover:border-primary/20'
                               }
                             `}
                             onClick={() => toggleFlag(flagName as keyof FeatureFlags)}
@@ -871,14 +846,15 @@ export function FeatureFlagDebugPanel() {
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
                                 <span className="text-xs font-semibold text-foreground truncate">
-                                  {flagName
-                                    .replace(/([A-Z])/g, ' $1')
-                                    .replace(/^./, (str) => str.toUpperCase())}
+                                  {flagName.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                                 </span>
                                 {isOverriddenFlag && (
-                                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                                    <Badge
-                                      variant="secondary"
+                                  <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                  >
+                                    <Badge 
+                                      variant="secondary" 
                                       className="text-xs px-1.5 py-0.5 bg-accent/20 border-accent/30 text-accent font-bold"
                                     >
                                       Override
@@ -887,7 +863,7 @@ export function FeatureFlagDebugPanel() {
                                 )}
                               </div>
                             </div>
-
+                            
                             <div className="flex items-center gap-2">
                               <Switch
                                 checked={isEnabled}
@@ -898,7 +874,7 @@ export function FeatureFlagDebugPanel() {
                                   ${isOverriddenFlag ? 'ring-2 ring-primary/30' : ''}
                                 `}
                               />
-
+                              
                               <motion.div
                                 key={`${flagName}-${isEnabled}`}
                                 initial={{ scale: 0.8, opacity: 0 }}
@@ -906,13 +882,12 @@ export function FeatureFlagDebugPanel() {
                                 transition={{ duration: 0.15 }}
                               >
                                 <Badge
-                                  variant={isEnabled ? 'default' : 'secondary'}
+                                  variant={isEnabled ? "default" : "secondary"}
                                   className={`
                                     text-xs min-w-[2.5rem] justify-center font-bold transition-all duration-200
-                                    ${
-                                      isEnabled
-                                        ? 'bg-gradient-to-r from-success to-success/80 text-white shadow-md shadow-success/25'
-                                        : 'bg-muted text-muted-foreground'
+                                    ${isEnabled 
+                                      ? 'bg-gradient-to-r from-success to-success/80 text-white shadow-md shadow-success/25' 
+                                      : 'bg-muted text-muted-foreground'
                                     }
                                   `}
                                 >
@@ -932,7 +907,7 @@ export function FeatureFlagDebugPanel() {
               </div>
 
               {/* Enhanced Summary */}
-              <motion.div
+              <motion.div 
                 className="mt-4 pt-3 border-t border-border bg-gradient-to-r from-muted/30 to-muted/10 rounded-lg p-3"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -949,7 +924,7 @@ export function FeatureFlagDebugPanel() {
                       )}
                     </div>
                   </div>
-
+                  
                   <div className="grid grid-cols-3 gap-2 text-center">
                     <div className="bg-background/50 rounded px-2 py-1">
                       <div className="text-primary font-bold">{activeFlags}</div>
@@ -957,14 +932,10 @@ export function FeatureFlagDebugPanel() {
                     </div>
                     <div className="bg-background/50 rounded px-2 py-1">
                       <div className="text-accent font-bold">{overrideCount}</div>
-                      <div className="text-muted-foreground">
-                        Override{overrideCount !== 1 ? 's' : ''}
-                      </div>
+                      <div className="text-muted-foreground">Override{overrideCount !== 1 ? 's' : ''}</div>
                     </div>
                     <div className="bg-background/50 rounded px-2 py-1">
-                      <div className="text-muted-foreground font-bold">
-                        {totalFlags - activeFlags}
-                      </div>
+                      <div className="text-muted-foreground font-bold">{totalFlags - activeFlags}</div>
                       <div className="text-muted-foreground">Disabled</div>
                     </div>
                   </div>
@@ -986,7 +957,7 @@ export function withFeatureFlag<P extends object>(
 ) {
   return function FeatureFlaggedComponent(props: P) {
     const isEnabled = useFeatureFlag(flagName);
-
+    
     if (!isEnabled) {
       if (fallbackComponent) {
         const FallbackComponent = fallbackComponent;
@@ -994,7 +965,7 @@ export function withFeatureFlag<P extends object>(
       }
       return null;
     }
-
+    
     return <WrappedComponent {...props} />;
   };
 }
@@ -1007,25 +978,25 @@ export function getFeatureFlagsSnapshot(): FeatureFlags {
 
 // Example usage components
 export const ExperimentalFeatures = ({ children }: { children: ReactNode }) => (
-  <FeatureFlag flag="experimentalUI">{children}</FeatureFlag>
+  <FeatureFlag flag="experimentalUI">
+    {children}
+  </FeatureFlag>
 );
 
-export const PremiumFeatures = ({
-  children,
-  fallback,
-}: {
-  children: ReactNode;
-  fallback?: ReactNode;
-}) => (
+export const PremiumFeatures = ({ children, fallback }: { children: ReactNode; fallback?: ReactNode }) => (
   <FeatureFlag flag="premiumFeatures" fallback={fallback}>
     {children}
   </FeatureFlag>
 );
 
 export const EnterpriseFeatures = ({ children }: { children: ReactNode }) => (
-  <FeatureFlag flag="enterpriseFeatures">{children}</FeatureFlag>
+  <FeatureFlag flag="enterpriseFeatures">
+    {children}
+  </FeatureFlag>
 );
 
 export const BetaFeatures = ({ children }: { children: ReactNode }) => (
-  <FeatureFlag flag="betaDeployments">{children}</FeatureFlag>
+  <FeatureFlag flag="betaDeployments">
+    {children}
+  </FeatureFlag>
 );

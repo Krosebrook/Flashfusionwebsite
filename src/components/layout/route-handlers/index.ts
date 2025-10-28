@@ -35,7 +35,7 @@ export function handleAllRoutes(
 }
 
 // Export route lists for navigation
-export {
+export { 
   publicRoutes,
   creatorRoutes,
   validationRoutes,
@@ -45,7 +45,7 @@ export {
   handleCreatorRoutes,
   handleValidationRoutes,
   handleValidatorRoutes,
-  handleCoreSystemRoutes,
+  handleCoreSystemRoutes
 };
 
 // Combined route validation
@@ -55,9 +55,9 @@ export function isValidRoute(page: PageType): boolean {
     ...creatorRoutes,
     ...validationRoutes,
     ...validatorRoutes,
-    ...coreSystemRoutes,
+    ...coreSystemRoutes
   ];
-
+  
   return allRoutes.includes(page);
 }
 
@@ -68,26 +68,17 @@ export function getRouteCategory(page: PageType): string {
   if (validationRoutes.includes(page)) return 'validation';
   if (validatorRoutes.includes(page)) return 'validator';
   if (coreSystemRoutes.includes(page)) return 'system';
-
+  
   return 'unknown';
 }
 
 // Authentication requirements
 export function requiresAuthentication(page: PageType): boolean {
   const publicPages: PageType[] = [
-    'home',
-    'about',
-    'features',
-    'pricing',
-    'contact',
-    'demo',
-    'testimonials',
-    'faq',
-    'privacy',
-    'terms',
-    'search',
-    'notifications', // Some core system apps don't require auth
+    'home', 'about', 'features', 'pricing', 'contact', 
+    'demo', 'testimonials', 'faq', 'privacy', 'terms',
+    'search', 'notifications' // Some core system apps don't require auth
   ];
-
+  
   return !publicPages.includes(page);
 }

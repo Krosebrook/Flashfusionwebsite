@@ -4,7 +4,7 @@
  * @category design-system
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * Professional icon system that follows design best practices:
  * - Consistent sizing and spacing
  * - Semantic usage patterns
@@ -19,35 +19,35 @@ import { cn } from '../ui/utils';
 
 // Professional icon size scale following 4px grid system
 export const ICON_SIZES = {
-  xs: 12, // Micro icons (badges, inline text)
-  sm: 16, // Small icons (buttons, form elements)
-  md: 20, // Medium icons (navigation, cards)
-  lg: 24, // Large icons (section headers, primary actions)
-  xl: 32, // Extra large icons (feature highlights)
+  xs: 12,    // Micro icons (badges, inline text)
+  sm: 16,    // Small icons (buttons, form elements)  
+  md: 20,    // Medium icons (navigation, cards)
+  lg: 24,    // Large icons (section headers, primary actions)
+  xl: 32,    // Extra large icons (feature highlights)
   '2xl': 40, // Hero icons (major sections)
-  '3xl': 48, // Display icons (empty states, illustrations)
+  '3xl': 48  // Display icons (empty states, illustrations)
 } as const;
 
 export type IconSize = keyof typeof ICON_SIZES;
 
 // Professional icon usage patterns
-export type IconVariant =
-  | 'functional' // Interactive elements (buttons, links)
+export type IconVariant = 
+  | 'functional'    // Interactive elements (buttons, links)
   | 'informational' // Status indicators, metrics
-  | 'decorative' // Visual enhancement
-  | 'navigational' // Menu items, breadcrumbs
-  | 'semantic'; // Content meaning (success, error, warning)
+  | 'decorative'    // Visual enhancement
+  | 'navigational'  // Menu items, breadcrumbs
+  | 'semantic';     // Content meaning (success, error, warning)
 
 // Icon context for semantic meaning
-export type IconContext =
-  | 'primary' // Brand primary color
-  | 'secondary' // Brand secondary color
-  | 'accent' // Brand accent color
-  | 'success' // Success states
-  | 'warning' // Warning states
-  | 'error' // Error states
-  | 'neutral' // Default/neutral
-  | 'muted'; // Subdued/secondary content
+export type IconContext = 
+  | 'primary'   // Brand primary color
+  | 'secondary' // Brand secondary color  
+  | 'accent'    // Brand accent color
+  | 'success'   // Success states
+  | 'warning'   // Warning states
+  | 'error'     // Error states
+  | 'neutral'   // Default/neutral
+  | 'muted';    // Subdued/secondary content
 
 interface ProfessionalIconProps {
   icon: LucideIcon;
@@ -62,7 +62,7 @@ interface ProfessionalIconProps {
 
 /**
  * Professional Icon Component
- *
+ * 
  * Renders icons following FlashFusion design system standards
  */
 export const ProfessionalIcon: React.FC<ProfessionalIconProps> = ({
@@ -77,48 +77,48 @@ export const ProfessionalIcon: React.FC<ProfessionalIconProps> = ({
   ...props
 }) => {
   const iconSize = ICON_SIZES[size];
-
+  
   // Generate professional styling classes
   const iconClasses = cn(
     // Base styles
     'flex-shrink-0 transition-colors duration-200',
-
+    
     // Size-specific alignment
     {
       'inline-block align-text-bottom': size === 'xs' || size === 'sm',
       'inline-flex items-center': size === 'md' || size === 'lg',
-      block: size === 'xl' || size === '2xl' || size === '3xl',
+      'block': size === 'xl' || size === '2xl' || size === '3xl'
     },
-
+    
     // Context-based colors
     {
       'text-primary': context === 'primary',
-      'text-secondary': context === 'secondary',
+      'text-secondary': context === 'secondary', 
       'text-accent': context === 'accent',
       'text-success': context === 'success',
       'text-warning': context === 'warning',
       'text-error': context === 'error',
       'text-foreground': context === 'neutral',
-      'text-muted-foreground': context === 'muted',
+      'text-muted-foreground': context === 'muted'
     },
-
+    
     // Interactive states for functional icons
     {
       'hover:opacity-80 cursor-pointer': variant === 'functional' && onClick,
-      'hover:text-primary': variant === 'navigational' && !onClick,
+      'hover:text-primary': variant === 'navigational' && !onClick
     },
-
+    
     // Variant-specific styles
     {
       'font-medium': variant === 'functional',
       'opacity-90': variant === 'informational',
       'opacity-70': variant === 'decorative',
-      'font-semibold': variant === 'semantic',
+      'font-semibold': variant === 'semantic'
     },
-
+    
     className
   );
-
+  
   return (
     <Icon
       size={iconSize}
@@ -152,7 +152,7 @@ export const IconText: React.FC<IconTextProps> = ({
   variant = 'horizontal',
   alignment = 'center',
   spacing = 'normal',
-  className,
+  className
 }) => {
   const containerClasses = cn(
     'flex',
@@ -160,24 +160,24 @@ export const IconText: React.FC<IconTextProps> = ({
       // Layout variants
       'flex-row': variant === 'horizontal',
       'flex-col': variant === 'vertical',
-
+      
       // Alignment
       'items-start': alignment === 'start',
-      'items-center': alignment === 'center',
+      'items-center': alignment === 'center', 
       'items-end': alignment === 'end',
       'justify-center': variant === 'vertical',
-
+      
       // Spacing
       'gap-1': spacing === 'tight',
-      'gap-2': spacing === 'normal',
-      'gap-3': spacing === 'loose',
+      'gap-2': spacing === 'normal', 
+      'gap-3': spacing === 'loose'
     },
     className
   );
-
+  
   return (
     <div className={containerClasses}>
-      <ProfessionalIcon
+      <ProfessionalIcon 
         icon={icon}
         size={iconSize}
         context={iconContext}
@@ -201,63 +201,63 @@ export const StatusIcon: React.FC<StatusIconProps> = ({
   status,
   size = 'sm',
   showBackground = false,
-  className,
+  className
 }) => {
   // Map status to appropriate icons
   const statusConfig = {
-    success: {
+    success: { 
       icon: 'CheckCircle2' as const,
       context: 'success' as const,
-      bgClass: 'bg-success/10',
+      bgClass: 'bg-success/10'
     },
-    warning: {
+    warning: { 
       icon: 'AlertTriangle' as const,
       context: 'warning' as const,
-      bgClass: 'bg-warning/10',
+      bgClass: 'bg-warning/10'
     },
-    error: {
+    error: { 
       icon: 'XCircle' as const,
       context: 'error' as const,
-      bgClass: 'bg-error/10',
+      bgClass: 'bg-error/10'
     },
-    info: {
+    info: { 
       icon: 'Info' as const,
       context: 'secondary' as const,
-      bgClass: 'bg-secondary/10',
+      bgClass: 'bg-secondary/10'
     },
-    neutral: {
+    neutral: { 
       icon: 'Circle' as const,
       context: 'muted' as const,
-      bgClass: 'bg-muted/10',
-    },
+      bgClass: 'bg-muted/10'
+    }
   };
-
+  
   const config = statusConfig[status];
   const iconSize = ICON_SIZES[size];
-
+  
   // Import the specific icon dynamically
   const getIcon = async () => {
     const iconModule = await import('lucide-react');
     return iconModule[config.icon] as LucideIcon;
   };
-
+  
   const [Icon, setIcon] = React.useState<LucideIcon | null>(null);
-
+  
   React.useEffect(() => {
     getIcon().then(setIcon);
   }, [config.icon]);
-
+  
   if (!Icon) return null;
-
+  
   const containerClasses = cn(
     'inline-flex items-center justify-center',
     {
       'rounded-full p-1': showBackground,
-      [config.bgClass]: showBackground,
+      [config.bgClass]: showBackground
     },
     className
   );
-
+  
   return (
     <div className={containerClasses}>
       <ProfessionalIcon
@@ -283,7 +283,7 @@ export const NavigationIcon: React.FC<NavigationIconProps> = ({
   icon,
   isActive = false,
   size = 'md',
-  className,
+  className
 }) => {
   return (
     <ProfessionalIcon
@@ -295,7 +295,7 @@ export const NavigationIcon: React.FC<NavigationIconProps> = ({
         'transition-all duration-200',
         {
           'text-primary font-semibold': isActive,
-          'hover:text-foreground': !isActive,
+          'hover:text-foreground': !isActive
         },
         className
       )}
@@ -319,16 +319,16 @@ export const MetricIcon: React.FC<MetricIconProps> = ({
   label,
   trend = 'neutral',
   size = 'lg',
-  className,
+  className
 }) => {
   const trendConfig = {
     up: { context: 'success' as const, indicator: '↗' },
     down: { context: 'error' as const, indicator: '↘' },
-    neutral: { context: 'neutral' as const, indicator: '→' },
+    neutral: { context: 'neutral' as const, indicator: '→' }
   };
-
+  
   const config = trendConfig[trend];
-
+  
   return (
     <div className={cn('flex items-center gap-3', className)}>
       <div className="ff-glass rounded-lg p-3">
@@ -371,7 +371,7 @@ export const ActionIcon: React.FC<ActionIconProps> = ({
   onClick,
   disabled = false,
   loading = false,
-  className,
+  className
 }) => {
   const buttonClasses = cn(
     'ff-btn ff-interactive',
@@ -379,19 +379,19 @@ export const ActionIcon: React.FC<ActionIconProps> = ({
       'ff-btn-primary': variant === 'primary',
       'ff-btn-secondary': variant === 'secondary',
       'ff-btn-ghost': variant === 'ghost',
-      'ff-btn-outline': variant === 'outline',
+      'ff-btn-outline': variant === 'outline'
     },
     {
       'opacity-50 cursor-not-allowed': disabled,
-      'animate-pulse': loading,
+      'animate-pulse': loading
     },
     className
   );
-
+  
   const iconContext: IconContext = variant === 'ghost' ? 'muted' : 'neutral';
-
+  
   return (
-    <button
+    <button 
       className={buttonClasses}
       onClick={onClick}
       disabled={disabled || loading}
@@ -410,16 +410,21 @@ export const ActionIcon: React.FC<ActionIconProps> = ({
 };
 
 // Export all icon utilities
-export { ICON_SIZES, type IconSize, type IconVariant, type IconContext };
+export {
+  ICON_SIZES,
+  type IconSize,
+  type IconVariant,
+  type IconContext
+};
 
 // Common icon sets for consistent usage
 export const COMMON_ICONS = {
   // Navigation
   home: 'Home',
-  dashboard: 'LayoutDashboard',
+  dashboard: 'LayoutDashboard', 
   settings: 'Settings',
   profile: 'User',
-
+  
   // Actions
   create: 'Plus',
   edit: 'Edit',
@@ -427,22 +432,22 @@ export const COMMON_ICONS = {
   save: 'Save',
   download: 'Download',
   upload: 'Upload',
-
+  
   // Status
   success: 'CheckCircle2',
-  warning: 'AlertTriangle',
+  warning: 'AlertTriangle', 
   error: 'XCircle',
   info: 'Info',
-
+  
   // Content
   file: 'File',
   folder: 'Folder',
   image: 'Image',
   video: 'Video',
-
+  
   // Business
   analytics: 'BarChart3',
   revenue: 'DollarSign',
   growth: 'TrendingUp',
-  security: 'Shield',
+  security: 'Shield'
 } as const;

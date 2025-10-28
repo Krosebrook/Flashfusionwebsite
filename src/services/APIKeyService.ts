@@ -5,12 +5,12 @@ import { projectId, publicAnonKey } from '../utils/supabase/info';
  * Securely manages API keys from Supabase environment variables
  */
 
-export type APIProvider =
-  | 'openai'
-  | 'anthropic'
-  | 'google'
-  | 'github'
-  | 'xai'
+export type APIProvider = 
+  | 'openai' 
+  | 'anthropic' 
+  | 'google' 
+  | 'github' 
+  | 'xai' 
   | 'deepseek'
   | 'vercel'
   | 'firecrawl'
@@ -37,37 +37,37 @@ export const API_KEY_CONFIGS: APIKeyConfig[] = [
     provider: 'openai',
     keyName: 'Openai_api_key',
     required: true,
-    description: 'OpenAI GPT models for code generation and chat',
+    description: 'OpenAI GPT models for code generation and chat'
   },
   {
     provider: 'anthropic',
     keyName: 'Anthropic',
     required: true,
-    description: 'Anthropic Claude models for advanced reasoning',
+    description: 'Anthropic Claude models for advanced reasoning'
   },
   {
     provider: 'google',
     keyName: 'Gemini_api_key',
     required: false,
-    description: 'Google Gemini models with massive context',
+    description: 'Google Gemini models with massive context'
   },
   {
     provider: 'xai',
     keyName: 'grok_api_key',
     required: false,
-    description: 'xAI Grok models with real-time data',
+    description: 'xAI Grok models with real-time data'
   },
   {
     provider: 'deepseek',
     keyName: 'deepseek_api_key',
     required: false,
-    description: 'DeepSeek specialized coding models',
+    description: 'DeepSeek specialized coding models'
   },
   {
     provider: 'openrouter',
     keyName: 'OpenRouter_API_KEY',
     required: false,
-    description: 'OpenRouter for accessing multiple AI models',
+    description: 'OpenRouter for accessing multiple AI models'
   },
 
   // Development & Repository
@@ -75,13 +75,13 @@ export const API_KEY_CONFIGS: APIKeyConfig[] = [
     provider: 'github',
     keyName: 'Github',
     required: true,
-    description: 'GitHub API for repository analysis and integration',
+    description: 'GitHub API for repository analysis and integration'
   },
   {
     provider: 'vercel',
     keyName: 'Vercel',
     required: false,
-    description: 'Vercel API for automated deployments',
+    description: 'Vercel API for automated deployments'
   },
 
   // Content & Automation
@@ -89,13 +89,13 @@ export const API_KEY_CONFIGS: APIKeyConfig[] = [
     provider: 'firecrawl',
     keyName: 'FireCrawl_api_key',
     required: false,
-    description: 'FireCrawl for web scraping and content extraction',
+    description: 'FireCrawl for web scraping and content extraction'
   },
   {
     provider: 'notion',
     keyName: 'Notion_api_key',
     required: false,
-    description: 'Notion API for documentation and content management',
+    description: 'Notion API for documentation and content management'
   },
 
   // Media & Design
@@ -103,13 +103,13 @@ export const API_KEY_CONFIGS: APIKeyConfig[] = [
     provider: 'leap',
     keyName: 'Leap_api_key',
     required: false,
-    description: 'Leap AI for image generation and processing',
+    description: 'Leap AI for image generation and processing'
   },
   {
     provider: 'elevenlabs',
     keyName: 'Elevellabs_api_key',
     required: false,
-    description: 'ElevenLabs for voice synthesis and audio generation',
+    description: 'ElevenLabs for voice synthesis and audio generation'
   },
 
   // E-commerce & Print-on-Demand
@@ -117,14 +117,14 @@ export const API_KEY_CONFIGS: APIKeyConfig[] = [
     provider: 'printify',
     keyName: 'Printify_api_key',
     required: false,
-    description: 'Printify API for print-on-demand integration',
+    description: 'Printify API for print-on-demand integration'
   },
   {
     provider: 'stripe',
     keyName: 'stripe_secret_api_key',
     required: true,
-    description: 'Stripe for payment processing and subscriptions',
-  },
+    description: 'Stripe for payment processing and subscriptions'
+  }
 ];
 
 class APIKeyServiceClass {
@@ -160,9 +160,9 @@ class APIKeyServiceClass {
         {
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${publicAnonKey}`,
-            'Content-Type': 'application/json',
-          },
+            'Authorization': `Bearer ${publicAnonKey}`,
+            'Content-Type': 'application/json'
+          }
         }
       );
 
@@ -171,9 +171,9 @@ class APIKeyServiceClass {
       }
 
       const data = await response.json();
-
+      
       // Store the API keys
-      API_KEY_CONFIGS.forEach((config) => {
+      API_KEY_CONFIGS.forEach(config => {
         const key = data[config.keyName];
         if (key) {
           this.apiKeys.set(config.provider, key);
@@ -183,9 +183,10 @@ class APIKeyServiceClass {
       });
 
       console.log(`✅ Loaded ${this.apiKeys.size} API keys from Supabase`);
+
     } catch (error) {
       console.error('Failed to load API keys from Supabase:', error);
-
+      
       // Fallback to local environment variables if Supabase fails
       this.loadFallbackKeys();
     }
@@ -213,7 +214,7 @@ class APIKeyServiceClass {
       printify: 'VITE_PRINTIFY_API_KEY',
       elevenlabs: 'VITE_ELEVENLABS_API_KEY',
       stripe: 'VITE_STRIPE_SECRET_KEY',
-      gemini: 'VITE_GEMINI_API_KEY',
+      gemini: 'VITE_GEMINI_API_KEY'
     };
 
     Object.entries(keyMappings).forEach(([provider, envVar]) => {
@@ -253,26 +254,20 @@ class APIKeyServiceClass {
   /**
    * Get API key status for all configured providers
    */
-  public async getKeyStatus(): Promise<
-    Record<APIProvider, { available: boolean; required: boolean; description: string }>
-  > {
+  public async getKeyStatus(): Promise<Record<APIProvider, { available: boolean; required: boolean; description: string }>> {
     await this.initialize();
-
-    const status: Record<string, { available: boolean; required: boolean; description: string }> =
-      {};
-
-    API_KEY_CONFIGS.forEach((config) => {
+    
+    const status: Record<string, { available: boolean; required: boolean; description: string }> = {};
+    
+    API_KEY_CONFIGS.forEach(config => {
       status[config.provider] = {
         available: this.apiKeys.has(config.provider),
         required: config.required,
-        description: config.description,
+        description: config.description
       };
     });
 
-    return status as Record<
-      APIProvider,
-      { available: boolean; required: boolean; description: string }
-    >;
+    return status as Record<APIProvider, { available: boolean; required: boolean; description: string }>;
   }
 
   /**
@@ -280,10 +275,10 @@ class APIKeyServiceClass {
    */
   public async validateRequiredKeys(): Promise<{ valid: boolean; missing: string[] }> {
     await this.initialize();
-
+    
     const missing: string[] = [];
-
-    API_KEY_CONFIGS.forEach((config) => {
+    
+    API_KEY_CONFIGS.forEach(config => {
       if (config.required && !this.apiKeys.has(config.provider)) {
         missing.push(`${config.provider} (${config.keyName})`);
       }
@@ -291,7 +286,7 @@ class APIKeyServiceClass {
 
     return {
       valid: missing.length === 0,
-      missing,
+      missing
     };
   }
 
@@ -309,7 +304,7 @@ class APIKeyServiceClass {
    * Get configuration for a specific provider
    */
   public getProviderConfig(provider: APIProvider): APIKeyConfig | null {
-    return API_KEY_CONFIGS.find((config) => config.provider === provider) || null;
+    return API_KEY_CONFIGS.find(config => config.provider === provider) || null;
   }
 
   /**

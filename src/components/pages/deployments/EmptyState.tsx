@@ -16,9 +16,10 @@ export function EmptyState({ onCreateDeployment, hasProjects }: EmptyStateProps)
         </div>
         <h3 className="font-semibold mb-2">No deployments yet</h3>
         <p className="text-muted-foreground mb-6">
-          {hasProjects
+          {hasProjects 
             ? 'Deploy your first project to get started with hosting.'
-            : 'Create a project first, then deploy it to your favorite platform.'}
+            : 'Create a project first, then deploy it to your favorite platform.'
+          }
         </p>
         {hasProjects ? (
           <Button className="ff-btn-primary" onClick={onCreateDeployment}>
@@ -26,7 +27,9 @@ export function EmptyState({ onCreateDeployment, hasProjects }: EmptyStateProps)
             Deploy First Project
           </Button>
         ) : (
-          <p className="text-sm text-muted-foreground">Create a project to enable deployments</p>
+          <p className="text-sm text-muted-foreground">
+            Create a project to enable deployments
+          </p>
         )}
       </CardContent>
     </Card>

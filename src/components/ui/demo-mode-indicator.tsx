@@ -37,7 +37,9 @@ export function DemoModeIndicator({ className = '' }: DemoModeIndicatorProps) {
           <Badge variant="outline" className="text-xs">
             Demo Mode
           </Badge>
-          <span className="text-sm">Running with local storage. All features work normally!</span>
+          <span className="text-sm">
+            Running with local storage. All features work normally!
+          </span>
         </div>
       </AlertDescription>
     </Alert>

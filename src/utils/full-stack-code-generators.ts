@@ -1,83 +1,67 @@
 import type { AppStack } from '../types/full-stack-builder';
 
-export function generateFrontendPackageJson(
-  name: string,
-  frontend: string,
-  features: string[]
-): string {
+export function generateFrontendPackageJson(name: string, frontend: string, features: string[]): string {
   const dependencies: Record<string, string> = {
-    next: '^13.0.0',
-    react: '^18.0.0',
-    'react-dom': '^18.0.0',
+    next: "^13.0.0",
+    react: "^18.0.0",
+    "react-dom": "^18.0.0"
   };
 
   if (frontend === 'react-vite') {
-    dependencies.vite = '^4.0.0';
+    dependencies.vite = "^4.0.0";
     delete dependencies.next;
   }
 
   if (features.includes('TypeScript Support')) {
-    dependencies.typescript = '^5.0.0';
+    dependencies.typescript = "^5.0.0";
   }
 
-  return JSON.stringify(
-    {
-      name: `${name}-frontend`,
-      version: '1.0.0',
-      scripts: {
-        dev: frontend === 'nextjs' ? 'next dev' : 'vite',
-        build: frontend === 'nextjs' ? 'next build' : 'vite build',
-        start: frontend === 'nextjs' ? 'next start' : 'vite preview',
-      },
-      dependencies,
+  return JSON.stringify({
+    name: `${name}-frontend`,
+    version: "1.0.0",
+    scripts: {
+      dev: frontend === 'nextjs' ? "next dev" : "vite",
+      build: frontend === 'nextjs' ? "next build" : "vite build",
+      start: frontend === 'nextjs' ? "next start" : "vite preview"
     },
-    null,
-    2
-  );
+    dependencies
+  }, null, 2);
 }
 
-export function generateBackendPackageJson(
-  name: string,
-  backend: string,
-  features: string[]
-): string {
+export function generateBackendPackageJson(name: string, backend: string, features: string[]): string {
   const dependencies: Record<string, string> = {};
-
+  
   if (backend.includes('express')) {
-    dependencies.express = '^4.18.0';
-    dependencies.cors = '^2.8.5';
+    dependencies.express = "^4.18.0";
+    dependencies.cors = "^2.8.5";
   }
-
+  
   if (backend.includes('fastify')) {
-    dependencies.fastify = '^4.0.0';
+    dependencies.fastify = "^4.0.0";
   }
 
-  dependencies.dotenv = '^16.0.0';
+  dependencies.dotenv = "^16.0.0";
 
   if (features.includes('Database Integration')) {
-    dependencies.prisma = '^5.0.0';
+    dependencies.prisma = "^5.0.0";
   }
 
-  return JSON.stringify(
-    {
-      name: `${name}-backend`,
-      version: '1.0.0',
-      scripts: {
-        dev: 'nodemon src/app.ts',
-        build: 'tsc',
-        start: 'node dist/app.js',
-      },
-      dependencies,
-      devDependencies: {
-        '@types/express': '^4.17.0',
-        '@types/cors': '^2.8.0',
-        typescript: '^5.0.0',
-        nodemon: '^3.0.0',
-      },
+  return JSON.stringify({
+    name: `${name}-backend`,
+    version: "1.0.0",
+    scripts: {
+      dev: "nodemon src/app.ts",
+      build: "tsc",
+      start: "node dist/app.js"
     },
-    null,
-    2
-  );
+    dependencies,
+    devDependencies: {
+      "@types/express": "^4.17.0",
+      "@types/cors": "^2.8.0",
+      typescript: "^5.0.0",
+      nodemon: "^3.0.0"
+    }
+  }, null, 2);
 }
 
 export function generateFrontendHomePage(name: string, description: string): string {
@@ -187,9 +171,7 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-${
-  features.includes('Rate Limiting')
-    ? `
+${features.includes('Rate Limiting') ? `
 // Rate limiting
 import rateLimit from 'express-rate-limit';
 const limiter = rateLimit({
@@ -197,9 +179,7 @@ const limiter = rateLimit({
   max: 100 // limit each IP to 100 requests per windowMs
 });
 app.use(limiter);
-`
-    : ''
-}
+` : ''}
 
 // Routes
 app.use('/api/users', userRoutes);
@@ -241,18 +221,14 @@ app.listen(PORT, () => {
   ${features.includes('Database Integration') ? "console.log('🗄️  Database connected');" : ''}
 });
 
-${
-  features.includes('Database Integration')
-    ? `
+${features.includes('Database Integration') ? `
 // Graceful shutdown
 process.on('SIGINT', async () => {
   console.log('\\n🔄 Shutting down gracefully...');
   await prisma.$disconnect();
   process.exit(0);
 });
-`
-    : ''
-}
+` : ''}
 
 export default app;`;
 }
@@ -267,9 +243,7 @@ ${backend.includes('Database Integration') ? 'const prisma = new PrismaClient();
 // GET /api/users
 router.get('/', async (req: Request, res: Response) => {
   try {
-    ${
-      backend.includes('Database Integration')
-        ? `
+    ${backend.includes('Database Integration') ? `
     const users = await prisma.user.findMany({
       select: {
         id: true,
@@ -279,15 +253,13 @@ router.get('/', async (req: Request, res: Response) => {
       },
       orderBy: { createdAt: 'desc' }
     });
-    `
-        : `
+    ` : `
     // Mock data - replace with actual database query
     const users = [
       { id: 1, name: 'John Doe', email: 'john@example.com' },
       { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
     ];
-    `
-    }
+    `}
     
     res.json({
       success: true,
@@ -323,9 +295,7 @@ router.post('/', async (req: Request, res: Response) => {
       });
     }
     
-    ${
-      backend.includes('Database Integration')
-        ? `
+    ${backend.includes('Database Integration') ? `
     const user = await prisma.user.create({
       data: { name, email },
       select: {
@@ -335,8 +305,7 @@ router.post('/', async (req: Request, res: Response) => {
         createdAt: true
       }
     });
-    `
-        : `
+    ` : `
     // Mock user creation
     const user = { 
       id: Date.now(), 
@@ -344,8 +313,7 @@ router.post('/', async (req: Request, res: Response) => {
       email, 
       createdAt: new Date() 
     };
-    `
-    }
+    `}
     
     res.status(201).json({
       success: true,
@@ -366,9 +334,7 @@ router.get('/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     
-    ${
-      backend.includes('Database Integration')
-        ? `
+    ${backend.includes('Database Integration') ? `
     const user = await prisma.user.findUnique({
       where: { id: parseInt(id) },
       select: {
@@ -378,11 +344,9 @@ router.get('/:id', async (req: Request, res: Response) => {
         createdAt: true
       }
     });
-    `
-        : `
+    ` : `
     const user = null; // Mock - replace with actual database query
-    `
-    }
+    `}
     
     if (!user) {
       return res.status(404).json({
@@ -448,7 +412,7 @@ export default NextAuth({
   debug: process.env.NODE_ENV === 'development',
 });`;
   }
-
+  
   return `// Auth configuration for ${auth}
 // Configure your authentication provider here`;
 }

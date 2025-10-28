@@ -7,7 +7,7 @@ import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Switch } from '../ui/switch';
 import { Slider } from '../ui/slider';
-import {
+import { 
   Heart,
   Brain,
   Clock,
@@ -33,7 +33,7 @@ import {
   Frown,
   Meh,
   CheckCircle2,
-  X,
+  X
 } from 'lucide-react';
 
 interface UsageSession {
@@ -61,12 +61,7 @@ interface WellnessMetrics {
 
 interface WellnessAlert {
   id: string;
-  type:
-    | 'usage_limit'
-    | 'break_reminder'
-    | 'mood_concern'
-    | 'dependency_warning'
-    | 'productivity_dip';
+  type: 'usage_limit' | 'break_reminder' | 'mood_concern' | 'dependency_warning' | 'productivity_dip';
   severity: 'low' | 'medium' | 'high';
   title: string;
   message: string;
@@ -81,7 +76,7 @@ const WELLNESS_GOALS = {
   minBreakFrequency: 60, // every hour
   minBreakDuration: 10, // 10 minutes
   targetProductivity: 7, // 7/10
-  maxConsecutiveDays: 5, // 5 days without a break
+  maxConsecutiveDays: 5 // 5 days without a break
 };
 
 const MOOD_ICONS = {
@@ -90,7 +85,7 @@ const MOOD_ICONS = {
   creative: { icon: Lightbulb, color: '#F59E0B', label: 'Creative' },
   tired: { icon: Moon, color: '#6B7280', label: 'Tired' },
   frustrated: { icon: Frown, color: '#EF4444', label: 'Frustrated' },
-  overwhelmed: { icon: AlertTriangle, color: '#DC2626', label: 'Overwhelmed' },
+  overwhelmed: { icon: AlertTriangle, color: '#DC2626', label: 'Overwhelmed' }
 };
 
 export function AIWellnessMonitor() {
@@ -104,11 +99,9 @@ export function AIWellnessMonitor() {
     autoBreakReminders: true,
     usageLimits: true,
     moodTracking: true,
-    productivityInsights: true,
+    productivityInsights: true
   });
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'sessions' | 'insights' | 'settings'>(
-    'dashboard'
-  );
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'sessions' | 'insights' | 'settings'>('dashboard');
 
   // Mock data for demonstration
   useEffect(() => {
@@ -122,7 +115,7 @@ export function AIWellnessMonitor() {
         mood: 'focused',
         productivity: 8,
         breaks: 1,
-        type: 'creation',
+        type: 'creation'
       },
       {
         id: '2',
@@ -133,7 +126,7 @@ export function AIWellnessMonitor() {
         mood: 'energized',
         productivity: 9,
         breaks: 2,
-        type: 'focused',
+        type: 'focused'
       },
       {
         id: '3',
@@ -144,8 +137,8 @@ export function AIWellnessMonitor() {
         mood: 'creative',
         productivity: 7,
         breaks: 1,
-        type: 'creation',
-      },
+        type: 'creation'
+      }
     ];
 
     const mockAlerts: WellnessAlert[] = [
@@ -156,17 +149,16 @@ export function AIWellnessMonitor() {
         title: 'Time for a break!',
         message: "You've been working for 90 minutes. Take a 10-minute break to maintain focus.",
         action: 'Take Break',
-        timestamp: new Date(Date.now() - 10 * 60 * 1000),
+        timestamp: new Date(Date.now() - 10 * 60 * 1000)
       },
       {
         id: '2',
         type: 'mood_concern',
         severity: 'low',
         title: 'Mood tracking notice',
-        message:
-          "You've reported feeling frustrated in your last 2 sessions. Consider taking longer breaks.",
-        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-      },
+        message: "You've reported feeling frustrated in your last 2 sessions. Consider taking longer breaks.",
+        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000)
+      }
     ];
 
     setSessions(mockSessions);
@@ -176,28 +168,22 @@ export function AIWellnessMonitor() {
   const calculateMetrics = (): WellnessMetrics => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
-    const todaySessions = sessions.filter((s) => s.startTime >= today);
-    const weekSessions = sessions.filter(
-      (s) => s.startTime >= new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-    );
-
+    
+    const todaySessions = sessions.filter(s => s.startTime >= today);
+    const weekSessions = sessions.filter(s => s.startTime >= new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
+    
     const dailyUsage = todaySessions.reduce((sum, s) => sum + s.duration, 0);
     const weeklyUsage = weekSessions.reduce((sum, s) => sum + s.duration, 0);
-    const averageSessionLength =
-      sessions.length > 0 ? sessions.reduce((sum, s) => sum + s.duration, 0) / sessions.length : 0;
+    const averageSessionLength = sessions.length > 0 ? sessions.reduce((sum, s) => sum + s.duration, 0) / sessions.length : 0;
     const breaksToday = todaySessions.reduce((sum, s) => sum + s.breaks, 0);
-
-    const moodTrend = sessions.slice(-7).map((s) => s.mood);
-    const productivityTrend = sessions.slice(-7).map((s) => s.productivity);
-
+    
+    const moodTrend = sessions.slice(-7).map(s => s.mood);
+    const productivityTrend = sessions.slice(-7).map(s => s.productivity);
+    
     // Calculate health score based on various factors
     const usageScore = Math.max(0, 100 - (dailyUsage / WELLNESS_GOALS.maxDailyUsage) * 100);
     const breakScore = Math.min(100, (breaksToday / Math.max(1, dailyUsage / 60)) * 100);
-    const moodScore =
-      productivityTrend.length > 0
-        ? (productivityTrend.reduce((sum, p) => sum + p, 0) / productivityTrend.length) * 10
-        : 70;
+    const moodScore = productivityTrend.length > 0 ? (productivityTrend.reduce((sum, p) => sum + p, 0) / productivityTrend.length) * 10 : 70;
     const healthScore = (usageScore + breakScore + moodScore) / 3;
 
     return {
@@ -208,7 +194,7 @@ export function AIWellnessMonitor() {
       breaksToday,
       moodTrend,
       productivityTrend,
-      healthScore,
+      healthScore
     };
   };
 
@@ -217,9 +203,9 @@ export function AIWellnessMonitor() {
   const startBreak = (duration: number = 10) => {
     setIsBreakTime(true);
     setBreakTimer(duration * 60); // Convert to seconds
-
+    
     const interval = setInterval(() => {
-      setBreakTimer((prev) => {
+      setBreakTimer(prev => {
         if (prev <= 1) {
           setIsBreakTime(false);
           clearInterval(interval);
@@ -231,9 +217,9 @@ export function AIWellnessMonitor() {
   };
 
   const dismissAlert = (alertId: string) => {
-    setAlerts((prev) =>
-      prev.map((alert) => (alert.id === alertId ? { ...alert, dismissed: true } : alert))
-    );
+    setAlerts(prev => prev.map(alert => 
+      alert.id === alertId ? { ...alert, dismissed: true } : alert
+    ));
   };
 
   const getHealthScoreColor = (score: number) => {
@@ -255,7 +241,7 @@ export function AIWellnessMonitor() {
       <Card className="p-4 hover:shadow-md transition-shadow">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center space-x-3">
-            <div
+            <div 
               className="w-10 h-10 rounded-lg flex items-center justify-center"
               style={{ backgroundColor: `${moodConfig.color}15` }}
             >
@@ -268,7 +254,7 @@ export function AIWellnessMonitor() {
               </div>
             </div>
           </div>
-
+          
           <div className="text-right">
             <div className="text-lg font-bold">{session.duration}m</div>
             <div className="text-sm text-gray-600">{session.breaks} breaks</div>
@@ -282,7 +268,7 @@ export function AIWellnessMonitor() {
               {moodConfig.label}
             </Badge>
           </div>
-
+          
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Productivity:</span>
             <div className="flex items-center space-x-2">
@@ -305,12 +291,9 @@ export function AIWellnessMonitor() {
 
     const getSeverityColor = (severity: WellnessAlert['severity']) => {
       switch (severity) {
-        case 'high':
-          return '#EF4444';
-        case 'medium':
-          return '#F59E0B';
-        default:
-          return '#3B82F6';
+        case 'high': return '#EF4444';
+        case 'medium': return '#F59E0B';
+        default: return '#3B82F6';
       }
     };
 
@@ -322,7 +305,10 @@ export function AIWellnessMonitor() {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
       >
-        <Card className="p-4 border-l-4" style={{ borderLeftColor: severityColor }}>
+        <Card 
+          className="p-4 border-l-4"
+          style={{ borderLeftColor: severityColor }}
+        >
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center space-x-2 mb-2">
@@ -333,16 +319,22 @@ export function AIWellnessMonitor() {
                 </Badge>
               </div>
               <p className="text-sm text-gray-600 mb-3">{alert.message}</p>
-              <div className="text-xs text-gray-500">{alert.timestamp.toLocaleString()}</div>
+              <div className="text-xs text-gray-500">
+                {alert.timestamp.toLocaleString()}
+              </div>
             </div>
-
+            
             <div className="flex items-center space-x-2 ml-4">
               {alert.action && (
                 <Button size="sm" style={{ backgroundColor: severityColor, color: 'white' }}>
                   {alert.action}
                 </Button>
               )}
-              <Button size="sm" variant="ghost" onClick={() => dismissAlert(alert.id)}>
+              <Button 
+                size="sm" 
+                variant="ghost"
+                onClick={() => dismissAlert(alert.id)}
+              >
                 <X className="h-4 w-4" />
               </Button>
             </div>
@@ -366,12 +358,12 @@ export function AIWellnessMonitor() {
         </div>
 
         <div className="flex items-center space-x-3">
-          <Badge
+          <Badge 
             className="text-lg px-4 py-2"
             style={{
               backgroundColor: `${getHealthScoreColor(metrics.healthScore)}15`,
               color: getHealthScoreColor(metrics.healthScore),
-              border: `1px solid ${getHealthScoreColor(metrics.healthScore)}30`,
+              border: `1px solid ${getHealthScoreColor(metrics.healthScore)}30`
             }}
           >
             <Heart className="h-5 w-5 mr-2" />
@@ -399,18 +391,23 @@ export function AIWellnessMonitor() {
                 <Coffee className="h-10 w-10 text-green-600" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Break Time!</h3>
-              <p className="text-gray-600 mb-6">Take a moment to rest your mind and recharge</p>
+              <p className="text-gray-600 mb-6">
+                Take a moment to rest your mind and recharge
+              </p>
               <div className="text-4xl font-bold text-green-600 mb-6">
                 {Math.floor(breakTimer / 60)}:{(breakTimer % 60).toString().padStart(2, '0')}
               </div>
               <div className="space-y-3">
                 <div className="text-sm text-gray-600">
-                  • Look away from your screen
-                  <br />
-                  • Take deep breaths
-                  <br />• Stretch or walk around
+                  • Look away from your screen<br/>
+                  • Take deep breaths<br/>
+                  • Stretch or walk around
                 </div>
-                <Button onClick={() => setIsBreakTime(false)} variant="outline" size="sm">
+                <Button 
+                  onClick={() => setIsBreakTime(false)}
+                  variant="outline"
+                  size="sm"
+                >
                   End Break Early
                 </Button>
               </div>
@@ -420,16 +417,14 @@ export function AIWellnessMonitor() {
       </AnimatePresence>
 
       {/* Wellness Alerts */}
-      {alerts.filter((alert) => !alert.dismissed).length > 0 && (
+      {alerts.filter(alert => !alert.dismissed).length > 0 && (
         <div className="space-y-3">
           <h3 className="text-lg font-semibold">Wellness Alerts</h3>
           <div className="space-y-3">
             <AnimatePresence>
-              {alerts
-                .filter((alert) => !alert.dismissed)
-                .map((alert) => (
-                  <AlertCard key={alert.id} alert={alert} />
-                ))}
+              {alerts.filter(alert => !alert.dismissed).map((alert) => (
+                <AlertCard key={alert.id} alert={alert} />
+              ))}
             </AnimatePresence>
           </div>
         </div>
@@ -437,11 +432,17 @@ export function AIWellnessMonitor() {
 
       {/* Quick Actions */}
       <div className="flex items-center space-x-3">
-        <Button onClick={() => startBreak(5)} className="ff-btn-secondary">
+        <Button 
+          onClick={() => startBreak(5)}
+          className="ff-btn-secondary"
+        >
           <Coffee className="h-4 w-4 mr-2" />
           5-min Break
         </Button>
-        <Button onClick={() => startBreak(15)} className="ff-btn-primary">
+        <Button 
+          onClick={() => startBreak(15)}
+          className="ff-btn-primary"
+        >
           <Moon className="h-4 w-4 mr-2" />
           15-min Break
         </Button>
@@ -466,15 +467,15 @@ export function AIWellnessMonitor() {
             <Card className="p-6 text-center">
               <div className="text-3xl font-bold text-blue-600">{metrics.dailyUsage}m</div>
               <div className="text-sm text-gray-600">Today's Usage</div>
-              <Progress
-                value={(metrics.dailyUsage / WELLNESS_GOALS.maxDailyUsage) * 100}
-                className="mt-2"
+              <Progress 
+                value={(metrics.dailyUsage / WELLNESS_GOALS.maxDailyUsage) * 100} 
+                className="mt-2" 
               />
               <div className="text-xs text-gray-500 mt-1">
                 Limit: {WELLNESS_GOALS.maxDailyUsage}m
               </div>
             </Card>
-
+            
             <Card className="p-6 text-center">
               <div className="text-3xl font-bold text-green-600">{metrics.breaksToday}</div>
               <div className="text-sm text-gray-600">Breaks Today</div>
@@ -482,11 +483,9 @@ export function AIWellnessMonitor() {
                 Recommended: {Math.ceil(metrics.dailyUsage / 60)} breaks
               </div>
             </Card>
-
+            
             <Card className="p-6 text-center">
-              <div className="text-3xl font-bold text-purple-600">
-                {metrics.averageSessionLength.toFixed(0)}m
-              </div>
+              <div className="text-3xl font-bold text-purple-600">{metrics.averageSessionLength.toFixed(0)}m</div>
               <div className="text-sm text-gray-600">Avg Session</div>
               <div className="text-xs text-gray-500 mt-2">
                 Target: {WELLNESS_GOALS.maxSessionLength}m max
@@ -514,13 +513,15 @@ export function AIWellnessMonitor() {
                   const MoodIcon = moodConfig.icon;
                   return (
                     <div key={index} className="flex flex-col items-center">
-                      <div
+                      <div 
                         className="w-8 h-8 rounded-full flex items-center justify-center"
                         style={{ backgroundColor: `${moodConfig.color}15` }}
                       >
                         <MoodIcon className="h-4 w-4" style={{ color: moodConfig.color }} />
                       </div>
-                      <div className="text-xs text-gray-500 mt-1">Day {index + 1}</div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        Day {index + 1}
+                      </div>
                     </div>
                   );
                 })}
@@ -532,11 +533,13 @@ export function AIWellnessMonitor() {
               <div className="flex items-end space-x-2 h-20">
                 {metrics.productivityTrend.slice(-7).map((productivity, index) => (
                   <div key={index} className="flex flex-col items-center flex-1">
-                    <div
+                    <div 
                       className="w-full bg-blue-500 rounded-t"
                       style={{ height: `${productivity * 10}%` }}
                     />
-                    <div className="text-xs text-gray-500 mt-1">{productivity}</div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      {productivity}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -558,16 +561,13 @@ export function AIWellnessMonitor() {
               <h3 className="text-lg font-semibold mb-4">💡 Wellness Insights</h3>
               <div className="space-y-3 text-sm">
                 <div className="p-3 bg-blue-50 rounded-lg">
-                  <strong>Optimal Session Length:</strong> Your most productive sessions average 75
-                  minutes with a 10-minute break.
+                  <strong>Optimal Session Length:</strong> Your most productive sessions average 75 minutes with a 10-minute break.
                 </div>
                 <div className="p-3 bg-green-50 rounded-lg">
-                  <strong>Best Mood Correlation:</strong> You're most creative during morning
-                  sessions (9-11 AM).
+                  <strong>Best Mood Correlation:</strong> You're most creative during morning sessions (9-11 AM).
                 </div>
                 <div className="p-3 bg-yellow-50 rounded-lg">
-                  <strong>Break Reminder:</strong> Consider setting automatic break reminders every
-                  60 minutes.
+                  <strong>Break Reminder:</strong> Consider setting automatic break reminders every 60 minutes.
                 </div>
               </div>
             </Card>
@@ -608,30 +608,22 @@ export function AIWellnessMonitor() {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-medium">Wellness Alerts</div>
-                  <div className="text-sm text-gray-600">
-                    Get notified about usage patterns and break reminders
-                  </div>
+                  <div className="text-sm text-gray-600">Get notified about usage patterns and break reminders</div>
                 </div>
-                <Switch
+                <Switch 
                   checked={settings.enableWellnessAlerts}
-                  onCheckedChange={(checked) =>
-                    setSettings((prev) => ({ ...prev, enableWellnessAlerts: checked }))
-                  }
+                  onCheckedChange={(checked) => setSettings(prev => ({ ...prev, enableWellnessAlerts: checked }))}
                 />
               </div>
 
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-medium">Auto Break Reminders</div>
-                  <div className="text-sm text-gray-600">
-                    Automatic reminders to take breaks during long sessions
-                  </div>
+                  <div className="text-sm text-gray-600">Automatic reminders to take breaks during long sessions</div>
                 </div>
-                <Switch
+                <Switch 
                   checked={settings.autoBreakReminders}
-                  onCheckedChange={(checked) =>
-                    setSettings((prev) => ({ ...prev, autoBreakReminders: checked }))
-                  }
+                  onCheckedChange={(checked) => setSettings(prev => ({ ...prev, autoBreakReminders: checked }))}
                 />
               </div>
 
@@ -640,11 +632,9 @@ export function AIWellnessMonitor() {
                   <div className="font-medium">Usage Limits</div>
                   <div className="text-sm text-gray-600">Set daily and session time limits</div>
                 </div>
-                <Switch
+                <Switch 
                   checked={settings.usageLimits}
-                  onCheckedChange={(checked) =>
-                    setSettings((prev) => ({ ...prev, usageLimits: checked }))
-                  }
+                  onCheckedChange={(checked) => setSettings(prev => ({ ...prev, usageLimits: checked }))}
                 />
               </div>
 

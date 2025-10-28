@@ -9,8 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Switch } from '../ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import {
-  User,
+import { 
+  User, 
   Settings,
   Shield,
   CreditCard,
@@ -36,7 +36,7 @@ import {
   Award,
   Activity,
   Download,
-  Key,
+  Key
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import type { User as UserType, UserPreferences, Subscription } from '../../types/core';
@@ -54,19 +54,19 @@ export default function UserProfileHub() {
       push: true,
       inApp: true,
       frequency: 'immediate',
-      types: ['system', 'projects', 'collaboration'],
+      types: ['system', 'projects', 'collaboration']
     },
     privacy: {
       profileVisibility: 'public',
       dataSharing: true,
-      analytics: true,
+      analytics: true
     },
     accessibility: {
       reducedMotion: false,
       highContrast: false,
       fontSize: 'medium',
-      screenReader: false,
-    },
+      screenReader: false
+    }
   });
 
   // Initialize user data
@@ -75,8 +75,7 @@ export default function UserProfileHub() {
       id: 'user-123',
       email: 'sarah.chen@example.com',
       name: 'Sarah Chen',
-      avatar:
-        'https://images.unsplash.com/photo-1494790108755-2616b612b1e5?w=150&h=150&fit=crop&crop=face',
+      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b1e5?w=150&h=150&fit=crop&crop=face',
       plan: 'pro',
       credits: 2400,
       joinedAt: '2024-01-15',
@@ -87,13 +86,8 @@ export default function UserProfileHub() {
         plan: 'FlashFusion Pro',
         status: 'active',
         currentPeriodEnd: '2024-04-15',
-        features: [
-          'Unlimited AI Generation',
-          'Advanced Analytics',
-          'Priority Support',
-          'Custom Branding',
-        ],
-      },
+        features: ['Unlimited AI Generation', 'Advanced Analytics', 'Priority Support', 'Custom Branding']
+      }
     };
 
     setUser(mockUser);
@@ -129,7 +123,7 @@ export default function UserProfileHub() {
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Header */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -139,8 +133,7 @@ export default function UserProfileHub() {
           <h1 className="ff-text-gradient">User Profile & Settings Hub</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Manage your personal information, account preferences, security settings, and subscription
-          details in one centralized location.
+          Manage your personal information, account preferences, security settings, and subscription details in one centralized location.
         </p>
       </motion.div>
 
@@ -157,12 +150,7 @@ export default function UserProfileHub() {
                 <div className="relative">
                   <Avatar className="w-20 h-20">
                     <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback>
-                      {user.name
-                        .split(' ')
-                        .map((n) => n[0])
-                        .join('')}
-                    </AvatarFallback>
+                    <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                   </Avatar>
                   <Button
                     size="sm"
@@ -202,7 +190,10 @@ export default function UserProfileHub() {
                   </div>
                 </div>
               </div>
-              <Button onClick={() => setIsEditing(!isEditing)} className="ff-btn-primary">
+              <Button
+                onClick={() => setIsEditing(!isEditing)}
+                className="ff-btn-primary"
+              >
                 {isEditing ? 'Cancel' : 'Edit Profile'}
               </Button>
             </div>
@@ -231,19 +222,25 @@ export default function UserProfileHub() {
             <Card>
               <CardHeader>
                 <CardTitle>Personal Information</CardTitle>
-                <CardDescription>
-                  Update your personal details and contact information
-                </CardDescription>
+                <CardDescription>Update your personal details and contact information</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
-                    <Input id="firstName" defaultValue="Sarah" disabled={!isEditing} />
+                    <Input
+                      id="firstName"
+                      defaultValue="Sarah"
+                      disabled={!isEditing}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" defaultValue="Chen" disabled={!isEditing} />
+                    <Input
+                      id="lastName"
+                      defaultValue="Chen"
+                      disabled={!isEditing}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email Address</Label>
@@ -256,7 +253,11 @@ export default function UserProfileHub() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number</Label>
-                    <Input id="phone" defaultValue="+1 (555) 123-4567" disabled={!isEditing} />
+                    <Input
+                      id="phone"
+                      defaultValue="+1 (555) 123-4567"
+                      disabled={!isEditing}
+                    />
                   </div>
                 </div>
 
@@ -368,7 +369,9 @@ export default function UserProfileHub() {
             <Card>
               <CardHeader>
                 <CardTitle className="text-red-500">Danger Zone</CardTitle>
-                <CardDescription>Irreversible and destructive actions</CardDescription>
+                <CardDescription>
+                  Irreversible and destructive actions
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between p-4 border border-red-500/20 bg-red-500/5 rounded-lg">
@@ -402,9 +405,7 @@ export default function UserProfileHub() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="font-medium">Two-Factor Authentication</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Add an extra layer of security to your account
-                      </p>
+                      <p className="text-sm text-muted-foreground">Add an extra layer of security to your account</p>
                     </div>
                     <Button className="ff-btn-secondary">
                       <Key className="w-4 h-4 mr-2" />
@@ -426,9 +427,7 @@ export default function UserProfileHub() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="font-medium">Active Sessions</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Manage your active login sessions
-                      </p>
+                      <p className="text-sm text-muted-foreground">Manage your active login sessions</p>
                     </div>
                     <Button variant="outline">
                       <Eye className="w-4 h-4 mr-2" />
@@ -446,22 +445,11 @@ export default function UserProfileHub() {
               <CardContent>
                 <div className="space-y-3">
                   {[
-                    {
-                      action: 'Password changed',
-                      time: '2 days ago',
-                      location: 'San Francisco, CA',
-                    },
+                    { action: 'Password changed', time: '2 days ago', location: 'San Francisco, CA' },
                     { action: 'New device login', time: '1 week ago', location: 'New York, NY' },
-                    {
-                      action: 'API key generated',
-                      time: '2 weeks ago',
-                      location: 'San Francisco, CA',
-                    },
+                    { action: 'API key generated', time: '2 weeks ago', location: 'San Francisco, CA' }
                   ].map((activity, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between p-3 bg-muted/30 rounded-lg"
-                    >
+                    <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                       <div>
                         <p className="font-medium text-sm">{activity.action}</p>
                         <p className="text-xs text-muted-foreground">{activity.location}</p>
@@ -487,12 +475,9 @@ export default function UserProfileHub() {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label>Theme</Label>
-                    <Select
-                      value={preferences.theme}
-                      onValueChange={(value: any) =>
-                        setPreferences((prev) => ({ ...prev, theme: value }))
-                      }
-                    >
+                    <Select value={preferences.theme} onValueChange={(value: any) => 
+                      setPreferences(prev => ({ ...prev, theme: value }))
+                    }>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
@@ -506,15 +491,12 @@ export default function UserProfileHub() {
 
                   <div className="space-y-2">
                     <Label>Font Size</Label>
-                    <Select
-                      value={preferences.accessibility.fontSize}
-                      onValueChange={(value: any) =>
-                        setPreferences((prev) => ({
-                          ...prev,
-                          accessibility: { ...prev.accessibility, fontSize: value },
-                        }))
-                      }
-                    >
+                    <Select value={preferences.accessibility.fontSize} onValueChange={(value: any) =>
+                      setPreferences(prev => ({ 
+                        ...prev, 
+                        accessibility: { ...prev.accessibility, fontSize: value }
+                      }))
+                    }>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
@@ -531,14 +513,12 @@ export default function UserProfileHub() {
                       <p className="font-medium">Reduced Motion</p>
                       <p className="text-sm text-muted-foreground">Minimize animations</p>
                     </div>
-                    <Switch
+                    <Switch 
                       checked={preferences.accessibility.reducedMotion}
-                      onCheckedChange={(checked) =>
-                        setPreferences((prev) => ({
-                          ...prev,
-                          accessibility: { ...prev.accessibility, reducedMotion: checked },
-                        }))
-                      }
+                      onCheckedChange={(checked) => setPreferences(prev => ({
+                        ...prev,
+                        accessibility: { ...prev.accessibility, reducedMotion: checked }
+                      }))}
                     />
                   </div>
                 </CardContent>
@@ -554,12 +534,9 @@ export default function UserProfileHub() {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label>Language</Label>
-                    <Select
-                      value={preferences.language}
-                      onValueChange={(value) =>
-                        setPreferences((prev) => ({ ...prev, language: value }))
-                      }
-                    >
+                    <Select value={preferences.language} onValueChange={(value) =>
+                      setPreferences(prev => ({ ...prev, language: value }))
+                    }>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
@@ -575,12 +552,9 @@ export default function UserProfileHub() {
 
                   <div className="space-y-2">
                     <Label>Timezone</Label>
-                    <Select
-                      value={preferences.timezone}
-                      onValueChange={(value) =>
-                        setPreferences((prev) => ({ ...prev, timezone: value }))
-                      }
-                    >
+                    <Select value={preferences.timezone} onValueChange={(value) =>
+                      setPreferences(prev => ({ ...prev, timezone: value }))
+                    }>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
@@ -611,10 +585,7 @@ export default function UserProfileHub() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="font-medium text-lg">{user.subscription.plan}</h4>
-                      <p className="text-muted-foreground">
-                        Active until{' '}
-                        {new Date(user.subscription.currentPeriodEnd).toLocaleDateString()}
-                      </p>
+                      <p className="text-muted-foreground">Active until {new Date(user.subscription.currentPeriodEnd).toLocaleDateString()}</p>
                     </div>
                     <Badge className="ff-badge-glow">
                       {user.subscription.status.toUpperCase()}
@@ -634,8 +605,12 @@ export default function UserProfileHub() {
                   </div>
 
                   <div className="flex space-x-4">
-                    <Button className="ff-btn-primary">Upgrade Plan</Button>
-                    <Button variant="outline">Manage Billing</Button>
+                    <Button className="ff-btn-primary">
+                      Upgrade Plan
+                    </Button>
+                    <Button variant="outline">
+                      Manage Billing
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -653,19 +628,14 @@ export default function UserProfileHub() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium">Profile Visibility</p>
-                    <p className="text-sm text-muted-foreground">
-                      Control who can see your profile
-                    </p>
+                    <p className="text-sm text-muted-foreground">Control who can see your profile</p>
                   </div>
-                  <Select
-                    value={preferences.privacy.profileVisibility}
-                    onValueChange={(value: any) =>
-                      setPreferences((prev) => ({
-                        ...prev,
-                        privacy: { ...prev.privacy, profileVisibility: value },
-                      }))
-                    }
-                  >
+                  <Select value={preferences.privacy.profileVisibility} onValueChange={(value: any) =>
+                    setPreferences(prev => ({
+                      ...prev,
+                      privacy: { ...prev.privacy, profileVisibility: value }
+                    }))
+                  }>
                     <SelectTrigger className="w-32">
                       <SelectValue />
                     </SelectTrigger>
@@ -680,36 +650,28 @@ export default function UserProfileHub() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium">Data Sharing</p>
-                    <p className="text-sm text-muted-foreground">
-                      Share anonymous usage data to improve FlashFusion
-                    </p>
+                    <p className="text-sm text-muted-foreground">Share anonymous usage data to improve FlashFusion</p>
                   </div>
-                  <Switch
+                  <Switch 
                     checked={preferences.privacy.dataSharing}
-                    onCheckedChange={(checked) =>
-                      setPreferences((prev) => ({
-                        ...prev,
-                        privacy: { ...prev.privacy, dataSharing: checked },
-                      }))
-                    }
+                    onCheckedChange={(checked) => setPreferences(prev => ({
+                      ...prev,
+                      privacy: { ...prev.privacy, dataSharing: checked }
+                    }))}
                   />
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium">Analytics</p>
-                    <p className="text-sm text-muted-foreground">
-                      Allow analytics tracking for better experience
-                    </p>
+                    <p className="text-sm text-muted-foreground">Allow analytics tracking for better experience</p>
                   </div>
-                  <Switch
+                  <Switch 
                     checked={preferences.privacy.analytics}
-                    onCheckedChange={(checked) =>
-                      setPreferences((prev) => ({
-                        ...prev,
-                        privacy: { ...prev.privacy, analytics: checked },
-                      }))
-                    }
+                    onCheckedChange={(checked) => setPreferences(prev => ({
+                      ...prev,
+                      privacy: { ...prev.privacy, analytics: checked }
+                    }))}
                   />
                 </div>
               </CardContent>
@@ -724,9 +686,7 @@ export default function UserProfileHub() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="font-medium">Export Data</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Download all your data in JSON format
-                    </p>
+                    <p className="text-sm text-muted-foreground">Download all your data in JSON format</p>
                   </div>
                   <Button onClick={handleExportData} className="ff-btn-secondary">
                     <Download className="w-4 h-4 mr-2" />

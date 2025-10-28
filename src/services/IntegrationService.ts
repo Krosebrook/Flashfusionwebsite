@@ -1,5 +1,5 @@
 import { APIKeyService, type APIProvider } from './APIKeyService';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 /**
  * FlashFusion Integration Service
@@ -39,7 +39,7 @@ class IntegrationServiceClass {
         enabled: true,
         baseUrl: 'https://api.github.com',
         description: 'Repository analysis, code review, and version control',
-        category: 'development',
+        category: 'development'
       },
       {
         name: 'Vercel',
@@ -47,9 +47,9 @@ class IntegrationServiceClass {
         enabled: true,
         baseUrl: 'https://api.vercel.com',
         description: 'Automated deployments and hosting',
-        category: 'development',
+        category: 'development'
       },
-
+      
       // Content & Automation
       {
         name: 'FireCrawl',
@@ -57,7 +57,7 @@ class IntegrationServiceClass {
         enabled: true,
         baseUrl: 'https://api.firecrawl.dev',
         description: 'Web scraping and content extraction',
-        category: 'content',
+        category: 'content'
       },
       {
         name: 'Notion',
@@ -65,9 +65,9 @@ class IntegrationServiceClass {
         enabled: true,
         baseUrl: 'https://api.notion.com',
         description: 'Documentation and content management',
-        category: 'content',
+        category: 'content'
       },
-
+      
       // Media & Design
       {
         name: 'Leap AI',
@@ -75,7 +75,7 @@ class IntegrationServiceClass {
         enabled: true,
         baseUrl: 'https://api.tryleap.ai',
         description: 'AI image generation and processing',
-        category: 'media',
+        category: 'media'
       },
       {
         name: 'ElevenLabs',
@@ -83,9 +83,9 @@ class IntegrationServiceClass {
         enabled: true,
         baseUrl: 'https://api.elevenlabs.io',
         description: 'Voice synthesis and audio generation',
-        category: 'media',
+        category: 'media'
       },
-
+      
       // E-commerce & Print-on-Demand
       {
         name: 'Printify',
@@ -93,7 +93,7 @@ class IntegrationServiceClass {
         enabled: true,
         baseUrl: 'https://api.printify.com',
         description: 'Print-on-demand products and fulfillment',
-        category: 'ecommerce',
+        category: 'ecommerce'
       },
       {
         name: 'Stripe',
@@ -101,9 +101,9 @@ class IntegrationServiceClass {
         enabled: true,
         baseUrl: 'https://api.stripe.com',
         description: 'Payment processing and subscriptions',
-        category: 'ecommerce',
+        category: 'ecommerce'
       },
-
+      
       // AI & Advanced Models
       {
         name: 'OpenRouter',
@@ -111,11 +111,11 @@ class IntegrationServiceClass {
         enabled: true,
         baseUrl: 'https://openrouter.ai/api',
         description: 'Access to multiple AI models through unified API',
-        category: 'automation',
-      },
+        category: 'automation'
+      }
     ];
 
-    configs.forEach((config) => {
+    configs.forEach(config => {
       this.integrations.set(config.provider, config);
     });
   }
@@ -126,7 +126,7 @@ class IntegrationServiceClass {
   async checkIntegration(provider: APIProvider): Promise<IntegrationStatus> {
     const cached = this.statusCache.get(provider);
     const now = new Date().toISOString();
-
+    
     // Return cached status if checked recently (within 5 minutes)
     if (cached && new Date(cached.lastChecked).getTime() > Date.now() - 5 * 60 * 1000) {
       return cached;
@@ -135,7 +135,7 @@ class IntegrationServiceClass {
     const status: IntegrationStatus = {
       provider,
       connected: false,
-      lastChecked: now,
+      lastChecked: now
     };
 
     try {
@@ -149,10 +149,11 @@ class IntegrationServiceClass {
       // Test the connection
       const connected = await this.testConnection(provider);
       status.connected = connected;
-
+      
       if (!connected) {
         status.error = 'Connection test failed';
       }
+
     } catch (error) {
       status.error = error instanceof Error ? error.message : 'Unknown error';
     }
@@ -198,9 +199,9 @@ class IntegrationServiceClass {
     try {
       const response = await fetch('https://api.github.com/user', {
         headers: {
-          Authorization: `Bearer ${apiKey}`,
-          Accept: 'application/vnd.github.v3+json',
-        },
+          'Authorization': `Bearer ${apiKey}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
       });
       return response.ok;
     } catch {
@@ -212,8 +213,8 @@ class IntegrationServiceClass {
     try {
       const response = await fetch('https://api.vercel.com/v2/user', {
         headers: {
-          Authorization: `Bearer ${apiKey}`,
-        },
+          'Authorization': `Bearer ${apiKey}`
+        }
       });
       return response.ok;
     } catch {
@@ -225,8 +226,8 @@ class IntegrationServiceClass {
     try {
       const response = await fetch('https://api.stripe.com/v1/account', {
         headers: {
-          Authorization: `Bearer ${apiKey}`,
-        },
+          'Authorization': `Bearer ${apiKey}`
+        }
       });
       return response.ok;
     } catch {
@@ -238,9 +239,9 @@ class IntegrationServiceClass {
     try {
       const response = await fetch('https://api.notion.com/v1/users/me', {
         headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Notion-Version': '2022-06-28',
-        },
+          'Authorization': `Bearer ${apiKey}`,
+          'Notion-Version': '2022-06-28'
+        }
       });
       return response.ok;
     } catch {
@@ -252,8 +253,8 @@ class IntegrationServiceClass {
     try {
       const response = await fetch('https://api.printify.com/v1/shops.json', {
         headers: {
-          Authorization: `Bearer ${apiKey}`,
-        },
+          'Authorization': `Bearer ${apiKey}`
+        }
       });
       return response.ok;
     } catch {
@@ -267,7 +268,7 @@ class IntegrationServiceClass {
   async getAllStatuses(): Promise<IntegrationStatus[]> {
     const providers = Array.from(this.integrations.keys());
     const statuses = await Promise.all(
-      providers.map((provider) => this.checkIntegration(provider))
+      providers.map(provider => this.checkIntegration(provider))
     );
     return statuses;
   }
@@ -277,7 +278,7 @@ class IntegrationServiceClass {
    */
   getIntegrationsByCategory(category: IntegrationConfig['category']): IntegrationConfig[] {
     return Array.from(this.integrations.values()).filter(
-      (integration) => integration.category === category
+      integration => integration.category === category
     );
   }
 
@@ -310,9 +311,9 @@ class IntegrationServiceClass {
       // Get repository information
       const repoResponse = await fetch(`https://api.github.com/repos/${owner}/${cleanRepo}`, {
         headers: {
-          Authorization: `Bearer ${apiKey}`,
-          Accept: 'application/vnd.github.v3+json',
-        },
+          'Authorization': `Bearer ${apiKey}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
       });
 
       if (!repoResponse.ok) {
@@ -322,15 +323,12 @@ class IntegrationServiceClass {
       const repoData = await repoResponse.json();
 
       // Get repository contents
-      const contentsResponse = await fetch(
-        `https://api.github.com/repos/${owner}/${cleanRepo}/contents?ref=${branch}`,
-        {
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            Accept: 'application/vnd.github.v3+json',
-          },
+      const contentsResponse = await fetch(`https://api.github.com/repos/${owner}/${cleanRepo}/contents?ref=${branch}`, {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Accept': 'application/vnd.github.v3+json'
         }
-      );
+      });
 
       const contents = contentsResponse.ok ? await contentsResponse.json() : [];
 
@@ -338,8 +336,9 @@ class IntegrationServiceClass {
         repository: repoData,
         contents,
         technologies: this.detectTechnologies(contents),
-        structure: await this.getFileStructure(owner, cleanRepo, branch, apiKey),
+        structure: await this.getFileStructure(owner, cleanRepo, branch, apiKey)
       };
+
     } catch (error) {
       console.error('Repository analysis failed:', error);
       throw error;
@@ -374,22 +373,14 @@ class IntegrationServiceClass {
     return technologies;
   }
 
-  private async getFileStructure(
-    owner: string,
-    repo: string,
-    branch: string,
-    apiKey: string
-  ): Promise<any[]> {
+  private async getFileStructure(owner: string, repo: string, branch: string, apiKey: string): Promise<any[]> {
     try {
-      const response = await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`,
-        {
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            Accept: 'application/vnd.github.v3+json',
-          },
+      const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`, {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Accept': 'application/vnd.github.v3+json'
         }
-      );
+      });
 
       if (!response.ok) {
         return [];
@@ -415,16 +406,16 @@ class IntegrationServiceClass {
       const response = await fetch('https://api.vercel.com/v13/deployments', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           name: projectData.name,
           files: projectData.files,
           projectSettings: {
-            framework: projectData.framework,
-          },
-        }),
+            framework: projectData.framework
+          }
+        })
       });
 
       if (!response.ok) {
@@ -451,14 +442,14 @@ class IntegrationServiceClass {
       const response = await fetch('https://api.stripe.com/v1/payment_intents', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: new URLSearchParams({
           amount: amount.toString(),
           currency,
-          automatic_payment_methods: JSON.stringify({ enabled: true }),
-        }),
+          automatic_payment_methods: JSON.stringify({ enabled: true })
+        })
       });
 
       if (!response.ok) {

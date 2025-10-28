@@ -4,15 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { Badge } from '../../ui/badge';
 import { Switch } from '../../ui/switch';
 import { Progress } from '../../ui/progress';
-import { ExternalLink, Globe, GitBranch, MoreHorizontal } from 'lucide-react';
-import {
-  getStatusColor,
-  getStatusIcon,
-  getPlatformIcon,
-  getStatusCardStyle,
-  formatDeploymentTime,
-  getDeploymentProgress,
-} from './utils';
+import { 
+  ExternalLink,
+  Globe,
+  GitBranch,
+  MoreHorizontal
+} from 'lucide-react';
+import { getStatusColor, getStatusIcon, getPlatformIcon, getStatusCardStyle, formatDeploymentTime, getDeploymentProgress } from './utils';
 
 interface DeploymentCardProps {
   deployment: any;
@@ -21,11 +19,11 @@ interface DeploymentCardProps {
   onToggleAutoDeploy: (deploymentId: string, enabled: boolean) => void;
 }
 
-export function DeploymentCard({
-  deployment,
-  project,
-  index,
-  onToggleAutoDeploy,
+export function DeploymentCard({ 
+  deployment, 
+  project, 
+  index, 
+  onToggleAutoDeploy 
 }: DeploymentCardProps) {
   const StatusIcon = getStatusIcon(deployment.status);
   const progress = getDeploymentProgress(deployment.status);
@@ -44,7 +42,9 @@ export function DeploymentCard({
                 {getPlatformIcon(deployment.platform)}
               </div>
               <div>
-                <CardTitle className="text-lg">{project?.name || 'Unknown Project'}</CardTitle>
+                <CardTitle className="text-lg">
+                  {project?.name || 'Unknown Project'}
+                </CardTitle>
                 <div className="flex items-center gap-2 mt-1">
                   <Badge variant="outline" className="text-xs">
                     {deployment.platform}
@@ -57,9 +57,7 @@ export function DeploymentCard({
             </div>
             <div className="flex items-center gap-2">
               <div className={`flex items-center gap-1 ${getStatusColor(deployment.status)}`}>
-                <StatusIcon
-                  className={`h-4 w-4 ${deployment.status === 'deploying' ? 'animate-spin' : ''}`}
-                />
+                <StatusIcon className={`h-4 w-4 ${deployment.status === 'deploying' ? 'animate-spin' : ''}`} />
                 <span className="text-sm font-medium capitalize">{deployment.status}</span>
               </div>
               <Button variant="ghost" size="sm">
@@ -74,7 +72,9 @@ export function DeploymentCard({
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <div className="text-muted-foreground">Last Deploy</div>
-              <div className="font-medium">{formatDeploymentTime(deployment.updated_at)}</div>
+              <div className="font-medium">
+                {formatDeploymentTime(deployment.updated_at)}
+              </div>
             </div>
             <div>
               <div className="text-muted-foreground">Build Time</div>
@@ -108,7 +108,7 @@ export function DeploymentCard({
               <GitBranch className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm font-medium">Auto Deploy</span>
             </div>
-            <Switch
+            <Switch 
               checked={deployment.auto_deploy}
               onCheckedChange={(checked) => onToggleAutoDeploy(deployment.id, checked)}
             />

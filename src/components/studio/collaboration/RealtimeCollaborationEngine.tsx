@@ -4,10 +4,10 @@ import { Button } from '../../ui/button';
 import { Badge } from '../../ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
 import { Input } from '../../ui/input';
-import {
-  Users,
-  Phone,
-  MessageSquare,
+import { 
+  Users, 
+  Phone, 
+  MessageSquare, 
   Video,
   Mic,
   MicOff,
@@ -18,7 +18,7 @@ import {
   Settings,
   Activity,
   Clock,
-  CheckCircle2,
+  CheckCircle2
 } from 'lucide-react';
 
 interface CollaborationSession {
@@ -88,7 +88,7 @@ const RealtimeCollaborationEngine: React.FC = () => {
 
   const initializeSession = async () => {
     // Simulate WebSocket connection
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     const mockSession: CollaborationSession = {
       sessionId: 'collab-001',
@@ -105,7 +105,7 @@ const RealtimeCollaborationEngine: React.FC = () => {
           activeTrack: 1,
           isTyping: false,
           lastActivity: new Date().toISOString(),
-          permissions: 'owner',
+          permissions: 'owner'
         },
         {
           userId: 'user-2',
@@ -116,7 +116,7 @@ const RealtimeCollaborationEngine: React.FC = () => {
           activeTrack: 2,
           isTyping: true,
           lastActivity: new Date().toISOString(),
-          permissions: 'editor',
+          permissions: 'editor'
         },
         {
           userId: 'user-3',
@@ -127,13 +127,13 @@ const RealtimeCollaborationEngine: React.FC = () => {
           activeTrack: null,
           isTyping: false,
           lastActivity: new Date(Date.now() - 300000).toISOString(),
-          permissions: 'editor',
-        },
+          permissions: 'editor'
+        }
       ],
       cursors: new Map(),
       changes: [],
       voiceChannelActive: false,
-      videoChannelActive: false,
+      videoChannelActive: false
     };
 
     const mockHistory: VersionHistoryItem[] = [
@@ -143,7 +143,7 @@ const RealtimeCollaborationEngine: React.FC = () => {
         userId: 'user-1',
         username: 'Alex Producer',
         description: 'Added drum pattern to track 1',
-        changes: ['Track 1: Added kick drum', 'Track 1: Added hi-hat pattern'],
+        changes: ['Track 1: Added kick drum', 'Track 1: Added hi-hat pattern']
       },
       {
         id: 'v2',
@@ -151,7 +151,7 @@ const RealtimeCollaborationEngine: React.FC = () => {
         userId: 'user-2',
         username: 'Sarah Vocalist',
         description: 'Recorded vocal take',
-        changes: ['Track 2: Recorded verse 1', 'Track 2: Added harmonies'],
+        changes: ['Track 2: Recorded verse 1', 'Track 2: Added harmonies']
       },
       {
         id: 'v3',
@@ -159,8 +159,8 @@ const RealtimeCollaborationEngine: React.FC = () => {
         userId: 'user-3',
         username: 'Mike Engineer',
         description: 'Mixed tracks 1-3',
-        changes: ['Applied EQ to vocals', 'Added reverb to drums', 'Adjusted levels'],
-      },
+        changes: ['Applied EQ to vocals', 'Added reverb to drums', 'Adjusted levels']
+      }
     ];
 
     setSession(mockSession);
@@ -174,12 +174,12 @@ const RealtimeCollaborationEngine: React.FC = () => {
   };
 
   const toggleAudio = useCallback(() => {
-    setAudioEnabled((prev) => !prev);
+    setAudioEnabled(prev => !prev);
     // Implement Agora/Twilio audio toggle
   }, []);
 
   const toggleVideo = useCallback(() => {
-    setVideoEnabled((prev) => !prev);
+    setVideoEnabled(prev => !prev);
     // Implement Agora/Twilio video toggle
   }, []);
 
@@ -232,13 +232,7 @@ const RealtimeCollaborationEngine: React.FC = () => {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Badge
-              className={
-                isConnected
-                  ? 'bg-green-500/10 text-green-500 border-green-500/20'
-                  : 'bg-red-500/10 text-red-500 border-red-500/20'
-              }
-            >
+            <Badge className={isConnected ? 'bg-green-500/10 text-green-500 border-green-500/20' : 'bg-red-500/10 text-red-500 border-red-500/20'}>
               <Activity className="h-3 w-3 mr-1" />
               {isConnected ? 'Connected' : 'Disconnected'}
             </Badge>
@@ -261,9 +255,9 @@ const RealtimeCollaborationEngine: React.FC = () => {
                   <div
                     key={participant.userId}
                     className="flex items-center justify-between p-4 rounded-lg bg-[#0F172A] border border-[#334155] ff-fade-in-up ff-hover-lift"
-                    style={{
+                    style={{ 
                       animationDelay: `${index * 100}ms`,
-                      borderLeft: `4px solid ${participant.color}`,
+                      borderLeft: `4px solid ${participant.color}`
                     }}
                   >
                     <div className="flex items-center gap-3">
@@ -284,9 +278,7 @@ const RealtimeCollaborationEngine: React.FC = () => {
                         </div>
                         <div className="flex items-center gap-2 mt-1">
                           <span className="text-xs text-[#94A3B8]">
-                            {participant.activeTrack
-                              ? `Editing Track ${participant.activeTrack}`
-                              : 'Viewing'}
+                            {participant.activeTrack ? `Editing Track ${participant.activeTrack}` : 'Viewing'}
                           </span>
                           <span className="text-xs text-[#94A3B8]">•</span>
                           <span className="text-xs text-[#94A3B8]">
@@ -295,15 +287,13 @@ const RealtimeCollaborationEngine: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <Badge
-                      className={
-                        participant.permissions === 'owner'
-                          ? 'bg-[#FF7B00]/10 text-[#FF7B00] border-[#FF7B00]/20'
-                          : participant.permissions === 'editor'
-                            ? 'bg-[#00B4D8]/10 text-[#00B4D8] border-[#00B4D8]/20'
-                            : 'bg-[#94A3B8]/10 text-[#94A3B8] border-[#94A3B8]/20'
-                      }
-                    >
+                    <Badge className={
+                      participant.permissions === 'owner' 
+                        ? 'bg-[#FF7B00]/10 text-[#FF7B00] border-[#FF7B00]/20'
+                        : participant.permissions === 'editor'
+                        ? 'bg-[#00B4D8]/10 text-[#00B4D8] border-[#00B4D8]/20'
+                        : 'bg-[#94A3B8]/10 text-[#94A3B8] border-[#94A3B8]/20'
+                    }>
                       {participant.permissions}
                     </Badge>
                   </div>
@@ -314,7 +304,9 @@ const RealtimeCollaborationEngine: React.FC = () => {
             {/* Voice & Video Controls */}
             <Card className="ff-card-interactive bg-[#1E293B] border-[#334155]">
               <CardHeader>
-                <CardTitle className="text-white font-['Sora']">Communication</CardTitle>
+                <CardTitle className="text-white font-['Sora']">
+                  Communication
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-4">
@@ -400,7 +392,9 @@ const RealtimeCollaborationEngine: React.FC = () => {
                               {getTimeSince(version.timestamp)}
                             </span>
                           </div>
-                          <p className="text-sm text-[#CBD5E1] mt-1">{version.description}</p>
+                          <p className="text-sm text-[#CBD5E1] mt-1">
+                            {version.description}
+                          </p>
                         </div>
                         <Button
                           onClick={() => rollbackToVersion(version.id)}
@@ -444,7 +438,10 @@ const RealtimeCollaborationEngine: React.FC = () => {
                   onChange={(e) => setInviteEmail(e.target.value)}
                   className="ff-focus-ring bg-[#0F172A] border-[#334155] text-white"
                 />
-                <Button onClick={inviteCollaborator} className="w-full ff-btn-primary">
+                <Button
+                  onClick={inviteCollaborator}
+                  className="w-full ff-btn-primary"
+                >
                   <UserPlus className="h-4 w-4 mr-2" />
                   Send Invite
                 </Button>
@@ -454,7 +451,9 @@ const RealtimeCollaborationEngine: React.FC = () => {
             {/* Session Stats */}
             <Card className="ff-card-interactive bg-[#1E293B] border-[#334155]">
               <CardHeader>
-                <CardTitle className="text-white font-['Sora']">Session Stats</CardTitle>
+                <CardTitle className="text-white font-['Sora']">
+                  Session Stats
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -476,7 +475,9 @@ const RealtimeCollaborationEngine: React.FC = () => {
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm text-[#94A3B8]">Active Users</span>
-                    <span className="text-white font-semibold">{session.participants.length}</span>
+                    <span className="text-white font-semibold">
+                      {session.participants.length}
+                    </span>
                   </div>
                 </div>
               </CardContent>
@@ -491,8 +492,12 @@ const RealtimeCollaborationEngine: React.FC = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button className="w-full ff-btn-secondary">Configure Permissions</Button>
-                <Button className="w-full ff-btn-secondary">Notification Settings</Button>
+                <Button className="w-full ff-btn-secondary">
+                  Configure Permissions
+                </Button>
+                <Button className="w-full ff-btn-secondary">
+                  Notification Settings
+                </Button>
                 <Button className="w-full ff-btn-secondary text-red-500 hover:text-red-400">
                   End Session
                 </Button>

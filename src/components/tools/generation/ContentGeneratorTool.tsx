@@ -4,12 +4,12 @@
  * @category generation
  * @version 2.0.0
  * @author FlashFusion Team
- *
+ * 
  * FLASHFUSION - CONTENT GENERATOR AI
- *
- * Generate blog posts, documentation, marketing copy, and technical content
+ * 
+ * Generate blog posts, documentation, marketing copy, and technical content 
  * with SEO optimization, tone adjustment, and multi-language support.
- *
+ * 
  * Features:
  * - Multi-format content generation
  * - SEO optimization
@@ -32,11 +32,11 @@ import { Badge } from '../../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../ui/tabs';
 import { Slider } from '../../ui/slider';
 import { Progress } from '../../ui/progress';
-import {
-  FileText,
-  PenTool,
-  Globe,
-  Target,
+import { 
+  FileText, 
+  PenTool, 
+  Globe, 
+  Target, 
   TrendingUp,
   Zap,
   Download,
@@ -49,9 +49,9 @@ import {
   Users,
   Calendar,
   Check,
-  AlertCircle,
+  AlertCircle
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface ContentConfig {
   type: string;
@@ -85,32 +85,12 @@ interface GeneratedContent {
 const CONTENT_TYPES = [
   { value: 'blog-post', label: 'Blog Post', icon: '📝', description: 'Engaging blog articles' },
   { value: 'article', label: 'Article', icon: '📰', description: 'In-depth articles' },
-  {
-    value: 'documentation',
-    label: 'Documentation',
-    icon: '📚',
-    description: 'Technical documentation',
-  },
-  {
-    value: 'marketing-copy',
-    label: 'Marketing Copy',
-    icon: '📢',
-    description: 'Sales and marketing content',
-  },
+  { value: 'documentation', label: 'Documentation', icon: '📚', description: 'Technical documentation' },
+  { value: 'marketing-copy', label: 'Marketing Copy', icon: '📢', description: 'Sales and marketing content' },
   { value: 'social-media', label: 'Social Media', icon: '📱', description: 'Social media posts' },
   { value: 'email', label: 'Email', icon: '✉️', description: 'Email campaigns' },
-  {
-    value: 'product-description',
-    label: 'Product Description',
-    icon: '🛍️',
-    description: 'E-commerce descriptions',
-  },
-  {
-    value: 'press-release',
-    label: 'Press Release',
-    icon: '📺',
-    description: 'Media announcements',
-  },
+  { value: 'product-description', label: 'Product Description', icon: '🛍️', description: 'E-commerce descriptions' },
+  { value: 'press-release', label: 'Press Release', icon: '📺', description: 'Media announcements' }
 ];
 
 const TONE_OPTIONS = [
@@ -121,7 +101,7 @@ const TONE_OPTIONS = [
   { value: 'persuasive', label: 'Persuasive', description: 'Compelling and action-oriented' },
   { value: 'educational', label: 'Educational', description: 'Informative and teaching' },
   { value: 'entertaining', label: 'Entertaining', description: 'Engaging and fun' },
-  { value: 'empathetic', label: 'Empathetic', description: 'Understanding and caring' },
+  { value: 'empathetic', label: 'Empathetic', description: 'Understanding and caring' }
 ];
 
 const AUDIENCE_OPTIONS = [
@@ -130,7 +110,7 @@ const AUDIENCE_OPTIONS = [
   { value: 'business', label: 'Business Leaders', description: 'Executives and managers' },
   { value: 'consumers', label: 'Consumers', description: 'End customers' },
   { value: 'students', label: 'Students', description: 'Educational audience' },
-  { value: 'experts', label: 'Industry Experts', description: 'Specialized professionals' },
+  { value: 'experts', label: 'Industry Experts', description: 'Specialized professionals' }
 ];
 
 export function ContentGeneratorTool(): JSX.Element {
@@ -144,7 +124,7 @@ export function ContentGeneratorTool(): JSX.Element {
     keywords: [],
     includeOutline: true,
     seoOptimized: true,
-    brandVoice: 'neutral',
+    brandVoice: 'neutral'
   });
 
   const [generatedContent, setGeneratedContent] = useState<GeneratedContent | null>(null);
@@ -174,18 +154,18 @@ export function ContentGeneratorTool(): JSX.Element {
         'Creating content outline...',
         'Generating main content...',
         'Optimizing for SEO...',
-        'Finalizing and formatting...',
+        'Finalizing and formatting...'
       ];
 
       for (let i = 0; i < steps.length; i++) {
         setProgress(((i + 1) / steps.length) * 100);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
       }
 
       // Generate mock content
       const mockContent = generateMockContent(config);
       setGeneratedContent(mockContent);
-
+      
       toast.success('Content generated successfully!');
     } catch (error) {
       toast.error('Content generation failed. Please try again.');
@@ -200,9 +180,9 @@ export function ContentGeneratorTool(): JSX.Element {
    */
   const handleAddKeyword = useCallback((): void => {
     if (keywordInput.trim() && !config.keywords.includes(keywordInput.trim())) {
-      setConfig((prev) => ({
+      setConfig(prev => ({
         ...prev,
-        keywords: [...prev.keywords, keywordInput.trim()],
+        keywords: [...prev.keywords, keywordInput.trim()]
       }));
       setKeywordInput('');
     }
@@ -212,9 +192,9 @@ export function ContentGeneratorTool(): JSX.Element {
    * Remove keyword from list
    */
   const handleRemoveKeyword = useCallback((keyword: string): void => {
-    setConfig((prev) => ({
+    setConfig(prev => ({
       ...prev,
-      keywords: prev.keywords.filter((k) => k !== keyword),
+      keywords: prev.keywords.filter(k => k !== keyword)
     }));
   }, []);
 
@@ -237,7 +217,7 @@ export function ContentGeneratorTool(): JSX.Element {
     const content = `# ${generatedContent.title}\n\n${generatedContent.content}`;
     const blob = new Blob([content], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
-
+    
     const link = document.createElement('a');
     link.href = url;
     link.download = `${generatedContent.title.toLowerCase().replace(/\s+/g, '-')}.md`;
@@ -245,13 +225,13 @@ export function ContentGeneratorTool(): JSX.Element {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-
+    
     toast.success('Content downloaded successfully');
   }, [generatedContent]);
 
-  const selectedContentType = CONTENT_TYPES.find((type) => type.value === config.type);
-  const selectedTone = TONE_OPTIONS.find((tone) => tone.value === config.tone);
-  const selectedAudience = AUDIENCE_OPTIONS.find((audience) => audience.value === config.audience);
+  const selectedContentType = CONTENT_TYPES.find(type => type.value === config.type);
+  const selectedTone = TONE_OPTIONS.find(tone => tone.value === config.tone);
+  const selectedAudience = AUDIENCE_OPTIONS.find(audience => audience.value === config.audience);
 
   return (
     <div className="space-y-6 ff-fade-in-up">
@@ -270,7 +250,7 @@ export function ContentGeneratorTool(): JSX.Element {
             </p>
           </div>
         </div>
-
+        
         <div className="flex items-center gap-3">
           <Badge variant="secondary" className="text-xs">
             {CONTENT_TYPES.length} Content Types
@@ -337,7 +317,7 @@ export function ContentGeneratorTool(): JSX.Element {
                           ? 'ring-2 ring-[var(--ff-primary)] bg-gradient-to-br from-[var(--ff-primary)]/10 to-transparent'
                           : 'hover:shadow-lg hover:scale-105'
                       }`}
-                      onClick={() => setConfig((prev) => ({ ...prev, type: type.value }))}
+                      onClick={() => setConfig(prev => ({ ...prev, type: type.value }))}
                     >
                       <CardContent className="p-4 text-center">
                         <div className="text-2xl mb-2">{type.icon}</div>
@@ -368,7 +348,7 @@ export function ContentGeneratorTool(): JSX.Element {
                   <Input
                     placeholder="Enter your content topic..."
                     value={config.topic}
-                    onChange={(e) => setConfig((prev) => ({ ...prev, topic: e.target.value }))}
+                    onChange={(e) => setConfig(prev => ({ ...prev, topic: e.target.value }))}
                     className="ff-input"
                   />
                 </div>
@@ -376,10 +356,7 @@ export function ContentGeneratorTool(): JSX.Element {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Tone</Label>
-                    <Select
-                      value={config.tone}
-                      onValueChange={(value) => setConfig((prev) => ({ ...prev, tone: value }))}
-                    >
+                    <Select value={config.tone} onValueChange={(value) => setConfig(prev => ({ ...prev, tone: value }))}>
                       <SelectTrigger className="ff-input">
                         <SelectValue />
                       </SelectTrigger>
@@ -388,9 +365,7 @@ export function ContentGeneratorTool(): JSX.Element {
                           <SelectItem key={tone.value} value={tone.value}>
                             <div>
                               <div className="font-medium">{tone.label}</div>
-                              <div className="text-xs text-[var(--ff-text-muted)]">
-                                {tone.description}
-                              </div>
+                              <div className="text-xs text-[var(--ff-text-muted)]">{tone.description}</div>
                             </div>
                           </SelectItem>
                         ))}
@@ -400,10 +375,7 @@ export function ContentGeneratorTool(): JSX.Element {
 
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Target Audience</Label>
-                    <Select
-                      value={config.audience}
-                      onValueChange={(value) => setConfig((prev) => ({ ...prev, audience: value }))}
-                    >
+                    <Select value={config.audience} onValueChange={(value) => setConfig(prev => ({ ...prev, audience: value }))}>
                       <SelectTrigger className="ff-input">
                         <SelectValue />
                       </SelectTrigger>
@@ -412,9 +384,7 @@ export function ContentGeneratorTool(): JSX.Element {
                           <SelectItem key={audience.value} value={audience.value}>
                             <div>
                               <div className="font-medium">{audience.label}</div>
-                              <div className="text-xs text-[var(--ff-text-muted)]">
-                                {audience.description}
-                              </div>
+                              <div className="text-xs text-[var(--ff-text-muted)]">{audience.description}</div>
                             </div>
                           </SelectItem>
                         ))}
@@ -426,10 +396,7 @@ export function ContentGeneratorTool(): JSX.Element {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Content Length</Label>
-                    <Select
-                      value={config.length}
-                      onValueChange={(value) => setConfig((prev) => ({ ...prev, length: value }))}
-                    >
+                    <Select value={config.length} onValueChange={(value) => setConfig(prev => ({ ...prev, length: value }))}>
                       <SelectTrigger className="ff-input">
                         <SelectValue />
                       </SelectTrigger>
@@ -444,10 +411,7 @@ export function ContentGeneratorTool(): JSX.Element {
 
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Language</Label>
-                    <Select
-                      value={config.language}
-                      onValueChange={(value) => setConfig((prev) => ({ ...prev, language: value }))}
-                    >
+                    <Select value={config.language} onValueChange={(value) => setConfig(prev => ({ ...prev, language: value }))}>
                       <SelectTrigger className="ff-input">
                         <SelectValue />
                       </SelectTrigger>
@@ -467,30 +431,22 @@ export function ContentGeneratorTool(): JSX.Element {
                   <div className="flex items-center justify-between">
                     <div>
                       <Label className="text-sm font-semibold">Include Outline</Label>
-                      <p className="text-xs text-[var(--ff-text-muted)]">
-                        Generate content structure first
-                      </p>
+                      <p className="text-xs text-[var(--ff-text-muted)]">Generate content structure first</p>
                     </div>
                     <Switch
                       checked={config.includeOutline}
-                      onCheckedChange={(checked) =>
-                        setConfig((prev) => ({ ...prev, includeOutline: checked }))
-                      }
+                      onCheckedChange={(checked) => setConfig(prev => ({ ...prev, includeOutline: checked }))}
                     />
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div>
                       <Label className="text-sm font-semibold">SEO Optimized</Label>
-                      <p className="text-xs text-[var(--ff-text-muted)]">
-                        Optimize for search engines
-                      </p>
+                      <p className="text-xs text-[var(--ff-text-muted)]">Optimize for search engines</p>
                     </div>
                     <Switch
                       checked={config.seoOptimized}
-                      onCheckedChange={(checked) =>
-                        setConfig((prev) => ({ ...prev, seoOptimized: checked }))
-                      }
+                      onCheckedChange={(checked) => setConfig(prev => ({ ...prev, seoOptimized: checked }))}
                     />
                   </div>
                 </div>
@@ -515,12 +471,10 @@ export function ContentGeneratorTool(): JSX.Element {
                       <h3 className="font-['Sora'] font-semibold text-[var(--ff-text-primary)]">
                         {selectedContentType.label}
                       </h3>
-                      <p className="text-xs text-[var(--ff-text-muted)]">
-                        {selectedContentType.description}
-                      </p>
+                      <p className="text-xs text-[var(--ff-text-muted)]">{selectedContentType.description}</p>
                     </div>
                   </div>
-
+                  
                   <div className="grid grid-cols-3 gap-4 text-sm">
                     <div>
                       <span className="text-[var(--ff-text-muted)]">Tone:</span>
@@ -611,7 +565,9 @@ export function ContentGeneratorTool(): JSX.Element {
                   </div>
                   <div className="w-full max-w-md mx-auto">
                     <Progress value={progress} className="w-full" />
-                    <p className="text-xs text-[var(--ff-text-muted)] mt-2">{progress}% complete</p>
+                    <p className="text-xs text-[var(--ff-text-muted)] mt-2">
+                      {progress}% complete
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -660,7 +616,7 @@ export function ContentGeneratorTool(): JSX.Element {
                         <span>SEO Score: {generatedContent.seoScore}/100</span>
                       </div>
                     </div>
-
+                    
                     <div className="prose prose-invert max-w-none">
                       <div className="whitespace-pre-wrap text-[var(--ff-text-secondary)]">
                         {generatedContent.content}
@@ -744,13 +700,13 @@ export function ContentGeneratorTool(): JSX.Element {
 function generateMockContent(config: ContentConfig): GeneratedContent {
   const titles = {
     'blog-post': `The Ultimate Guide to ${config.topic}`,
-    article: `Understanding ${config.topic}: A Comprehensive Analysis`,
-    documentation: `${config.topic} Documentation`,
+    'article': `Understanding ${config.topic}: A Comprehensive Analysis`,
+    'documentation': `${config.topic} Documentation`,
     'marketing-copy': `Transform Your Business with ${config.topic}`,
     'social-media': `🚀 Discover the power of ${config.topic}!`,
-    email: `Your Weekly ${config.topic} Update`,
+    'email': `Your Weekly ${config.topic} Update`,
     'product-description': `Premium ${config.topic} Solution`,
-    'press-release': `Company Announces Revolutionary ${config.topic} Innovation`,
+    'press-release': `Company Announces Revolutionary ${config.topic} Innovation`
   };
 
   const mockContent = `Welcome to this comprehensive guide about ${config.topic}. 
@@ -791,7 +747,7 @@ Remember to implement these strategies gradually and measure your results for co
       'Key Points',
       'Detailed Analysis',
       'Implementation Strategy',
-      'Conclusion',
+      'Conclusion'
     ],
     seoScore: Math.floor(Math.random() * 20) + 80,
     readabilityScore: Math.floor(Math.random() * 15) + 85,
@@ -800,8 +756,8 @@ Remember to implement these strategies gradually and measure your results for co
     meta: {
       description: `Comprehensive guide about ${config.topic} written in a ${config.tone} tone for ${config.audience}.`,
       tags: [config.topic, config.type, config.audience],
-      estimatedReadTime: Math.ceil(mockContent.split(' ').length / 200),
-    },
+      estimatedReadTime: Math.ceil(mockContent.split(' ').length / 200)
+    }
   };
 }
 

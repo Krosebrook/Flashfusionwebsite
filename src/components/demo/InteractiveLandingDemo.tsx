@@ -5,11 +5,11 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
-import {
-  Play,
-  Code,
-  Zap,
-  CheckCircle,
+import { 
+  Play, 
+  Code, 
+  Zap, 
+  CheckCircle, 
   Download,
   Globe,
   Sparkles,
@@ -20,7 +20,7 @@ import {
   Target,
   ArrowRight,
   Eye,
-  Settings,
+  Settings
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -39,11 +39,7 @@ interface DemoProps {
   showTryButton?: boolean;
 }
 
-export function InteractiveLandingDemo({
-  onClose,
-  autoStart = false,
-  showTryButton = true,
-}: DemoProps) {
+export function InteractiveLandingDemo({ onClose, autoStart = false, showTryButton = true }: DemoProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isRunning, setIsRunning] = useState(autoStart);
   const [appIdea, setAppIdea] = useState('');
@@ -54,7 +50,7 @@ export function InteractiveLandingDemo({
     linesOfCode: 0,
     filesGenerated: 0,
     testsCreated: 0,
-    performanceScore: 0,
+    performanceScore: 0
   });
 
   const demoSteps: DemoStep[] = [
@@ -64,7 +60,7 @@ export function InteractiveLandingDemo({
       description: 'Tell our AI what kind of application you want to build',
       duration: 3000,
       component: 'IdeaInput',
-      status: 'pending',
+      status: 'pending'
     },
     {
       id: 'ai-analysis',
@@ -72,7 +68,7 @@ export function InteractiveLandingDemo({
       description: 'AI analyzes requirements and creates architecture plan',
       duration: 4000,
       component: 'AIAnalysis',
-      status: 'pending',
+      status: 'pending'
     },
     {
       id: 'code-generation',
@@ -80,7 +76,7 @@ export function InteractiveLandingDemo({
       description: 'Creating React frontend, Node.js backend, and database schema',
       duration: 5000,
       component: 'CodeGeneration',
-      status: 'pending',
+      status: 'pending'
     },
     {
       id: 'testing',
@@ -88,7 +84,7 @@ export function InteractiveLandingDemo({
       description: 'Running unit tests, integration tests, and performance checks',
       duration: 3000,
       component: 'Testing',
-      status: 'pending',
+      status: 'pending'
     },
     {
       id: 'deployment',
@@ -96,8 +92,8 @@ export function InteractiveLandingDemo({
       description: 'Deploying to cloud with SSL, CDN, and monitoring',
       duration: 4000,
       component: 'Deployment',
-      status: 'pending',
-    },
+      status: 'pending'
+    }
   ];
 
   const [steps, setSteps] = useState(demoSteps);
@@ -105,19 +101,21 @@ export function InteractiveLandingDemo({
   useEffect(() => {
     if (isRunning && currentStep < steps.length) {
       const currentStepObj = steps[currentStep];
-
+      
       // Update step status to running
-      setSteps((prev) =>
-        prev.map((step, index) => (index === currentStep ? { ...step, status: 'running' } : step))
-      );
+      setSteps(prev => prev.map((step, index) => 
+        index === currentStep 
+          ? { ...step, status: 'running' }
+          : step
+      ));
 
       const timer = setTimeout(() => {
         // Complete current step
-        setSteps((prev) =>
-          prev.map((step, index) =>
-            index === currentStep ? { ...step, status: 'completed' } : step
-          )
-        );
+        setSteps(prev => prev.map((step, index) => 
+          index === currentStep 
+            ? { ...step, status: 'completed' }
+            : step
+        ));
 
         // Simulate realistic code generation
         if (currentStep === 2) {
@@ -131,7 +129,7 @@ export function InteractiveLandingDemo({
 
         // Move to next step or finish
         if (currentStep < steps.length - 1) {
-          setCurrentStep((prev) => prev + 1);
+          setCurrentStep(prev => prev + 1);
         } else {
           setIsRunning(false);
           setDemoProgress(100);
@@ -145,14 +143,14 @@ export function InteractiveLandingDemo({
   // Update progress
   useEffect(() => {
     if (isRunning) {
-      const completedSteps = steps.filter((s) => s.status === 'completed').length;
-      const runningStep = steps.find((s) => s.status === 'running');
+      const completedSteps = steps.filter(s => s.status === 'completed').length;
+      const runningStep = steps.find(s => s.status === 'running');
       const baseProgress = (completedSteps / steps.length) * 100;
-
+      
       if (runningStep) {
         // Simulate step progress
         const timer = setInterval(() => {
-          setDemoProgress((prev) => {
+          setDemoProgress(prev => {
             const stepProgress = ((prev - baseProgress) / (100 / steps.length)) * 100;
             if (stepProgress < 90) {
               return prev + 1;
@@ -160,7 +158,7 @@ export function InteractiveLandingDemo({
             return prev;
           });
         }, 50);
-
+        
         return () => clearInterval(timer);
       } else {
         setDemoProgress(baseProgress);
@@ -217,34 +215,21 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
 }`;
 
     setGeneratedCode(codeTemplate);
-
+    
     // Animate metrics
-    let currentMetrics = {
-      linesOfCode: 0,
-      filesGenerated: 0,
-      testsCreated: 0,
-      performanceScore: 0,
-    };
-    const targetMetrics = {
-      linesOfCode: 847,
-      filesGenerated: 12,
-      testsCreated: 24,
-      performanceScore: 97,
-    };
-
+    let currentMetrics = { linesOfCode: 0, filesGenerated: 0, testsCreated: 0, performanceScore: 0 };
+    const targetMetrics = { linesOfCode: 847, filesGenerated: 12, testsCreated: 24, performanceScore: 97 };
+    
     const interval = setInterval(() => {
       currentMetrics = {
         linesOfCode: Math.min(targetMetrics.linesOfCode, currentMetrics.linesOfCode + 25),
         filesGenerated: Math.min(targetMetrics.filesGenerated, currentMetrics.filesGenerated + 1),
         testsCreated: Math.min(targetMetrics.testsCreated, currentMetrics.testsCreated + 2),
-        performanceScore: Math.min(
-          targetMetrics.performanceScore,
-          currentMetrics.performanceScore + 3
-        ),
+        performanceScore: Math.min(targetMetrics.performanceScore, currentMetrics.performanceScore + 3)
       };
-
+      
       setMetrics({ ...currentMetrics });
-
+      
       if (currentMetrics.linesOfCode >= targetMetrics.linesOfCode) {
         clearInterval(interval);
       }
@@ -255,7 +240,7 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
     setIsRunning(true);
     setCurrentStep(0);
     setDemoProgress(0);
-    setSteps(demoSteps.map((step) => ({ ...step, status: 'pending' })));
+    setSteps(demoSteps.map(step => ({ ...step, status: 'pending' })));
   };
 
   const resetDemo = () => {
@@ -266,7 +251,7 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
     setGeneratedCode('');
     setDeploymentUrl('');
     setMetrics({ linesOfCode: 0, filesGenerated: 0, testsCreated: 0, performanceScore: 0 });
-    setSteps(demoSteps.map((step) => ({ ...step, status: 'pending' })));
+    setSteps(demoSteps.map(step => ({ ...step, status: 'pending' })));
   };
 
   return (
@@ -277,7 +262,9 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
           <div className="p-2 bg-primary/10 rounded-lg">
             <Sparkles className="w-6 h-6 text-primary" />
           </div>
-          <h2 className="text-2xl font-bold ff-text-gradient">FlashFusion Demo</h2>
+          <h2 className="text-2xl font-bold ff-text-gradient">
+            FlashFusion Demo
+          </h2>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
           Watch how FlashFusion transforms your idea into a production-ready application in minutes
@@ -292,13 +279,13 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
             Start Demo
           </Button>
         )}
-
+        
         {(isRunning || demoProgress > 0) && (
           <Button variant="outline" onClick={resetDemo}>
             Reset Demo
           </Button>
         )}
-
+        
         {onClose && (
           <Button variant="ghost" onClick={onClose}>
             Close
@@ -328,7 +315,7 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
         {/* Left Column: Steps */}
         <div className="space-y-4">
           <h3 className="font-semibold text-lg">Build Process</h3>
-
+          
           {steps.map((step, index) => (
             <motion.div
               key={step.id}
@@ -336,26 +323,22 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card
-                className={`transition-all duration-500 ${
-                  step.status === 'running'
-                    ? 'border-primary/40 bg-primary/5 ff-pulse-glow'
-                    : step.status === 'completed'
-                      ? 'border-success/40 bg-success/5'
-                      : 'border-border'
-                }`}
-              >
+              <Card className={`transition-all duration-500 ${
+                step.status === 'running' 
+                  ? 'border-primary/40 bg-primary/5 ff-pulse-glow' 
+                  : step.status === 'completed'
+                  ? 'border-success/40 bg-success/5'
+                  : 'border-border'
+              }`}>
                 <CardContent className="p-4">
                   <div className="flex items-center gap-3">
-                    <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                        step.status === 'completed'
-                          ? 'bg-success text-success-foreground'
-                          : step.status === 'running'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted text-muted-foreground'
-                      }`}
-                    >
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                      step.status === 'completed'
+                        ? 'bg-success text-success-foreground'
+                        : step.status === 'running'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-muted-foreground'
+                    }`}>
                       {step.status === 'completed' ? (
                         <CheckCircle className="w-4 h-4" />
                       ) : step.status === 'running' ? (
@@ -364,12 +347,12 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
                         index + 1
                       )}
                     </div>
-
+                    
                     <div className="flex-1">
                       <div className="font-medium text-sm">{step.title}</div>
                       <div className="text-xs text-muted-foreground">{step.description}</div>
                     </div>
-
+                    
                     {step.status === 'running' && (
                       <div className="flex items-center gap-1 text-xs text-primary">
                         <Clock className="w-3 h-3" />
@@ -386,7 +369,7 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
         {/* Right Column: Output */}
         <div className="space-y-4">
           <h3 className="font-semibold text-lg">Live Output</h3>
-
+          
           {/* Input Stage */}
           {currentStep >= 0 && (
             <Card>
@@ -425,9 +408,7 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
               <CardContent>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <div className="font-bold text-primary text-lg">
-                      {metrics.linesOfCode.toLocaleString()}
-                    </div>
+                    <div className="font-bold text-primary text-lg">{metrics.linesOfCode.toLocaleString()}</div>
                     <div className="text-muted-foreground">Lines of Code</div>
                   </div>
                   <div>
@@ -439,9 +420,7 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
                     <div className="text-muted-foreground">Tests Created</div>
                   </div>
                   <div>
-                    <div className="font-bold text-success text-lg">
-                      {metrics.performanceScore}%
-                    </div>
+                    <div className="font-bold text-success text-lg">{metrics.performanceScore}%</div>
                     <div className="text-muted-foreground">Performance Score</div>
                   </div>
                 </div>
@@ -493,12 +472,14 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
                   <CheckCircle className="w-4 h-4 text-success" />
                   <span>Successfully deployed to production</span>
                 </div>
-
+                
                 <div className="p-3 bg-background rounded-lg border">
                   <div className="text-xs text-muted-foreground mb-1">Live URL:</div>
-                  <div className="font-mono text-sm text-primary break-all">{deploymentUrl}</div>
+                  <div className="font-mono text-sm text-primary break-all">
+                    {deploymentUrl}
+                  </div>
                 </div>
-
+                
                 <div className="flex gap-2">
                   <Button size="sm" variant="outline" className="flex-1">
                     <Eye className="w-3 h-3 mr-2" />
@@ -522,7 +503,9 @@ export function ${appIdea.replace(/[^a-zA-Z]/g, '') || 'My'}App() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center space-y-4 p-6 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg"
         >
-          <h3 className="text-xl font-bold">Ready to Build Your Own App?</h3>
+          <h3 className="text-xl font-bold">
+            Ready to Build Your Own App?
+          </h3>
           <p className="text-muted-foreground">
             Start creating production-ready applications in minutes with FlashFusion
           </p>

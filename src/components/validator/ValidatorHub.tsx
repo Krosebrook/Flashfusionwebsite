@@ -4,10 +4,10 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Progress } from '../ui/progress';
-import {
-  Shield,
-  CheckCircle,
-  AlertTriangle,
+import { 
+  Shield, 
+  CheckCircle, 
+  AlertTriangle, 
   XCircle,
   Activity,
   Database,
@@ -35,7 +35,7 @@ import {
   FileCheck,
   Layers,
   Network,
-  Monitor,
+  Monitor
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -71,7 +71,7 @@ export function ValidatorHub() {
     overall: 87,
     uptime: '99.8%',
     lastIncident: '3 days ago',
-    activeIssues: 2,
+    activeIssues: 2
   });
 
   // Initialize validation categories
@@ -95,7 +95,7 @@ export function ValidatorHub() {
             score: 95,
             lastCheck: '2 minutes ago',
             details: 'All database schemas are synchronized across 12 applications',
-            critical: false,
+            critical: false
           },
           {
             id: 'data-integrity',
@@ -105,7 +105,7 @@ export function ValidatorHub() {
             score: 78,
             lastCheck: '5 minutes ago',
             details: 'Minor inconsistencies found in user preferences across Creator Suite',
-            critical: false,
+            critical: false
           },
           {
             id: 'api-compatibility',
@@ -115,9 +115,9 @@ export function ValidatorHub() {
             score: 92,
             lastCheck: '1 minute ago',
             details: 'All internal APIs are compatible and responding correctly',
-            critical: false,
-          },
-        ],
+            critical: false
+          }
+        ]
       },
       {
         id: 'security',
@@ -137,7 +137,7 @@ export function ValidatorHub() {
             score: 98,
             lastCheck: '30 seconds ago',
             details: 'All sensitive data encrypted with AES-256, keys rotated regularly',
-            critical: true,
+            critical: true
           },
           {
             id: 'auth-flows',
@@ -147,7 +147,7 @@ export function ValidatorHub() {
             score: 94,
             lastCheck: '1 minute ago',
             details: 'OAuth2, Supabase Auth, and MFA working correctly',
-            critical: true,
+            critical: true
           },
           {
             id: 'gdpr-compliance',
@@ -157,9 +157,9 @@ export function ValidatorHub() {
             score: 88,
             lastCheck: '10 minutes ago',
             details: 'Data deletion workflows need optimization for faster processing',
-            critical: false,
-          },
-        ],
+            critical: false
+          }
+        ]
       },
       {
         id: 'collaboration',
@@ -179,7 +179,7 @@ export function ValidatorHub() {
             score: 45,
             lastCheck: '2 minutes ago',
             details: 'CRDT implementation needs optimization for large documents',
-            critical: true,
+            critical: true
           },
           {
             id: 'permissions',
@@ -189,9 +189,9 @@ export function ValidatorHub() {
             score: 82,
             lastCheck: '5 minutes ago',
             details: 'Some edge cases in permission inheritance need addressing',
-            critical: false,
-          },
-        ],
+            critical: false
+          }
+        ]
       },
       {
         id: 'ai',
@@ -211,7 +211,7 @@ export function ValidatorHub() {
             score: 94,
             lastCheck: '1 minute ago',
             details: 'All AI services responding within acceptable latency limits',
-            critical: true,
+            critical: true
           },
           {
             id: 'output-quality',
@@ -221,9 +221,9 @@ export function ValidatorHub() {
             score: 84,
             lastCheck: '3 minutes ago',
             details: 'Content generation quality scores below target in 2 categories',
-            critical: false,
-          },
-        ],
+            critical: false
+          }
+        ]
       },
       {
         id: 'sync',
@@ -243,7 +243,7 @@ export function ValidatorHub() {
             score: 88,
             lastCheck: '2 minutes ago',
             details: 'No data corruption detected in sync operations',
-            critical: true,
+            critical: true
           },
           {
             id: 'conflict-resolution',
@@ -253,9 +253,9 @@ export function ValidatorHub() {
             score: 75,
             lastCheck: '4 minutes ago',
             details: 'Merge strategies need improvement for concurrent edits',
-            critical: false,
-          },
-        ],
+            critical: false
+          }
+        ]
       },
       {
         id: 'plugins',
@@ -275,7 +275,7 @@ export function ValidatorHub() {
             score: 91,
             lastCheck: '5 minutes ago',
             details: 'All plugins running in secure isolated environments',
-            critical: true,
+            critical: true
           },
           {
             id: 'api-quotas',
@@ -285,9 +285,9 @@ export function ValidatorHub() {
             score: 73,
             lastCheck: '8 minutes ago',
             details: 'Some third-party APIs approaching rate limits',
-            critical: false,
-          },
-        ],
+            critical: false
+          }
+        ]
       },
       {
         id: 'observability',
@@ -307,7 +307,7 @@ export function ValidatorHub() {
             score: 96,
             lastCheck: '30 seconds ago',
             details: 'All errors being captured and categorized correctly',
-            critical: true,
+            critical: true
           },
           {
             id: 'performance-metrics',
@@ -317,9 +317,9 @@ export function ValidatorHub() {
             score: 91,
             lastCheck: '1 minute ago',
             details: 'All performance indicators within acceptable ranges',
-            critical: false,
-          },
-        ],
+            critical: false
+          }
+        ]
       },
       {
         id: 'cicd',
@@ -339,7 +339,7 @@ export function ValidatorHub() {
             score: 92,
             lastCheck: '15 minutes ago',
             details: 'All builds passing, deployment times within targets',
-            critical: true,
+            critical: true
           },
           {
             id: 'test-coverage',
@@ -349,9 +349,9 @@ export function ValidatorHub() {
             score: 84,
             lastCheck: '20 minutes ago',
             details: 'Test coverage at 84%, target is 90%',
-            critical: false,
-          },
-        ],
+            critical: false
+          }
+        ]
       },
       {
         id: 'mobile',
@@ -371,7 +371,7 @@ export function ValidatorHub() {
             score: 89,
             lastCheck: '10 minutes ago',
             details: 'All breakpoints working correctly across devices',
-            critical: false,
+            critical: false
           },
           {
             id: 'offline-functionality',
@@ -381,9 +381,9 @@ export function ValidatorHub() {
             score: 52,
             lastCheck: '12 minutes ago',
             details: 'Service worker needs updates for better offline support',
-            critical: true,
-          },
-        ],
+            critical: true
+          }
+        ]
       },
       {
         id: 'ecosystem',
@@ -403,7 +403,7 @@ export function ValidatorHub() {
             score: 76,
             lastCheck: '6 minutes ago',
             details: 'Search indexing needs optimization for better performance',
-            critical: false,
+            critical: false
           },
           {
             id: 'notification-center',
@@ -413,10 +413,10 @@ export function ValidatorHub() {
             score: 85,
             lastCheck: '3 minutes ago',
             details: 'All notification channels working correctly',
-            critical: false,
-          },
-        ],
-      },
+            critical: false
+          }
+        ]
+      }
     ];
 
     setCategories(initialCategories);
@@ -428,21 +428,19 @@ export function ValidatorHub() {
 
     // Simulate comprehensive scanning
     for (let i = 0; i <= 100; i += 5) {
-      await new Promise((resolve) => setTimeout(resolve, 150));
+      await new Promise(resolve => setTimeout(resolve, 150));
       setScanProgress(i);
     }
 
     // Update some results after scan
-    setCategories((prev) =>
-      prev.map((category) => ({
-        ...category,
-        results: category.results.map((result) => ({
-          ...result,
-          lastCheck: 'just now',
-          score: Math.min(100, result.score + Math.floor(Math.random() * 10) - 5),
-        })),
+    setCategories(prev => prev.map(category => ({
+      ...category,
+      results: category.results.map(result => ({
+        ...result,
+        lastCheck: 'just now',
+        score: Math.min(100, result.score + Math.floor(Math.random() * 10) - 5)
       }))
-    );
+    })));
 
     setIsRunningFullScan(false);
   };
@@ -469,8 +467,7 @@ export function ValidatorHub() {
     return 'text-red-500';
   };
 
-  const overallSystemScore =
-    categories.reduce((sum, cat) => sum + cat.overallScore, 0) / categories.length;
+  const overallSystemScore = categories.reduce((sum, cat) => sum + cat.overallScore, 0) / categories.length;
   const totalCritical = categories.reduce((sum, cat) => sum + cat.critical, 0);
   const totalWarnings = categories.reduce((sum, cat) => sum + cat.warnings, 0);
   const totalPassed = categories.reduce((sum, cat) => sum + cat.passed, 0);
@@ -479,7 +476,7 @@ export function ValidatorHub() {
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header Section */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center space-y-4"
@@ -493,19 +490,16 @@ export function ValidatorHub() {
             </div>
             <div className="text-left">
               <h1 className="text-3xl font-bold ff-text-gradient">The Validator</h1>
-              <p className="text-sm text-muted-foreground font-medium">
-                Check anything, trust everything. 🔑
-              </p>
+              <p className="text-sm text-muted-foreground font-medium">Check anything, trust everything. 🔑</p>
             </div>
           </div>
           <p className="text-muted-foreground max-w-3xl mx-auto">
-            Universal trust and validation system ensuring quality, security, and reliability across
-            the entire FlashFusion ecosystem. Your single source of truth for system integrity.
+            Universal trust and validation system ensuring quality, security, and reliability across the entire FlashFusion ecosystem. Your single source of truth for system integrity.
           </p>
         </motion.div>
 
         {/* System Health Overview */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -520,11 +514,10 @@ export function ValidatorHub() {
                       {Math.round(overallSystemScore)}
                     </span>
                   </div>
-                  <div
-                    className="absolute inset-0 rounded-full border-4 border-primary"
-                    style={{
-                      background: `conic-gradient(from 0deg, var(--ff-primary) 0deg, var(--ff-primary) ${overallSystemScore * 3.6}deg, transparent ${overallSystemScore * 3.6}deg)`,
-                    }}
+                  <div className="absolute inset-0 rounded-full border-4 border-primary" 
+                       style={{ 
+                         background: `conic-gradient(from 0deg, var(--ff-primary) 0deg, var(--ff-primary) ${overallSystemScore * 3.6}deg, transparent ${overallSystemScore * 3.6}deg)`
+                       }}
                   />
                 </div>
                 <div>
@@ -550,7 +543,7 @@ export function ValidatorHub() {
                 <AlertCircle className="w-8 h-8 text-red-500" />
               </div>
               <div className="mt-2">
-                <Badge variant={totalCritical === 0 ? 'outline' : 'destructive'}>
+                <Badge variant={totalCritical === 0 ? "outline" : "destructive"}>
                   {totalCritical === 0 ? 'All Clear' : 'Action Required'}
                 </Badge>
               </div>
@@ -599,8 +592,8 @@ export function ValidatorHub() {
           transition={{ delay: 0.2 }}
           className="flex flex-wrap gap-4"
         >
-          <Button
-            onClick={runFullScan}
+          <Button 
+            onClick={runFullScan} 
             disabled={isRunningFullScan}
             className="ff-btn-primary"
             size="lg"
@@ -710,7 +703,7 @@ export function ValidatorHub() {
                             </span>
                           </div>
                           <Progress value={category.overallScore} className="h-2" />
-
+                          
                           <div className="flex items-center justify-between text-sm">
                             <div className="flex items-center space-x-2">
                               <CheckCircle className="w-3 h-3 text-green-500" />
@@ -752,15 +745,7 @@ export function ValidatorHub() {
                       <CardTitle className="flex items-center space-x-3">
                         <category.icon className="w-6 h-6 text-primary" />
                         <span>{category.name}</span>
-                        <Badge
-                          variant={
-                            category.critical > 0
-                              ? 'destructive'
-                              : category.warnings > 0
-                                ? 'secondary'
-                                : 'outline'
-                          }
-                        >
+                        <Badge variant={category.critical > 0 ? "destructive" : category.warnings > 0 ? "secondary" : "outline"}>
                           Score: {category.overallScore}
                         </Badge>
                       </CardTitle>
@@ -769,10 +754,7 @@ export function ValidatorHub() {
                     <CardContent>
                       <div className="space-y-4">
                         {category.results.map((result) => (
-                          <div
-                            key={result.id}
-                            className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
-                          >
+                          <div key={result.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                             <div className="flex items-center space-x-3">
                               {getStatusIcon(result.status)}
                               <div>
@@ -800,64 +782,50 @@ export function ValidatorHub() {
             {/* Critical Issues Tab */}
             <TabsContent value="critical" className="space-y-6">
               <div className="space-y-4">
-                {categories
-                  .flatMap((category) =>
-                    category.results.filter(
-                      (result) => result.critical && result.status === 'failed'
-                    )
-                  )
-                  .map((result, index) => (
-                    <motion.div
-                      key={result.id}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      <Card className="border-red-500/20 bg-red-500/5">
-                        <CardContent className="p-6">
-                          <div className="flex items-start justify-between">
-                            <div className="flex items-start space-x-3">
-                              <AlertCircle className="w-6 h-6 text-red-500 mt-0.5" />
-                              <div>
-                                <h4 className="font-medium text-red-500">{result.name}</h4>
-                                <p className="text-sm text-muted-foreground mt-1">
-                                  {result.details}
-                                </p>
-                                <div className="flex items-center space-x-4 mt-3 text-sm">
-                                  <span className="text-muted-foreground">
-                                    Score: {result.score}
-                                  </span>
-                                  <span className="text-muted-foreground">
-                                    Last checked: {result.lastCheck}
-                                  </span>
-                                </div>
+                {categories.flatMap(category => 
+                  category.results.filter(result => result.critical && result.status === 'failed')
+                ).map((result, index) => (
+                  <motion.div
+                    key={result.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Card className="border-red-500/20 bg-red-500/5">
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-start space-x-3">
+                            <AlertCircle className="w-6 h-6 text-red-500 mt-0.5" />
+                            <div>
+                              <h4 className="font-medium text-red-500">{result.name}</h4>
+                              <p className="text-sm text-muted-foreground mt-1">{result.details}</p>
+                              <div className="flex items-center space-x-4 mt-3 text-sm">
+                                <span className="text-muted-foreground">Score: {result.score}</span>
+                                <span className="text-muted-foreground">Last checked: {result.lastCheck}</span>
                               </div>
                             </div>
-                            <div className="flex space-x-2">
-                              <Button size="sm" variant="outline">
-                                <RefreshCw className="w-3 h-3 mr-1" />
-                                Recheck
-                              </Button>
-                              <Button size="sm" className="ff-btn-primary">
-                                <Zap className="w-3 h-3 mr-1" />
-                                Fix Now
-                              </Button>
-                            </div>
                           </div>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
+                          <div className="flex space-x-2">
+                            <Button size="sm" variant="outline">
+                              <RefreshCw className="w-3 h-3 mr-1" />
+                              Recheck
+                            </Button>
+                            <Button size="sm" className="ff-btn-primary">
+                              <Zap className="w-3 h-3 mr-1" />
+                              Fix Now
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
 
-                {categories.every((category) =>
-                  category.results.every((result) => !result.critical || result.status !== 'failed')
-                ) && (
+                {categories.every(category => category.results.every(result => !result.critical || result.status !== 'failed')) && (
                   <div className="text-center py-12">
                     <Award className="w-12 h-12 text-green-500 mx-auto mb-4" />
                     <h3 className="font-medium mb-2">No Critical Issues Found</h3>
-                    <p className="text-muted-foreground">
-                      All critical systems are operating normally
-                    </p>
+                    <p className="text-muted-foreground">All critical systems are operating normally</p>
                   </div>
                 )}
               </div>
@@ -909,13 +877,8 @@ export function ValidatorHub() {
             <div>
               <h4 className="font-medium">System validation complete</h4>
               <p className="text-sm text-muted-foreground">
-                Trust level:{' '}
-                {overallSystemScore >= 90
-                  ? 'High'
-                  : overallSystemScore >= 80
-                    ? 'Good'
-                    : 'Needs Attention'}{' '}
-                • Next scheduled scan in 1 hour
+                Trust level: {overallSystemScore >= 90 ? 'High' : overallSystemScore >= 80 ? 'Good' : 'Needs Attention'} • 
+                Next scheduled scan in 1 hour
               </p>
             </div>
             <div className="flex space-x-3">

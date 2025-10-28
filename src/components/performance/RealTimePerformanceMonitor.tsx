@@ -6,10 +6,10 @@ import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Alert, AlertDescription } from '../ui/alert';
-import {
-  Activity,
-  Zap,
-  TrendingUp,
+import { 
+  Activity, 
+  Zap, 
+  TrendingUp, 
   TrendingDown,
   Shield,
   Clock,
@@ -27,7 +27,7 @@ import {
   Settings,
   Sparkles,
   BarChart3,
-  LineChart,
+  LineChart
 } from 'lucide-react';
 
 interface PerformanceMetric {
@@ -74,7 +74,7 @@ const RealTimePerformanceMonitor: React.FC = () => {
     disk: 35,
     network: 89,
     database: 94,
-    api: 97,
+    api: 97
   });
   const [recommendations, setRecommendations] = useState<OptimizationRecommendation[]>([]);
   const [lastUpdated, setLastUpdated] = useState(new Date());
@@ -91,7 +91,7 @@ const RealTimePerformanceMonitor: React.FC = () => {
         trend: 'down',
         target: 2.5,
         description: 'Time for the largest element to render',
-        impact: 'high',
+        impact: 'high'
       },
       {
         id: 'fid',
@@ -102,7 +102,7 @@ const RealTimePerformanceMonitor: React.FC = () => {
         trend: 'stable',
         target: 100,
         description: 'Time from first user interaction to browser response',
-        impact: 'high',
+        impact: 'high'
       },
       {
         id: 'cls',
@@ -113,7 +113,7 @@ const RealTimePerformanceMonitor: React.FC = () => {
         trend: 'down',
         target: 0.1,
         description: 'Visual stability of page elements',
-        impact: 'medium',
+        impact: 'medium'
       },
       {
         id: 'ttfb',
@@ -124,7 +124,7 @@ const RealTimePerformanceMonitor: React.FC = () => {
         trend: 'down',
         target: 600,
         description: 'Time for server to respond to request',
-        impact: 'high',
+        impact: 'high'
       },
       {
         id: 'bundle',
@@ -135,7 +135,7 @@ const RealTimePerformanceMonitor: React.FC = () => {
         trend: 'down',
         target: 500,
         description: 'Total JavaScript bundle size',
-        impact: 'medium',
+        impact: 'medium'
       },
       {
         id: 'api',
@@ -146,7 +146,7 @@ const RealTimePerformanceMonitor: React.FC = () => {
         trend: 'stable',
         target: 200,
         description: 'Average API endpoint response time',
-        impact: 'high',
+        impact: 'high'
       },
       {
         id: 'memory',
@@ -157,7 +157,7 @@ const RealTimePerformanceMonitor: React.FC = () => {
         trend: 'stable',
         target: 100,
         description: 'Current JavaScript heap size',
-        impact: 'medium',
+        impact: 'medium'
       },
       {
         id: 'lighthouse',
@@ -168,8 +168,8 @@ const RealTimePerformanceMonitor: React.FC = () => {
         trend: 'up',
         target: 90,
         description: 'Overall performance and best practices score',
-        impact: 'high',
-      },
+        impact: 'high'
+      }
     ];
 
     setMetrics(baseMetrics);
@@ -181,24 +181,22 @@ const RealTimePerformanceMonitor: React.FC = () => {
       {
         id: 'cdn-optimization',
         title: 'Global CDN Deployment',
-        description:
-          'Deploy static assets to multiple global edge locations for 40% faster load times worldwide',
+        description: 'Deploy static assets to multiple global edge locations for 40% faster load times worldwide',
         impact: 'high',
         effort: 'low',
         category: 'performance',
         estimatedImprovement: '40% faster global loading',
-        actionRequired: false,
+        actionRequired: false
       },
       {
         id: 'preload-critical',
         title: 'Preload Critical Resources',
-        description:
-          'Preload fonts, CSS, and critical JavaScript to improve First Contentful Paint by 200ms',
+        description: 'Preload fonts, CSS, and critical JavaScript to improve First Contentful Paint by 200ms',
         impact: 'medium',
         effort: 'low',
         category: 'performance',
         estimatedImprovement: '200ms faster FCP',
-        actionRequired: false,
+        actionRequired: false
       },
       {
         id: 'service-worker',
@@ -208,19 +206,18 @@ const RealTimePerformanceMonitor: React.FC = () => {
         effort: 'medium',
         category: 'performance',
         estimatedImprovement: 'Offline functionality',
-        actionRequired: false,
+        actionRequired: false
       },
       {
         id: 'websocket-optimization',
         title: 'WebSocket Connection Pooling',
-        description:
-          'Optimize real-time features with connection pooling and intelligent reconnection',
+        description: 'Optimize real-time features with connection pooling and intelligent reconnection',
         impact: 'medium',
         effort: 'medium',
         category: 'performance',
         estimatedImprovement: '30% better real-time performance',
-        actionRequired: false,
-      },
+        actionRequired: false
+      }
     ];
 
     setRecommendations(baseRecommendations);
@@ -231,22 +228,20 @@ const RealTimePerformanceMonitor: React.FC = () => {
     if (!isMonitoring) return;
 
     const interval = setInterval(() => {
-      setMetrics((prev) =>
-        prev.map((metric) => ({
-          ...metric,
-          value: metric.value + (Math.random() - 0.5) * 0.1 * metric.value,
-          trend: Math.random() > 0.7 ? (Math.random() > 0.5 ? 'up' : 'down') : metric.trend,
-        }))
-      );
+      setMetrics(prev => prev.map(metric => ({
+        ...metric,
+        value: metric.value + (Math.random() - 0.5) * 0.1 * metric.value,
+        trend: Math.random() > 0.7 ? (Math.random() > 0.5 ? 'up' : 'down') : metric.trend
+      })));
 
-      setSystemHealth((prev) => ({
+      setSystemHealth(prev => ({
         overall: Math.max(70, Math.min(100, prev.overall + (Math.random() - 0.5) * 2)),
         cpu: Math.max(20, Math.min(90, prev.cpu + (Math.random() - 0.5) * 5)),
         memory: Math.max(30, Math.min(85, prev.memory + (Math.random() - 0.5) * 3)),
         disk: Math.max(20, Math.min(80, prev.disk + (Math.random() - 0.5) * 2)),
         network: Math.max(80, Math.min(100, prev.network + (Math.random() - 0.5) * 3)),
         database: Math.max(85, Math.min(100, prev.database + (Math.random() - 0.5) * 2)),
-        api: Math.max(90, Math.min(100, prev.api + (Math.random() - 0.5) * 1)),
+        api: Math.max(90, Math.min(100, prev.api + (Math.random() - 0.5) * 1))
       }));
 
       setLastUpdated(new Date());
@@ -263,42 +258,29 @@ const RealTimePerformanceMonitor: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'excellent':
-        return 'text-green-500';
-      case 'good':
-        return 'text-blue-500';
-      case 'warning':
-        return 'text-yellow-500';
-      case 'critical':
-        return 'text-red-500';
-      default:
-        return 'text-gray-500';
+      case 'excellent': return 'text-green-500';
+      case 'good': return 'text-blue-500';
+      case 'warning': return 'text-yellow-500';
+      case 'critical': return 'text-red-500';
+      default: return 'text-gray-500';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'excellent':
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
-      case 'good':
-        return <CheckCircle className="h-4 w-4 text-blue-500" />;
-      case 'warning':
-        return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
-      case 'critical':
-        return <XCircle className="h-4 w-4 text-red-500" />;
-      default:
-        return <Activity className="h-4 w-4 text-gray-500" />;
+      case 'excellent': return <CheckCircle className="h-4 w-4 text-green-500" />;
+      case 'good': return <CheckCircle className="h-4 w-4 text-blue-500" />;
+      case 'warning': return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+      case 'critical': return <XCircle className="h-4 w-4 text-red-500" />;
+      default: return <Activity className="h-4 w-4 text-gray-500" />;
     }
   };
 
   const getTrendIcon = (trend: string) => {
     switch (trend) {
-      case 'up':
-        return <TrendingUp className="h-3 w-3 text-green-500" />;
-      case 'down':
-        return <TrendingDown className="h-3 w-3 text-red-500" />;
-      default:
-        return <Activity className="h-3 w-3 text-gray-500" />;
+      case 'up': return <TrendingUp className="h-3 w-3 text-green-500" />;
+      case 'down': return <TrendingDown className="h-3 w-3 text-red-500" />;
+      default: return <Activity className="h-3 w-3 text-gray-500" />;
     }
   };
 
@@ -310,11 +292,11 @@ const RealTimePerformanceMonitor: React.FC = () => {
   };
 
   const criticalIssues = useMemo(() => {
-    return metrics.filter((m) => m.status === 'critical').length;
+    return metrics.filter(m => m.status === 'critical').length;
   }, [metrics]);
 
   const warningIssues = useMemo(() => {
-    return metrics.filter((m) => m.status === 'warning').length;
+    return metrics.filter(m => m.status === 'warning').length;
   }, [metrics]);
 
   return (
@@ -336,9 +318,9 @@ const RealTimePerformanceMonitor: React.FC = () => {
             </div>
           </div>
         </div>
-
+        
         <div className="flex items-center gap-3">
-          <Badge variant={isMonitoring ? 'default' : 'secondary'} className="ff-badge-glow">
+          <Badge variant={isMonitoring ? "default" : "secondary"} className="ff-badge-glow">
             {isMonitoring ? (
               <>
                 <div className="ff-status-dot ff-status-active mr-2"></div>
@@ -351,10 +333,10 @@ const RealTimePerformanceMonitor: React.FC = () => {
               </>
             )}
           </Badge>
-
+          
           <Button
             onClick={() => setIsMonitoring(!isMonitoring)}
-            variant={isMonitoring ? 'outline' : 'default'}
+            variant={isMonitoring ? "outline" : "default"}
             size="sm"
             className="ff-hover-scale"
           >
@@ -376,22 +358,16 @@ const RealTimePerformanceMonitor: React.FC = () => {
               <Alert className="border-red-500/20 bg-red-500/5">
                 <AlertTriangle className="h-4 w-4 text-red-500" />
                 <AlertDescription className="text-red-700 dark:text-red-300">
-                  <strong>
-                    {criticalIssues} critical performance issue{criticalIssues > 1 ? 's' : ''}
-                  </strong>{' '}
-                  require immediate attention
+                  <strong>{criticalIssues} critical performance issue{criticalIssues > 1 ? 's' : ''}</strong> require immediate attention
                 </AlertDescription>
               </Alert>
             )}
-
+            
             {warningIssues > 0 && (
               <Alert className="border-yellow-500/20 bg-yellow-500/5">
                 <AlertTriangle className="h-4 w-4 text-yellow-500" />
                 <AlertDescription className="text-yellow-700 dark:text-yellow-300">
-                  <strong>
-                    {warningIssues} performance warning{warningIssues > 1 ? 's' : ''}
-                  </strong>{' '}
-                  detected
+                  <strong>{warningIssues} performance warning{warningIssues > 1 ? 's' : ''}</strong> detected
                 </AlertDescription>
               </Alert>
             )}
@@ -423,10 +399,10 @@ const RealTimePerformanceMonitor: React.FC = () => {
                 disk: HardDrive,
                 network: Network,
                 database: Database,
-                api: Globe,
+                api: Globe
               };
               const Icon = icons[key as keyof typeof icons];
-
+              
               return (
                 <motion.div
                   key={key}
@@ -460,7 +436,7 @@ const RealTimePerformanceMonitor: React.FC = () => {
             <TabsTrigger value="7d">7 Days</TabsTrigger>
             <TabsTrigger value="30d">30 Days</TabsTrigger>
           </TabsList>
-
+          
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" className="ff-hover-scale">
               <BarChart3 className="h-4 w-4 mr-2" />
@@ -502,42 +478,33 @@ const RealTimePerformanceMonitor: React.FC = () => {
                   <CardContent className="pt-0">
                     <div className="space-y-3">
                       <div className="flex items-baseline gap-2">
-                        <span
-                          className={`ff-text-2xl font-bold ${getStatusColor(metric.status)} font-sora`}
-                        >
-                          {typeof metric.value === 'number'
-                            ? metric.value < 1
-                              ? metric.value.toFixed(2)
+                        <span className={`ff-text-2xl font-bold ${getStatusColor(metric.status)} font-sora`}>
+                          {typeof metric.value === 'number' 
+                            ? metric.value < 1 
+                              ? metric.value.toFixed(2) 
                               : Math.round(metric.value)
-                            : metric.value}
+                            : metric.value
+                          }
                         </span>
                         <span className="ff-text-sm text-muted-foreground font-inter">
                           {metric.unit}
                         </span>
                       </div>
-
+                      
                       <div className="space-y-2">
                         <div className="flex justify-between ff-text-xs text-muted-foreground">
-                          <span>
-                            Target: {metric.target}
-                            {metric.unit}
-                          </span>
+                          <span>Target: {metric.target}{metric.unit}</span>
                           <span className="capitalize">{metric.status}</span>
                         </div>
-                        <Progress
-                          value={Math.min(100, (metric.value / metric.target) * 100)}
+                        <Progress 
+                          value={Math.min(100, (metric.value / metric.target) * 100)} 
                           className="h-2"
                         />
                       </div>
-
-                      <Badge
-                        variant={
-                          metric.impact === 'high'
-                            ? 'destructive'
-                            : metric.impact === 'medium'
-                              ? 'default'
-                              : 'secondary'
-                        }
+                      
+                      <Badge 
+                        variant={metric.impact === 'high' ? 'destructive' : 
+                                metric.impact === 'medium' ? 'default' : 'secondary'}
                         className="ff-text-xs"
                       >
                         {metric.impact} impact
@@ -579,7 +546,9 @@ const RealTimePerformanceMonitor: React.FC = () => {
                         </Badge>
                       )}
                     </div>
-                    <p className="ff-text-sm text-muted-foreground font-inter">{rec.description}</p>
+                    <p className="ff-text-sm text-muted-foreground font-inter">
+                      {rec.description}
+                    </p>
                     <div className="flex items-center gap-4 ff-text-xs text-muted-foreground">
                       <span className="flex items-center gap-1">
                         <TrendingUp className="h-3 w-3" />

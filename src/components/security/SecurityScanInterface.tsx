@@ -12,19 +12,12 @@ import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Checkbox } from '../ui/checkbox';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '../ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
-import {
-  Shield,
-  ShieldAlert,
-  ShieldCheck,
+import { 
+  Shield, 
+  ShieldAlert, 
+  ShieldCheck, 
   ShieldX,
   Scan,
   Play,
@@ -53,9 +46,9 @@ import {
   TrendingDown,
   Activity,
   Globe,
-  Server,
+  Server
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 import type { SecurityThreat, SecurityMetric } from './types';
 
 interface ScanConfiguration {
@@ -133,7 +126,7 @@ const defaultScanConfig: ScanConfiguration = {
   includeDevDependencies: false,
   ignoreLowSeverity: false,
   customRules: [],
-  targets: [],
+  targets: []
 };
 
 const scanStages = [
@@ -144,13 +137,13 @@ const scanStages = [
   'Checking configurations',
   'Runtime security analysis',
   'Generating report',
-  'Finalizing results',
+  'Finalizing results'
 ];
 
-export function SecurityScanInterface({
-  onScanComplete,
-  onThreatDetected,
-  className = '',
+export function SecurityScanInterface({ 
+  onScanComplete, 
+  onThreatDetected, 
+  className = '' 
 }: SecurityScanInterfaceProps) {
   const [scanConfig, setScanConfig] = useState<ScanConfiguration>(defaultScanConfig);
   const [currentScan, setCurrentScan] = useState<ScanResult | null>(null);
@@ -181,22 +174,22 @@ export function SecurityScanInterface({
         lowCount: 0,
         infoCount: 0,
         fixableCount: 0,
-        autoFixableCount: 0,
+        autoFixableCount: 0
       },
       findings: [],
       metrics: {
         scanDuration: 0,
         filesScanned: 0,
         linesAnalyzed: 0,
-        rulesExecuted: 0,
+        rulesExecuted: 0
       },
-      progress: 0,
+      progress: 0
     };
 
     setCurrentScan(newScan);
     setIsScanning(true);
-    toast.success('Security scan started', {
-      description: `Scanning with ${scanConfig.scope} scope and ${scanConfig.depth} depth`,
+    toast.success('Security scan started', { 
+      description: `Scanning with ${scanConfig.scope} scope and ${scanConfig.depth} depth`
     });
 
     // Simulate progressive scan with real findings
@@ -218,7 +211,7 @@ export function SecurityScanInterface({
         effort: 'low',
         category: 'Input Validation',
         tags: ['sql-injection', 'input-validation', 'database'],
-        foundAt: new Date(),
+        foundAt: new Date()
       },
       {
         id: 'vuln-2',
@@ -237,7 +230,7 @@ export function SecurityScanInterface({
         effort: 'low',
         category: 'Dependencies',
         tags: ['express', 'dependency', 'rce'],
-        foundAt: new Date(),
+        foundAt: new Date()
       },
       {
         id: 'vuln-3',
@@ -254,7 +247,7 @@ export function SecurityScanInterface({
         effort: 'medium',
         category: 'Configuration',
         tags: ['cors', 'configuration', 'cross-origin'],
-        foundAt: new Date(),
+        foundAt: new Date()
       },
       {
         id: 'vuln-4',
@@ -271,15 +264,14 @@ export function SecurityScanInterface({
         effort: 'low',
         category: 'Input Validation',
         tags: ['input-validation', 'dos'],
-        foundAt: new Date(),
+        foundAt: new Date()
       },
       {
         id: 'vuln-5',
         type: 'runtime-threat',
         severity: 'high',
         title: 'Suspicious API Request Pattern Detected',
-        description:
-          'Detected unusual patterns in API requests that may indicate automated attacks',
+        description: 'Detected unusual patterns in API requests that may indicate automated attacks',
         location: {},
         fixAvailable: false,
         autoFixable: false,
@@ -289,56 +281,49 @@ export function SecurityScanInterface({
         effort: 'high',
         category: 'Runtime Security',
         tags: ['runtime', 'api-abuse', 'rate-limiting'],
-        foundAt: new Date(),
-      },
+        foundAt: new Date()
+      }
     ];
 
     // Simulate progressive scanning
     for (let i = 0; i < scanStages.length; i++) {
-      await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1500));
-
+      await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1500));
+      
       const progress = ((i + 1) / scanStages.length) * 100;
       const currentStage = scanStages[i];
-
+      
       // Add findings progressively
-      const findingsToAdd = mockFindings.slice(
-        0,
-        Math.floor(((i + 1) * mockFindings.length) / scanStages.length)
-      );
-
+      const findingsToAdd = mockFindings.slice(0, Math.floor((i + 1) * mockFindings.length / scanStages.length));
+      
       const summary = {
         totalFindings: findingsToAdd.length,
-        criticalCount: findingsToAdd.filter((f) => f.severity === 'critical').length,
-        highCount: findingsToAdd.filter((f) => f.severity === 'high').length,
-        mediumCount: findingsToAdd.filter((f) => f.severity === 'medium').length,
-        lowCount: findingsToAdd.filter((f) => f.severity === 'low').length,
-        infoCount: findingsToAdd.filter((f) => f.severity === 'info').length,
-        fixableCount: findingsToAdd.filter((f) => f.fixAvailable).length,
-        autoFixableCount: findingsToAdd.filter((f) => f.autoFixable).length,
+        criticalCount: findingsToAdd.filter(f => f.severity === 'critical').length,
+        highCount: findingsToAdd.filter(f => f.severity === 'high').length,
+        mediumCount: findingsToAdd.filter(f => f.severity === 'medium').length,
+        lowCount: findingsToAdd.filter(f => f.severity === 'low').length,
+        infoCount: findingsToAdd.filter(f => f.severity === 'info').length,
+        fixableCount: findingsToAdd.filter(f => f.fixAvailable).length,
+        autoFixableCount: findingsToAdd.filter(f => f.autoFixable).length
       };
 
-      setCurrentScan((prev) =>
-        prev
-          ? {
-              ...prev,
-              progress,
-              currentStage,
-              findings: findingsToAdd,
-              summary,
-              metrics: {
-                ...prev.metrics,
-                filesScanned: Math.floor(progress * 2.5),
-                linesAnalyzed: Math.floor(progress * 125),
-                rulesExecuted: Math.floor(progress * 0.8),
-              },
-            }
-          : null
-      );
+      setCurrentScan(prev => prev ? {
+        ...prev,
+        progress,
+        currentStage,
+        findings: findingsToAdd,
+        summary,
+        metrics: {
+          ...prev.metrics,
+          filesScanned: Math.floor(progress * 2.5),
+          linesAnalyzed: Math.floor(progress * 125),
+          rulesExecuted: Math.floor(progress * 0.8)
+        }
+      } : null);
 
       // Generate threats for critical findings
       if (i === scanStages.length - 1) {
-        const criticalFindings = findingsToAdd.filter((f) => f.severity === 'critical');
-        criticalFindings.forEach((finding) => {
+        const criticalFindings = findingsToAdd.filter(f => f.severity === 'critical');
+        criticalFindings.forEach(finding => {
           const threat: SecurityThreat = {
             id: `threat-${finding.id}`,
             type: 'malware',
@@ -349,7 +334,7 @@ export function SecurityScanInterface({
             timestamp: new Date(),
             status: 'detected',
             affectedAssets: [finding.location.file || 'System'],
-            responseTime: 0,
+            responseTime: 0
           };
           onThreatDetected?.(threat);
         });
@@ -366,44 +351,40 @@ export function SecurityScanInterface({
       findings: mockFindings,
       summary: {
         totalFindings: mockFindings.length,
-        criticalCount: mockFindings.filter((f) => f.severity === 'critical').length,
-        highCount: mockFindings.filter((f) => f.severity === 'high').length,
-        mediumCount: mockFindings.filter((f) => f.severity === 'medium').length,
-        lowCount: mockFindings.filter((f) => f.severity === 'low').length,
-        infoCount: mockFindings.filter((f) => f.severity === 'info').length,
-        fixableCount: mockFindings.filter((f) => f.fixAvailable).length,
-        autoFixableCount: mockFindings.filter((f) => f.autoFixable).length,
+        criticalCount: mockFindings.filter(f => f.severity === 'critical').length,
+        highCount: mockFindings.filter(f => f.severity === 'high').length,
+        mediumCount: mockFindings.filter(f => f.severity === 'medium').length,
+        lowCount: mockFindings.filter(f => f.severity === 'low').length,
+        infoCount: mockFindings.filter(f => f.severity === 'info').length,
+        fixableCount: mockFindings.filter(f => f.fixAvailable).length,
+        autoFixableCount: mockFindings.filter(f => f.autoFixable).length
       },
       metrics: {
         scanDuration: (Date.now() - newScan.startTime.getTime()) / 1000,
         filesScanned: 248,
         linesAnalyzed: 12547,
-        rulesExecuted: 89,
-      },
+        rulesExecuted: 89
+      }
     };
 
     setCurrentScan(completedScan);
-    setScanHistory((prev) => [completedScan, ...prev.slice(0, 9)]);
+    setScanHistory(prev => [completedScan, ...prev.slice(0, 9)]);
     setIsScanning(false);
     onScanComplete?.(completedScan);
 
     toast.success('Security scan completed', {
-      description: `Found ${completedScan.summary.totalFindings} security issues`,
+      description: `Found ${completedScan.summary.totalFindings} security issues`
     });
   }, [scanConfig, isScanning, onScanComplete, onThreatDetected]);
 
   const stopScan = useCallback(() => {
     if (!isScanning || !currentScan) return;
 
-    setCurrentScan((prev) =>
-      prev
-        ? {
-            ...prev,
-            status: 'cancelled',
-            endTime: new Date(),
-          }
-        : null
-    );
+    setCurrentScan(prev => prev ? {
+      ...prev,
+      status: 'cancelled',
+      endTime: new Date()
+    } : null);
     setIsScanning(false);
     toast.info('Security scan cancelled');
   }, [isScanning, currentScan]);
@@ -411,37 +392,35 @@ export function SecurityScanInterface({
   const applyAutoFixes = useCallback(async () => {
     if (!currentScan) return;
 
-    const autoFixableFindings = currentScan.findings.filter((f) => f.autoFixable);
-
-    toast.promise(new Promise((resolve) => setTimeout(resolve, 3000)), {
-      loading: `Applying ${autoFixableFindings.length} automatic fixes...`,
-      success: `Successfully applied ${autoFixableFindings.length} fixes`,
-      error: 'Failed to apply some fixes',
-    });
+    const autoFixableFindings = currentScan.findings.filter(f => f.autoFixable);
+    
+    toast.promise(
+      new Promise(resolve => setTimeout(resolve, 3000)),
+      {
+        loading: `Applying ${autoFixableFindings.length} automatic fixes...`,
+        success: `Successfully applied ${autoFixableFindings.length} fixes`,
+        error: 'Failed to apply some fixes'
+      }
+    );
 
     // Simulate fixing vulnerabilities
     setTimeout(() => {
-      setCurrentScan((prev) =>
-        prev
-          ? {
-              ...prev,
-              findings: prev.findings.map((f) =>
-                f.autoFixable ? { ...f, fixAvailable: false, autoFixable: false } : f
-              ),
-            }
-          : null
-      );
+      setCurrentScan(prev => prev ? {
+        ...prev,
+        findings: prev.findings.map(f => 
+          f.autoFixable ? { ...f, fixAvailable: false, autoFixable: false } : f
+        )
+      } : null);
     }, 3000);
   }, [currentScan]);
 
   const filteredFindings = useMemo(() => {
     if (!currentScan) return [];
 
-    return currentScan.findings.filter((finding) => {
+    return currentScan.findings.filter(finding => {
       const matchesSeverity = filterSeverity === 'all' || finding.severity === filterSeverity;
       const matchesType = filterType === 'all' || finding.type === filterType;
-      const matchesSearch =
-        !searchTerm ||
+      const matchesSearch = !searchTerm || 
         finding.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         finding.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
         finding.category.toLowerCase().includes(searchTerm.toLowerCase());
@@ -452,46 +431,31 @@ export function SecurityScanInterface({
 
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
-      case 'critical':
-        return <ShieldX className="h-4 w-4 text-destructive" />;
-      case 'high':
-        return <ShieldAlert className="h-4 w-4 text-warning" />;
-      case 'medium':
-        return <AlertTriangle className="h-4 w-4 text-warning" />;
-      case 'low':
-        return <AlertCircle className="h-4 w-4 text-info" />;
-      default:
-        return <Shield className="h-4 w-4 text-muted-foreground" />;
+      case 'critical': return <ShieldX className="h-4 w-4 text-destructive" />;
+      case 'high': return <ShieldAlert className="h-4 w-4 text-warning" />;
+      case 'medium': return <AlertTriangle className="h-4 w-4 text-warning" />;
+      case 'low': return <AlertCircle className="h-4 w-4 text-info" />;
+      default: return <Shield className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'critical':
-        return 'destructive';
-      case 'high':
-        return 'destructive';
-      case 'medium':
-        return 'warning';
-      case 'low':
-        return 'secondary';
-      default:
-        return 'outline';
+      case 'critical': return 'destructive';
+      case 'high': return 'destructive';
+      case 'medium': return 'warning';
+      case 'low': return 'secondary';
+      default: return 'outline';
     }
   };
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'code-vulnerability':
-        return <Code className="h-4 w-4" />;
-      case 'dependency-issue':
-        return <Database className="h-4 w-4" />;
-      case 'config-weakness':
-        return <Settings className="h-4 w-4" />;
-      case 'runtime-threat':
-        return <Activity className="h-4 w-4" />;
-      default:
-        return <Bug className="h-4 w-4" />;
+      case 'code-vulnerability': return <Code className="h-4 w-4" />;
+      case 'dependency-issue': return <Database className="h-4 w-4" />;
+      case 'config-weakness': return <Settings className="h-4 w-4" />;
+      case 'runtime-threat': return <Activity className="h-4 w-4" />;
+      default: return <Bug className="h-4 w-4" />;
     }
   };
 
@@ -500,7 +464,9 @@ export function SecurityScanInterface({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h1 className="ff-text-2xl font-bold text-foreground font-sora">Security Scanner</h1>
+          <h1 className="ff-text-2xl font-bold text-foreground font-sora">
+            Security Scanner
+          </h1>
           <p className="ff-text-base text-muted-foreground font-inter">
             Comprehensive security vulnerability detection and automated remediation
           </p>
@@ -521,18 +487,13 @@ export function SecurityScanInterface({
                   Customize security scan parameters
                 </SheetDescription>
               </SheetHeader>
-
+              
               <div className="space-y-6 mt-6">
                 <div className="space-y-2">
-                  <Label htmlFor="scope" className="font-sora">
-                    Scan Scope
-                  </Label>
-                  <Select
-                    value={scanConfig.scope}
-                    onValueChange={(value: any) =>
-                      setScanConfig((prev) => ({ ...prev, scope: value }))
-                    }
-                  >
+                  <Label htmlFor="scope" className="font-sora">Scan Scope</Label>
+                  <Select value={scanConfig.scope} onValueChange={(value: any) => 
+                    setScanConfig(prev => ({ ...prev, scope: value }))
+                  }>
                     <SelectTrigger className="ff-focus-ring">
                       <SelectValue />
                     </SelectTrigger>
@@ -547,15 +508,10 @@ export function SecurityScanInterface({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="depth" className="font-sora">
-                    Analysis Depth
-                  </Label>
-                  <Select
-                    value={scanConfig.depth}
-                    onValueChange={(value: any) =>
-                      setScanConfig((prev) => ({ ...prev, depth: value }))
-                    }
-                  >
+                  <Label htmlFor="depth" className="font-sora">Analysis Depth</Label>
+                  <Select value={scanConfig.depth} onValueChange={(value: any) => 
+                    setScanConfig(prev => ({ ...prev, depth: value }))
+                  }>
                     <SelectTrigger className="ff-focus-ring">
                       <SelectValue />
                     </SelectTrigger>
@@ -570,78 +526,59 @@ export function SecurityScanInterface({
 
                 <div className="space-y-4">
                   <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="third-party"
+                    <Checkbox 
+                      id="third-party" 
                       checked={scanConfig.includeThirdParty}
-                      onCheckedChange={(checked) =>
-                        setScanConfig((prev) => ({
-                          ...prev,
-                          includeThirdParty: checked as boolean,
-                        }))
+                      onCheckedChange={(checked) => 
+                        setScanConfig(prev => ({ ...prev, includeThirdParty: checked as boolean }))
                       }
                     />
-                    <Label htmlFor="third-party" className="font-inter">
-                      Include third-party components
-                    </Label>
+                    <Label htmlFor="third-party" className="font-inter">Include third-party components</Label>
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="dev-deps"
+                    <Checkbox 
+                      id="dev-deps" 
                       checked={scanConfig.includeDevDependencies}
-                      onCheckedChange={(checked) =>
-                        setScanConfig((prev) => ({
-                          ...prev,
-                          includeDevDependencies: checked as boolean,
-                        }))
+                      onCheckedChange={(checked) => 
+                        setScanConfig(prev => ({ ...prev, includeDevDependencies: checked as boolean }))
                       }
                     />
-                    <Label htmlFor="dev-deps" className="font-inter">
-                      Include development dependencies
-                    </Label>
+                    <Label htmlFor="dev-deps" className="font-inter">Include development dependencies</Label>
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="ignore-low"
+                    <Checkbox 
+                      id="ignore-low" 
                       checked={scanConfig.ignoreLowSeverity}
-                      onCheckedChange={(checked) =>
-                        setScanConfig((prev) => ({
-                          ...prev,
-                          ignoreLowSeverity: checked as boolean,
-                        }))
+                      onCheckedChange={(checked) => 
+                        setScanConfig(prev => ({ ...prev, ignoreLowSeverity: checked as boolean }))
                       }
                     />
-                    <Label htmlFor="ignore-low" className="font-inter">
-                      Ignore low severity issues
-                    </Label>
+                    <Label htmlFor="ignore-low" className="font-inter">Ignore low severity issues</Label>
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="auto-fix"
+                    <Checkbox 
+                      id="auto-fix" 
                       checked={autoFixEnabled}
                       onCheckedChange={(checked) => setAutoFixEnabled(checked as boolean)}
                     />
-                    <Label htmlFor="auto-fix" className="font-inter">
-                      Enable automatic fixes
-                    </Label>
+                    <Label htmlFor="auto-fix" className="font-inter">Enable automatic fixes</Label>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="custom-rules" className="font-sora">
-                    Custom Rules (optional)
-                  </Label>
-                  <Textarea
+                  <Label htmlFor="custom-rules" className="font-sora">Custom Rules (optional)</Label>
+                  <Textarea 
                     id="custom-rules"
                     placeholder="Enter custom security rules, one per line..."
                     className="ff-focus-ring font-mono"
                     value={scanConfig.customRules.join('\n')}
-                    onChange={(e) =>
-                      setScanConfig((prev) => ({
-                        ...prev,
-                        customRules: e.target.value.split('\n').filter(Boolean),
+                    onChange={(e) => 
+                      setScanConfig(prev => ({ 
+                        ...prev, 
+                        customRules: e.target.value.split('\n').filter(Boolean) 
                       }))
                     }
                   />
@@ -651,9 +588,9 @@ export function SecurityScanInterface({
           </Sheet>
 
           {isScanning ? (
-            <Button
-              onClick={stopScan}
-              variant="destructive"
+            <Button 
+              onClick={stopScan} 
+              variant="destructive" 
               size="sm"
               className="ff-btn-accent ff-hover-glow"
             >
@@ -661,7 +598,11 @@ export function SecurityScanInterface({
               Stop Scan
             </Button>
           ) : (
-            <Button onClick={startScan} size="sm" className="ff-btn-primary ff-hover-glow">
+            <Button 
+              onClick={startScan} 
+              size="sm"
+              className="ff-btn-primary ff-hover-glow"
+            >
               <Scan className="h-4 w-4 mr-2" />
               Start Scan
             </Button>
@@ -684,13 +625,13 @@ export function SecurityScanInterface({
                 )}
                 {isScanning ? 'Scanning in Progress' : 'Latest Scan Results'}
               </CardTitle>
-
+              
               {currentScan.status === 'completed' && (
                 <div className="flex items-center gap-2">
                   {currentScan.summary.autoFixableCount > 0 && (
-                    <Button
+                    <Button 
                       onClick={applyAutoFixes}
-                      size="sm"
+                      size="sm" 
                       variant="outline"
                       className="ff-hover-scale ff-focus-ring"
                     >
@@ -698,7 +639,7 @@ export function SecurityScanInterface({
                       Auto-Fix ({currentScan.summary.autoFixableCount})
                     </Button>
                   )}
-
+                  
                   <Button size="sm" variant="outline" className="ff-hover-scale ff-focus-ring">
                     <Download className="h-4 w-4 mr-2" />
                     Export Report
@@ -707,7 +648,7 @@ export function SecurityScanInterface({
               )}
             </div>
           </CardHeader>
-
+          
           <CardContent className="space-y-4">
             {isScanning && (
               <div className="space-y-3">
@@ -720,7 +661,7 @@ export function SecurityScanInterface({
                   </span>
                 </div>
                 <Progress value={currentScan.progress} className="ff-progress-bar" />
-
+                
                 <div className="grid grid-cols-3 gap-4 ff-text-xs text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <FileText className="h-3 w-3" />
@@ -746,9 +687,7 @@ export function SecurityScanInterface({
                     <CardContent className="pt-4">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="ff-text-xs text-muted-foreground font-inter">
-                            Total Issues
-                          </p>
+                          <p className="ff-text-xs text-muted-foreground font-inter">Total Issues</p>
                           <p className="ff-text-lg font-bold font-sora">
                             {currentScan.summary.totalFindings}
                           </p>
@@ -790,9 +729,7 @@ export function SecurityScanInterface({
                     <CardContent className="pt-4">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="ff-text-xs text-muted-foreground font-inter">
-                            Auto-Fixable
-                          </p>
+                          <p className="ff-text-xs text-muted-foreground font-inter">Auto-Fixable</p>
                           <p className="ff-text-lg font-bold text-success font-sora">
                             {currentScan.summary.autoFixableCount}
                           </p>
@@ -830,7 +767,7 @@ export function SecurityScanInterface({
                       />
                     </div>
                   </div>
-
+                  
                   <div className="flex gap-2">
                     <Select value={filterSeverity} onValueChange={setFilterSeverity}>
                       <SelectTrigger className="w-32 ff-focus-ring">
@@ -869,9 +806,10 @@ export function SecurityScanInterface({
                           <ShieldCheck className="h-12 w-12 text-success mx-auto" />
                           <h3 className="ff-text-lg font-semibold font-sora">No Issues Found</h3>
                           <p className="ff-text-sm text-muted-foreground font-inter">
-                            {searchTerm || filterSeverity !== 'all' || filterType !== 'all'
+                            {searchTerm || filterSeverity !== 'all' || filterType !== 'all' 
                               ? 'No vulnerabilities match your current filters'
-                              : 'Your application appears to be secure!'}
+                              : 'Your application appears to be secure!'
+                            }
                           </p>
                         </div>
                       </CardContent>
@@ -886,7 +824,7 @@ export function SecurityScanInterface({
                                 <div className="flex-shrink-0">
                                   {getSeverityIcon(finding.severity)}
                                 </div>
-
+                                
                                 <div className="flex-1 space-y-2">
                                   <div className="flex items-start justify-between gap-4">
                                     <div className="space-y-1">
@@ -897,7 +835,7 @@ export function SecurityScanInterface({
                                         {finding.description}
                                       </p>
                                     </div>
-
+                                    
                                     <div className="flex items-center gap-2">
                                       <Badge variant={getSeverityColor(finding.severity) as any}>
                                         {finding.severity}
@@ -943,11 +881,7 @@ export function SecurityScanInterface({
                                       <TooltipProvider>
                                         <Tooltip>
                                           <TooltipTrigger asChild>
-                                            <Button
-                                              size="sm"
-                                              variant="ghost"
-                                              className="h-8 w-8 p-0"
-                                            >
+                                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                                               <Eye className="h-3 w-3" />
                                             </Button>
                                           </TooltipTrigger>
@@ -967,8 +901,8 @@ export function SecurityScanInterface({
                                       </TooltipProvider>
 
                                       {finding.fixAvailable && (
-                                        <Button
-                                          size="sm"
+                                        <Button 
+                                          size="sm" 
                                           variant="outline"
                                           className="ff-text-xs ff-hover-scale"
                                         >
@@ -1001,8 +935,8 @@ export function SecurityScanInterface({
           <CardContent>
             <div className="space-y-3">
               {scanHistory.slice(0, 5).map((scan) => (
-                <div
-                  key={scan.id}
+                <div 
+                  key={scan.id} 
                   className="flex items-center justify-between p-3 rounded-lg bg-muted/50 ff-hover-lift cursor-pointer"
                   onClick={() => setCurrentScan(scan)}
                 >
@@ -1016,7 +950,7 @@ export function SecurityScanInterface({
                         <Clock className="h-4 w-4 text-warning" />
                       )}
                     </div>
-
+                    
                     <div>
                       <p className="ff-text-sm font-semibold font-sora">
                         {scan.configuration.scope} scan - {scan.configuration.depth}

@@ -6,7 +6,7 @@ import * as kv from './kv_store.tsx';
 
 /**
  * Repository Webhooks Handler for FlashFusion
- *
+ * 
  * Handles GitHub webhooks for real-time repository updates including:
  * - Push events for code changes
  * - Pull request events
@@ -14,32 +14,23 @@ import * as kv from './kv_store.tsx';
  * - Branch creation/deletion
  * - Issue events
  * - Release events
- *
+ * 
  * Provides real-time notifications to connected FlashFusion users
  */
 
 const app = new Hono();
 
 // CORS setup for webhook endpoints
-app.use(
-  '*',
-  cors({
-    origin: '*',
-    allowHeaders: [
-      'Content-Type',
-      'Authorization',
-      'X-GitHub-Event',
-      'X-GitHub-Delivery',
-      'X-Hub-Signature-256',
-    ],
-    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  })
-);
+app.use('*', cors({
+  origin: '*',
+  allowHeaders: ['Content-Type', 'Authorization', 'X-GitHub-Event', 'X-GitHub-Delivery', 'X-Hub-Signature-256'],
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+}));
 
 // Supabase client for database operations
 const supabase = createClient(
   Deno.env.get('SUPABASE_URL') || '',
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || ''
+  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '',
 );
 
 // GitHub webhook secret for verification
@@ -152,13 +143,10 @@ async function getConnectedRepositories(githubRepoUrl: string): Promise<Connecte
   try {
     const connectedRepos = await kv.getByPrefix('connected_repository_');
     return connectedRepos
-      .map((item) => {
+      .map(item => {
         try {
           const repo = JSON.parse(item.value) as ConnectedRepository;
-          return repo.url === githubRepoUrl ||
-            repo.url.includes(githubRepoUrl.split('/').slice(-2).join('/'))
-            ? repo
-            : null;
+          return repo.url === githubRepoUrl || repo.url.includes(githubRepoUrl.split('/').slice(-2).join('/')) ? repo : null;
         } catch {
           return null;
         }
@@ -182,19 +170,19 @@ async function sendRealtimeUpdate(update: RealtimeUpdate) {
     );
 
     // Send real-time notification via Supabase realtime
-    const { error } = await supabase.channel('repository-updates').send({
-      type: 'broadcast',
-      event: 'repository_update',
-      payload: update,
-    });
+    const { error } = await supabase
+      .channel('repository-updates')
+      .send({
+        type: 'broadcast',
+        event: 'repository_update',
+        payload: update
+      });
 
     if (error) {
       console.error('Error sending realtime update:', error);
     }
 
-    console.log(
-      `Sent realtime update for ${update.repository_name} to ${update.users.length} users`
-    );
+    console.log(`Sent realtime update for ${update.repository_name} to ${update.users.length} users`);
   } catch (error) {
     console.error('Error in sendRealtimeUpdate:', error);
   }
@@ -206,7 +194,7 @@ async function sendRealtimeUpdate(update: RealtimeUpdate) {
 async function processPushEvent(event: WebhookEvent): Promise<RealtimeUpdate> {
   const commits = event.commits || [];
   const branch = event.repository.default_branch;
-
+  
   const filesChanged = commits.reduce((acc, commit) => {
     return acc + commit.added.length + commit.modified.length + commit.removed.length;
   }, 0);
@@ -218,19 +206,19 @@ async function processPushEvent(event: WebhookEvent): Promise<RealtimeUpdate> {
     summary: `${commits.length} new commit${commits.length !== 1 ? 's' : ''} pushed to ${branch}`,
     details: {
       branch,
-      commits: commits.map((c) => ({
+      commits: commits.map(c => ({
         id: c.id.substring(0, 7),
         message: c.message,
         author: c.author.name,
         url: c.url,
-        files_changed: c.added.length + c.modified.length + c.removed.length,
+        files_changed: c.added.length + c.modified.length + c.removed.length
       })),
       total_files_changed: filesChanged,
-      pusher: event.pusher,
+      pusher: event.pusher
     },
     timestamp: new Date().toISOString(),
     priority: commits.length > 5 ? 'high' : commits.length > 2 ? 'medium' : 'low',
-    users: [],
+    users: []
   };
 }
 
@@ -239,7 +227,7 @@ async function processPushEvent(event: WebhookEvent): Promise<RealtimeUpdate> {
  */
 async function processPullRequestEvent(event: WebhookEvent): Promise<RealtimeUpdate> {
   const pr = event.pull_request!;
-
+  
   return {
     event_type: 'pull_request',
     repository_url: event.repository.html_url,
@@ -250,11 +238,11 @@ async function processPullRequestEvent(event: WebhookEvent): Promise<RealtimeUpd
       title: pr.title,
       state: pr.state,
       author: pr.user.login,
-      url: pr.html_url,
+      url: pr.html_url
     },
     timestamp: new Date().toISOString(),
     priority: pr.state === 'closed' ? 'high' : 'medium',
-    users: [],
+    users: []
   };
 }
 
@@ -263,7 +251,7 @@ async function processPullRequestEvent(event: WebhookEvent): Promise<RealtimeUpd
  */
 async function processIssueEvent(event: WebhookEvent): Promise<RealtimeUpdate> {
   const issue = event.issue!;
-
+  
   return {
     event_type: 'issues',
     repository_url: event.repository.html_url,
@@ -274,11 +262,11 @@ async function processIssueEvent(event: WebhookEvent): Promise<RealtimeUpdate> {
       title: issue.title,
       state: issue.state,
       author: issue.user.login,
-      url: issue.html_url,
+      url: issue.html_url
     },
     timestamp: new Date().toISOString(),
     priority: 'low',
-    users: [],
+    users: []
   };
 }
 
@@ -287,7 +275,7 @@ async function processIssueEvent(event: WebhookEvent): Promise<RealtimeUpdate> {
  */
 async function processReleaseEvent(event: WebhookEvent): Promise<RealtimeUpdate> {
   const release = event.release!;
-
+  
   return {
     event_type: 'release',
     repository_url: event.repository.html_url,
@@ -297,11 +285,11 @@ async function processReleaseEvent(event: WebhookEvent): Promise<RealtimeUpdate>
       tag_name: release.tag_name,
       name: release.name,
       url: release.html_url,
-      published_at: release.published_at,
+      published_at: release.published_at
     },
     timestamp: new Date().toISOString(),
     priority: 'high',
-    users: [],
+    users: []
   };
 }
 
@@ -319,11 +307,11 @@ async function processRepositoryEvent(event: WebhookEvent): Promise<RealtimeUpda
       forks: event.repository.forks_count,
       issues: event.repository.open_issues_count,
       language: event.repository.language,
-      updated_at: event.repository.updated_at,
+      updated_at: event.repository.updated_at
     },
     timestamp: new Date().toISOString(),
     priority: 'low',
-    users: [],
+    users: []
   };
 }
 
@@ -335,13 +323,13 @@ app.post('/make-server-88829a40/webhooks/github', async (c) => {
     const signature = c.req.header('X-Hub-Signature-256');
     const event = c.req.header('X-GitHub-Event');
     const delivery = c.req.header('X-GitHub-Delivery');
-
+    
     if (!signature || !event) {
       return c.json({ error: 'Missing required headers' }, 400);
     }
 
     const payload = await c.req.text();
-
+    
     // Verify webhook signature in production
     if (Deno.env.get('ENVIRONMENT') === 'production') {
       const isValid = await verifyWebhookSignature(payload, signature, WEBHOOK_SECRET);
@@ -351,14 +339,12 @@ app.post('/make-server-88829a40/webhooks/github', async (c) => {
     }
 
     const webhookEvent: WebhookEvent = JSON.parse(payload);
-
-    console.log(
-      `Received webhook event: ${event} for repository: ${webhookEvent.repository?.name}`
-    );
+    
+    console.log(`Received webhook event: ${event} for repository: ${webhookEvent.repository?.name}`);
 
     // Get connected repositories that match this GitHub repository
     const connectedRepos = await getConnectedRepositories(webhookEvent.repository.html_url);
-
+    
     if (connectedRepos.length === 0) {
       console.log(`No connected repositories found for ${webhookEvent.repository.html_url}`);
       return c.json({ message: 'No connected repositories found' });
@@ -366,7 +352,7 @@ app.post('/make-server-88829a40/webhooks/github', async (c) => {
 
     // Process different event types
     let update: RealtimeUpdate;
-
+    
     switch (event) {
       case 'push':
         update = await processPushEvent(webhookEvent);
@@ -392,7 +378,7 @@ app.post('/make-server-88829a40/webhooks/github', async (c) => {
     const allUsers = connectedRepos.reduce((acc, repo) => {
       return [...acc, ...repo.users];
     }, [] as string[]);
-
+    
     update.users = [...new Set(allUsers)]; // Remove duplicates
 
     // Send real-time update to connected users
@@ -404,21 +390,19 @@ app.post('/make-server-88829a40/webhooks/github', async (c) => {
       await kv.set(`connected_repository_${repo.id}`, JSON.stringify(repo));
     }
 
-    return c.json({
+    return c.json({ 
       message: 'Webhook processed successfully',
       event_type: event,
       repository: webhookEvent.repository.name,
-      users_notified: update.users.length,
+      users_notified: update.users.length
     });
+
   } catch (error) {
     console.error('Webhook processing error:', error);
-    return c.json(
-      {
-        error: 'Internal server error',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      500
-    );
+    return c.json({ 
+      error: 'Internal server error',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, 500);
   }
 });
 
@@ -428,7 +412,7 @@ app.post('/make-server-88829a40/webhooks/github', async (c) => {
 app.post('/make-server-88829a40/webhooks/register', async (c) => {
   try {
     const { repository_url, access_token, user_id } = await c.req.json();
-
+    
     if (!repository_url || !access_token || !user_id) {
       return c.json({ error: 'Missing required fields' }, 400);
     }
@@ -443,13 +427,13 @@ app.post('/make-server-88829a40/webhooks/register', async (c) => {
 
     // Create webhook using GitHub API
     const webhookUrl = `${Deno.env.get('SUPABASE_URL')}/functions/v1/make-server-88829a40/webhooks/github`;
-
+    
     const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/hooks`, {
       method: 'POST',
       headers: {
-        Authorization: `token ${access_token}`,
-        Accept: 'application/vnd.github.v3+json',
-        'Content-Type': 'application/json',
+        'Authorization': `token ${access_token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         name: 'web',
@@ -459,20 +443,17 @@ app.post('/make-server-88829a40/webhooks/register', async (c) => {
           url: webhookUrl,
           content_type: 'json',
           secret: WEBHOOK_SECRET,
-          insecure_ssl: '0',
-        },
-      }),
+          insecure_ssl: '0'
+        }
+      })
     });
 
     if (!response.ok) {
       const error = await response.json();
-      return c.json(
-        {
-          error: 'Failed to create webhook',
-          details: error.message || 'Unknown GitHub API error',
-        },
-        response.status
-      );
+      return c.json({ 
+        error: 'Failed to create webhook',
+        details: error.message || 'Unknown GitHub API error'
+      }, response.status);
     }
 
     const webhook = await response.json();
@@ -485,7 +466,7 @@ app.post('/make-server-88829a40/webhooks/register', async (c) => {
       repo,
       user_id,
       created_at: new Date().toISOString(),
-      active: true,
+      active: true
     };
 
     await kv.set(`webhook_registration_${webhook.id}`, JSON.stringify(registration));
@@ -494,17 +475,15 @@ app.post('/make-server-88829a40/webhooks/register', async (c) => {
       message: 'Webhook registered successfully',
       webhook_id: webhook.id,
       url: webhookUrl,
-      events: webhook.events,
+      events: webhook.events
     });
+
   } catch (error) {
     console.error('Webhook registration error:', error);
-    return c.json(
-      {
-        error: 'Failed to register webhook',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      500
-    );
+    return c.json({
+      error: 'Failed to register webhook',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, 500);
   }
 });
 
@@ -515,7 +494,7 @@ app.delete('/make-server-88829a40/webhooks/:webhook_id', async (c) => {
   try {
     const webhookId = c.req.param('webhook_id');
     const { access_token } = await c.req.json();
-
+    
     if (!access_token) {
       return c.json({ error: 'Access token required' }, 400);
     }
@@ -534,9 +513,9 @@ app.delete('/make-server-88829a40/webhooks/:webhook_id', async (c) => {
       {
         method: 'DELETE',
         headers: {
-          Authorization: `token ${access_token}`,
-          Accept: 'application/vnd.github.v3+json',
-        },
+          'Authorization': `token ${access_token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
       }
     );
 
@@ -548,15 +527,13 @@ app.delete('/make-server-88829a40/webhooks/:webhook_id', async (c) => {
     await kv.del(`webhook_registration_${webhookId}`);
 
     return c.json({ message: 'Webhook unregistered successfully' });
+
   } catch (error) {
     console.error('Webhook unregistration error:', error);
-    return c.json(
-      {
-        error: 'Failed to unregister webhook',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      500
-    );
+    return c.json({
+      error: 'Failed to unregister webhook',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, 500);
   }
 });
 
@@ -571,10 +548,10 @@ app.get('/make-server-88829a40/webhooks/events/:user_id', async (c) => {
 
     // Get all webhook events
     const events = await kv.getByPrefix('webhook_event_');
-
+    
     // Filter events for this user and sort by timestamp
     const userEvents = events
-      .map((item) => {
+      .map(item => {
         try {
           const event = JSON.parse(item.value) as RealtimeUpdate;
           return event.users.includes(userId) ? event : null;
@@ -590,17 +567,15 @@ app.get('/make-server-88829a40/webhooks/events/:user_id', async (c) => {
       events: userEvents,
       total: userEvents.length,
       limit,
-      offset,
+      offset
     });
+
   } catch (error) {
     console.error('Error fetching webhook events:', error);
-    return c.json(
-      {
-        error: 'Failed to fetch webhook events',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      500
-    );
+    return c.json({
+      error: 'Failed to fetch webhook events',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, 500);
   }
 });
 
@@ -611,7 +586,7 @@ app.get('/make-server-88829a40/webhooks/health', async (c) => {
   return c.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    version: '1.0.0',
+    version: '1.0.0'
   });
 });
 

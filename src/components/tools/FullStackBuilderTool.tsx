@@ -9,13 +9,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Label } from '../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Checkbox } from '../ui/checkbox';
-import {
-  Code2,
-  Rocket,
-  Download,
-  Copy,
-  Eye,
-  Settings,
+import { 
+  Code2, 
+  Rocket, 
+  Download, 
+  Copy, 
+  Eye, 
+  Settings, 
   Database,
   Globe,
   Zap,
@@ -25,7 +25,7 @@ import {
   RefreshCw,
   FileCode,
   FolderTree,
-  Play,
+  Play
 } from 'lucide-react';
 import { aiServiceManager } from '../../services/AIServiceManager';
 
@@ -61,7 +61,7 @@ const FRAMEWORKS = [
   { value: 'vue', label: 'Vue.js', description: 'Progressive JavaScript framework' },
   { value: 'nuxt', label: 'Nuxt.js', description: 'Vue.js production framework' },
   { value: 'svelte', label: 'Svelte', description: 'Compile-time optimized framework' },
-  { value: 'angular', label: 'Angular', description: 'Enterprise TypeScript framework' },
+  { value: 'angular', label: 'Angular', description: 'Enterprise TypeScript framework' }
 ];
 
 const STYLING_OPTIONS = [
@@ -69,7 +69,7 @@ const STYLING_OPTIONS = [
   { value: 'styled-components', label: 'Styled Components', description: 'CSS-in-JS styling' },
   { value: 'emotion', label: 'Emotion', description: 'CSS-in-JS library' },
   { value: 'chakra', label: 'Chakra UI', description: 'Component library' },
-  { value: 'mui', label: 'Material-UI', description: 'React component library' },
+  { value: 'mui', label: 'Material-UI', description: 'React component library' }
 ];
 
 const DATABASE_OPTIONS = [
@@ -77,7 +77,7 @@ const DATABASE_OPTIONS = [
   { value: 'firebase', label: 'Firebase', description: 'NoSQL real-time database' },
   { value: 'mongodb', label: 'MongoDB', description: 'Document database' },
   { value: 'prisma', label: 'Prisma + PostgreSQL', description: 'Type-safe database access' },
-  { value: 'none', label: 'No Database', description: 'Frontend only' },
+  { value: 'none', label: 'No Database', description: 'Frontend only' }
 ];
 
 const FEATURE_OPTIONS = [
@@ -88,7 +88,7 @@ const FEATURE_OPTIONS = [
   { id: 'payments', label: 'Payment Integration', description: 'Stripe payment processing' },
   { id: 'notifications', label: 'Push Notifications', description: 'User notifications' },
   { id: 'search', label: 'Search Functionality', description: 'Full-text search' },
-  { id: 'analytics', label: 'Analytics Tracking', description: 'User behavior tracking' },
+  { id: 'analytics', label: 'Analytics Tracking', description: 'User behavior tracking' }
 ];
 
 const DEPLOYMENT_PLATFORMS = [
@@ -96,7 +96,7 @@ const DEPLOYMENT_PLATFORMS = [
   { value: 'netlify', label: 'Netlify', description: 'JAMstack deployment' },
   { value: 'railway', label: 'Railway', description: 'Full-stack hosting' },
   { value: 'render', label: 'Render', description: 'Cloud application platform' },
-  { value: 'aws', label: 'AWS', description: 'Amazon Web Services' },
+  { value: 'aws', label: 'AWS', description: 'Amazon Web Services' }
 ];
 
 export function FullStackBuilderTool() {
@@ -108,7 +108,7 @@ export function FullStackBuilderTool() {
     database: 'supabase',
     authentication: true,
     features: ['auth', 'dashboard'],
-    deploymentPlatform: 'vercel',
+    deploymentPlatform: 'vercel'
   });
 
   const [isGenerating, setIsGenerating] = useState(false);
@@ -128,37 +128,12 @@ export function FullStackBuilderTool() {
     setSelectedFile(null);
 
     const steps: GenerationProgress[] = [
-      {
-        step: 'Project Setup',
-        progress: 0,
-        status: 'pending',
-        message: 'Initializing project structure',
-      },
-      {
-        step: 'Core Components',
-        progress: 0,
-        status: 'pending',
-        message: 'Generating main components',
-      },
-      {
-        step: 'Styling & Layout',
-        progress: 0,
-        status: 'pending',
-        message: 'Setting up styling system',
-      },
-      {
-        step: 'Database Schema',
-        progress: 0,
-        status: 'pending',
-        message: 'Creating database structure',
-      },
+      { step: 'Project Setup', progress: 0, status: 'pending', message: 'Initializing project structure' },
+      { step: 'Core Components', progress: 0, status: 'pending', message: 'Generating main components' },
+      { step: 'Styling & Layout', progress: 0, status: 'pending', message: 'Setting up styling system' },
+      { step: 'Database Schema', progress: 0, status: 'pending', message: 'Creating database structure' },
       { step: 'API Routes', progress: 0, status: 'pending', message: 'Building backend endpoints' },
-      {
-        step: 'Configuration',
-        progress: 0,
-        status: 'pending',
-        message: 'Setting up configs and deployment',
-      },
+      { step: 'Configuration', progress: 0, status: 'pending', message: 'Setting up configs and deployment' }
     ];
 
     setGenerationSteps(steps);
@@ -169,82 +144,70 @@ export function FullStackBuilderTool() {
         const startTime = Date.now();
 
         // Update step to in-progress
-        setGenerationSteps((prev) =>
-          prev.map((s, index) =>
-            index === i ? { ...s, status: 'in-progress' as const, progress: 0 } : s
-          )
-        );
+        setGenerationSteps(prev => prev.map((s, index) => 
+          index === i ? { ...s, status: 'in-progress' as const, progress: 0 } : s
+        ));
 
         // Generate files for this step
         const stepFiles = await generateStepFiles(step.step, config);
 
         // Simulate progress updates
         for (let progress = 0; progress <= 100; progress += 20) {
-          setGenerationSteps((prev) =>
-            prev.map((s, index) => (index === i ? { ...s, progress } : s))
-          );
-          await new Promise((resolve) => setTimeout(resolve, 200));
+          setGenerationSteps(prev => prev.map((s, index) => 
+            index === i ? { ...s, progress } : s
+          ));
+          await new Promise(resolve => setTimeout(resolve, 200));
         }
 
         // Complete the step
         const duration = Date.now() - startTime;
-        setGenerationSteps((prev) =>
-          prev.map((s, index) =>
-            index === i
-              ? {
-                  ...s,
-                  status: 'completed' as const,
-                  progress: 100,
-                  duration,
-                  message: `Generated ${stepFiles.length} files`,
-                }
-              : s
-          )
-        );
+        setGenerationSteps(prev => prev.map((s, index) => 
+          index === i ? { 
+            ...s, 
+            status: 'completed' as const, 
+            progress: 100, 
+            duration,
+            message: `Generated ${stepFiles.length} files`
+          } : s
+        ));
 
         // Add files to generated files
-        setGeneratedFiles((prev) => [...prev, ...stepFiles]);
+        setGeneratedFiles(prev => [...prev, ...stepFiles]);
       }
+
     } catch (error) {
       console.error('Generation failed:', error);
-      setGenerationSteps((prev) =>
-        prev.map((s) =>
-          s.status === 'in-progress'
-            ? { ...s, status: 'error' as const, message: 'Generation failed' }
-            : s
-        )
-      );
+      setGenerationSteps(prev => prev.map(s => 
+        s.status === 'in-progress' ? { ...s, status: 'error' as const, message: 'Generation failed' } : s
+      ));
     } finally {
       setIsGenerating(false);
     }
   };
 
-  const generateStepFiles = async (
-    step: string,
-    config: ProjectConfig
-  ): Promise<GeneratedFile[]> => {
+  const generateStepFiles = async (step: string, config: ProjectConfig): Promise<GeneratedFile[]> => {
     const files: GeneratedFile[] = [];
 
     switch (step) {
       case 'Project Setup':
-        files.push(...(await generateProjectSetup(config)));
+        files.push(...await generateProjectSetup(config));
         break;
       case 'Core Components':
-        files.push(...(await generateCoreComponents(config)));
+        files.push(...await generateCoreComponents(config));
         break;
       case 'Styling & Layout':
-        files.push(...(await generateStyling(config)));
+        files.push(...await generateStyling(config));
         break;
       case 'Database Schema':
         if (config.database !== 'none') {
-          files.push(...(await generateDatabase(config)));
+          files.push(...await generateDatabase(config));
         }
         break;
       case 'API Routes':
-        files.push(...(await generateAPIRoutes(config)));
+        files.push(...await generateAPIRoutes(config));
         break;
       case 'Configuration':
-        files.push(...(await generateConfiguration(config)));
+        files.push(...await generateConfiguration(config));
         break;
     }
 
@@ -272,38 +235,38 @@ Make sure all dependencies are compatible and up-to-date.`;
 
     try {
       const response = await aiServiceManager.generateCode(prompt, 'json');
-
+      
       return [
         {
           path: 'package.json',
           content: extractFileContent(response.content, 'package.json'),
           language: 'json',
-          size: 1024,
+          size: 1024
         },
         {
           path: 'tsconfig.json',
           content: extractFileContent(response.content, 'tsconfig.json'),
           language: 'json',
-          size: 512,
+          size: 512
         },
         {
           path: 'README.md',
           content: extractFileContent(response.content, 'README.md'),
           language: 'markdown',
-          size: 2048,
+          size: 2048
         },
         {
           path: '.env.example',
           content: extractFileContent(response.content, '.env.example'),
           language: 'bash',
-          size: 256,
+          size: 256
         },
         {
           path: '.gitignore',
           content: extractFileContent(response.content, '.gitignore'),
           language: 'text',
-          size: 128,
-        },
+          size: 128
+        }
       ];
     } catch (error) {
       console.error('Error generating project setup:', error);
@@ -330,8 +293,8 @@ function App() {
 
 export default App;`,
         language: 'typescript',
-        size: 512,
-      },
+        size: 512
+      }
     ];
   };
 
@@ -357,11 +320,9 @@ export default App;`,
     const fileStart = content.indexOf(`// ${filename}`) || content.indexOf(`/* ${filename}`);
     if (fileStart !== -1) {
       const nextFileStart = content.indexOf('// ', fileStart + 1);
-      return nextFileStart !== -1
-        ? content.slice(fileStart, nextFileStart)
-        : content.slice(fileStart);
+      return nextFileStart !== -1 ? content.slice(fileStart, nextFileStart) : content.slice(fileStart);
     }
-
+    
     // Fallback: return relevant portion of content
     return content.slice(0, 2000) + (content.length > 2000 ? '...' : '');
   };
@@ -382,7 +343,7 @@ export default App;`,
 
   const generateProjectZip = (files: GeneratedFile[]): string => {
     // Simplified zip generation - in production, use JSZip library
-    return files.map((file) => `${file.path}:\n${file.content}`).join('\n\n---\n\n');
+    return files.map(file => `${file.path}:\n${file.content}`).join('\n\n---\n\n');
   };
 
   const copyToClipboard = async (content: string) => {
@@ -399,10 +360,11 @@ export default App;`,
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center space-y-4 mb-8">
-          <h1 className="text-3xl font-bold ff-text-gradient">Full-Stack Application Builder</h1>
+          <h1 className="text-3xl font-bold ff-text-gradient">
+            Full-Stack Application Builder
+          </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Generate complete, production-ready applications with AI. From idea to deployment in
-            minutes.
+            Generate complete, production-ready applications with AI. From idea to deployment in minutes.
           </p>
         </div>
 
@@ -416,7 +378,7 @@ export default App;`,
                   Project Configuration
                 </CardTitle>
               </CardHeader>
-
+              
               <CardContent className="space-y-6">
                 {/* Basic Info */}
                 <div className="space-y-4">
@@ -425,20 +387,18 @@ export default App;`,
                     <Input
                       id="name"
                       value={config.name}
-                      onChange={(e) => setConfig((prev) => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) => setConfig(prev => ({ ...prev, name: e.target.value }))}
                       placeholder="My Awesome App"
                       className="ff-focus-ring"
                     />
                   </div>
-
+                  
                   <div>
                     <Label htmlFor="description">Description</Label>
                     <Textarea
                       id="description"
                       value={config.description}
-                      onChange={(e) =>
-                        setConfig((prev) => ({ ...prev, description: e.target.value }))
-                      }
+                      onChange={(e) => setConfig(prev => ({ ...prev, description: e.target.value }))}
                       placeholder="Describe what your application will do..."
                       className="ff-focus-ring"
                       rows={3}
@@ -449,10 +409,7 @@ export default App;`,
                 {/* Framework Selection */}
                 <div>
                   <Label>Frontend Framework</Label>
-                  <Select
-                    value={config.framework}
-                    onValueChange={(value) => setConfig((prev) => ({ ...prev, framework: value }))}
-                  >
+                  <Select value={config.framework} onValueChange={(value) => setConfig(prev => ({ ...prev, framework: value }))}>
                     <SelectTrigger className="ff-focus-ring">
                       <SelectValue />
                     </SelectTrigger>
@@ -461,9 +418,7 @@ export default App;`,
                         <SelectItem key={framework.value} value={framework.value}>
                           <div>
                             <div className="font-medium">{framework.label}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {framework.description}
-                            </div>
+                            <div className="text-xs text-muted-foreground">{framework.description}</div>
                           </div>
                         </SelectItem>
                       ))}
@@ -474,10 +429,7 @@ export default App;`,
                 {/* Styling */}
                 <div>
                   <Label>Styling Solution</Label>
-                  <Select
-                    value={config.styling}
-                    onValueChange={(value) => setConfig((prev) => ({ ...prev, styling: value }))}
-                  >
+                  <Select value={config.styling} onValueChange={(value) => setConfig(prev => ({ ...prev, styling: value }))}>
                     <SelectTrigger className="ff-focus-ring">
                       <SelectValue />
                     </SelectTrigger>
@@ -486,9 +438,7 @@ export default App;`,
                         <SelectItem key={option.value} value={option.value}>
                           <div>
                             <div className="font-medium">{option.label}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {option.description}
-                            </div>
+                            <div className="text-xs text-muted-foreground">{option.description}</div>
                           </div>
                         </SelectItem>
                       ))}
@@ -529,36 +479,28 @@ export default App;`,
                     Generation Progress
                   </CardTitle>
                 </CardHeader>
-
+                
                 <CardContent className="space-y-4">
                   {generationSteps.map((step, index) => (
                     <div key={index} className="space-y-2">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          {step.status === 'completed' && (
-                            <CheckCircle className="w-4 h-4 text-success" />
-                          )}
-                          {step.status === 'in-progress' && (
-                            <RefreshCw className="w-4 h-4 text-primary animate-spin" />
-                          )}
-                          {step.status === 'error' && (
-                            <AlertCircle className="w-4 h-4 text-destructive" />
-                          )}
-                          {step.status === 'pending' && (
-                            <Clock className="w-4 h-4 text-muted-foreground" />
-                          )}
-
+                          {step.status === 'completed' && <CheckCircle className="w-4 h-4 text-success" />}
+                          {step.status === 'in-progress' && <RefreshCw className="w-4 h-4 text-primary animate-spin" />}
+                          {step.status === 'error' && <AlertCircle className="w-4 h-4 text-destructive" />}
+                          {step.status === 'pending' && <Clock className="w-4 h-4 text-muted-foreground" />}
+                          
                           <span className="font-medium">{step.step}</span>
                         </div>
-
+                        
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           {step.duration && <span>{step.duration}ms</span>}
                           <span>{step.progress}%</span>
                         </div>
                       </div>
-
+                      
                       <Progress value={step.progress} className="h-2" />
-
+                      
                       {step.message && (
                         <p className="text-sm text-muted-foreground">{step.message}</p>
                       )}
@@ -582,7 +524,7 @@ export default App;`,
                     </Button>
                   </div>
                 </CardHeader>
-
+                
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {generatedFiles.map((file, index) => (
@@ -591,9 +533,15 @@ export default App;`,
                           <span className="font-mono text-sm">{file.path}</span>
                           <Badge variant="outline">{file.language}</Badge>
                         </div>
-                        <div className="text-sm text-muted-foreground">{file.size} bytes</div>
+                        <div className="text-sm text-muted-foreground">
+                          {file.size} bytes
+                        </div>
                         <div className="flex gap-2">
-                          <Button size="sm" variant="outline" onClick={() => setSelectedFile(file)}>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setSelectedFile(file)}
+                          >
                             <Eye className="w-3 h-3 mr-1" />
                             View
                           </Button>

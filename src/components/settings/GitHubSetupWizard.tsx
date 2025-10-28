@@ -8,12 +8,12 @@ import { Progress } from '../ui/progress';
 import { Badge } from '../ui/badge';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  Github,
-  CheckCircle,
-  XCircle,
-  Copy,
-  ExternalLink,
+import { 
+  Github, 
+  CheckCircle, 
+  XCircle, 
+  Copy, 
+  ExternalLink, 
   Loader2,
   ArrowRight,
   ArrowLeft,
@@ -22,7 +22,7 @@ import {
   Link,
   Zap,
   Shield,
-  Rocket,
+  Rocket
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -57,41 +57,43 @@ export function GitHubSetupWizard() {
       title: 'Welcome to GitHub Integration',
       description: 'Connect your GitHub account to unlock powerful AI-driven code analysis',
       icon: <Github className="h-6 w-6 text-primary" />,
-      status: 'in-progress',
+      status: 'in-progress'
     },
     {
       id: 'token-setup',
       title: 'Create Personal Access Token',
       description: 'Generate a secure token to access your repositories',
       icon: <Key className="h-6 w-6 text-warning" />,
-      status: 'pending',
+      status: 'pending'
     },
     {
       id: 'connection-test',
       title: 'Test Connection',
       description: 'Verify your token works correctly',
       icon: <Link className="h-6 w-6 text-info" />,
-      status: 'pending',
+      status: 'pending'
     },
     {
       id: 'repository-setup',
       title: 'Connect Repository',
       description: 'Add your first repository for AI analysis',
       icon: <Zap className="h-6 w-6 text-success" />,
-      status: 'pending',
+      status: 'pending'
     },
     {
       id: 'complete',
       title: 'Setup Complete',
-      description: "You're ready to use GitHub-powered AI features",
+      description: 'You\'re ready to use GitHub-powered AI features',
       icon: <Rocket className="h-6 w-6 text-accent" />,
-      status: 'pending',
-    },
+      status: 'pending'
+    }
   ]);
 
   const updateStepStatus = (stepId: string, status: GitHubSetupStep['status']) => {
-    setSetupSteps((steps) =>
-      steps.map((step) => (step.id === stepId ? { ...step, status } : step))
+    setSetupSteps(steps => 
+      steps.map(step => 
+        step.id === stepId ? { ...step, status } : step
+      )
     );
   };
 
@@ -107,9 +109,9 @@ export function GitHubSetupWizard() {
     try {
       const response = await fetch('https://api.github.com/user', {
         headers: {
-          Authorization: `token ${personalAccessToken}`,
-          Accept: 'application/vnd.github.v3+json',
-        },
+          'Authorization': `token ${personalAccessToken}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
       });
 
       if (!response.ok) {
@@ -119,17 +121,18 @@ export function GitHubSetupWizard() {
       const userData = await response.json();
       setConnectionTest(userData);
       updateStepStatus('connection-test', 'completed');
-
+      
       // Store token securely
       localStorage.setItem('github_token', personalAccessToken);
-
+      
       toast.success('GitHub connection successful!');
-
+      
       // Auto-advance to next step
       setTimeout(() => {
         setCurrentStep(3);
         updateStepStatus('repository-setup', 'in-progress');
       }, 1500);
+
     } catch (error) {
       console.error('GitHub connection failed:', error);
       updateStepStatus('connection-test', 'error');
@@ -155,13 +158,13 @@ export function GitHubSetupWizard() {
       }
 
       const [, owner, repo] = repoMatch;
-
+      
       // Test repository access
       const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
         headers: {
-          Authorization: `token ${personalAccessToken}`,
-          Accept: 'application/vnd.github.v3+json',
-        },
+          'Authorization': `token ${personalAccessToken}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
       });
 
       if (!response.ok) {
@@ -169,7 +172,7 @@ export function GitHubSetupWizard() {
       }
 
       const repoData = await response.json();
-
+      
       // Store repository connection
       const existingRepos = JSON.parse(localStorage.getItem('ff_connected_repositories') || '[]');
       const newRepo = {
@@ -184,8 +187,8 @@ export function GitHubSetupWizard() {
         analysisResult: {
           technologies: [repoData.language].filter(Boolean),
           summary: repoData.description || 'Repository connected successfully',
-          recommendations: ['Repository is ready for AI analysis'],
-        },
+          recommendations: ['Repository is ready for AI analysis']
+        }
       };
 
       existingRepos.push(newRepo);
@@ -199,6 +202,7 @@ export function GitHubSetupWizard() {
         setCurrentStep(4);
         updateStepStatus('complete', 'completed');
       }, 1500);
+
     } catch (error) {
       console.error('Repository connection failed:', error);
       updateStepStatus('repository-setup', 'error');
@@ -215,7 +219,7 @@ export function GitHubSetupWizard() {
     if (currentStep < setupSteps.length - 1) {
       const current = setupSteps[currentStep];
       updateStepStatus(current.id, 'completed');
-
+      
       const nextIndex = currentStep + 1;
       setCurrentStep(nextIndex);
       updateStepStatus(setupSteps[nextIndex].id, 'in-progress');
@@ -255,11 +259,13 @@ export function GitHubSetupWizard() {
           <div className="p-3 bg-primary/10 rounded-full">
             <Github className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold ff-text-gradient">GitHub Integration Setup</h1>
+          <h1 className="text-3xl font-bold ff-text-gradient">
+            GitHub Integration Setup
+          </h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Connect your GitHub account to enable AI-powered code analysis, repository insights, and
-          context-aware code generation with FlashFusion.
+          Connect your GitHub account to enable AI-powered code analysis, repository insights, 
+          and context-aware code generation with FlashFusion.
         </p>
       </motion.div>
 
@@ -268,37 +274,40 @@ export function GitHubSetupWizard() {
         <CardContent className="p-6">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-sm font-medium text-muted-foreground">Setup Progress</span>
-              <span className="text-sm font-bold text-primary">{Math.round(progress)}%</span>
+              <span className="text-sm font-medium text-muted-foreground">
+                Setup Progress
+              </span>
+              <span className="text-sm font-bold text-primary">
+                {Math.round(progress)}%
+              </span>
             </div>
             <Progress value={progress} className="h-2 ff-progress-bar" />
-
+            
             {/* Step Indicators */}
             <div className="flex justify-between items-center">
               {setupSteps.map((step, index) => (
-                <div
+                <div 
                   key={step.id}
                   className={`flex flex-col items-center space-y-2 ${
                     index <= currentStep ? 'opacity-100' : 'opacity-50'
                   }`}
                 >
-                  <div
-                    className={`
+                  <div className={`
                     p-2 rounded-full border-2 transition-all duration-300
-                    ${
-                      step.status === 'completed'
-                        ? 'border-success bg-success/10'
-                        : step.status === 'in-progress'
-                          ? 'border-primary bg-primary/10 ff-pulse-glow'
-                          : step.status === 'error'
-                            ? 'border-destructive bg-destructive/10'
-                            : 'border-muted-foreground bg-muted/10'
+                    ${step.status === 'completed' 
+                      ? 'border-success bg-success/10' 
+                      : step.status === 'in-progress'
+                      ? 'border-primary bg-primary/10 ff-pulse-glow'
+                      : step.status === 'error'
+                      ? 'border-destructive bg-destructive/10'
+                      : 'border-muted-foreground bg-muted/10'
                     }
-                  `}
-                  >
+                  `}>
                     {getStepStatusIcon(step.status)}
                   </div>
-                  <span className="text-xs text-center max-w-20 hidden sm:block">{step.title}</span>
+                  <span className="text-xs text-center max-w-20 hidden sm:block">
+                    {step.title}
+                  </span>
                 </div>
               ))}
             </div>
@@ -337,20 +346,18 @@ export function GitHubSetupWizard() {
                       {
                         icon: <Zap className="h-8 w-8 text-warning" />,
                         title: 'AI Code Analysis',
-                        description:
-                          'Get intelligent insights about your codebase structure and quality',
+                        description: 'Get intelligent insights about your codebase structure and quality'
                       },
                       {
                         icon: <Shield className="h-8 w-8 text-success" />,
                         title: 'Secure Integration',
-                        description: 'Your tokens are stored locally and never sent to our servers',
+                        description: 'Your tokens are stored locally and never sent to our servers'
                       },
                       {
                         icon: <Rocket className="h-8 w-8 text-info" />,
                         title: 'Enhanced Generation',
-                        description:
-                          'Generate code with full context from your existing repositories',
-                      },
+                        description: 'Generate code with full context from your existing repositories'
+                      }
                     ].map((feature, index) => (
                       <motion.div
                         key={feature.title}
@@ -369,12 +376,12 @@ export function GitHubSetupWizard() {
                       </motion.div>
                     ))}
                   </div>
-
+                  
                   <Alert className="max-w-md mx-auto">
                     <Shield className="h-4 w-4" />
                     <AlertDescription>
-                      <strong>Privacy First:</strong> Your GitHub tokens are encrypted and stored
-                      locally. We never have access to your repository contents.
+                      <strong>Privacy First:</strong> Your GitHub tokens are encrypted and stored locally. 
+                      We never have access to your repository contents.
                     </AlertDescription>
                   </Alert>
                 </div>
@@ -386,46 +393,38 @@ export function GitHubSetupWizard() {
                   <Alert>
                     <Key className="h-4 w-4" />
                     <AlertDescription>
-                      You'll need to create a Personal Access Token on GitHub with repository access
-                      permissions.
+                      You'll need to create a Personal Access Token on GitHub with repository access permissions.
                     </AlertDescription>
                   </Alert>
 
                   <div className="space-y-4">
                     <h3 className="font-semibold text-lg">Step-by-step instructions:</h3>
-
+                    
                     <div className="space-y-3">
                       {[
                         {
                           step: 1,
                           action: 'Go to GitHub Settings',
-                          detail:
-                            'Click your profile picture → Settings → Developer settings → Personal access tokens → Tokens (classic)',
-                          link: 'https://github.com/settings/tokens',
+                          detail: 'Click your profile picture → Settings → Developer settings → Personal access tokens → Tokens (classic)',
+                          link: 'https://github.com/settings/tokens'
                         },
                         {
                           step: 2,
                           action: 'Generate new token',
-                          detail:
-                            'Click "Generate new token (classic)" and give it a descriptive name like "FlashFusion Integration"',
+                          detail: 'Click "Generate new token (classic)" and give it a descriptive name like "FlashFusion Integration"'
                         },
                         {
                           step: 3,
                           action: 'Select scopes',
-                          detail:
-                            'Check these permissions: ✓ repo (full repository access) ✓ read:user (user profile access)',
+                          detail: 'Check these permissions: ✓ repo (full repository access) ✓ read:user (user profile access)'
                         },
                         {
                           step: 4,
                           action: 'Generate and copy',
-                          detail:
-                            'Click "Generate token" and immediately copy the token (you won\'t see it again!)',
-                        },
+                          detail: 'Click "Generate token" and immediately copy the token (you won\'t see it again!)'
+                        }
                       ].map((instruction) => (
-                        <div
-                          key={instruction.step}
-                          className="flex gap-4 p-4 border border-border rounded-lg"
-                        >
+                        <div key={instruction.step} className="flex gap-4 p-4 border border-border rounded-lg">
                           <div className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm">
                             {instruction.step}
                           </div>
@@ -534,8 +533,8 @@ export function GitHubSetupWizard() {
                   <Alert>
                     <Github className="h-4 w-4" />
                     <AlertDescription>
-                      Connect your first repository to start using AI-powered code analysis. You can
-                      add more repositories later from the Settings page.
+                      Connect your first repository to start using AI-powered code analysis. 
+                      You can add more repositories later from the Settings page.
                     </AlertDescription>
                   </Alert>
 
@@ -564,8 +563,7 @@ export function GitHubSetupWizard() {
 
                   <div className="text-center">
                     <p className="text-sm text-muted-foreground">
-                      Don't have a repository to connect? You can skip this step and add
-                      repositories later.
+                      Don't have a repository to connect? You can skip this step and add repositories later.
                     </p>
                   </div>
                 </div>
@@ -577,7 +575,7 @@ export function GitHubSetupWizard() {
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    transition={{ delay: 0.2, type: 'spring' }}
+                    transition={{ delay: 0.2, type: "spring" }}
                     className="w-24 h-24 mx-auto bg-success/10 rounded-full flex items-center justify-center"
                   >
                     <CheckCircle className="h-12 w-12 text-success" />
@@ -586,21 +584,21 @@ export function GitHubSetupWizard() {
                   <div className="space-y-4">
                     <h3 className="text-2xl font-bold text-success">Setup Complete! 🎉</h3>
                     <p className="text-muted-foreground max-w-md mx-auto">
-                      Your GitHub integration is now active. You can start using AI-powered features
+                      Your GitHub integration is now active. You can start using AI-powered features 
                       with your connected repositories.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-md mx-auto">
                     <Button
-                      onClick={() => (window.location.href = '/tools')}
+                      onClick={() => window.location.href = '/tools'}
                       className="ff-btn-primary"
                     >
                       <Zap className="h-4 w-4 mr-2" />
                       Explore AI Tools
                     </Button>
                     <Button
-                      onClick={() => (window.location.href = '/settings')}
+                      onClick={() => window.location.href = '/settings'}
                       variant="outline"
                       className="ff-hover-scale"
                     >
@@ -612,8 +610,8 @@ export function GitHubSetupWizard() {
                   <Alert className="max-w-md mx-auto">
                     <Rocket className="h-4 w-4" />
                     <AlertDescription>
-                      <strong>What's next?</strong> Try the Repository Analyzer tool or generate
-                      code with full context from your connected repositories!
+                      <strong>What's next?</strong> Try the Repository Analyzer tool or generate code 
+                      with full context from your connected repositories!
                     </AlertDescription>
                   </Alert>
                 </div>

@@ -16,17 +16,17 @@ export default function handler(req: any, res: any) {
 
   try {
     const event = req.body;
-
+    
     // Only log in development to avoid spam
     if (isDevelopmentMode()) {
       console.debug('Analytics event received:', event.event, event.properties);
     }
-
+    
     // Return success
-    res.status(200).json({
-      success: true,
+    res.status(200).json({ 
+      success: true, 
       eventId: `${isDevelopmentMode() ? 'dev' : 'prod'}_${Date.now()}`,
-      message: 'Event processed successfully',
+      message: 'Event processed successfully'
     });
   } catch (error) {
     console.error('Analytics endpoint error:', error);

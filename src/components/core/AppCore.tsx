@@ -4,7 +4,7 @@
  * @category application
  * @version 5.2.0
  * @author FlashFusion Team
- *
+ * 
  * Refactored core application component with:
  * - Fixed import issues and path resolution
  * - Simplified state management with error boundaries
@@ -44,69 +44,61 @@ const createFallbackComponent = (name: string, message: string) => {
 };
 
 // Create fallback components
-const InterfaceFallback = createFallbackComponent(
-  'FlashFusionInterface',
-  'Interface Temporarily Unavailable'
-);
-const LandingFallback = createFallbackComponent(
-  'FlashFusionLandingPage',
-  'Landing Page Temporarily Unavailable'
-);
+const InterfaceFallback = createFallbackComponent('FlashFusionInterface', 'Interface Temporarily Unavailable');
+const LandingFallback = createFallbackComponent('FlashFusionLandingPage', 'Landing Page Temporarily Unavailable');
 const DemoFallback = createFallbackComponent('TryDemoInterface', 'Demo Temporarily Unavailable');
-const AuthFallback = createFallbackComponent(
-  'AuthenticationSystem',
-  'Authentication Temporarily Unavailable'
-);
+const AuthFallback = createFallbackComponent('AuthenticationSystem', 'Authentication Temporarily Unavailable');
 
 // Simplified and more robust lazy loading
-const FlashFusionInterface = React.lazy(() =>
-  import('./flash-fusion-interface').catch((error) => {
-    console.warn('Failed to load FlashFusionInterface:', error);
-    return { default: InterfaceFallback };
-  })
+const FlashFusionInterface = React.lazy(() => 
+  import('./flash-fusion-interface')
+    .catch((error) => {
+      console.warn('Failed to load FlashFusionInterface:', error);
+      return { default: InterfaceFallback };
+    })
 );
 
-const FlashFusionLandingPage = React.lazy(() =>
-  import('../landing/FlashFusionLandingPage').catch((error) => {
-    console.warn('Failed to load FlashFusionLandingPage:', error);
-    return { default: LandingFallback };
-  })
+const FlashFusionLandingPage = React.lazy(() => 
+  import('../landing/FlashFusionLandingPage')
+    .catch((error) => {
+      console.warn('Failed to load FlashFusionLandingPage:', error);
+      return { default: LandingFallback };
+    })
 );
 
-const TryDemoInterface = React.lazy(() =>
-  import('../demo/TryDemoInterface').catch((error) => {
-    console.warn('Failed to load TryDemoInterface:', error);
-    return { default: DemoFallback };
-  })
+const TryDemoInterface = React.lazy(() => 
+  import('../demo/TryDemoInterface')
+    .catch((error) => {
+      console.warn('Failed to load TryDemoInterface:', error);
+      return { default: DemoFallback };
+    })
 );
 
 // Detect mobile devices
 const isMobile = () => {
   if (typeof window === 'undefined') return false;
-  return (
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent) ||
-    window.innerWidth <= 768
-  );
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent) ||
+         window.innerWidth <= 768;
 };
 
 const AuthenticationSystem = React.lazy(() => {
   // Use mobile-optimized auth on mobile devices
   if (isMobile()) {
-    return import('../auth/MobileAuthenticationSystem').catch((error) => {
-      console.warn(
-        'Failed to load MobileAuthenticationSystem, falling back to regular auth:',
-        error
-      );
-      return import('../auth/AuthenticationSystem').catch((fallbackError) => {
-        console.warn('Failed to load AuthenticationSystem:', fallbackError);
+    return import('../auth/MobileAuthenticationSystem')
+      .catch((error) => {
+        console.warn('Failed to load MobileAuthenticationSystem, falling back to regular auth:', error);
+        return import('../auth/AuthenticationSystem')
+          .catch((fallbackError) => {
+            console.warn('Failed to load AuthenticationSystem:', fallbackError);
+            return { default: AuthFallback };
+          });
+      });
+  } else {
+    return import('../auth/AuthenticationSystem')
+      .catch((error) => {
+        console.warn('Failed to load AuthenticationSystem:', error);
         return { default: AuthFallback };
       });
-    });
-  } else {
-    return import('../auth/AuthenticationSystem').catch((error) => {
-      console.warn('Failed to load AuthenticationSystem:', error);
-      return { default: AuthFallback };
-    });
   }
 });
 
@@ -123,14 +115,13 @@ interface AppState {
 function useSystemInfo() {
   return React.useMemo(() => {
     if (typeof window === 'undefined') return {};
-
+    
     return {
-      connection:
-        'connection' in navigator ? (navigator as any).connection?.effectiveType : 'unknown',
+      connection: 'connection' in navigator ? (navigator as any).connection?.effectiveType : 'unknown',
       deviceMemory: 'deviceMemory' in navigator ? (navigator as any).deviceMemory : 4,
       hardwareConcurrency: navigator.hardwareConcurrency || 4,
       userAgent: navigator.userAgent,
-      platform: navigator.platform,
+      platform: navigator.platform
     };
   }, []);
 }
@@ -143,31 +134,31 @@ function useAppInitialization() {
     mode: 'lite',
     isLoading: true,
     error: null,
-    isInitialized: false,
+    isInitialized: false
   });
 
   const initializeSystem = useCallback(async () => {
     try {
       console.log('🚀 FlashFusion initialization starting...');
-
+      
       const detectedMode = await initializeApp();
-
+      
       setAppState({
         mode: detectedMode,
         isLoading: false,
         error: null,
-        isInitialized: true,
+        isInitialized: true
       });
-
+      
       console.log(`✅ FlashFusion initialized in ${detectedMode} mode`);
     } catch (error) {
       console.error('❌ FlashFusion initialization failed:', error);
-
+      
       setAppState({
         mode: 'lite', // Safe fallback
         isLoading: false,
         error: error instanceof Error ? error.message : 'Initialization failed',
-        isInitialized: true,
+        isInitialized: true
       });
     }
   }, []);
@@ -187,36 +178,32 @@ function useRouteDetection() {
     currentPath: '/',
     isDemoMode: false,
     isAuthRoute: false,
-    shouldShowApp: false,
+    shouldShowApp: false
   });
 
   useEffect(() => {
     const updateRouteInfo = () => {
       const currentPath = window.location.pathname;
       const searchParams = new URLSearchParams(window.location.search);
-
+      
       const isDemoMode = searchParams.has('demo') || currentPath.includes('/demo');
-      const isAuthRoute =
-        currentPath.includes('/auth/') ||
-        currentPath.includes('/verify-') ||
-        currentPath.includes('/reset-');
-      const shouldShowApp =
-        searchParams.has('app') || localStorage.getItem('ff-show-app') === 'true';
-
+      const isAuthRoute = currentPath.includes('/auth/') || currentPath.includes('/verify-') || currentPath.includes('/reset-');
+      const shouldShowApp = searchParams.has('app') || localStorage.getItem('ff-show-app') === 'true';
+      
       setRouteInfo({
         currentPath,
         isDemoMode,
         isAuthRoute,
-        shouldShowApp,
+        shouldShowApp
       });
     };
 
     updateRouteInfo();
-
+    
     // Listen for route changes
     const handleRouteChange = () => updateRouteInfo();
     window.addEventListener('popstate', handleRouteChange);
-
+    
     return () => {
       window.removeEventListener('popstate', handleRouteChange);
     };
@@ -241,7 +228,7 @@ export function AppCore(): JSX.Element {
         <div className="text-center space-y-4 p-8">
           <h1 className="text-2xl font-bold text-white">🚨 Emergency Mode</h1>
           <p className="text-gray-300">System running in safe mode with limited functionality</p>
-          <button
+          <button 
             onClick={retry}
             className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
           >
@@ -255,7 +242,7 @@ export function AppCore(): JSX.Element {
   // Loading state during initialization
   if (!appState.isInitialized || appState.isLoading) {
     return (
-      <LoadingState
+      <LoadingState 
         message="Initializing FlashFusion"
         detail="Setting up your AI development workspace..."
       />
@@ -264,24 +251,26 @@ export function AppCore(): JSX.Element {
 
   // Error state with retry option
   if (appState.error && appState.mode !== 'emergency') {
-    return <ErrorState error={appState.error} onRetry={retry} mode={appState.mode} />;
+    return (
+      <ErrorState 
+        error={appState.error}
+        onRetry={retry}
+        mode={appState.mode}
+      />
+    );
   }
 
   // Demo mode (no authentication required)
   if (routeInfo.isDemoMode) {
     return (
-      <ErrorBoundary
-        fallback={<div className="p-8 text-center text-white">Demo temporarily unavailable</div>}
-      >
+      <ErrorBoundary fallback={<div className="p-8 text-center text-white">Demo temporarily unavailable</div>}>
         <div className="min-h-screen bg-[var(--ff-bg-dark)]">
-          <Suspense
-            fallback={
-              <LoadingState
-                message="Loading FlashFusion Demo"
-                detail="Preparing your interactive experience..."
-              />
-            }
-          >
+          <Suspense fallback={
+            <LoadingState 
+              message="Loading FlashFusion Demo" 
+              detail="Preparing your interactive experience..." 
+            />
+          }>
             <TryDemoInterface />
           </Suspense>
         </div>
@@ -294,11 +283,12 @@ export function AppCore(): JSX.Element {
     return (
       <AuthErrorBoundary>
         <div className="min-h-screen bg-[var(--ff-bg-dark)]">
-          <Suspense
-            fallback={
-              <LoadingState message="Loading Authentication" detail="Securing your session..." />
-            }
-          >
+          <Suspense fallback={
+            <LoadingState 
+              message="Loading Authentication" 
+              detail="Securing your session..." 
+            />
+          }>
             <AuthenticationSystem
               onAuthSuccess={(user) => {
                 console.log('Auth success:', user);
@@ -321,11 +311,12 @@ export function AppCore(): JSX.Element {
   if (routeInfo.shouldShowApp && !auth.isAuthenticated && auth.isInitialized) {
     return (
       <AuthErrorBoundary>
-        <Suspense
-          fallback={
-            <LoadingState message="Loading Authentication" detail="Preparing secure login..." />
-          }
-        >
+        <Suspense fallback={
+          <LoadingState 
+            message="Loading Authentication" 
+            detail="Preparing secure login..." 
+          />
+        }>
           <AuthenticationSystem
             onAuthSuccess={(user) => {
               console.log('Auth success:', user);
@@ -354,23 +345,17 @@ export function AppCore(): JSX.Element {
   // Main application interface (requires authentication)
   if (auth.isAuthenticated && auth.user) {
     return (
-      <ErrorBoundary
-        fallback={
-          <div className="p-8 text-center text-white">Interface temporarily unavailable</div>
-        }
-      >
+      <ErrorBoundary fallback={<div className="p-8 text-center text-white">Interface temporarily unavailable</div>}>
         <div className="min-h-screen bg-[var(--ff-bg-dark)]">
-          <Suspense
-            fallback={
-              <LoadingState
-                message="Loading FlashFusion Interface"
-                detail="Preparing your AI development workspace..."
-              />
-            }
-          >
+          <Suspense fallback={
+            <LoadingState 
+              message="Loading FlashFusion Interface" 
+              detail="Preparing your AI development workspace..." 
+            />
+          }>
             <FlashFusionInterface mode={appState.mode} />
           </Suspense>
-
+          
           {/* Development debug info */}
           {process.env.NODE_ENV === 'development' && (
             <div className="fixed bottom-4 right-4 bg-black/80 text-white p-2 rounded text-xs">
@@ -384,23 +369,17 @@ export function AppCore(): JSX.Element {
 
   // Landing page (public access)
   return (
-    <ErrorBoundary
-      fallback={
-        <div className="p-8 text-center text-white">Landing page temporarily unavailable</div>
-      }
-    >
+    <ErrorBoundary fallback={<div className="p-8 text-center text-white">Landing page temporarily unavailable</div>}>
       <div className="min-h-screen bg-[var(--ff-bg-dark)]">
-        <Suspense
-          fallback={
-            <LoadingState
-              message="Loading FlashFusion"
-              detail="Preparing the ultimate creators hub..."
-            />
-          }
-        >
+        <Suspense fallback={
+          <LoadingState 
+            message="Loading FlashFusion" 
+            detail="Preparing the ultimate creators hub..." 
+          />
+        }>
           <FlashFusionLandingPage />
         </Suspense>
-
+        
         {/* Development debug info */}
         {process.env.NODE_ENV === 'development' && (
           <div className="fixed bottom-4 right-4 bg-black/80 text-white p-2 rounded text-xs">
@@ -423,9 +402,9 @@ if (process.env.NODE_ENV === 'development') {
       'Fixed Import Issues',
       'Robust Error Handling',
       'Memory Leak Prevention',
-      'Performance Optimized',
+      'Performance Optimized'
     ],
-    architecture: 'Clean & Modular',
+    architecture: 'Clean & Modular'
   };
 }
 

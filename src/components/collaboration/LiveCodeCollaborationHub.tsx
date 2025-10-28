@@ -8,13 +8,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { ScrollArea } from '../ui/scroll-area';
 import { Separator } from '../ui/separator';
-import {
-  Users,
-  MessageCircle,
-  Code2,
-  Play,
-  Save,
-  Share,
+import { 
+  Users, 
+  MessageCircle, 
+  Code2, 
+  Play, 
+  Save, 
+  Share, 
   Settings,
   Copy,
   Download,
@@ -24,9 +24,9 @@ import {
   MicOff,
   Video,
   VideoOff,
-  MoreHorizontal,
+  MoreHorizontal
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface CollaborationSession {
   id: string;
@@ -78,7 +78,7 @@ const MOCK_USERS: User[] = [
     avatar: '/api/placeholder/32/32',
     color: '#FF7B00',
     isOnline: true,
-    cursor: { line: 15, column: 23 },
+    cursor: { line: 15, column: 23 }
   },
   {
     id: '2',
@@ -86,15 +86,15 @@ const MOCK_USERS: User[] = [
     avatar: '/api/placeholder/32/32',
     color: '#00B4D8',
     isOnline: true,
-    cursor: { line: 8, column: 12 },
+    cursor: { line: 8, column: 12 }
   },
   {
     id: '3',
     username: 'Charlie',
     avatar: '/api/placeholder/32/32',
     color: '#E91E63',
-    isOnline: false,
-  },
+    isOnline: false
+  }
 ];
 
 const INITIAL_CODE = `// FlashFusion Collaborative Editor
@@ -146,7 +146,7 @@ export function LiveCodeCollaborationHub() {
   const [activeTab, setActiveTab] = useState('editor');
   const [showPresence, setShowPresence] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
-
+  
   const codeEditorRef = useRef<HTMLTextAreaElement>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -165,12 +165,12 @@ export function LiveCodeCollaborationHub() {
           createdBy: '1',
           createdAt: new Date().toISOString(),
           lastActivity: new Date().toISOString(),
-          status: 'active',
+          status: 'active'
         };
 
         setSession(mockSession);
         setIsConnected(true);
-
+        
         // Simulate receiving some chat messages
         const mockMessages: ChatMessage[] = [
           {
@@ -178,17 +178,18 @@ export function LiveCodeCollaborationHub() {
             userId: '1',
             username: 'Alice',
             message: 'Hey everyone! Ready to build something amazing?',
-            timestamp: '2 minutes ago',
+            timestamp: '2 minutes ago'
           },
           {
             id: '2',
             userId: '2',
             username: 'Bob',
             message: 'Absolutely! I love the collaborative features in FlashFusion.',
-            timestamp: '1 minute ago',
-          },
+            timestamp: '1 minute ago'
+          }
         ];
         setChatMessages(mockMessages);
+
       } catch (error) {
         console.error('Failed to initialize session:', error);
         toast.error('Failed to connect to collaboration session');
@@ -229,12 +230,12 @@ export function LiveCodeCollaborationHub() {
       userId: '1', // Current user
       username: 'You',
       message: newMessage,
-      timestamp: 'just now',
+      timestamp: 'just now'
     };
 
-    setChatMessages((prev) => [...prev, message]);
+    setChatMessages(prev => [...prev, message]);
     setNewMessage('');
-
+    
     // In real app, send to collaboration server
     toast.success('Message sent');
   }, [newMessage]);
@@ -257,7 +258,7 @@ export function LiveCodeCollaborationHub() {
   const saveSession = useCallback(async () => {
     try {
       // Simulate save operation
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1000));
       toast.success('Session saved successfully');
     } catch (error) {
       toast.error('Failed to save session');
@@ -266,7 +267,7 @@ export function LiveCodeCollaborationHub() {
 
   // Get user color for cursor/presence
   const getUserColor = (userId: string) => {
-    const user = participants.find((u) => u.id === userId);
+    const user = participants.find(u => u.id === userId);
     return user?.color || '#94A3B8';
   };
 
@@ -285,18 +286,20 @@ export function LiveCodeCollaborationHub() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="ff-text-headline">Live Collaboration</h1>
-          <p className="ff-text-body">Real-time collaborative coding with your team</p>
+          <p className="ff-text-body">
+            Real-time collaborative coding with your team
+          </p>
         </div>
-
+        
         <div className="flex items-center space-x-3">
           {/* Connection Status */}
-          <Badge
+          <Badge 
             variant={isConnected ? 'default' : 'secondary'}
             className={isConnected ? 'bg-success text-success-foreground' : ''}
           >
             {isConnected ? 'Connected' : 'Disconnected'}
           </Badge>
-
+          
           {/* Session Actions */}
           <Button variant="outline" onClick={saveSession} size="sm">
             <Save className="h-4 w-4 mr-2" />
@@ -324,14 +327,14 @@ export function LiveCodeCollaborationHub() {
                   <div key={user.id} className="relative">
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user.avatar} />
-                      <AvatarFallback
+                      <AvatarFallback 
                         className="text-xs"
                         style={{ backgroundColor: user.color + '20', color: user.color }}
                       >
                         {user.username.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
-                    <div
+                    <div 
                       className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background ${
                         user.isOnline ? 'bg-success' : 'bg-muted-foreground'
                       }`}
@@ -340,9 +343,13 @@ export function LiveCodeCollaborationHub() {
                 ))}
               </div>
             </div>
-
+            
             <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm" onClick={() => setShowPresence(!showPresence)}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowPresence(!showPresence)}
+              >
                 {showPresence ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
               </Button>
               <Button variant="outline" size="sm">
@@ -376,7 +383,9 @@ export function LiveCodeCollaborationHub() {
                   </Button>
                 </div>
               </div>
-              {session?.description && <CardDescription>{session.description}</CardDescription>}
+              {session?.description && (
+                <CardDescription>{session.description}</CardDescription>
+              )}
             </CardHeader>
             <CardContent>
               <div className="relative">
@@ -388,35 +397,32 @@ export function LiveCodeCollaborationHub() {
                   className="min-h-[400px] font-mono text-sm resize-none ff-input"
                   style={{ lineHeight: '1.5' }}
                 />
-
+                
                 {/* Live Cursors (simulated) */}
-                {showPresence &&
-                  participants
-                    .filter((u) => u.isOnline && u.cursor)
-                    .map((user) => (
-                      <div
-                        key={user.id}
-                        className="absolute pointer-events-none"
-                        style={{
-                          top: `${(user.cursor!.line - 1) * 1.5 + 2}rem`,
-                          left: `${user.cursor!.column * 0.6}rem`,
-                          zIndex: 10,
-                        }}
-                      >
-                        <div
-                          className="w-0.5 h-5 animate-pulse"
-                          style={{ backgroundColor: user.color }}
-                        />
-                        <div
-                          className="absolute -top-6 -left-1 px-2 py-1 text-xs text-white rounded whitespace-nowrap"
-                          style={{ backgroundColor: user.color }}
-                        >
-                          {user.username}
-                        </div>
-                      </div>
-                    ))}
+                {showPresence && participants.filter(u => u.isOnline && u.cursor).map((user) => (
+                  <div
+                    key={user.id}
+                    className="absolute pointer-events-none"
+                    style={{
+                      top: `${(user.cursor!.line - 1) * 1.5 + 2}rem`,
+                      left: `${user.cursor!.column * 0.6}rem`,
+                      zIndex: 10
+                    }}
+                  >
+                    <div
+                      className="w-0.5 h-5 animate-pulse"
+                      style={{ backgroundColor: user.color }}
+                    />
+                    <div
+                      className="absolute -top-6 -left-1 px-2 py-1 text-xs text-white rounded whitespace-nowrap"
+                      style={{ backgroundColor: user.color }}
+                    >
+                      {user.username}
+                    </div>
+                  </div>
+                ))}
               </div>
-
+              
               {/* Code Stats */}
               <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
                 <div className="flex items-center space-x-4 text-xs text-muted-foreground">
@@ -456,7 +462,9 @@ export function LiveCodeCollaborationHub() {
                       </Avatar>
                       <div className="flex-1 space-y-1">
                         <div className="flex items-center space-x-2">
-                          <span className="ff-text-xs font-medium">{message.username}</span>
+                          <span className="ff-text-xs font-medium">
+                            {message.username}
+                          </span>
                           <span className="ff-text-xs text-muted-foreground">
                             {message.timestamp}
                           </span>
@@ -468,9 +476,9 @@ export function LiveCodeCollaborationHub() {
                   <div ref={chatEndRef} />
                 </div>
               </ScrollArea>
-
+              
               <Separator />
-
+              
               <div className="p-4">
                 <div className="flex items-center space-x-2">
                   <Input
@@ -480,7 +488,7 @@ export function LiveCodeCollaborationHub() {
                     placeholder="Type a message..."
                     className="flex-1 ff-input"
                   />
-                  <Button
+                  <Button 
                     onClick={sendChatMessage}
                     disabled={!newMessage.trim()}
                     size="sm"
@@ -540,7 +548,7 @@ export function LiveCodeCollaborationHub() {
                 <div className="flex justify-between">
                   <span className="ff-text-xs text-muted-foreground">Active users</span>
                   <span className="ff-text-xs">
-                    {participants.filter((u) => u.isOnline).length} online
+                    {participants.filter(u => u.isOnline).length} online
                   </span>
                 </div>
               </div>

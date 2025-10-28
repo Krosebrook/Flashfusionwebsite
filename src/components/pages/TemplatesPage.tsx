@@ -8,16 +8,12 @@ interface TemplatesPageProps {
   onProjectCreated?: () => void;
 }
 
-export function TemplatesPage({
-  setCurrentPage,
-  userRole = 'free',
-  onProjectCreated,
-}: TemplatesPageProps) {
+export function TemplatesPage({ setCurrentPage, userRole = 'free', onProjectCreated }: TemplatesPageProps) {
   const handleCreateProject = async (template: any, customizations: any) => {
     try {
       // Handle project creation
       console.log('Creating project from template:', template, customizations);
-
+      
       // Navigate to projects page after creation
       setCurrentPage('projects');
       onProjectCreated?.();
@@ -29,7 +25,10 @@ export function TemplatesPage({
   return (
     <div className="space-y-8">
       <div className="ff-stagger-fade">
-        <AdvancedTemplates onCreateProject={handleCreateProject} userRole={userRole} />
+        <AdvancedTemplates 
+          onCreateProject={handleCreateProject}
+          userRole={userRole}
+        />
       </div>
     </div>
   );

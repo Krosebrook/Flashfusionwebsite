@@ -10,8 +10,7 @@ const meta: Meta<typeof Button> = {
     layout: 'centered',
     docs: {
       description: {
-        component:
-          'FlashFusion primary button component with multiple variants and animations. Features hover effects, gradients, and accessibility features.',
+        component: 'FlashFusion primary button component with multiple variants and animations. Features hover effects, gradients, and accessibility features.',
       },
     },
   },
@@ -200,15 +199,9 @@ export const AllVariants: Story = {
 export const AllSizes: Story = {
   render: () => (
     <div className="flex flex-wrap items-center gap-4">
-      <Button size="sm" className="ff-btn-primary">
-        Small
-      </Button>
-      <Button size="default" className="ff-btn-primary">
-        Default
-      </Button>
-      <Button size="lg" className="ff-btn-primary">
-        Large
-      </Button>
+      <Button size="sm" className="ff-btn-primary">Small</Button>
+      <Button size="default" className="ff-btn-primary">Default</Button>
+      <Button size="lg" className="ff-btn-primary">Large</Button>
       <Button size="icon" className="ff-btn-primary">
         <Plus className="w-4 h-4" />
       </Button>

@@ -10,7 +10,7 @@ interface FlashFusionError {
 export function useErrorService() {
   const handleError = (error: FlashFusionError) => {
     console.error('FlashFusion Error:', error);
-
+    
     // In production, send to error tracking service
     if (import.meta.env.PROD) {
       // TODO: Send to error tracking
@@ -18,8 +18,8 @@ export function useErrorService() {
   };
 
   const createError = (
-    type: string,
-    message: string,
+    type: string, 
+    message: string, 
     options: Partial<FlashFusionError> = {}
   ): FlashFusionError => {
     return {
@@ -27,12 +27,12 @@ export function useErrorService() {
       message,
       recoverable: true,
       timestamp: new Date().toISOString(),
-      ...options,
+      ...options
     };
   };
 
   return {
     handleError,
-    createError,
+    createError
   };
 }

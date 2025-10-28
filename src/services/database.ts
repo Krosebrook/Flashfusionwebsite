@@ -1,6 +1,6 @@
 import { Project, User, DailyTask, UserStats } from '../types';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 // Real Supabase database service
 export const projectService = {
@@ -34,7 +34,7 @@ export const projectService = {
           updated_at: '2024-01-18T16:45:00Z',
           deployment_status: 'pending',
           is_public: false,
-        },
+        }
       ];
     }
 
@@ -52,7 +52,7 @@ export const projectService = {
       }
 
       // Transform database format to app format
-      return data.map((project) => ({
+      return data.map(project => ({
         id: project.id,
         name: project.name,
         description: project.description,
@@ -63,12 +63,8 @@ export const projectService = {
         created_at: project.created_at,
         updated_at: project.updated_at,
         deployment_url: project.config?.deployment_url,
-        deployment_status:
-          project.status === 'active'
-            ? 'success'
-            : project.status === 'draft'
-              ? 'pending'
-              : 'not_deployed',
+        deployment_status: project.status === 'active' ? 'success' : 
+                          project.status === 'draft' ? 'pending' : 'not_deployed',
         is_public: project.config?.is_public || false,
       }));
     } catch (error) {
@@ -110,7 +106,7 @@ export const projectService = {
             features: projectData.features || [],
             styling: projectData.styling || 'tailwind',
             is_public: projectData.is_public || false,
-          },
+          }
         })
         .select()
         .single();
@@ -122,7 +118,7 @@ export const projectService = {
       }
 
       toast.success('Project created successfully');
-
+      
       return {
         id: data.id,
         name: data.name,
@@ -165,7 +161,7 @@ export const projectService = {
             is_public: updates.is_public,
             deployment_url: updates.deployment_url,
           },
-          updated_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         })
         .eq('id', projectId)
         .select()
@@ -178,7 +174,7 @@ export const projectService = {
       }
 
       toast.success('Project updated successfully');
-
+      
       return {
         id: data.id,
         name: data.name,
@@ -206,7 +202,10 @@ export const projectService = {
     }
 
     try {
-      const { error } = await supabase.from('projects').delete().eq('id', projectId);
+      const { error } = await supabase
+        .from('projects')
+        .delete()
+        .eq('id', projectId);
 
       if (error) {
         console.error('Error deleting project:', error);
@@ -219,7 +218,7 @@ export const projectService = {
       console.error('Error in deleteProject:', error);
       throw error;
     }
-  },
+  }
 };
 
 export const userService = {
@@ -239,19 +238,17 @@ export const userService = {
           xp: 1250,
           total_xp: 1250,
           current_streak: 3,
-        },
+        }
       };
     }
 
     try {
       const { data, error } = await supabase
         .from('users')
-        .select(
-          `
+        .select(`
           *,
           user_stats (*)
-        `
-        )
+        `)
         .eq('id', userId)
         .single();
 
@@ -269,14 +266,12 @@ export const userService = {
           avatar_url: data.avatar_url,
         },
         role: data.role,
-        stats: data.user_stats
-          ? {
-              level: data.user_stats.level,
-              xp: data.user_stats.xp,
-              total_xp: data.user_stats.xp,
-              current_streak: data.user_stats.streak,
-            }
-          : undefined,
+        stats: data.user_stats ? {
+          level: data.user_stats.level,
+          xp: data.user_stats.xp,
+          total_xp: data.user_stats.xp,
+          current_streak: data.user_stats.streak,
+        } : undefined
       };
     } catch (error) {
       console.error('Error in getUserProfile:', error);
@@ -300,7 +295,7 @@ export const userService = {
           full_name: updates.user_metadata?.name,
           avatar_url: updates.user_metadata?.avatar_url,
           role: updates.role,
-          updated_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         })
         .eq('id', userId)
         .select()
@@ -312,7 +307,7 @@ export const userService = {
       }
 
       toast.success('Profile updated successfully');
-      return (await this.getUserProfile(userId)) || ({} as User);
+      return await this.getUserProfile(userId) || {} as User;
     } catch (error) {
       console.error('Error in updateUserProfile:', error);
       throw error;
@@ -353,7 +348,7 @@ export const userService = {
               total_images: 0,
               total_code: 0,
               daily_tasks_completed: 0,
-              streak: 0,
+              streak: 0
             })
             .select()
             .single();
@@ -406,7 +401,7 @@ export const userService = {
         xp_to_next_level: 1000,
       };
     }
-  },
+  }
 };
 
 export const badgeService = {
@@ -436,7 +431,7 @@ export const badgeService = {
           icon: '🚀',
           earned_at: '2024-01-20T09:15:00Z',
           rarity: 'epic',
-        },
+        }
       ];
     }
 
@@ -455,33 +450,13 @@ export const badgeService = {
 
       // Transform to expected format with badge definitions
       const badgeDefinitions = {
-        first_project: {
-          name: 'First Project',
-          description: 'Created your first project',
-          icon: '🎯',
-          rarity: 'common',
-        },
-        code_master: {
-          name: 'Code Master',
-          description: 'Generated 10+ AI code snippets',
-          icon: '💻',
-          rarity: 'rare',
-        },
-        deployment_pro: {
-          name: 'Deployment Pro',
-          description: 'Successfully deployed 5 projects',
-          icon: '🚀',
-          rarity: 'epic',
-        },
-        streak_keeper: {
-          name: 'Streak Keeper',
-          description: 'Maintained 7-day streak',
-          icon: '🔥',
-          rarity: 'rare',
-        },
+        'first_project': { name: 'First Project', description: 'Created your first project', icon: '🎯', rarity: 'common' },
+        'code_master': { name: 'Code Master', description: 'Generated 10+ AI code snippets', icon: '💻', rarity: 'rare' },
+        'deployment_pro': { name: 'Deployment Pro', description: 'Successfully deployed 5 projects', icon: '🚀', rarity: 'epic' },
+        'streak_keeper': { name: 'Streak Keeper', description: 'Maintained 7-day streak', icon: '🔥', rarity: 'rare' },
       };
 
-      return data.map((badge) => ({
+      return data.map(badge => ({
         id: badge.id,
         name: badgeDefinitions[badge.badge_id]?.name || 'Unknown Badge',
         description: badgeDefinitions[badge.badge_id]?.description || 'Description not available',
@@ -513,7 +488,7 @@ export const badgeService = {
           icon: '🔥',
           requirements: ['streak_days: 30'],
           rarity: 'legendary',
-        },
+        }
       ];
     }
 
@@ -558,9 +533,9 @@ export const badgeService = {
         icon: '🔥',
         requirements: ['streak_days: 30'],
         rarity: 'legendary',
-      },
+      }
     ];
-  },
+  }
 };
 
 export const dailyTaskService = {
@@ -599,13 +574,13 @@ export const dailyTaskService = {
           current_progress: 1,
           completed: true,
           expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        },
+        }
       ];
     }
 
     try {
       const today = new Date().toISOString().split('T')[0];
-
+      
       const { data, error } = await supabase
         .from('daily_tasks')
         .select('*')
@@ -619,47 +594,22 @@ export const dailyTaskService = {
 
       // Define available daily tasks
       const taskDefinitions = {
-        create_project: {
-          title: 'Create a New Project',
-          description: 'Start a new project using any AI tool',
-          xp: 100,
-          target: 1,
-        },
-        use_ai_tools: {
-          title: 'Explore AI Tools',
-          description: 'Use 3 different AI tools today',
-          xp: 75,
-          target: 3,
-        },
-        deploy_project: {
-          title: 'Deploy to Production',
-          description: 'Deploy a project to any platform',
-          xp: 150,
-          target: 1,
-        },
-        daily_login: {
-          title: 'Daily Visit',
-          description: 'Visit FlashFusion today',
-          xp: 25,
-          target: 1,
-        },
-        share_project: {
-          title: 'Share Creation',
-          description: 'Share a project publicly',
-          xp: 50,
-          target: 1,
-        },
+        'create_project': { title: 'Create a New Project', description: 'Start a new project using any AI tool', xp: 100, target: 1 },
+        'use_ai_tools': { title: 'Explore AI Tools', description: 'Use 3 different AI tools today', xp: 75, target: 3 },
+        'deploy_project': { title: 'Deploy to Production', description: 'Deploy a project to any platform', xp: 150, target: 1 },
+        'daily_login': { title: 'Daily Visit', description: 'Visit FlashFusion today', xp: 25, target: 1 },
+        'share_project': { title: 'Share Creation', description: 'Share a project publicly', xp: 50, target: 1 },
       };
 
       // If no tasks exist for today, create them
       let tasksData = data;
       if (data.length === 0) {
         const tasksToCreate = ['create_project', 'use_ai_tools', 'daily_login'];
-        const newTasks = tasksToCreate.map((taskId) => ({
+        const newTasks = tasksToCreate.map(taskId => ({
           user_id: userId,
           task_id: taskId,
           date: today,
-          completed: false,
+          completed: false
         }));
 
         const { data: createdTasks, error: createError } = await supabase
@@ -675,7 +625,7 @@ export const dailyTaskService = {
         tasksData = createdTasks;
       }
 
-      return tasksData.map((task) => ({
+      return tasksData.map(task => ({
         id: task.id,
         task_type: task.task_id,
         task_title: taskDefinitions[task.task_id]?.title || 'Unknown Task',
@@ -695,7 +645,7 @@ export const dailyTaskService = {
   async updateTaskProgress(userId: string, taskId: string, progress: number): Promise<DailyTask> {
     if (!isSupabaseConfigured) {
       const tasks = await this.getDailyTasks(userId);
-      const task = tasks.find((t) => t.id === taskId);
+      const task = tasks.find(t => t.id === taskId);
       if (task) {
         task.current_progress = Math.min(progress, task.target_value);
         task.completed = task.current_progress >= task.target_value;
@@ -705,12 +655,12 @@ export const dailyTaskService = {
 
     try {
       const today = new Date().toISOString().split('T')[0];
-
+      
       const { data, error } = await supabase
         .from('daily_tasks')
         .update({
           completed: true,
-          completed_at: new Date().toISOString(),
+          completed_at: new Date().toISOString()
         })
         .eq('user_id', userId)
         .eq('task_id', taskId)
@@ -725,30 +675,30 @@ export const dailyTaskService = {
 
       // Award XP and update user stats
       const taskDefinitions = {
-        create_project: { xp: 100, target: 1 },
-        use_ai_tools: { xp: 75, target: 3 },
-        deploy_project: { xp: 150, target: 1 },
-        daily_login: { xp: 25, target: 1 },
-        share_project: { xp: 50, target: 1 },
+        'create_project': { xp: 100, target: 1 },
+        'use_ai_tools': { xp: 75, target: 3 },
+        'deploy_project': { xp: 150, target: 1 },
+        'daily_login': { xp: 25, target: 1 },
+        'share_project': { xp: 50, target: 1 },
       };
 
       const xpReward = taskDefinitions[taskId]?.xp || 50;
-
+      
       // Update user stats
       await supabase.rpc('increment_user_xp', {
         user_id: userId,
-        xp_amount: xpReward,
+        xp_amount: xpReward
       });
 
       toast.success(`Task completed! +${xpReward} XP`);
 
       const updatedTasks = await this.getDailyTasks(userId);
-      return updatedTasks.find((t) => t.task_type === taskId) || ({} as DailyTask);
+      return updatedTasks.find(t => t.task_type === taskId) || {} as DailyTask;
     } catch (error) {
       console.error('Error in updateTaskProgress:', error);
       throw error;
     }
-  },
+  }
 };
 
 export const analyticsService = {
@@ -782,14 +732,14 @@ export const analyticsService = {
           aws: 2,
           digitalocean: 1,
           github_pages: 1,
-        },
+        }
       };
     }
 
     try {
       // Get user stats for overview
       const userStats = await userService.getUserStats(userId);
-
+      
       // Get project count
       const { count: projectCount } = await supabase
         .from('projects')
@@ -812,17 +762,15 @@ export const analyticsService = {
 
       // Process tool usage into analytics format
       const toolUsage = {};
-      toolUsageData?.forEach((usage) => {
+      toolUsageData?.forEach(usage => {
         toolUsage[usage.tool_id] = (toolUsage[usage.tool_id] || 0) + 1;
       });
 
-      const toolUsageArray = Object.entries(toolUsage)
-        .map(([tool, usage]) => ({
-          tool: tool.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()),
-          usage: usage as number,
-          success_rate: Math.floor(Math.random() * 10) + 90, // Mock success rate for now
-        }))
-        .sort((a, b) => b.usage - a.usage);
+      const toolUsageArray = Object.entries(toolUsage).map(([tool, usage]) => ({
+        tool: tool.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+        usage: usage as number,
+        success_rate: Math.floor(Math.random() * 10) + 90 // Mock success rate for now
+      })).sort((a, b) => b.usage - a.usage);
 
       // Get activity data for last 7 days
       const last7Days = Array.from({ length: 7 }, (_, i) => {
@@ -863,7 +811,7 @@ export const analyticsService = {
         .eq('user_id', userId);
 
       const deploymentStats = {};
-      deployments?.forEach((deployment) => {
+      deployments?.forEach(deployment => {
         deploymentStats[deployment.platform] = (deploymentStats[deployment.platform] || 0) + 1;
       });
 
@@ -905,12 +853,14 @@ export const analyticsService = {
           { name: 'React Generator', usage: 8945 },
           { name: 'API Creator', usage: 7823 },
           { name: 'UI Designer', usage: 6791 },
-        ],
+        ]
       };
     }
 
     try {
-      const { count: userCount } = await supabase.from('users').select('*', { count: 'exact' });
+      const { count: userCount } = await supabase
+        .from('users')
+        .select('*', { count: 'exact' });
 
       const { count: projectCount } = await supabase
         .from('projects')
@@ -927,14 +877,14 @@ export const analyticsService = {
         .limit(1000);
 
       const toolUsage = {};
-      toolUsageData?.forEach((usage) => {
+      toolUsageData?.forEach(usage => {
         toolUsage[usage.tool_id] = (toolUsage[usage.tool_id] || 0) + 1;
       });
 
       const popularTools = Object.entries(toolUsage)
         .map(([tool, usage]) => ({
-          name: tool.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()),
-          usage: usage as number,
+          name: tool.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          usage: usage as number
         }))
         .sort((a, b) => b.usage - a.usage)
         .slice(0, 5);
@@ -954,7 +904,7 @@ export const analyticsService = {
         popularTools: [],
       };
     }
-  },
+  }
 };
 
 export const deploymentService = {
@@ -982,21 +932,19 @@ export const deploymentService = {
           created_at: '2024-01-20T16:15:00Z',
           build_time: null,
           size: null,
-        },
+        }
       ];
     }
 
     try {
       const { data, error } = await supabase
         .from('deployments')
-        .select(
-          `
+        .select(`
           *,
           projects:project_id (
             name
           )
-        `
-        )
+        `)
         .eq('user_id', userId)
         .order('created_at', { ascending: false });
 
@@ -1005,22 +953,18 @@ export const deploymentService = {
         return [];
       }
 
-      return data.map((deployment) => ({
+      return data.map(deployment => ({
         id: deployment.id,
         project_id: deployment.project_id,
         project_name: deployment.projects?.name || 'Unknown Project',
         platform: deployment.platform,
         deployment_url: deployment.url,
-        status:
-          deployment.status === 'deployed'
-            ? 'success'
-            : deployment.status === 'failed'
-              ? 'failed'
-              : 'building',
+        status: deployment.status === 'deployed' ? 'success' : 
+                deployment.status === 'failed' ? 'failed' : 'building',
         created_at: deployment.created_at,
         build_time: deployment.build_time ? parseInt(deployment.build_time) : null,
         size: null, // Would need to be calculated
-        error: deployment.status === 'failed' ? 'Deployment failed' : undefined,
+        error: deployment.status === 'failed' ? 'Deployment failed' : undefined
       }));
     } catch (error) {
       console.error('Error in getUserDeployments:', error);
@@ -1048,7 +992,7 @@ export const deploymentService = {
           project_id: projectId,
           platform,
           status: 'deploying',
-          auto_deploy: config.auto_deploy || false,
+          auto_deploy: config.auto_deploy || false
         })
         .select()
         .single();
@@ -1081,7 +1025,7 @@ export const deploymentService = {
     try {
       const updates: any = {
         status,
-        updated_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       };
 
       if (url) updates.url = url;
@@ -1109,11 +1053,7 @@ export const deploymentService = {
         { timestamp: '2024-01-20T14:30:00Z', level: 'info', message: 'Starting build process...' },
         { timestamp: '2024-01-20T14:30:15Z', level: 'info', message: 'Installing dependencies...' },
         { timestamp: '2024-01-20T14:30:45Z', level: 'info', message: 'Building application...' },
-        {
-          timestamp: '2024-01-20T14:31:30Z',
-          level: 'success',
-          message: 'Build completed successfully!',
-        },
+        { timestamp: '2024-01-20T14:31:30Z', level: 'success', message: 'Build completed successfully!' },
         { timestamp: '2024-01-20T14:31:45Z', level: 'info', message: 'Deploying to production...' },
         { timestamp: '2024-01-20T14:32:00Z', level: 'success', message: 'Deployment successful!' },
       ];
@@ -1135,7 +1075,10 @@ export const deploymentService = {
     }
 
     try {
-      const { error } = await supabase.from('deployments').delete().eq('id', deploymentId);
+      const { error } = await supabase
+        .from('deployments')
+        .delete()
+        .eq('id', deploymentId);
 
       if (error) {
         console.error('Error deleting deployment:', error);
@@ -1147,5 +1090,5 @@ export const deploymentService = {
       console.error('Error in deleteDeployment:', error);
       throw error;
     }
-  },
+  }
 };

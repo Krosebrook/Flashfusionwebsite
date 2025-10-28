@@ -17,7 +17,7 @@ export const initSentry = () => {
 
   // Try to get Sentry DSN
   const sentryDsn = env.SENTRY_DSN;
-
+  
   if (!sentryDsn) {
     console.debug('Sentry not configured - monitoring disabled');
     return;
@@ -25,36 +25,32 @@ export const initSentry = () => {
 
   try {
     // Dynamically import Sentry to avoid build issues
-    import('@sentry/react')
-      .then((Sentry) => {
-        Sentry.init({
-          dsn: sentryDsn,
-          environment: env.NODE_ENV,
-          integrations: [
-            ...(env.IS_PRODUCTION
-              ? [
-                  Sentry.replayIntegration?.({
-                    maskAllText: false,
-                    blockAllMedia: false,
-                  }),
-                ].filter(Boolean)
-              : []),
-          ],
-          tracesSampleRate: env.IS_PRODUCTION ? 0.1 : 1.0,
-          replaysSessionSampleRate: 0.1,
-          replaysOnErrorSampleRate: 1.0,
-          beforeSend(event) {
-            if (env.IS_DEVELOPMENT) return null;
-            return event;
-          },
-        });
-
-        sentryAvailable = true;
-        console.debug('Sentry initialized successfully');
-      })
-      .catch((error) => {
-        console.debug('Sentry initialization failed:', error.message);
+    import('@sentry/react').then((Sentry) => {
+      Sentry.init({
+        dsn: sentryDsn,
+        environment: env.NODE_ENV,
+        integrations: [
+          ...(env.IS_PRODUCTION ? [
+            Sentry.replayIntegration?.({
+              maskAllText: false,
+              blockAllMedia: false,
+            })
+          ].filter(Boolean) : [])
+        ],
+        tracesSampleRate: env.IS_PRODUCTION ? 0.1 : 1.0,
+        replaysSessionSampleRate: 0.1,
+        replaysOnErrorSampleRate: 1.0,
+        beforeSend(event) {
+          if (env.IS_DEVELOPMENT) return null;
+          return event;
+        },
       });
+      
+      sentryAvailable = true;
+      console.debug('Sentry initialized successfully');
+    }).catch((error) => {
+      console.debug('Sentry initialization failed:', error.message);
+    });
   } catch (error) {
     console.debug('Sentry not available:', error);
   }
@@ -63,21 +59,19 @@ export const initSentry = () => {
 // User context tracking (optional)
 export const setUserContext = (user: any) => {
   if (!isBrowser || !sentryAvailable) return;
-
+  
   try {
-    import('@sentry/react')
-      .then((Sentry) => {
-        Sentry.setUser({
-          id: user.id,
-          email: user.email,
-          username: user.user_metadata?.name || user.username,
-          level: user.stats?.level || user.level || 1,
-          xp: user.stats?.xp || user.total_xp || 0,
-        });
-      })
-      .catch(() => {
-        // Silent fail
+    import('@sentry/react').then((Sentry) => {
+      Sentry.setUser({
+        id: user.id,
+        email: user.email,
+        username: user.user_metadata?.name || user.username,
+        level: user.stats?.level || user.level || 1,
+        xp: user.stats?.xp || user.total_xp || 0,
       });
+    }).catch(() => {
+      // Silent fail
+    });
   } catch {
     // Silent fail
   }
@@ -87,22 +81,20 @@ export const setUserContext = (user: any) => {
 export const trackError = (error: Error, context?: Record<string, any>) => {
   // Always log to console
   console.error('Error:', error.message, context);
-
+  
   if (!isBrowser || !sentryAvailable) return;
 
   try {
-    import('@sentry/react')
-      .then((Sentry) => {
-        Sentry.withScope((scope) => {
-          if (context) {
-            scope.setContext('custom', context);
-          }
-          Sentry.captureException(error);
-        });
-      })
-      .catch(() => {
-        // Silent fail
+    import('@sentry/react').then((Sentry) => {
+      Sentry.withScope((scope) => {
+        if (context) {
+          scope.setContext('custom', context);
+        }
+        Sentry.captureException(error);
       });
+    }).catch(() => {
+      // Silent fail
+    });
   } catch {
     // Silent fail
   }
@@ -121,16 +113,14 @@ export const trackPerformance = (operation: string, data?: Record<string, any>) 
   }
 
   try {
-    return import('@sentry/react')
-      .then((Sentry) => {
-        return Sentry.startTransaction({
-          name: operation,
-          data,
-        });
-      })
-      .catch(() => {
-        return { finish: () => {} };
+    return import('@sentry/react').then((Sentry) => {
+      return Sentry.startTransaction({
+        name: operation,
+        data,
       });
+    }).catch(() => {
+      return { finish: () => {} };
+    });
   } catch {
     return {
       finish: () => {},
@@ -147,29 +137,23 @@ export const trackGamificationEvent = (event: string, data: Record<string, any>)
   if (!isBrowser || !sentryAvailable) return;
 
   try {
-    import('@sentry/react')
-      .then((Sentry) => {
-        Sentry.addBreadcrumb({
-          category: 'gamification',
-          message: event,
-          data,
-          level: 'info',
-        });
-      })
-      .catch(() => {
-        // Silent fail
+    import('@sentry/react').then((Sentry) => {
+      Sentry.addBreadcrumb({
+        category: 'gamification',
+        message: event,
+        data,
+        level: 'info',
       });
+    }).catch(() => {
+      // Silent fail
+    });
   } catch {
     // Silent fail
   }
 };
 
 // AI Tool usage tracking (optional)
-export const trackAIToolUsage = (
-  toolId: string,
-  success: boolean,
-  metadata?: Record<string, any>
-) => {
+export const trackAIToolUsage = (toolId: string, success: boolean, metadata?: Record<string, any>) => {
   if (env.IS_DEVELOPMENT) {
     console.debug('AI Tool Usage:', toolId, success, metadata);
   }
@@ -177,22 +161,20 @@ export const trackAIToolUsage = (
   if (!isBrowser || !sentryAvailable) return;
 
   try {
-    import('@sentry/react')
-      .then((Sentry) => {
-        Sentry.addBreadcrumb({
-          category: 'ai-tools',
-          message: `Tool ${toolId} ${success ? 'succeeded' : 'failed'}`,
-          data: {
-            toolId,
-            success,
-            ...metadata,
-          },
-          level: success ? 'info' : 'warning',
-        });
-      })
-      .catch(() => {
-        // Silent fail
+    import('@sentry/react').then((Sentry) => {
+      Sentry.addBreadcrumb({
+        category: 'ai-tools',
+        message: `Tool ${toolId} ${success ? 'succeeded' : 'failed'}`,
+        data: {
+          toolId,
+          success,
+          ...metadata,
+        },
+        level: success ? 'info' : 'warning',
       });
+    }).catch(() => {
+      // Silent fail
+    });
   } catch {
     // Silent fail
   }
@@ -210,34 +192,30 @@ export const monitorPerformance = () => {
           if (env.IS_DEVELOPMENT) {
             console.debug('Performance Metric:', entry.name, entry);
           }
-
+          
           // Track in Sentry if available
           if (sentryAvailable) {
-            import('@sentry/react')
-              .then((Sentry) => {
-                Sentry.addBreadcrumb({
-                  category: 'performance',
-                  message: `${entry.name}: ${entry.value || entry.duration}ms`,
-                  data: {
-                    name: entry.name,
-                    value: entry.value || entry.duration,
-                    entryType: entry.entryType,
-                  },
-                  level: 'info',
-                });
-              })
-              .catch(() => {
-                // Silent fail
+            import('@sentry/react').then((Sentry) => {
+              Sentry.addBreadcrumb({
+                category: 'performance',
+                message: `${entry.name}: ${entry.value || entry.duration}ms`,
+                data: {
+                  name: entry.name,
+                  value: entry.value || entry.duration,
+                  entryType: entry.entryType,
+                },
+                level: 'info',
               });
+            }).catch(() => {
+              // Silent fail
+            });
           }
         });
       });
 
       // Observe various performance metrics
       try {
-        observer.observe({
-          entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'],
-        });
+        observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
       } catch {
         // Fallback for browsers that don't support all entry types
         try {

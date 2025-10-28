@@ -4,7 +4,7 @@
  * @category authentication
  * @version 2.0.0
  * @author FlashFusion Team
- *
+ * 
  * Mobile-first authentication with enhanced error handling, offline support,
  * and fallback mechanisms for unreliable mobile networks.
  */
@@ -18,14 +18,14 @@ import { Alert, AlertDescription } from '../ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Checkbox } from '../ui/checkbox';
 import { Badge } from '../ui/badge';
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  User,
-  Shield,
-  AlertCircle,
+import { 
+  Eye, 
+  EyeOff, 
+  Mail, 
+  Lock, 
+  User, 
+  Shield, 
+  AlertCircle, 
   CheckCircle,
   Loader2,
   ArrowLeft,
@@ -36,7 +36,7 @@ import {
   X,
   Smartphone,
   Wifi,
-  WifiOff,
+  WifiOff
 } from 'lucide-react';
 
 export interface AuthUser {
@@ -71,21 +71,18 @@ interface MobileAuthenticationSystemProps {
 function useNetworkStatus() {
   const [networkStatus, setNetworkStatus] = useState({
     isOnline: typeof navigator !== 'undefined' ? navigator.onLine : true,
-    connectionType: 'unknown',
+    connectionType: 'unknown'
   });
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const updateNetworkStatus = () => {
-      const connection =
-        (navigator as any).connection ||
-        (navigator as any).mozConnection ||
-        (navigator as any).webkitConnection;
-
+      const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
+      
       setNetworkStatus({
         isOnline: navigator.onLine,
-        connectionType: connection?.effectiveType || 'unknown',
+        connectionType: connection?.effectiveType || 'unknown'
       });
     };
 
@@ -104,7 +101,7 @@ function useNetworkStatus() {
     return () => {
       window.removeEventListener('online', updateNetworkStatus);
       window.removeEventListener('offline', updateNetworkStatus);
-
+      
       if ((navigator as any).connection) {
         (navigator as any).connection.removeEventListener('change', updateNetworkStatus);
       }
@@ -137,11 +134,11 @@ function useMobileSafeStorage() {
     try {
       const value = localStorage.getItem(key);
       if (value) return value;
-
+      
       // Try sessionStorage backup
       const backupValue = sessionStorage.getItem(key + '_backup');
       if (backupValue) return backupValue;
-
+      
       // Try memory cache
       const memoryCache = (window as any).ffMemoryCache;
       return memoryCache?.[key] || null;
@@ -156,7 +153,7 @@ function useMobileSafeStorage() {
     try {
       localStorage.removeItem(key);
       sessionStorage.removeItem(key + '_backup');
-
+      
       const memoryCache = (window as any).ffMemoryCache;
       if (memoryCache) {
         delete memoryCache[key];
@@ -186,7 +183,7 @@ function MobileCaptcha({ onVerify, isLoading }: MobileCaptchaProps) {
   const handleVerify = useCallback(() => {
     const correctAnswer = num1 + num2;
     const userAnswer = parseInt(answer);
-
+    
     if (userAnswer === correctAnswer) {
       setIsVerified(true);
       onVerify(true);
@@ -204,18 +201,12 @@ function MobileCaptcha({ onVerify, isLoading }: MobileCaptchaProps) {
 
   return (
     <div className="space-y-3">
-      <Label
-        className="text-sm font-semibold text-[var(--ff-text-primary)] flex items-center"
-        style={{ fontFamily: 'var(--ff-font-primary)' }}
-      >
+      <Label className="text-sm font-semibold text-[var(--ff-text-primary)] flex items-center" style={{ fontFamily: 'var(--ff-font-primary)' }}>
         <Shield className="w-4 h-4 mr-2" />
         Verify you're not a robot
       </Label>
       <div className="flex items-center gap-3 p-4 bg-[var(--ff-surface)] rounded-lg border border-[var(--border)]">
-        <div
-          className="text-lg font-bold text-[var(--ff-text-primary)] min-w-[80px]"
-          style={{ fontFamily: 'var(--ff-font-mono)' }}
-        >
+        <div className="text-lg font-bold text-[var(--ff-text-primary)] min-w-[80px]" style={{ fontFamily: 'var(--ff-font-mono)' }}>
           {num1} + {num2} = ?
         </div>
         <Input
@@ -229,7 +220,9 @@ function MobileCaptcha({ onVerify, isLoading }: MobileCaptchaProps) {
           disabled={isLoading}
           autoComplete="off"
         />
-        {isVerified && <CheckCircle className="w-5 h-5 text-[var(--ff-success)] flex-shrink-0" />}
+        {isVerified && (
+          <CheckCircle className="w-5 h-5 text-[var(--ff-success)] flex-shrink-0" />
+        )}
       </div>
     </div>
   );
@@ -238,22 +231,18 @@ function MobileCaptcha({ onVerify, isLoading }: MobileCaptchaProps) {
 /**
  * Main Mobile Authentication System Component
  */
-export function MobileAuthenticationSystem({
-  onAuthSuccess,
-  onAuthError,
-  onClose,
-}: MobileAuthenticationSystemProps) {
+export function MobileAuthenticationSystem({ onAuthSuccess, onAuthError, onClose }: MobileAuthenticationSystemProps) {
   const [mode, setMode] = useState<AuthMode>('login');
   const networkStatus = useNetworkStatus();
   const storage = useMobileSafeStorage();
-
+  
   const [authState, setAuthState] = useState<MobileAuthState>({
     user: null,
     isAuthenticated: false,
     isLoading: false,
     error: null,
     isOnline: networkStatus.isOnline,
-    connectionType: networkStatus.connectionType,
+    connectionType: networkStatus.connectionType
   });
 
   // Form states
@@ -274,10 +263,10 @@ export function MobileAuthenticationSystem({
 
   // Update network status
   useEffect(() => {
-    setAuthState((prev) => ({
+    setAuthState(prev => ({
       ...prev,
       isOnline: networkStatus.isOnline,
-      connectionType: networkStatus.connectionType,
+      connectionType: networkStatus.connectionType
     }));
 
     // Auto-switch to offline mode if network is down
@@ -310,190 +299,170 @@ export function MobileAuthenticationSystem({
   }, []);
 
   // Enhanced login with mobile-specific error handling
-  const handleLogin = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
+  const handleLogin = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateEmail(email) || !isCaptchaVerified) return;
 
-      if (!validateEmail(email) || !isCaptchaVerified) return;
+    setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
 
-      setAuthState((prev) => ({ ...prev, isLoading: true, error: null }));
+    try {
+      // Check network connectivity
+      if (!authState.isOnline) {
+        throw new Error('No internet connection. Please check your network and try again.');
+      }
 
-      try {
-        // Check network connectivity
-        if (!authState.isOnline) {
-          throw new Error('No internet connection. Please check your network and try again.');
+      // Quick demo mode for testing
+      if (email === 'demo@flashfusion.ai' && password === 'demo123') {
+        console.log('🎯 Demo login activated');
+        
+        const demoUser: AuthUser = {
+          id: 'demo-user-001',
+          email: 'demo@flashfusion.ai',
+          name: 'Demo User',
+          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=demo',
+          role: 'pro',
+          subscription: 'pro'
+        };
+
+        setAuthState(prev => ({
+          ...prev,
+          user: demoUser,
+          isAuthenticated: true,
+          isLoading: false,
+          error: null
+        }));
+
+        // Store demo user data with mobile-safe storage
+        if (rememberMe) {
+          storage.setItem('ff-remember-user', JSON.stringify(demoUser));
+          storage.setItem('ff-auth-token', 'demo-token-' + Date.now());
         }
 
-        // Quick demo mode for testing
-        if (email === 'demo@flashfusion.ai' && password === 'demo123') {
-          console.log('🎯 Demo login activated');
+        onAuthSuccess(demoUser);
+        return;
+      }
+      
+      console.log('🔐 Attempting mobile login for:', email);
+      
+      // Try Supabase authentication with timeout and retry
+      let supabase;
+      try {
+        const supabaseModule = await import('../../utils/supabase/client');
+        supabase = supabaseModule.supabase;
+      } catch (importError) {
+        console.error('Failed to load Supabase client:', importError);
+        throw new Error('Authentication service unavailable. Please try again later.');
+      }
 
-          const demoUser: AuthUser = {
-            id: 'demo-user-001',
-            email: 'demo@flashfusion.ai',
-            name: 'Demo User',
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=demo',
-            role: 'pro',
-            subscription: 'pro',
-          };
+      // Create abort controller for timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+      }, 30000); // 30 second timeout for mobile
 
-          setAuthState((prev) => ({
-            ...prev,
-            user: demoUser,
-            isAuthenticated: true,
-            isLoading: false,
-            error: null,
-          }));
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
 
-          // Store demo user data with mobile-safe storage
-          if (rememberMe) {
-            storage.setItem('ff-remember-user', JSON.stringify(demoUser));
-            storage.setItem('ff-auth-token', 'demo-token-' + Date.now());
+        clearTimeout(timeoutId);
+
+        if (error) {
+          console.error('❌ Supabase login error:', error);
+          
+          // Handle specific error types
+          if (error.message.includes('Invalid login credentials')) {
+            throw new Error('Invalid email or password. Please check your credentials and try again.');
+          } else if (error.message.includes('Email not confirmed')) {
+            throw new Error('Please verify your email address before signing in. Check your inbox for a verification link.');
+          } else if (error.message.includes('Too many requests')) {
+            throw new Error('Too many login attempts. Please wait a few minutes and try again.');
+          } else {
+            throw new Error(error.message || 'Login failed. Please try again.');
           }
+        }
 
-          onAuthSuccess(demoUser);
+        if (!data.user) {
+          throw new Error('Authentication failed - no user data received');
+        }
+
+        // Check if email is verified
+        if (!data.user.email_confirmed_at) {
+          setAuthState(prev => ({
+            ...prev,
+            isLoading: false,
+            error: 'Please verify your email address before signing in. Check your inbox for a verification link.'
+          }));
           return;
         }
 
-        console.log('🔐 Attempting mobile login for:', email);
+        console.log('✅ Supabase login successful for:', email);
 
-        // Try Supabase authentication with timeout and retry
-        let supabase;
+        // Get user profile with error handling
+        let profile = null;
         try {
-          const supabaseModule = await import('../../utils/supabase/client');
-          supabase = supabaseModule.supabase;
-        } catch (importError) {
-          console.error('Failed to load Supabase client:', importError);
-          throw new Error('Authentication service unavailable. Please try again later.');
+          const { data: profileData, error: profileError } = await supabase
+            .from('user_profiles')
+            .select('*')
+            .eq('id', data.user.id)
+            .single();
+
+          if (profileError) {
+            console.warn('⚠️ Profile fetch warning:', profileError.message);
+          } else {
+            profile = profileData;
+          }
+        } catch (profileError) {
+          console.warn('⚠️ Profile fetch failed:', profileError);
         }
 
-        // Create abort controller for timeout
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => {
-          controller.abort();
-        }, 30000); // 30 second timeout for mobile
+        const user: AuthUser = {
+          id: data.user.id,
+          email: data.user.email || email,
+          name: profile?.name || data.user.user_metadata?.name || email.split('@')[0],
+          avatar: profile?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.user.email}`,
+          role: profile?.role || 'user',
+          subscription: profile?.subscription_tier || 'free'
+        };
 
-        try {
-          const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-          });
-
-          clearTimeout(timeoutId);
-
-          if (error) {
-            console.error('❌ Supabase login error:', error);
-
-            // Handle specific error types
-            if (error.message.includes('Invalid login credentials')) {
-              throw new Error(
-                'Invalid email or password. Please check your credentials and try again.'
-              );
-            } else if (error.message.includes('Email not confirmed')) {
-              throw new Error(
-                'Please verify your email address before signing in. Check your inbox for a verification link.'
-              );
-            } else if (error.message.includes('Too many requests')) {
-              throw new Error('Too many login attempts. Please wait a few minutes and try again.');
-            } else {
-              throw new Error(error.message || 'Login failed. Please try again.');
-            }
-          }
-
-          if (!data.user) {
-            throw new Error('Authentication failed - no user data received');
-          }
-
-          // Check if email is verified
-          if (!data.user.email_confirmed_at) {
-            setAuthState((prev) => ({
-              ...prev,
-              isLoading: false,
-              error:
-                'Please verify your email address before signing in. Check your inbox for a verification link.',
-            }));
-            return;
-          }
-
-          console.log('✅ Supabase login successful for:', email);
-
-          // Get user profile with error handling
-          let profile = null;
-          try {
-            const { data: profileData, error: profileError } = await supabase
-              .from('user_profiles')
-              .select('*')
-              .eq('id', data.user.id)
-              .single();
-
-            if (profileError) {
-              console.warn('⚠️ Profile fetch warning:', profileError.message);
-            } else {
-              profile = profileData;
-            }
-          } catch (profileError) {
-            console.warn('⚠️ Profile fetch failed:', profileError);
-          }
-
-          const user: AuthUser = {
-            id: data.user.id,
-            email: data.user.email || email,
-            name: profile?.name || data.user.user_metadata?.name || email.split('@')[0],
-            avatar:
-              profile?.avatar_url ||
-              `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.user.email}`,
-            role: profile?.role || 'user',
-            subscription: profile?.subscription_tier || 'free',
-          };
-
-          setAuthState((prev) => ({
-            ...prev,
-            user,
-            isAuthenticated: true,
-            isLoading: false,
-            error: null,
-          }));
-
-          // Store user data if remember me is checked
-          if (rememberMe) {
-            storage.setItem('ff-remember-user', JSON.stringify(user));
-            storage.setItem('ff-auth-token', data.session?.access_token || '');
-          }
-
-          onAuthSuccess(user);
-        } catch (fetchError) {
-          clearTimeout(timeoutId);
-
-          if (fetchError.name === 'AbortError') {
-            throw new Error('Login request timed out. Please check your connection and try again.');
-          }
-
-          throw fetchError;
-        }
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Login failed';
-        console.error('❌ Mobile login failed:', errorMessage);
-
-        setAuthState((prev) => ({
+        setAuthState(prev => ({
           ...prev,
+          user,
+          isAuthenticated: true,
           isLoading: false,
-          error: errorMessage,
+          error: null
         }));
-        onAuthError(errorMessage);
+
+        // Store user data if remember me is checked
+        if (rememberMe) {
+          storage.setItem('ff-remember-user', JSON.stringify(user));
+          storage.setItem('ff-auth-token', data.session?.access_token || '');
+        }
+
+        onAuthSuccess(user);
+      } catch (fetchError) {
+        clearTimeout(timeoutId);
+        
+        if (fetchError.name === 'AbortError') {
+          throw new Error('Login request timed out. Please check your connection and try again.');
+        }
+        
+        throw fetchError;
       }
-    },
-    [
-      email,
-      password,
-      isCaptchaVerified,
-      rememberMe,
-      authState.isOnline,
-      validateEmail,
-      storage,
-      onAuthSuccess,
-      onAuthError,
-    ]
-  );
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Login failed';
+      console.error('❌ Mobile login failed:', errorMessage);
+      
+      setAuthState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: errorMessage
+      }));
+      onAuthError(errorMessage);
+    }
+  }, [email, password, isCaptchaVerified, rememberMe, authState.isOnline, validateEmail, storage, onAuthSuccess, onAuthError]);
 
   // Check for remembered user on mount
   useEffect(() => {
@@ -527,7 +496,7 @@ export function MobileAuthenticationSystem({
           </p>
         </div>
       </div>
-
+      
       <div className="space-y-3">
         <Alert className="border-yellow-500/20 bg-yellow-500/10">
           <AlertCircle className="h-4 w-4 text-yellow-500" />
@@ -535,7 +504,7 @@ export function MobileAuthenticationSystem({
             <strong className="text-yellow-500">Network Status:</strong> {authState.connectionType}
           </AlertDescription>
         </Alert>
-
+        
         <Button
           onClick={() => {
             if (networkStatus.isOnline) {
@@ -564,7 +533,10 @@ export function MobileAuthenticationSystem({
   // Network status indicator
   const NetworkIndicator = () => (
     <div className="mb-4">
-      <Badge variant={authState.isOnline ? 'default' : 'destructive'} className="mb-2">
+      <Badge 
+        variant={authState.isOnline ? "default" : "destructive"}
+        className="mb-2"
+      >
         {authState.isOnline ? (
           <>
             <Wifi className="w-3 h-3 mr-1" />
@@ -592,10 +564,7 @@ export function MobileAuthenticationSystem({
                   <Smartphone className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <CardTitle
-                    className="text-xl text-[var(--ff-text-primary)]"
-                    style={{ fontFamily: 'var(--ff-font-primary)' }}
-                  >
+                  <CardTitle className="text-xl text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
                     FlashFusion
                   </CardTitle>
                   <CardDescription className="text-[var(--ff-text-muted)]">
@@ -614,7 +583,7 @@ export function MobileAuthenticationSystem({
                 </Button>
               )}
             </div>
-
+            
             <NetworkIndicator />
           </CardHeader>
 
@@ -628,23 +597,17 @@ export function MobileAuthenticationSystem({
               </Alert>
             )}
 
-            {mode === 'offline' ? (
-              renderOfflineMode()
-            ) : (
-              <Tabs
-                value={mode}
-                onValueChange={(value) => setMode(value as AuthMode)}
-                className="w-full"
-              >
+            {mode === 'offline' ? renderOfflineMode() : (
+              <Tabs value={mode} onValueChange={(value) => setMode(value as AuthMode)} className="w-full">
                 <TabsList className="grid w-full grid-cols-2 bg-[var(--ff-surface-light)]">
-                  <TabsTrigger
+                  <TabsTrigger 
                     value="login"
                     className="data-[state=active]:bg-[var(--ff-primary)] data-[state=active]:text-white"
                     disabled={!authState.isOnline}
                   >
                     Sign In
                   </TabsTrigger>
-                  <TabsTrigger
+                  <TabsTrigger 
                     value="signup"
                     className="data-[state=active]:bg-[var(--ff-primary)] data-[state=active]:text-white"
                     disabled={!authState.isOnline}
@@ -658,21 +621,13 @@ export function MobileAuthenticationSystem({
                   <Alert className="border-[var(--ff-secondary)] bg-[var(--ff-secondary)]/10">
                     <Zap className="h-4 w-4 text-[var(--ff-secondary)]" />
                     <AlertDescription className="text-[var(--ff-text-secondary)] text-sm">
-                      <strong className="text-[var(--ff-secondary)]">Quick Demo:</strong> Use{' '}
-                      <code className="bg-[var(--ff-surface)] px-1 rounded text-xs">
-                        demo@flashfusion.ai
-                      </code>{' '}
-                      and{' '}
-                      <code className="bg-[var(--ff-surface)] px-1 rounded text-xs">demo123</code>
+                      <strong className="text-[var(--ff-secondary)]">Quick Demo:</strong> Use <code className="bg-[var(--ff-surface)] px-1 rounded text-xs">demo@flashfusion.ai</code> and <code className="bg-[var(--ff-surface)] px-1 rounded text-xs">demo123</code>
                     </AlertDescription>
                   </Alert>
 
                   <form onSubmit={handleLogin} className="space-y-4">
                     <div className="space-y-2">
-                      <Label
-                        htmlFor="email"
-                        className="text-sm font-semibold text-[var(--ff-text-primary)]"
-                      >
+                      <Label htmlFor="email" className="text-sm font-semibold text-[var(--ff-text-primary)]">
                         Email Address
                       </Label>
                       <div className="relative">
@@ -700,10 +655,7 @@ export function MobileAuthenticationSystem({
                     </div>
 
                     <div className="space-y-2">
-                      <Label
-                        htmlFor="password"
-                        className="text-sm font-semibold text-[var(--ff-text-primary)]"
-                      >
+                      <Label htmlFor="password" className="text-sm font-semibold text-[var(--ff-text-primary)]">
                         Password
                       </Label>
                       <div className="relative">
@@ -725,19 +677,12 @@ export function MobileAuthenticationSystem({
                           className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[var(--ff-text-muted)] hover:text-[var(--ff-text-primary)] p-1"
                           disabled={authState.isLoading || !authState.isOnline}
                         >
-                          {showPassword ? (
-                            <EyeOff className="w-5 h-5" />
-                          ) : (
-                            <Eye className="w-5 h-5" />
-                          )}
+                          {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
                       </div>
                     </div>
 
-                    <MobileCaptcha
-                      onVerify={setIsCaptchaVerified}
-                      isLoading={authState.isLoading}
-                    />
+                    <MobileCaptcha onVerify={setIsCaptchaVerified} isLoading={authState.isLoading} />
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
@@ -747,10 +692,7 @@ export function MobileAuthenticationSystem({
                           onCheckedChange={setRememberMe}
                           disabled={authState.isLoading || !authState.isOnline}
                         />
-                        <Label
-                          htmlFor="remember"
-                          className="text-sm text-[var(--ff-text-secondary)]"
-                        >
+                        <Label htmlFor="remember" className="text-sm text-[var(--ff-text-secondary)]">
                           Remember me
                         </Label>
                       </div>
@@ -766,13 +708,7 @@ export function MobileAuthenticationSystem({
 
                     <Button
                       type="submit"
-                      disabled={
-                        authState.isLoading ||
-                        !email ||
-                        !password ||
-                        !isCaptchaVerified ||
-                        !authState.isOnline
-                      }
+                      disabled={authState.isLoading || !email || !password || !isCaptchaVerified || !authState.isOnline}
                       className="w-full bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white font-semibold py-3 rounded-lg transition-all duration-200 text-base min-h-[48px]"
                     >
                       {authState.isLoading ? (

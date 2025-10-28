@@ -24,7 +24,7 @@ export default defineConfig({
       'motion',
       'lucide-react',
       'recharts',
-      'sonner',
+      'sonner'
     ],
   },
   build: {

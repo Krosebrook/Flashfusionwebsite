@@ -4,7 +4,7 @@
  * @category components
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * Development-only performance monitoring display with FlashFusion design system.
  */
 
@@ -40,14 +40,18 @@ interface PerformanceMonitorProps {
 
 /**
  * FlashFusion Performance Monitor Component
- *
+ * 
  * Development-only overlay showing real-time performance metrics.
  * Helps developers monitor system resource usage and initialization times.
- *
+ * 
  * @param props - Performance monitor configuration
  * @returns Performance monitor JSX (null in production)
  */
-export function PerformanceMonitor({ mode, metrics, systemInfo = {} }: PerformanceMonitorProps) {
+export function PerformanceMonitor({ 
+  mode, 
+  metrics, 
+  systemInfo = {} 
+}: PerformanceMonitorProps) {
   // Only render in development
   if (process.env.NODE_ENV !== 'development') {
     return null;
@@ -71,23 +75,18 @@ export function PerformanceMonitor({ mode, metrics, systemInfo = {} }: Performan
             <span className="ff-text-xs font-semibold text-[var(--ff-text-primary)]">
               FlashFusion Performance
             </span>
-            <Badge
+            <Badge 
               className="ff-badge-primary text-[10px] px-1.5 py-0.5"
-              style={{
+              style={{ 
                 backgroundColor: `${mode === 'full' ? 'var(--ff-success)' : mode === 'lite' ? 'var(--ff-warning)' : 'var(--ff-error)'}/20`,
-                color:
-                  mode === 'full'
-                    ? 'var(--ff-success)'
-                    : mode === 'lite'
-                      ? 'var(--ff-warning)'
-                      : 'var(--ff-error)',
-                border: `1px solid ${mode === 'full' ? 'var(--ff-success)' : mode === 'lite' ? 'var(--ff-warning)' : 'var(--ff-error)'}/30`,
+                color: mode === 'full' ? 'var(--ff-success)' : mode === 'lite' ? 'var(--ff-warning)' : 'var(--ff-error)',
+                border: `1px solid ${mode === 'full' ? 'var(--ff-success)' : mode === 'lite' ? 'var(--ff-warning)' : 'var(--ff-error)'}/30`
               }}
             >
               {mode}
             </Badge>
           </div>
-
+          
           <div className="space-y-2">
             {/* Initialization Time */}
             <div className="flex items-center justify-between text-xs">
@@ -95,7 +94,10 @@ export function PerformanceMonitor({ mode, metrics, systemInfo = {} }: Performan
                 <Clock className="w-3 h-3" style={{ color: initTimeColor }} />
                 <span className="text-[var(--ff-text-secondary)]">Init:</span>
               </div>
-              <span className="font-medium tabular-nums" style={{ color: initTimeColor }}>
+              <span 
+                className="font-medium tabular-nums" 
+                style={{ color: initTimeColor }}
+              >
                 {metrics.initTime.toFixed(0)}ms
               </span>
             </div>
@@ -106,7 +108,10 @@ export function PerformanceMonitor({ mode, metrics, systemInfo = {} }: Performan
                 <HardDrive className="w-3 h-3" style={{ color: memoryColor }} />
                 <span className="text-[var(--ff-text-secondary)]">Memory:</span>
               </div>
-              <span className="font-medium tabular-nums" style={{ color: memoryColor }}>
+              <span 
+                className="font-medium tabular-nums" 
+                style={{ color: memoryColor }}
+              >
                 {metrics.memoryUsage}MB
               </span>
             </div>
@@ -130,7 +135,7 @@ export function PerformanceMonitor({ mode, metrics, systemInfo = {} }: Performan
                     System Info
                   </div>
                 </div>
-
+                
                 {systemInfo.connection && (
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-[var(--ff-text-muted)]">Connection:</span>
@@ -139,7 +144,7 @@ export function PerformanceMonitor({ mode, metrics, systemInfo = {} }: Performan
                     </span>
                   </div>
                 )}
-
+                
                 {systemInfo.deviceMemory && (
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-[var(--ff-text-muted)]">Device RAM:</span>
@@ -148,7 +153,7 @@ export function PerformanceMonitor({ mode, metrics, systemInfo = {} }: Performan
                     </span>
                   </div>
                 )}
-
+                
                 {systemInfo.hardwareConcurrency && (
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-[var(--ff-text-muted)]">CPU Cores:</span>
@@ -164,19 +169,18 @@ export function PerformanceMonitor({ mode, metrics, systemInfo = {} }: Performan
           {/* Performance Indicator */}
           <div className="mt-3 pt-2 border-t border-[var(--border)]">
             <div className="flex items-center gap-1">
-              <div
+              <div 
                 className="w-2 h-2 rounded-full animate-pulse"
-                style={{
-                  backgroundColor:
-                    metrics.initTime < 1000 && metrics.memoryUsage < 50
-                      ? 'var(--ff-success)'
-                      : metrics.initTime < 3000 && metrics.memoryUsage < 100
-                        ? 'var(--ff-warning)'
-                        : 'var(--ff-error)',
+                style={{ 
+                  backgroundColor: metrics.initTime < 1000 && metrics.memoryUsage < 50 
+                    ? 'var(--ff-success)' 
+                    : metrics.initTime < 3000 && metrics.memoryUsage < 100
+                      ? 'var(--ff-warning)'
+                      : 'var(--ff-error)'
                 }}
               />
               <span className="ff-text-xs text-[var(--ff-text-muted)]">
-                {metrics.initTime < 1000 && metrics.memoryUsage < 50
+                {metrics.initTime < 1000 && metrics.memoryUsage < 50 
                   ? 'Optimal Performance'
                   : metrics.initTime < 3000 && metrics.memoryUsage < 100
                     ? 'Good Performance'

@@ -1,17 +1,9 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 import type { GeneratedApp } from '../types/full-stack-builder';
 
 export interface DeploymentConfig {
-  platform:
-    | 'vercel'
-    | 'netlify'
-    | 'railway'
-    | 'heroku'
-    | 'aws'
-    | 'digitalocean'
-    | 'github-pages'
-    | 'render';
+  platform: 'vercel' | 'netlify' | 'railway' | 'heroku' | 'aws' | 'digitalocean' | 'github-pages' | 'render';
   projectId?: string;
   apiKey?: string;
   environmentVariables?: Record<string, string>;
@@ -45,13 +37,14 @@ export interface DeploymentStatus {
  * Connects to actual deployment platforms with real APIs
  */
 export class DeploymentService {
+  
   /**
    * Deploy to Vercel using their API
    */
   async deployToVercel(app: GeneratedApp, config: DeploymentConfig): Promise<DeploymentResult> {
     try {
-      const vercelToken = config.apiKey || (await this.getStoredApiKey('vercel'));
-
+      const vercelToken = config.apiKey || await this.getStoredApiKey('vercel');
+      
       if (!vercelToken) {
         throw new Error('Vercel API token is required. Please add it in Settings > Integrations.');
       }
@@ -63,21 +56,20 @@ export class DeploymentService {
         projectSettings: {
           framework: app.stack.frontend === 'nextjs' ? 'nextjs' : 'create-react-app',
           buildCommand: config.buildCommand || 'npm run build',
-          outputDirectory:
-            config.outputDirectory || (app.stack.frontend === 'nextjs' ? '.next' : 'build'),
+          outputDirectory: config.outputDirectory || (app.stack.frontend === 'nextjs' ? '.next' : 'build'),
           installCommand: 'npm install',
-          devCommand: 'npm run dev',
+          devCommand: 'npm run dev'
         },
-        env: this.prepareEnvironmentVariables(config.environmentVariables),
+        env: this.prepareEnvironmentVariables(config.environmentVariables)
       };
 
       const response = await fetch('https://api.vercel.com/v13/deployments', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${vercelToken}`,
-          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${vercelToken}`,
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(deploymentData),
+        body: JSON.stringify(deploymentData)
       });
 
       const result = await response.json();
@@ -90,7 +82,7 @@ export class DeploymentService {
         id: result.id,
         url: result.url,
         status: 'deploying',
-        platform: 'vercel',
+        platform: 'vercel'
       };
 
       // Store deployment in database
@@ -98,16 +90,17 @@ export class DeploymentService {
 
       toast.success('Deployment started on Vercel!');
       return deploymentResult;
+
     } catch (error) {
       console.error('Vercel deployment error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown deployment error';
       toast.error(`Vercel deployment failed: ${errorMessage}`);
-
+      
       return {
         id: Date.now().toString(),
         status: 'failed',
         platform: 'vercel',
-        error: errorMessage,
+        error: errorMessage
       };
     }
   }
@@ -117,44 +110,44 @@ export class DeploymentService {
    */
   async deployToNetlify(app: GeneratedApp, config: DeploymentConfig): Promise<DeploymentResult> {
     try {
-      const netlifyToken = config.apiKey || (await this.getStoredApiKey('netlify'));
-
+      const netlifyToken = config.apiKey || await this.getStoredApiKey('netlify');
+      
       if (!netlifyToken) {
         throw new Error('Netlify API token is required. Please add it in Settings > Integrations.');
       }
 
       // Create a new site or use existing
       let siteId = config.projectId;
-
+      
       if (!siteId) {
         // Create new site
         const siteResponse = await fetch('https://api.netlify.com/api/v1/sites', {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${netlifyToken}`,
-            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${netlifyToken}`,
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             name: app.name.toLowerCase().replace(/\s+/g, '-'),
             build_settings: {
               cmd: config.buildCommand || 'npm run build',
-              dir: config.outputDirectory || 'build',
-            },
-          }),
+              dir: config.outputDirectory || 'build'
+            }
+          })
         });
 
         const siteData = await siteResponse.json();
         if (!siteResponse.ok) {
           throw new Error(siteData.message || 'Failed to create Netlify site');
         }
-
+        
         siteId = siteData.id;
       }
 
       // Deploy to Netlify
       const files = this.prepareNetlifyFiles(app);
       const formData = new FormData();
-
+      
       // Add files to form data
       Object.entries(files).forEach(([path, content]) => {
         formData.append(path, new Blob([content], { type: 'text/plain' }));
@@ -163,13 +156,13 @@ export class DeploymentService {
       const deployResponse = await fetch(`https://api.netlify.com/api/v1/sites/${siteId}/deploys`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${netlifyToken}`,
+          'Authorization': `Bearer ${netlifyToken}`
         },
-        body: formData,
+        body: formData
       });
 
       const deployData = await deployResponse.json();
-
+      
       if (!deployResponse.ok) {
         throw new Error(deployData.message || 'Netlify deployment failed');
       }
@@ -178,7 +171,7 @@ export class DeploymentService {
         id: deployData.id,
         url: deployData.ssl_url || deployData.url,
         status: 'deploying',
-        platform: 'netlify',
+        platform: 'netlify'
       };
 
       // Store deployment in database
@@ -186,16 +179,17 @@ export class DeploymentService {
 
       toast.success('Deployment started on Netlify!');
       return deploymentResult;
+
     } catch (error) {
       console.error('Netlify deployment error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown deployment error';
       toast.error(`Netlify deployment failed: ${errorMessage}`);
-
+      
       return {
         id: Date.now().toString(),
         status: 'failed',
         platform: 'netlify',
-        error: errorMessage,
+        error: errorMessage
       };
     }
   }
@@ -205,8 +199,8 @@ export class DeploymentService {
    */
   async deployToRailway(app: GeneratedApp, config: DeploymentConfig): Promise<DeploymentResult> {
     try {
-      const railwayToken = config.apiKey || (await this.getStoredApiKey('railway'));
-
+      const railwayToken = config.apiKey || await this.getStoredApiKey('railway');
+      
       if (!railwayToken) {
         throw new Error('Railway API token is required. Please add it in Settings > Integrations.');
       }
@@ -228,19 +222,19 @@ export class DeploymentService {
           environment: 'production',
           source: {
             type: 'UPLOAD',
-            files: this.prepareRailwayFiles(app),
+            files: this.prepareRailwayFiles(app)
           },
-          variables: config.environmentVariables || {},
-        },
+          variables: config.environmentVariables || {}
+        }
       };
 
       const response = await fetch('https://backboard.railway.app/graphql/v2', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${railwayToken}`,
-          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${railwayToken}`,
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ query: mutation, variables }),
+        body: JSON.stringify({ query: mutation, variables })
       });
 
       const result = await response.json();
@@ -250,12 +244,12 @@ export class DeploymentService {
       }
 
       const deployment = result.data.deploymentCreate;
-
+      
       const deploymentResult: DeploymentResult = {
         id: deployment.id,
         url: deployment.url,
         status: 'deploying',
-        platform: 'railway',
+        platform: 'railway'
       };
 
       // Store deployment in database
@@ -263,16 +257,17 @@ export class DeploymentService {
 
       toast.success('Deployment started on Railway!');
       return deploymentResult;
+
     } catch (error) {
       console.error('Railway deployment error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown deployment error';
       toast.error(`Railway deployment failed: ${errorMessage}`);
-
+      
       return {
         id: Date.now().toString(),
         status: 'failed',
         platform: 'railway',
-        error: errorMessage,
+        error: errorMessage
       };
     }
   }
@@ -282,8 +277,8 @@ export class DeploymentService {
    */
   async deployToRender(app: GeneratedApp, config: DeploymentConfig): Promise<DeploymentResult> {
     try {
-      const renderToken = config.apiKey || (await this.getStoredApiKey('render'));
-
+      const renderToken = config.apiKey || await this.getStoredApiKey('render');
+      
       if (!renderToken) {
         throw new Error('Render API token is required. Please add it in Settings > Integrations.');
       }
@@ -293,24 +288,24 @@ export class DeploymentService {
         type: 'web_service',
         repo: {
           type: 'git',
-          url: 'https://github.com/flashfusion/generated-app.git', // Would be the actual repo
+          url: 'https://github.com/flashfusion/generated-app.git' // Would be the actual repo
         },
         build: {
-          command: config.buildCommand || 'npm run build',
+          command: config.buildCommand || 'npm run build'
         },
         start: {
-          command: 'npm start',
+          command: 'npm start'
         },
-        env: config.environmentVariables || {},
+        env: config.environmentVariables || {}
       };
 
       const response = await fetch('https://api.render.com/v1/services', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${renderToken}`,
-          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${renderToken}`,
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(serviceData),
+        body: JSON.stringify(serviceData)
       });
 
       const result = await response.json();
@@ -323,7 +318,7 @@ export class DeploymentService {
         id: result.id,
         url: result.url,
         status: 'deploying',
-        platform: 'render',
+        platform: 'render'
       };
 
       // Store deployment in database
@@ -331,16 +326,17 @@ export class DeploymentService {
 
       toast.success('Deployment started on Render!');
       return deploymentResult;
+
     } catch (error) {
       console.error('Render deployment error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown deployment error';
       toast.error(`Render deployment failed: ${errorMessage}`);
-
+      
       return {
         id: Date.now().toString(),
         status: 'failed',
         platform: 'render',
-        error: errorMessage,
+        error: errorMessage
       };
     }
   }
@@ -367,52 +363,52 @@ export class DeploymentService {
       return {
         id: deploymentId,
         status: 'failed',
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: error instanceof Error ? error.message : 'Unknown error'
       };
     }
   }
 
   private async getVercelDeploymentStatus(deploymentId: string): Promise<DeploymentStatus> {
     const token = await this.getStoredApiKey('vercel');
-
+    
     const response = await fetch(`https://api.vercel.com/v13/deployments/${deploymentId}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        'Authorization': `Bearer ${token}`
+      }
     });
 
     const data = await response.json();
-
+    
     return {
       id: deploymentId,
       status: this.mapVercelStatus(data.readyState),
       url: data.url,
-      message: data.status,
+      message: data.status
     };
   }
 
   private async getNetlifyDeploymentStatus(deploymentId: string): Promise<DeploymentStatus> {
     const token = await this.getStoredApiKey('netlify');
-
+    
     const response = await fetch(`https://api.netlify.com/api/v1/deploys/${deploymentId}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        'Authorization': `Bearer ${token}`
+      }
     });
 
     const data = await response.json();
-
+    
     return {
       id: deploymentId,
       status: this.mapNetlifyStatus(data.state),
       url: data.ssl_url || data.url,
-      message: data.error_message || data.title,
+      message: data.error_message || data.title
     };
   }
 
   private async getRailwayDeploymentStatus(deploymentId: string): Promise<DeploymentStatus> {
     const token = await this.getStoredApiKey('railway');
-
+    
     const query = `
       query getDeployment($id: String!) {
         deployment(id: $id) {
@@ -428,39 +424,39 @@ export class DeploymentService {
     const response = await fetch('https://backboard.railway.app/graphql/v2', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ query, variables: { id: deploymentId } }),
+      body: JSON.stringify({ query, variables: { id: deploymentId } })
     });
 
     const result = await response.json();
     const deployment = result.data.deployment;
-
+    
     return {
       id: deploymentId,
       status: this.mapRailwayStatus(deployment.status),
       url: deployment.url,
-      message: deployment.status,
+      message: deployment.status
     };
   }
 
   private async getRenderDeploymentStatus(deploymentId: string): Promise<DeploymentStatus> {
     const token = await this.getStoredApiKey('render');
-
+    
     const response = await fetch(`https://api.render.com/v1/services/${deploymentId}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        'Authorization': `Bearer ${token}`
+      }
     });
 
     const data = await response.json();
-
+    
     return {
       id: deploymentId,
       status: this.mapRenderStatus(data.status),
       url: data.url,
-      message: data.status,
+      message: data.status
     };
   }
 
@@ -478,7 +474,7 @@ export class DeploymentService {
         url: deployment.url,
         status: deployment.status,
         deployment_id: deployment.id,
-        auto_deploy: false,
+        auto_deploy: false
       });
     } catch (error) {
       console.error('Error storing deployment:', error);
@@ -511,8 +507,8 @@ export class DeploymentService {
    */
   private prepareVercelFiles(app: GeneratedApp): Record<string, { file: string }> {
     const files: Record<string, { file: string }> = {};
-
-    app.files.forEach((file) => {
+    
+    app.files.forEach(file => {
       files[file.path] = { file: file.content };
     });
 
@@ -521,8 +517,8 @@ export class DeploymentService {
 
   private prepareNetlifyFiles(app: GeneratedApp): Record<string, string> {
     const files: Record<string, string> = {};
-
-    app.files.forEach((file) => {
+    
+    app.files.forEach(file => {
       files[file.path] = file.content;
     });
 
@@ -530,17 +526,15 @@ export class DeploymentService {
   }
 
   private prepareRailwayFiles(app: GeneratedApp): Array<{ path: string; content: string }> {
-    return app.files.map((file) => ({
+    return app.files.map(file => ({
       path: file.path,
-      content: file.content,
+      content: file.content
     }));
   }
 
-  private prepareEnvironmentVariables(
-    env?: Record<string, string>
-  ): Array<{ key: string; value: string }> {
+  private prepareEnvironmentVariables(env?: Record<string, string>): Array<{ key: string; value: string }> {
     if (!env) return [];
-
+    
     return Object.entries(env).map(([key, value]) => ({ key, value }));
   }
 
@@ -549,61 +543,41 @@ export class DeploymentService {
    */
   private mapVercelStatus(status: string): DeploymentStatus['status'] {
     switch (status) {
-      case 'BUILDING':
-        return 'building';
-      case 'READY':
-        return 'deployed';
-      case 'ERROR':
-        return 'failed';
-      case 'CANCELED':
-        return 'cancelled';
-      default:
-        return 'deploying';
+      case 'BUILDING': return 'building';
+      case 'READY': return 'deployed';
+      case 'ERROR': return 'failed';
+      case 'CANCELED': return 'cancelled';
+      default: return 'deploying';
     }
   }
 
   private mapNetlifyStatus(status: string): DeploymentStatus['status'] {
     switch (status) {
-      case 'building':
-        return 'building';
-      case 'ready':
-        return 'deployed';
-      case 'error':
-        return 'failed';
-      case 'stopped':
-        return 'cancelled';
-      default:
-        return 'deploying';
+      case 'building': return 'building';
+      case 'ready': return 'deployed';
+      case 'error': return 'failed';
+      case 'stopped': return 'cancelled';
+      default: return 'deploying';
     }
   }
 
   private mapRailwayStatus(status: string): DeploymentStatus['status'] {
     switch (status) {
-      case 'BUILDING':
-        return 'building';
-      case 'DEPLOYED':
-        return 'deployed';
-      case 'FAILED':
-        return 'failed';
-      case 'CANCELLED':
-        return 'cancelled';
-      default:
-        return 'deploying';
+      case 'BUILDING': return 'building';
+      case 'DEPLOYED': return 'deployed';
+      case 'FAILED': return 'failed';
+      case 'CANCELLED': return 'cancelled';
+      default: return 'deploying';
     }
   }
 
   private mapRenderStatus(status: string): DeploymentStatus['status'] {
     switch (status) {
-      case 'building':
-        return 'building';
-      case 'live':
-        return 'deployed';
-      case 'failed':
-        return 'failed';
-      case 'cancelled':
-        return 'cancelled';
-      default:
-        return 'deploying';
+      case 'building': return 'building';
+      case 'live': return 'deployed';
+      case 'failed': return 'failed';
+      case 'cancelled': return 'cancelled';
+      default: return 'deploying';
     }
   }
 }
@@ -613,13 +587,13 @@ export const deploymentService = new DeploymentService();
 
 // Helper function for easy deployment
 export async function deployProject(
-  app: GeneratedApp,
-  platform: DeploymentConfig['platform'],
+  app: GeneratedApp, 
+  platform: DeploymentConfig['platform'], 
   config: Partial<DeploymentConfig> = {}
 ): Promise<DeploymentResult> {
   const fullConfig: DeploymentConfig = {
     platform,
-    ...config,
+    ...config
   };
 
   switch (platform) {

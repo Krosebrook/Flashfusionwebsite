@@ -4,7 +4,7 @@
  * @category authentication
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * Handles email verification for new user signups
  */
 
@@ -50,7 +50,7 @@ export function EmailVerification() {
           console.log('✅ Email verified successfully');
           setStatus('success');
           setMessage('Your email has been verified successfully!');
-
+          
           // Redirect to app after a brief delay
           setTimeout(() => {
             window.location.href = '/';
@@ -59,6 +59,7 @@ export function EmailVerification() {
           setStatus('error');
           setMessage('Email verification failed. Please try again.');
         }
+
       } catch (error) {
         console.error('❌ Email verification processing failed:', error);
         setStatus('error');
@@ -102,12 +103,14 @@ export function EmailVerification() {
       <div className="w-full max-w-md">
         <Card className="ff-card border-[var(--border)] bg-[var(--ff-bg-dark)] shadow-2xl">
           <CardHeader className="text-center pb-6">
-            <div className="mb-6">{getStatusIcon()}</div>
-            <CardTitle
-              className="text-2xl font-bold"
-              style={{
+            <div className="mb-6">
+              {getStatusIcon()}
+            </div>
+            <CardTitle 
+              className="text-2xl font-bold" 
+              style={{ 
                 fontFamily: 'var(--ff-font-primary)',
-                color: getStatusColor(),
+                color: getStatusColor()
               }}
             >
               {status === 'verifying' && 'Verifying Email'}
@@ -138,8 +141,7 @@ export function EmailVerification() {
                   </AlertDescription>
                 </Alert>
                 <p className="text-[var(--ff-text-secondary)] text-sm">
-                  You will be redirected to the app automatically, or you can click the button
-                  below.
+                  You will be redirected to the app automatically, or you can click the button below.
                 </p>
                 <Button
                   onClick={handleReturnToLogin}
@@ -155,11 +157,12 @@ export function EmailVerification() {
               <div className="text-center space-y-4">
                 <Alert className="border-[var(--ff-error)] bg-[var(--ff-error)] bg-opacity-10">
                   <AlertCircle className="h-4 w-4 text-[var(--ff-error)]" />
-                  <AlertDescription className="text-[var(--ff-error)]">{message}</AlertDescription>
+                  <AlertDescription className="text-[var(--ff-error)]">
+                    {message}
+                  </AlertDescription>
                 </Alert>
                 <p className="text-[var(--ff-text-secondary)] text-sm">
-                  Please return to the login page and try again, or contact support if the problem
-                  persists.
+                  Please return to the login page and try again, or contact support if the problem persists.
                 </p>
                 <Button
                   onClick={handleReturnToLogin}

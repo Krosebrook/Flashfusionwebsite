@@ -4,12 +4,12 @@
  * @category monitoring
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * USER SESSION ANALYTICS
- *
+ * 
  * Comprehensive user session tracking and analytics system for FlashFusion
  * with real-time monitoring, heatmaps, user flows, and performance insights.
- *
+ * 
  * Features:
  * - Real-time session tracking
  * - User behavior analytics
@@ -27,10 +27,10 @@ import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Progress } from '../ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import {
-  Activity,
-  Users,
-  Clock,
+import { 
+  Activity, 
+  Users, 
+  Clock, 
   MousePointer,
   Eye,
   TrendingUp,
@@ -47,7 +47,7 @@ import {
   Monitor,
   Settings,
   AlertCircle,
-  CheckCircle,
+  CheckCircle
 } from 'lucide-react';
 
 interface SessionData {
@@ -130,7 +130,7 @@ export function UserSessionAnalytics(): JSX.Element {
     initializeAnalytics();
     loadAnalyticsData();
     startSessionTracking();
-
+    
     return () => {
       stopSessionTracking();
     };
@@ -141,18 +141,18 @@ export function UserSessionAnalytics(): JSX.Element {
    */
   const initializeAnalytics = useCallback((): void => {
     console.log('🔍 Initializing User Session Analytics...');
-
+    
     // Set up performance monitoring
     if ('performance' in window && 'PerformanceObserver' in window) {
       setupPerformanceTracking();
     }
-
+    
     // Set up user interaction tracking
     setupInteractionTracking();
-
+    
     // Set up error tracking
     setupErrorTracking();
-
+    
     console.log('✅ Analytics system initialized');
   }, []);
 
@@ -164,7 +164,7 @@ export function UserSessionAnalytics(): JSX.Element {
       // In production, this would fetch from your analytics API
       const mockData = generateMockAnalyticsData();
       setAnalyticsData(mockData);
-
+      
       const mockSessions = generateMockSessions();
       setRecentSessions(mockSessions);
     } catch (error) {
@@ -177,10 +177,10 @@ export function UserSessionAnalytics(): JSX.Element {
    */
   const startSessionTracking = useCallback((): void => {
     if (isRecording) return;
-
+    
     setIsRecording(true);
     console.log('🎬 Starting session recording...');
-
+    
     // Create new session
     const session: SessionData = {
       id: generateSessionId(),
@@ -194,34 +194,32 @@ export function UserSessionAnalytics(): JSX.Element {
       device: getDeviceInfo(),
       location: getLocationInfo(),
       referrer: document.referrer,
-      pages: [
-        {
-          url: window.location.href,
-          title: document.title,
-          timestamp: Date.now(),
-          duration: 0,
-          scrollDepth: 0,
-          interactions: 0,
-          exitPage: false,
-        },
-      ],
+      pages: [{
+        url: window.location.href,
+        title: document.title,
+        timestamp: Date.now(),
+        duration: 0,
+        scrollDepth: 0,
+        interactions: 0,
+        exitPage: false
+      }],
       events: [],
-      performance: getPerformanceMetrics(),
+      performance: getPerformanceMetrics()
     };
-
+    
     setCurrentSession(session);
-
+    
     // Set up session update interval
     const updateInterval = setInterval(() => {
       updateCurrentSession();
     }, 5000); // Update every 5 seconds
-
+    
     // Store interval ID for cleanup
     (window as any).__sessionUpdateInterval = updateInterval;
-
+    
     // Track page visibility changes
     document.addEventListener('visibilitychange', handleVisibilityChange);
-
+    
     // Track beforeunload for session end
     window.addEventListener('beforeunload', handleSessionEnd);
   }, [isRecording]);
@@ -231,19 +229,19 @@ export function UserSessionAnalytics(): JSX.Element {
    */
   const stopSessionTracking = useCallback((): void => {
     if (!isRecording) return;
-
+    
     setIsRecording(false);
     console.log('⏹️ Stopping session recording...');
-
+    
     // Clear update interval
     if ((window as any).__sessionUpdateInterval) {
       clearInterval((window as any).__sessionUpdateInterval);
     }
-
+    
     // Remove event listeners
     document.removeEventListener('visibilitychange', handleVisibilityChange);
     window.removeEventListener('beforeunload', handleSessionEnd);
-
+    
     // End current session
     if (currentSession) {
       handleSessionEnd();
@@ -255,22 +253,22 @@ export function UserSessionAnalytics(): JSX.Element {
    */
   const updateCurrentSession = useCallback((): void => {
     if (!currentSession) return;
-
-    setCurrentSession((prev) => {
+    
+    setCurrentSession(prev => {
       if (!prev) return null;
-
+      
       const duration = Date.now() - prev.startTime;
       const currentPage = prev.pages[prev.pages.length - 1];
-
+      
       return {
         ...prev,
         duration,
-        pages: prev.pages.map((page, index) =>
-          index === prev.pages.length - 1
+        pages: prev.pages.map((page, index) => 
+          index === prev.pages.length - 1 
             ? { ...page, duration: Date.now() - page.timestamp }
             : page
         ),
-        performance: getPerformanceMetrics(),
+        performance: getPerformanceMetrics()
       };
     });
   }, [currentSession]);
@@ -291,16 +289,16 @@ export function UserSessionAnalytics(): JSX.Element {
    */
   const handleSessionEnd = useCallback((): void => {
     if (!currentSession) return;
-
+    
     const finalSession: SessionData = {
       ...currentSession,
       endTime: Date.now(),
-      duration: Date.now() - currentSession.startTime,
+      duration: Date.now() - currentSession.startTime
     };
-
+    
     // Send session data to analytics endpoint
     sendSessionData(finalSession);
-
+    
     setCurrentSession(null);
   }, [currentSession]);
 
@@ -314,7 +312,7 @@ export function UserSessionAnalytics(): JSX.Element {
         trackPerformanceEntry(entry);
       }
     });
-
+    
     observer.observe({ entryTypes: ['navigation', 'paint', 'layout-shift'] });
   }, []);
 
@@ -331,11 +329,11 @@ export function UserSessionAnalytics(): JSX.Element {
         data: {
           x: event.clientX,
           y: event.clientY,
-          button: event.button,
-        },
+          button: event.button
+        }
       });
     });
-
+    
     // Track scroll
     let scrollTimeout: NodeJS.Timeout;
     document.addEventListener('scroll', () => {
@@ -347,12 +345,12 @@ export function UserSessionAnalytics(): JSX.Element {
           timestamp: Date.now(),
           data: {
             scrollY: window.scrollY,
-            scrollDepth: getScrollDepth(),
-          },
+            scrollDepth: getScrollDepth()
+          }
         });
       }, 100);
     });
-
+    
     // Track form submissions
     document.addEventListener('submit', (event) => {
       trackUserEvent({
@@ -360,8 +358,8 @@ export function UserSessionAnalytics(): JSX.Element {
         element: getElementSelector(event.target as Element),
         timestamp: Date.now(),
         data: {
-          formData: getFormData(event.target as HTMLFormElement),
-        },
+          formData: getFormData(event.target as HTMLFormElement)
+        }
       });
     });
   }, []);
@@ -380,11 +378,11 @@ export function UserSessionAnalytics(): JSX.Element {
           filename: event.filename,
           lineno: event.lineno,
           colno: event.colno,
-          error: event.error?.stack,
-        },
+          error: event.error?.stack
+        }
       });
     });
-
+    
     window.addEventListener('unhandledrejection', (event) => {
       trackUserEvent({
         type: 'error',
@@ -392,8 +390,8 @@ export function UserSessionAnalytics(): JSX.Element {
         timestamp: Date.now(),
         data: {
           type: 'unhandled_promise_rejection',
-          reason: event.reason,
-        },
+          reason: event.reason
+        }
       });
     });
   }, []);
@@ -401,22 +399,19 @@ export function UserSessionAnalytics(): JSX.Element {
   /**
    * Track user event
    */
-  const trackUserEvent = useCallback(
-    (event: UserEvent): void => {
-      if (!currentSession) return;
-
-      setCurrentSession((prev) => {
-        if (!prev) return null;
-
-        return {
-          ...prev,
-          events: [...prev.events, event],
-          interactions: prev.interactions + 1,
-        };
-      });
-    },
-    [currentSession]
-  );
+  const trackUserEvent = useCallback((event: UserEvent): void => {
+    if (!currentSession) return;
+    
+    setCurrentSession(prev => {
+      if (!prev) return null;
+      
+      return {
+        ...prev,
+        events: [...prev.events, event],
+        interactions: prev.interactions + 1
+      };
+    });
+  }, [currentSession]);
 
   /**
    * Track performance entry
@@ -432,11 +427,12 @@ export function UserSessionAnalytics(): JSX.Element {
     try {
       // In production, this would send to your analytics API
       console.log('📤 Sending session data:', session);
-
+      
       // Store in local storage for demo
       const storedSessions = JSON.parse(localStorage.getItem('ff_sessions') || '[]');
       storedSessions.push(session);
       localStorage.setItem('ff_sessions', JSON.stringify(storedSessions.slice(-100))); // Keep last 100 sessions
+      
     } catch (error) {
       console.error('Failed to send session data:', error);
     }
@@ -447,17 +443,17 @@ export function UserSessionAnalytics(): JSX.Element {
    */
   const handleDownloadReport = useCallback((): void => {
     if (!analyticsData) return;
-
+    
     const report = {
       generated: new Date().toISOString(),
       timeframe: selectedTimeframe,
       overview: analyticsData,
-      sessions: recentSessions.slice(0, 50), // Include top 50 sessions
+      sessions: recentSessions.slice(0, 50) // Include top 50 sessions
     };
-
+    
     const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-
+    
     const link = document.createElement('a');
     link.href = url;
     link.download = `flashfusion-analytics-${selectedTimeframe}-${Date.now()}.json`;
@@ -465,7 +461,7 @@ export function UserSessionAnalytics(): JSX.Element {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-
+    
     toast.success('Analytics report downloaded successfully');
   }, [analyticsData, recentSessions, selectedTimeframe]);
 
@@ -497,7 +493,7 @@ export function UserSessionAnalytics(): JSX.Element {
             </p>
           </div>
         </div>
-
+        
         <div className="flex items-center gap-3">
           <Select value={selectedTimeframe} onValueChange={setSelectedTimeframe}>
             <SelectTrigger className="w-32">
@@ -510,7 +506,7 @@ export function UserSessionAnalytics(): JSX.Element {
               <SelectItem value="30d">Last 30 days</SelectItem>
             </SelectContent>
           </Select>
-
+          
           <Button
             variant="outline"
             size="sm"
@@ -520,10 +516,10 @@ export function UserSessionAnalytics(): JSX.Element {
             <Download className="h-4 w-4 mr-2" />
             Export
           </Button>
-
+          
           <Button
             onClick={isRecording ? stopSessionTracking : startSessionTracking}
-            className={isRecording ? 'ff-btn-secondary' : 'ff-btn-primary'}
+            className={isRecording ? "ff-btn-secondary" : "ff-btn-primary"}
           >
             {isRecording ? (
               <>
@@ -549,8 +545,7 @@ export function UserSessionAnalytics(): JSX.Element {
               <div>
                 <p className="font-semibold text-green-800">Session Recording Active</p>
                 <p className="text-sm text-green-600">
-                  {currentSession &&
-                    `Session Duration: ${Math.floor((Date.now() - currentSession.startTime) / 1000)}s`}
+                  {currentSession && `Session Duration: ${Math.floor((Date.now() - currentSession.startTime) / 1000)}s`}
                 </p>
               </div>
             </div>
@@ -695,10 +690,11 @@ export function UserSessionAnalytics(): JSX.Element {
                         {session.device.type === 'tablet' && <Smartphone className="h-4 w-4" />}
                         <span className="font-medium">{session.userId}</span>
                       </div>
-                      <Badge variant="outline">{session.location.country}</Badge>
+                      <Badge variant="outline">
+                        {session.location.country}
+                      </Badge>
                       <div className="text-sm text-[var(--ff-text-muted)]">
-                        {Math.floor(session.duration / 60000)}m{' '}
-                        {Math.floor((session.duration % 60000) / 1000)}s
+                        {Math.floor(session.duration / 60000)}m {Math.floor((session.duration % 60000) / 1000)}s
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -794,27 +790,21 @@ export function UserSessionAnalytics(): JSX.Element {
                       <div className="text-xs text-[var(--ff-text-muted)]">Events</div>
                     </div>
                   </div>
-
+                  
                   <div>
                     <h4 className="font-semibold mb-2">Recent Events</h4>
                     <div className="space-y-2 max-h-64 overflow-y-auto">
-                      {currentSession.events
-                        .slice(-10)
-                        .reverse()
-                        .map((event, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center gap-2 p-2 bg-[var(--ff-surface)]/50 rounded"
-                          >
-                            <Badge variant="outline" className="text-xs">
-                              {event.type}
-                            </Badge>
-                            <span className="text-sm">{event.element}</span>
-                            <span className="text-xs text-[var(--ff-text-muted)] ml-auto">
-                              {new Date(event.timestamp).toLocaleTimeString()}
-                            </span>
-                          </div>
-                        ))}
+                      {currentSession.events.slice(-10).reverse().map((event, index) => (
+                        <div key={index} className="flex items-center gap-2 p-2 bg-[var(--ff-surface)]/50 rounded">
+                          <Badge variant="outline" className="text-xs">
+                            {event.type}
+                          </Badge>
+                          <span className="text-sm">{event.element}</span>
+                          <span className="text-xs text-[var(--ff-text-muted)] ml-auto">
+                            {new Date(event.timestamp).toLocaleTimeString()}
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -851,25 +841,21 @@ function getCurrentUserId(): string {
 function getDeviceInfo() {
   const ua = navigator.userAgent;
   let deviceType: 'desktop' | 'tablet' | 'mobile' = 'desktop';
-
+  
   if (/tablet|ipad|playbook|silk/i.test(ua)) {
     deviceType = 'tablet';
-  } else if (
-    /mobile|iphone|ipod|android|blackberry|opera|mini|windows\sce|palm|smartphone|iemobile/i.test(
-      ua
-    )
-  ) {
+  } else if (/mobile|iphone|ipod|android|blackberry|opera|mini|windows\sce|palm|smartphone|iemobile/i.test(ua)) {
     deviceType = 'mobile';
   }
-
+  
   return {
     type: deviceType,
     browser: getBrowserName(),
     os: getOSName(),
     viewport: {
       width: window.innerWidth,
-      height: window.innerHeight,
-    },
+      height: window.innerHeight
+    }
   };
 }
 
@@ -897,20 +883,20 @@ function getLocationInfo() {
   return {
     country: 'US',
     city: 'San Francisco',
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
   };
 }
 
 function getPerformanceMetrics(): PerformanceMetrics {
   const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-
+  
   return {
     loadTime: navigation ? navigation.loadEventEnd - navigation.fetchStart : 0,
     firstContentfulPaint: 0, // Would get from PerformanceObserver
     largestContentfulPaint: 0,
     cumulativeLayoutShift: 0,
     firstInputDelay: 0,
-    memoryUsage: (performance as any).memory?.usedJSHeapSize || 0,
+    memoryUsage: (performance as any).memory?.usedJSHeapSize || 0
   };
 }
 
@@ -929,11 +915,11 @@ function getScrollDepth(): number {
 function getFormData(form: HTMLFormElement): any {
   const formData = new FormData(form);
   const data: any = {};
-
+  
   for (const [key, value] of formData.entries()) {
     data[key] = typeof value === 'string' ? value : '[file]';
   }
-
+  
   return data;
 }
 
@@ -949,26 +935,26 @@ function generateMockAnalyticsData(): AnalyticsOverview {
       { page: '/dashboard', views: 2891, avgDuration: 312000 },
       { page: '/', views: 2654, avgDuration: 198000 },
       { page: '/projects', views: 1876, avgDuration: 267000 },
-      { page: '/analytics', views: 1234, avgDuration: 389000 },
+      { page: '/analytics', views: 1234, avgDuration: 389000 }
     ],
     deviceBreakdown: [
       { device: 'desktop', percentage: 68 },
       { device: 'mobile', percentage: 24 },
-      { device: 'tablet', percentage: 8 },
+      { device: 'tablet', percentage: 8 }
     ],
     geographyData: [
       { country: 'US', sessions: 4521 },
       { country: 'UK', sessions: 1876 },
       { country: 'CA', sessions: 1234 },
       { country: 'DE', sessions: 987 },
-      { country: 'FR', sessions: 765 },
-    ],
+      { country: 'FR', sessions: 765 }
+    ]
   };
 }
 
 function generateMockSessions(): SessionData[] {
   const sessions: SessionData[] = [];
-
+  
   for (let i = 0; i < 10; i++) {
     sessions.push({
       id: `session_${i}`,
@@ -984,12 +970,12 @@ function generateMockSessions(): SessionData[] {
         type: ['desktop', 'mobile', 'tablet'][Math.floor(Math.random() * 3)] as any,
         browser: ['Chrome', 'Firefox', 'Safari'][Math.floor(Math.random() * 3)],
         os: ['Windows', 'macOS', 'Linux'][Math.floor(Math.random() * 3)],
-        viewport: { width: 1920, height: 1080 },
+        viewport: { width: 1920, height: 1080 }
       },
       location: {
         country: ['US', 'UK', 'CA', 'DE', 'FR'][Math.floor(Math.random() * 5)],
         city: 'City',
-        timezone: 'UTC',
+        timezone: 'UTC'
       },
       referrer: '',
       pages: [],
@@ -1000,11 +986,11 @@ function generateMockSessions(): SessionData[] {
         largestContentfulPaint: Math.random() * 4000 + 1200,
         cumulativeLayoutShift: Math.random() * 0.1,
         firstInputDelay: Math.random() * 100 + 10,
-        memoryUsage: Math.random() * 100000000 + 50000000,
-      },
+        memoryUsage: Math.random() * 100000000 + 50000000
+      }
     });
   }
-
+  
   return sessions;
 }
 

@@ -4,7 +4,7 @@ import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
-import {
+import { 
   Brain,
   Palette,
   Zap,
@@ -16,7 +16,7 @@ import {
   Target,
   TrendingUp,
   Layers,
-  Globe,
+  Globe
 } from 'lucide-react';
 
 interface Agent {
@@ -42,16 +42,11 @@ const UNIVERSAL_AGENTS: Agent[] = [
     description: 'Analyzes trends, markets, and user behavior to provide data-driven insights',
     icon: Brain,
     accentColor: '#61dafb', // Cyan
-    capabilities: [
-      'Market Analysis',
-      'User Research',
-      'Trend Forecasting',
-      'Competitive Intelligence',
-    ],
+    capabilities: ['Market Analysis', 'User Research', 'Trend Forecasting', 'Competitive Intelligence'],
     status: 'idle',
     lastActive: '2 hours ago',
     tasksCompleted: 847,
-    efficiency: 94,
+    efficiency: 94
   },
   {
     id: 'creator',
@@ -64,7 +59,7 @@ const UNIVERSAL_AGENTS: Agent[] = [
     status: 'working',
     progress: 68,
     tasksCompleted: 1203,
-    efficiency: 96,
+    efficiency: 96
   },
   {
     id: 'optimizer',
@@ -73,16 +68,11 @@ const UNIVERSAL_AGENTS: Agent[] = [
     description: 'Enhances performance, conversions, and operational efficiency',
     icon: TrendingUp,
     accentColor: '#10b981', // Green
-    capabilities: [
-      'Performance Tuning',
-      'A/B Testing',
-      'Conversion Optimization',
-      'Process Improvement',
-    ],
+    capabilities: ['Performance Tuning', 'A/B Testing', 'Conversion Optimization', 'Process Improvement'],
     status: 'completed',
     lastActive: '15 minutes ago',
     tasksCompleted: 623,
-    efficiency: 91,
+    efficiency: 91
   },
   {
     id: 'automator',
@@ -91,16 +81,11 @@ const UNIVERSAL_AGENTS: Agent[] = [
     description: 'Streamlines workflows and automates repetitive business processes',
     icon: Cog,
     accentColor: '#764ba2', // Purple
-    capabilities: [
-      'Workflow Automation',
-      'Task Scheduling',
-      'Integration Setup',
-      'Process Optimization',
-    ],
+    capabilities: ['Workflow Automation', 'Task Scheduling', 'Integration Setup', 'Process Optimization'],
     status: 'idle',
     lastActive: '1 hour ago',
     tasksCompleted: 756,
-    efficiency: 89,
+    efficiency: 89
   },
   {
     id: 'analyzer',
@@ -113,7 +98,7 @@ const UNIVERSAL_AGENTS: Agent[] = [
     status: 'working',
     progress: 34,
     tasksCompleted: 934,
-    efficiency: 93,
+    efficiency: 93
   },
   {
     id: 'orchestrator',
@@ -122,17 +107,12 @@ const UNIVERSAL_AGENTS: Agent[] = [
     description: 'Coordinates multi-agent workflows and manages complex operations',
     icon: Network,
     accentColor: '#2a5298', // Deep Blue
-    capabilities: [
-      'Agent Coordination',
-      'Workflow Management',
-      'Resource Allocation',
-      'Quality Control',
-    ],
+    capabilities: ['Agent Coordination', 'Workflow Management', 'Resource Allocation', 'Quality Control'],
     status: 'idle',
     lastActive: '30 minutes ago',
     tasksCompleted: 542,
-    efficiency: 97,
-  },
+    efficiency: 97
+  }
 ];
 
 interface UniversalAgentDashboardProps {
@@ -140,10 +120,7 @@ interface UniversalAgentDashboardProps {
   selectedAgent?: string;
 }
 
-export function UniversalAgentDashboard({
-  onAgentSelect,
-  selectedAgent,
-}: UniversalAgentDashboardProps) {
+export function UniversalAgentDashboard({ onAgentSelect, selectedAgent }: UniversalAgentDashboardProps) {
   const [hoveredAgent, setHoveredAgent] = useState<string | null>(null);
 
   const getStatusColor = (status: Agent['status']) => {
@@ -171,17 +148,17 @@ export function UniversalAgentDashboard({
   return (
     <div className="relative">
       {/* FlashFusion Hero Background */}
-      <div
+      <div 
         className="absolute inset-0 rounded-2xl"
         style={{
-          background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+          background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)'
         }}
       />
-
+      
       {/* Glassmorphism Container */}
       <div className="relative z-10 p-8">
         <div className="text-center mb-8">
-          <motion.h1
+          <motion.h1 
             className="text-4xl font-bold text-white mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -189,7 +166,7 @@ export function UniversalAgentDashboard({
           >
             Universal AI Agents
           </motion.h1>
-          <motion.p
+          <motion.p 
             className="text-blue-100 text-lg max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -206,70 +183,71 @@ export function UniversalAgentDashboard({
               key={agent.id}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.6,
+              transition={{ 
+                duration: 0.6, 
                 delay: index * 0.1,
-                ease: 'easeOut',
+                ease: "easeOut"
               }}
               onHoverStart={() => setHoveredAgent(agent.id)}
               onHoverEnd={() => setHoveredAgent(null)}
             >
-              <Card
+              <Card 
                 className="relative overflow-hidden cursor-pointer transition-all duration-300 border-transparent"
                 style={{
                   background: 'rgba(255, 255, 255, 0.95)',
                   backdropFilter: 'blur(10px)',
-                  border:
-                    selectedAgent === agent.id
-                      ? `2px solid ${agent.accentColor}`
-                      : hoveredAgent === agent.id
-                        ? `1px solid ${agent.accentColor}30`
-                        : '1px solid rgba(255, 255, 255, 0.2)',
+                  border: selectedAgent === agent.id 
+                    ? `2px solid ${agent.accentColor}` 
+                    : hoveredAgent === agent.id 
+                    ? `1px solid ${agent.accentColor}30` 
+                    : '1px solid rgba(255, 255, 255, 0.2)',
                   transform: hoveredAgent === agent.id ? 'translateY(-4px)' : 'translateY(0)',
-                  boxShadow:
-                    hoveredAgent === agent.id
-                      ? `0 8px 32px rgba(0,0,0,0.15), 0 0 20px ${agent.accentColor}30`
-                      : '0 8px 32px rgba(0,0,0,0.1)',
+                  boxShadow: hoveredAgent === agent.id 
+                    ? `0 8px 32px rgba(0,0,0,0.15), 0 0 20px ${agent.accentColor}30`
+                    : '0 8px 32px rgba(0,0,0,0.1)'
                 }}
                 onClick={() => onAgentSelect(agent.id)}
               >
                 {/* Agent Icon with Accent Color */}
                 <div className="p-6">
                   <div className="flex items-start justify-between mb-4">
-                    <div
+                    <div 
                       className="w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300"
-                      style={{
+                      style={{ 
                         backgroundColor: `${agent.accentColor}15`,
-                        transform: hoveredAgent === agent.id ? 'scale(1.1)' : 'scale(1)',
+                        transform: hoveredAgent === agent.id ? 'scale(1.1)' : 'scale(1)'
                       }}
                     >
-                      <agent.icon className="h-7 w-7" style={{ color: agent.accentColor }} />
+                      <agent.icon 
+                        className="h-7 w-7" 
+                        style={{ color: agent.accentColor }}
+                      />
                     </div>
-
+                    
                     <div className="flex flex-col items-end space-y-2">
-                      <Badge
+                      <Badge 
                         className={`${getStatusColor(agent.status)} text-white text-xs px-2 py-1`}
                       >
                         {getStatusText(agent.status)}
                       </Badge>
-
+                      
                       {agent.status === 'working' && agent.progress && (
                         <div className="w-20">
-                          <Progress
-                            value={agent.progress}
+                          <Progress 
+                            value={agent.progress} 
                             className="h-2"
                             style={{
-                              background: '#f1f5f9',
+                              background: '#f1f5f9'
                             }}
                           />
-                          <div
+                          <div 
                             className="h-2 rounded-full transition-all duration-300"
                             style={{
                               background: agent.accentColor,
                               width: `${agent.progress}%`,
                               position: 'absolute',
                               top: 0,
-                              left: 0,
+                              left: 0
                             }}
                           />
                         </div>
@@ -278,15 +256,17 @@ export function UniversalAgentDashboard({
                   </div>
 
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{agent.name}</h3>
-                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">{agent.description}</p>
+                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                    {agent.description}
+                  </p>
 
                   {/* Capabilities */}
                   <div className="space-y-3 mb-4">
                     <div className="flex flex-wrap gap-1">
                       {agent.capabilities.slice(0, 2).map((capability) => (
-                        <Badge
-                          key={capability}
-                          variant="outline"
+                        <Badge 
+                          key={capability} 
+                          variant="outline" 
                           className="text-xs border-gray-200 text-gray-600"
                         >
                           {capability}
@@ -309,7 +289,10 @@ export function UniversalAgentDashboard({
                       <div className="text-xs text-gray-500">Tasks Done</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-lg font-bold" style={{ color: agent.accentColor }}>
+                      <div 
+                        className="text-lg font-bold"
+                        style={{ color: agent.accentColor }}
+                      >
                         {agent.efficiency}%
                       </div>
                       <div className="text-xs text-gray-500">Efficiency</div>
@@ -317,15 +300,14 @@ export function UniversalAgentDashboard({
                   </div>
 
                   {/* Action Button */}
-                  <Button
+                  <Button 
                     className="w-full transition-all duration-300"
                     style={{
-                      background:
-                        hoveredAgent === agent.id
-                          ? `linear-gradient(135deg, ${agent.accentColor}, ${agent.accentColor}dd)`
-                          : 'transparent',
+                      background: hoveredAgent === agent.id 
+                        ? `linear-gradient(135deg, ${agent.accentColor}, ${agent.accentColor}dd)`
+                        : 'transparent',
                       border: `1px solid ${agent.accentColor}`,
-                      color: hoveredAgent === agent.id ? 'white' : agent.accentColor,
+                      color: hoveredAgent === agent.id ? 'white' : agent.accentColor
                     }}
                   >
                     Deploy Agent
@@ -340,11 +322,11 @@ export function UniversalAgentDashboard({
                 </div>
 
                 {/* Subtle accent line */}
-                <div
+                <div 
                   className="absolute bottom-0 left-0 right-0 h-1 transition-opacity duration-300"
-                  style={{
+                  style={{ 
                     background: agent.accentColor,
-                    opacity: hoveredAgent === agent.id ? 1 : 0.3,
+                    opacity: hoveredAgent === agent.id ? 1 : 0.3
                   }}
                 />
               </Card>
@@ -353,7 +335,7 @@ export function UniversalAgentDashboard({
         </div>
 
         {/* Quick Stats Footer */}
-        <motion.div
+        <motion.div 
           className="mt-8 text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -362,26 +344,19 @@ export function UniversalAgentDashboard({
           <div className="flex justify-center space-x-8 text-blue-100">
             <div className="text-center">
               <div className="text-2xl font-bold text-white">
-                {UNIVERSAL_AGENTS.reduce(
-                  (sum, agent) => sum + agent.tasksCompleted,
-                  0
-                ).toLocaleString()}
+                {UNIVERSAL_AGENTS.reduce((sum, agent) => sum + agent.tasksCompleted, 0).toLocaleString()}
               </div>
               <div className="text-sm">Total Tasks Completed</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-white">
-                {Math.round(
-                  UNIVERSAL_AGENTS.reduce((sum, agent) => sum + agent.efficiency, 0) /
-                    UNIVERSAL_AGENTS.length
-                )}
-                %
+                {Math.round(UNIVERSAL_AGENTS.reduce((sum, agent) => sum + agent.efficiency, 0) / UNIVERSAL_AGENTS.length)}%
               </div>
               <div className="text-sm">Average Efficiency</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-white">
-                {UNIVERSAL_AGENTS.filter((agent) => agent.status === 'working').length}
+                {UNIVERSAL_AGENTS.filter(agent => agent.status === 'working').length}
               </div>
               <div className="text-sm">Agents Active</div>
             </div>

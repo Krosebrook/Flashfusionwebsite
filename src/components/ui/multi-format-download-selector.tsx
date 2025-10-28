@@ -9,14 +9,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
 import { Progress } from './progress';
 import { Alert, AlertDescription } from './alert';
-import {
-  Download,
-  Archive,
-  FileText,
-  Code,
-  Settings,
-  Container,
-  Github,
+import { 
+  Download, 
+  Archive, 
+  FileText, 
+  Code, 
+  Settings, 
+  Container, 
+  Github, 
   Package,
   Folder,
   Database,
@@ -26,13 +26,13 @@ import {
   Info,
   CheckCircle2,
   AlertCircle,
-  Loader2,
+  Loader2
 } from 'lucide-react';
-import {
-  downloadInFormat,
-  type DownloadFormat,
+import { 
+  downloadInFormat, 
+  type DownloadFormat, 
   type DownloadOptions,
-  type CompressionLevel,
+  type CompressionLevel 
 } from '../../utils/multi-format-download';
 import type { GeneratedApp } from '../../types/full-stack-builder';
 
@@ -64,7 +64,7 @@ const formatOptions: FormatOption[] = [
     category: 'archive',
     size: 'medium',
     recommended: true,
-    badge: 'Most Popular',
+    badge: 'Most Popular'
   },
   {
     format: 'tar',
@@ -72,7 +72,7 @@ const formatOptions: FormatOption[] = [
     description: 'Unix-style TAR.GZ compressed archive',
     icon: Archive,
     category: 'archive',
-    size: 'medium',
+    size: 'medium'
   },
   {
     format: 'individual',
@@ -80,7 +80,7 @@ const formatOptions: FormatOption[] = [
     description: 'Download each file separately',
     icon: Folder,
     category: 'archive',
-    size: 'small',
+    size: 'small'
   },
   {
     format: 'json',
@@ -88,7 +88,7 @@ const formatOptions: FormatOption[] = [
     description: 'Project configuration and files in JSON format',
     icon: FileText,
     category: 'config',
-    size: 'small',
+    size: 'small'
   },
   {
     format: 'yaml',
@@ -96,7 +96,7 @@ const formatOptions: FormatOption[] = [
     description: 'Project configuration in YAML format',
     icon: FileText,
     category: 'config',
-    size: 'small',
+    size: 'small'
   },
   {
     format: 'docker',
@@ -105,7 +105,7 @@ const formatOptions: FormatOption[] = [
     icon: Container,
     category: 'platform',
     size: 'large',
-    badge: 'Production Ready',
+    badge: 'Production Ready'
   },
   {
     format: 'github-template',
@@ -114,7 +114,7 @@ const formatOptions: FormatOption[] = [
     icon: Github,
     category: 'platform',
     size: 'large',
-    badge: 'Open Source',
+    badge: 'Open Source'
   },
   {
     format: 'vscode-workspace',
@@ -123,7 +123,7 @@ const formatOptions: FormatOption[] = [
     icon: Code,
     category: 'development',
     size: 'medium',
-    badge: 'Developer Friendly',
+    badge: 'Developer Friendly'
   },
   {
     format: 'npm-package',
@@ -131,7 +131,7 @@ const formatOptions: FormatOption[] = [
     description: 'Installable NPM package format',
     icon: Package,
     category: 'platform',
-    size: 'medium',
+    size: 'medium'
   },
   {
     format: 'code-only',
@@ -139,7 +139,7 @@ const formatOptions: FormatOption[] = [
     description: 'Source code without configuration files',
     icon: FileCheck,
     category: 'config',
-    size: 'small',
+    size: 'small'
   },
   {
     format: 'config-only',
@@ -147,8 +147,8 @@ const formatOptions: FormatOption[] = [
     description: 'Configuration and setup files only',
     icon: Settings,
     category: 'config',
-    size: 'small',
-  },
+    size: 'small'
+  }
 ];
 
 const platformOptions = [
@@ -158,7 +158,7 @@ const platformOptions = [
   { value: 'heroku', label: 'Heroku', icon: '🟣' },
   { value: 'aws', label: 'AWS', icon: '☁️' },
   { value: 'azure', label: 'Azure', icon: '🔵' },
-  { value: 'gcp', label: 'Google Cloud', icon: '🌤️' },
+  { value: 'gcp', label: 'Google Cloud', icon: '🌤️' }
 ];
 
 export function MultiFormatDownloadSelector({
@@ -166,7 +166,7 @@ export function MultiFormatDownloadSelector({
   onDownloadStart,
   onDownloadComplete,
   onDownloadError,
-  className = '',
+  className = ''
 }: MultiFormatDownloadSelectorProps) {
   const [selectedFormat, setSelectedFormat] = useState<DownloadFormat>('zip');
   const [options, setOptions] = useState<DownloadOptions>({
@@ -179,46 +179,38 @@ export function MultiFormatDownloadSelector({
     includeVSCodeConfig: false,
     includeCICD: false,
     includeDependencies: true,
-    includeDevDependencies: false,
+    includeDevDependencies: false
   });
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
-  const [lastDownload, setLastDownload] = useState<{
-    format: DownloadFormat;
-    timestamp: Date;
-  } | null>(null);
+  const [lastDownload, setLastDownload] = useState<{ format: DownloadFormat; timestamp: Date } | null>(null);
 
   const selectedOption = useMemo(
-    () => formatOptions.find((opt) => opt.format === selectedFormat),
+    () => formatOptions.find(opt => opt.format === selectedFormat),
     [selectedFormat]
   );
 
   const estimatedSize = useMemo(() => {
     const baseSize = app.files.reduce((total, file) => total + file.content.length, 0);
-    const multiplier =
-      selectedOption?.size === 'large' ? 3 : selectedOption?.size === 'medium' ? 1.5 : 1;
-    const withOptions =
-      baseSize *
-      multiplier *
+    const multiplier = selectedOption?.size === 'large' ? 3 : 
+                      selectedOption?.size === 'medium' ? 1.5 : 1;
+    const withOptions = baseSize * multiplier * 
       (options.includeDocumentation ? 1.2 : 1) *
       (options.includeTests ? 1.5 : 1) *
       (options.includeDockerFiles ? 1.3 : 1) *
       (options.includeCICD ? 1.2 : 1);
-
+    
     return Math.round(withOptions / 1024); // Convert to KB
   }, [app.files, selectedOption, options]);
 
   const formatByCategory = useMemo(() => {
-    return formatOptions.reduce(
-      (acc, option) => {
-        if (!acc[option.category]) {
-          acc[option.category] = [];
-        }
-        acc[option.category].push(option);
-        return acc;
-      },
-      {} as Record<string, FormatOption[]>
-    );
+    return formatOptions.reduce((acc, option) => {
+      if (!acc[option.category]) {
+        acc[option.category] = [];
+      }
+      acc[option.category].push(option);
+      return acc;
+    }, {} as Record<string, FormatOption[]>);
   }, []);
 
   const handleDownload = async () => {
@@ -231,7 +223,7 @@ export function MultiFormatDownloadSelector({
     try {
       // Simulate progress
       const progressInterval = setInterval(() => {
-        setDownloadProgress((prev) => {
+        setDownloadProgress(prev => {
           if (prev >= 90) return prev;
           return prev + Math.random() * 15;
         });
@@ -239,17 +231,17 @@ export function MultiFormatDownloadSelector({
 
       const downloadOptions: DownloadOptions = {
         ...options,
-        format: selectedFormat,
+        format: selectedFormat
       };
 
       await downloadInFormat(app, downloadOptions);
 
       clearInterval(progressInterval);
       setDownloadProgress(100);
-
+      
       setLastDownload({
         format: selectedFormat,
-        timestamp: new Date(),
+        timestamp: new Date()
       });
 
       setTimeout(() => {
@@ -257,6 +249,7 @@ export function MultiFormatDownloadSelector({
         setIsDownloading(false);
         onDownloadComplete?.();
       }, 1000);
+
     } catch (error) {
       setIsDownloading(false);
       setDownloadProgress(0);
@@ -267,11 +260,14 @@ export function MultiFormatDownloadSelector({
 
   const handleFormatSelect = (format: DownloadFormat) => {
     setSelectedFormat(format);
-    setOptions((prev) => ({ ...prev, format }));
+    setOptions(prev => ({ ...prev, format }));
   };
 
-  const updateOption = <K extends keyof DownloadOptions>(key: K, value: DownloadOptions[K]) => {
-    setOptions((prev) => ({ ...prev, [key]: value }));
+  const updateOption = <K extends keyof DownloadOptions>(
+    key: K,
+    value: DownloadOptions[K]
+  ) => {
+    setOptions(prev => ({ ...prev, [key]: value }));
   };
 
   return (
@@ -299,8 +295,7 @@ export function MultiFormatDownloadSelector({
             <Alert className="ff-fade-in-up">
               <CheckCircle2 className="h-4 w-4 text-ff-success" />
               <AlertDescription>
-                Last downloaded as{' '}
-                {formatOptions.find((f) => f.format === lastDownload.format)?.title}
+                Last downloaded as {formatOptions.find(f => f.format === lastDownload.format)?.title} 
                 at {lastDownload.timestamp.toLocaleTimeString()}
               </AlertDescription>
             </Alert>
@@ -328,15 +323,12 @@ export function MultiFormatDownloadSelector({
               {Object.entries(formatByCategory).map(([category, formats]) => (
                 <div key={category} className="space-y-4">
                   <h3 className="text-lg font-semibold capitalize ff-text-gradient">
-                    {category === 'archive'
-                      ? 'Archive Formats'
-                      : category === 'config'
-                        ? 'Configuration Exports'
-                        : category === 'platform'
-                          ? 'Platform Packages'
-                          : 'Development Tools'}
+                    {category === 'archive' ? 'Archive Formats' :
+                     category === 'config' ? 'Configuration Exports' :
+                     category === 'platform' ? 'Platform Packages' :
+                     'Development Tools'}
                   </h3>
-
+                  
                   <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     {formats.map((option) => (
                       <Card
@@ -350,16 +342,14 @@ export function MultiFormatDownloadSelector({
                       >
                         <CardContent className="p-4">
                           <div className="flex items-start gap-3">
-                            <div
-                              className={`p-2 rounded-lg ${
-                                selectedFormat === option.format
-                                  ? 'bg-ff-primary text-white'
-                                  : 'bg-ff-surface text-ff-text-secondary'
-                              }`}
-                            >
+                            <div className={`p-2 rounded-lg ${
+                              selectedFormat === option.format
+                                ? 'bg-ff-primary text-white'
+                                : 'bg-ff-surface text-ff-text-secondary'
+                            }`}>
                               <option.icon className="h-4 w-4" />
                             </div>
-
+                            
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 mb-1">
                                 <h4 className="font-medium text-ff-text-primary text-sm truncate">
@@ -371,17 +361,19 @@ export function MultiFormatDownloadSelector({
                                   </Badge>
                                 )}
                               </div>
-
+                              
                               <p className="text-xs text-ff-text-muted line-clamp-2">
                                 {option.description}
                               </p>
-
+                              
                               <div className="flex items-center gap-2 mt-2">
                                 <Badge variant="outline" className="text-xs">
                                   {option.size}
                                 </Badge>
                                 {option.badge && (
-                                  <Badge className="text-xs ff-btn-secondary">{option.badge}</Badge>
+                                  <Badge className="text-xs ff-btn-secondary">
+                                    {option.badge}
+                                  </Badge>
                                 )}
                               </div>
                             </div>
@@ -413,7 +405,7 @@ export function MultiFormatDownloadSelector({
                         onCheckedChange={(checked) => updateOption('includeDocumentation', checked)}
                       />
                     </div>
-
+                    
                     <div className="flex items-center justify-between">
                       <Label htmlFor="tests" className="flex items-center gap-2">
                         <FileCheck className="h-4 w-4" />
@@ -425,7 +417,7 @@ export function MultiFormatDownloadSelector({
                         onCheckedChange={(checked) => updateOption('includeTests', checked)}
                       />
                     </div>
-
+                    
                     <div className="flex items-center justify-between">
                       <Label htmlFor="docker" className="flex items-center gap-2">
                         <Container className="h-4 w-4" />
@@ -437,7 +429,7 @@ export function MultiFormatDownloadSelector({
                         onCheckedChange={(checked) => updateOption('includeDockerFiles', checked)}
                       />
                     </div>
-
+                    
                     <div className="flex items-center justify-between">
                       <Label htmlFor="git" className="flex items-center gap-2">
                         <Github className="h-4 w-4" />
@@ -449,7 +441,7 @@ export function MultiFormatDownloadSelector({
                         onCheckedChange={(checked) => updateOption('includeGitFiles', checked)}
                       />
                     </div>
-
+                    
                     <div className="flex items-center justify-between">
                       <Label htmlFor="vscode" className="flex items-center gap-2">
                         <Code className="h-4 w-4" />
@@ -461,7 +453,7 @@ export function MultiFormatDownloadSelector({
                         onCheckedChange={(checked) => updateOption('includeVSCodeConfig', checked)}
                       />
                     </div>
-
+                    
                     <div className="flex items-center justify-between">
                       <Label htmlFor="cicd" className="flex items-center gap-2">
                         <Zap className="h-4 w-4" />
@@ -486,9 +478,7 @@ export function MultiFormatDownloadSelector({
                       <Label htmlFor="compression">Compression Level</Label>
                       <Select
                         value={options.compression}
-                        onValueChange={(value) =>
-                          updateOption('compression', value as CompressionLevel)
-                        }
+                        onValueChange={(value) => updateOption('compression', value as CompressionLevel)}
                       >
                         <SelectTrigger id="compression" className="ff-focus-ring">
                           <SelectValue />
@@ -538,7 +528,7 @@ export function MultiFormatDownloadSelector({
                         onCheckedChange={(checked) => updateOption('includeDependencies', checked)}
                       />
                     </div>
-
+                    
                     <div className="flex items-center justify-between">
                       <Label htmlFor="devDependencies" className="flex items-center gap-2">
                         <Settings className="h-4 w-4" />
@@ -547,9 +537,7 @@ export function MultiFormatDownloadSelector({
                       <Switch
                         id="devDependencies"
                         checked={options.includeDevDependencies}
-                        onCheckedChange={(checked) =>
-                          updateOption('includeDevDependencies', checked)
-                        }
+                        onCheckedChange={(checked) => updateOption('includeDevDependencies', checked)}
                       />
                     </div>
                   </CardContent>
@@ -580,16 +568,14 @@ export function MultiFormatDownloadSelector({
                         <div className="flex justify-between">
                           <span className="text-ff-text-muted">Estimated Size:</span>
                           <span className="text-ff-text-primary">
-                            {estimatedSize > 1024
-                              ? `${(estimatedSize / 1024).toFixed(1)} MB`
+                            {estimatedSize > 1024 
+                              ? `${(estimatedSize / 1024).toFixed(1)} MB` 
                               : `${estimatedSize} KB`}
                           </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-ff-text-muted">Compression:</span>
-                          <span className="text-ff-text-primary capitalize">
-                            {options.compression}
-                          </span>
+                          <span className="text-ff-text-primary capitalize">{options.compression}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-ff-text-muted">Total Files:</span>
@@ -607,17 +593,15 @@ export function MultiFormatDownloadSelector({
                           { key: 'includeDockerFiles', label: 'Docker', icon: Container },
                           { key: 'includeGitFiles', label: 'Git Files', icon: Github },
                           { key: 'includeVSCodeConfig', label: 'VS Code', icon: Code },
-                          { key: 'includeCICD', label: 'CI/CD', icon: Zap },
+                          { key: 'includeCICD', label: 'CI/CD', icon: Zap }
                         ].map(({ key, label, icon: Icon }) => (
                           <div key={key} className="flex items-center gap-2 text-sm">
                             <Icon className="h-3 w-3" />
-                            <span
-                              className={
-                                options[key as keyof DownloadOptions]
-                                  ? 'text-ff-success'
-                                  : 'text-ff-text-muted line-through'
-                              }
-                            >
+                            <span className={
+                              options[key as keyof DownloadOptions] 
+                                ? 'text-ff-success' 
+                                : 'text-ff-text-muted line-through'
+                            }>
                               {label}
                             </span>
                             {options[key as keyof DownloadOptions] && (
@@ -633,8 +617,7 @@ export function MultiFormatDownloadSelector({
                     <Alert>
                       <Container className="h-4 w-4" />
                       <AlertDescription>
-                        Docker package includes complete containerization setup with
-                        production-ready configurations.
+                        Docker package includes complete containerization setup with production-ready configurations.
                       </AlertDescription>
                     </Alert>
                   )}
@@ -643,8 +626,7 @@ export function MultiFormatDownloadSelector({
                     <Alert>
                       <Github className="h-4 w-4" />
                       <AlertDescription>
-                        GitHub template includes CI/CD workflows, issue templates, and repository
-                        configuration files.
+                        GitHub template includes CI/CD workflows, issue templates, and repository configuration files.
                       </AlertDescription>
                     </Alert>
                   )}
@@ -665,8 +647,8 @@ export function MultiFormatDownloadSelector({
                       {selectedOption.title}
                     </p>
                     <p className="text-xs text-ff-text-muted">
-                      {estimatedSize > 1024
-                        ? `~${(estimatedSize / 1024).toFixed(1)} MB`
+                      {estimatedSize > 1024 
+                        ? `~${(estimatedSize / 1024).toFixed(1)} MB` 
                         : `~${estimatedSize} KB`}
                     </p>
                   </div>

@@ -3,12 +3,7 @@
  * @description Helper functions for filtering, calculations, and data manipulation
  */
 
-import {
-  MarketplaceListing,
-  OrderData,
-  MarketplaceAnalytics,
-  FilterState,
-} from '../types/marketplace';
+import { MarketplaceListing, OrderData, MarketplaceAnalytics, FilterState } from '../types/marketplace';
 
 /**
  * Calculate analytics from listings and orders data
@@ -17,25 +12,24 @@ import {
  * @returns Analytics object with calculated metrics
  */
 export function calculateAnalytics(
-  listings: MarketplaceListing[],
+  listings: MarketplaceListing[], 
   orders: OrderData[]
 ): MarketplaceAnalytics {
   const totalRevenue = listings.reduce((sum, listing) => sum + listing.totalRevenue, 0);
-  const avgOrderValue =
-    orders.length > 0
-      ? orders.reduce((sum, order) => sum + order.totalAmount, 0) / orders.length
-      : 0;
+  const avgOrderValue = orders.length > 0 
+    ? orders.reduce((sum, order) => sum + order.totalAmount, 0) / orders.length 
+    : 0;
 
   // Calculate top marketplace by revenue
   const marketplaceRevenue: Record<string, number> = {};
-  listings.forEach((listing) => {
+  listings.forEach(listing => {
     Object.entries(listing.marketplaces).forEach(([marketplace, data]) => {
       marketplaceRevenue[marketplace] = (marketplaceRevenue[marketplace] || 0) + data.revenue;
     });
   });
 
   const topMarketplace = Object.entries(marketplaceRevenue).reduce(
-    (top, [marketplace, revenue]) => (revenue > top.revenue ? { marketplace, revenue } : top),
+    (top, [marketplace, revenue]) => revenue > top.revenue ? { marketplace, revenue } : top,
     { marketplace: '', revenue: 0 }
   ).marketplace;
 
@@ -46,7 +40,7 @@ export function calculateAnalytics(
     avgOrderValue,
     conversionRate: 2.1, // This would be calculated based on views vs sales
     topMarketplace: topMarketplace || 'None',
-    recentOrders: orders.slice(0, 5),
+    recentOrders: orders.slice(0, 5)
   };
 }
 
@@ -57,29 +51,29 @@ export function calculateAnalytics(
  * @returns Filtered array of listings
  */
 export function filterListings(
-  listings: MarketplaceListing[],
+  listings: MarketplaceListing[], 
   filter: FilterState
 ): MarketplaceListing[] {
-  return listings.filter((listing) => {
+  return listings.filter(listing => {
     // Filter by marketplace
     if (filter.marketplace !== 'all' && !listing.marketplaces[filter.marketplace]) {
       return false;
     }
-
+    
     // Filter by status
     if (filter.status !== 'all') {
       const hasStatus = Object.values(listing.marketplaces).some(
-        (marketplace) => marketplace.status === filter.status
+        marketplace => marketplace.status === filter.status
       );
       if (!hasStatus) return false;
     }
-
+    
     // Filter by date range (simplified - in real app would use actual date logic)
     if (filter.dateRange !== 'all') {
       // This would contain actual date filtering logic
       return true;
     }
-
+    
     return true;
   });
 }
@@ -90,24 +84,27 @@ export function filterListings(
  * @param filter - Filter criteria
  * @returns Filtered array of orders
  */
-export function filterOrders(orders: OrderData[], filter: FilterState): OrderData[] {
-  return orders.filter((order) => {
+export function filterOrders(
+  orders: OrderData[], 
+  filter: FilterState
+): OrderData[] {
+  return orders.filter(order => {
     // Filter by marketplace
     if (filter.marketplace !== 'all' && order.marketplace !== filter.marketplace) {
       return false;
     }
-
+    
     // Filter by status
     if (filter.status !== 'all' && order.status !== filter.status) {
       return false;
     }
-
+    
     // Filter by date range (simplified)
     if (filter.dateRange !== 'all') {
       // This would contain actual date filtering logic
       return true;
     }
-
+    
     return true;
   });
 }
@@ -127,18 +124,18 @@ export function sortListings(
   return [...listings].sort((a, b) => {
     let aValue: any = a[column as keyof MarketplaceListing];
     let bValue: any = b[column as keyof MarketplaceListing];
-
+    
     // Handle special cases
     if (column === 'updatedAt' || column === 'createdAt') {
       aValue = new Date(aValue).getTime();
       bValue = new Date(bValue).getTime();
     }
-
+    
     if (typeof aValue === 'string') {
       aValue = aValue.toLowerCase();
       bValue = bValue.toLowerCase();
     }
-
+    
     const comparison = aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
     return direction === 'asc' ? comparison : -comparison;
   });
@@ -159,7 +156,7 @@ export function sortOrders(
   return [...orders].sort((a, b) => {
     let aValue: any;
     let bValue: any;
-
+    
     if (column === 'customer') {
       aValue = a.customer.name.toLowerCase();
       bValue = b.customer.name.toLowerCase();
@@ -170,12 +167,12 @@ export function sortOrders(
       aValue = a[column as keyof OrderData];
       bValue = b[column as keyof OrderData];
     }
-
+    
     if (typeof aValue === 'string') {
       aValue = aValue.toLowerCase();
       bValue = bValue.toLowerCase();
     }
-
+    
     const comparison = aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
     return direction === 'asc' ? comparison : -comparison;
   });
@@ -190,7 +187,7 @@ export function sortOrders(
 export function formatCurrency(amount: number, currency: string = 'USD'): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: currency,
+    currency: currency
   }).format(amount);
 }
 
@@ -203,7 +200,7 @@ export function formatDate(dateString: string): string {
   return new Date(dateString).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
-    day: 'numeric',
+    day: 'numeric'
   });
 }
 
@@ -227,9 +224,9 @@ export function getStatusBadgeColor(status: string): string {
     delivered: 'bg-green-500/10 text-green-400 border-green-500/20',
     cancelled: 'bg-red-500/10 text-red-400 border-red-500/20',
     failed: 'bg-red-500/10 text-red-400 border-red-500/20',
-    refunded: 'bg-gray-500/10 text-gray-400 border-gray-500/20',
+    refunded: 'bg-gray-500/10 text-gray-400 border-gray-500/20'
   };
-
+  
   return statusColors[status] || statusColors.inactive;
 }
 
@@ -243,33 +240,31 @@ export function calculateMarketplacePerformance(
   listings: MarketplaceListing[],
   marketplaceId: string
 ) {
-  const marketplaceListings = listings.filter((listing) => listing.marketplaces[marketplaceId]);
-
+  const marketplaceListings = listings.filter(
+    listing => listing.marketplaces[marketplaceId]
+  );
+  
   const totalViews = marketplaceListings.reduce(
-    (sum, listing) => sum + (listing.marketplaces[marketplaceId]?.views || 0),
-    0
+    (sum, listing) => sum + (listing.marketplaces[marketplaceId]?.views || 0), 0
   );
-
+  
   const totalSales = marketplaceListings.reduce(
-    (sum, listing) => sum + (listing.marketplaces[marketplaceId]?.sales || 0),
-    0
+    (sum, listing) => sum + (listing.marketplaces[marketplaceId]?.sales || 0), 0
   );
-
+  
   const totalRevenue = marketplaceListings.reduce(
-    (sum, listing) => sum + (listing.marketplaces[marketplaceId]?.revenue || 0),
-    0
+    (sum, listing) => sum + (listing.marketplaces[marketplaceId]?.revenue || 0), 0
   );
-
+  
   const conversionRate = totalViews > 0 ? (totalSales / totalViews) * 100 : 0;
-
+  
   return {
     totalListings: marketplaceListings.length,
     totalViews,
     totalSales,
     totalRevenue,
     conversionRate,
-    avgRevenueListing:
-      marketplaceListings.length > 0 ? totalRevenue / marketplaceListings.length : 0,
+    avgRevenueListing: marketplaceListings.length > 0 ? totalRevenue / marketplaceListings.length : 0
   };
 }
 
@@ -284,7 +279,7 @@ export function validateMarketplaceCredentials(
   credentials: Record<string, string>
 ): { isValid: boolean; errors: string[] } {
   const errors: string[] = [];
-
+  
   // Define required fields for each marketplace
   const requiredFields: Record<string, string[]> = {
     etsy: ['api_key', 'shop_id'],
@@ -292,32 +287,32 @@ export function validateMarketplaceCredentials(
     shopify: ['store_url', 'access_token'],
     printful: ['api_key'],
     redbubble: ['username', 'password'],
-    society6: ['artist_profile'],
+    society6: ['artist_profile']
   };
-
+  
   const required = requiredFields[marketplaceId] || [];
-
-  required.forEach((field) => {
+  
+  required.forEach(field => {
     if (!credentials[field] || credentials[field].trim() === '') {
       errors.push(`${field.replace('_', ' ')} is required`);
     }
   });
-
+  
   // Additional validation
   if (marketplaceId === 'shopify' && credentials.store_url) {
     if (!credentials.store_url.includes('.myshopify.com')) {
       errors.push('Store URL must be a valid Shopify store URL');
     }
   }
-
+  
   if (marketplaceId === 'society6' && credentials.artist_profile) {
     if (!credentials.artist_profile.includes('society6.com')) {
       errors.push('Artist profile must be a valid Society6 URL');
     }
   }
-
+  
   return {
     isValid: errors.length === 0,
-    errors,
+    errors
   };
 }

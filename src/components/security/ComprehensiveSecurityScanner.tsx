@@ -6,9 +6,9 @@ import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Alert, AlertDescription } from '../ui/alert';
-import {
-  Shield,
-  ShieldAlert,
+import { 
+  Shield, 
+  ShieldAlert, 
   ShieldCheck,
   Lock,
   Unlock,
@@ -35,7 +35,7 @@ import {
   Users,
   Activity,
   Cpu,
-  HardDrive,
+  HardDrive
 } from 'lucide-react';
 
 interface SecurityThreat {
@@ -43,13 +43,7 @@ interface SecurityThreat {
   title: string;
   description: string;
   severity: 'critical' | 'high' | 'medium' | 'low';
-  category:
-    | 'authentication'
-    | 'authorization'
-    | 'data'
-    | 'network'
-    | 'application'
-    | 'infrastructure';
+  category: 'authentication' | 'authorization' | 'data' | 'network' | 'application' | 'infrastructure';
   status: 'active' | 'mitigated' | 'investigating';
   detectedAt: Date;
   affectedComponents: string[];
@@ -103,7 +97,7 @@ const ComprehensiveSecurityScanner: React.FC = () => {
     dataProtection: 95,
     networkSecurity: 84,
     applicationSecurity: 83,
-    infrastructure: 88,
+    infrastructure: 88
   });
 
   // Initialize security data
@@ -121,10 +115,10 @@ const ComprehensiveSecurityScanner: React.FC = () => {
         recommendedActions: [
           'Implement parameterized queries',
           'Add input validation',
-          'Review database permissions',
+          'Review database permissions'
         ],
         cveId: 'CVE-2024-0123',
-        impact: 'Potential unauthorized data access',
+        impact: 'Potential unauthorized data access'
       },
       {
         id: 'threat-002',
@@ -138,9 +132,9 @@ const ComprehensiveSecurityScanner: React.FC = () => {
         recommendedActions: [
           'Update to latest secure version',
           'Review dependency security advisories',
-          'Implement dependency scanning in CI/CD',
+          'Implement dependency scanning in CI/CD'
         ],
-        impact: 'Potential code execution vulnerability',
+        impact: 'Potential code execution vulnerability'
       },
       {
         id: 'threat-003',
@@ -154,10 +148,10 @@ const ComprehensiveSecurityScanner: React.FC = () => {
         recommendedActions: [
           'Update SSL configuration',
           'Disable weak cipher suites',
-          'Implement HSTS headers',
+          'Implement HSTS headers'
         ],
-        impact: 'Potential man-in-the-middle attacks',
-      },
+        impact: 'Potential man-in-the-middle attacks'
+      }
     ];
 
     const sampleMetrics: SecurityMetric[] = [
@@ -168,7 +162,7 @@ const ComprehensiveSecurityScanner: React.FC = () => {
         max: 100,
         status: 'secure',
         trend: 'stable',
-        description: 'Number of failed authentication attempts in the last hour',
+        description: 'Number of failed authentication attempts in the last hour'
       },
       {
         id: 'api-rate-limit',
@@ -177,7 +171,7 @@ const ComprehensiveSecurityScanner: React.FC = () => {
         max: 50,
         status: 'secure',
         trend: 'improving',
-        description: 'Number of rate limit violations in the last hour',
+        description: 'Number of rate limit violations in the last hour'
       },
       {
         id: 'suspicious-activities',
@@ -186,7 +180,7 @@ const ComprehensiveSecurityScanner: React.FC = () => {
         max: 10,
         status: 'secure',
         trend: 'stable',
-        description: 'Number of flagged suspicious activities',
+        description: 'Number of flagged suspicious activities'
       },
       {
         id: 'data-access-violations',
@@ -195,8 +189,8 @@ const ComprehensiveSecurityScanner: React.FC = () => {
         max: 5,
         status: 'secure',
         trend: 'stable',
-        description: 'Unauthorized data access attempts',
-      },
+        description: 'Unauthorized data access attempts'
+      }
     ];
 
     const sampleCompliance: ComplianceCheck[] = [
@@ -207,7 +201,7 @@ const ComprehensiveSecurityScanner: React.FC = () => {
         status: 'compliant',
         score: 95,
         details: 'All sensitive data is encrypted using AES-256',
-        lastChecked: new Date(),
+        lastChecked: new Date()
       },
       {
         id: 'gdpr-002',
@@ -216,7 +210,7 @@ const ComprehensiveSecurityScanner: React.FC = () => {
         status: 'compliant',
         score: 88,
         details: 'Data export functionality implemented',
-        lastChecked: new Date(),
+        lastChecked: new Date()
       },
       {
         id: 'soc2-001',
@@ -225,7 +219,7 @@ const ComprehensiveSecurityScanner: React.FC = () => {
         status: 'partial',
         score: 72,
         details: 'Multi-factor authentication partially implemented',
-        lastChecked: new Date(),
+        lastChecked: new Date()
       },
       {
         id: 'iso27001-001',
@@ -234,8 +228,8 @@ const ComprehensiveSecurityScanner: React.FC = () => {
         status: 'compliant',
         score: 91,
         details: 'Incident response procedures documented and tested',
-        lastChecked: new Date(),
-      },
+        lastChecked: new Date()
+      }
     ];
 
     setThreats(sampleThreats);
@@ -250,22 +244,19 @@ const ComprehensiveSecurityScanner: React.FC = () => {
 
     // Simulate scan progress
     for (let i = 0; i <= 100; i += 5) {
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 100));
       setScanProgress(i);
     }
 
     // Update vulnerability scores with slight variations
-    setVulnerabilityScore((prev) => ({
+    setVulnerabilityScore(prev => ({
       overall: Math.max(75, Math.min(95, prev.overall + (Math.random() - 0.5) * 4)),
       authentication: Math.max(85, Math.min(98, prev.authentication + (Math.random() - 0.5) * 3)),
       authorization: Math.max(80, Math.min(95, prev.authorization + (Math.random() - 0.5) * 3)),
       dataProtection: Math.max(90, Math.min(98, prev.dataProtection + (Math.random() - 0.5) * 2)),
       networkSecurity: Math.max(75, Math.min(90, prev.networkSecurity + (Math.random() - 0.5) * 4)),
-      applicationSecurity: Math.max(
-        70,
-        Math.min(90, prev.applicationSecurity + (Math.random() - 0.5) * 5)
-      ),
-      infrastructure: Math.max(80, Math.min(95, prev.infrastructure + (Math.random() - 0.5) * 3)),
+      applicationSecurity: Math.max(70, Math.min(90, prev.applicationSecurity + (Math.random() - 0.5) * 5)),
+      infrastructure: Math.max(80, Math.min(95, prev.infrastructure + (Math.random() - 0.5) * 3))
     }));
 
     setLastScanTime(new Date());
@@ -280,16 +271,11 @@ const ComprehensiveSecurityScanner: React.FC = () => {
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'critical':
-        return 'text-red-500 bg-red-50 border-red-200';
-      case 'high':
-        return 'text-orange-500 bg-orange-50 border-orange-200';
-      case 'medium':
-        return 'text-yellow-500 bg-yellow-50 border-yellow-200';
-      case 'low':
-        return 'text-blue-500 bg-blue-50 border-blue-200';
-      default:
-        return 'text-gray-500 bg-gray-50 border-gray-200';
+      case 'critical': return 'text-red-500 bg-red-50 border-red-200';
+      case 'high': return 'text-orange-500 bg-orange-50 border-orange-200';
+      case 'medium': return 'text-yellow-500 bg-yellow-50 border-yellow-200';
+      case 'low': return 'text-blue-500 bg-blue-50 border-blue-200';
+      default: return 'text-gray-500 bg-gray-50 border-gray-200';
     }
   };
 
@@ -317,15 +303,9 @@ const ComprehensiveSecurityScanner: React.FC = () => {
     return 'text-red-500';
   };
 
-  const criticalThreats = useMemo(
-    () => threats.filter((t) => t.severity === 'critical').length,
-    [threats]
-  );
-  const highThreats = useMemo(() => threats.filter((t) => t.severity === 'high').length, [threats]);
-  const activeThreats = useMemo(
-    () => threats.filter((t) => t.status === 'active').length,
-    [threats]
-  );
+  const criticalThreats = useMemo(() => threats.filter(t => t.severity === 'critical').length, [threats]);
+  const highThreats = useMemo(() => threats.filter(t => t.severity === 'high').length, [threats]);
+  const activeThreats = useMemo(() => threats.filter(t => t.status === 'active').length, [threats]);
 
   return (
     <div className="space-y-6 ff-stagger-fade">
@@ -346,16 +326,16 @@ const ComprehensiveSecurityScanner: React.FC = () => {
             </div>
           </div>
         </div>
-
+        
         <div className="flex items-center gap-3">
-          <Badge
-            variant={vulnerabilityScore.overall >= 85 ? 'default' : 'destructive'}
+          <Badge 
+            variant={vulnerabilityScore.overall >= 85 ? "default" : "destructive"} 
             className="ff-badge-glow"
           >
             <Shield className="h-3 w-3 mr-1" />
             Security Score: {Math.round(vulnerabilityScore.overall)}%
           </Badge>
-
+          
           <Button
             onClick={performSecurityScan}
             disabled={isScanning}
@@ -392,7 +372,9 @@ const ComprehensiveSecurityScanner: React.FC = () => {
                     <span className="ff-text-sm font-medium font-sora">
                       Security Scan in Progress
                     </span>
-                    <span className="ff-text-sm text-muted-foreground">{scanProgress}%</span>
+                    <span className="ff-text-sm text-muted-foreground">
+                      {scanProgress}%
+                    </span>
                   </div>
                   <Progress value={scanProgress} className="h-2" />
                   <p className="ff-text-xs text-muted-foreground font-inter">
@@ -418,22 +400,16 @@ const ComprehensiveSecurityScanner: React.FC = () => {
               <Alert className="border-red-500/20 bg-red-500/5">
                 <ShieldAlert className="h-4 w-4 text-red-500" />
                 <AlertDescription className="text-red-700 dark:text-red-300">
-                  <strong>
-                    {criticalThreats} critical security threat{criticalThreats > 1 ? 's' : ''}
-                  </strong>{' '}
-                  require immediate attention
+                  <strong>{criticalThreats} critical security threat{criticalThreats > 1 ? 's' : ''}</strong> require immediate attention
                 </AlertDescription>
               </Alert>
             )}
-
+            
             {activeThreats > 0 && (
               <Alert className="border-orange-500/20 bg-orange-500/5">
                 <AlertTriangle className="h-4 w-4 text-orange-500" />
                 <AlertDescription className="text-orange-700 dark:text-orange-300">
-                  <strong>
-                    {activeThreats} active threat{activeThreats > 1 ? 's' : ''}
-                  </strong>{' '}
-                  detected and being monitored
+                  <strong>{activeThreats} active threat{activeThreats > 1 ? 's' : ''}</strong> detected and being monitored
                 </AlertDescription>
               </Alert>
             )}
@@ -465,10 +441,10 @@ const ComprehensiveSecurityScanner: React.FC = () => {
                 dataProtection: Lock,
                 networkSecurity: Network,
                 applicationSecurity: Bug,
-                infrastructure: Server,
+                infrastructure: Server
               };
               const Icon = icons[key as keyof typeof icons];
-
+              
               return (
                 <motion.div
                   key={key}
@@ -509,7 +485,9 @@ const ComprehensiveSecurityScanner: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="ff-text-sm font-medium font-sora">Active Threats</p>
-                    <p className="ff-text-2xl font-bold text-red-500 font-sora">{activeThreats}</p>
+                    <p className="ff-text-2xl font-bold text-red-500 font-sora">
+                      {activeThreats}
+                    </p>
                   </div>
                   <ShieldAlert className="h-8 w-8 text-red-500" />
                 </div>
@@ -536,10 +514,7 @@ const ComprehensiveSecurityScanner: React.FC = () => {
                   <div>
                     <p className="ff-text-sm font-medium font-sora">Compliance Score</p>
                     <p className="ff-text-2xl font-bold text-green-500 font-sora">
-                      {Math.round(
-                        compliance.reduce((acc, c) => acc + c.score, 0) / compliance.length
-                      )}
-                      %
+                      {Math.round(compliance.reduce((acc, c) => acc + c.score, 0) / compliance.length)}%
                     </p>
                   </div>
                   <FileText className="h-8 w-8 text-green-500" />
@@ -608,9 +583,7 @@ const ComprehensiveSecurityScanner: React.FC = () => {
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t">
                         <div>
-                          <h4 className="ff-text-sm font-semibold mb-2 font-sora">
-                            Affected Components
-                          </h4>
+                          <h4 className="ff-text-sm font-semibold mb-2 font-sora">Affected Components</h4>
                           <ul className="space-y-1">
                             {threat.affectedComponents.map((component, idx) => (
                               <li key={idx} className="ff-text-sm text-muted-foreground font-inter">
@@ -620,9 +593,7 @@ const ComprehensiveSecurityScanner: React.FC = () => {
                           </ul>
                         </div>
                         <div>
-                          <h4 className="ff-text-sm font-semibold mb-2 font-sora">
-                            Recommended Actions
-                          </h4>
+                          <h4 className="ff-text-sm font-semibold mb-2 font-sora">Recommended Actions</h4>
                           <ul className="space-y-1">
                             {threat.recommendedActions.map((action, idx) => (
                               <li key={idx} className="ff-text-sm text-muted-foreground font-inter">
@@ -661,19 +632,22 @@ const ComprehensiveSecurityScanner: React.FC = () => {
                   <CardContent className="pt-0">
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <span
-                          className={`ff-text-3xl font-bold ${getStatusColor(metric.status)} font-sora`}
-                        >
+                        <span className={`ff-text-3xl font-bold ${getStatusColor(metric.status)} font-sora`}>
                           {metric.value}
                         </span>
-                        <Badge className={getStatusColor(metric.status)}>{metric.status}</Badge>
+                        <Badge className={getStatusColor(metric.status)}>
+                          {metric.status}
+                        </Badge>
                       </div>
                       <div className="space-y-2">
                         <div className="flex justify-between ff-text-sm text-muted-foreground">
                           <span>Threshold: {metric.max}</span>
                           <span className="capitalize">{metric.trend}</span>
                         </div>
-                        <Progress value={(metric.value / metric.max) * 100} className="h-2" />
+                        <Progress 
+                          value={(metric.value / metric.max) * 100} 
+                          className="h-2"
+                        />
                       </div>
                     </div>
                   </CardContent>
@@ -701,9 +675,7 @@ const ComprehensiveSecurityScanner: React.FC = () => {
                           <Badge className={getStatusColor(check.status)}>
                             {check.status.replace('-', ' ')}
                           </Badge>
-                          <span
-                            className={`ff-text-sm font-medium ${getScoreColor(check.score)} font-sora`}
-                          >
+                          <span className={`ff-text-sm font-medium ${getScoreColor(check.score)} font-sora`}>
                             {check.score}%
                           </span>
                         </div>

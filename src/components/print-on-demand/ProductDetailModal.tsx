@@ -33,11 +33,7 @@ export function ProductDetailModal({ product, isOpen, onClose }: ProductDetailMo
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {product.images.map((image, index) => (
               <div key={index} className="aspect-square bg-muted rounded-lg overflow-hidden">
-                <img
-                  src={image}
-                  alt={`Product ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
+                <img src={image} alt={`Product ${index + 1}`} className="w-full h-full object-cover" />
               </div>
             ))}
           </div>
@@ -74,20 +70,15 @@ export function ProductDetailModal({ product, isOpen, onClose }: ProductDetailMo
                 <div className="flex flex-wrap gap-1 mt-1">
                   {product.marketplaces.length > 0 ? (
                     product.marketplaces.map((marketplace) => {
-                      const mp = Object.values(MARKETPLACES).find((m) => m.id === marketplace);
+                      const mp = Object.values(MARKETPLACES).find(m => m.id === marketplace);
                       return mp ? (
-                        <Badge
-                          key={marketplace}
-                          className="bg-green-100 text-green-700 dark:bg-green-900/30"
-                        >
+                        <Badge key={marketplace} className="bg-green-100 text-green-700 dark:bg-green-900/30">
                           {mp.name}
                         </Badge>
                       ) : null;
                     })
                   ) : (
-                    <span className="text-sm text-muted-foreground">
-                      Not published to any marketplace
-                    </span>
+                    <span className="text-sm text-muted-foreground">Not published to any marketplace</span>
                   )}
                 </div>
               </div>
@@ -103,9 +94,7 @@ export function ProductDetailModal({ product, isOpen, onClose }: ProductDetailMo
                   </div>
                   <div>
                     <span className="text-sm text-muted-foreground">Selling Price:</span>
-                    <div className="font-semibold text-primary">
-                      {formatCurrency(product.suggestedPrice)}
-                    </div>
+                    <div className="font-semibold text-primary">{formatCurrency(product.suggestedPrice)}</div>
                   </div>
                   <div>
                     <span className="text-sm text-muted-foreground">Profit Margin:</span>
@@ -128,9 +117,7 @@ export function ProductDetailModal({ product, isOpen, onClose }: ProductDetailMo
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm">Revenue:</span>
-                      <span className="font-semibold text-green-600">
-                        {formatCurrency(product.stats.revenue)}
-                      </span>
+                      <span className="font-semibold text-green-600">{formatCurrency(product.stats.revenue)}</span>
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -200,7 +187,7 @@ export function ProductDetailModal({ product, isOpen, onClose }: ProductDetailMo
                     </div>
                     <div className="font-semibold">{formatCurrency(variant.price)}</div>
                   </div>
-
+                  
                   <div className="grid grid-cols-3 gap-4 text-sm">
                     <div>
                       <span className="text-muted-foreground">Stock:</span>
@@ -217,7 +204,7 @@ export function ProductDetailModal({ product, isOpen, onClose }: ProductDetailMo
                       <div>{variant.weight} kg</div>
                     </div>
                   </div>
-
+                  
                   {variant.stock < 10 && (
                     <Badge className="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
                       Low Stock
@@ -241,9 +228,10 @@ export function ProductDetailModal({ product, isOpen, onClose }: ProductDetailMo
             <div>
               <span className="text-muted-foreground">Published:</span>
               <div>
-                {product.publishedAt
+                {product.publishedAt 
                   ? new Date(product.publishedAt).toLocaleDateString()
-                  : 'Not published'}
+                  : 'Not published'
+                }
               </div>
             </div>
           </div>

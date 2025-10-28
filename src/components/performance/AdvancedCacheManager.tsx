@@ -4,12 +4,12 @@
  * @category optimization
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * ADVANCED CACHE MANAGER
- *
+ * 
  * Intelligent caching system with multi-layer caching strategies,
  * cache invalidation, performance monitoring, and optimization.
- *
+ * 
  * Features:
  * - Multi-layer caching (Memory, IndexedDB, Service Worker)
  * - Intelligent cache invalidation
@@ -28,10 +28,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Progress } from '../ui/progress';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
-import {
-  Database,
-  Zap,
-  BarChart3,
+import { 
+  Database, 
+  Zap, 
+  BarChart3, 
   RefreshCw,
   HardDrive,
   Cloud,
@@ -45,9 +45,9 @@ import {
   CheckCircle,
   AlertTriangle,
   Target,
-  Globe,
+  Globe
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface CacheConfig {
   memory: {
@@ -77,12 +77,7 @@ interface CacheConfig {
 interface CacheStrategy {
   name: string;
   pattern: string;
-  strategy:
-    | 'cache-first'
-    | 'network-first'
-    | 'stale-while-revalidate'
-    | 'network-only'
-    | 'cache-only';
+  strategy: 'cache-first' | 'network-first' | 'stale-while-revalidate' | 'network-only' | 'cache-only';
   maxAge: number;
   maxEntries: number;
 }
@@ -127,12 +122,12 @@ const DEFAULT_CACHE_CONFIG: CacheConfig = {
   memory: {
     enabled: true,
     maxSize: 50, // 50MB
-    ttl: 300, // 5 minutes
+    ttl: 300 // 5 minutes
   },
   indexedDB: {
     enabled: true,
     maxSize: 200, // 200MB
-    ttl: 3600, // 1 hour
+    ttl: 3600 // 1 hour
   },
   serviceWorker: {
     enabled: true,
@@ -142,39 +137,39 @@ const DEFAULT_CACHE_CONFIG: CacheConfig = {
         pattern: '/api/*',
         strategy: 'stale-while-revalidate',
         maxAge: 300, // 5 minutes
-        maxEntries: 100,
+        maxEntries: 100
       },
       {
         name: 'Static Assets',
         pattern: '/static/*',
         strategy: 'cache-first',
         maxAge: 86400, // 24 hours
-        maxEntries: 500,
+        maxEntries: 500
       },
       {
         name: 'HTML Pages',
         pattern: '/*',
         strategy: 'network-first',
         maxAge: 300, // 5 minutes
-        maxEntries: 50,
-      },
-    ],
+        maxEntries: 50
+      }
+    ]
   },
   compression: {
     enabled: true,
-    algorithm: 'gzip',
+    algorithm: 'gzip'
   },
   prefetching: {
     enabled: true,
-    priority: 'medium',
-  },
+    priority: 'medium'
+  }
 };
 
 const CACHE_TYPES = [
   { value: 'api', label: 'API Responses', icon: '🔗', color: 'from-blue-500 to-blue-600' },
   { value: 'asset', label: 'Static Assets', icon: '📦', color: 'from-green-500 to-green-600' },
   { value: 'page', label: 'HTML Pages', icon: '📄', color: 'from-purple-500 to-purple-600' },
-  { value: 'data', label: 'Application Data', icon: '💾', color: 'from-orange-500 to-orange-600' },
+  { value: 'data', label: 'Application Data', icon: '💾', color: 'from-orange-500 to-orange-600' }
 ];
 
 export function AdvancedCacheManager(): JSX.Element {
@@ -200,23 +195,23 @@ export function AdvancedCacheManager(): JSX.Element {
    */
   const initializeCacheManager = useCallback(async (): Promise<void> => {
     console.log('🗄️ Initializing Advanced Cache Manager...');
-
+    
     try {
       // Initialize memory cache
       if (cacheConfig.memory.enabled) {
         await initializeMemoryCache();
       }
-
+      
       // Initialize IndexedDB cache
       if (cacheConfig.indexedDB.enabled) {
         await initializeIndexedDBCache();
       }
-
+      
       // Initialize Service Worker cache
       if (cacheConfig.serviceWorker.enabled) {
         await initializeServiceWorkerCache();
       }
-
+      
       console.log('✅ Cache manager initialized successfully');
     } catch (error) {
       console.error('❌ Failed to initialize cache manager:', error);
@@ -230,16 +225,16 @@ export function AdvancedCacheManager(): JSX.Element {
   const initializeMemoryCache = useCallback(async (): Promise<void> => {
     // Create memory cache with LRU eviction
     const memoryCache = new Map();
-
+    
     // Store reference globally for access
     (window as any).__memoryCache = {
       cache: memoryCache,
       maxSize: cacheConfig.memory.maxSize * 1024 * 1024, // Convert to bytes
       currentSize: 0,
       hits: 0,
-      misses: 0,
+      misses: 0
     };
-
+    
     console.log('💾 Memory cache initialized');
   }, [cacheConfig.memory]);
 
@@ -249,7 +244,7 @@ export function AdvancedCacheManager(): JSX.Element {
   const initializeIndexedDBCache = useCallback(async (): Promise<void> => {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open('FlashFusionCache', 1);
-
+      
       request.onerror = () => reject(request.error);
       request.onsuccess = () => {
         const db = request.result;
@@ -258,15 +253,15 @@ export function AdvancedCacheManager(): JSX.Element {
           maxSize: cacheConfig.indexedDB.maxSize * 1024 * 1024,
           currentSize: 0,
           hits: 0,
-          misses: 0,
+          misses: 0
         };
         console.log('🗃️ IndexedDB cache initialized');
         resolve();
       };
-
+      
       request.onupgradeneeded = () => {
         const db = request.result;
-
+        
         if (!db.objectStoreNames.contains('cache')) {
           const store = db.createObjectStore('cache', { keyPath: 'key' });
           store.createIndex('timestamp', 'timestamp');
@@ -283,15 +278,15 @@ export function AdvancedCacheManager(): JSX.Element {
     if ('serviceWorker' in navigator) {
       try {
         const registration = await navigator.serviceWorker.register('/sw-cache.js');
-
+        
         // Send cache configuration to service worker
         if (registration.active) {
           registration.active.postMessage({
             type: 'CACHE_CONFIG',
-            config: cacheConfig.serviceWorker,
+            config: cacheConfig.serviceWorker
           });
         }
-
+        
         console.log('👷 Service Worker cache initialized');
       } catch (error) {
         console.error('Failed to register service worker:', error);
@@ -305,32 +300,29 @@ export function AdvancedCacheManager(): JSX.Element {
   const setupPerformanceMonitoring = useCallback((): void => {
     // Monitor cache performance
     const originalFetch = window.fetch;
-
+    
     window.fetch = async (...args) => {
       const startTime = performance.now();
       const response = await originalFetch(...args);
       const endTime = performance.now();
-
+      
       // Track performance metrics
       trackCachePerformance(args[0] as string, endTime - startTime, response.ok);
-
+      
       return response;
     };
-
+    
     console.log('📊 Performance monitoring setup complete');
   }, []);
 
   /**
    * Track cache performance
    */
-  const trackCachePerformance = useCallback(
-    (url: string, responseTime: number, success: boolean): void => {
-      // Update performance metrics
-      // This would be more sophisticated in production
-      console.log(`🔍 Request: ${url}, Time: ${responseTime.toFixed(2)}ms, Success: ${success}`);
-    },
-    []
-  );
+  const trackCachePerformance = useCallback((url: string, responseTime: number, success: boolean): void => {
+    // Update performance metrics
+    // This would be more sophisticated in production
+    console.log(`🔍 Request: ${url}, Time: ${responseTime.toFixed(2)}ms, Success: ${success}`);
+  }, []);
 
   /**
    * Load cache metrics
@@ -343,27 +335,27 @@ export function AdvancedCacheManager(): JSX.Element {
           size: 12.5, // MB
           entries: 45,
           hitRate: 78.5,
-          missRate: 21.5,
+          missRate: 21.5
         },
         indexedDB: {
           size: 67.3, // MB
           entries: 234,
           hitRate: 85.2,
-          missRate: 14.8,
+          missRate: 14.8
         },
         serviceWorker: {
           size: 89.7, // MB
           entries: 156,
           hitRate: 92.1,
-          missRate: 7.9,
+          missRate: 7.9
         },
         performance: {
           avgResponseTime: 145, // ms
           cacheEfficiency: 87.3,
-          bandwidthSaved: 125.6, // MB
-        },
+          bandwidthSaved: 125.6 // MB
+        }
       };
-
+      
       setCacheMetrics(mockMetrics);
     } catch (error) {
       console.error('Failed to load cache metrics:', error);
@@ -384,7 +376,7 @@ export function AdvancedCacheManager(): JSX.Element {
           accessed: Date.now() - 300000,
           hits: 15,
           type: 'api',
-          layer: 'memory',
+          layer: 'memory'
         },
         {
           key: '/static/app.js',
@@ -393,7 +385,7 @@ export function AdvancedCacheManager(): JSX.Element {
           accessed: Date.now() - 120000,
           hits: 45,
           type: 'asset',
-          layer: 'serviceWorker',
+          layer: 'serviceWorker'
         },
         {
           key: '/dashboard',
@@ -402,10 +394,10 @@ export function AdvancedCacheManager(): JSX.Element {
           accessed: Date.now() - 600000,
           hits: 8,
           type: 'page',
-          layer: 'indexedDB',
-        },
+          layer: 'indexedDB'
+        }
       ];
-
+      
       setCacheEntries(mockEntries);
     } catch (error) {
       console.error('Failed to load cache entries:', error);
@@ -417,7 +409,7 @@ export function AdvancedCacheManager(): JSX.Element {
    */
   const handleOptimizeCache = useCallback(async (): Promise<void> => {
     setIsOptimizing(true);
-
+    
     try {
       // Simulate optimization process
       const steps = [
@@ -426,18 +418,18 @@ export function AdvancedCacheManager(): JSX.Element {
         'Compressing cached data...',
         'Reorganizing cache layers...',
         'Updating cache strategies...',
-        'Optimizing prefetch rules...',
+        'Optimizing prefetch rules...'
       ];
-
+      
       for (const step of steps) {
         console.log(step);
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
       }
-
+      
       // Reload metrics after optimization
       await loadCacheMetrics();
       await loadCacheEntries();
-
+      
       toast.success('Cache optimization completed successfully!');
     } catch (error) {
       toast.error('Cache optimization failed');
@@ -449,43 +441,40 @@ export function AdvancedCacheManager(): JSX.Element {
   /**
    * Clear cache layer
    */
-  const handleClearCache = useCallback(
-    async (layer: 'memory' | 'indexedDB' | 'serviceWorker' | 'all'): Promise<void> => {
-      try {
-        if (layer === 'memory' || layer === 'all') {
-          (window as any).__memoryCache?.cache.clear();
-          console.log('🗑️ Memory cache cleared');
-        }
-
-        if (layer === 'indexedDB' || layer === 'all') {
-          const db = (window as any).__indexedDBCache?.db;
-          if (db) {
-            const transaction = db.transaction(['cache'], 'readwrite');
-            const store = transaction.objectStore('cache');
-            await store.clear();
-            console.log('🗑️ IndexedDB cache cleared');
-          }
-        }
-
-        if (layer === 'serviceWorker' || layer === 'all') {
-          if ('caches' in window) {
-            const cacheNames = await caches.keys();
-            await Promise.all(cacheNames.map((name) => caches.delete(name)));
-            console.log('🗑️ Service Worker cache cleared');
-          }
-        }
-
-        // Reload metrics
-        await loadCacheMetrics();
-        await loadCacheEntries();
-
-        toast.success(`${layer === 'all' ? 'All caches' : layer + ' cache'} cleared successfully`);
-      } catch (error) {
-        toast.error('Failed to clear cache');
+  const handleClearCache = useCallback(async (layer: 'memory' | 'indexedDB' | 'serviceWorker' | 'all'): Promise<void> => {
+    try {
+      if (layer === 'memory' || layer === 'all') {
+        (window as any).__memoryCache?.cache.clear();
+        console.log('🗑️ Memory cache cleared');
       }
-    },
-    [loadCacheMetrics, loadCacheEntries]
-  );
+      
+      if (layer === 'indexedDB' || layer === 'all') {
+        const db = (window as any).__indexedDBCache?.db;
+        if (db) {
+          const transaction = db.transaction(['cache'], 'readwrite');
+          const store = transaction.objectStore('cache');
+          await store.clear();
+          console.log('🗑️ IndexedDB cache cleared');
+        }
+      }
+      
+      if (layer === 'serviceWorker' || layer === 'all') {
+        if ('caches' in window) {
+          const cacheNames = await caches.keys();
+          await Promise.all(cacheNames.map(name => caches.delete(name)));
+          console.log('🗑️ Service Worker cache cleared');
+        }
+      }
+      
+      // Reload metrics
+      await loadCacheMetrics();
+      await loadCacheEntries();
+      
+      toast.success(`${layer === 'all' ? 'All caches' : layer + ' cache'} cleared successfully`);
+    } catch (error) {
+      toast.error('Failed to clear cache');
+    }
+  }, [loadCacheMetrics, loadCacheEntries]);
 
   /**
    * Export cache configuration
@@ -495,12 +484,12 @@ export function AdvancedCacheManager(): JSX.Element {
       timestamp: new Date().toISOString(),
       version: '1.0.0',
       config: cacheConfig,
-      metrics: cacheMetrics,
+      metrics: cacheMetrics
     };
-
+    
     const blob = new Blob([JSON.stringify(configData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-
+    
     const link = document.createElement('a');
     link.href = url;
     link.download = `flashfusion-cache-config-${Date.now()}.json`;
@@ -508,7 +497,7 @@ export function AdvancedCacheManager(): JSX.Element {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-
+    
     toast.success('Cache configuration exported successfully');
   }, [cacheConfig, cacheMetrics]);
 
@@ -530,7 +519,7 @@ export function AdvancedCacheManager(): JSX.Element {
     const seconds = Math.floor(ms / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
-
+    
     if (hours > 0) return `${hours}h ${minutes % 60}m`;
     if (minutes > 0) return `${minutes}m ${seconds % 60}s`;
     return `${seconds}s`;
@@ -564,13 +553,18 @@ export function AdvancedCacheManager(): JSX.Element {
             </p>
           </div>
         </div>
-
+        
         <div className="flex items-center gap-3">
-          <Button variant="outline" size="sm" onClick={handleExportConfig} className="ff-btn-ghost">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleExportConfig}
+            className="ff-btn-ghost"
+          >
             <Download className="h-4 w-4 mr-2" />
             Export Config
           </Button>
-
+          
           <Button
             onClick={handleOptimizeCache}
             disabled={isOptimizing}
@@ -606,7 +600,7 @@ export function AdvancedCacheManager(): JSX.Element {
             </div>
           </CardContent>
         </Card>
-
+        
         <Card className="ff-card">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
@@ -620,7 +614,7 @@ export function AdvancedCacheManager(): JSX.Element {
             </div>
           </CardContent>
         </Card>
-
+        
         <Card className="ff-card">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
@@ -634,19 +628,14 @@ export function AdvancedCacheManager(): JSX.Element {
             </div>
           </CardContent>
         </Card>
-
+        
         <Card className="ff-card">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-[var(--ff-text-muted)]">Total Cache Size</p>
                 <p className="text-2xl font-bold text-orange-600">
-                  {(
-                    cacheMetrics.memory.size +
-                    cacheMetrics.indexedDB.size +
-                    cacheMetrics.serviceWorker.size
-                  ).toFixed(1)}
-                  MB
+                  {(cacheMetrics.memory.size + cacheMetrics.indexedDB.size + cacheMetrics.serviceWorker.size).toFixed(1)}MB
                 </p>
               </div>
               <HardDrive className="h-8 w-8 text-orange-600" />
@@ -681,24 +670,9 @@ export function AdvancedCacheManager(): JSX.Element {
           {/* Cache Layer Performance */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {[
-              {
-                name: 'Memory Cache',
-                data: cacheMetrics.memory,
-                color: 'from-blue-500 to-blue-600',
-                icon: Zap,
-              },
-              {
-                name: 'IndexedDB Cache',
-                data: cacheMetrics.indexedDB,
-                color: 'from-green-500 to-green-600',
-                icon: Database,
-              },
-              {
-                name: 'Service Worker Cache',
-                data: cacheMetrics.serviceWorker,
-                color: 'from-purple-500 to-purple-600',
-                icon: Globe,
-              },
+              { name: 'Memory Cache', data: cacheMetrics.memory, color: 'from-blue-500 to-blue-600', icon: Zap },
+              { name: 'IndexedDB Cache', data: cacheMetrics.indexedDB, color: 'from-green-500 to-green-600', icon: Database },
+              { name: 'Service Worker Cache', data: cacheMetrics.serviceWorker, color: 'from-purple-500 to-purple-600', icon: Globe }
             ].map((layer, index) => {
               const Icon = layer.icon;
               return (
@@ -723,18 +697,14 @@ export function AdvancedCacheManager(): JSX.Element {
                       </div>
                       <div>
                         <p className="text-[var(--ff-text-muted)]">Hit Rate</p>
-                        <p className="font-semibold text-green-600">
-                          {layer.data.hitRate.toFixed(1)}%
-                        </p>
+                        <p className="font-semibold text-green-600">{layer.data.hitRate.toFixed(1)}%</p>
                       </div>
                       <div>
                         <p className="text-[var(--ff-text-muted)]">Miss Rate</p>
-                        <p className="font-semibold text-red-600">
-                          {layer.data.missRate.toFixed(1)}%
-                        </p>
+                        <p className="font-semibold text-red-600">{layer.data.missRate.toFixed(1)}%</p>
                       </div>
                     </div>
-
+                    
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>Hit Rate</span>
@@ -757,9 +727,7 @@ export function AdvancedCacheManager(): JSX.Element {
               <div className="h-64 flex items-center justify-center border-2 border-dashed border-[var(--border)] rounded-lg">
                 <div className="text-center">
                   <BarChart3 className="h-12 w-12 text-[var(--ff-text-muted)] mx-auto mb-2" />
-                  <p className="text-[var(--ff-text-secondary)]">
-                    Performance chart would be rendered here
-                  </p>
+                  <p className="text-[var(--ff-text-secondary)]">Performance chart would be rendered here</p>
                 </div>
               </div>
             </CardContent>
@@ -772,7 +740,7 @@ export function AdvancedCacheManager(): JSX.Element {
             {[
               { name: 'Memory Cache', key: 'memory', color: 'blue' },
               { name: 'IndexedDB Cache', key: 'indexedDB', color: 'green' },
-              { name: 'Service Worker Cache', key: 'serviceWorker', color: 'purple' },
+              { name: 'Service Worker Cache', key: 'serviceWorker', color: 'purple' }
             ].map((layer) => (
               <Card key={layer.key} className="ff-card">
                 <CardHeader>
@@ -797,18 +765,18 @@ export function AdvancedCacheManager(): JSX.Element {
                         Active
                       </Badge>
                     </div>
-
+                    
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>Storage Used</span>
                         <span>{(cacheMetrics as any)[layer.key].size.toFixed(1)}MB</span>
                       </div>
-                      <Progress
-                        value={((cacheMetrics as any)[layer.key].size / 100) * 100}
-                        className="h-2"
+                      <Progress 
+                        value={(cacheMetrics as any)[layer.key].size / 100 * 100} 
+                        className="h-2" 
                       />
                     </div>
-
+                    
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
                         <p className="text-[var(--ff-text-muted)]">Entries</p>
@@ -816,9 +784,7 @@ export function AdvancedCacheManager(): JSX.Element {
                       </div>
                       <div>
                         <p className="text-[var(--ff-text-muted)]">Hit Rate</p>
-                        <p className="font-semibold">
-                          {(cacheMetrics as any)[layer.key].hitRate.toFixed(1)}%
-                        </p>
+                        <p className="font-semibold">{(cacheMetrics as any)[layer.key].hitRate.toFixed(1)}%</p>
                       </div>
                     </div>
                   </div>
@@ -826,7 +792,7 @@ export function AdvancedCacheManager(): JSX.Element {
               </Card>
             ))}
           </div>
-
+          
           <Card className="ff-card">
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
@@ -882,32 +848,27 @@ export function AdvancedCacheManager(): JSX.Element {
                 ))}
               </select>
             </div>
-
+            
             <div className="text-sm text-[var(--ff-text-muted)]">
               {cacheEntries.length} cache entries
             </div>
           </div>
-
+          
           <div className="space-y-3">
             {cacheEntries
-              .filter((entry) => selectedCacheType === 'all' || entry.type === selectedCacheType)
+              .filter(entry => selectedCacheType === 'all' || entry.type === selectedCacheType)
               .map((entry, index) => (
                 <Card key={index} className="ff-card">
                   <CardContent className="pt-6">
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <Badge
-                            className={`text-xs ${
-                              entry.type === 'api'
-                                ? 'bg-blue-100 text-blue-700'
-                                : entry.type === 'asset'
-                                  ? 'bg-green-100 text-green-700'
-                                  : entry.type === 'page'
-                                    ? 'bg-purple-100 text-purple-700'
-                                    : 'bg-orange-100 text-orange-700'
-                            }`}
-                          >
+                          <Badge className={`text-xs ${
+                            entry.type === 'api' ? 'bg-blue-100 text-blue-700' :
+                            entry.type === 'asset' ? 'bg-green-100 text-green-700' :
+                            entry.type === 'page' ? 'bg-purple-100 text-purple-700' :
+                            'bg-orange-100 text-orange-700'
+                          }`}>
                             {entry.type}
                           </Badge>
                           <Badge variant="outline" className="text-xs">
@@ -921,12 +882,14 @@ export function AdvancedCacheManager(): JSX.Element {
                           <span>Size: {formatSize(entry.size)}</span>
                           <span>Hits: {entry.hits}</span>
                           <span>Created: {formatDuration(Date.now() - entry.created)} ago</span>
-                          <span>
-                            Last access: {formatDuration(Date.now() - entry.accessed)} ago
-                          </span>
+                          <span>Last access: {formatDuration(Date.now() - entry.accessed)} ago</span>
                         </div>
                       </div>
-                      <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-600 hover:text-red-700"
+                      >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -949,39 +912,39 @@ export function AdvancedCacheManager(): JSX.Element {
                   <Label>Enable Memory Cache</Label>
                   <Switch
                     checked={cacheConfig.memory.enabled}
-                    onCheckedChange={(checked) =>
-                      setCacheConfig((prev) => ({
+                    onCheckedChange={(checked) => 
+                      setCacheConfig(prev => ({
                         ...prev,
-                        memory: { ...prev.memory, enabled: checked },
+                        memory: { ...prev.memory, enabled: checked }
                       }))
                     }
                   />
                 </div>
-
+                
                 <div>
                   <Label className="text-sm">Max Size (MB)</Label>
                   <input
                     type="number"
                     value={cacheConfig.memory.maxSize}
-                    onChange={(e) =>
-                      setCacheConfig((prev) => ({
+                    onChange={(e) => 
+                      setCacheConfig(prev => ({
                         ...prev,
-                        memory: { ...prev.memory, maxSize: Number(e.target.value) },
+                        memory: { ...prev.memory, maxSize: Number(e.target.value) }
                       }))
                     }
                     className="ff-input mt-1"
                   />
                 </div>
-
+                
                 <div>
                   <Label className="text-sm">TTL (seconds)</Label>
                   <input
                     type="number"
                     value={cacheConfig.memory.ttl}
-                    onChange={(e) =>
-                      setCacheConfig((prev) => ({
+                    onChange={(e) => 
+                      setCacheConfig(prev => ({
                         ...prev,
-                        memory: { ...prev.memory, ttl: Number(e.target.value) },
+                        memory: { ...prev.memory, ttl: Number(e.target.value) }
                       }))
                     }
                     className="ff-input mt-1"
@@ -1000,39 +963,39 @@ export function AdvancedCacheManager(): JSX.Element {
                   <Label>Enable IndexedDB Cache</Label>
                   <Switch
                     checked={cacheConfig.indexedDB.enabled}
-                    onCheckedChange={(checked) =>
-                      setCacheConfig((prev) => ({
+                    onCheckedChange={(checked) => 
+                      setCacheConfig(prev => ({
                         ...prev,
-                        indexedDB: { ...prev.indexedDB, enabled: checked },
+                        indexedDB: { ...prev.indexedDB, enabled: checked }
                       }))
                     }
                   />
                 </div>
-
+                
                 <div>
                   <Label className="text-sm">Max Size (MB)</Label>
                   <input
                     type="number"
                     value={cacheConfig.indexedDB.maxSize}
-                    onChange={(e) =>
-                      setCacheConfig((prev) => ({
+                    onChange={(e) => 
+                      setCacheConfig(prev => ({
                         ...prev,
-                        indexedDB: { ...prev.indexedDB, maxSize: Number(e.target.value) },
+                        indexedDB: { ...prev.indexedDB, maxSize: Number(e.target.value) }
                       }))
                     }
                     className="ff-input mt-1"
                   />
                 </div>
-
+                
                 <div>
                   <Label className="text-sm">TTL (seconds)</Label>
                   <input
                     type="number"
                     value={cacheConfig.indexedDB.ttl}
-                    onChange={(e) =>
-                      setCacheConfig((prev) => ({
+                    onChange={(e) => 
+                      setCacheConfig(prev => ({
                         ...prev,
-                        indexedDB: { ...prev.indexedDB, ttl: Number(e.target.value) },
+                        indexedDB: { ...prev.indexedDB, ttl: Number(e.target.value) }
                       }))
                     }
                     className="ff-input mt-1"
@@ -1054,23 +1017,23 @@ export function AdvancedCacheManager(): JSX.Element {
                     <Label>Enable Compression</Label>
                     <Switch
                       checked={cacheConfig.compression.enabled}
-                      onCheckedChange={(checked) =>
-                        setCacheConfig((prev) => ({
+                      onCheckedChange={(checked) => 
+                        setCacheConfig(prev => ({
                           ...prev,
-                          compression: { ...prev.compression, enabled: checked },
+                          compression: { ...prev.compression, enabled: checked }
                         }))
                       }
                     />
                   </div>
-
+                  
                   <div>
                     <Label className="text-sm">Compression Algorithm</Label>
                     <select
                       value={cacheConfig.compression.algorithm}
-                      onChange={(e) =>
-                        setCacheConfig((prev) => ({
+                      onChange={(e) => 
+                        setCacheConfig(prev => ({
                           ...prev,
-                          compression: { ...prev.compression, algorithm: e.target.value as any },
+                          compression: { ...prev.compression, algorithm: e.target.value as any }
                         }))
                       }
                       className="ff-input mt-1"
@@ -1081,29 +1044,29 @@ export function AdvancedCacheManager(): JSX.Element {
                     </select>
                   </div>
                 </div>
-
+                
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <Label>Enable Prefetching</Label>
                     <Switch
                       checked={cacheConfig.prefetching.enabled}
-                      onCheckedChange={(checked) =>
-                        setCacheConfig((prev) => ({
+                      onCheckedChange={(checked) => 
+                        setCacheConfig(prev => ({
                           ...prev,
-                          prefetching: { ...prev.prefetching, enabled: checked },
+                          prefetching: { ...prev.prefetching, enabled: checked }
                         }))
                       }
                     />
                   </div>
-
+                  
                   <div>
                     <Label className="text-sm">Prefetch Priority</Label>
                     <select
                       value={cacheConfig.prefetching.priority}
-                      onChange={(e) =>
-                        setCacheConfig((prev) => ({
+                      onChange={(e) => 
+                        setCacheConfig(prev => ({
                           ...prev,
-                          prefetching: { ...prev.prefetching, priority: e.target.value as any },
+                          prefetching: { ...prev.prefetching, priority: e.target.value as any }
                         }))
                       }
                       className="ff-input mt-1"
@@ -1115,7 +1078,7 @@ export function AdvancedCacheManager(): JSX.Element {
                   </div>
                 </div>
               </div>
-
+              
               <div className="flex gap-4">
                 <Button className="ff-btn-primary">
                   <CheckCircle className="h-4 w-4 mr-2" />

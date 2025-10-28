@@ -6,12 +6,7 @@ import { Settings, Globe, X } from 'lucide-react';
 import { formatDuration } from '../../../utils/data-import-export';
 import type { DataSourceCardProps } from '../../../types/data-import-export';
 
-export function DataSourceCard({
-  source,
-  onConnect,
-  onDisconnect,
-  onConfigure,
-}: DataSourceCardProps) {
+export function DataSourceCard({ source, onConnect, onDisconnect, onConfigure }: DataSourceCardProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
@@ -36,8 +31,12 @@ export function DataSourceCard({
           </div>
 
           <div className="flex items-center gap-2">
-            <Badge className={getStatusColor(source.syncStatus)}>{source.syncStatus}</Badge>
-            {source.connected && <div className="w-2 h-2 rounded-full bg-success animate-pulse" />}
+            <Badge className={getStatusColor(source.syncStatus)}>
+              {source.syncStatus}
+            </Badge>
+            {source.connected && (
+              <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+            )}
           </div>
         </div>
       </CardHeader>
@@ -47,7 +46,7 @@ export function DataSourceCard({
           <div className="text-sm">
             <span className="text-muted-foreground">Supported formats:</span>
             <div className="flex flex-wrap gap-1 mt-1">
-              {source.supportedFormats.slice(0, 3).map((format) => (
+              {source.supportedFormats.slice(0, 3).map(format => (
                 <Badge key={format} variant="outline" className="text-xs">
                   {format}
                 </Badge>

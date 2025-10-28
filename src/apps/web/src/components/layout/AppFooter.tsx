@@ -20,12 +20,12 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
               AI-powered development platform for building production-ready applications.
             </p>
           </div>
-
+          
           <div className="space-y-4">
             <h4 className="font-medium">Product</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <button
+                <button 
                   onClick={() => onPageChange('tools')}
                   className="text-muted-foreground hover:text-primary"
                 >
@@ -33,7 +33,7 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
                 </button>
               </li>
               <li>
-                <button
+                <button 
                   onClick={() => onPageChange('features')}
                   className="text-muted-foreground hover:text-primary"
                 >
@@ -41,7 +41,7 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
                 </button>
               </li>
               <li>
-                <button
+                <button 
                   onClick={() => onPageChange('pricing')}
                   className="text-muted-foreground hover:text-primary"
                 >
@@ -50,12 +50,12 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
               </li>
             </ul>
           </div>
-
+          
           <div className="space-y-4">
             <h4 className="font-medium">Company</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <button
+                <button 
                   onClick={() => onPageChange('about')}
                   className="text-muted-foreground hover:text-primary"
                 >
@@ -63,7 +63,7 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
                 </button>
               </li>
               <li>
-                <button
+                <button 
                   onClick={() => onPageChange('contact')}
                   className="text-muted-foreground hover:text-primary"
                 >
@@ -72,12 +72,12 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
               </li>
             </ul>
           </div>
-
+          
           <div className="space-y-4">
             <h4 className="font-medium">Legal</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <button
+                <button 
                   onClick={() => onPageChange('privacy')}
                   className="text-muted-foreground hover:text-primary"
                 >
@@ -85,7 +85,7 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
                 </button>
               </li>
               <li>
-                <button
+                <button 
                   onClick={() => onPageChange('terms')}
                   className="text-muted-foreground hover:text-primary"
                 >
@@ -95,7 +95,7 @@ export function AppFooter({ currentPage, isAuthenticated, onPageChange }: AppFoo
             </ul>
           </div>
         </div>
-
+        
         <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
           <p>© {currentYear} FlashFusion. All rights reserved.</p>
         </div>

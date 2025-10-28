@@ -24,16 +24,16 @@ const USER_PERSONAS: UserPersona[] = [
       'Code generation and optimization',
       'Full-stack app building',
       'Deployment automation',
-      'AI debugging assistance',
+      'AI debugging assistance'
     ],
     primaryTools: [
       'Full-Stack Builder',
-      'Code Generator',
+      'Code Generator', 
       'Deployment Manager',
-      'Performance Optimizer',
+      'Performance Optimizer'
     ],
     experience: 'intermediate',
-    timeToValue: '5 minutes',
+    timeToValue: '5 minutes'
   },
   {
     id: 'content-creator',
@@ -44,16 +44,16 @@ const USER_PERSONAS: UserPersona[] = [
       'Multi-platform content generation',
       'Brand voice consistency',
       'Social media automation',
-      'Monetization tools',
+      'Monetization tools'
     ],
     primaryTools: [
       'Creator Content Pipeline',
       'Brand Kit Generator',
       'Social Media Manager',
-      'Creator Commerce Hub',
+      'Creator Commerce Hub'
     ],
     experience: 'beginner',
-    timeToValue: '2 minutes',
+    timeToValue: '2 minutes'
   },
   {
     id: 'startup-team',
@@ -64,16 +64,16 @@ const USER_PERSONAS: UserPersona[] = [
       'Real-time collaboration',
       'Multi-agent workflows',
       'Rapid prototyping',
-      'Team coordination',
+      'Team coordination'
     ],
     primaryTools: [
       'Multi-Agent Orchestration',
       'Team Collaboration',
       'Project Manager',
-      'Analytics Dashboard',
+      'Analytics Dashboard'
     ],
     experience: 'advanced',
-    timeToValue: '10 minutes',
+    timeToValue: '10 minutes'
   },
   {
     id: 'agency-team',
@@ -84,16 +84,16 @@ const USER_PERSONAS: UserPersona[] = [
       'Client project management',
       'White-label solutions',
       'Bulk content generation',
-      'Team workflow automation',
+      'Team workflow automation'
     ],
     primaryTools: [
       'Multi-Project Orchestrator',
       'Client Portal',
       'Bulk Export Manager',
-      'Team Dashboard',
+      'Team Dashboard'
     ],
     experience: 'advanced',
-    timeToValue: '15 minutes',
+    timeToValue: '15 minutes'
   },
   {
     id: 'enterprise-developer',
@@ -104,17 +104,17 @@ const USER_PERSONAS: UserPersona[] = [
       'Enterprise security',
       'Compliance monitoring',
       'Advanced analytics',
-      'Custom integrations',
+      'Custom integrations'
     ],
     primaryTools: [
       'Security Compliance Monitor',
       'Enterprise Analytics',
       'Custom Integration Hub',
-      'Audit Dashboard',
+      'Audit Dashboard'
     ],
     experience: 'advanced',
-    timeToValue: '20 minutes',
-  },
+    timeToValue: '20 minutes'
+  }
 ];
 
 interface UserPersonaSelectionProps {
@@ -136,13 +136,14 @@ export function UserPersonaSelection({ onPersonaSelect, onSkip }: UserPersonaSel
       <div className="max-w-6xl mx-auto w-full">
         <div className="text-center space-y-6 mb-12">
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold ff-text-gradient">Welcome to FlashFusion</h1>
+            <h1 className="text-4xl font-bold ff-text-gradient">
+              Welcome to FlashFusion
+            </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Let's personalize your AI development experience. Choose the profile that best
-              describes you to get started with the most relevant tools.
+              Let's personalize your AI development experience. Choose the profile that best describes you to get started with the most relevant tools.
             </p>
           </div>
-
+          
           <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
               <span className="w-2 h-2 bg-primary rounded-full"></span>
@@ -173,16 +174,13 @@ export function UserPersonaSelection({ onPersonaSelect, onSkip }: UserPersonaSel
               <CardHeader className="text-center pb-4">
                 <div className="text-4xl mb-3">{persona.icon}</div>
                 <CardTitle className="text-xl mb-2">{persona.title}</CardTitle>
-                <p className="text-sm text-muted-foreground">{persona.description}</p>
+                <p className="text-sm text-muted-foreground">
+                  {persona.description}
+                </p>
                 <div className="flex items-center justify-center gap-2 mt-2">
-                  <Badge
-                    variant={
-                      persona.experience === 'beginner'
-                        ? 'default'
-                        : persona.experience === 'intermediate'
-                          ? 'secondary'
-                          : 'destructive'
-                    }
+                  <Badge 
+                    variant={persona.experience === 'beginner' ? 'default' : 
+                            persona.experience === 'intermediate' ? 'secondary' : 'destructive'}
                     className="text-xs"
                   >
                     {persona.experience}
@@ -192,23 +190,20 @@ export function UserPersonaSelection({ onPersonaSelect, onSkip }: UserPersonaSel
                   </Badge>
                 </div>
               </CardHeader>
-
+              
               <CardContent className="space-y-4">
                 <div>
                   <h4 className="font-semibold text-sm mb-2 text-foreground">Key Features:</h4>
                   <ul className="space-y-1">
                     {persona.features.slice(0, 3).map((feature, index) => (
-                      <li
-                        key={index}
-                        className="text-xs text-muted-foreground flex items-center gap-2"
-                      >
+                      <li key={index} className="text-xs text-muted-foreground flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
                         {feature}
                       </li>
                     ))}
                   </ul>
                 </div>
-
+                
                 <div>
                   <h4 className="font-semibold text-sm mb-2 text-foreground">Primary Tools:</h4>
                   <div className="flex flex-wrap gap-1">
@@ -230,10 +225,14 @@ export function UserPersonaSelection({ onPersonaSelect, onSkip }: UserPersonaSel
         </div>
 
         <div className="flex items-center justify-center gap-4">
-          <Button variant="outline" onClick={onSkip} className="px-8">
+          <Button
+            variant="outline"
+            onClick={onSkip}
+            className="px-8"
+          >
             Skip for now
           </Button>
-
+          
           <Button
             onClick={handleContinue}
             disabled={!selectedPersona}

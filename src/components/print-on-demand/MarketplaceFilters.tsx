@@ -11,10 +11,10 @@ interface MarketplaceFiltersProps {
   showOrderStatus?: boolean;
 }
 
-export function MarketplaceFilters({
-  filter,
-  onFilterChange,
-  showOrderStatus = false,
+export function MarketplaceFilters({ 
+  filter, 
+  onFilterChange, 
+  showOrderStatus = false 
 }: MarketplaceFiltersProps) {
   const handleFilterChange = (key: keyof FilterState, value: string) => {
     onFilterChange({ ...filter, [key]: value });
@@ -29,48 +29,48 @@ export function MarketplaceFilters({
           <Filter className="h-4 w-4 text-muted-foreground" />
           <span className="text-sm font-medium">Filters:</span>
         </div>
-
-        <Select
-          value={filter.marketplace}
+        
+        <Select 
+          value={filter.marketplace} 
           onValueChange={(value) => handleFilterChange('marketplace', value)}
         >
           <SelectTrigger className="w-40">
             <SelectValue placeholder="All Marketplaces" />
           </SelectTrigger>
           <SelectContent>
-            {FILTER_OPTIONS.MARKETPLACE.map((option) => (
+            {FILTER_OPTIONS.MARKETPLACE.map(option => (
               <SelectItem key={option.value} value={option.value}>
                 {option.label}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-
-        <Select
-          value={filter.status}
+        
+        <Select 
+          value={filter.status} 
           onValueChange={(value) => handleFilterChange('status', value)}
         >
           <SelectTrigger className="w-32">
             <SelectValue placeholder="All Status" />
           </SelectTrigger>
           <SelectContent>
-            {statusOptions.map((option) => (
+            {statusOptions.map(option => (
               <SelectItem key={option.value} value={option.value}>
                 {option.label}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-
-        <Select
-          value={filter.dateRange}
+        
+        <Select 
+          value={filter.dateRange} 
           onValueChange={(value) => handleFilterChange('dateRange', value)}
         >
           <SelectTrigger className="w-32">
             <SelectValue placeholder="30 days" />
           </SelectTrigger>
           <SelectContent>
-            {FILTER_OPTIONS.DATE_RANGE.map((option) => (
+            {FILTER_OPTIONS.DATE_RANGE.map(option => (
               <SelectItem key={option.value} value={option.value}>
                 {option.label}
               </SelectItem>

@@ -15,7 +15,15 @@ import { Slider } from '../../../ui/slider';
 import { Badge } from '../../../ui/badge';
 import { Separator } from '../../../ui/separator';
 import { Switch } from '../../../ui/switch';
-import { Settings, Dice6, Info, Zap, Target, RefreshCw, HelpCircle } from 'lucide-react';
+import { 
+  Settings, 
+  Dice6, 
+  Info, 
+  Zap, 
+  Target,
+  RefreshCw,
+  HelpCircle
+} from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../ui/tooltip';
 
 interface AdvancedSettingsProps {
@@ -35,14 +43,14 @@ export function AdvancedSettings({
   onGuidanceScaleChange,
   seed,
   onSeedChange,
-  onRandomSeed,
+  onRandomSeed
 }: AdvancedSettingsProps): JSX.Element {
   const [showTooltips, setShowTooltips] = useState<boolean>(false);
   const [customSeed, setCustomSeed] = useState<string>(seed?.toString() || '');
 
   const handleSeedInputChange = (value: string) => {
     setCustomSeed(value);
-
+    
     if (value === '') {
       onSeedChange(undefined);
     } else {
@@ -62,18 +70,20 @@ export function AdvancedSettings({
               <Settings className="h-4 w-4 text-[var(--ff-secondary)]" />
               Advanced Settings
             </CardTitle>
-
+            
             <div className="flex items-center gap-2">
               <Switch
                 checked={showTooltips}
                 onCheckedChange={setShowTooltips}
                 className="scale-75"
               />
-              <Label className="text-xs text-[var(--ff-text-muted)]">Help</Label>
+              <Label className="text-xs text-[var(--ff-text-muted)]">
+                Help
+              </Label>
             </div>
           </div>
         </CardHeader>
-
+        
         <CardContent className="space-y-6">
           {/* Inference Steps */}
           <div className="space-y-3">
@@ -87,33 +97,31 @@ export function AdvancedSettings({
                     </TooltipTrigger>
                     <TooltipContent side="top" className="max-w-xs">
                       <p className="text-xs">
-                        Number of denoising steps. More steps generally mean higher quality but
-                        longer generation time. 20-30 steps work well for most images.
+                        Number of denoising steps. More steps generally mean higher quality 
+                        but longer generation time. 20-30 steps work well for most images.
                       </p>
                     </TooltipContent>
                   </Tooltip>
                 )}
               </div>
-
+              
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="text-xs">
                   {steps} steps
                 </Badge>
-                <Badge
-                  variant="outline"
+                <Badge 
+                  variant="outline" 
                   className={`text-xs ${
-                    steps < 20
-                      ? 'text-yellow-600 border-yellow-600/20'
-                      : steps > 50
-                        ? 'text-red-600 border-red-600/20'
-                        : 'text-green-600 border-green-600/20'
+                    steps < 20 ? 'text-yellow-600 border-yellow-600/20' :
+                    steps > 50 ? 'text-red-600 border-red-600/20' :
+                    'text-green-600 border-green-600/20'
                   }`}
                 >
                   {steps < 20 ? 'Fast' : steps > 50 ? 'Slow' : 'Optimal'}
                 </Badge>
               </div>
             </div>
-
+            
             <Slider
               value={[steps]}
               onValueChange={([value]) => onStepsChange(value)}
@@ -122,13 +130,13 @@ export function AdvancedSettings({
               step={1}
               className="w-full"
             />
-
+            
             <div className="flex justify-between text-xs text-[var(--ff-text-muted)]">
               <span>1 (Fastest)</span>
               <span>50 (Balanced)</span>
               <span>100 (Highest Quality)</span>
             </div>
-
+            
             {/* Quick presets */}
             <div className="flex gap-2">
               <Button
@@ -175,34 +183,32 @@ export function AdvancedSettings({
                     </TooltipTrigger>
                     <TooltipContent side="top" className="max-w-xs">
                       <p className="text-xs">
-                        How closely the AI follows your prompt. Higher values (7-15) mean stricter
-                        adherence but may reduce creativity. Lower values (1-7) allow more artistic
-                        freedom.
+                        How closely the AI follows your prompt. Higher values (7-15) mean 
+                        stricter adherence but may reduce creativity. Lower values (1-7) 
+                        allow more artistic freedom.
                       </p>
                     </TooltipContent>
                   </Tooltip>
                 )}
               </div>
-
+              
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="text-xs">
                   {guidanceScale.toFixed(1)}
                 </Badge>
-                <Badge
-                  variant="outline"
+                <Badge 
+                  variant="outline" 
                   className={`text-xs ${
-                    guidanceScale < 5
-                      ? 'text-blue-600 border-blue-600/20'
-                      : guidanceScale > 12
-                        ? 'text-orange-600 border-orange-600/20'
-                        : 'text-green-600 border-green-600/20'
+                    guidanceScale < 5 ? 'text-blue-600 border-blue-600/20' :
+                    guidanceScale > 12 ? 'text-orange-600 border-orange-600/20' :
+                    'text-green-600 border-green-600/20'
                   }`}
                 >
                   {guidanceScale < 5 ? 'Creative' : guidanceScale > 12 ? 'Strict' : 'Balanced'}
                 </Badge>
               </div>
             </div>
-
+            
             <Slider
               value={[guidanceScale]}
               onValueChange={([value]) => onGuidanceScaleChange(value)}
@@ -211,7 +217,7 @@ export function AdvancedSettings({
               step={0.5}
               className="w-full"
             />
-
+            
             <div className="flex justify-between text-xs text-[var(--ff-text-muted)]">
               <span>1 (Most Creative)</span>
               <span>7.5 (Recommended)</span>
@@ -233,26 +239,26 @@ export function AdvancedSettings({
                     </TooltipTrigger>
                     <TooltipContent side="top" className="max-w-xs">
                       <p className="text-xs">
-                        Random seed for reproducible results. Use the same seed with identical
-                        settings to generate similar images. Leave empty for random generation.
+                        Random seed for reproducible results. Use the same seed with 
+                        identical settings to generate similar images. Leave empty 
+                        for random generation.
                       </p>
                     </TooltipContent>
                   </Tooltip>
                 )}
               </div>
-
-              <Badge
-                variant="outline"
+              
+              <Badge 
+                variant="outline" 
                 className={`text-xs ${
-                  seed
-                    ? 'text-[var(--ff-primary)] border-[var(--ff-primary)]/20'
-                    : 'text-[var(--ff-text-muted)]'
+                  seed ? 'text-[var(--ff-primary)] border-[var(--ff-primary)]/20' : 
+                  'text-[var(--ff-text-muted)]'
                 }`}
               >
                 {seed ? 'Fixed' : 'Random'}
               </Badge>
             </div>
-
+            
             <div className="flex gap-2">
               <Input
                 placeholder="Enter seed number..."
@@ -263,11 +269,15 @@ export function AdvancedSettings({
                 min="0"
                 max="999999999"
               />
-
-              <Button variant="outline" onClick={onRandomSeed} className="ff-btn-ghost px-3">
+              
+              <Button
+                variant="outline"
+                onClick={onRandomSeed}
+                className="ff-btn-ghost px-3"
+              >
                 <Dice6 className="h-4 w-4" />
               </Button>
-
+              
               <Button
                 variant="outline"
                 onClick={() => {
@@ -280,11 +290,12 @@ export function AdvancedSettings({
                 <RefreshCw className="h-4 w-4" />
               </Button>
             </div>
-
+            
             <p className="text-xs text-[var(--ff-text-muted)]">
-              {seed
+              {seed 
                 ? `Using seed ${seed} for reproducible results`
-                : 'Random seed will be generated for each image'}
+                : 'Random seed will be generated for each image'
+              }
             </p>
           </div>
 
@@ -296,12 +307,13 @@ export function AdvancedSettings({
                 <div className="flex items-start gap-2">
                   <Info className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-yellow-600">Performance Impact</p>
+                    <p className="text-sm font-medium text-yellow-600">
+                      Performance Impact
+                    </p>
                     <p className="text-xs text-yellow-600/80">
                       Current settings may result in longer generation times and higher costs.
                       {steps > 50 && ' Consider reducing steps for faster results.'}
-                      {guidanceScale > 15 &&
-                        ' Very high guidance may produce over-processed images.'}
+                      {guidanceScale > 15 && ' Very high guidance may produce over-processed images.'}
                     </p>
                   </div>
                 </div>

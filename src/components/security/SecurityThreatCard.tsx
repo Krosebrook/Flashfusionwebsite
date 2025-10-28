@@ -3,7 +3,14 @@ import { motion } from 'motion/react';
 import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { AlertTriangle, Shield, Clock, CheckCircle2, Eye, MoreHorizontal } from 'lucide-react';
+import { 
+  AlertTriangle, 
+  Shield, 
+  Clock, 
+  CheckCircle2, 
+  Eye,
+  MoreHorizontal
+} from 'lucide-react';
 import { SecurityThreat } from './types';
 import { THREAT_TYPES, SEVERITY_COLORS } from './constants';
 import { formatTimeAgo } from './utils';
@@ -20,27 +27,19 @@ export function SecurityThreatCard({ threat, onInvestigate, onResolve }: Securit
 
   const getStatusIcon = () => {
     switch (threat.status) {
-      case 'resolved':
-        return CheckCircle2;
-      case 'mitigated':
-        return Shield;
-      case 'investigating':
-        return Eye;
-      default:
-        return AlertTriangle;
+      case 'resolved': return CheckCircle2;
+      case 'mitigated': return Shield;
+      case 'investigating': return Eye;
+      default: return AlertTriangle;
     }
   };
 
   const getStatusColor = () => {
     switch (threat.status) {
-      case 'resolved':
-        return '#10B981';
-      case 'mitigated':
-        return '#3B82F6';
-      case 'investigating':
-        return '#F59E0B';
-      default:
-        return '#EF4444';
+      case 'resolved': return '#10B981';
+      case 'mitigated': return '#3B82F6';
+      case 'investigating': return '#F59E0B';
+      default: return '#EF4444';
     }
   };
 
@@ -53,19 +52,19 @@ export function SecurityThreatCard({ threat, onInvestigate, onResolve }: Securit
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <Card
+      <Card 
         className="relative overflow-hidden transition-all duration-300 hover:shadow-lg"
         style={{
           background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(10px)',
-          borderLeft: `4px solid ${severityColor}`,
+          borderLeft: `4px solid ${severityColor}`
         }}
       >
         <div className="p-6">
           {/* Header */}
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-start space-x-3">
-              <div
+              <div 
                 className="w-10 h-10 rounded-lg flex items-center justify-center mt-1"
                 style={{ backgroundColor: `${severityColor}15` }}
               >
@@ -74,30 +73,32 @@ export function SecurityThreatCard({ threat, onInvestigate, onResolve }: Securit
               <div className="flex-1">
                 <h3 className="font-semibold text-gray-900 mb-1">{threat.title}</h3>
                 <div className="flex items-center space-x-2 mb-2">
-                  <Badge
+                  <Badge 
                     className="text-xs capitalize"
                     style={{
                       backgroundColor: `${severityColor}15`,
                       color: severityColor,
-                      border: `1px solid ${severityColor}30`,
+                      border: `1px solid ${severityColor}30`
                     }}
                   >
                     {threat.severity}
                   </Badge>
-                  <Badge
-                    variant="outline"
+                  <Badge 
+                    variant="outline" 
                     className="text-xs"
                     style={{ color: threatConfig.color, borderColor: `${threatConfig.color}30` }}
                   >
                     {threatConfig.name}
                   </Badge>
                 </div>
-                <p className="text-sm text-gray-600 leading-relaxed">{threat.description}</p>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  {threat.description}
+                </p>
               </div>
             </div>
 
             <div className="flex items-center space-x-2">
-              <div
+              <div 
                 className="flex items-center space-x-1 px-2 py-1 rounded-full"
                 style={{ backgroundColor: `${statusColor}15` }}
               >
@@ -151,8 +152,8 @@ export function SecurityThreatCard({ threat, onInvestigate, onResolve }: Securit
           {/* Actions */}
           <div className="flex space-x-2">
             {threat.status === 'detected' && (
-              <Button
-                size="sm"
+              <Button 
+                size="sm" 
                 className="flex-1"
                 style={{ backgroundColor: '#F59E0B', color: 'white' }}
                 onClick={() => onInvestigate?.(threat.id)}
@@ -160,10 +161,10 @@ export function SecurityThreatCard({ threat, onInvestigate, onResolve }: Securit
                 Investigate
               </Button>
             )}
-
+            
             {threat.status === 'investigating' && (
-              <Button
-                size="sm"
+              <Button 
+                size="sm" 
                 className="flex-1"
                 style={{ backgroundColor: '#10B981', color: 'white' }}
                 onClick={() => onResolve?.(threat.id)}

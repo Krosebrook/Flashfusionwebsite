@@ -9,7 +9,11 @@ interface BackButtonProps {
   className?: string;
 }
 
-export default function BackButton({ href, label = 'Back', className = '' }: BackButtonProps) {
+export default function BackButton({ 
+  href, 
+  label = 'Back',
+  className = '' 
+}: BackButtonProps) {
   const router = useRouter();
 
   const handleClick = () => {
@@ -28,7 +32,7 @@ export default function BackButton({ href, label = 'Back', className = '' }: Bac
         color: 'var(--ff-text-secondary)',
         fontFamily: 'var(--ff-font-secondary)',
         fontSize: 'var(--ff-text-sm)',
-        padding: '0.5rem 0',
+        padding: '0.5rem 0'
       }}
       aria-label={label}
     >

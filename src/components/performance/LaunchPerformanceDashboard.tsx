@@ -5,37 +5,8 @@ import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
-import {
-  LineChart,
-  Line,
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from 'recharts';
-import {
-  Activity,
-  Users,
-  Zap,
-  AlertTriangle,
-  CheckCircle,
-  TrendingUp,
-  TrendingDown,
-  Server,
-  Clock,
-  Shield,
-  Cpu,
-  HardDrive,
-  Network,
-} from 'lucide-react';
+import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Activity, Users, Zap, AlertTriangle, CheckCircle, TrendingUp, TrendingDown, Server, Clock, Shield, Cpu, HardDrive, Network } from 'lucide-react';
 import { analyticsService } from '../../services/AnalyticsService';
 
 interface PerformanceMetric {
@@ -108,8 +79,8 @@ export function LaunchPerformanceDashboard() {
           threshold: { warning: 200, critical: 500 },
           history: Array.from({ length: 20 }, (_, i) => ({
             timestamp: Date.now() - (19 - i) * 60000,
-            value: Math.random() * 50 + 70,
-          })),
+            value: Math.random() * 50 + 70
+          }))
         },
         {
           id: 'active-users',
@@ -121,8 +92,8 @@ export function LaunchPerformanceDashboard() {
           threshold: { warning: 400, critical: 600 },
           history: Array.from({ length: 20 }, (_, i) => ({
             timestamp: Date.now() - (19 - i) * 60000,
-            value: Math.floor(Math.random() * 100) + 250 + i * 5,
-          })),
+            value: Math.floor(Math.random() * 100) + 250 + i * 5
+          }))
         },
         {
           id: 'error-rate',
@@ -134,8 +105,8 @@ export function LaunchPerformanceDashboard() {
           threshold: { warning: 2, critical: 5 },
           history: Array.from({ length: 20 }, (_, i) => ({
             timestamp: Date.now() - (19 - i) * 60000,
-            value: Math.random() * 1.5,
-          })),
+            value: Math.random() * 1.5
+          }))
         },
         {
           id: 'throughput',
@@ -147,13 +118,13 @@ export function LaunchPerformanceDashboard() {
           threshold: { warning: 800, critical: 1200 },
           history: Array.from({ length: 20 }, (_, i) => ({
             timestamp: Date.now() - (19 - i) * 60000,
-            value: Math.floor(Math.random() * 200) + 400 + i * 10,
-          })),
-        },
+            value: Math.floor(Math.random() * 200) + 400 + i * 10
+          }))
+        }
       ];
 
       // Update status based on thresholds
-      mockMetrics.forEach((metric) => {
+      mockMetrics.forEach(metric => {
         if (metric.value >= metric.threshold.critical) {
           metric.status = 'critical';
         } else if (metric.value >= metric.threshold.warning) {
@@ -164,7 +135,7 @@ export function LaunchPerformanceDashboard() {
       });
 
       const mockUserMetrics: UserMetrics = {
-        activeUsers: mockMetrics.find((m) => m.id === 'active-users')?.value || 0,
+        activeUsers: mockMetrics.find(m => m.id === 'active-users')?.value || 0,
         newSignups: Math.floor(Math.random() * 50) + 20,
         conversionRate: Math.random() * 30 + 65,
         onboardingCompletion: Math.random() * 20 + 75,
@@ -173,7 +144,7 @@ export function LaunchPerformanceDashboard() {
           { tool: 'Content Generator', usage: Math.random() * 80 + 100 },
           { tool: 'Multi-Agent Orchestration', usage: Math.random() * 60 + 80 },
           { tool: 'Brand Kit Generator', usage: Math.random() * 40 + 60 },
-          { tool: 'Analytics Dashboard', usage: Math.random() * 30 + 40 },
+          { tool: 'Analytics Dashboard', usage: Math.random() * 30 + 40 }
         ],
         userJourney: [
           { step: 'Landing', completion: 100, dropOff: 0 },
@@ -181,45 +152,41 @@ export function LaunchPerformanceDashboard() {
           { step: 'Onboarding', completion: 72, dropOff: 13 },
           { step: 'First Tool Use', completion: 68, dropOff: 4 },
           { step: 'Second Session', completion: 45, dropOff: 23 },
-          { step: 'Active User', completion: 38, dropOff: 7 },
-        ],
+          { step: 'Active User', completion: 38, dropOff: 7 }
+        ]
       };
 
       const mockSystemHealth: SystemHealth = {
         uptime: 99.8,
-        responseTime: mockMetrics.find((m) => m.id === 'response-time')?.value || 0,
-        errorRate: mockMetrics.find((m) => m.id === 'error-rate')?.value || 0,
-        throughput: mockMetrics.find((m) => m.id === 'throughput')?.value || 0,
+        responseTime: mockMetrics.find(m => m.id === 'response-time')?.value || 0,
+        errorRate: mockMetrics.find(m => m.id === 'error-rate')?.value || 0,
+        throughput: mockMetrics.find(m => m.id === 'throughput')?.value || 0,
         cpuUsage: Math.random() * 30 + 20,
         memoryUsage: Math.random() * 40 + 40,
         diskUsage: Math.random() * 20 + 60,
         networkLatency: Math.random() * 20 + 10,
         databaseConnections: Math.floor(Math.random() * 50) + 20,
-        queueLength: Math.floor(Math.random() * 10) + 5,
+        queueLength: Math.floor(Math.random() * 10) + 5
       };
 
       const mockAlerts: LaunchAlert[] = [
-        ...(mockMetrics.some((m) => m.status === 'critical')
-          ? [
-              {
-                id: 'critical-metric',
-                severity: 'critical' as const,
-                title: 'Critical Performance Alert',
-                message: 'Response time exceeding critical threshold',
-                timestamp: Date.now() - 300000,
-                resolved: false,
-                action: 'Scale infrastructure',
-              },
-            ]
-          : []),
+        ...(mockMetrics.some(m => m.status === 'critical') ? [{
+          id: 'critical-metric',
+          severity: 'critical' as const,
+          title: 'Critical Performance Alert',
+          message: 'Response time exceeding critical threshold',
+          timestamp: Date.now() - 300000,
+          resolved: false,
+          action: 'Scale infrastructure'
+        }] : []),
         {
           id: 'high-traffic',
           severity: 'info' as const,
           title: 'High Traffic Volume',
           message: 'User activity is 40% above normal levels',
           timestamp: Date.now() - 600000,
-          resolved: false,
-        },
+          resolved: false
+        }
       ];
 
       setMetrics(mockMetrics);
@@ -236,7 +203,7 @@ export function LaunchPerformanceDashboard() {
   // Auto-refresh effect
   useEffect(() => {
     fetchPerformanceData();
-
+    
     if (autoRefresh) {
       const interval = setInterval(fetchPerformanceData, refreshInterval);
       return () => clearInterval(interval);
@@ -244,45 +211,34 @@ export function LaunchPerformanceDashboard() {
   }, [autoRefresh, refreshInterval, fetchPerformanceData]);
 
   const overallStatus = useMemo(() => {
-    if (metrics.some((m) => m.status === 'critical')) return 'critical';
-    if (metrics.some((m) => m.status === 'warning')) return 'warning';
+    if (metrics.some(m => m.status === 'critical')) return 'critical';
+    if (metrics.some(m => m.status === 'warning')) return 'warning';
     return 'good';
   }, [metrics]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'good':
-        return 'text-green-500';
-      case 'warning':
-        return 'text-yellow-500';
-      case 'critical':
-        return 'text-red-500';
-      default:
-        return 'text-muted-foreground';
+      case 'good': return 'text-green-500';
+      case 'warning': return 'text-yellow-500';
+      case 'critical': return 'text-red-500';
+      default: return 'text-muted-foreground';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'good':
-        return CheckCircle;
-      case 'warning':
-        return AlertTriangle;
-      case 'critical':
-        return AlertTriangle;
-      default:
-        return Activity;
+      case 'good': return CheckCircle;
+      case 'warning': return AlertTriangle;
+      case 'critical': return AlertTriangle;
+      default: return Activity;
     }
   };
 
   const getTrendIcon = (trend: string) => {
     switch (trend) {
-      case 'up':
-        return TrendingUp;
-      case 'down':
-        return TrendingDown;
-      default:
-        return Activity;
+      case 'up': return TrendingUp;
+      case 'down': return TrendingDown;
+      default: return Activity;
     }
   };
 
@@ -312,22 +268,19 @@ export function LaunchPerformanceDashboard() {
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h1 className="text-3xl font-bold ff-text-gradient">Launch Performance Dashboard</h1>
-          <p className="text-muted-foreground">Real-time monitoring for 500+ user stability</p>
+          <p className="text-muted-foreground">
+            Real-time monitoring for 500+ user stability
+          </p>
         </div>
-
+        
         <div className="flex items-center gap-3">
-          <Badge
+          <Badge 
             variant={overallStatus === 'good' ? 'default' : 'destructive'}
             className={`${overallStatus === 'good' ? 'ff-badge-glow' : ''} font-medium`}
           >
-            System{' '}
-            {overallStatus === 'good'
-              ? 'Healthy'
-              : overallStatus === 'warning'
-                ? 'Warning'
-                : 'Critical'}
+            System {overallStatus === 'good' ? 'Healthy' : overallStatus === 'warning' ? 'Warning' : 'Critical'}
           </Badge>
-
+          
           <Button
             variant="outline"
             size="sm"
@@ -337,7 +290,7 @@ export function LaunchPerformanceDashboard() {
             <Activity className={`h-4 w-4 mr-2 ${autoRefresh ? 'animate-pulse' : ''}`} />
             Auto Refresh
           </Button>
-
+          
           <Button
             variant="outline"
             size="sm"
@@ -350,13 +303,12 @@ export function LaunchPerformanceDashboard() {
       </div>
 
       {/* Critical Alerts */}
-      {alerts.some((a) => a.severity === 'critical' && !a.resolved) && (
+      {alerts.some(a => a.severity === 'critical' && !a.resolved) && (
         <Alert className="border-destructive bg-destructive/5">
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle className="text-destructive">Critical Alerts Active</AlertTitle>
           <AlertDescription>
-            {alerts.filter((a) => a.severity === 'critical' && !a.resolved).length} critical issues
-            require immediate attention.
+            {alerts.filter(a => a.severity === 'critical' && !a.resolved).length} critical issues require immediate attention.
           </AlertDescription>
         </Alert>
       )}
@@ -366,7 +318,7 @@ export function LaunchPerformanceDashboard() {
         {metrics.map((metric) => {
           const StatusIcon = getStatusIcon(metric.status);
           const TrendIcon = getTrendIcon(metric.trend);
-
+          
           return (
             <Card key={metric.id} className="ff-card-interactive">
               <CardContent className="p-6">
@@ -374,53 +326,39 @@ export function LaunchPerformanceDashboard() {
                   <div className={`p-2 rounded-lg bg-muted ${getStatusColor(metric.status)}`}>
                     <StatusIcon className="h-5 w-5" />
                   </div>
-                  <Badge
+                  <Badge 
                     variant={metric.status === 'good' ? 'default' : 'destructive'}
                     className="text-xs"
                   >
                     {metric.status}
                   </Badge>
                 </div>
-
+                
                 <div className="space-y-2">
                   <h3 className="font-medium text-sm text-muted-foreground">{metric.name}</h3>
                   <div className="flex items-center gap-2">
                     <span className="text-2xl font-bold">
-                      {typeof metric.value === 'number'
-                        ? metric.value.toFixed(metric.unit === '%' ? 1 : 0)
-                        : metric.value}
+                      {typeof metric.value === 'number' ? metric.value.toFixed(metric.unit === '%' ? 1 : 0) : metric.value}
                     </span>
                     <span className="text-sm text-muted-foreground">{metric.unit}</span>
-                    <TrendIcon
-                      className={`h-4 w-4 ${
-                        metric.trend === 'up'
-                          ? 'text-green-500'
-                          : metric.trend === 'down'
-                            ? 'text-red-500'
-                            : 'text-muted-foreground'
-                      }`}
-                    />
+                    <TrendIcon className={`h-4 w-4 ${
+                      metric.trend === 'up' ? 'text-green-500' : 
+                      metric.trend === 'down' ? 'text-red-500' : 
+                      'text-muted-foreground'
+                    }`} />
                   </div>
-
+                  
                   <div className="space-y-1">
                     <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>
-                        Warning: {metric.threshold.warning}
-                        {metric.unit}
-                      </span>
-                      <span>
-                        Critical: {metric.threshold.critical}
-                        {metric.unit}
-                      </span>
+                      <span>Warning: {metric.threshold.warning}{metric.unit}</span>
+                      <span>Critical: {metric.threshold.critical}{metric.unit}</span>
                     </div>
-                    <Progress
-                      value={(metric.value / metric.threshold.critical) * 100}
+                    <Progress 
+                      value={(metric.value / metric.threshold.critical) * 100} 
                       className={`h-2 ${
-                        metric.status === 'critical'
-                          ? 'bg-red-100'
-                          : metric.status === 'warning'
-                            ? 'bg-yellow-100'
-                            : 'bg-green-100'
+                        metric.status === 'critical' ? 'bg-red-100' :
+                        metric.status === 'warning' ? 'bg-yellow-100' : 
+                        'bg-green-100'
                       }`}
                     />
                   </div>
@@ -434,18 +372,10 @@ export function LaunchPerformanceDashboard() {
       {/* Detailed Analytics */}
       <Tabs defaultValue="performance" className="space-y-4">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="performance" className="ff-focus-ring">
-            Performance
-          </TabsTrigger>
-          <TabsTrigger value="users" className="ff-focus-ring">
-            Users
-          </TabsTrigger>
-          <TabsTrigger value="system" className="ff-focus-ring">
-            System Health
-          </TabsTrigger>
-          <TabsTrigger value="alerts" className="ff-focus-ring">
-            Alerts
-          </TabsTrigger>
+          <TabsTrigger value="performance" className="ff-focus-ring">Performance</TabsTrigger>
+          <TabsTrigger value="users" className="ff-focus-ring">Users</TabsTrigger>
+          <TabsTrigger value="system" className="ff-focus-ring">System Health</TabsTrigger>
+          <TabsTrigger value="alerts" className="ff-focus-ring">Alerts</TabsTrigger>
         </TabsList>
 
         <TabsContent value="performance" className="space-y-4">
@@ -459,28 +389,25 @@ export function LaunchPerformanceDashboard() {
                   <ResponsiveContainer width="100%" height={200}>
                     <LineChart data={metric.history}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                      <XAxis
-                        dataKey="timestamp"
+                      <XAxis 
+                        dataKey="timestamp" 
                         tickFormatter={(value) => new Date(value).toLocaleTimeString()}
                         stroke="rgba(255,255,255,0.5)"
                       />
                       <YAxis stroke="rgba(255,255,255,0.5)" />
-                      <Tooltip
+                      <Tooltip 
                         labelFormatter={(value) => new Date(value).toLocaleString()}
-                        formatter={(value: number) => [
-                          `${value.toFixed(1)}${metric.unit}`,
-                          metric.name,
-                        ]}
-                        contentStyle={{
+                        formatter={(value: number) => [`${value.toFixed(1)}${metric.unit}`, metric.name]}
+                        contentStyle={{ 
                           backgroundColor: 'var(--ff-surface)',
                           border: '1px solid var(--border)',
-                          borderRadius: 'var(--radius)',
+                          borderRadius: 'var(--radius)'
                         }}
                       />
-                      <Line
-                        type="monotone"
-                        dataKey="value"
-                        stroke="var(--ff-primary)"
+                      <Line 
+                        type="monotone" 
+                        dataKey="value" 
+                        stroke="var(--ff-primary)" 
                         strokeWidth={2}
                         dot={false}
                       />
@@ -503,19 +430,19 @@ export function LaunchPerformanceDashboard() {
                   <ResponsiveContainer width="100%" height={250}>
                     <BarChart data={userMetrics.toolUsage}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                      <XAxis
-                        dataKey="tool"
+                      <XAxis 
+                        dataKey="tool" 
                         angle={-45}
                         textAnchor="end"
                         height={80}
                         stroke="rgba(255,255,255,0.5)"
                       />
                       <YAxis stroke="rgba(255,255,255,0.5)" />
-                      <Tooltip
-                        contentStyle={{
+                      <Tooltip 
+                        contentStyle={{ 
                           backgroundColor: 'var(--ff-surface)',
                           border: '1px solid var(--border)',
-                          borderRadius: 'var(--radius)',
+                          borderRadius: 'var(--radius)'
                         }}
                       />
                       <Bar dataKey="usage" fill="var(--ff-primary)" />
@@ -541,10 +468,8 @@ export function LaunchPerformanceDashboard() {
                         <div className="relative">
                           <Progress value={step.completion} className="h-3" />
                           {step.dropOff > 0 && (
-                            <div
-                              className="absolute top-0 right-0 h-3 bg-red-500/20 rounded-r"
-                              style={{ width: `${step.dropOff}%` }}
-                            />
+                            <div className="absolute top-0 right-0 h-3 bg-red-500/20 rounded-r" 
+                                 style={{ width: `${step.dropOff}%` }} />
                           )}
                         </div>
                       </div>
@@ -576,18 +501,14 @@ export function LaunchPerformanceDashboard() {
                     <div className="text-center space-y-2">
                       <Zap className="h-8 w-8 mx-auto text-yellow-500" />
                       <div>
-                        <p className="text-2xl font-bold">
-                          {userMetrics.conversionRate.toFixed(1)}%
-                        </p>
+                        <p className="text-2xl font-bold">{userMetrics.conversionRate.toFixed(1)}%</p>
                         <p className="text-sm text-muted-foreground">Conversion Rate</p>
                       </div>
                     </div>
                     <div className="text-center space-y-2">
                       <CheckCircle className="h-8 w-8 mx-auto text-blue-500" />
                       <div>
-                        <p className="text-2xl font-bold">
-                          {userMetrics.onboardingCompletion.toFixed(1)}%
-                        </p>
+                        <p className="text-2xl font-bold">{userMetrics.onboardingCompletion.toFixed(1)}%</p>
                         <p className="text-sm text-muted-foreground">Onboarding Complete</p>
                       </div>
                     </div>
@@ -665,9 +586,7 @@ export function LaunchPerformanceDashboard() {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">Network Latency</span>
-                      <span className="font-medium">
-                        {systemHealth.networkLatency.toFixed(0)}ms
-                      </span>
+                      <span className="font-medium">{systemHealth.networkLatency.toFixed(0)}ms</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm text-muted-foreground">DB Connections</span>
@@ -696,30 +615,24 @@ export function LaunchPerformanceDashboard() {
               </Card>
             ) : (
               alerts.map((alert) => (
-                <Alert
+                <Alert 
                   key={alert.id}
                   className={`${
-                    alert.severity === 'critical'
-                      ? 'border-destructive bg-destructive/5'
-                      : alert.severity === 'warning'
-                        ? 'border-yellow-500 bg-yellow-500/5'
-                        : 'border-blue-500 bg-blue-500/5'
+                    alert.severity === 'critical' ? 'border-destructive bg-destructive/5' :
+                    alert.severity === 'warning' ? 'border-yellow-500 bg-yellow-500/5' :
+                    'border-blue-500 bg-blue-500/5'
                   }`}
                 >
-                  <AlertTriangle
-                    className={`h-4 w-4 ${
-                      alert.severity === 'critical'
-                        ? 'text-destructive'
-                        : alert.severity === 'warning'
-                          ? 'text-yellow-500'
-                          : 'text-blue-500'
-                    }`}
-                  />
+                  <AlertTriangle className={`h-4 w-4 ${
+                    alert.severity === 'critical' ? 'text-destructive' :
+                    alert.severity === 'warning' ? 'text-yellow-500' :
+                    'text-blue-500'
+                  }`} />
                   <div className="flex-1">
                     <AlertTitle className="flex items-center justify-between">
                       {alert.title}
                       <div className="flex items-center gap-2">
-                        <Badge
+                        <Badge 
                           variant={alert.severity === 'critical' ? 'destructive' : 'secondary'}
                           className="text-xs"
                         >

@@ -1,6 +1,6 @@
 /**
  * Test Environment Setup
- *
+ * 
  * Configures global test environment for Vitest
  * Target: 85%+ test coverage
  */
@@ -20,7 +20,7 @@ afterEach(() => {
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation((query) => ({
+  value: vi.fn().mockImplementation(query => ({
     matches: false,
     media: query,
     onchange: null,
@@ -88,7 +88,7 @@ beforeEach(() => {
     }
     originalError(...args);
   });
-
+  
   console.warn = vi.fn((...args) => {
     // Ignore specific expected warnings
     const msg = args[0]?.toString() || '';

@@ -3,17 +3,17 @@ import { motion } from 'motion/react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  Settings,
-  Key,
-  Code,
-  User as UserIcon,
+import { 
+  Settings, 
+  Key, 
+  Code, 
+  User as UserIcon, 
   Brain,
   FileText,
   Globe,
   TestTube,
   GitBranch,
-  Sliders,
+  Sliders
 } from 'lucide-react';
 import { User, UserStats } from '../../types';
 import { APIKeyManager } from '../settings/APIKeyManager';
@@ -33,7 +33,10 @@ export function SettingsPage({ user, userStats }: SettingsPageProps) {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
         <h1 className="text-3xl font-bold ff-text-gradient">Settings</h1>
         <p className="text-muted-foreground mt-2">
           Manage your account, AI models, and system preferences
@@ -208,9 +211,8 @@ export function SettingsPage({ user, userStats }: SettingsPageProps) {
               </div>
               <div className="mt-4 p-4 bg-muted/50 rounded-lg">
                 <p className="text-sm text-muted-foreground">
-                  <strong>Note:</strong> Premium and Enterprise features may require appropriate
-                  subscription tiers in production. These toggles are for development and testing
-                  purposes.
+                  <strong>Note:</strong> Premium and Enterprise features may require appropriate subscription tiers in production.
+                  These toggles are for development and testing purposes.
                 </p>
               </div>
             </CardContent>
@@ -240,10 +242,12 @@ export function SettingsPage({ user, userStats }: SettingsPageProps) {
                       {user ? 'Authenticated' : 'Guest User'}
                     </div>
                   </div>
-
+                  
                   <div className="space-y-2">
                     <div className="text-sm font-medium text-ff-text-primary">Session Type</div>
-                    <div className="text-ff-text-secondary">Development Mode</div>
+                    <div className="text-ff-text-secondary">
+                      Development Mode
+                    </div>
                   </div>
                 </div>
 
@@ -255,21 +259,21 @@ export function SettingsPage({ user, userStats }: SettingsPageProps) {
                       </div>
                       <div className="text-xs text-ff-text-muted">Total Projects</div>
                     </div>
-
+                    
                     <div className="text-center p-4 bg-ff-surface rounded-lg">
                       <div className="text-lg font-bold text-ff-secondary">
                         {userStats.toolsUsed}
                       </div>
                       <div className="text-xs text-ff-text-muted">Tools Used</div>
                     </div>
-
+                    
                     <div className="text-center p-4 bg-ff-surface rounded-lg">
                       <div className="text-lg font-bold text-ff-accent">
                         {userStats.downloadsGenerated}
                       </div>
                       <div className="text-xs text-ff-text-muted">Downloads</div>
                     </div>
-
+                    
                     <div className="text-center p-4 bg-ff-surface rounded-lg">
                       <div className="text-lg font-bold text-ff-success">
                         {userStats.collaborationSessions}

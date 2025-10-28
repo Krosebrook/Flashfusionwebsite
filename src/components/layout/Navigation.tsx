@@ -2,12 +2,12 @@ import React, { useState, useCallback } from 'react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
-import {
-  Menu,
-  Zap,
-  User,
-  Settings,
-  Bell,
+import { 
+  Menu, 
+  Zap, 
+  User, 
+  Settings, 
+  Bell, 
   Search,
   Home,
   Wrench,
@@ -23,14 +23,14 @@ import {
   TrendingUp,
   Rocket,
   BarChart3,
-  Brain,
+  Brain
 } from 'lucide-react';
-import {
-  ProfessionalIcon,
-  IconText,
-  NavigationIcon,
+import { 
+  ProfessionalIcon, 
+  IconText, 
+  NavigationIcon, 
   ActionIcon,
-  type IconSize,
+  type IconSize 
 } from '../ui/professional-icon-system';
 import type { PageType } from '../../types/core';
 
@@ -41,11 +41,11 @@ interface NavigationProps {
   onAuthToggle: () => void;
 }
 
-export function Navigation({
-  currentPage,
-  isAuthenticated,
-  onPageChange,
-  onAuthToggle,
+export function Navigation({ 
+  currentPage, 
+  isAuthenticated, 
+  onPageChange, 
+  onAuthToggle 
 }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -55,7 +55,7 @@ export function Navigation({
     { id: 'tools', label: 'AI Tools', icon: Wrench, public: true, badge: '60+' },
     { id: 'features', label: 'Features', icon: Star, public: true },
     { id: 'pricing', label: 'Pricing', icon: Crown, public: true },
-    { id: 'about', label: 'About', icon: HelpCircle, public: true },
+    { id: 'about', label: 'About', icon: HelpCircle, public: true }
   ] as const;
 
   const protectedItems = [
@@ -64,39 +64,46 @@ export function Navigation({
     { id: 'business-intelligence', label: 'Business Intelligence', icon: BarChart3, badge: 'New' },
     { id: 'insights', label: 'Analytics', icon: Activity },
     { id: 'settings', label: 'Settings', icon: Settings },
-    { id: 'notifications', label: 'Notifications', icon: Bell, badge: '3' },
+    { id: 'notifications', label: 'Notifications', icon: Bell, badge: '3' }
   ] as const;
 
   const launchItems = [
     { id: 'stability-testing', label: 'Stability Testing', icon: TestTube },
     { id: 'monitoring-system', label: 'Monitoring', icon: Activity },
     { id: 'marketing-campaign', label: 'Marketing', icon: TrendingUp },
-    { id: 'launch-preparation', label: 'Launch Prep', icon: Rocket },
+    { id: 'launch-preparation', label: 'Launch Prep', icon: Rocket }
   ] as const;
 
-  const handleNavigation = useCallback(
-    (page: PageType) => {
-      onPageChange(page);
-      setIsMobileMenuOpen(false);
-    },
-    [onPageChange]
-  );
+  const handleNavigation = useCallback((page: PageType) => {
+    onPageChange(page);
+    setIsMobileMenuOpen(false);
+  }, [onPageChange]);
 
   const handleAuth = useCallback(() => {
     onAuthToggle();
     setIsMobileMenuOpen(false);
   }, [onAuthToggle]);
 
-  const NavItem = ({ item, onClick }: { item: any; onClick: () => void }) => (
+  const NavItem = ({ 
+    item, 
+    onClick 
+  }: { 
+    item: any; 
+    onClick: () => void; 
+  }) => (
     <button
       onClick={onClick}
       className={`ff-nav-item flex items-center gap-3 w-full px-4 py-3 rounded-lg text-left transition-all ${
-        currentPage === item.id
-          ? 'active bg-primary/10 text-primary'
+        currentPage === item.id 
+          ? 'active bg-primary/10 text-primary' 
           : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
       }`}
     >
-      <NavigationIcon icon={item.icon} isActive={currentPage === item.id} size="md" />
+      <NavigationIcon
+        icon={item.icon}
+        isActive={currentPage === item.id}
+        size="md"
+      />
       <span className="font-semibold font-sora">{item.label}</span>
       {item.badge && (
         <Badge variant="secondary" className="ml-auto ff-text-xs">
@@ -136,12 +143,16 @@ export function Navigation({
                 size="sm"
                 onClick={() => handleNavigation(item.id as PageType)}
                 className={`ff-nav-item flex items-center gap-2 px-3 py-2 rounded-lg ff-text-sm font-semibold font-sora transition-all ${
-                  currentPage === item.id
-                    ? 'active bg-primary/10 text-primary'
+                  currentPage === item.id 
+                    ? 'active bg-primary/10 text-primary' 
                     : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                 }`}
               >
-                <NavigationIcon icon={item.icon} isActive={currentPage === item.id} size="sm" />
+                <NavigationIcon
+                  icon={item.icon}
+                  isActive={currentPage === item.id}
+                  size="sm"
+                />
                 <span>{item.label}</span>
                 {item.badge && (
                   <Badge variant="secondary" className="ml-1 ff-text-xs h-5">
@@ -188,10 +199,7 @@ export function Navigation({
                         size="sm"
                       />
                       {item.badge && (
-                        <Badge
-                          variant="destructive"
-                          className="absolute -top-1 -right-1 h-4 w-4 p-0 ff-text-xs"
-                        >
+                        <Badge variant="destructive" className="absolute -top-1 -right-1 h-4 w-4 p-0 ff-text-xs">
                           <span className="font-sora">{item.badge}</span>
                         </Badge>
                       )}
@@ -199,7 +207,7 @@ export function Navigation({
                     </Button>
                   ))}
                 </div>
-
+                
                 <Button
                   variant="ghost"
                   size="sm"

@@ -10,7 +10,7 @@ export function useAppConfiguration() {
     try {
       const result = initializeSimpleConfig();
       setConfigInitialized(true);
-
+      
       if (!result.validation.isValid && isProduction) {
         console.error('❌ Configuration validation failed in production');
       }
@@ -25,7 +25,7 @@ export function useAppConfiguration() {
     try {
       // Initialize Sentry for error monitoring
       initSentry();
-
+      
       // Initialize production monitoring only if configuration is valid
       if (isProduction && CONFIG.ANALYTICS_ENABLED && CONFIG.GA_MEASUREMENT_ID) {
         // Initialize Google Analytics
@@ -34,24 +34,20 @@ export function useAppConfiguration() {
         script.src = `https://www.googletagmanager.com/gtag/js?id=${CONFIG.GA_MEASUREMENT_ID}`;
         document.head.appendChild(script);
 
-        window.gtag =
-          window.gtag ||
-          function () {
-            (window.gtag.q = window.gtag.q || []).push(arguments);
-          };
+        window.gtag = window.gtag || function() {
+          (window.gtag.q = window.gtag.q || []).push(arguments);
+        };
         window.gtag('js', new Date());
         window.gtag('config', CONFIG.GA_MEASUREMENT_ID);
-
+        
         console.log('📊 Analytics initialized');
       }
-
+      
       // Set session ID for analytics
       if (!sessionStorage.getItem('ff-session-id')) {
-        sessionStorage.setItem(
-          'ff-session-id',
-          `ff-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-        );
+        sessionStorage.setItem('ff-session-id', `ff-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
       }
+      
     } catch (error) {
       console.debug('Monitoring initialization failed:', error);
     }

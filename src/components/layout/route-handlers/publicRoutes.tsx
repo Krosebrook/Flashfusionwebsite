@@ -23,7 +23,10 @@ import { AICodeIntelligenceSystem } from '../../ai/AICodeIntelligenceSystem';
 import { AdvancedCollaborationHub } from '../../collaboration/AdvancedCollaborationHub';
 import { ContactPage } from '../../pages/ContactPage';
 
-export function handlePublicRoutes(currentPage: PageType, onPageChange: (page: PageType) => void) {
+export function handlePublicRoutes(
+  currentPage: PageType,
+  onPageChange: (page: PageType) => void
+) {
   switch (currentPage) {
     case 'pricing':
       return <PricingPage />;
@@ -102,5 +105,5 @@ export const publicRoutes: PageType[] = [
   'advanced-deployment',
   'ai-code-intelligence',
   'advanced-collaboration',
-  'contact',
+  'contact'
 ];

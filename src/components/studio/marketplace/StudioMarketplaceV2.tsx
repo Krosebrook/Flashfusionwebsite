@@ -18,7 +18,7 @@ import {
   Calendar,
   Filter,
   Search,
-  Upload,
+  Upload
 } from 'lucide-react';
 
 interface MarketplaceListing {
@@ -88,7 +88,7 @@ const StudioMarketplaceV2: React.FC = () => {
 
   const loadMarketplaceData = async () => {
     // Simulate API calls
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     const mockListings: MarketplaceListing[] = [
       {
@@ -105,18 +105,18 @@ const StudioMarketplaceV2: React.FC = () => {
           avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Beatmaker',
           verified: true,
           totalSales: 1247,
-          rating: 4.8,
+          rating: 4.8
         },
         stats: {
           views: 5420,
           purchases: 342,
           favorites: 891,
-          conversionRate: 6.3,
+          conversionRate: 6.3
         },
         rating: 4.7,
         reviews: 89,
         tags: ['lo-fi', 'hip-hop', 'samples', 'drums'],
-        createdAt: new Date(Date.now() - 2592000000).toISOString(),
+        createdAt: new Date(Date.now() - 2592000000).toISOString()
       },
       {
         id: 'listing-2',
@@ -132,18 +132,18 @@ const StudioMarketplaceV2: React.FC = () => {
           avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Synth',
           verified: true,
           totalSales: 892,
-          rating: 4.9,
+          rating: 4.9
         },
         stats: {
           views: 3210,
           purchases: 248,
           favorites: 567,
-          conversionRate: 7.7,
+          conversionRate: 7.7
         },
         rating: 4.9,
         reviews: 67,
         tags: ['synthwave', '80s', 'presets', 'serum'],
-        createdAt: new Date(Date.now() - 1296000000).toISOString(),
+        createdAt: new Date(Date.now() - 1296000000).toISOString()
       },
       {
         id: 'listing-3',
@@ -159,19 +159,19 @@ const StudioMarketplaceV2: React.FC = () => {
           avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=EDM',
           verified: true,
           totalSales: 567,
-          rating: 4.6,
+          rating: 4.6
         },
         stats: {
           views: 4120,
           purchases: 178,
           favorites: 423,
-          conversionRate: 4.3,
+          conversionRate: 4.3
         },
         rating: 4.6,
         reviews: 45,
         tags: ['edm', 'templates', 'ableton', 'dance'],
-        createdAt: new Date(Date.now() - 864000000).toISOString(),
-      },
+        createdAt: new Date(Date.now() - 864000000).toISOString()
+      }
     ];
 
     const mockMyListings: MarketplaceListing[] = [
@@ -189,35 +189,35 @@ const StudioMarketplaceV2: React.FC = () => {
           avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Me',
           verified: false,
           totalSales: 45,
-          rating: 4.5,
+          rating: 4.5
         },
         stats: {
           views: 892,
           purchases: 45,
           favorites: 123,
-          conversionRate: 5.0,
+          conversionRate: 5.0
         },
         rating: 4.5,
         reviews: 12,
         tags: ['ambient', 'soundscapes', 'pads'],
-        createdAt: new Date(Date.now() - 432000000).toISOString(),
-      },
+        createdAt: new Date(Date.now() - 432000000).toISOString()
+      }
     ];
 
     const mockEarnings: EarningsData = {
       totalEarnings: 1124.55,
-      monthlyEarnings: 342.8,
-      pendingPayouts: 89.2,
+      monthlyEarnings: 342.80,
+      pendingPayouts: 89.20,
       lifetimeRevenue: 3450.75,
       revenueShare: 80, // 80/20 split
       chartData: [
-        { month: 'Jan', earnings: 120.5 },
-        { month: 'Feb', earnings: 180.3 },
-        { month: 'Mar', earnings: 240.7 },
-        { month: 'Apr', earnings: 198.4 },
-        { month: 'May', earnings: 280.9 },
-        { month: 'Jun', earnings: 342.8 },
-      ],
+        { month: 'Jan', earnings: 120.50 },
+        { month: 'Feb', earnings: 180.30 },
+        { month: 'Mar', earnings: 240.70 },
+        { month: 'Apr', earnings: 198.40 },
+        { month: 'May', earnings: 280.90 },
+        { month: 'Jun', earnings: 342.80 }
+      ]
     };
 
     const mockReviews: Review[] = [
@@ -229,7 +229,7 @@ const StudioMarketplaceV2: React.FC = () => {
         rating: 5,
         comment: 'Amazing soundscapes! Perfect for my ambient tracks.',
         createdAt: new Date(Date.now() - 86400000).toISOString(),
-        helpful: 8,
+        helpful: 8
       },
       {
         id: 'review-2',
@@ -239,8 +239,8 @@ const StudioMarketplaceV2: React.FC = () => {
         rating: 4,
         comment: 'Great quality, would love to see more variations.',
         createdAt: new Date(Date.now() - 172800000).toISOString(),
-        helpful: 5,
-      },
+        helpful: 5
+      }
     ];
 
     setListings(mockListings);
@@ -249,10 +249,9 @@ const StudioMarketplaceV2: React.FC = () => {
     setReviews(mockReviews);
   };
 
-  const filteredListings = listings.filter((listing) => {
-    const matchesSearch =
-      listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      listing.description.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredListings = listings.filter(listing => {
+    const matchesSearch = listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         listing.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || listing.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -265,29 +264,22 @@ const StudioMarketplaceV2: React.FC = () => {
           <h1 className="text-3xl font-bold text-white font-['Sora'] ff-text-gradient">
             FlashFusion Studio Marketplace
           </h1>
-          <p className="text-[#CBD5E1] mt-2 font-['Inter']">Buy and sell music production assets</p>
+          <p className="text-[#CBD5E1] mt-2 font-['Inter']">
+            Buy and sell music production assets
+          </p>
         </div>
 
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="w-full">
           <TabsList className="bg-[#1E293B] border-[#334155] mb-6">
-            <TabsTrigger
-              value="browse"
-              className="data-[state=active]:bg-[#FF7B00] data-[state=active]:text-white"
-            >
+            <TabsTrigger value="browse" className="data-[state=active]:bg-[#FF7B00] data-[state=active]:text-white">
               <ShoppingCart className="h-4 w-4 mr-2" />
               Browse
             </TabsTrigger>
-            <TabsTrigger
-              value="sell"
-              className="data-[state=active]:bg-[#FF7B00] data-[state=active]:text-white"
-            >
+            <TabsTrigger value="sell" className="data-[state=active]:bg-[#FF7B00] data-[state=active]:text-white">
               <Package className="h-4 w-4 mr-2" />
               My Listings
             </TabsTrigger>
-            <TabsTrigger
-              value="earnings"
-              className="data-[state=active]:bg-[#FF7B00] data-[state=active]:text-white"
-            >
+            <TabsTrigger value="earnings" className="data-[state=active]:bg-[#FF7B00] data-[state=active]:text-white">
               <DollarSign className="h-4 w-4 mr-2" />
               Earnings
             </TabsTrigger>
@@ -315,7 +307,11 @@ const StudioMarketplaceV2: React.FC = () => {
                       <Button
                         key={cat}
                         onClick={() => setSelectedCategory(cat)}
-                        className={selectedCategory === cat ? 'ff-btn-primary' : 'ff-btn-secondary'}
+                        className={
+                          selectedCategory === cat
+                            ? 'ff-btn-primary'
+                            : 'ff-btn-secondary'
+                        }
                         size="sm"
                       >
                         {cat.replace('-', ' ')}
@@ -351,7 +347,9 @@ const StudioMarketplaceV2: React.FC = () => {
                       <h3 className="text-lg font-bold text-white font-['Sora'] mb-1">
                         {listing.title}
                       </h3>
-                      <p className="text-sm text-[#94A3B8] line-clamp-2">{listing.description}</p>
+                      <p className="text-sm text-[#94A3B8] line-clamp-2">
+                        {listing.description}
+                      </p>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -454,9 +452,7 @@ const StudioMarketplaceV2: React.FC = () => {
                           </div>
                           <div>
                             <p className="text-xs text-[#94A3B8]">Sales</p>
-                            <p className="text-lg font-bold text-white">
-                              {listing.stats.purchases}
-                            </p>
+                            <p className="text-lg font-bold text-white">{listing.stats.purchases}</p>
                           </div>
                           <div>
                             <p className="text-xs text-[#94A3B8]">Rating</p>
@@ -467,9 +463,7 @@ const StudioMarketplaceV2: React.FC = () => {
                           </div>
                           <div>
                             <p className="text-xs text-[#94A3B8]">Conversion</p>
-                            <p className="text-lg font-bold text-white">
-                              {listing.stats.conversionRate}%
-                            </p>
+                            <p className="text-lg font-bold text-white">{listing.stats.conversionRate}%</p>
                           </div>
                         </div>
 
@@ -572,7 +566,9 @@ const StudioMarketplaceV2: React.FC = () => {
                         Manage
                       </Button>
                     </div>
-                    <Button className="w-full ff-btn-primary">Request Payout</Button>
+                    <Button className="w-full ff-btn-primary">
+                      Request Payout
+                    </Button>
                   </CardContent>
                 </Card>
               </>

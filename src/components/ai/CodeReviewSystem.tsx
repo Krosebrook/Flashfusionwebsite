@@ -6,20 +6,10 @@ import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { ScrollArea } from '../ui/scroll-area';
 import { Progress } from '../ui/progress';
-import {
-  Brain,
-  AlertTriangle,
-  CheckCircle,
-  Info,
-  Zap,
-  Code,
-  Shield,
-  Performance,
-  Accessibility,
-  TrendingUp,
-  Bug,
-  Lightbulb,
-  FileCode,
+import { 
+  Brain, AlertTriangle, CheckCircle, Info, Zap, 
+  Code, Shield, Performance, Accessibility, 
+  TrendingUp, Bug, Lightbulb, FileCode
 } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -74,8 +64,8 @@ export function AICodeReview({ projectId, files = [] }: AICodeReviewProps) {
     setIsAnalyzing(true);
     try {
       // Simulate AI code analysis
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
       const mockIssues: CodeIssue[] = [
         {
           id: '1',
@@ -93,7 +83,7 @@ const userEmail = user.email;`,
           fixedCode: `const userName = user?.name || 'Unknown';
 const userEmail = user?.email || '';`,
           impact: 'Could cause runtime errors and poor user experience',
-          effort: 'low',
+          effort: 'low'
         },
         {
           id: '2',
@@ -118,7 +108,7 @@ const userEmail = user?.email || '';`,
   });
 }, []);`,
           impact: 'May cause performance issues with frequent re-renders',
-          effort: 'medium',
+          effort: 'medium'
         },
         {
           id: '3',
@@ -140,7 +130,7 @@ const userEmail = user?.email || '';`,
   <Icon />
 </button>`,
           impact: 'Reduces accessibility for screen reader users',
-          effort: 'low',
+          effort: 'low'
         },
         {
           id: '4',
@@ -159,7 +149,7 @@ const userEmail = user?.email || '';`,
   return <div>{item.name}</div>;
 });`,
           impact: 'Minor performance improvement in list rendering',
-          effort: 'low',
+          effort: 'low'
         },
         {
           id: '5',
@@ -178,8 +168,8 @@ const userEmail = user?.email || '';`,
   __html: DOMPurify.sanitize(content) 
 }} />`,
           impact: 'Critical security vulnerability - could allow XSS attacks',
-          effort: 'low',
-        },
+          effort: 'low'
+        }
       ];
 
       const mockMetrics: CodeMetrics = {
@@ -190,7 +180,7 @@ const userEmail = user?.email || '';`,
         maintainability: 85,
         testCoverage: 68,
         complexity: 6.2,
-        duplicateCode: 12,
+        duplicateCode: 12
       };
 
       setIssues(mockIssues);
@@ -204,48 +194,32 @@ const userEmail = user?.email || '';`,
 
   const getIssueIcon = (type: string) => {
     switch (type) {
-      case 'error':
-        return AlertTriangle;
-      case 'warning':
-        return Info;
-      case 'suggestion':
-        return Lightbulb;
-      case 'info':
-        return CheckCircle;
-      default:
-        return Info;
+      case 'error': return AlertTriangle;
+      case 'warning': return Info;
+      case 'suggestion': return Lightbulb;
+      case 'info': return CheckCircle;
+      default: return Info;
     }
   };
 
   const getIssueColor = (severity: string) => {
     switch (severity) {
-      case 'critical':
-        return 'text-red-500';
-      case 'high':
-        return 'text-orange-500';
-      case 'medium':
-        return 'text-yellow-500';
-      case 'low':
-        return 'text-blue-500';
-      default:
-        return 'text-gray-500';
+      case 'critical': return 'text-red-500';
+      case 'high': return 'text-orange-500';
+      case 'medium': return 'text-yellow-500';
+      case 'low': return 'text-blue-500';
+      default: return 'text-gray-500';
     }
   };
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'performance':
-        return Performance;
-      case 'security':
-        return Shield;
-      case 'accessibility':
-        return Accessibility;
-      case 'best-practices':
-        return TrendingUp;
-      case 'bugs':
-        return Bug;
-      default:
-        return Code;
+      case 'performance': return Performance;
+      case 'security': return Shield;
+      case 'accessibility': return Accessibility;
+      case 'best-practices': return TrendingUp;
+      case 'bugs': return Bug;
+      default: return Code;
     }
   };
 
@@ -261,7 +235,7 @@ const userEmail = user?.email || '';`,
         <div className="text-center space-y-4">
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
           >
             <Brain className="h-12 w-12 text-primary mx-auto" />
           </motion.div>
@@ -296,7 +270,7 @@ const userEmail = user?.email || '';`,
             </div>
           </div>
         </Card>
-
+        
         <Card className="p-6">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-red-500/10 rounded-lg">
@@ -308,30 +282,26 @@ const userEmail = user?.email || '';`,
             </div>
           </div>
         </Card>
-
+        
         <Card className="p-6">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-green-500/10 rounded-lg">
               <CheckCircle className="h-6 w-6 text-green-500" />
             </div>
             <div>
-              <p className="text-2xl font-bold">
-                {issues.filter((i) => i.effort === 'low').length}
-              </p>
+              <p className="text-2xl font-bold">{issues.filter(i => i.effort === 'low').length}</p>
               <p className="text-sm text-muted-foreground">Quick Fixes</p>
             </div>
           </div>
         </Card>
-
+        
         <Card className="p-6">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-blue-500/10 rounded-lg">
               <Zap className="h-6 w-6 text-blue-500" />
             </div>
             <div>
-              <p className="text-2xl font-bold">
-                {issues.filter((i) => i.category === 'performance').length}
-              </p>
+              <p className="text-2xl font-bold">{issues.filter(i => i.category === 'performance').length}</p>
               <p className="text-sm text-muted-foreground">Performance</p>
             </div>
           </div>
@@ -357,7 +327,7 @@ const userEmail = user?.email || '';`,
                   { label: 'Performance', value: metrics.performance, icon: Performance },
                   { label: 'Security', value: metrics.security, icon: Shield },
                   { label: 'Accessibility', value: metrics.accessibility, icon: Accessibility },
-                  { label: 'Maintainability', value: metrics.maintainability, icon: TrendingUp },
+                  { label: 'Maintainability', value: metrics.maintainability, icon: TrendingUp }
                 ].map((metric) => {
                   const Icon = metric.icon;
                   return (
@@ -382,26 +352,21 @@ const userEmail = user?.email || '';`,
             <Card className="p-6">
               <h3 className="text-lg font-semibold mb-4">Issue Categories</h3>
               <div className="space-y-3">
-                {['bugs', 'performance', 'security', 'accessibility', 'best-practices'].map(
-                  (category) => {
-                    const categoryIssues = issues.filter((i) => i.category === category);
-                    const Icon = getCategoryIcon(category);
-                    return (
-                      <div
-                        key={category}
-                        className="flex items-center justify-between p-3 rounded-lg bg-muted/30"
-                      >
-                        <div className="flex items-center gap-3">
-                          <Icon className="h-5 w-5 text-muted-foreground" />
-                          <span className="capitalize">{category.replace('-', ' ')}</span>
-                        </div>
-                        <Badge variant={categoryIssues.length > 0 ? 'destructive' : 'secondary'}>
-                          {categoryIssues.length}
-                        </Badge>
+                {['bugs', 'performance', 'security', 'accessibility', 'best-practices'].map(category => {
+                  const categoryIssues = issues.filter(i => i.category === category);
+                  const Icon = getCategoryIcon(category);
+                  return (
+                    <div key={category} className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+                      <div className="flex items-center gap-3">
+                        <Icon className="h-5 w-5 text-muted-foreground" />
+                        <span className="capitalize">{category.replace('-', ' ')}</span>
                       </div>
-                    );
-                  }
-                )}
+                      <Badge variant={categoryIssues.length > 0 ? 'destructive' : 'secondary'}>
+                        {categoryIssues.length}
+                      </Badge>
+                    </div>
+                  );
+                })}
               </div>
             </Card>
           </div>
@@ -409,8 +374,8 @@ const userEmail = user?.email || '';`,
 
         <TabsContent value="issues" className="space-y-6">
           <div className="flex gap-2 mb-4">
-            <Button
-              variant="outline"
+            <Button 
+              variant="outline" 
               size="sm"
               onClick={() => analyzeCode()}
               className="ff-btn-primary"
@@ -434,8 +399,8 @@ const userEmail = user?.email || '';`,
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className={`p-4 rounded-lg border cursor-pointer transition-colors ${
-                          selectedIssue?.id === issue.id
-                            ? 'border-primary bg-primary/5'
+                          selectedIssue?.id === issue.id 
+                            ? 'border-primary bg-primary/5' 
                             : 'border-border hover:border-primary/50'
                         }`}
                         onClick={() => setSelectedIssue(issue)}
@@ -445,10 +410,8 @@ const userEmail = user?.email || '';`,
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
                               <h4 className="font-medium text-sm">{issue.title}</h4>
-                              <Badge
-                                variant={
-                                  issue.severity === 'critical' ? 'destructive' : 'secondary'
-                                }
+                              <Badge 
+                                variant={issue.severity === 'critical' ? 'destructive' : 'secondary'}
                                 className="text-xs"
                               >
                                 {issue.severity}
@@ -482,15 +445,11 @@ const userEmail = user?.email || '';`,
                     <FileCode className="h-5 w-5 text-primary" />
                     <h3 className="text-lg font-semibold">{selectedIssue.title}</h3>
                   </div>
-
+                  
                   <div className="space-y-2">
                     <p className="text-sm text-muted-foreground">{selectedIssue.description}</p>
-                    <p className="text-sm">
-                      <strong>Impact:</strong> {selectedIssue.impact}
-                    </p>
-                    <p className="text-sm">
-                      <strong>Effort:</strong> {selectedIssue.effort}
-                    </p>
+                    <p className="text-sm"><strong>Impact:</strong> {selectedIssue.impact}</p>
+                    <p className="text-sm"><strong>Effort:</strong> {selectedIssue.effort}</p>
                   </div>
 
                   <div>
@@ -553,7 +512,7 @@ const userEmail = user?.email || '';`,
                 <span className="text-sm font-medium">{metrics.testCoverage}%</span>
               </div>
             </Card>
-
+            
             <Card className="p-6">
               <h4 className="font-medium mb-2">Code Complexity</h4>
               <div className="flex items-center gap-2">
@@ -561,7 +520,7 @@ const userEmail = user?.email || '';`,
                 <span className="text-sm text-muted-foreground">avg cyclomatic</span>
               </div>
             </Card>
-
+            
             <Card className="p-6">
               <h4 className="font-medium mb-2">Duplicate Code</h4>
               <div className="flex items-center gap-2">
@@ -582,30 +541,28 @@ const userEmail = user?.email || '';`,
               {[
                 {
                   title: 'Implement Error Boundaries',
-                  description:
-                    'Add error boundaries to prevent crashes and improve user experience',
+                  description: 'Add error boundaries to prevent crashes and improve user experience',
                   priority: 'high',
-                  impact: 'Improves app stability and user experience',
+                  impact: 'Improves app stability and user experience'
                 },
                 {
                   title: 'Add Loading States',
                   description: 'Implement skeleton loaders and loading indicators for better UX',
                   priority: 'medium',
-                  impact: 'Better perceived performance',
+                  impact: 'Better perceived performance'
                 },
                 {
                   title: 'Optimize Bundle Size',
-                  description:
-                    'Use dynamic imports and code splitting to reduce initial bundle size',
+                  description: 'Use dynamic imports and code splitting to reduce initial bundle size',
                   priority: 'high',
-                  impact: 'Faster initial page load',
+                  impact: 'Faster initial page load'
                 },
                 {
                   title: 'Add Unit Tests',
                   description: 'Increase test coverage for critical components and functions',
                   priority: 'medium',
-                  impact: 'Reduces bugs and improves maintainability',
-                },
+                  impact: 'Reduces bugs and improves maintainability'
+                }
               ].map((suggestion, index) => (
                 <div key={index} className="p-4 rounded-lg border bg-muted/30">
                   <div className="flex items-start justify-between mb-2">
@@ -615,9 +572,7 @@ const userEmail = user?.email || '';`,
                     </Badge>
                   </div>
                   <p className="text-sm text-muted-foreground mb-2">{suggestion.description}</p>
-                  <p className="text-sm">
-                    <strong>Impact:</strong> {suggestion.impact}
-                  </p>
+                  <p className="text-sm"><strong>Impact:</strong> {suggestion.impact}</p>
                 </div>
               ))}
             </div>

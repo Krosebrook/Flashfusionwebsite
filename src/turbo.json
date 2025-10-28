@@ -1,12 +1,27 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
-  "globalDependencies": ["**/.env.*local", ".env", "tsconfig.json"],
+  "globalDependencies": [
+    "**/.env.*local",
+    ".env",
+    "tsconfig.json"
+  ],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*", "!**/*.test.ts", "!**/*.test.tsx"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "build/**", "storybook-static/**"]
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*",
+        "!**/*.test.ts",
+        "!**/*.test.tsx"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**",
+        "build/**",
+        "storybook-static/**"
+      ]
     },
     "dev": {
       "cache": false,
@@ -15,7 +30,11 @@
     "lint": {
       "dependsOn": ["^build"],
       "outputs": [],
-      "inputs": ["$TURBO_DEFAULT$", ".eslintrc*", ".eslintignore"]
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".eslintrc*",
+        ".eslintignore"
+      ]
     },
     "lint:fix": {
       "dependsOn": ["^build"],
@@ -24,12 +43,20 @@
     "type-check": {
       "dependsOn": ["^build"],
       "outputs": [],
-      "inputs": ["$TURBO_DEFAULT$", "tsconfig.json", "tsconfig.*.json"]
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "tsconfig.json",
+        "tsconfig.*.json"
+      ]
     },
     "test": {
       "dependsOn": ["^build"],
       "outputs": ["coverage/**"],
-      "inputs": ["$TURBO_DEFAULT$", "vitest.config.*", "jest.config.*"]
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "vitest.config.*",
+        "jest.config.*"
+      ]
     },
     "test:ui": {
       "cache": false,

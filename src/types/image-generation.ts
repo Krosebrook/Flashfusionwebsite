@@ -4,9 +4,9 @@
  * @category generation
  * @version 2.0.0
  * @author FlashFusion Team
- *
+ * 
  * FLASHFUSION - IMAGE GENERATION TYPES
- *
+ * 
  * Comprehensive type definitions for the AI image generation system,
  * including model configurations, generation parameters, and output formats.
  */
@@ -44,9 +44,9 @@ export interface AIModel {
 /**
  * Model Feature Capabilities
  */
-export type ModelFeature =
+export type ModelFeature = 
   | 'text-to-image'
-  | 'image-to-image'
+  | 'image-to-image' 
   | 'inpainting'
   | 'outpainting'
   | 'upscaling'
@@ -243,7 +243,7 @@ export interface GeneratedImage {
 /**
  * Image Status Types
  */
-export type ImageStatus =
+export type ImageStatus = 
   | 'generating'
   | 'completed'
   | 'failed'
@@ -270,7 +270,7 @@ export interface ImageEnhancement {
 /**
  * Enhancement Types
  */
-export type EnhancementType =
+export type EnhancementType = 
   | 'upscale'
   | 'super-resolution'
   | 'face-enhance'
@@ -340,7 +340,13 @@ export interface BatchGenerationJob {
 /**
  * Batch Job Status
  */
-export type BatchJobStatus = 'queued' | 'running' | 'paused' | 'completed' | 'failed' | 'cancelled';
+export type BatchJobStatus = 
+  | 'queued'
+  | 'running'
+  | 'paused'
+  | 'completed'
+  | 'failed'
+  | 'cancelled';
 
 /**
  * Image Generation Statistics
@@ -427,31 +433,30 @@ export const AI_MODELS: AIModel[] = [
   {
     id: 'dall-e-3',
     name: 'DALL-E 3',
-    description:
-      "OpenAI's latest image generation model with improved quality and prompt adherence",
+    description: 'OpenAI\'s latest image generation model with improved quality and prompt adherence',
     provider: 'OpenAI',
     version: '3.0',
     status: 'active',
     isPremium: true,
     features: ['text-to-image', 'batch-generation'],
-    costPerGeneration: 0.04,
+    costPerGeneration: 0.040,
     maxResolution: '1024x1024',
     supportedAspectRatios: ['1:1', '16:9', '9:16'],
-    avgGenerationTime: 15,
+    avgGenerationTime: 15
   },
   {
     id: 'dall-e-2',
     name: 'DALL-E 2',
-    description: "OpenAI's versatile image generation model",
+    description: 'OpenAI\'s versatile image generation model',
     provider: 'OpenAI',
     version: '2.0',
     status: 'active',
     isPremium: false,
     features: ['text-to-image', 'image-to-image', 'inpainting', 'batch-generation'],
-    costPerGeneration: 0.02,
+    costPerGeneration: 0.020,
     maxResolution: '1024x1024',
     supportedAspectRatios: ['1:1'],
-    avgGenerationTime: 12,
+    avgGenerationTime: 12
   },
   {
     id: 'stable-diffusion-xl',
@@ -465,7 +470,7 @@ export const AI_MODELS: AIModel[] = [
     costPerGeneration: 0.015,
     maxResolution: '1024x1024',
     supportedAspectRatios: ['1:1', '4:3', '3:4', '16:9', '9:16', '3:2', '2:3'],
-    avgGenerationTime: 8,
+    avgGenerationTime: 8
   },
   {
     id: 'midjourney-v6',
@@ -479,8 +484,8 @@ export const AI_MODELS: AIModel[] = [
     costPerGeneration: 0.025,
     maxResolution: '2048x2048',
     supportedAspectRatios: ['1:1', '4:3', '3:4', '16:9', '9:16', '2:3', '3:2', '5:4', '4:5'],
-    avgGenerationTime: 20,
-  },
+    avgGenerationTime: 20
+  }
 ];
 
 /**
@@ -499,14 +504,9 @@ export const STYLE_PRESETS: StylePreset[] = [
     recommendedSettings: {
       steps: 30,
       guidanceScale: 7.5,
-      negativePrompt: 'blurry, low quality, distorted, cartoon, anime',
+      negativePrompt: 'blurry, low quality, distorted, cartoon, anime'
     },
-    promptEnhancements: [
-      'professional photography',
-      'high resolution',
-      'detailed',
-      'realistic lighting',
-    ],
+    promptEnhancements: ['professional photography', 'high resolution', 'detailed', 'realistic lighting']
   },
   {
     id: 'digital-art',
@@ -519,9 +519,9 @@ export const STYLE_PRESETS: StylePreset[] = [
     isPremium: false,
     recommendedSettings: {
       steps: 25,
-      guidanceScale: 8.0,
+      guidanceScale: 8.0
     },
-    promptEnhancements: ['digital art', 'vibrant colors', 'detailed illustration'],
+    promptEnhancements: ['digital art', 'vibrant colors', 'detailed illustration']
   },
   {
     id: 'anime',
@@ -534,9 +534,9 @@ export const STYLE_PRESETS: StylePreset[] = [
     isPremium: false,
     recommendedSettings: {
       steps: 28,
-      guidanceScale: 7.0,
+      guidanceScale: 7.0
     },
-    promptEnhancements: ['anime style', 'manga art', 'detailed anime'],
+    promptEnhancements: ['anime style', 'manga art', 'detailed anime']
   },
   {
     id: 'oil-painting',
@@ -549,9 +549,9 @@ export const STYLE_PRESETS: StylePreset[] = [
     isPremium: true,
     recommendedSettings: {
       steps: 35,
-      guidanceScale: 8.5,
+      guidanceScale: 8.5
     },
-    promptEnhancements: ['oil painting', 'brushstrokes', 'artistic masterpiece'],
+    promptEnhancements: ['oil painting', 'brushstrokes', 'artistic masterpiece']
   },
   {
     id: 'cyberpunk',
@@ -564,10 +564,10 @@ export const STYLE_PRESETS: StylePreset[] = [
     isPremium: true,
     recommendedSettings: {
       steps: 30,
-      guidanceScale: 9.0,
+      guidanceScale: 9.0
     },
-    promptEnhancements: ['cyberpunk style', 'neon lights', 'futuristic city', 'high-tech'],
-  },
+    promptEnhancements: ['cyberpunk style', 'neon lights', 'futuristic city', 'high-tech']
+  }
 ];
 
 /**
@@ -579,50 +579,50 @@ export const ASPECT_RATIOS: AspectRatio[] = [
     label: 'Square',
     dimensions: { width: 1024, height: 1024 },
     category: 'square',
-    useCases: ['Social media posts', 'Profile pictures', 'Logos'],
+    useCases: ['Social media posts', 'Profile pictures', 'Logos']
   },
   {
     value: '4:3',
     label: 'Classic',
     dimensions: { width: 1024, height: 768 },
     category: 'landscape',
-    useCases: ['Traditional displays', 'Print media', 'Presentations'],
+    useCases: ['Traditional displays', 'Print media', 'Presentations']
   },
   {
     value: '3:4',
     label: 'Portrait',
     dimensions: { width: 768, height: 1024 },
     category: 'portrait',
-    useCases: ['Mobile screens', 'Book covers', 'Posters'],
+    useCases: ['Mobile screens', 'Book covers', 'Posters']
   },
   {
     value: '16:9',
     label: 'Widescreen',
     dimensions: { width: 1024, height: 576 },
     category: 'landscape',
-    useCases: ['YouTube thumbnails', 'Desktop wallpapers', 'TV displays'],
+    useCases: ['YouTube thumbnails', 'Desktop wallpapers', 'TV displays']
   },
   {
     value: '9:16',
     label: 'Mobile',
     dimensions: { width: 576, height: 1024 },
     category: 'portrait',
-    useCases: ['Instagram stories', 'TikTok videos', 'Mobile wallpapers'],
+    useCases: ['Instagram stories', 'TikTok videos', 'Mobile wallpapers']
   },
   {
     value: '3:2',
     label: 'Photo',
     dimensions: { width: 1024, height: 683 },
     category: 'landscape',
-    useCases: ['Photography', 'Print photos', 'Camera formats'],
+    useCases: ['Photography', 'Print photos', 'Camera formats']
   },
   {
     value: '2:3',
     label: 'Photo Portrait',
     dimensions: { width: 683, height: 1024 },
     category: 'portrait',
-    useCases: ['Portrait photography', 'Book pages', 'Magazine covers'],
-  },
+    useCases: ['Portrait photography', 'Book pages', 'Magazine covers']
+  }
 ];
 
 /**
@@ -634,29 +634,29 @@ export const QUALITY_SETTINGS: QualitySetting[] = [
     label: 'Draft',
     description: 'Quick generation for testing ideas',
     timeMultiplier: 0.5,
-    costMultiplier: 0.5,
+    costMultiplier: 0.5
   },
   {
     level: 50,
     label: 'Standard',
     description: 'Good quality for general use',
     timeMultiplier: 1.0,
-    costMultiplier: 1.0,
+    costMultiplier: 1.0
   },
   {
     level: 80,
     label: 'High',
     description: 'High quality for professional use',
     timeMultiplier: 1.5,
-    costMultiplier: 1.5,
+    costMultiplier: 1.5
   },
   {
     level: 100,
     label: 'Maximum',
     description: 'Highest quality for premium results',
     timeMultiplier: 2.0,
-    costMultiplier: 2.0,
-  },
+    costMultiplier: 2.0
+  }
 ];
 
 /**
@@ -671,7 +671,7 @@ export const EXPORT_FORMATS: ExportFormat[] = [
     supportsTransparency: true,
     supportsCompression: false,
     maxQuality: 100,
-    useCases: ['Web graphics', 'Logos', 'Images with transparency'],
+    useCases: ['Web graphics', 'Logos', 'Images with transparency']
   },
   {
     id: 'jpg',
@@ -681,7 +681,7 @@ export const EXPORT_FORMATS: ExportFormat[] = [
     supportsTransparency: false,
     supportsCompression: true,
     maxQuality: 100,
-    useCases: ['Photography', 'Web optimization', 'Print media'],
+    useCases: ['Photography', 'Web optimization', 'Print media']
   },
   {
     id: 'webp',
@@ -691,7 +691,7 @@ export const EXPORT_FORMATS: ExportFormat[] = [
     supportsTransparency: true,
     supportsCompression: true,
     maxQuality: 100,
-    useCases: ['Modern web', 'Fast loading', 'Google services'],
+    useCases: ['Modern web', 'Fast loading', 'Google services']
   },
   {
     id: 'svg',
@@ -701,6 +701,6 @@ export const EXPORT_FORMATS: ExportFormat[] = [
     supportsTransparency: true,
     supportsCompression: false,
     maxQuality: 100,
-    useCases: ['Vector graphics', 'Scalable images', 'Icons'],
-  },
+    useCases: ['Vector graphics', 'Scalable images', 'Icons']
+  }
 ];

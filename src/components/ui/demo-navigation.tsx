@@ -4,7 +4,7 @@
  * @category demo
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * Quick navigation component for accessing various component demos
  * and interactive showcases within the FlashFusion platform.
  */
@@ -13,7 +13,15 @@ import React from 'react';
 import { Button } from './button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card';
 import { Badge } from './badge';
-import { Crown, HelpCircle, Play, ExternalLink, Sparkles, Code, Eye } from 'lucide-react';
+import { 
+  Crown,
+  HelpCircle,
+  Play,
+  ExternalLink,
+  Sparkles,
+  Code,
+  Eye
+} from 'lucide-react';
 
 interface DemoNavigationProps {
   currentPath?: string;
@@ -29,7 +37,7 @@ export function DemoNavigation({ currentPath, onNavigate }: DemoNavigationProps)
       icon: <Crown className="w-5 h-5" />,
       path: '/pricing-faq-demo',
       tags: ['Dropdown', 'Pricing', 'FAQ'],
-      featured: true,
+      featured: true
     },
     {
       id: 'launch-readiness-demo',
@@ -38,8 +46,8 @@ export function DemoNavigation({ currentPath, onNavigate }: DemoNavigationProps)
       icon: <Sparkles className="w-5 h-5" />,
       path: '/launch-readiness-demo',
       tags: ['Launch', 'Assessment'],
-      featured: false,
-    },
+      featured: false
+    }
   ];
 
   const handleNavigate = (path: string) => {
@@ -65,12 +73,10 @@ export function DemoNavigation({ currentPath, onNavigate }: DemoNavigationProps)
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {demos.map((demo) => (
-            <Card
-              key={demo.id}
+            <Card 
+              key={demo.id} 
               className={`ff-card-interactive cursor-pointer transition-all duration-300 ${
-                currentPath?.includes(demo.id)
-                  ? 'ring-2 ring-[var(--ff-primary)] ring-opacity-50'
-                  : ''
+                currentPath?.includes(demo.id) ? 'ring-2 ring-[var(--ff-primary)] ring-opacity-50' : ''
               }`}
               onClick={() => handleNavigate(demo.path)}
             >
@@ -96,7 +102,7 @@ export function DemoNavigation({ currentPath, onNavigate }: DemoNavigationProps)
                     </p>
                   </div>
                 </div>
-
+                
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     {demo.tags.map((tag) => (
@@ -109,7 +115,7 @@ export function DemoNavigation({ currentPath, onNavigate }: DemoNavigationProps)
                       </Badge>
                     ))}
                   </div>
-
+                  
                   <Button
                     size="sm"
                     variant="ghost"
@@ -126,7 +132,7 @@ export function DemoNavigation({ currentPath, onNavigate }: DemoNavigationProps)
             </Card>
           ))}
         </div>
-
+        
         <div className="mt-4 p-3 bg-[var(--ff-surface-light)] rounded-lg">
           <div className="flex items-center gap-2 mb-2">
             <Eye className="w-4 h-4 text-[var(--ff-secondary)]" />

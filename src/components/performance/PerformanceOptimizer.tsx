@@ -5,30 +5,19 @@ import { Button } from '../ui/button';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Switch } from '../ui/switch';
-import {
-  Zap,
-  Gauge,
-  Brain,
-  AlertTriangle,
-  CheckCircle,
-  TrendingUp,
-  BarChart3,
-  Settings,
+import { 
+  Zap, Gauge, Brain, AlertTriangle, CheckCircle,
+  TrendingUp, BarChart3, Settings
 } from 'lucide-react';
 
 // Import our modular components and utilities
 import { MetricsCard } from './MetricsCard';
 import { OptimizationSuggestions } from './OptimizationSuggestions';
-import {
-  PerformanceMetric,
-  OptimizationSuggestion,
-  BundleAnalysis,
-  OptimizationSettings,
-} from './types';
-import {
-  MOCK_PERFORMANCE_METRICS,
-  MOCK_OPTIMIZATION_SUGGESTIONS,
-  MOCK_BUNDLE_ANALYSIS,
+import { PerformanceMetric, OptimizationSuggestion, BundleAnalysis, OptimizationSettings } from './types';
+import { 
+  MOCK_PERFORMANCE_METRICS, 
+  MOCK_OPTIMIZATION_SUGGESTIONS, 
+  MOCK_BUNDLE_ANALYSIS 
 } from './constants';
 import { getOverallScore, formatBytes, calculatePotentialSavings } from './utils';
 
@@ -48,7 +37,7 @@ export function PerformanceOptimizer({ projectId }: PerformanceOptimizerProps) {
     caching: true,
     compression: true,
     prefetching: false,
-    serviceWorker: false,
+    serviceWorker: false
   });
 
   useEffect(() => {
@@ -59,8 +48,8 @@ export function PerformanceOptimizer({ projectId }: PerformanceOptimizerProps) {
     setIsAnalyzing(true);
     try {
       // Simulate loading time
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
       setMetrics(MOCK_PERFORMANCE_METRICS);
       setSuggestions(MOCK_OPTIMIZATION_SUGGESTIONS);
       setBundleAnalysis(MOCK_BUNDLE_ANALYSIS);
@@ -72,9 +61,11 @@ export function PerformanceOptimizer({ projectId }: PerformanceOptimizerProps) {
   };
 
   const handleImplementSuggestion = (suggestionId: string) => {
-    setSuggestions((prev) =>
-      prev.map((suggestion) =>
-        suggestion.id === suggestionId ? { ...suggestion, isImplemented: true } : suggestion
+    setSuggestions(prev => 
+      prev.map(suggestion => 
+        suggestion.id === suggestionId 
+          ? { ...suggestion, isImplemented: true }
+          : suggestion
       )
     );
   };
@@ -82,7 +73,7 @@ export function PerformanceOptimizer({ projectId }: PerformanceOptimizerProps) {
   const handleRunAudit = async () => {
     setIsAnalyzing(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
       await loadPerformanceData();
     } catch (error) {
       console.error('Error running audit:', error);
@@ -98,15 +89,14 @@ export function PerformanceOptimizer({ projectId }: PerformanceOptimizerProps) {
         <div className="text-center space-y-4">
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
           >
             <Brain className="h-12 w-12 text-primary mx-auto" />
           </motion.div>
           <div>
             <h3 className="text-lg font-semibold mb-2">Performance Analysis in Progress</h3>
             <p className="text-muted-foreground mb-4">
-              Analyzing your application's performance metrics and identifying optimization
-              opportunities...
+              Analyzing your application's performance metrics and identifying optimization opportunities...
             </p>
             <Progress value={65} className="w-64 mx-auto" />
           </div>
@@ -125,50 +115,42 @@ export function PerformanceOptimizer({ projectId }: PerformanceOptimizerProps) {
               <Gauge className="h-6 w-6 text-primary" />
             </div>
             <div>
-              <p
-                className={`text-2xl font-bold ${
-                  overallScore >= 90
-                    ? 'text-green-500'
-                    : overallScore >= 70
-                      ? 'text-yellow-500'
-                      : 'text-red-500'
-                }`}
-              >
+              <p className={`text-2xl font-bold ${
+                overallScore >= 90 ? 'text-green-500' :
+                overallScore >= 70 ? 'text-yellow-500' :
+                'text-red-500'
+              }`}>
                 {overallScore}
               </p>
               <p className="text-sm text-muted-foreground">Overall Score</p>
             </div>
           </div>
         </Card>
-
+        
         <Card className="p-6">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-red-500/10 rounded-lg">
               <AlertTriangle className="h-6 w-6 text-red-500" />
             </div>
             <div>
-              <p className="text-2xl font-bold">
-                {suggestions.filter((s) => !s.isImplemented).length}
-              </p>
+              <p className="text-2xl font-bold">{suggestions.filter(s => !s.isImplemented).length}</p>
               <p className="text-sm text-muted-foreground">Issues Found</p>
             </div>
           </div>
         </Card>
-
+        
         <Card className="p-6">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-green-500/10 rounded-lg">
               <CheckCircle className="h-6 w-6 text-green-500" />
             </div>
             <div>
-              <p className="text-2xl font-bold">
-                {suggestions.filter((s) => s.autoImplementable && !s.isImplemented).length}
-              </p>
+              <p className="text-2xl font-bold">{suggestions.filter(s => s.autoImplementable && !s.isImplemented).length}</p>
               <p className="text-sm text-muted-foreground">Auto-fixable</p>
             </div>
           </div>
         </Card>
-
+        
         <Card className="p-6">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-blue-500/10 rounded-lg">
@@ -191,7 +173,7 @@ export function PerformanceOptimizer({ projectId }: PerformanceOptimizerProps) {
             <TabsTrigger value="bundle">Bundle Analysis</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
-
+          
           <Button onClick={handleRunAudit} className="ff-btn-primary">
             <BarChart3 className="h-4 w-4 mr-2" />
             Run New Audit
@@ -203,7 +185,7 @@ export function PerformanceOptimizer({ projectId }: PerformanceOptimizerProps) {
         </TabsContent>
 
         <TabsContent value="suggestions" className="space-y-6">
-          <OptimizationSuggestions
+          <OptimizationSuggestions 
             suggestions={suggestions}
             onImplement={handleImplementSuggestion}
           />
@@ -268,8 +250,7 @@ export function PerformanceOptimizer({ projectId }: PerformanceOptimizerProps) {
                       {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      {key === 'codeSplitting' &&
-                        'Split code into smaller chunks for faster loading'}
+                      {key === 'codeSplitting' && 'Split code into smaller chunks for faster loading'}
                       {key === 'imageOptimization' && 'Automatically optimize and compress images'}
                       {key === 'caching' && 'Enable aggressive caching strategies'}
                       {key === 'compression' && 'Enable gzip/brotli compression'}
@@ -279,8 +260,8 @@ export function PerformanceOptimizer({ projectId }: PerformanceOptimizerProps) {
                   </div>
                   <Switch
                     checked={value}
-                    onCheckedChange={(checked) =>
-                      setOptimizationSettings((prev) => ({ ...prev, [key]: checked }))
+                    onCheckedChange={(checked) => 
+                      setOptimizationSettings(prev => ({ ...prev, [key]: checked }))
                     }
                   />
                 </div>

@@ -4,7 +4,7 @@
  * @category authentication
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * Handles OAuth authentication callbacks from social providers
  */
 
@@ -29,10 +29,10 @@ export function AuthCallback({ onAuthSuccess, onAuthError }: AuthCallbackProps) 
     const handleAuthCallback = async () => {
       try {
         console.log('🔄 Processing OAuth callback...');
-
+        
         // Get the session from URL
         const { data, error } = await supabase.auth.getSession();
-
+        
         if (error) {
           console.error('❌ OAuth callback error:', error);
           setError(error.message);
@@ -59,26 +59,25 @@ export function AuthCallback({ onAuthSuccess, onAuthError }: AuthCallbackProps) 
         // If profile doesn't exist, create it
         if (profileError && profileError.code === 'PGRST116') {
           console.log('📝 Creating new user profile for OAuth user');
-
+          
           const newProfile = {
             id: data.session.user.id,
             email: data.session.user.email,
-            name:
-              data.session.user.user_metadata?.full_name ||
-              data.session.user.user_metadata?.name ||
-              data.session.user.email?.split('@')[0] ||
-              'User',
-            avatar:
-              data.session.user.user_metadata?.avatar_url ||
-              data.session.user.user_metadata?.picture ||
-              `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.session.user.email}`,
+            name: data.session.user.user_metadata?.full_name || 
+                  data.session.user.user_metadata?.name || 
+                  data.session.user.email?.split('@')[0] || 'User',
+            avatar: data.session.user.user_metadata?.avatar_url || 
+                   data.session.user.user_metadata?.picture ||
+                   `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.session.user.email}`,
             created_at: new Date().toISOString(),
             subscription_tier: 'free',
             onboarding_completed: false,
-            role: 'user',
+            role: 'user'
           };
 
-          const { error: insertError } = await supabase.from('user_profiles').insert(newProfile);
+          const { error: insertError } = await supabase
+            .from('user_profiles')
+            .insert(newProfile);
 
           if (insertError) {
             console.warn('⚠️ Profile creation warning:', insertError.message);
@@ -92,19 +91,16 @@ export function AuthCallback({ onAuthSuccess, onAuthError }: AuthCallbackProps) 
         const user: AuthUser = {
           id: data.session.user.id,
           email: data.session.user.email || '',
-          name:
-            profile?.name ||
-            data.session.user.user_metadata?.full_name ||
-            data.session.user.user_metadata?.name ||
-            data.session.user.email?.split('@')[0] ||
-            'User',
-          avatar:
-            profile?.avatar ||
-            data.session.user.user_metadata?.avatar_url ||
-            data.session.user.user_metadata?.picture ||
-            `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.session.user.email}`,
+          name: profile?.name || 
+                data.session.user.user_metadata?.full_name || 
+                data.session.user.user_metadata?.name || 
+                data.session.user.email?.split('@')[0] || 'User',
+          avatar: profile?.avatar || 
+                  data.session.user.user_metadata?.avatar_url || 
+                  data.session.user.user_metadata?.picture ||
+                  `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.session.user.email}`,
           role: profile?.role || 'user',
-          subscription: profile?.subscription_tier || 'free',
+          subscription: profile?.subscription_tier || 'free'
         };
 
         // Store user data
@@ -115,9 +111,10 @@ export function AuthCallback({ onAuthSuccess, onAuthError }: AuthCallbackProps) 
         await checkAuthStatus();
 
         onAuthSuccess(user);
-
+        
         // Redirect to main app
         window.location.href = '/';
+        
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'OAuth callback failed';
         console.error('❌ OAuth callback processing failed:', errorMessage);
@@ -133,19 +130,19 @@ export function AuthCallback({ onAuthSuccess, onAuthError }: AuthCallbackProps) 
 
   if (error) {
     return (
-      <ErrorState
+      <ErrorState 
         error={error}
         mode="oauth-callback"
         retryCount={0}
         isRecovering={false}
         performanceMetrics={{}}
-        onRetry={() => (window.location.href = '/')}
+        onRetry={() => window.location.href = '/'}
       />
     );
   }
 
   return (
-    <LoadingState
+    <LoadingState 
       message="Completing authentication..."
       detail="Processing your login and setting up your account"
     />

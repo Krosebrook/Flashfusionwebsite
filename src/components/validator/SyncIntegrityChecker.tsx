@@ -4,10 +4,10 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  RefreshCw,
-  CheckCircle,
-  AlertTriangle,
+import { 
+  RefreshCw, 
+  CheckCircle, 
+  AlertTriangle, 
   XCircle,
   Shield,
   Eye,
@@ -33,7 +33,7 @@ import {
   Layers,
   CheckSquare,
   Square,
-  Minus,
+  Minus
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -102,7 +102,7 @@ export function SyncIntegrityChecker() {
     bandwidth: 1200,
     latency: 15,
     stability: 98,
-    dataUsage: 45.7,
+    dataUsage: 45.7
   });
   const [syncMetrics, setSyncMetrics] = useState({
     overallSyncHealth: 91,
@@ -110,7 +110,7 @@ export function SyncIntegrityChecker() {
     pendingConflicts: 3,
     syncedRecords: 24891,
     lastFullSync: '2 hours ago',
-    offlineDevices: 1,
+    offlineDevices: 1
   });
 
   // Initialize data
@@ -128,7 +128,7 @@ export function SyncIntegrityChecker() {
         conflictCount: 0,
         connectionQuality: 98,
         storageUsed: 2.4,
-        storageCapacity: 8.0,
+        storageCapacity: 8.0
       },
       {
         id: 'device-2',
@@ -142,7 +142,7 @@ export function SyncIntegrityChecker() {
         conflictCount: 2,
         connectionQuality: 76,
         storageUsed: 1.8,
-        storageCapacity: 4.0,
+        storageCapacity: 4.0
       },
       {
         id: 'device-3',
@@ -156,7 +156,7 @@ export function SyncIntegrityChecker() {
         conflictCount: 0,
         connectionQuality: 89,
         storageUsed: 3.2,
-        storageCapacity: 6.0,
+        storageCapacity: 6.0
       },
       {
         id: 'device-4',
@@ -170,8 +170,8 @@ export function SyncIntegrityChecker() {
         conflictCount: 0,
         connectionQuality: 0,
         storageUsed: 12.5,
-        storageCapacity: 50.0,
-      },
+        storageCapacity: 50.0
+      }
     ];
 
     const initialConflicts: DataConflict[] = [
@@ -187,7 +187,7 @@ export function SyncIntegrityChecker() {
         modifiedBy: ['Sarah Chen', 'Mike Rodriguez'],
         severity: 'medium',
         autoResolvable: false,
-        description: 'Simultaneous edits to requirements section with overlapping changes',
+        description: 'Simultaneous edits to requirements section with overlapping changes'
       },
       {
         id: 'conflict-2',
@@ -201,7 +201,7 @@ export function SyncIntegrityChecker() {
         modifiedBy: ['Emma Thompson'],
         severity: 'low',
         autoResolvable: true,
-        description: 'Status field mismatch between local and cloud versions',
+        description: 'Status field mismatch between local and cloud versions'
       },
       {
         id: 'conflict-3',
@@ -215,8 +215,8 @@ export function SyncIntegrityChecker() {
         modifiedBy: ['Alex Kim', 'Jordan Liu'],
         severity: 'high',
         autoResolvable: false,
-        description: 'Version rollback conflict detected with critical changes',
-      },
+        description: 'Version rollback conflict detected with critical changes'
+      }
     ];
 
     const initialOperations: SyncOperation[] = [
@@ -230,7 +230,7 @@ export function SyncIntegrityChecker() {
         startTime: '3 minutes ago',
         estimatedCompletion: '2 minutes',
         dataSize: 45.2,
-        retryCount: 0,
+        retryCount: 0
       },
       {
         id: 'op-2',
@@ -241,7 +241,7 @@ export function SyncIntegrityChecker() {
         progress: 0,
         startTime: '1 minute ago',
         dataSize: 2.8,
-        retryCount: 1,
+        retryCount: 1
       },
       {
         id: 'op-3',
@@ -252,8 +252,8 @@ export function SyncIntegrityChecker() {
         progress: 100,
         startTime: '15 minutes ago',
         dataSize: 18.9,
-        retryCount: 0,
-      },
+        retryCount: 0
+      }
     ];
 
     setSyncStatuses(initialSyncStatuses);
@@ -267,25 +267,20 @@ export function SyncIntegrityChecker() {
 
     // Simulate sync check process
     for (let i = 0; i <= 100; i += 4) {
-      await new Promise((resolve) => setTimeout(resolve, 120));
+      await new Promise(resolve => setTimeout(resolve, 120));
       setSyncProgress(i);
     }
 
     // Update some results after check
-    setSyncStatuses((prev) =>
-      prev.map((status) => ({
-        ...status,
-        lastSync: status.status === 'offline' ? status.lastSync : 'just now',
-        connectionQuality:
-          status.status === 'offline'
-            ? 0
-            : Math.min(100, status.connectionQuality + Math.floor(Math.random() * 8) - 2),
-      }))
-    );
+    setSyncStatuses(prev => prev.map(status => ({
+      ...status,
+      lastSync: status.status === 'offline' ? status.lastSync : 'just now',
+      connectionQuality: status.status === 'offline' ? 0 : Math.min(100, status.connectionQuality + Math.floor(Math.random() * 8) - 2)
+    })));
 
-    setSyncMetrics((prev) => ({
+    setSyncMetrics(prev => ({
       ...prev,
-      overallSyncHealth: Math.min(100, prev.overallSyncHealth + Math.floor(Math.random() * 6) - 1),
+      overallSyncHealth: Math.min(100, prev.overallSyncHealth + Math.floor(Math.random() * 6) - 1)
     }));
 
     setIsRunningSyncCheck(false);
@@ -356,14 +351,14 @@ export function SyncIntegrityChecker() {
     }
   };
 
-  const syncedDevices = syncStatuses.filter((status) => status.status === 'synced').length;
-  const conflictDevices = syncStatuses.filter((status) => status.status === 'conflict').length;
+  const syncedDevices = syncStatuses.filter(status => status.status === 'synced').length;
+  const conflictDevices = syncStatuses.filter(status => status.status === 'conflict').length;
   const totalPendingChanges = syncStatuses.reduce((sum, status) => sum + status.pendingChanges, 0);
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Header */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -373,13 +368,12 @@ export function SyncIntegrityChecker() {
           <h1 className="ff-text-gradient">Sync Integrity Checker</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Comprehensive offline/online data consistency validation with real-time conflict
-          resolution and intelligent merge strategies.
+          Comprehensive offline/online data consistency validation with real-time conflict resolution and intelligent merge strategies.
         </p>
       </motion.div>
 
       {/* Sync Health Overview */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
@@ -394,11 +388,10 @@ export function SyncIntegrityChecker() {
                     {syncMetrics.overallSyncHealth}
                   </span>
                 </div>
-                <div
-                  className="absolute inset-0 rounded-full border-4 border-primary"
-                  style={{
-                    background: `conic-gradient(from 0deg, var(--ff-primary) 0deg, var(--ff-primary) ${syncMetrics.overallSyncHealth * 3.6}deg, transparent ${syncMetrics.overallSyncHealth * 3.6}deg)`,
-                  }}
+                <div className="absolute inset-0 rounded-full border-4 border-primary" 
+                     style={{ 
+                       background: `conic-gradient(from 0deg, var(--ff-primary) 0deg, var(--ff-primary) ${syncMetrics.overallSyncHealth * 3.6}deg, transparent ${syncMetrics.overallSyncHealth * 3.6}deg)`
+                     }}
                 />
               </div>
               <div>
@@ -490,8 +483,8 @@ export function SyncIntegrityChecker() {
         transition={{ delay: 0.2 }}
         className="flex flex-wrap gap-4"
       >
-        <Button
-          onClick={runSyncIntegrityCheck}
+        <Button 
+          onClick={runSyncIntegrityCheck} 
           disabled={isRunningSyncCheck}
           className="ff-btn-primary"
           size="lg"
@@ -542,8 +535,7 @@ export function SyncIntegrityChecker() {
                   </div>
                   <Progress value={syncProgress} className="h-3" />
                   <p className="text-sm text-muted-foreground">
-                    Validating data consistency, detecting conflicts, and analyzing network
-                    status...
+                    Validating data consistency, detecting conflicts, and analyzing network status...
                   </p>
                 </div>
               </CardContent>
@@ -587,21 +579,19 @@ export function SyncIntegrityChecker() {
                             <div className="flex items-center space-x-3 mb-2">
                               {getStatusIcon(status.status)}
                               <h4 className="font-medium">{status.deviceName}</h4>
-                              <Badge variant="outline">{status.deviceType.toUpperCase()}</Badge>
+                              <Badge variant="outline">
+                                {status.deviceType.toUpperCase()}
+                              </Badge>
                             </div>
                             <p className="text-sm text-muted-foreground mb-3">
-                              Last sync: {status.lastSync} • {status.pendingChanges} pending •{' '}
-                              {status.conflictCount} conflicts
+                              Last sync: {status.lastSync} • {status.pendingChanges} pending • {status.conflictCount} conflicts
                             </p>
-
+                            
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                               <div className="space-y-1">
                                 <p className="text-xs text-muted-foreground">Connection Quality</p>
                                 <div className="flex items-center space-x-2">
-                                  <Progress
-                                    value={status.connectionQuality}
-                                    className="h-2 flex-1"
-                                  />
+                                  <Progress value={status.connectionQuality} className="h-2 flex-1" />
                                   <span className="text-sm font-medium">
                                     {status.connectionQuality}%
                                   </span>
@@ -610,10 +600,7 @@ export function SyncIntegrityChecker() {
                               <div className="space-y-1">
                                 <p className="text-xs text-muted-foreground">Storage Used</p>
                                 <div className="flex items-center space-x-2">
-                                  <Progress
-                                    value={(status.storageUsed / status.storageCapacity) * 100}
-                                    className="h-2 flex-1"
-                                  />
+                                  <Progress value={(status.storageUsed / status.storageCapacity) * 100} className="h-2 flex-1" />
                                   <span className="text-sm font-medium">
                                     {status.storageUsed}GB / {status.storageCapacity}GB
                                   </span>
@@ -637,7 +624,7 @@ export function SyncIntegrityChecker() {
                             </div>
                           </div>
                         </div>
-
+                        
                         <div className="flex space-x-2">
                           <Button size="sm" variant="outline">
                             <Eye className="w-3 h-3 mr-1" />
@@ -657,7 +644,7 @@ export function SyncIntegrityChecker() {
                           )}
                         </div>
                       </div>
-
+                      
                       <div className="flex items-center justify-between text-sm text-muted-foreground">
                         <div className="flex items-center space-x-4">
                           <span>Device ID: {status.deviceId}</span>
@@ -697,18 +684,13 @@ export function SyncIntegrityChecker() {
                                 {conflict.severity.toUpperCase()}
                               </Badge>
                               {conflict.autoResolvable && (
-                                <Badge
-                                  variant="outline"
-                                  className="text-green-500 border-green-500"
-                                >
+                                <Badge variant="outline" className="text-green-500 border-green-500">
                                   AUTO-RESOLVABLE
                                 </Badge>
                               )}
                             </div>
-                            <p className="text-sm text-muted-foreground mb-3">
-                              {conflict.description}
-                            </p>
-
+                            <p className="text-sm text-muted-foreground mb-3">{conflict.description}</p>
+                            
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                               <div className="p-3 bg-muted/50 rounded-lg">
                                 <p className="text-sm font-medium mb-1">Local Version</p>
@@ -726,7 +708,7 @@ export function SyncIntegrityChecker() {
                             </div>
                           </div>
                         </div>
-
+                        
                         <div className="flex space-x-2">
                           <Button size="sm" variant="outline">
                             <Eye className="w-3 h-3 mr-1" />
@@ -747,9 +729,7 @@ export function SyncIntegrityChecker() {
                 <div className="text-center py-12">
                   <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
                   <h3 className="font-medium mb-2">No Data Conflicts</h3>
-                  <p className="text-muted-foreground">
-                    All devices are synchronized without conflicts
-                  </p>
+                  <p className="text-muted-foreground">All devices are synchronized without conflicts</p>
                 </div>
               )}
             </div>
@@ -770,15 +750,10 @@ export function SyncIntegrityChecker() {
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-start space-x-4">
                           <div className="p-2 bg-primary/10 rounded-lg">
-                            {operation.operationType === 'upload' ? (
-                              <Upload className="w-4 h-4" />
-                            ) : operation.operationType === 'download' ? (
-                              <Download className="w-4 h-4" />
-                            ) : operation.operationType === 'merge' ? (
-                              <GitMerge className="w-4 h-4" />
-                            ) : (
-                              <RefreshCw className="w-4 h-4" />
-                            )}
+                            {operation.operationType === 'upload' ? <Upload className="w-4 h-4" /> :
+                             operation.operationType === 'download' ? <Download className="w-4 h-4" /> :
+                             operation.operationType === 'merge' ? <GitMerge className="w-4 h-4" /> :
+                             <RefreshCw className="w-4 h-4" />}
                           </div>
                           <div className="flex-1">
                             <div className="flex items-center space-x-3 mb-2">
@@ -789,10 +764,9 @@ export function SyncIntegrityChecker() {
                               </Badge>
                             </div>
                             <p className="text-sm text-muted-foreground mb-3">
-                              {operation.resourceType} • {operation.dataSize}MB • Started{' '}
-                              {operation.startTime}
+                              {operation.resourceType} • {operation.dataSize}MB • Started {operation.startTime}
                             </p>
-
+                            
                             {operation.status === 'in_progress' && (
                               <div className="space-y-2 mb-3">
                                 <div className="flex justify-between text-sm">
@@ -817,7 +791,7 @@ export function SyncIntegrityChecker() {
                             )}
                           </div>
                         </div>
-
+                        
                         <div className="flex space-x-2">
                           <Button size="sm" variant="outline">
                             <Eye className="w-3 h-3 mr-1" />
@@ -868,7 +842,7 @@ export function SyncIntegrityChecker() {
                       <p className="font-medium">{networkMetrics.latency}ms</p>
                     </div>
                   </div>
-
+                  
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>Network Stability</span>

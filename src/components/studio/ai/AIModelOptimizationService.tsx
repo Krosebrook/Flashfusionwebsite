@@ -3,17 +3,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { Button } from '../../ui/button';
 import { Badge } from '../../ui/badge';
 import { Progress } from '../../ui/progress';
-import {
-  Cpu,
-  Zap,
-  TrendingUp,
+import { 
+  Cpu, 
+  Zap, 
+  TrendingUp, 
   DollarSign,
   Clock,
   ThumbsUp,
   Activity,
   BarChart3,
   Target,
-  CheckCircle2,
+  CheckCircle2
 } from 'lucide-react';
 
 interface ModelMetrics {
@@ -71,7 +71,7 @@ const AIModelOptimizationService: React.FC = () => {
         costPerGeneration: 0.042,
         totalGenerations: 45230,
         successRate: 99.3,
-        trend: 'improving',
+        trend: 'improving'
       },
       {
         modelId: 'music-gen-v2',
@@ -82,7 +82,7 @@ const AIModelOptimizationService: React.FC = () => {
         costPerGeneration: 0.035,
         totalGenerations: 12450,
         successRate: 98.7,
-        trend: 'stable',
+        trend: 'stable'
       },
       {
         modelId: 'music-gen-fast',
@@ -93,8 +93,8 @@ const AIModelOptimizationService: React.FC = () => {
         costPerGeneration: 0.028,
         totalGenerations: 8920,
         successRate: 97.2,
-        trend: 'improving',
-      },
+        trend: 'improving'
+      }
     ];
     setModels(mockModels);
     setSelectedModel(mockModels[0].modelId);
@@ -107,36 +107,36 @@ const AIModelOptimizationService: React.FC = () => {
         before: 15.0,
         after: 8.2,
         improvement: 45.3,
-        status: 'completed',
+        status: 'completed'
       },
       {
         metric: 'Quality Score',
         before: 82,
         after: 87,
         improvement: 6.1,
-        status: 'completed',
+        status: 'completed'
       },
       {
         metric: 'Cost Efficiency',
         before: 0.062,
         after: 0.042,
         improvement: 32.3,
-        status: 'completed',
+        status: 'completed'
       },
       {
         metric: 'User Acceptance',
         before: 71,
         after: 78,
         improvement: 9.9,
-        status: 'in_progress',
+        status: 'in_progress'
       },
       {
         metric: 'Cache Hit Rate',
         before: 15,
         after: 42,
         improvement: 180.0,
-        status: 'completed',
-      },
+        status: 'completed'
+      }
     ];
     setOptimizations(mockOptimizations);
   };
@@ -150,7 +150,7 @@ const AIModelOptimizationService: React.FC = () => {
         winnerModel: 'MusicGen V3',
         confidenceLevel: 95.2,
         metricsCompared: ['Quality', 'User Satisfaction', 'Completion Rate'],
-        totalTests: 5420,
+        totalTests: 5420
       },
       {
         testId: 'test-002',
@@ -159,8 +159,8 @@ const AIModelOptimizationService: React.FC = () => {
         winnerModel: 'MusicGen V3',
         confidenceLevel: 98.7,
         metricsCompared: ['Speed', 'Quality', 'Cost'],
-        totalTests: 8930,
-      },
+        totalTests: 8930
+      }
     ];
     setAbTests(mockTests);
   };
@@ -168,7 +168,7 @@ const AIModelOptimizationService: React.FC = () => {
   const handleOptimizeModel = async () => {
     setIsOptimizing(true);
     // Simulate optimization process
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 2000));
     setIsOptimizing(false);
   };
 
@@ -207,7 +207,11 @@ const AIModelOptimizationService: React.FC = () => {
               Monitor, optimize, and A/B test AI music generation models
             </p>
           </div>
-          <Button onClick={handleOptimizeModel} disabled={isOptimizing} className="ff-btn-primary">
+          <Button
+            onClick={handleOptimizeModel}
+            disabled={isOptimizing}
+            className="ff-btn-primary"
+          >
             {isOptimizing ? (
               <>
                 <Activity className="h-4 w-4 mr-2 animate-spin" />
@@ -288,7 +292,9 @@ const AIModelOptimizationService: React.FC = () => {
         {/* Model Performance */}
         <Card className="ff-card-interactive bg-[#1E293B] border-[#334155]">
           <CardHeader>
-            <CardTitle className="text-white font-['Sora']">Model Performance Metrics</CardTitle>
+            <CardTitle className="text-white font-['Sora']">
+              Model Performance Metrics
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {models.map((model, index) => (
@@ -347,7 +353,7 @@ const AIModelOptimizationService: React.FC = () => {
                     <span className="text-white">{model.qualityScore}%</span>
                   </div>
                   <Progress value={model.qualityScore} className="h-2" />
-
+                  
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-[#94A3B8]">User Acceptance</span>
                     <span className="text-white">{model.userAcceptanceRate}%</span>
@@ -382,7 +388,9 @@ const AIModelOptimizationService: React.FC = () => {
                     {opt.status === 'in_progress' && (
                       <Activity className="h-5 w-5 text-yellow-500 animate-spin" />
                     )}
-                    <h3 className="text-lg font-semibold text-white font-['Sora']">{opt.metric}</h3>
+                    <h3 className="text-lg font-semibold text-white font-['Sora']">
+                      {opt.metric}
+                    </h3>
                   </div>
                   <Badge className={getStatusColor(opt.status)}>
                     {opt.status.replace('_', ' ')}
@@ -425,7 +433,9 @@ const AIModelOptimizationService: React.FC = () => {
         {/* A/B Test Results */}
         <Card className="ff-card-interactive bg-[#1E293B] border-[#334155]">
           <CardHeader>
-            <CardTitle className="text-white font-['Sora']">A/B Test Results</CardTitle>
+            <CardTitle className="text-white font-['Sora']">
+              A/B Test Results
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {abTests.map((test, index) => (

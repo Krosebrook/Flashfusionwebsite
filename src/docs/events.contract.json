@@ -11,7 +11,11 @@
         "label": "string"
       },
       "required": ["label"],
-      "examples": [{ "label": "hero_primary" }, { "label": "footer_cta" }, { "label": "pricing_upgrade" }]
+      "examples": [
+        { "label": "hero_primary" },
+        { "label": "footer_cta" },
+        { "label": "pricing_upgrade" }
+      ]
     },
     "scroll_depth": {
       "description": "User scrolled to a specific depth on page",
@@ -19,7 +23,12 @@
         "percent": "number(25|50|75|100)"
       },
       "required": ["percent"],
-      "examples": [{ "percent": 25 }, { "percent": 50 }, { "percent": 75 }, { "percent": 100 }]
+      "examples": [
+        { "percent": 25 },
+        { "percent": 50 },
+        { "percent": 75 },
+        { "percent": 100 }
+      ]
     },
     "lead_submit": {
       "description": "User submitted lead/waitlist form",
@@ -45,7 +54,10 @@
         "source": "string"
       },
       "required": ["source"],
-      "examples": [{ "source": "email_link" }, { "source": "app_notification" }]
+      "examples": [
+        { "source": "email_link" },
+        { "source": "app_notification" }
+      ]
     },
     "page_view": {
       "description": "User viewed a page",
@@ -54,7 +66,10 @@
         "referrer": "string?"
       },
       "required": ["page"],
-      "examples": [{ "page": "/", "referrer": "https://google.com" }, { "page": "/pricing" }]
+      "examples": [
+        { "page": "/", "referrer": "https://google.com" },
+        { "page": "/pricing" }
+      ]
     },
     "feature_interaction": {
       "description": "User interacted with a specific feature",
@@ -76,13 +91,22 @@
         "component": "string?"
       },
       "required": ["error_type", "error_message"],
-      "examples": [{ "error_type": "validation", "error_message": "Invalid email format", "component": "LeadForm" }]
+      "examples": [
+        { "error_type": "validation", "error_message": "Invalid email format", "component": "LeadForm" }
+      ]
     }
   },
   "validation_rules": {
     "event_naming": "snake_case only",
     "param_naming": "snake_case only",
     "max_params": 10,
-    "forbidden_pii": ["email", "phone", "address", "credit_card", "ssn", "password"]
+    "forbidden_pii": [
+      "email",
+      "phone",
+      "address",
+      "credit_card",
+      "ssn",
+      "password"
+    ]
   }
 }

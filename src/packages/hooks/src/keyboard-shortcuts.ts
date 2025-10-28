@@ -12,7 +12,7 @@ export function useKeyboardShortcuts({
   currentPage,
   isAuthenticated,
   onPageChange,
-  onError,
+  onError
 }: KeyboardShortcutsOptions) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -48,7 +48,7 @@ export function useKeyboardShortcuts({
               onError({
                 type: 'AUTH_REQUIRED',
                 message: 'Dashboard requires authentication',
-                code: 'UNAUTHORIZED',
+                code: 'UNAUTHORIZED'
               });
             }
             break;

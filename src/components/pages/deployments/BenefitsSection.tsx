@@ -18,7 +18,9 @@ export function BenefitsSection() {
                 {benefit.icon}
               </div>
               <h4 className="font-semibold mb-2">{benefit.title}</h4>
-              <p className="text-sm text-muted-foreground">{benefit.description}</p>
+              <p className="text-sm text-muted-foreground">
+                {benefit.description}
+              </p>
             </div>
           ))}
         </div>

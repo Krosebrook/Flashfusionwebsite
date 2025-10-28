@@ -4,11 +4,11 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  Brain,
-  Target,
-  TrendingUp,
-  DollarSign,
+import { 
+  Brain, 
+  Target, 
+  TrendingUp, 
+  DollarSign, 
   Users,
   CheckCircle,
   Clock,
@@ -31,7 +31,7 @@ import {
   Star,
   Activity,
   Layers,
-  Workflow,
+  Workflow
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import type { ValidationAnalysis, ValidationAgent, ValidationWorkflow } from '../../types/core';
@@ -42,14 +42,8 @@ interface AIValidationEngineProps {
   onBack?: () => void;
 }
 
-export function AIValidationEngine({
-  ideaId,
-  onAnalysisComplete,
-  onBack,
-}: AIValidationEngineProps) {
-  const [analysisPhase, setAnalysisPhase] = useState<'initializing' | 'analyzing' | 'completed'>(
-    'initializing'
-  );
+export function AIValidationEngine({ ideaId, onAnalysisComplete, onBack }: AIValidationEngineProps) {
+  const [analysisPhase, setAnalysisPhase] = useState<'initializing' | 'analyzing' | 'completed'>('initializing');
   const [currentStage, setCurrentStage] = useState(0);
   const [agents, setAgents] = useState<ValidationAgent[]>([]);
   const [analysis, setAnalysis] = useState<Partial<ValidationAnalysis>>({});
@@ -62,15 +56,15 @@ export function AIValidationEngine({
       description: 'Analyzing problem clarity and market need',
       agent: 'Problem Validator Pro',
       duration: 3000,
-      metrics: ['painPointClarity', 'targetAudienceSize', 'urgencyLevel', 'evidenceStrength'],
+      metrics: ['painPointClarity', 'targetAudienceSize', 'urgencyLevel', 'evidenceStrength']
     },
     {
       id: 'market-analysis',
-      name: 'Market Analysis',
+      name: 'Market Analysis', 
       description: 'Evaluating market size and competition',
       agent: 'Market Intelligence',
       duration: 4000,
-      metrics: ['marketSize', 'competitionLevel', 'marketTrends', 'entryBarriers'],
+      metrics: ['marketSize', 'competitionLevel', 'marketTrends', 'entryBarriers']
     },
     {
       id: 'revenue-modeling',
@@ -78,7 +72,7 @@ export function AIValidationEngine({
       description: 'Assessing monetization strategies',
       agent: 'Revenue Architect',
       duration: 3500,
-      metrics: ['monetizationViability', 'pricingStrategy', 'scalabilityPotential'],
+      metrics: ['monetizationViability', 'pricingStrategy', 'scalabilityPotential']
     },
     {
       id: 'distribution-analysis',
@@ -86,8 +80,8 @@ export function AIValidationEngine({
       description: 'Analyzing go-to-market pathways',
       agent: 'Distribution Strategist',
       duration: 3000,
-      metrics: ['channelAccessibility', 'acquisitionCost', 'networkEffects'],
-    },
+      metrics: ['channelAccessibility', 'acquisitionCost', 'networkEffects']
+    }
   ];
 
   // Initialize agents
@@ -99,12 +93,8 @@ export function AIValidationEngine({
         type: 'problem-validator',
         status: 'idle',
         progress: 0,
-        capabilities: [
-          'Problem clarity analysis',
-          'Pain point validation',
-          'Target audience sizing',
-        ],
-        lastActive: new Date().toISOString(),
+        capabilities: ['Problem clarity analysis', 'Pain point validation', 'Target audience sizing'],
+        lastActive: new Date().toISOString()
       },
       {
         id: 'agent-2',
@@ -113,7 +103,7 @@ export function AIValidationEngine({
         status: 'idle',
         progress: 0,
         capabilities: ['Market size estimation', 'Competitive analysis', 'Trend identification'],
-        lastActive: new Date().toISOString(),
+        lastActive: new Date().toISOString()
       },
       {
         id: 'agent-3',
@@ -122,7 +112,7 @@ export function AIValidationEngine({
         status: 'idle',
         progress: 0,
         capabilities: ['Business model validation', 'Pricing strategy', 'Revenue forecasting'],
-        lastActive: new Date().toISOString(),
+        lastActive: new Date().toISOString()
       },
       {
         id: 'agent-4',
@@ -130,17 +120,13 @@ export function AIValidationEngine({
         type: 'distribution-strategist',
         status: 'idle',
         progress: 0,
-        capabilities: [
-          'Channel optimization',
-          'Go-to-market strategy',
-          'Partnership identification',
-        ],
-        lastActive: new Date().toISOString(),
-      },
+        capabilities: ['Channel optimization', 'Go-to-market strategy', 'Partnership identification'],
+        lastActive: new Date().toISOString()
+      }
     ];
 
     setAgents(initialAgents);
-
+    
     // Start analysis after brief delay
     setTimeout(() => {
       setAnalysisPhase('analyzing');
@@ -152,18 +138,16 @@ export function AIValidationEngine({
     for (let i = 0; i < analysisStages.length; i++) {
       const stage = analysisStages[i];
       setCurrentStage(i);
-
+      
       // Update agent status
-      setAgents((prev) =>
-        prev.map((agent) =>
-          agent.name === stage.agent
-            ? { ...agent, status: 'working', currentTask: stage.description, progress: 0 }
-            : agent
-        )
-      );
+      setAgents(prev => prev.map(agent => 
+        agent.name === stage.agent 
+          ? { ...agent, status: 'working', currentTask: stage.description, progress: 0 }
+          : agent
+      ));
 
       // Simulate analysis progress
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         let progress = 0;
         const interval = setInterval(() => {
           progress += Math.random() * 15 + 5;
@@ -172,16 +156,14 @@ export function AIValidationEngine({
             clearInterval(interval);
             resolve(undefined);
           }
-
-          setAgents((prev) =>
-            prev.map((agent) =>
-              agent.name === stage.agent
-                ? { ...agent, progress, status: progress === 100 ? 'completed' : 'working' }
-                : agent
-            )
-          );
-
-          setTotalProgress((i / analysisStages.length) * 100 + progress / analysisStages.length);
+          
+          setAgents(prev => prev.map(agent => 
+            agent.name === stage.agent 
+              ? { ...agent, progress, status: progress === 100 ? 'completed' : 'working' }
+              : agent
+          ));
+          
+          setTotalProgress((i / analysisStages.length) * 100 + (progress / analysisStages.length));
         }, stage.duration / 20);
       });
 
@@ -198,76 +180,62 @@ export function AIValidationEngine({
   const generateStageResults = (stageId: string) => {
     switch (stageId) {
       case 'problem-validation':
-        setAnalysis((prev) => ({
+        setAnalysis(prev => ({
           ...prev,
           problemValidation: {
             score: Math.floor(Math.random() * 30) + 70,
             confidence: Math.floor(Math.random() * 20) + 80,
-            analysis:
-              'Strong problem-market fit identified with clear pain points and well-defined target audience. The problem shows urgency and has substantial evidence of market need.',
+            analysis: 'Strong problem-market fit identified with clear pain points and well-defined target audience. The problem shows urgency and has substantial evidence of market need.',
             painPointClarity: Math.floor(Math.random() * 20) + 80,
             targetAudienceSize: Math.floor(Math.random() * 25) + 70,
             urgencyLevel: Math.floor(Math.random() * 20) + 75,
-            evidenceStrength: Math.floor(Math.random() * 15) + 80,
-          },
+            evidenceStrength: Math.floor(Math.random() * 15) + 80
+          }
         }));
         break;
-
+      
       case 'market-analysis':
-        setAnalysis((prev) => ({
+        setAnalysis(prev => ({
           ...prev,
           marketAnalysis: {
             score: Math.floor(Math.random() * 25) + 65,
             confidence: Math.floor(Math.random() * 15) + 80,
-            analysis:
-              'Market shows strong growth potential with moderate competition. Entry barriers are manageable for well-executed solution with proper positioning.',
+            analysis: 'Market shows strong growth potential with moderate competition. Entry barriers are manageable for well-executed solution with proper positioning.',
             marketSize: Math.floor(Math.random() * 20) + 75,
             competitionLevel: Math.floor(Math.random() * 30) + 60,
             marketTrends: Math.floor(Math.random() * 15) + 80,
-            entryBarriers: Math.floor(Math.random() * 25) + 65,
-          },
+            entryBarriers: Math.floor(Math.random() * 25) + 65
+          }
         }));
         break;
-
+      
       case 'revenue-modeling':
-        setAnalysis((prev) => ({
+        setAnalysis(prev => ({
           ...prev,
           revenueModelAnalysis: {
             score: Math.floor(Math.random() * 20) + 75,
             confidence: Math.floor(Math.random() * 15) + 85,
-            analysis:
-              'Multiple viable monetization strategies identified with strong scalability potential. Subscription model shows highest promise for recurring revenue.',
+            analysis: 'Multiple viable monetization strategies identified with strong scalability potential. Subscription model shows highest promise for recurring revenue.',
             monetizationViability: Math.floor(Math.random() * 15) + 80,
             pricingStrategy: Math.floor(Math.random() * 20) + 75,
             scalabilityPotential: Math.floor(Math.random() * 10) + 85,
-            revenueStreams: [
-              'Subscription plans',
-              'Premium features',
-              'Partner commissions',
-              'Enterprise licensing',
-            ],
-          },
+            revenueStreams: ['Subscription plans', 'Premium features', 'Partner commissions', 'Enterprise licensing']
+          }
         }));
         break;
-
+      
       case 'distribution-analysis':
-        setAnalysis((prev) => ({
+        setAnalysis(prev => ({
           ...prev,
           distributionAnalysis: {
             score: Math.floor(Math.random() * 25) + 70,
             confidence: Math.floor(Math.random() * 20) + 75,
-            analysis:
-              'Strong digital distribution opportunities with potential for viral growth. Customer acquisition costs appear manageable with proper channel optimization.',
+            analysis: 'Strong digital distribution opportunities with potential for viral growth. Customer acquisition costs appear manageable with proper channel optimization.',
             channelAccessibility: Math.floor(Math.random() * 20) + 75,
             acquisitionCost: Math.floor(Math.random() * 25) + 65,
             networkEffects: Math.floor(Math.random() * 20) + 70,
-            recommendedChannels: [
-              'Content marketing',
-              'Social media',
-              'Partner referrals',
-              'App store optimization',
-            ],
-          },
+            recommendedChannels: ['Content marketing', 'Social media', 'Partner referrals', 'App store optimization']
+          }
         }));
         break;
     }
@@ -279,7 +247,7 @@ export function AIValidationEngine({
       analysis.problemValidation?.score || 0,
       analysis.marketAnalysis?.score || 0,
       analysis.revenueModelAnalysis?.score || 0,
-      analysis.distributionAnalysis?.score || 0,
+      analysis.distributionAnalysis?.score || 0
     ];
     const overallScore = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
 
@@ -303,13 +271,13 @@ export function AIValidationEngine({
         'Strong problem-market fit with validated pain points',
         'Growing market with room for differentiation',
         'Multiple viable monetization strategies available',
-        'Digital-first distribution strategy recommended',
+        'Digital-first distribution strategy recommended'
       ],
       actionItems: [
         'Develop minimum viable product (MVP)',
         'Conduct user interviews for validation',
         'Research competitor pricing strategies',
-        'Build strategic partnerships for distribution',
+        'Build strategic partnerships for distribution'
       ],
       competitorAnalysis: [],
       benchmarkData: {
@@ -317,20 +285,12 @@ export function AIValidationEngine({
         averageTimeToMarket: 12,
         typicalFundingRequired: '$500K - $2M',
         successRate: 35,
-        commonFailureReasons: [
-          'Poor product-market fit',
-          'Insufficient funding',
-          'Strong competition',
-        ],
-        keyMetrics: {
-          'Customer Acquisition Cost': 50,
-          'Monthly Churn Rate': 5.2,
-          'Customer Lifetime Value': 1200,
-        },
-        industryTrends: ['AI integration', 'Mobile-first approach', 'Subscription models'],
+        commonFailureReasons: ['Poor product-market fit', 'Insufficient funding', 'Strong competition'],
+        keyMetrics: { 'Customer Acquisition Cost': 50, 'Monthly Churn Rate': 5.2, 'Customer Lifetime Value': 1200 },
+        industryTrends: ['AI integration', 'Mobile-first approach', 'Subscription models']
       },
       createdAt: new Date().toISOString(),
-      creditsUsed: 5,
+      creditsUsed: 5
     };
 
     setAnalysis(completedAnalysis);
@@ -362,7 +322,7 @@ export function AIValidationEngine({
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Header */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -372,8 +332,7 @@ export function AIValidationEngine({
           <h1 className="ff-text-gradient">AI Validation Engine</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Our AI agents are analyzing your idea across multiple dimensions to provide comprehensive
-          validation insights.
+          Our AI agents are analyzing your idea across multiple dimensions to provide comprehensive validation insights.
         </p>
       </motion.div>
 
@@ -397,9 +356,10 @@ export function AIValidationEngine({
               <Progress value={totalProgress} className="h-3" />
               <div className="flex justify-between text-sm text-muted-foreground">
                 <span>
-                  {analysisPhase === 'completed'
-                    ? 'Analysis complete'
-                    : `Stage ${currentStage + 1} of ${analysisStages.length}`}
+                  {analysisPhase === 'completed' 
+                    ? 'Analysis complete' 
+                    : `Stage ${currentStage + 1} of ${analysisStages.length}`
+                  }
                 </span>
                 <span>{Math.round(totalProgress)}%</span>
               </div>
@@ -416,10 +376,10 @@ export function AIValidationEngine({
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
       >
         {analysisStages.map((stage, index) => {
-          const agent = agents.find((a) => a.name === stage.agent);
+          const agent = agents.find(a => a.name === stage.agent);
           const isActive = index === currentStage && analysisPhase === 'analyzing';
           const isCompleted = index < currentStage || analysisPhase === 'completed';
-
+          
           return (
             <motion.div
               key={stage.id}
@@ -427,9 +387,7 @@ export function AIValidationEngine({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card
-                className={`${isActive ? 'border-primary/50 bg-primary/5' : ''} transition-colors`}
-              >
+              <Card className={`${isActive ? 'border-primary/50 bg-primary/5' : ''} transition-colors`}>
                 <CardContent className="p-4">
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
@@ -444,16 +402,18 @@ export function AIValidationEngine({
                         <span className="text-sm font-medium">{stage.name}</span>
                       </div>
                     </div>
-
+                    
                     <p className="text-xs text-muted-foreground">{stage.description}</p>
-
+                    
                     {agent && (
                       <div className="space-y-2">
                         <div className="flex items-center justify-between text-xs">
                           <span className="text-muted-foreground">{agent.name}</span>
                           <span className="font-medium">{Math.round(agent.progress)}%</span>
                         </div>
-                        {isActive && <Progress value={agent.progress} className="h-1" />}
+                        {isActive && (
+                          <Progress value={agent.progress} className="h-1" />
+                        )}
                       </div>
                     )}
                   </div>
@@ -484,25 +444,18 @@ export function AIValidationEngine({
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {agents
-                    .filter((agent) => agent.status === 'working')
-                    .map((agent) => (
-                      <div
-                        key={agent.id}
-                        className="flex items-center space-x-4 p-3 bg-muted/50 rounded-lg"
-                      >
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="font-medium">{agent.name}</span>
-                            <span className="text-sm text-muted-foreground">
-                              {Math.round(agent.progress)}%
-                            </span>
-                          </div>
-                          <p className="text-sm text-muted-foreground">{agent.currentTask}</p>
+                  {agents.filter(agent => agent.status === 'working').map(agent => (
+                    <div key={agent.id} className="flex items-center space-x-4 p-3 bg-muted/50 rounded-lg">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="font-medium">{agent.name}</span>
+                          <span className="text-sm text-muted-foreground">{Math.round(agent.progress)}%</span>
                         </div>
+                        <p className="text-sm text-muted-foreground">{agent.currentTask}</p>
                       </div>
-                    ))}
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -526,7 +479,7 @@ export function AIValidationEngine({
                     <h3 className="text-2xl font-bold">Validation Complete</h3>
                     <p className="text-muted-foreground">Here's your comprehensive idea analysis</p>
                   </div>
-
+                  
                   <div className="flex items-center justify-center space-x-8">
                     <div className="text-center">
                       <div className={`text-4xl font-bold ${getScoreColor(analysis.overallScore)}`}>
@@ -534,9 +487,9 @@ export function AIValidationEngine({
                       </div>
                       <p className="text-sm text-muted-foreground">Overall Score</p>
                     </div>
-
+                    
                     <div className="text-center">
-                      <Badge
+                      <Badge 
                         className={`text-lg px-4 py-2 ${getRecommendationColor(analysis.recommendation!)}`}
                       >
                         {analysis.recommendation?.toUpperCase()}
@@ -570,9 +523,7 @@ export function AIValidationEngine({
                     <CardContent className="space-y-4">
                       <div className="flex items-center justify-between">
                         <span className="font-medium">Overall Score</span>
-                        <span
-                          className={`text-xl font-bold ${getScoreColor(analysis.problemValidation!.score)}`}
-                        >
+                        <span className={`text-xl font-bold ${getScoreColor(analysis.problemValidation!.score)}`}>
                           {analysis.problemValidation!.score}
                         </span>
                       </div>
@@ -608,9 +559,7 @@ export function AIValidationEngine({
                     <CardContent className="space-y-4">
                       <div className="flex items-center justify-between">
                         <span className="font-medium">Overall Score</span>
-                        <span
-                          className={`text-xl font-bold ${getScoreColor(analysis.marketAnalysis!.score)}`}
-                        >
+                        <span className={`text-xl font-bold ${getScoreColor(analysis.marketAnalysis!.score)}`}>
                           {analysis.marketAnalysis!.score}
                         </span>
                       </div>
@@ -646,9 +595,7 @@ export function AIValidationEngine({
                     <CardContent className="space-y-4">
                       <div className="flex items-center justify-between">
                         <span className="font-medium">Overall Score</span>
-                        <span
-                          className={`text-xl font-bold ${getScoreColor(analysis.revenueModelAnalysis!.score)}`}
-                        >
+                        <span className={`text-xl font-bold ${getScoreColor(analysis.revenueModelAnalysis!.score)}`}>
                           {analysis.revenueModelAnalysis!.score}
                         </span>
                       </div>
@@ -680,9 +627,7 @@ export function AIValidationEngine({
                     <CardContent className="space-y-4">
                       <div className="flex items-center justify-between">
                         <span className="font-medium">Overall Score</span>
-                        <span
-                          className={`text-xl font-bold ${getScoreColor(analysis.distributionAnalysis!.score)}`}
-                        >
+                        <span className={`text-xl font-bold ${getScoreColor(analysis.distributionAnalysis!.score)}`}>
                           {analysis.distributionAnalysis!.score}
                         </span>
                       </div>
@@ -693,13 +638,11 @@ export function AIValidationEngine({
                       <div className="space-y-2">
                         <p className="text-sm font-medium">Recommended Channels:</p>
                         <div className="flex flex-wrap gap-1">
-                          {analysis.distributionAnalysis!.recommendedChannels.map(
-                            (channel, idx) => (
-                              <Badge key={idx} variant="outline" className="text-xs">
-                                {channel}
-                              </Badge>
-                            )
-                          )}
+                          {analysis.distributionAnalysis!.recommendedChannels.map((channel, idx) => (
+                            <Badge key={idx} variant="outline" className="text-xs">
+                              {channel}
+                            </Badge>
+                          ))}
                         </div>
                       </div>
                     </CardContent>
@@ -718,10 +661,7 @@ export function AIValidationEngine({
                   <CardContent>
                     <div className="space-y-3">
                       {analysis.keyInsights?.map((insight, index) => (
-                        <div
-                          key={index}
-                          className="flex items-start space-x-3 p-3 bg-muted/50 rounded-lg"
-                        >
+                        <div key={index} className="flex items-start space-x-3 p-3 bg-muted/50 rounded-lg">
                           <Star className="w-4 h-4 text-yellow-500 mt-0.5 flex-shrink-0" />
                           <p className="text-sm">{insight}</p>
                         </div>
@@ -742,10 +682,7 @@ export function AIValidationEngine({
                   <CardContent>
                     <div className="space-y-3">
                       {analysis.actionItems?.map((action, index) => (
-                        <div
-                          key={index}
-                          className="flex items-start space-x-3 p-3 bg-muted/50 rounded-lg"
-                        >
+                        <div key={index} className="flex items-start space-x-3 p-3 bg-muted/50 rounded-lg">
                           <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                             <span className="text-xs font-medium">{index + 1}</span>
                           </div>
@@ -769,15 +706,11 @@ export function AIValidationEngine({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <p className="text-sm font-medium">Average Time to Market</p>
-                        <p className="text-2xl font-bold">
-                          {analysis.benchmarkData?.averageTimeToMarket} months
-                        </p>
+                        <p className="text-2xl font-bold">{analysis.benchmarkData?.averageTimeToMarket} months</p>
                       </div>
                       <div className="space-y-2">
                         <p className="text-sm font-medium">Typical Funding Required</p>
-                        <p className="text-2xl font-bold">
-                          {analysis.benchmarkData?.typicalFundingRequired}
-                        </p>
+                        <p className="text-2xl font-bold">{analysis.benchmarkData?.typicalFundingRequired}</p>
                       </div>
                       <div className="space-y-2">
                         <p className="text-sm font-medium">Success Rate</p>
@@ -799,7 +732,7 @@ export function AIValidationEngine({
                 <ArrowRight className="w-4 h-4 mr-2 rotate-180" />
                 Back to Hub
               </Button>
-
+              
               <div className="flex space-x-3">
                 <Button variant="outline">
                   <Download className="w-4 h-4 mr-2" />

@@ -33,6 +33,16 @@
       "@/constants/*": ["./constants/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "vite.config.ts", "main.tsx", "App.tsx"],
-  "exclude": ["node_modules", "dist", "build"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "vite.config.ts",
+    "main.tsx",
+    "App.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build"
+  ]
 }

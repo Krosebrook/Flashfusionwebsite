@@ -4,7 +4,7 @@
  * @category integrations
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * Server-side handlers for external app integrations and webhooks
  */
 
@@ -17,14 +17,11 @@ import * as kv from './kv_store.tsx';
 const app = new Hono();
 
 // CORS configuration
-app.use(
-  '*',
-  cors({
-    origin: '*',
-    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowHeaders: ['Content-Type', 'Authorization'],
-  })
-);
+app.use('*', cors({
+  origin: '*',
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use('*', logger(console.log));
 
@@ -40,26 +37,26 @@ const PLATFORM_CONFIGS = {
     webhookSecret: Deno.env.get('BOLT_NEW_WEBHOOK_SECRET'),
     apiKey: Deno.env.get('BOLT_NEW_API_KEY'),
     clientId: Deno.env.get('BOLT_NEW_CLIENT_ID'),
-    clientSecret: Deno.env.get('BOLT_NEW_CLIENT_SECRET'),
+    clientSecret: Deno.env.get('BOLT_NEW_CLIENT_SECRET')
   },
   'replit.com': {
     webhookSecret: Deno.env.get('REPLIT_WEBHOOK_SECRET'),
     apiKey: Deno.env.get('REPLIT_API_KEY'),
     clientId: Deno.env.get('REPLIT_CLIENT_ID'),
-    clientSecret: Deno.env.get('REPLIT_CLIENT_SECRET'),
+    clientSecret: Deno.env.get('REPLIT_CLIENT_SECRET')
   },
   'vercel.com': {
     webhookSecret: Deno.env.get('VERCEL_WEBHOOK_SECRET'),
     apiKey: Deno.env.get('VERCEL_API_KEY'),
     clientId: Deno.env.get('VERCEL_CLIENT_ID'),
-    clientSecret: Deno.env.get('VERCEL_CLIENT_SECRET'),
+    clientSecret: Deno.env.get('VERCEL_CLIENT_SECRET')
   },
   'netlify.com': {
     webhookSecret: Deno.env.get('NETLIFY_WEBHOOK_SECRET'),
     apiKey: Deno.env.get('NETLIFY_API_KEY'),
     clientId: Deno.env.get('NETLIFY_CLIENT_ID'),
-    clientSecret: Deno.env.get('NETLIFY_CLIENT_SECRET'),
-  },
+    clientSecret: Deno.env.get('NETLIFY_CLIENT_SECRET')
+  }
 };
 
 // OAuth callback handler
@@ -72,49 +69,37 @@ app.get('/make-server-88829a40/integrations/oauth/callback/:platform', async (c)
 
     if (error) {
       console.error(`OAuth error for ${platform}:`, error);
-      return c.json(
-        {
-          success: false,
-          error: 'OAuth authorization failed',
-          details: error,
-        },
-        400
-      );
+      return c.json({ 
+        success: false, 
+        error: 'OAuth authorization failed',
+        details: error
+      }, 400);
     }
 
     if (!code) {
-      return c.json(
-        {
-          success: false,
-          error: 'Authorization code not provided',
-        },
-        400
-      );
+      return c.json({ 
+        success: false, 
+        error: 'Authorization code not provided' 
+      }, 400);
     }
 
     const config = PLATFORM_CONFIGS[platform as keyof typeof PLATFORM_CONFIGS];
     if (!config) {
-      return c.json(
-        {
-          success: false,
-          error: 'Platform not supported',
-        },
-        400
-      );
+      return c.json({ 
+        success: false, 
+        error: 'Platform not supported' 
+      }, 400);
     }
 
     // Exchange code for access token
     const tokenResponse = await exchangeOAuthCode(platform, code, config);
-
+    
     if (!tokenResponse.success) {
-      return c.json(
-        {
-          success: false,
-          error: 'Failed to exchange OAuth code',
-          details: tokenResponse.error,
-        },
-        400
-      );
+      return c.json({
+        success: false,
+        error: 'Failed to exchange OAuth code',
+        details: tokenResponse.error
+      }, 400);
     }
 
     // Store credentials in KV store
@@ -124,7 +109,7 @@ app.get('/make-server-88829a40/integrations/oauth/callback/:platform', async (c)
       refreshToken: tokenResponse.refreshToken,
       expiresAt: tokenResponse.expiresAt,
       createdAt: new Date().toISOString(),
-      platform,
+      platform
     });
 
     // Store integration status
@@ -133,7 +118,7 @@ app.get('/make-server-88829a40/integrations/oauth/callback/:platform', async (c)
       connected: true,
       lastSync: new Date().toISOString(),
       platform,
-      authType: 'oauth',
+      authType: 'oauth'
     });
 
     console.log(`✅ OAuth integration successful for ${platform}`);
@@ -142,18 +127,16 @@ app.get('/make-server-88829a40/integrations/oauth/callback/:platform', async (c)
       success: true,
       message: 'Integration connected successfully',
       platform,
-      connectedAt: new Date().toISOString(),
+      connectedAt: new Date().toISOString()
     });
+
   } catch (error) {
     console.error('OAuth callback error:', error);
-    return c.json(
-      {
-        success: false,
-        error: 'Internal server error during OAuth callback',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      500
-    );
+    return c.json({
+      success: false,
+      error: 'Internal server error during OAuth callback',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, 500);
   }
 });
 
@@ -163,39 +146,33 @@ app.post('/make-server-88829a40/integrations/webhook/:platform', async (c) => {
     const platform = c.req.param('platform');
     const signature = c.req.header('x-signature') || c.req.header('x-hub-signature-256');
     const event = c.req.header('x-event') || c.req.header('x-github-event');
-
+    
     const payload = await c.req.json();
 
     console.log(`📥 Webhook received from ${platform}:`, { event, signature: !!signature });
 
     const config = PLATFORM_CONFIGS[platform as keyof typeof PLATFORM_CONFIGS];
     if (!config) {
-      return c.json(
-        {
-          success: false,
-          error: 'Platform not supported',
-        },
-        400
-      );
+      return c.json({ 
+        success: false, 
+        error: 'Platform not supported' 
+      }, 400);
     }
 
     // Verify webhook signature if provided
     if (signature && config.webhookSecret) {
       const isValid = await verifyWebhookSignature(
-        JSON.stringify(payload),
-        signature,
+        JSON.stringify(payload), 
+        signature, 
         config.webhookSecret
       );
-
+      
       if (!isValid) {
         console.error(`❌ Invalid webhook signature for ${platform}`);
-        return c.json(
-          {
-            success: false,
-            error: 'Invalid webhook signature',
-          },
-          401
-        );
+        return c.json({ 
+          success: false, 
+          error: 'Invalid webhook signature' 
+        }, 401);
       }
     }
 
@@ -209,7 +186,7 @@ app.post('/make-server-88829a40/integrations/webhook/:platform', async (c) => {
       event: event || 'unknown',
       timestamp: new Date().toISOString(),
       payload: payload,
-      processed: result.success,
+      processed: result.success
     });
 
     console.log(`✅ Webhook processed for ${platform}:`, result.message);
@@ -219,18 +196,16 @@ app.post('/make-server-88829a40/integrations/webhook/:platform', async (c) => {
       message: 'Webhook processed successfully',
       platform,
       event,
-      processedAt: new Date().toISOString(),
+      processedAt: new Date().toISOString()
     });
+
   } catch (error) {
     console.error('Webhook processing error:', error);
-    return c.json(
-      {
-        success: false,
-        error: 'Failed to process webhook',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      500
-    );
+    return c.json({
+      success: false,
+      error: 'Failed to process webhook',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, 500);
   }
 });
 
@@ -243,18 +218,18 @@ app.get('/make-server-88829a40/integrations/connected', async (c) => {
     for (const platform of Object.keys(PLATFORM_CONFIGS)) {
       const statusKey = `integration:${platform}:status`;
       const status = await kv.get(statusKey);
-
+      
       if (status && status.connected) {
         const credentialsKey = `integration:${platform}:credentials`;
         const credentials = await kv.get(credentialsKey);
-
+        
         connectedIntegrations.push({
           platform,
           connected: true,
           lastSync: status.lastSync,
           authType: status.authType,
           hasValidCredentials: !!credentials,
-          expiresAt: credentials?.expiresAt,
+          expiresAt: credentials?.expiresAt
         });
       }
     }
@@ -262,18 +237,16 @@ app.get('/make-server-88829a40/integrations/connected', async (c) => {
     return c.json({
       success: true,
       integrations: connectedIntegrations,
-      total: connectedIntegrations.length,
+      total: connectedIntegrations.length
     });
+
   } catch (error) {
     console.error('Failed to get connected integrations:', error);
-    return c.json(
-      {
-        success: false,
-        error: 'Failed to retrieve integrations',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      500
-    );
+    return c.json({
+      success: false,
+      error: 'Failed to retrieve integrations',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, 500);
   }
 });
 
@@ -290,28 +263,22 @@ app.post('/make-server-88829a40/integrations/sync/:platform/:appId', async (c) =
     const credentials = await kv.get(credentialsKey);
 
     if (!credentials) {
-      return c.json(
-        {
-          success: false,
-          error: 'No credentials found for platform',
-          platform,
-        },
-        400
-      );
+      return c.json({
+        success: false,
+        error: 'No credentials found for platform',
+        platform
+      }, 400);
     }
 
     // Check if token needs refresh
     if (credentials.expiresAt && new Date(credentials.expiresAt) <= new Date()) {
       const refreshResult = await refreshAccessToken(platform, credentials);
       if (!refreshResult.success) {
-        return c.json(
-          {
-            success: false,
-            error: 'Failed to refresh access token',
-            platform,
-          },
-          401
-        );
+        return c.json({
+          success: false,
+          error: 'Failed to refresh access token',
+          platform
+        }, 401);
       }
     }
 
@@ -319,15 +286,12 @@ app.post('/make-server-88829a40/integrations/sync/:platform/:appId', async (c) =
     const appData = await fetchAppData(platform, appId, credentials);
 
     if (!appData.success) {
-      return c.json(
-        {
-          success: false,
-          error: 'Failed to fetch app data',
-          platform,
-          details: appData.error,
-        },
-        500
-      );
+      return c.json({
+        success: false,
+        error: 'Failed to fetch app data',
+        platform,
+        details: appData.error
+      }, 500);
     }
 
     // Store synced data
@@ -336,7 +300,7 @@ app.post('/make-server-88829a40/integrations/sync/:platform/:appId', async (c) =
       platform,
       appId,
       data: appData.data,
-      syncedAt: new Date().toISOString(),
+      syncedAt: new Date().toISOString()
     });
 
     // Update last sync time
@@ -345,7 +309,7 @@ app.post('/make-server-88829a40/integrations/sync/:platform/:appId', async (c) =
     if (status) {
       await kv.set(statusKey, {
         ...status,
-        lastSync: new Date().toISOString(),
+        lastSync: new Date().toISOString()
       });
     }
 
@@ -357,18 +321,16 @@ app.post('/make-server-88829a40/integrations/sync/:platform/:appId', async (c) =
       platform,
       appId,
       data: appData.data,
-      syncedAt: new Date().toISOString(),
+      syncedAt: new Date().toISOString()
     });
+
   } catch (error) {
     console.error('Sync error:', error);
-    return c.json(
-      {
-        success: false,
-        error: 'Sync failed',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      500
-    );
+    return c.json({
+      success: false,
+      error: 'Sync failed',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, 500);
   }
 });
 
@@ -388,7 +350,7 @@ app.delete('/make-server-88829a40/integrations/disconnect/:platform', async (c) 
     await kv.set(statusKey, {
       connected: false,
       disconnectedAt: new Date().toISOString(),
-      platform,
+      platform
     });
 
     console.log(`✅ Integration disconnected: ${platform}`);
@@ -397,18 +359,16 @@ app.delete('/make-server-88829a40/integrations/disconnect/:platform', async (c) 
       success: true,
       message: 'Integration disconnected successfully',
       platform,
-      disconnectedAt: new Date().toISOString(),
+      disconnectedAt: new Date().toISOString()
     });
+
   } catch (error) {
     console.error('Disconnect error:', error);
-    return c.json(
-      {
-        success: false,
-        error: 'Failed to disconnect integration',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      500
-    );
+    return c.json({
+      success: false,
+      error: 'Failed to disconnect integration',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, 500);
   }
 });
 
@@ -417,19 +377,19 @@ app.delete('/make-server-88829a40/integrations/disconnect/:platform', async (c) 
 async function exchangeOAuthCode(platform: string, code: string, config: any) {
   try {
     const tokenEndpoint = getTokenEndpoint(platform);
-
+    
     const response = await fetch(tokenEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify({
         client_id: config.clientId,
         client_secret: config.clientSecret,
         code,
-        grant_type: 'authorization_code',
-      }),
+        grant_type: 'authorization_code'
+      })
     });
 
     if (!response.ok) {
@@ -437,7 +397,7 @@ async function exchangeOAuthCode(platform: string, code: string, config: any) {
       return {
         success: false,
         error: `Token exchange failed: ${response.statusText}`,
-        details: errorText,
+        details: errorText
       };
     }
 
@@ -447,14 +407,15 @@ async function exchangeOAuthCode(platform: string, code: string, config: any) {
       success: true,
       accessToken: tokenData.access_token,
       refreshToken: tokenData.refresh_token,
-      expiresAt: tokenData.expires_in
+      expiresAt: tokenData.expires_in 
         ? new Date(Date.now() + tokenData.expires_in * 1000).toISOString()
-        : null,
+        : null
     };
+
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -475,13 +436,14 @@ async function processWebhook(platform: string, event: string, payload: any) {
       default:
         return {
           success: true,
-          message: `Webhook received for ${platform}:${event}`,
+          message: `Webhook received for ${platform}:${event}`
         };
     }
+
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -499,7 +461,7 @@ async function processBoltWebhook(event: string, payload: any) {
     default:
       console.log('Unhandled Bolt webhook event:', event);
   }
-
+  
   return { success: true, message: `Processed Bolt ${event} event` };
 }
 
@@ -514,7 +476,7 @@ async function processReplitWebhook(event: string, payload: any) {
     default:
       console.log('Unhandled Replit webhook event:', event);
   }
-
+  
   return { success: true, message: `Processed Replit ${event} event` };
 }
 
@@ -529,7 +491,7 @@ async function processVercelWebhook(event: string, payload: any) {
     default:
       console.log('Unhandled Vercel webhook event:', event);
   }
-
+  
   return { success: true, message: `Processed Vercel ${event} event` };
 }
 
@@ -544,25 +506,25 @@ async function processNetlifyWebhook(event: string, payload: any) {
     default:
       console.log('Unhandled Netlify webhook event:', event);
   }
-
+  
   return { success: true, message: `Processed Netlify ${event} event` };
 }
 
 async function fetchAppData(platform: string, appId: string, credentials: any) {
   try {
     const apiEndpoint = getApiEndpoint(platform, appId);
-
+    
     const response = await fetch(apiEndpoint, {
       headers: {
-        Authorization: `Bearer ${credentials.accessToken}`,
-        Accept: 'application/json',
-      },
+        'Authorization': `Bearer ${credentials.accessToken}`,
+        'Accept': 'application/json'
+      }
     });
 
     if (!response.ok) {
       return {
         success: false,
-        error: `API request failed: ${response.statusText}`,
+        error: `API request failed: ${response.statusText}`
       };
     }
 
@@ -570,12 +532,13 @@ async function fetchAppData(platform: string, appId: string, credentials: any) {
 
     return {
       success: true,
-      data: data,
+      data: data
     };
+
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -592,14 +555,14 @@ async function refreshAccessToken(platform: string, credentials: any) {
     const response = await fetch(tokenEndpoint, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         client_id: config.clientId,
         client_secret: config.clientSecret,
         refresh_token: credentials.refreshToken,
-        grant_type: 'refresh_token',
-      }),
+        grant_type: 'refresh_token'
+      })
     });
 
     if (!response.ok) {
@@ -614,29 +577,26 @@ async function refreshAccessToken(platform: string, credentials: any) {
       ...credentials,
       accessToken: tokenData.access_token,
       refreshToken: tokenData.refresh_token || credentials.refreshToken,
-      expiresAt: tokenData.expires_in
+      expiresAt: tokenData.expires_in 
         ? new Date(Date.now() + tokenData.expires_in * 1000).toISOString()
-        : null,
+        : null
     });
 
     return { success: true };
+
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
 
-async function verifyWebhookSignature(
-  payload: string,
-  signature: string,
-  secret: string
-): Promise<boolean> {
+async function verifyWebhookSignature(payload: string, signature: string, secret: string): Promise<boolean> {
   try {
     // Implementation depends on platform-specific signature verification
     // This is a simplified version - in production, implement proper HMAC verification
-
+    
     const encoder = new TextEncoder();
     const key = await crypto.subtle.importKey(
       'raw',
@@ -648,13 +608,14 @@ async function verifyWebhookSignature(
 
     const signatureBytes = await crypto.subtle.sign('HMAC', key, encoder.encode(payload));
     const calculatedSignature = Array.from(new Uint8Array(signatureBytes))
-      .map((b) => b.toString(16).padStart(2, '0'))
+      .map(b => b.toString(16).padStart(2, '0'))
       .join('');
 
     // Compare signatures (remove prefix if present)
     const providedSignature = signature.replace(/^sha256=/, '');
-
+    
     return calculatedSignature === providedSignature;
+
   } catch (error) {
     console.error('Signature verification error:', error);
     return false;
@@ -666,9 +627,9 @@ function getTokenEndpoint(platform: string): string {
     'bolt.new': 'https://api.bolt.new/v1/oauth/token',
     'replit.com': 'https://replit.com/api/oauth/token',
     'vercel.com': 'https://api.vercel.com/v2/oauth/access_token',
-    'netlify.com': 'https://api.netlify.com/oauth/token',
+    'netlify.com': 'https://api.netlify.com/oauth/token'
   };
-
+  
   return endpoints[platform] || '';
 }
 
@@ -677,9 +638,9 @@ function getApiEndpoint(platform: string, appId: string): string {
     'bolt.new': `https://api.bolt.new/v1/apps/${appId}`,
     'replit.com': `https://replit.com/graphql`, // GraphQL endpoint
     'vercel.com': `https://api.vercel.com/v13/projects/${appId}`,
-    'netlify.com': `https://api.netlify.com/api/v1/sites/${appId}`,
+    'netlify.com': `https://api.netlify.com/api/v1/sites/${appId}`
   };
-
+  
   return endpoints[platform] || '';
 }
 

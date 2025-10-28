@@ -22,7 +22,9 @@ export function DeploymentsPage({ userRole = 'free', onDeploy }: DeploymentsPage
       >
         <div>
           <h1 className="text-3xl font-bold ff-text-gradient">Deployments</h1>
-          <p className="text-muted-foreground mt-2">Deploy your projects to production</p>
+          <p className="text-muted-foreground mt-2">
+            Deploy your projects to production
+          </p>
         </div>
         <Button onClick={onDeploy} className="ff-btn-primary">
           <Plus className="w-4 h-4 mr-2" />

@@ -8,7 +8,7 @@ import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Switch } from '../ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
+import { 
   Zap,
   Plus,
   Settings,
@@ -42,7 +42,7 @@ import {
   X,
   Edit3,
   Eye,
-  Share2,
+  Share2
 } from 'lucide-react';
 
 interface WorkflowNode {
@@ -97,72 +97,27 @@ const PLATFORM_INTEGRATIONS = [
   { id: 'slack', name: 'Slack', icon: MessageSquare, color: '#4A154B' },
   { id: 'discord', name: 'Discord', icon: MessageSquare, color: '#5865F2' },
   { id: 'notion', name: 'Notion', icon: FileText, color: '#000000' },
-  { id: 'airtable', name: 'Airtable', icon: Database, color: '#18BFFF' },
+  { id: 'airtable', name: 'Airtable', icon: Database, color: '#18BFFF' }
 ];
 
 const TRIGGER_TYPES = [
   { id: 'schedule', name: 'Schedule', icon: Timer, description: 'Run on a specific schedule' },
   { id: 'webhook', name: 'Webhook', icon: Globe, description: 'Triggered by external events' },
   { id: 'file-upload', name: 'File Upload', icon: Upload, description: 'When files are uploaded' },
-  {
-    id: 'form-submit',
-    name: 'Form Submit',
-    icon: FileText,
-    description: 'When forms are submitted',
-  },
-  {
-    id: 'new-content',
-    name: 'New Content',
-    icon: Plus,
-    description: 'When new content is created',
-  },
-  { id: 'engagement', name: 'Engagement', icon: Users, description: 'Based on user engagement' },
+  { id: 'form-submit', name: 'Form Submit', icon: FileText, description: 'When forms are submitted' },
+  { id: 'new-content', name: 'New Content', icon: Plus, description: 'When new content is created' },
+  { id: 'engagement', name: 'Engagement', icon: Users, description: 'Based on user engagement' }
 ];
 
 const ACTION_TYPES = [
-  {
-    id: 'post-content',
-    name: 'Post Content',
-    icon: Upload,
-    description: 'Share content on platforms',
-  },
+  { id: 'post-content', name: 'Post Content', icon: Upload, description: 'Share content on platforms' },
   { id: 'send-email', name: 'Send Email', icon: Mail, description: 'Send email notifications' },
-  {
-    id: 'generate-content',
-    name: 'Generate Content',
-    icon: Zap,
-    description: 'AI content generation',
-  },
-  {
-    id: 'process-image',
-    name: 'Process Image',
-    icon: Image,
-    description: 'Edit or optimize images',
-  },
-  {
-    id: 'analyze-data',
-    name: 'Analyze Data',
-    icon: BarChart3,
-    description: 'Data analysis and insights',
-  },
-  {
-    id: 'update-database',
-    name: 'Update Database',
-    icon: Database,
-    description: 'Store or update data',
-  },
-  {
-    id: 'send-notification',
-    name: 'Send Notification',
-    icon: Bell,
-    description: 'Push notifications',
-  },
-  {
-    id: 'create-task',
-    name: 'Create Task',
-    icon: CheckCircle2,
-    description: 'Add tasks to project',
-  },
+  { id: 'generate-content', name: 'Generate Content', icon: Zap, description: 'AI content generation' },
+  { id: 'process-image', name: 'Process Image', icon: Image, description: 'Edit or optimize images' },
+  { id: 'analyze-data', name: 'Analyze Data', icon: BarChart3, description: 'Data analysis and insights' },
+  { id: 'update-database', name: 'Update Database', icon: Database, description: 'Store or update data' },
+  { id: 'send-notification', name: 'Send Notification', icon: Bell, description: 'Push notifications' },
+  { id: 'create-task', name: 'Create Task', icon: CheckCircle2, description: 'Add tasks to project' }
 ];
 
 const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
@@ -185,8 +140,8 @@ const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
           config: { platform: 'youtube', event: 'video_published' },
           platform: 'youtube',
           icon: Video,
-          color: '#FF0000',
-        },
+          color: '#FF0000'
+        }
       },
       {
         id: 'action-1',
@@ -197,8 +152,8 @@ const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
           description: 'AI-powered clip extraction for TikTok format',
           config: { duration: 60, format: 'vertical', segments: 3 },
           icon: Video,
-          color: '#FF7B00',
-        },
+          color: '#FF7B00'
+        }
       },
       {
         id: 'action-2',
@@ -210,14 +165,14 @@ const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
           config: { platform: 'tiktok', schedule: 'immediate', hashtags: 'auto' },
           platform: 'tiktok',
           icon: Music,
-          color: '#000000',
-        },
-      },
+          color: '#000000'
+        }
+      }
     ],
     connections: [
       { id: 'conn-1', source: 'trigger-1', target: 'action-1' },
-      { id: 'conn-2', source: 'action-1', target: 'action-2' },
-    ],
+      { id: 'conn-2', source: 'action-1', target: 'action-2' }
+    ]
   },
   {
     id: 'content-scheduler',
@@ -236,8 +191,8 @@ const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
           description: 'Daily content posting schedule',
           config: { time: '09:00', timezone: 'UTC', days: ['mon', 'wed', 'fri'] },
           icon: Timer,
-          color: '#10B981',
-        },
+          color: '#10B981'
+        }
       },
       {
         id: 'action-3',
@@ -249,8 +204,8 @@ const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
           config: { post_type: 'feed', story: true },
           platform: 'instagram',
           icon: Image,
-          color: '#E4405F',
-        },
+          color: '#E4405F'
+        }
       },
       {
         id: 'action-4',
@@ -262,15 +217,15 @@ const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
           config: { thread: true, hashtags: '#content #ai' },
           platform: 'twitter',
           icon: MessageSquare,
-          color: '#1DA1F2',
-        },
-      },
+          color: '#1DA1F2'
+        }
+      }
     ],
     connections: [
       { id: 'conn-3', source: 'trigger-2', target: 'action-3' },
-      { id: 'conn-4', source: 'trigger-2', target: 'action-4' },
-    ],
-  },
+      { id: 'conn-4', source: 'trigger-2', target: 'action-4' }
+    ]
+  }
 ];
 
 export function NoCodeWorkflowBuilder() {
@@ -280,31 +235,26 @@ export function NoCodeWorkflowBuilder() {
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isCreating, setIsCreating] = useState(false);
-  const [activeTab, setActiveTab] = useState<
-    'templates' | 'builder' | 'integrations' | 'analytics'
-  >('templates');
+  const [activeTab, setActiveTab] = useState<'templates' | 'builder' | 'integrations' | 'analytics'>('templates');
   const canvasRef = useRef<HTMLDivElement>(null);
 
-  const handleNodeDrag = useCallback(
-    (event: React.MouseEvent) => {
-      if (!isDragging || !selectedNode || !selectedWorkflow || !canvasRef.current) return;
+  const handleNodeDrag = useCallback((event: React.MouseEvent) => {
+    if (!isDragging || !selectedNode || !selectedWorkflow || !canvasRef.current) return;
 
-      const canvasRect = canvasRef.current.getBoundingClientRect();
-      const newX = event.clientX - canvasRect.left - dragOffset.x;
-      const newY = event.clientY - canvasRect.top - dragOffset.y;
+    const canvasRect = canvasRef.current.getBoundingClientRect();
+    const newX = event.clientX - canvasRect.left - dragOffset.x;
+    const newY = event.clientY - canvasRect.top - dragOffset.y;
 
-      const updatedNodes = selectedWorkflow.nodes.map((node) =>
-        node.id === selectedNode.id
-          ? { ...node, position: { x: Math.max(0, newX), y: Math.max(0, newY) } }
-          : node
-      );
+    const updatedNodes = selectedWorkflow.nodes.map(node =>
+      node.id === selectedNode.id
+        ? { ...node, position: { x: Math.max(0, newX), y: Math.max(0, newY) } }
+        : node
+    );
 
-      const updatedWorkflow = { ...selectedWorkflow, nodes: updatedNodes };
-      setSelectedWorkflow(updatedWorkflow);
-      setWorkflows((prev) => prev.map((w) => (w.id === updatedWorkflow.id ? updatedWorkflow : w)));
-    },
-    [isDragging, selectedNode, selectedWorkflow, dragOffset]
-  );
+    const updatedWorkflow = { ...selectedWorkflow, nodes: updatedNodes };
+    setSelectedWorkflow(updatedWorkflow);
+    setWorkflows(prev => prev.map(w => w.id === updatedWorkflow.id ? updatedWorkflow : w));
+  }, [isDragging, selectedNode, selectedWorkflow, dragOffset]);
 
   const handleNodeDragStart = (node: WorkflowNode, event: React.MouseEvent) => {
     setSelectedNode(node);
@@ -312,7 +262,7 @@ export function NoCodeWorkflowBuilder() {
     const rect = event.currentTarget.getBoundingClientRect();
     setDragOffset({
       x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
+      y: event.clientY - rect.top
     });
   };
 
@@ -328,17 +278,17 @@ export function NoCodeWorkflowBuilder() {
         description: nodeType.description,
         config: {},
         icon: nodeType.icon,
-        color: nodeType.color || '#6B7280',
-      },
+        color: nodeType.color || '#6B7280'
+      }
     };
 
     const updatedWorkflow = {
       ...selectedWorkflow,
-      nodes: [...selectedWorkflow.nodes, newNode],
+      nodes: [...selectedWorkflow.nodes, newNode]
     };
 
     setSelectedWorkflow(updatedWorkflow);
-    setWorkflows((prev) => prev.map((w) => (w.id === updatedWorkflow.id ? updatedWorkflow : w)));
+    setWorkflows(prev => prev.map(w => w.id === updatedWorkflow.id ? updatedWorkflow : w));
   };
 
   const deleteNode = (nodeId: string) => {
@@ -346,14 +296,12 @@ export function NoCodeWorkflowBuilder() {
 
     const updatedWorkflow = {
       ...selectedWorkflow,
-      nodes: selectedWorkflow.nodes.filter((n) => n.id !== nodeId),
-      connections: selectedWorkflow.connections.filter(
-        (c) => c.source !== nodeId && c.target !== nodeId
-      ),
+      nodes: selectedWorkflow.nodes.filter(n => n.id !== nodeId),
+      connections: selectedWorkflow.connections.filter(c => c.source !== nodeId && c.target !== nodeId)
     };
 
     setSelectedWorkflow(updatedWorkflow);
-    setWorkflows((prev) => prev.map((w) => (w.id === updatedWorkflow.id ? updatedWorkflow : w)));
+    setWorkflows(prev => prev.map(w => w.id === updatedWorkflow.id ? updatedWorkflow : w));
     setSelectedNode(null);
   };
 
@@ -366,24 +314,18 @@ export function NoCodeWorkflowBuilder() {
       nodes: [],
       connections: [],
       usageCount: 0,
-      rating: 0,
+      rating: 0
     };
 
-    setWorkflows((prev) => [...prev, newWorkflow]);
+    setWorkflows(prev => [...prev, newWorkflow]);
     setSelectedWorkflow(newWorkflow);
     setActiveTab('builder');
     setIsCreating(true);
   };
 
-  const WorkflowNodeComponent = ({
-    node,
-    isSelected,
-  }: {
-    node: WorkflowNode;
-    isSelected: boolean;
-  }) => {
+  const WorkflowNodeComponent = ({ node, isSelected }: { node: WorkflowNode; isSelected: boolean }) => {
     const NodeIcon = node.data.icon || Zap;
-    const platform = PLATFORM_INTEGRATIONS.find((p) => p.id === node.data.platform);
+    const platform = PLATFORM_INTEGRATIONS.find(p => p.id === node.data.platform);
 
     return (
       <motion.div
@@ -391,24 +333,24 @@ export function NoCodeWorkflowBuilder() {
           position: 'absolute',
           left: node.position.x,
           top: node.position.y,
-          zIndex: isSelected ? 10 : 1,
+          zIndex: isSelected ? 10 : 1
         }}
         whileHover={{ scale: 1.05 }}
         whileDrag={{ scale: 1.1 }}
         onMouseDown={(e) => handleNodeDrag(e.nativeEvent)}
         className="cursor-move"
       >
-        <Card
+        <Card 
           className={`w-48 transition-all duration-300 ${
             isSelected ? 'ring-2 shadow-lg' : 'hover:shadow-md'
           }`}
           style={{
             background: 'rgba(255, 255, 255, 0.95)',
             backdropFilter: 'blur(10px)',
-            border: node.data.color
+            border: node.data.color 
               ? `2px solid ${node.data.color}30`
               : '1px solid rgba(255, 255, 255, 0.2)',
-            ringColor: node.data.color || '#3B82F6',
+            ringColor: node.data.color || '#3B82F6'
           }}
           onClick={(e) => {
             e.stopPropagation();
@@ -419,14 +361,14 @@ export function NoCodeWorkflowBuilder() {
             {/* Node Header */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center space-x-2">
-                <div
+                <div 
                   className="w-8 h-8 rounded-lg flex items-center justify-center"
                   style={{ backgroundColor: `${node.data.color || '#6B7280'}15` }}
                 >
                   <NodeIcon className="h-4 w-4" style={{ color: node.data.color || '#6B7280' }} />
                 </div>
                 {platform && (
-                  <div
+                  <div 
                     className="w-6 h-6 rounded flex items-center justify-center"
                     style={{ backgroundColor: `${platform.color}15` }}
                   >
@@ -434,22 +376,14 @@ export function NoCodeWorkflowBuilder() {
                   </div>
                 )}
               </div>
-
-              <Badge
+              
+              <Badge 
                 className="text-xs capitalize"
                 style={{
-                  backgroundColor:
-                    node.type === 'trigger'
-                      ? '#10B98115'
-                      : node.type === 'action'
-                        ? '#FF7B0015'
-                        : '#6B728015',
-                  color:
-                    node.type === 'trigger'
-                      ? '#10B981'
-                      : node.type === 'action'
-                        ? '#FF7B00'
-                        : '#6B7280',
+                  backgroundColor: node.type === 'trigger' ? '#10B98115' : 
+                                 node.type === 'action' ? '#FF7B0015' : '#6B728015',
+                  color: node.type === 'trigger' ? '#10B981' : 
+                         node.type === 'action' ? '#FF7B00' : '#6B7280'
                 }}
               >
                 {node.type}
@@ -461,25 +395,23 @@ export function NoCodeWorkflowBuilder() {
               <h4 className="font-semibold text-sm text-gray-900 line-clamp-1">
                 {node.data.title}
               </h4>
-              <p className="text-xs text-gray-600 mt-1 line-clamp-2">{node.data.description}</p>
+              <p className="text-xs text-gray-600 mt-1 line-clamp-2">
+                {node.data.description}
+              </p>
             </div>
 
             {/* Node Status */}
             {node.data.status && (
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center space-x-1">
-                  {node.data.status === 'success' && (
-                    <CheckCircle2 className="h-3 w-3 text-green-500" />
-                  )}
-                  {node.data.status === 'error' && (
-                    <AlertTriangle className="h-3 w-3 text-red-500" />
-                  )}
-                  {node.data.status === 'running' && (
-                    <RefreshCw className="h-3 w-3 text-blue-500 animate-spin" />
-                  )}
+                  {node.data.status === 'success' && <CheckCircle2 className="h-3 w-3 text-green-500" />}
+                  {node.data.status === 'error' && <AlertTriangle className="h-3 w-3 text-red-500" />}
+                  {node.data.status === 'running' && <RefreshCw className="h-3 w-3 text-blue-500 animate-spin" />}
                   <span className="capitalize">{node.data.status}</span>
                 </div>
-                {node.data.executionCount && <span>{node.data.executionCount} runs</span>}
+                {node.data.executionCount && (
+                  <span>{node.data.executionCount} runs</span>
+                )}
               </div>
             )}
 
@@ -511,27 +443,21 @@ export function NoCodeWorkflowBuilder() {
     );
   };
 
-  const ConnectionLine = ({
-    connection,
-    nodes,
-  }: {
-    connection: WorkflowConnection;
-    nodes: WorkflowNode[];
-  }) => {
-    const sourceNode = nodes.find((n) => n.id === connection.source);
-    const targetNode = nodes.find((n) => n.id === connection.target);
-
+  const ConnectionLine = ({ connection, nodes }: { connection: WorkflowConnection; nodes: WorkflowNode[] }) => {
+    const sourceNode = nodes.find(n => n.id === connection.source);
+    const targetNode = nodes.find(n => n.id === connection.target);
+    
     if (!sourceNode || !targetNode) return null;
 
     const startX = sourceNode.position.x + 192; // Node width
-    const startY = sourceNode.position.y + 60; // Node height / 2
+    const startY = sourceNode.position.y + 60;  // Node height / 2
     const endX = targetNode.position.x;
     const endY = targetNode.position.y + 60;
 
     const midX = (startX + endX) / 2;
 
     return (
-      <svg
+      <svg 
         className="absolute top-0 left-0 pointer-events-none"
         style={{ zIndex: 0 }}
         width="100%"
@@ -544,7 +470,7 @@ export function NoCodeWorkflowBuilder() {
             <stop offset="100%" stopColor="#E91E63" />
           </linearGradient>
         </defs>
-
+        
         <path
           d={`M ${startX} ${startY} Q ${midX} ${startY} ${endX} ${endY}`}
           stroke="url(#connectionGradient)"
@@ -552,10 +478,10 @@ export function NoCodeWorkflowBuilder() {
           fill="none"
           opacity={0.8}
         />
-
+        
         {/* Arrow */}
         <polygon
-          points={`${endX - 8},${endY - 4} ${endX},${endY} ${endX - 8},${endY + 4}`}
+          points={`${endX-8},${endY-4} ${endX},${endY} ${endX-8},${endY+4}`}
           fill="#00B4D8"
         />
       </svg>
@@ -563,22 +489,21 @@ export function NoCodeWorkflowBuilder() {
   };
 
   const TemplateCard = ({ template }: { template: WorkflowTemplate }) => (
-    <Card
-      className="p-6 hover:shadow-lg transition-shadow cursor-pointer"
-      onClick={() => {
-        setSelectedWorkflow(template);
-        setActiveTab('builder');
-      }}
-    >
+    <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => {
+      setSelectedWorkflow(template);
+      setActiveTab('builder');
+    }}>
       {template.popular && (
-        <Badge className="absolute top-4 right-4 bg-ff-primary text-white">Popular</Badge>
+        <Badge className="absolute top-4 right-4 bg-ff-primary text-white">
+          Popular
+        </Badge>
       )}
-
+      
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <h3 className="text-lg font-semibold text-gray-900 mb-2">{template.name}</h3>
           <p className="text-sm text-gray-600 mb-3">{template.description}</p>
-
+          
           <div className="flex items-center space-x-4 text-sm text-gray-500">
             <div className="flex items-center space-x-1">
               <Users className="h-4 w-4" />
@@ -590,32 +515,17 @@ export function NoCodeWorkflowBuilder() {
             </div>
           </div>
         </div>
-
-        <Badge
-          className="capitalize"
-          style={{
-            backgroundColor:
-              template.category === 'social-media'
-                ? '#E91E6315'
-                : template.category === 'content-creation'
-                  ? '#FF7B0015'
-                  : template.category === 'e-commerce'
-                    ? '#10B98115'
-                    : template.category === 'marketing'
-                      ? '#00B4D815'
-                      : '#6B728015',
-            color:
-              template.category === 'social-media'
-                ? '#E91E63'
-                : template.category === 'content-creation'
-                  ? '#FF7B00'
-                  : template.category === 'e-commerce'
-                    ? '#10B981'
-                    : template.category === 'marketing'
-                      ? '#00B4D8'
-                      : '#6B7280',
-          }}
-        >
+        
+        <Badge className="capitalize" style={{
+          backgroundColor: template.category === 'social-media' ? '#E91E6315' :
+                         template.category === 'content-creation' ? '#FF7B0015' :
+                         template.category === 'e-commerce' ? '#10B98115' :
+                         template.category === 'marketing' ? '#00B4D815' : '#6B728015',
+          color: template.category === 'social-media' ? '#E91E63' :
+                 template.category === 'content-creation' ? '#FF7B00' :
+                 template.category === 'e-commerce' ? '#10B981' :
+                 template.category === 'marketing' ? '#00B4D8' : '#6B7280'
+        }}>
           {template.category.replace('-', ' ')}
         </Badge>
       </div>
@@ -627,7 +537,7 @@ export function NoCodeWorkflowBuilder() {
             {template.nodes.slice(0, 3).map((node, index) => {
               const NodeIcon = node.data.icon || Zap;
               return (
-                <div
+                <div 
                   key={index}
                   className="w-6 h-6 rounded-full border-2 border-white flex items-center justify-center"
                   style={{ backgroundColor: `${node.data.color || '#6B7280'}15` }}
@@ -643,7 +553,7 @@ export function NoCodeWorkflowBuilder() {
             )}
           </div>
         </div>
-
+        
         <div className="flex space-x-2">
           <Button size="sm" variant="outline">
             <Eye className="h-4 w-4" />
@@ -676,8 +586,11 @@ export function NoCodeWorkflowBuilder() {
               <Upload className="h-4 w-4 mr-2" />
               Import
             </Button>
-
-            <Button onClick={createNewWorkflow} className="ff-btn-primary">
+            
+            <Button 
+              onClick={createNewWorkflow}
+              className="ff-btn-primary"
+            >
               <Plus className="h-4 w-4 mr-2" />
               New Workflow
             </Button>
@@ -702,17 +615,14 @@ export function NoCodeWorkflowBuilder() {
                   <RefreshCw className="h-4 w-4" />
                 </Button>
               </div>
-
+              
               <div className="space-y-4">
                 {workflows.map((template) => (
-                  <div
-                    key={template.id}
-                    className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
-                    onClick={() => {
-                      setSelectedWorkflow(template);
-                      setActiveTab('builder');
-                    }}
-                  >
+                  <div key={template.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+                       onClick={() => {
+                         setSelectedWorkflow(template);
+                         setActiveTab('builder');
+                       }}>
                     <div className="flex items-start justify-between mb-2">
                       <h4 className="font-medium text-sm">{template.name}</h4>
                       {template.popular && (
@@ -793,17 +703,17 @@ export function NoCodeWorkflowBuilder() {
 
           {/* Canvas */}
           <div className="flex-1 relative overflow-auto">
-            <div
+            <div 
               ref={canvasRef}
               className="relative min-h-full min-w-full"
-              style={{
-                width: '2000px',
+              style={{ 
+                width: '2000px', 
                 height: '1500px',
                 background: `
                   radial-gradient(circle at 20px 20px, rgba(255, 123, 0, 0.1) 1px, transparent 1px),
                   radial-gradient(circle at 60px 60px, rgba(0, 180, 216, 0.1) 1px, transparent 1px)
                 `,
-                backgroundSize: '80px 80px',
+                backgroundSize: '80px 80px'
               }}
               onMouseMove={handleNodeDrag}
               onMouseUp={() => setIsDragging(false)}
@@ -813,9 +723,9 @@ export function NoCodeWorkflowBuilder() {
                 <>
                   {/* Connections */}
                   {selectedWorkflow.connections.map((connection) => (
-                    <ConnectionLine
-                      key={connection.id}
-                      connection={connection}
+                    <ConnectionLine 
+                      key={connection.id} 
+                      connection={connection} 
                       nodes={selectedWorkflow.nodes}
                     />
                   ))}
@@ -823,8 +733,8 @@ export function NoCodeWorkflowBuilder() {
                   {/* Nodes */}
                   <AnimatePresence>
                     {selectedWorkflow.nodes.map((node) => (
-                      <WorkflowNodeComponent
-                        key={node.id}
+                      <WorkflowNodeComponent 
+                        key={node.id} 
                         node={node}
                         isSelected={selectedNode?.id === node.id}
                       />
@@ -838,11 +748,16 @@ export function NoCodeWorkflowBuilder() {
                 <div className="flex items-center justify-center h-full">
                   <Card className="p-12 text-center max-w-md">
                     <Zap className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Start Building</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      Start Building
+                    </h3>
                     <p className="text-gray-600 mb-4">
                       Select a template or create a new workflow to begin automating your processes.
                     </p>
-                    <Button onClick={createNewWorkflow} className="ff-btn-primary">
+                    <Button 
+                      onClick={createNewWorkflow}
+                      className="ff-btn-primary"
+                    >
                       Create New Workflow
                     </Button>
                   </Card>
@@ -860,8 +775,11 @@ export function NoCodeWorkflowBuilder() {
             <Save className="h-5 w-5 mr-2" />
             Save
           </Button>
-
-          <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white">
+          
+          <Button
+            size="lg"
+            className="bg-green-500 hover:bg-green-600 text-white"
+          >
             <Play className="h-5 w-5 mr-2" />
             Test Workflow
           </Button>

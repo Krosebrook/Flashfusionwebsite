@@ -4,8 +4,8 @@ import { Button } from '../ui/button';
 import { Progress } from '../ui/progress';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import {
-  Home,
+import { 
+  Home, 
   Zap,
   Layers3,
   Palette,
@@ -34,7 +34,7 @@ import {
   ChevronRight,
   ChevronDown,
   Flame,
-  Brain,
+  Brain
 } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { PageType, UserStats, DailyTask } from '../../types';
@@ -75,45 +75,19 @@ const NAV_SECTIONS: NavSection[] = [
       { id: 'dashboard', label: 'Dashboard', icon: <Home className="h-4 w-4" /> },
       { id: 'projects', label: 'Projects', icon: <Layers3 className="h-4 w-4" /> },
       { id: 'tools', label: 'AI Tools', icon: <Zap className="h-4 w-4" /> },
-    ],
+    ]
   },
   {
     title: 'Creator Suite',
     collapsible: true,
     defaultExpanded: true,
     items: [
-      {
-        id: 'creator-content-pipeline',
-        label: 'Content Pipeline',
-        icon: <Flame className="h-4 w-4" />,
-        tier: 'pro',
-        hot: true,
-      },
-      {
-        id: 'creator-mode',
-        label: 'Creator Hub',
-        icon: <Palette className="h-4 w-4" />,
-        tier: 'free',
-      },
-      {
-        id: 'influencer-suite',
-        label: 'Influencer Suite',
-        icon: <Crown className="h-4 w-4" />,
-        tier: 'pro',
-      },
-      {
-        id: 'print-on-demand',
-        label: 'Print Design',
-        icon: <Camera className="h-4 w-4" />,
-        tier: 'pro',
-      },
-      {
-        id: 'marketplace-manager',
-        label: 'Marketplace Hub',
-        icon: <ShoppingBag className="h-4 w-4" />,
-        tier: 'enterprise',
-      },
-    ],
+      { id: 'creator-content-pipeline', label: 'Content Pipeline', icon: <Flame className="h-4 w-4" />, tier: 'pro', hot: true },
+      { id: 'creator-mode', label: 'Creator Hub', icon: <Palette className="h-4 w-4" />, tier: 'free' },
+      { id: 'influencer-suite', label: 'Influencer Suite', icon: <Crown className="h-4 w-4" />, tier: 'pro' },
+      { id: 'print-on-demand', label: 'Print Design', icon: <Camera className="h-4 w-4" />, tier: 'pro' },
+      { id: 'marketplace-manager', label: 'Marketplace Hub', icon: <ShoppingBag className="h-4 w-4" />, tier: 'enterprise' },
+    ]
   },
   {
     title: 'Development',
@@ -124,69 +98,29 @@ const NAV_SECTIONS: NavSection[] = [
       { id: 'deployments', label: 'Deployments', icon: <Rocket className="h-4 w-4" /> },
       { id: 'analytics', label: 'Analytics', icon: <BarChart3 className="h-4 w-4" /> },
       { id: 'cicd', label: 'CI/CD', icon: <GitBranch className="h-4 w-4" />, tier: 'pro' },
-    ],
+    ]
   },
   {
     title: 'AI & Automation',
     collapsible: true,
     defaultExpanded: false,
     items: [
-      {
-        id: 'multi-agent-orchestration',
-        label: 'Multi-Agent Orchestration',
-        icon: <Brain className="h-4 w-4" />,
-        tier: 'enterprise',
-        new: true,
-      },
+      { id: 'multi-agent-orchestration', label: 'Multi-Agent Orchestration', icon: <Brain className="h-4 w-4" />, tier: 'enterprise', new: true },
       { id: 'agents', label: 'AI Agents', icon: <Bot className="h-4 w-4" />, tier: 'pro' },
-      {
-        id: 'workflows',
-        label: 'No-Code Builder',
-        icon: <Workflow className="h-4 w-4" />,
-        tier: 'pro',
-        new: true,
-      },
-      {
-        id: 'ai-trust',
-        label: 'AI Verification',
-        icon: <Shield className="h-4 w-4" />,
-        tier: 'enterprise',
-        new: true,
-      },
-    ],
+      { id: 'workflows', label: 'No-Code Builder', icon: <Workflow className="h-4 w-4" />, tier: 'pro', new: true },
+      { id: 'ai-trust', label: 'AI Verification', icon: <Shield className="h-4 w-4" />, tier: 'enterprise', new: true },
+    ]
   },
   {
     title: 'Management',
     collapsible: true,
     defaultExpanded: false,
     items: [
-      {
-        id: 'content-rights',
-        label: 'Content Rights',
-        icon: <FileCheck className="h-4 w-4" />,
-        tier: 'pro',
-        new: true,
-      },
-      {
-        id: 'wellness',
-        label: 'AI Wellness',
-        icon: <Activity className="h-4 w-4" />,
-        tier: 'free',
-        new: true,
-      },
-      {
-        id: 'performance',
-        label: 'Performance',
-        icon: <Target className="h-4 w-4" />,
-        tier: 'pro',
-      },
-      {
-        id: 'security',
-        label: 'Security',
-        icon: <Shield className="h-4 w-4" />,
-        tier: 'enterprise',
-      },
-    ],
+      { id: 'content-rights', label: 'Content Rights', icon: <FileCheck className="h-4 w-4" />, tier: 'pro', new: true },
+      { id: 'wellness', label: 'AI Wellness', icon: <Activity className="h-4 w-4" />, tier: 'free', new: true },
+      { id: 'performance', label: 'Performance', icon: <Target className="h-4 w-4" />, tier: 'pro' },
+      { id: 'security', label: 'Security', icon: <Shield className="h-4 w-4" />, tier: 'enterprise' },
+    ]
   },
   {
     title: 'Community',
@@ -197,27 +131,29 @@ const NAV_SECTIONS: NavSection[] = [
       { id: 'community', label: 'Community', icon: <MessageSquare className="h-4 w-4" /> },
       { id: 'integrations', label: 'Integrations', icon: <Puzzle className="h-4 w-4" /> },
       { id: 'gamification', label: 'Achievements', icon: <Trophy className="h-4 w-4" /> },
-    ],
-  },
+    ]
+  }
 ];
 
-export function Sidebar({
-  currentPage,
-  setCurrentPage,
-  sidebarOpen,
+export function Sidebar({ 
+  currentPage, 
+  setCurrentPage, 
+  sidebarOpen, 
   setSidebarOpen,
   isAuthenticated,
   userStats,
   setShowWizard,
-  dailyTasks,
+  dailyTasks
 }: SidebarProps) {
   const [expandedSections, setExpandedSections] = useState<string[]>(
-    NAV_SECTIONS.filter((section) => section.defaultExpanded).map((section) => section.title)
+    NAV_SECTIONS.filter(section => section.defaultExpanded).map(section => section.title)
   );
 
   const toggleSection = (title: string) => {
-    setExpandedSections((prev) =>
-      prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title]
+    setExpandedSections(prev =>
+      prev.includes(title)
+        ? prev.filter(t => t !== title)
+        : [...prev, title]
     );
   };
 
@@ -226,19 +162,17 @@ export function Sidebar({
     setSidebarOpen(false);
   };
 
-  const completedTasks = dailyTasks?.filter((task) => task.completed).length || 0;
+  const completedTasks = dailyTasks?.filter(task => task.completed).length || 0;
   const totalTasks = dailyTasks?.length || 0;
   const taskProgress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
   if (!isAuthenticated) return null;
 
   return (
-    <div
-      className={cn(
-        'fixed inset-y-0 left-0 z-50 w-72 bg-sidebar border-r border-sidebar-border transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0',
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      )}
-    >
+    <div className={cn(
+      "fixed inset-y-0 left-0 z-50 w-72 bg-sidebar border-r border-sidebar-border transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
+      sidebarOpen ? "translate-x-0" : "-translate-x-full"
+    )}>
       <div className="flex flex-col h-full">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-sidebar-border">
@@ -275,12 +209,10 @@ export function Sidebar({
                 {userStats.subscription}
               </Badge>
             </div>
-
+            
             <div className="space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="text-sidebar-foreground/60">
-                  Progress to Level {userStats.level + 1}
-                </span>
+                <span className="text-sidebar-foreground/60">Progress to Level {userStats.level + 1}</span>
                 <span className="text-sidebar-foreground/60">
                   {((userStats.xp / userStats.xpToNext) * 100).toFixed(0)}%
                 </span>
@@ -332,7 +264,7 @@ export function Sidebar({
                       <ChevronRight className="h-3 w-3" />
                     )}
                   </Button>
-
+                  
                   <AnimatePresence>
                     {expandedSections.includes(section.title) && (
                       <motion.div
@@ -388,7 +320,7 @@ export function Sidebar({
             <Wand2 className="h-4 w-4 mr-2" />
             New Project
           </Button>
-
+          
           <Button
             variant="ghost"
             onClick={() => handleNavigation('settings')}
@@ -411,8 +343,7 @@ interface NavItemProps {
 }
 
 function NavItem({ item, isActive, onClick, userTier = 'free' }: NavItemProps) {
-  const hasAccess =
-    !item.tier ||
+  const hasAccess = !item.tier || 
     item.tier === 'free' ||
     (item.tier === 'pro' && ['pro', 'enterprise'].includes(userTier)) ||
     (item.tier === 'enterprise' && userTier === 'enterprise');
@@ -424,10 +355,10 @@ function NavItem({ item, isActive, onClick, userTier = 'free' }: NavItemProps) {
     <Button
       variant="ghost"
       className={cn(
-        'w-full justify-start h-9 px-3 relative group',
-        'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
-        isActive && 'bg-sidebar-accent text-sidebar-accent-foreground font-medium',
-        (isLocked || isComingSoon) && 'opacity-60'
+        "w-full justify-start h-9 px-3 relative group",
+        "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+        isActive && "bg-sidebar-accent text-sidebar-accent-foreground font-medium",
+        (isLocked || isComingSoon) && "opacity-60"
       )}
       onClick={onClick}
       disabled={isLocked || isComingSoon}
@@ -437,7 +368,7 @@ function NavItem({ item, isActive, onClick, userTier = 'free' }: NavItemProps) {
           {item.icon}
           <span className="text-sm">{item.label}</span>
         </div>
-
+        
         <div className="flex items-center space-x-1">
           {item.hot && (
             <Badge variant="destructive" className="text-xs px-1.5 py-0.5 h-auto">
@@ -466,12 +397,12 @@ function NavItem({ item, isActive, onClick, userTier = 'free' }: NavItemProps) {
           )}
         </div>
       </div>
-
+      
       {isActive && (
         <motion.div
           layoutId="sidebar-indicator"
           className="absolute left-0 top-0 bottom-0 w-1 bg-sidebar-primary rounded-r-full"
-          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+          transition={{ type: "spring", stiffness: 400, damping: 30 }}
         />
       )}
     </Button>

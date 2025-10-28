@@ -2,8 +2,17 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import { Trophy, Star, Zap, Target, Users, Code, Download, Sparkles } from 'lucide-react';
-import { toast } from 'sonner';
+import { 
+  Trophy, 
+  Star, 
+  Zap, 
+  Target, 
+  Users, 
+  Code,
+  Download,
+  Sparkles
+} from 'lucide-react';
+import { toast } from 'sonner@2.0.3';
 import { awardXP } from '../../services/GamificationInitializer';
 
 interface Achievement {
@@ -27,7 +36,7 @@ export function AchievementUnlockDemo() {
       icon: <Code className="h-5 w-5" />,
       xp: 50,
       rarity: 'common',
-      category: 'Generation',
+      category: 'Generation'
     },
     {
       id: 'full_stack_master',
@@ -36,7 +45,7 @@ export function AchievementUnlockDemo() {
       icon: <Target className="h-5 w-5" />,
       xp: 250,
       rarity: 'rare',
-      category: 'Projects',
+      category: 'Projects'
     },
     {
       id: 'speed_demon',
@@ -45,7 +54,7 @@ export function AchievementUnlockDemo() {
       icon: <Zap className="h-5 w-5" />,
       xp: 500,
       rarity: 'epic',
-      category: 'Speed',
+      category: 'Speed'
     },
     {
       id: 'download_master',
@@ -54,7 +63,7 @@ export function AchievementUnlockDemo() {
       icon: <Download className="h-5 w-5" />,
       xp: 200,
       rarity: 'rare',
-      category: 'Export',
+      category: 'Export'
     },
     {
       id: 'early_adopter',
@@ -63,7 +72,7 @@ export function AchievementUnlockDemo() {
       icon: <Star className="h-5 w-5" />,
       xp: 1000,
       rarity: 'legendary',
-      category: 'Special',
+      category: 'Special'
     },
     {
       id: 'collaborator',
@@ -72,7 +81,7 @@ export function AchievementUnlockDemo() {
       icon: <Users className="h-5 w-5" />,
       xp: 300,
       rarity: 'epic',
-      category: 'Social',
+      category: 'Social'
     },
     {
       id: 'innovator',
@@ -81,7 +90,7 @@ export function AchievementUnlockDemo() {
       icon: <Sparkles className="h-5 w-5" />,
       xp: 400,
       rarity: 'epic',
-      category: 'Innovation',
+      category: 'Innovation'
     },
     {
       id: 'perfectionist',
@@ -90,8 +99,8 @@ export function AchievementUnlockDemo() {
       icon: <Trophy className="h-5 w-5" />,
       xp: 750,
       rarity: 'legendary',
-      category: 'Quality',
-    },
+      category: 'Quality'
+    }
   ];
 
   const getRarityColor = (rarity: string) => {
@@ -131,7 +140,7 @@ export function AchievementUnlockDemo() {
     }
 
     // Add to unlocked achievements
-    setUnlockedAchievements((prev) => [...prev, achievement.id]);
+    setUnlockedAchievements(prev => [...prev, achievement.id]);
 
     // Award XP
     await awardXP(achievement.xp, `Unlocked achievement: ${achievement.name}`);
@@ -140,55 +149,52 @@ export function AchievementUnlockDemo() {
     toast.success(`🏆 Achievement Unlocked!`, {
       description: `${achievement.name}: ${achievement.description}`,
       duration: 6000,
-      className: 'ff-confetti',
+      className: 'ff-confetti'
     });
 
     // Show XP gain
     toast.success(`+${achievement.xp} XP`, {
       description: `From ${achievement.name} achievement`,
-      duration: 3000,
+      duration: 3000
     });
   };
 
   const handleUnlockAll = async () => {
-    const lockedAchievements = achievements.filter((a) => !unlockedAchievements.includes(a.id));
-
+    const lockedAchievements = achievements.filter(a => !unlockedAchievements.includes(a.id));
+    
     if (lockedAchievements.length === 0) {
       toast.info('All achievements already unlocked!');
       return;
     }
 
     const totalXP = lockedAchievements.reduce((sum, a) => sum + a.xp, 0);
-
+    
     // Unlock all achievements
-    setUnlockedAchievements((prev) => [...prev, ...lockedAchievements.map((a) => a.id)]);
-
+    setUnlockedAchievements(prev => [...prev, ...lockedAchievements.map(a => a.id)]);
+    
     // Award total XP
     await awardXP(totalXP, `Unlocked ${lockedAchievements.length} achievements`);
-
+    
     // Show massive unlock notification
     toast.success(`🎊 ${lockedAchievements.length} Achievements Unlocked!`, {
       description: `Earned ${totalXP} total XP!`,
       duration: 8000,
-      className: 'ff-level-up',
+      className: 'ff-level-up'
     });
   };
 
-  const categorizedAchievements = achievements.reduce(
-    (acc, achievement) => {
-      if (!acc[achievement.category]) {
-        acc[achievement.category] = [];
-      }
-      acc[achievement.category].push(achievement);
-      return acc;
-    },
-    {} as Record<string, Achievement[]>
-  );
+  const categorizedAchievements = achievements.reduce((acc, achievement) => {
+    if (!acc[achievement.category]) {
+      acc[achievement.category] = [];
+    }
+    acc[achievement.category].push(achievement);
+    return acc;
+  }, {} as Record<string, Achievement[]>);
 
   const unlockedCount = unlockedAchievements.length;
   const totalCount = achievements.length;
   const unlockedXP = achievements
-    .filter((a) => unlockedAchievements.includes(a.id))
+    .filter(a => unlockedAchievements.includes(a.id))
     .reduce((sum, a) => sum + a.xp, 0);
 
   return (
@@ -200,14 +206,12 @@ export function AchievementUnlockDemo() {
             Achievement System Demo
           </CardTitle>
           <div className="text-right space-y-1">
-            <div className="text-2xl font-bold text-primary">
-              {unlockedCount}/{totalCount}
-            </div>
+            <div className="text-2xl font-bold text-primary">{unlockedCount}/{totalCount}</div>
             <div className="text-xs text-muted-foreground">Unlocked</div>
             <div className="text-sm font-medium text-warning">+{unlockedXP} XP</div>
           </div>
         </div>
-
+        
         <div className="flex gap-2 mt-4">
           <Button
             onClick={handleUnlockAll}
@@ -217,7 +221,7 @@ export function AchievementUnlockDemo() {
             <Sparkles className="h-4 w-4 mr-2" />
             Unlock All Demo
           </Button>
-
+          
           <Button
             onClick={() => {
               setUnlockedAchievements([]);
@@ -237,47 +241,45 @@ export function AchievementUnlockDemo() {
             <div className="flex items-center gap-2 border-b pb-2">
               <h3 className="font-semibold text-lg">{category}</h3>
               <Badge variant="outline" className="text-xs">
-                {categoryAchievements.filter((a) => unlockedAchievements.includes(a.id)).length}/
+                {categoryAchievements.filter(a => unlockedAchievements.includes(a.id)).length}/
                 {categoryAchievements.length}
               </Badge>
             </div>
-
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {categoryAchievements.map((achievement) => {
                 const isUnlocked = unlockedAchievements.includes(achievement.id);
-
+                
                 return (
                   <div
                     key={achievement.id}
-                    className={`p-4 border rounded-lg transition-all duration-300 ${getRarityColor(
-                      achievement.rarity
-                    )} ${isUnlocked ? 'opacity-100' : 'opacity-60 hover:opacity-80'} ${
+                    className={`p-4 border rounded-lg transition-all duration-300 ${
+                      getRarityColor(achievement.rarity)
+                    } ${isUnlocked ? 'opacity-100' : 'opacity-60 hover:opacity-80'} ${
                       isUnlocked ? 'ff-hover-glow' : 'ff-hover-lift'
                     }`}
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div
-                          className={`p-2 rounded-lg ${
-                            isUnlocked
-                              ? 'bg-primary/20 text-primary'
-                              : 'bg-muted text-muted-foreground'
-                          }`}
-                        >
+                        <div className={`p-2 rounded-lg ${
+                          isUnlocked ? 'bg-primary/20 text-primary' : 'bg-muted text-muted-foreground'
+                        }`}>
                           {achievement.icon}
                         </div>
                         <div>
-                          <h4
-                            className={`font-semibold ${isUnlocked ? '' : 'text-muted-foreground'}`}
-                          >
+                          <h4 className={`font-semibold ${isUnlocked ? '' : 'text-muted-foreground'}`}>
                             {achievement.name}
                           </h4>
-                          <p className="text-sm text-muted-foreground">{achievement.description}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {achievement.description}
+                          </p>
                         </div>
                       </div>
-                      {isUnlocked && <Trophy className="h-5 w-5 text-warning" />}
+                      {isUnlocked && (
+                        <Trophy className="h-5 w-5 text-warning" />
+                      )}
                     </div>
-
+                    
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         {getRarityBadge(achievement.rarity)}
@@ -285,7 +287,7 @@ export function AchievementUnlockDemo() {
                           +{achievement.xp} XP
                         </Badge>
                       </div>
-
+                      
                       {!isUnlocked && (
                         <Button
                           size="sm"
@@ -296,9 +298,11 @@ export function AchievementUnlockDemo() {
                           Unlock
                         </Button>
                       )}
-
+                      
                       {isUnlocked && (
-                        <Badge className="bg-success text-white text-xs">Unlocked</Badge>
+                        <Badge className="bg-success text-white text-xs">
+                          Unlocked
+                        </Badge>
                       )}
                     </div>
                   </div>
@@ -321,11 +325,7 @@ export function AchievementUnlockDemo() {
             </div>
             <div className="space-y-1">
               <div className="text-xl font-bold text-accent">
-                {
-                  achievements.filter(
-                    (a) => a.rarity === 'legendary' && unlockedAchievements.includes(a.id)
-                  ).length
-                }
+                {achievements.filter(a => a.rarity === 'legendary' && unlockedAchievements.includes(a.id)).length}
               </div>
               <div className="text-xs text-muted-foreground">Legendary</div>
             </div>

@@ -47,7 +47,7 @@ export class AIServiceManager {
   private initializeSupabase() {
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
     const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
+    
     if (supabaseUrl && supabaseKey) {
       this.supabase = createClient(supabaseUrl, supabaseKey);
     }
@@ -65,8 +65,8 @@ export class AIServiceManager {
         capabilities: ['text-generation', 'code-generation', 'reasoning'],
         rateLimits: {
           requestsPerMinute: 3500,
-          tokensPerMinute: 90000,
-        },
+          tokensPerMinute: 90000
+        }
       });
     }
 
@@ -81,8 +81,8 @@ export class AIServiceManager {
         capabilities: ['text-generation', 'code-generation', 'analysis'],
         rateLimits: {
           requestsPerMinute: 1000,
-          tokensPerMinute: 40000,
-        },
+          tokensPerMinute: 40000
+        }
       });
     }
 
@@ -97,8 +97,8 @@ export class AIServiceManager {
         capabilities: ['text-generation', 'multimodal', 'reasoning'],
         rateLimits: {
           requestsPerMinute: 2000,
-          tokensPerMinute: 32000,
-        },
+          tokensPerMinute: 32000
+        }
       });
     }
   }
@@ -110,7 +110,7 @@ export class AIServiceManager {
     try {
       // Select optimal provider
       const provider = await this.selectOptimalProvider(preferredProvider, request);
-
+      
       if (!provider) {
         throw new Error('No available AI providers configured');
       }
@@ -122,7 +122,7 @@ export class AIServiceManager {
 
       // Generate content
       const response = await this.callProvider(provider, request);
-
+      
       // Log usage for analytics
       await this.logUsage(requestId, provider.name, request, response, Date.now() - startTime);
 
@@ -132,11 +132,12 @@ export class AIServiceManager {
         usage: response.usage,
         provider: provider.name,
         timestamp: Date.now(),
-        requestId,
+        requestId
       };
+
     } catch (error) {
       console.error('AI generation failed:', error);
-
+      
       // Try fallback provider
       if (!preferredProvider) {
         const fallbackProvider = this.getFallbackProvider();
@@ -150,27 +151,23 @@ export class AIServiceManager {
     }
   }
 
-  private async selectOptimalProvider(
-    preferredProvider?: string,
-    request?: AIRequest
-  ): Promise<AIProvider | null> {
+  private async selectOptimalProvider(preferredProvider?: string, request?: AIRequest): Promise<AIProvider | null> {
     if (preferredProvider && this.providers.has(preferredProvider)) {
       return this.providers.get(preferredProvider)!;
     }
 
     // Score providers based on capabilities and availability
-    const availableProviders = Array.from(this.providers.values()).filter((provider) =>
-      this.checkRateLimit(provider.name)
-    );
+    const availableProviders = Array.from(this.providers.values())
+      .filter(provider => this.checkRateLimit(provider.name));
 
     if (availableProviders.length === 0) {
       return null;
     }
 
     // Simple scoring: prefer providers with more capabilities
-    const scored = availableProviders.map((provider) => ({
+    const scored = availableProviders.map(provider => ({
       provider,
-      score: provider.capabilities.length + provider.rateLimits.requestsPerMinute / 1000,
+      score: provider.capabilities.length + (provider.rateLimits.requestsPerMinute / 1000)
     }));
 
     scored.sort((a, b) => b.score - a.score);
@@ -194,18 +191,18 @@ export class AIServiceManager {
     const response = await fetch(`${provider.baseUrl}/chat/completions`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${provider.apiKey}`,
-        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${provider.apiKey}`,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         model: request.model || 'gpt-4-turbo',
         messages: [
           ...(request.systemPrompt ? [{ role: 'system', content: request.systemPrompt }] : []),
-          { role: 'user', content: request.prompt },
+          { role: 'user', content: request.prompt }
         ],
         temperature: request.temperature || 0.7,
-        max_tokens: request.maxTokens || 4000,
-      }),
+        max_tokens: request.maxTokens || 4000
+      })
     });
 
     if (!response.ok) {
@@ -214,15 +211,15 @@ export class AIServiceManager {
     }
 
     const data = await response.json();
-
+    
     return {
       content: data.choices[0].message.content,
       model: data.model,
       usage: {
         promptTokens: data.usage.prompt_tokens,
         completionTokens: data.usage.completion_tokens,
-        totalTokens: data.usage.total_tokens,
-      },
+        totalTokens: data.usage.total_tokens
+      }
     };
   }
 
@@ -232,15 +229,17 @@ export class AIServiceManager {
       headers: {
         'x-api-key': provider.apiKey,
         'Content-Type': 'application/json',
-        'anthropic-version': '2023-06-01',
+        'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
         model: request.model || 'claude-3-5-sonnet-20241022',
         max_tokens: request.maxTokens || 4000,
         temperature: request.temperature || 0.7,
         system: request.systemPrompt || '',
-        messages: [{ role: 'user', content: request.prompt }],
-      }),
+        messages: [
+          { role: 'user', content: request.prompt }
+        ]
+      })
     });
 
     if (!response.ok) {
@@ -249,40 +248,39 @@ export class AIServiceManager {
     }
 
     const data = await response.json();
-
+    
     return {
       content: data.content[0].text,
       model: data.model,
       usage: {
         promptTokens: data.usage.input_tokens,
         completionTokens: data.usage.output_tokens,
-        totalTokens: data.usage.input_tokens + data.usage.output_tokens,
-      },
+        totalTokens: data.usage.input_tokens + data.usage.output_tokens
+      }
     };
   }
 
   private async callGemini(provider: AIProvider, request: AIRequest): Promise<any> {
     const model = request.model || 'gemini-1.5-pro';
-    const response = await fetch(
-      `${provider.baseUrl}/models/${model}:generateContent?key=${provider.apiKey}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [{ text: request.prompt }],
-            },
-          ],
-          generationConfig: {
-            temperature: request.temperature || 0.7,
-            maxOutputTokens: request.maxTokens || 4000,
-          },
-        }),
-      }
-    );
+    const response = await fetch(`${provider.baseUrl}/models/${model}:generateContent?key=${provider.apiKey}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [
+              { text: request.prompt }
+            ]
+          }
+        ],
+        generationConfig: {
+          temperature: request.temperature || 0.7,
+          maxOutputTokens: request.maxTokens || 4000
+        }
+      })
+    });
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({ error: 'Unknown error' }));
@@ -290,19 +288,19 @@ export class AIServiceManager {
     }
 
     const data = await response.json();
-
+    
     if (!data.candidates || data.candidates.length === 0) {
       throw new Error('No response from Gemini API');
     }
-
+    
     return {
       content: data.candidates[0].content.parts[0].text,
       model: model,
       usage: {
         promptTokens: data.usageMetadata?.promptTokenCount || 0,
         completionTokens: data.usageMetadata?.candidatesTokenCount || 0,
-        totalTokens: data.usageMetadata?.totalTokenCount || 0,
-      },
+        totalTokens: data.usageMetadata?.totalTokenCount || 0
+      }
     };
   }
 
@@ -310,28 +308,28 @@ export class AIServiceManager {
     const now = Date.now();
     const minute = Math.floor(now / 60000);
     const key = `${providerName}_${minute}`;
-
+    
     const requests = this.rateLimitCache.get(key) || [];
     const provider = this.providers.get(providerName);
-
+    
     if (!provider) return false;
-
+    
     if (requests.length >= provider.rateLimits.requestsPerMinute) {
       return false;
     }
-
+    
     requests.push(now);
     this.rateLimitCache.set(key, requests);
-
+    
     // Clean old entries
     this.cleanRateLimitCache();
-
+    
     return true;
   }
 
   private cleanRateLimitCache() {
     const currentMinute = Math.floor(Date.now() / 60000);
-
+    
     for (const [key] of this.rateLimitCache) {
       const keyMinute = parseInt(key.split('_').pop() || '0');
       if (currentMinute - keyMinute > 2) {
@@ -341,20 +339,13 @@ export class AIServiceManager {
   }
 
   private getFallbackProvider(): AIProvider | null {
-    const availableProviders = Array.from(this.providers.values()).filter((provider) =>
-      this.checkRateLimit(provider.name)
-    );
-
+    const availableProviders = Array.from(this.providers.values())
+      .filter(provider => this.checkRateLimit(provider.name));
+    
     return availableProviders[0] || null;
   }
 
-  private async logUsage(
-    requestId: string,
-    provider: string,
-    request: AIRequest,
-    response: any,
-    duration: number
-  ) {
+  private async logUsage(requestId: string, provider: string, request: AIRequest, response: any, duration: number) {
     if (!this.supabase) return;
 
     try {
@@ -367,7 +358,7 @@ export class AIServiceManager {
         total_tokens: response.usage.totalTokens,
         duration_ms: duration,
         timestamp: new Date().toISOString(),
-        success: true,
+        success: true
       });
     } catch (error) {
       console.warn('Failed to log AI usage:', error);
@@ -394,11 +385,7 @@ export class AIServiceManager {
   }
 
   // Tool-specific generation methods
-  async generateCode(
-    prompt: string,
-    language: string = 'typescript',
-    framework?: string
-  ): Promise<AIResponse> {
+  async generateCode(prompt: string, language: string = 'typescript', framework?: string): Promise<AIResponse> {
     const systemPrompt = `You are an expert software developer. Generate clean, production-ready ${language} code${framework ? ` using ${framework}` : ''}. 
 
 Requirements:
@@ -413,7 +400,7 @@ Requirements:
       prompt,
       systemPrompt,
       temperature: 0.2,
-      maxTokens: 6000,
+      maxTokens: 6000
     });
   }
 
@@ -431,7 +418,7 @@ Requirements:
       prompt,
       systemPrompt,
       temperature: 0.8,
-      maxTokens: 4000,
+      maxTokens: 4000
     });
   }
 
@@ -449,7 +436,7 @@ Requirements:
       prompt: `Analyze this code:\n\n${code}`,
       systemPrompt,
       temperature: 0.3,
-      maxTokens: 4000,
+      maxTokens: 4000
     });
   }
 }

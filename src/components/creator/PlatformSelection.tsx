@@ -19,7 +19,7 @@ export function PlatformSelection({
   handlePlatformToggle,
   onGenerateContent,
   canGenerate,
-  isGenerating,
+  isGenerating
 }: PlatformSelectionProps) {
   return (
     <>
@@ -34,14 +34,14 @@ export function PlatformSelection({
             <Card
               key={id}
               className={cn(
-                'p-6 cursor-pointer transition-all duration-300 hover:shadow-lg',
-                selectedPlatforms.includes(id) && 'ring-2 ring-primary bg-primary/5'
+                "p-6 cursor-pointer transition-all duration-300 hover:shadow-lg",
+                selectedPlatforms.includes(id) && "ring-2 ring-primary bg-primary/5"
               )}
               onClick={() => handlePlatformToggle(id)}
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div
+                  <div 
                     className="p-2 rounded-lg"
                     style={{ backgroundColor: `${platform.color}20`, color: platform.color }}
                   >
@@ -49,9 +49,11 @@ export function PlatformSelection({
                   </div>
                   <h3 className="font-semibold">{platform.name}</h3>
                 </div>
-                {selectedPlatforms.includes(id) && <Check className="h-5 w-5 text-primary" />}
+                {selectedPlatforms.includes(id) && (
+                  <Check className="h-5 w-5 text-primary" />
+                )}
               </div>
-
+              
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">Will generate:</p>
                 <div className="flex flex-wrap gap-1">

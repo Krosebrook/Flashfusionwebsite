@@ -9,10 +9,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Alert, AlertDescription } from '../ui/alert';
-import {
-  Download,
-  Package,
-  Filter,
+import { 
+  Download, 
+  Package, 
+  Filter, 
   Search,
   CheckCircle,
   XCircle,
@@ -29,9 +29,9 @@ import {
   Square,
   RefreshCw,
   Eye,
-  Trash2,
+  Trash2
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 import { MultiFormatDownloadSelector } from '../ui/multi-format-download-selector';
 import type { GeneratedApp } from '../../types/full-stack-builder';
 import type { DownloadFormat, DownloadOptions } from '../../utils/multi-format-download';
@@ -76,7 +76,7 @@ const PROJECT_FILTERS = {
   type: ['full-stack-app', 'component', 'template', 'tool-output'],
   framework: ['React', 'Next.js', 'Vue.js', 'Angular', 'Svelte', 'Node.js', 'Python', 'PHP'],
   status: ['ready', 'generating', 'error', 'archived'],
-  dateRange: ['today', 'week', 'month', 'quarter', 'year', 'all'],
+  dateRange: ['today', 'week', 'month', 'quarter', 'year', 'all']
 };
 
 export function BulkExportManager() {
@@ -90,7 +90,7 @@ export function BulkExportManager() {
     framework: 'all',
     status: 'all',
     dateRange: 'all',
-    author: 'all',
+    author: 'all'
   });
   const [sortBy, setSortBy] = useState('lastModified');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
@@ -126,8 +126,8 @@ export function BulkExportManager() {
         metadata: {
           version: '1.0.0',
           dependencies: ['react', 'typescript', 'tailwind'],
-          platforms: ['vercel', 'netlify'],
-        },
+          platforms: ['vercel', 'netlify']
+        }
       },
       {
         id: 'proj_2',
@@ -145,9 +145,9 @@ export function BulkExportManager() {
         metadata: {
           version: '2.1.0',
           dependencies: ['express', 'mongodb', 'jwt'],
-          platforms: ['heroku', 'aws'],
-        },
-      },
+          platforms: ['heroku', 'aws']
+        }
+      }
     ];
 
     // Add projects from localStorage if they exist
@@ -185,34 +185,33 @@ export function BulkExportManager() {
 
     // Search filter
     if (searchQuery) {
-      filtered = filtered.filter(
-        (project) =>
-          project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          project.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+      filtered = filtered.filter(project => 
+        project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
       );
     }
 
     // Type filter
     if (filters.type !== 'all') {
-      filtered = filtered.filter((project) => project.type === filters.type);
+      filtered = filtered.filter(project => project.type === filters.type);
     }
 
     // Framework filter
     if (filters.framework !== 'all') {
-      filtered = filtered.filter((project) => project.framework === filters.framework);
+      filtered = filtered.filter(project => project.framework === filters.framework);
     }
 
     // Status filter
     if (filters.status !== 'all') {
-      filtered = filtered.filter((project) => project.status === filters.status);
+      filtered = filtered.filter(project => project.status === filters.status);
     }
 
     // Date range filter
     if (filters.dateRange !== 'all') {
       const now = new Date();
       const cutoffDate = new Date();
-
+      
       switch (filters.dateRange) {
         case 'today':
           cutoffDate.setHours(0, 0, 0, 0);
@@ -230,20 +229,22 @@ export function BulkExportManager() {
           cutoffDate.setFullYear(now.getFullYear() - 1);
           break;
       }
-
-      filtered = filtered.filter((project) => new Date(project.lastModified) >= cutoffDate);
+      
+      filtered = filtered.filter(project => 
+        new Date(project.lastModified) >= cutoffDate
+      );
     }
 
     // Author filter
     if (filters.author !== 'all') {
-      filtered = filtered.filter((project) => project.author === filters.author);
+      filtered = filtered.filter(project => project.author === filters.author);
     }
 
     // Sort
     filtered.sort((a, b) => {
       let aVal = a[sortBy as keyof ProjectItem];
       let bVal = b[sortBy as keyof ProjectItem];
-
+      
       if (sortBy === 'size') {
         aVal = a.size;
         bVal = b.size;
@@ -251,7 +252,7 @@ export function BulkExportManager() {
         aVal = new Date(aVal as string).getTime();
         bVal = new Date(bVal as string).getTime();
       }
-
+      
       if (sortOrder === 'asc') {
         return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
       } else {
@@ -263,13 +264,15 @@ export function BulkExportManager() {
   };
 
   const toggleProjectSelection = (projectId: string) => {
-    setSelectedProjects((prev) =>
-      prev.includes(projectId) ? prev.filter((id) => id !== projectId) : [...prev, projectId]
+    setSelectedProjects(prev => 
+      prev.includes(projectId)
+        ? prev.filter(id => id !== projectId)
+        : [...prev, projectId]
     );
   };
 
   const selectAllProjects = () => {
-    setSelectedProjects(filteredProjects.map((p) => p.id));
+    setSelectedProjects(filteredProjects.map(p => p.id));
   };
 
   const clearSelection = () => {
@@ -285,7 +288,7 @@ export function BulkExportManager() {
     setIsCreatingJob(true);
 
     try {
-      const selectedProjectsData = projects.filter((p) => selectedProjects.includes(p.id));
+      const selectedProjectsData = projects.filter(p => selectedProjects.includes(p.id));
       const totalSize = selectedProjectsData.reduce((sum, p) => sum + p.size, 0);
 
       const job: BulkExportJob = {
@@ -299,15 +302,15 @@ export function BulkExportManager() {
         createdAt: new Date().toISOString(),
         totalSize: totalSize,
         processedSize: 0,
-        errors: [],
+        errors: []
       };
 
       const updatedJobs = [job, ...exportJobs];
       saveExportJobs(updatedJobs);
-
+      
       // Start the export job
       startExportJob(job.id);
-
+      
       setCurrentJob(job);
       clearSelection();
       toast.success('Bulk export job created and started');
@@ -320,62 +323,70 @@ export function BulkExportManager() {
   };
 
   const startExportJob = async (jobId: string) => {
-    const job = exportJobs.find((j) => j.id === jobId);
+    const job = exportJobs.find(j => j.id === jobId);
     if (!job) return;
 
     // Update job status to running
-    const updatedJobs = exportJobs.map((j) =>
-      j.id === jobId ? { ...j, status: 'running' as const, progress: 0 } : j
+    const updatedJobs = exportJobs.map(j => 
+      j.id === jobId 
+        ? { ...j, status: 'running' as const, progress: 0 }
+        : j
     );
     saveExportJobs(updatedJobs);
 
     // Simulate export process
-    const projectsToExport = projects.filter((p) => job.selectedProjects.includes(p.id));
-
+    const projectsToExport = projects.filter(p => job.selectedProjects.includes(p.id));
+    
     for (let i = 0; i < projectsToExport.length; i++) {
       const project = projectsToExport[i];
-
+      
       // Simulate processing time
-      await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 2000));
-
+      await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+      
       const progress = ((i + 1) / projectsToExport.length) * 100;
       const processedSize = job.totalSize * (progress / 100);
-
+      
       // Update progress
-      const progressJobs = exportJobs.map((j) =>
-        j.id === jobId ? { ...j, progress, processedSize } : j
+      const progressJobs = exportJobs.map(j => 
+        j.id === jobId 
+          ? { ...j, progress, processedSize }
+          : j
       );
       saveExportJobs(progressJobs);
     }
 
     // Complete job
-    const completedJobs = exportJobs.map((j) =>
-      j.id === jobId
-        ? {
-            ...j,
-            status: 'completed' as const,
+    const completedJobs = exportJobs.map(j => 
+      j.id === jobId 
+        ? { 
+            ...j, 
+            status: 'completed' as const, 
             progress: 100,
             completedAt: new Date().toISOString(),
-            downloadUrl: `https://downloads.flashfusion.ai/${jobId}.zip`,
+            downloadUrl: `https://downloads.flashfusion.ai/${jobId}.zip`
           }
         : j
     );
     saveExportJobs(completedJobs);
-
+    
     toast.success('Bulk export completed successfully!');
   };
 
   const pauseJob = (jobId: string) => {
-    const updatedJobs = exportJobs.map((j) =>
-      j.id === jobId ? { ...j, status: 'paused' as const } : j
+    const updatedJobs = exportJobs.map(j => 
+      j.id === jobId 
+        ? { ...j, status: 'paused' as const }
+        : j
     );
     saveExportJobs(updatedJobs);
     toast.info('Export job paused');
   };
 
   const resumeJob = (jobId: string) => {
-    const updatedJobs = exportJobs.map((j) =>
-      j.id === jobId ? { ...j, status: 'running' as const } : j
+    const updatedJobs = exportJobs.map(j => 
+      j.id === jobId 
+        ? { ...j, status: 'running' as const }
+        : j
     );
     saveExportJobs(updatedJobs);
     startExportJob(jobId);
@@ -383,15 +394,17 @@ export function BulkExportManager() {
   };
 
   const cancelJob = (jobId: string) => {
-    const updatedJobs = exportJobs.map((j) =>
-      j.id === jobId ? { ...j, status: 'failed' as const } : j
+    const updatedJobs = exportJobs.map(j => 
+      j.id === jobId 
+        ? { ...j, status: 'failed' as const }
+        : j
     );
     saveExportJobs(updatedJobs);
     toast.info('Export job cancelled');
   };
 
   const deleteJob = (jobId: string) => {
-    const updatedJobs = exportJobs.filter((j) => j.id !== jobId);
+    const updatedJobs = exportJobs.filter(j => j.id !== jobId);
     saveExportJobs(updatedJobs);
     toast.success('Export job deleted');
   };
@@ -430,12 +443,12 @@ export function BulkExportManager() {
 
   const totalSelectedSize = useMemo(() => {
     return projects
-      .filter((p) => selectedProjects.includes(p.id))
+      .filter(p => selectedProjects.includes(p.id))
       .reduce((sum, p) => sum + p.size, 0);
   }, [projects, selectedProjects]);
 
   const uniqueAuthors = useMemo(() => {
-    return [...new Set(projects.map((p) => p.author))];
+    return [...new Set(projects.map(p => p.author))];
   }, [projects]);
 
   return (
@@ -444,8 +457,7 @@ export function BulkExportManager() {
         <div>
           <h2 className="ff-text-gradient mb-2">Bulk Export Manager</h2>
           <p className="text-ff-text-secondary">
-            Select and export multiple projects simultaneously with advanced filtering and batch
-            processing capabilities.
+            Select and export multiple projects simultaneously with advanced filtering and batch processing capabilities.
           </p>
         </div>
         {selectedProjects.length > 0 && (
@@ -483,21 +495,19 @@ export function BulkExportManager() {
                 <div className="flex gap-2">
                   {selectedProjects.length > 0 && (
                     <>
-                      <Button size="sm" variant="outline" onClick={clearSelection}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={clearSelection}
+                      >
                         Clear Selection
                       </Button>
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() =>
-                          filteredProjects.length > selectedProjects.length
-                            ? selectAllProjects()
-                            : clearSelection()
-                        }
+                        onClick={() => filteredProjects.length > selectedProjects.length ? selectAllProjects() : clearSelection()}
                       >
-                        {filteredProjects.length > selectedProjects.length
-                          ? 'Select All'
-                          : 'Deselect All'}
+                        {filteredProjects.length > selectedProjects.length ? 'Select All' : 'Deselect All'}
                       </Button>
                     </>
                   )}
@@ -528,19 +538,14 @@ export function BulkExportManager() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
                   <Label htmlFor="type-filter">Type</Label>
-                  <Select
-                    value={filters.type}
-                    onValueChange={(value) => setFilters((prev) => ({ ...prev, type: value }))}
-                  >
+                  <Select value={filters.type} onValueChange={(value) => setFilters(prev => ({ ...prev, type: value }))}>
                     <SelectTrigger className="ff-focus-ring">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All Types</SelectItem>
-                      {PROJECT_FILTERS.type.map((type) => (
-                        <SelectItem key={type} value={type}>
-                          {type}
-                        </SelectItem>
+                      {PROJECT_FILTERS.type.map(type => (
+                        <SelectItem key={type} value={type}>{type}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -548,19 +553,14 @@ export function BulkExportManager() {
 
                 <div>
                   <Label htmlFor="framework-filter">Framework</Label>
-                  <Select
-                    value={filters.framework}
-                    onValueChange={(value) => setFilters((prev) => ({ ...prev, framework: value }))}
-                  >
+                  <Select value={filters.framework} onValueChange={(value) => setFilters(prev => ({ ...prev, framework: value }))}>
                     <SelectTrigger className="ff-focus-ring">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All Frameworks</SelectItem>
-                      {PROJECT_FILTERS.framework.map((framework) => (
-                        <SelectItem key={framework} value={framework}>
-                          {framework}
-                        </SelectItem>
+                      {PROJECT_FILTERS.framework.map(framework => (
+                        <SelectItem key={framework} value={framework}>{framework}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -568,19 +568,14 @@ export function BulkExportManager() {
 
                 <div>
                   <Label htmlFor="status-filter">Status</Label>
-                  <Select
-                    value={filters.status}
-                    onValueChange={(value) => setFilters((prev) => ({ ...prev, status: value }))}
-                  >
+                  <Select value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
                     <SelectTrigger className="ff-focus-ring">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All Statuses</SelectItem>
-                      {PROJECT_FILTERS.status.map((status) => (
-                        <SelectItem key={status} value={status}>
-                          {status}
-                        </SelectItem>
+                      {PROJECT_FILTERS.status.map(status => (
+                        <SelectItem key={status} value={status}>{status}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -588,10 +583,7 @@ export function BulkExportManager() {
 
                 <div>
                   <Label htmlFor="date-filter">Date Range</Label>
-                  <Select
-                    value={filters.dateRange}
-                    onValueChange={(value) => setFilters((prev) => ({ ...prev, dateRange: value }))}
-                  >
+                  <Select value={filters.dateRange} onValueChange={(value) => setFilters(prev => ({ ...prev, dateRange: value }))}>
                     <SelectTrigger className="ff-focus-ring">
                       <SelectValue />
                     </SelectTrigger>
@@ -611,19 +603,14 @@ export function BulkExportManager() {
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4 border-t border-ff-border">
                   <div>
                     <Label htmlFor="author-filter">Author</Label>
-                    <Select
-                      value={filters.author}
-                      onValueChange={(value) => setFilters((prev) => ({ ...prev, author: value }))}
-                    >
+                    <Select value={filters.author} onValueChange={(value) => setFilters(prev => ({ ...prev, author: value }))}>
                       <SelectTrigger className="ff-focus-ring">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">All Authors</SelectItem>
-                        {uniqueAuthors.map((author) => (
-                          <SelectItem key={author} value={author}>
-                            {author}
-                          </SelectItem>
+                        {uniqueAuthors.map(author => (
+                          <SelectItem key={author} value={author}>{author}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -646,10 +633,7 @@ export function BulkExportManager() {
 
                   <div>
                     <Label htmlFor="sort-order">Sort Order</Label>
-                    <Select
-                      value={sortOrder}
-                      onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}
-                    >
+                    <Select value={sortOrder} onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}>
                       <SelectTrigger className="ff-focus-ring">
                         <SelectValue />
                       </SelectTrigger>
@@ -675,23 +659,19 @@ export function BulkExportManager() {
                   <div>
                     <h3 className="font-semibold text-ff-text-primary mb-2">No projects found</h3>
                     <p className="text-ff-text-muted">
-                      {searchQuery || Object.values(filters).some((f) => f !== 'all')
+                      {searchQuery || Object.values(filters).some(f => f !== 'all')
                         ? 'Try adjusting your search criteria or filters'
-                        : 'Create your first project to start exporting'}
+                        : 'Create your first project to start exporting'
+                      }
                     </p>
                   </div>
                 </CardContent>
               </Card>
             ) : (
               filteredProjects.map((project) => (
-                <Card
-                  key={project.id}
-                  className={`ff-card-interactive cursor-pointer ${
-                    selectedProjects.includes(project.id)
-                      ? 'ring-2 ring-ff-primary bg-ff-primary/5'
-                      : ''
-                  }`}
-                >
+                <Card key={project.id} className={`ff-card-interactive cursor-pointer ${
+                  selectedProjects.includes(project.id) ? 'ring-2 ring-ff-primary bg-ff-primary/5' : ''
+                }`}>
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between">
                       <div className="flex items-start space-x-4 flex-1">
@@ -702,29 +682,21 @@ export function BulkExportManager() {
                         />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="font-semibold text-ff-text-primary text-lg">
-                              {project.name}
-                            </h3>
+                            <h3 className="font-semibold text-ff-text-primary text-lg">{project.name}</h3>
                             <Badge variant="outline">{project.framework}</Badge>
-                            <Badge
-                              variant={
-                                project.status === 'ready'
-                                  ? 'default'
-                                  : project.status === 'generating'
-                                    ? 'secondary'
-                                    : project.status === 'error'
-                                      ? 'destructive'
-                                      : 'secondary'
-                              }
-                            >
+                            <Badge variant={
+                              project.status === 'ready' ? 'default' :
+                              project.status === 'generating' ? 'secondary' :
+                              project.status === 'error' ? 'destructive' : 'secondary'
+                            }>
                               {project.status}
                             </Badge>
                           </div>
-
+                          
                           <p className="text-ff-text-secondary mb-3 line-clamp-2">
                             {project.description}
                           </p>
-
+                          
                           <div className="flex items-center gap-4 text-sm text-ff-text-muted">
                             <div className="flex items-center gap-1">
                               <FileText className="h-3 w-3" />
@@ -739,7 +711,7 @@ export function BulkExportManager() {
                               {project.author.split('@')[0]}
                             </div>
                           </div>
-
+                          
                           {project.tags.length > 0 && (
                             <div className="flex flex-wrap gap-1 mt-3">
                               {project.tags.map((tag) => (
@@ -751,9 +723,13 @@ export function BulkExportManager() {
                           )}
                         </div>
                       </div>
-
+                      
                       <div className="flex items-center gap-2 ml-4">
-                        <Button size="sm" variant="outline" className="ff-hover-scale">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="ff-hover-scale"
+                        >
                           <Eye className="h-3 w-3 mr-1" />
                           Preview
                         </Button>
@@ -783,16 +759,14 @@ export function BulkExportManager() {
             </Card>
           ) : (
             <MultiFormatDownloadSelector
-              app={
-                {
-                  name: `Bulk Export - ${selectedProjects.length} Projects`,
-                  description: 'Bulk export of selected FlashFusion projects',
-                  stack: { frontend: 'Multiple', backend: 'Multiple', database: 'Multiple' },
-                  features: ['Bulk Export', 'Multiple Projects', 'Advanced Options'],
-                  endpoints: [],
-                  files: [],
-                } as GeneratedApp
-              }
+              app={{
+                name: `Bulk Export - ${selectedProjects.length} Projects`,
+                description: 'Bulk export of selected FlashFusion projects',
+                stack: { frontend: 'Multiple', backend: 'Multiple', database: 'Multiple' },
+                features: ['Bulk Export', 'Multiple Projects', 'Advanced Options'],
+                endpoints: [],
+                files: []
+              } as GeneratedApp}
               onDownloadStart={() => {}}
               onDownloadComplete={() => {}}
               onDownloadError={(error) => toast.error(error)}
@@ -831,7 +805,7 @@ export function BulkExportManager() {
                           </p>
                         </div>
                       </div>
-
+                      
                       <div className="flex items-center gap-2">
                         {job.status === 'running' && (
                           <Button size="sm" variant="outline" onClick={() => pauseJob(job.id)}>
@@ -849,11 +823,7 @@ export function BulkExportManager() {
                           </Button>
                         )}
                         {job.status === 'completed' && job.downloadUrl && (
-                          <Button
-                            size="sm"
-                            className="ff-btn-primary"
-                            onClick={() => downloadJobResult(job)}
-                          >
+                          <Button size="sm" className="ff-btn-primary" onClick={() => downloadJobResult(job)}>
                             <Download className="h-3 w-3 mr-1" />
                             Download
                           </Button>
@@ -865,7 +835,7 @@ export function BulkExportManager() {
                         )}
                       </div>
                     </div>
-
+                    
                     {job.status === 'running' && (
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
@@ -879,14 +849,12 @@ export function BulkExportManager() {
                         </div>
                       </div>
                     )}
-
+                    
                     <div className="flex items-center justify-between text-sm text-ff-text-muted mt-4">
                       <div>
                         <span>Created: {new Date(job.createdAt).toLocaleString()}</span>
                         {job.completedAt && (
-                          <span className="ml-4">
-                            Completed: {new Date(job.completedAt).toLocaleString()}
-                          </span>
+                          <span className="ml-4">Completed: {new Date(job.completedAt).toLocaleString()}</span>
                         )}
                       </div>
                       <div className="flex items-center gap-4">

@@ -1,18 +1,18 @@
 /**
  * @fileoverview Performance Optimizer Pro Tool
- * @chunk tools
+ * @chunk tools  
  * @category optimization
  * @version 2.0.0
  * @author FlashFusion Team
- *
+ * 
  * FLASHFUSION - PERFORMANCE OPTIMIZER PRO
- *
+ * 
  * Advanced performance analysis and optimization for web applications,
  * APIs, and databases with real-time monitoring and automated fixes.
- *
+ * 
  * Features:
  * - Core Web Vitals analysis
- * - Bundle size optimization
+ * - Bundle size optimization  
  * - Database query optimization
  * - API performance tuning
  * - Image optimization
@@ -31,10 +31,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../ui/tabs';
 import { Progress } from '../../ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
 import { Switch } from '../../ui/switch';
-import {
-  Zap,
-  TrendingUp,
-  Clock,
+import { 
+  Zap, 
+  TrendingUp, 
+  Clock, 
   Database,
   Image,
   Globe,
@@ -54,14 +54,9 @@ import {
   Eye,
   Lightbulb,
   Server,
-  Code,
+  Code
 } from 'lucide-react';
-import { toast } from 'sonner';
-import {
-  SCAN_TYPES,
-  DEVICE_TYPES,
-  NETWORK_CONDITIONS,
-} from '../../../fixtures/tools/performance-optimizer-fixtures';
+import { toast } from 'sonner@2.0.3';
 
 interface PerformanceReport {
   overall_score: number;
@@ -128,7 +123,52 @@ interface PerformanceRecommendation {
   complexity: 'simple' | 'moderate' | 'complex';
 }
 
-// Mock data constants imported from fixtures
+const SCAN_TYPES = [
+  { 
+    value: 'comprehensive', 
+    label: 'Comprehensive Analysis', 
+    description: 'Full performance audit including Core Web Vitals, bundle analysis, and optimization opportunities',
+    duration: '3-5 minutes'
+  },
+  { 
+    value: 'core_vitals', 
+    label: 'Core Web Vitals', 
+    description: 'Focus on Google\'s Core Web Vitals metrics',
+    duration: '1-2 minutes'
+  },
+  { 
+    value: 'bundle_analysis', 
+    label: 'Bundle Analysis', 
+    description: 'Analyze JavaScript bundle size and optimization opportunities',
+    duration: '2-3 minutes'
+  },
+  { 
+    value: 'api_performance', 
+    label: 'API Performance', 
+    description: 'Test API response times and database query performance',
+    duration: '2-4 minutes'
+  },
+  { 
+    value: 'mobile_performance', 
+    label: 'Mobile Performance', 
+    description: 'Performance testing optimized for mobile devices',
+    duration: '3-4 minutes'
+  }
+];
+
+const DEVICE_TYPES = [
+  { value: 'desktop', label: 'Desktop', icon: '🖥️' },
+  { value: 'mobile', label: 'Mobile', icon: '📱' },
+  { value: 'tablet', label: 'Tablet', icon: '📄' },
+  { value: 'all', label: 'All Devices', icon: '🌐' }
+];
+
+const NETWORK_CONDITIONS = [
+  { value: 'fast', label: 'Fast 3G', description: '1.6 Mbps down, 750 Kbps up' },
+  { value: 'slow', label: 'Slow 3G', description: '400 Kbps down, 400 Kbps up' },
+  { value: 'regular', label: 'Regular 4G', description: '4 Mbps down, 3 Mbps up' },
+  { value: 'wifi', label: 'WiFi', description: 'No throttling' }
+];
 
 export function PerformanceOptimizerTool(): JSX.Element {
   const [targetUrl, setTargetUrl] = useState('');
@@ -166,18 +206,18 @@ export function PerformanceOptimizerTool(): JSX.Element {
         'Testing under different network conditions...',
         'Identifying optimization opportunities...',
         'Generating performance recommendations...',
-        'Finalizing performance report...',
+        'Finalizing performance report...'
       ];
 
       for (let i = 0; i < steps.length; i++) {
         setProgress(((i + 1) / steps.length) * 100);
-        await new Promise((resolve) => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 800));
       }
 
       // Generate mock performance report
       const report = generateMockPerformanceReport(targetUrl, scanType);
       setPerformanceReport(report);
-
+      
       toast.success(`Performance analysis completed! Overall score: ${report.overall_score}/100`);
     } catch (error) {
       toast.error('Performance analysis failed. Please try again.');
@@ -192,14 +232,10 @@ export function PerformanceOptimizerTool(): JSX.Element {
    */
   const getStatusColor = (status: string): string => {
     switch (status) {
-      case 'good':
-        return 'text-green-600 bg-green-50 border-green-200';
-      case 'needs_improvement':
-        return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case 'poor':
-        return 'text-red-600 bg-red-50 border-red-200';
-      default:
-        return 'text-gray-600 bg-gray-50 border-gray-200';
+      case 'good': return 'text-green-600 bg-green-50 border-green-200';
+      case 'needs_improvement': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
+      case 'poor': return 'text-red-600 bg-red-50 border-red-200';
+      default: return 'text-gray-600 bg-gray-50 border-gray-200';
     }
   };
 
@@ -208,7 +244,7 @@ export function PerformanceOptimizerTool(): JSX.Element {
    */
   const getScoreColor = (score: number): string => {
     if (score >= 90) return 'text-green-600';
-    if (score >= 75) return 'text-yellow-600';
+    if (score >= 75) return 'text-yellow-600'; 
     if (score >= 50) return 'text-orange-600';
     return 'text-red-600';
   };
@@ -224,7 +260,7 @@ export function PerformanceOptimizerTool(): JSX.Element {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const selectedScanType = SCAN_TYPES.find((s) => s.value === scanType);
+  const selectedScanType = SCAN_TYPES.find(s => s.value === scanType);
 
   return (
     <div className="space-y-6 ff-fade-in-up">
@@ -243,7 +279,7 @@ export function PerformanceOptimizerTool(): JSX.Element {
             </p>
           </div>
         </div>
-
+        
         <div className="flex items-center gap-3">
           <Badge variant="secondary" className="text-xs">
             Core Web Vitals
@@ -327,11 +363,11 @@ export function PerformanceOptimizerTool(): JSX.Element {
                             <h3 className="font-semibold text-sm text-[var(--ff-text-primary)]">
                               {scan.label}
                             </h3>
-                            <p className="text-xs text-[var(--ff-text-muted)]">
-                              {scan.description}
-                            </p>
+                            <p className="text-xs text-[var(--ff-text-muted)]">{scan.description}</p>
                           </div>
-                          <div className="text-xs text-[var(--ff-text-muted)]">{scan.duration}</div>
+                          <div className="text-xs text-[var(--ff-text-muted)]">
+                            {scan.duration}
+                          </div>
                         </div>
                       </Card>
                     ))}
@@ -369,9 +405,7 @@ export function PerformanceOptimizerTool(): JSX.Element {
                           <SelectItem key={network.value} value={network.value}>
                             <div>
                               <div className="font-medium">{network.label}</div>
-                              <div className="text-xs text-[var(--ff-text-muted)]">
-                                {network.description}
-                              </div>
+                              <div className="text-xs text-[var(--ff-text-muted)]">{network.description}</div>
                             </div>
                           </SelectItem>
                         ))}
@@ -384,19 +418,18 @@ export function PerformanceOptimizerTool(): JSX.Element {
                   <div className="flex items-center justify-between">
                     <div>
                       <Label className="text-sm font-semibold">Mobile Audit</Label>
-                      <p className="text-xs text-[var(--ff-text-muted)]">
-                        Include mobile-specific performance checks
-                      </p>
+                      <p className="text-xs text-[var(--ff-text-muted)]">Include mobile-specific performance checks</p>
                     </div>
-                    <Switch checked={includeMobileAudit} onCheckedChange={setIncludeMobileAudit} />
+                    <Switch
+                      checked={includeMobileAudit}
+                      onCheckedChange={setIncludeMobileAudit}
+                    />
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div>
                       <Label className="text-sm font-semibold">Accessibility Audit</Label>
-                      <p className="text-xs text-[var(--ff-text-muted)]">
-                        Include accessibility performance metrics
-                      </p>
+                      <p className="text-xs text-[var(--ff-text-muted)]">Include accessibility performance metrics</p>
                     </div>
                     <Switch
                       checked={includeAccessibility}
@@ -424,7 +457,7 @@ export function PerformanceOptimizerTool(): JSX.Element {
                     <p className="text-sm text-[var(--ff-text-secondary)] mb-3">
                       {selectedScanType.description}
                     </p>
-
+                    
                     <div className="space-y-2 text-sm">
                       <div className="flex items-center gap-2">
                         <CheckCircle className="h-4 w-4 text-green-500" />
@@ -461,7 +494,7 @@ export function PerformanceOptimizerTool(): JSX.Element {
                     <div>
                       <span className="text-[var(--ff-text-muted)]">Device:</span>
                       <div className="font-medium">
-                        {DEVICE_TYPES.find((d) => d.value === deviceType)?.label}
+                        {DEVICE_TYPES.find(d => d.value === deviceType)?.label}
                       </div>
                     </div>
                   </div>
@@ -490,7 +523,9 @@ export function PerformanceOptimizerTool(): JSX.Element {
                   </div>
                   <div className="w-full max-w-md mx-auto">
                     <Progress value={progress} className="w-full" />
-                    <p className="text-xs text-[var(--ff-text-muted)] mt-2">{progress}% complete</p>
+                    <p className="text-xs text-[var(--ff-text-muted)] mt-2">
+                      {progress}% complete
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -508,16 +543,14 @@ export function PerformanceOptimizerTool(): JSX.Element {
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div className="text-center">
-                      <div
-                        className={`text-4xl font-bold ${getScoreColor(performanceReport.overall_score)}`}
-                      >
+                      <div className={`text-4xl font-bold ${getScoreColor(performanceReport.overall_score)}`}>
                         {performanceReport.overall_score}
                       </div>
                       <div className="text-sm text-[var(--ff-text-muted)]">Overall Score</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-green-600">
-                        {performanceReport.metrics.filter((m) => m.status === 'good').length}
+                        {performanceReport.metrics.filter(m => m.status === 'good').length}
                       </div>
                       <div className="text-sm text-[var(--ff-text-muted)]">Good Metrics</div>
                     </div>
@@ -594,15 +627,11 @@ export function PerformanceOptimizerTool(): JSX.Element {
                         className="flex items-center justify-between p-3 rounded-lg hover:bg-[var(--ff-surface)]/50"
                       >
                         <div className="flex items-center gap-3">
-                          <div
-                            className={`w-3 h-3 rounded-full ${
-                              metric.status === 'good'
-                                ? 'bg-green-500'
-                                : metric.status === 'needs_improvement'
-                                  ? 'bg-yellow-500'
-                                  : 'bg-red-500'
-                            }`}
-                          />
+                          <div className={`w-3 h-3 rounded-full ${
+                            metric.status === 'good' ? 'bg-green-500' :
+                            metric.status === 'needs_improvement' ? 'bg-yellow-500' :
+                            'bg-red-500'
+                          }`} />
                           <div>
                             <h4 className="font-medium text-[var(--ff-text-primary)]">
                               {metric.name}
@@ -612,18 +641,13 @@ export function PerformanceOptimizerTool(): JSX.Element {
                         </div>
                         <div className="text-right">
                           <div className="font-semibold">
-                            {metric.value}
-                            {metric.unit}
+                            {metric.value}{metric.unit}
                           </div>
-                          <Badge
-                            className={`text-xs ${
-                              metric.impact === 'high'
-                                ? 'bg-red-100 text-red-700'
-                                : metric.impact === 'medium'
-                                  ? 'bg-yellow-100 text-yellow-700'
-                                  : 'bg-blue-100 text-blue-700'
-                            }`}
-                          >
+                          <Badge className={`text-xs ${
+                            metric.impact === 'high' ? 'bg-red-100 text-red-700' :
+                            metric.impact === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                            'bg-blue-100 text-blue-700'
+                          }`}>
                             {metric.impact} impact
                           </Badge>
                         </div>
@@ -667,15 +691,11 @@ export function PerformanceOptimizerTool(): JSX.Element {
                           <div className="flex items-start justify-between">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-2">
-                                <Badge
-                                  className={`text-xs ${
-                                    opportunity.impact === 'high'
-                                      ? 'bg-green-100 text-green-700'
-                                      : opportunity.impact === 'medium'
-                                        ? 'bg-yellow-100 text-yellow-700'
-                                        : 'bg-blue-100 text-blue-700'
-                                  }`}
-                                >
+                                <Badge className={`text-xs ${
+                                  opportunity.impact === 'high' ? 'bg-green-100 text-green-700' :
+                                  opportunity.impact === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                                  'bg-blue-100 text-blue-700'
+                                }`}>
                                   {opportunity.impact} impact
                                 </Badge>
                                 <Badge variant="outline" className="text-xs">
@@ -696,22 +716,16 @@ export function PerformanceOptimizerTool(): JSX.Element {
                               <div className="text-green-600 font-bold">
                                 -{opportunity.potential_savings}ms
                               </div>
-                              <div className="text-xs text-[var(--ff-text-muted)]">
-                                potential savings
-                              </div>
+                              <div className="text-xs text-[var(--ff-text-muted)]">potential savings</div>
                             </div>
                           </div>
 
                           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                            <h5 className="font-semibold text-blue-800 text-sm mb-2">
-                              Implementation Steps:
-                            </h5>
+                            <h5 className="font-semibold text-blue-800 text-sm mb-2">Implementation Steps:</h5>
                             <ol className="text-sm text-blue-700 space-y-1">
                               {opportunity.steps.map((step, stepIndex) => (
                                 <li key={stepIndex} className="flex items-start gap-2">
-                                  <span className="text-blue-500 font-semibold">
-                                    {stepIndex + 1}.
-                                  </span>
+                                  <span className="text-blue-500 font-semibold">{stepIndex + 1}.</span>
                                   <span>{step}</span>
                                 </li>
                               ))}
@@ -784,7 +798,7 @@ function generateMockPerformanceReport(url: string, scanType: string): Performan
         threshold: 1800,
         status: 'good',
         category: 'Loading',
-        impact: 'high',
+        impact: 'high'
       },
       {
         name: 'Speed Index',
@@ -793,7 +807,7 @@ function generateMockPerformanceReport(url: string, scanType: string): Performan
         threshold: 3400,
         status: 'needs_improvement',
         category: 'Loading',
-        impact: 'high',
+        impact: 'high'
       },
       {
         name: 'Total Blocking Time',
@@ -802,15 +816,15 @@ function generateMockPerformanceReport(url: string, scanType: string): Performan
         threshold: 200,
         status: 'good',
         category: 'Interactivity',
-        impact: 'medium',
-      },
+        impact: 'medium'
+      }
     ],
     core_web_vitals: {
       lcp: { value: Math.floor(Math.random() * 1000) + 1200, status: 'needs_improvement' },
       fid: { value: Math.floor(Math.random() * 50) + 20, status: 'good' },
       cls: { value: Math.floor(Math.random() * 20) / 100, status: 'good' },
       fcp: { value: Math.floor(Math.random() * 800) + 900, status: 'good' },
-      ttfb: { value: Math.floor(Math.random() * 300) + 200, status: 'needs_improvement' },
+      ttfb: { value: Math.floor(Math.random() * 300) + 200, status: 'needs_improvement' }
     },
     optimization_opportunities: [
       {
@@ -824,8 +838,8 @@ function generateMockPerformanceReport(url: string, scanType: string): Performan
           'Convert images to WebP format',
           'Implement responsive images with srcset',
           'Add lazy loading for below-fold images',
-          'Compress images without quality loss',
-        ],
+          'Compress images without quality loss'
+        ]
       },
       {
         title: 'Eliminate Render-blocking Resources',
@@ -838,9 +852,9 @@ function generateMockPerformanceReport(url: string, scanType: string): Performan
           'Inline critical CSS',
           'Defer non-critical JavaScript',
           'Split code bundles by route',
-          'Use dynamic imports for heavy libraries',
-        ],
-      },
+          'Use dynamic imports for heavy libraries'
+        ]
+      }
     ],
     bundle_analysis: {
       total_size: 1024 * 1024 * 2.5, // 2.5MB
@@ -848,28 +862,28 @@ function generateMockPerformanceReport(url: string, scanType: string): Performan
       largest_chunks: [
         { name: 'vendor.js', size: 1024 * 1024 * 1.2, percentage: 48 },
         { name: 'main.js', size: 1024 * 800, percentage: 32 },
-        { name: 'styles.css', size: 1024 * 500, percentage: 20 },
+        { name: 'styles.css', size: 1024 * 500, percentage: 20 }
       ],
       unused_code: 35,
-      duplicate_dependencies: ['lodash', 'moment'],
+      duplicate_dependencies: ['lodash', 'moment']
     },
     recommendations: [
       {
         priority: 'high',
         category: 'Performance',
         title: 'Implement Code Splitting',
-        description: "Split your JavaScript bundle to load only what's needed",
+        description: 'Split your JavaScript bundle to load only what\'s needed',
         implementation_time: '1-2 days',
         expected_improvement: '20-30% faster load times',
-        complexity: 'moderate',
-      },
+        complexity: 'moderate'
+      }
     ],
     scan_metadata: {
       url,
       scan_type: scanType,
       timestamp: Date.now(),
-      duration: Math.floor(Math.random() * 180) + 120,
-    },
+      duration: Math.floor(Math.random() * 180) + 120
+    }
   };
 }
 

@@ -12,15 +12,15 @@ import { Button } from '../../../ui/button';
 import { Badge } from '../../../ui/badge';
 import { Progress } from '../../../ui/progress';
 import { ScrollArea } from '../../../ui/scroll-area';
-import {
-  Play,
-  Pause,
-  Square,
+import { 
+  Play, 
+  Pause, 
+  Square, 
   MoreHorizontal,
   Clock,
   CheckCircle,
   XCircle,
-  AlertCircle,
+  AlertCircle
 } from 'lucide-react';
 import { type BatchGenerationJob } from '../../../../types/image-generation';
 
@@ -35,7 +35,7 @@ export function BatchGenerationManager({
   jobs,
   onStartJob,
   onPauseJob,
-  onCancelJob,
+  onCancelJob
 }: BatchGenerationManagerProps): JSX.Element {
   const [selectedJob, setSelectedJob] = useState<string | null>(null);
 
@@ -98,15 +98,12 @@ export function BatchGenerationManager({
             Batch Generation Manager
           </CardTitle>
         </CardHeader>
-
+        
         <CardContent>
           <ScrollArea className="h-[500px] w-full">
             <div className="space-y-4">
               {jobs.map((job) => (
-                <Card
-                  key={job.id}
-                  className="bg-[var(--ff-surface-light)]/30 border-[var(--border)]"
-                >
+                <Card key={job.id} className="bg-[var(--ff-surface-light)]/30 border-[var(--border)]">
                   <CardContent className="p-4">
                     <div className="space-y-4">
                       {/* Header */}
@@ -117,35 +114,41 @@ export function BatchGenerationManager({
                             <h4 className="font-semibold text-[var(--ff-text-primary)]">
                               {job.name}
                             </h4>
-                            <Badge
-                              variant="outline"
+                            <Badge 
+                              variant="outline" 
                               className={`text-xs ${getStatusColor(job.status)}`}
                             >
                               {job.status}
                             </Badge>
                           </div>
-
+                          
                           <p className="text-sm text-[var(--ff-text-secondary)] line-clamp-2">
                             {job.baseRequest.prompt}
                           </p>
                         </div>
-
+                        
                         <div className="flex items-center gap-1 ml-4">
                           {job.status === 'running' && (
-                            <Button variant="ghost" size="sm" onClick={() => onPauseJob(job.id)}>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => onPauseJob(job.id)}
+                            >
                               <Pause className="h-4 w-4" />
                             </Button>
                           )}
-
+                          
                           {(job.status === 'paused' || job.status === 'queued') && (
-                            <Button variant="ghost" size="sm" onClick={() => onStartJob(job.id)}>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => onStartJob(job.id)}
+                            >
                               <Play className="h-4 w-4" />
                             </Button>
                           )}
-
-                          {(job.status === 'running' ||
-                            job.status === 'paused' ||
-                            job.status === 'queued') && (
+                          
+                          {(job.status === 'running' || job.status === 'paused' || job.status === 'queued') && (
                             <Button
                               variant="ghost"
                               size="sm"
@@ -155,7 +158,7 @@ export function BatchGenerationManager({
                               <Square className="h-4 w-4" />
                             </Button>
                           )}
-
+                          
                           <Button
                             variant="ghost"
                             size="sm"
@@ -176,7 +179,7 @@ export function BatchGenerationManager({
                             {job.progress.toFixed(0)}%
                           </span>
                         </div>
-
+                        
                         <Progress value={job.progress} className="w-full" />
                       </div>
 
@@ -188,27 +191,28 @@ export function BatchGenerationManager({
                             {job.completedImages.length}
                           </div>
                         </div>
-
+                        
                         <div>
                           <span className="text-[var(--ff-text-muted)]">Failed:</span>
                           <div className="font-medium text-red-600">
                             {job.failedGenerations.length}
                           </div>
                         </div>
-
+                        
                         <div>
                           <span className="text-[var(--ff-text-muted)]">Total Cost:</span>
                           <div className="font-medium text-[var(--ff-text-primary)]">
                             ${job.totalCost.toFixed(3)}
                           </div>
                         </div>
-
+                        
                         <div>
                           <span className="text-[var(--ff-text-muted)]">Duration:</span>
                           <div className="font-medium text-[var(--ff-text-primary)]">
-                            {job.endTime
+                            {job.endTime 
                               ? `${((job.endTime - job.startTime) / 1000).toFixed(0)}s`
-                              : `${((Date.now() - job.startTime) / 1000).toFixed(0)}s`}
+                              : `${((Date.now() - job.startTime) / 1000).toFixed(0)}s`
+                            }
                           </div>
                         </div>
                       </div>
@@ -226,28 +230,24 @@ export function BatchGenerationManager({
                                 {job.promptVariations.map((prompt, index) => {
                                   const isCompleted = index < job.completedImages.length;
                                   const isFailed = job.failedGenerations.includes(prompt);
-
+                                  
                                   return (
-                                    <div
+                                    <div 
                                       key={index}
                                       className={`p-3 rounded-lg border text-sm ${
-                                        isCompleted
-                                          ? 'bg-green-50 border-green-200 text-green-800'
-                                          : isFailed
-                                            ? 'bg-red-50 border-red-200 text-red-800'
-                                            : 'bg-[var(--ff-surface)]/50 border-[var(--border)] text-[var(--ff-text-secondary)]'
+                                        isCompleted 
+                                          ? 'bg-green-50 border-green-200 text-green-800' :
+                                        isFailed 
+                                          ? 'bg-red-50 border-red-200 text-red-800' :
+                                        'bg-[var(--ff-surface)]/50 border-[var(--border)] text-[var(--ff-text-secondary)]'
                                       }`}
                                     >
                                       <div className="flex items-start justify-between">
                                         <span className="flex-1">{prompt}</span>
                                         <div className="ml-2">
-                                          {isCompleted && (
-                                            <CheckCircle className="h-4 w-4 text-green-600" />
-                                          )}
+                                          {isCompleted && <CheckCircle className="h-4 w-4 text-green-600" />}
                                           {isFailed && <XCircle className="h-4 w-4 text-red-600" />}
-                                          {!isCompleted && !isFailed && (
-                                            <Clock className="h-4 w-4 text-gray-400" />
-                                          )}
+                                          {!isCompleted && !isFailed && <Clock className="h-4 w-4 text-gray-400" />}
                                         </div>
                                       </div>
                                     </div>
@@ -319,8 +319,7 @@ export function BatchGenerationManager({
                               <div className="flex items-center gap-2">
                                 <AlertCircle className="h-4 w-4 text-blue-600" />
                                 <span className="text-sm text-blue-800">
-                                  Estimated completion:{' '}
-                                  {new Date(job.estimatedCompletion).toLocaleTimeString()}
+                                  Estimated completion: {new Date(job.estimatedCompletion).toLocaleTimeString()}
                                 </span>
                               </div>
                             </div>

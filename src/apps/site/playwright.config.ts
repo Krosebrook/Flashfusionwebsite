@@ -7,7 +7,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
-
+  
   use: {
     baseURL: process.env.PREVIEW_URL || 'http://localhost:3001',
     trace: 'on-first-retry',
@@ -21,11 +21,9 @@ export default defineConfig({
     },
   ],
 
-  webServer: process.env.CI
-    ? undefined
-    : {
-        command: 'pnpm dev',
-        url: 'http://localhost:3001',
-        reuseExistingServer: !process.env.CI,
-      },
+  webServer: process.env.CI ? undefined : {
+    command: 'pnpm dev',
+    url: 'http://localhost:3001',
+    reuseExistingServer: !process.env.CI,
+  },
 });

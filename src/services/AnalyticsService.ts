@@ -30,10 +30,10 @@ class AnalyticsService {
 
   constructor() {
     this.sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
+    
     // Safe environment detection using simpler method
     this.isDevelopment = this.isSimpleDevMode();
-
+    
     this.initialize();
   }
 
@@ -42,10 +42,11 @@ class AnalyticsService {
       if (typeof window !== 'undefined') {
         const hostname = window.location.hostname;
         const port = window.location.port;
-
-        return (
-          hostname === 'localhost' || hostname === '127.0.0.1' || port === '5173' || port === '3000'
-        );
+        
+        return hostname === 'localhost' || 
+               hostname === '127.0.0.1' ||
+               port === '5173' ||
+               port === '3000';
       }
       return false;
     } catch {
@@ -61,7 +62,7 @@ class AnalyticsService {
       if (typeof window !== 'undefined' && window.gtag) {
         window.gtag('config', 'GA_MEASUREMENT_ID', {
           page_title: 'FlashFusion - AI Development Platform',
-          page_location: window.location.href,
+          page_location: window.location.href
         });
       }
 
@@ -118,7 +119,7 @@ class AnalyticsService {
       // Update Google Analytics
       if (typeof window !== 'undefined' && window.gtag) {
         window.gtag('config', 'GA_MEASUREMENT_ID', {
-          user_id: userId,
+          user_id: userId
         });
       }
 
@@ -140,10 +141,10 @@ class AnalyticsService {
           sessionId: this.sessionId,
           timestamp: Date.now(),
           url: typeof window !== 'undefined' ? window.location.href : '',
-          userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
+          userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : ''
         },
         userId: this.userId || undefined,
-        timestamp: Date.now(),
+        timestamp: Date.now()
       };
 
       // Store locally for offline support
@@ -179,7 +180,7 @@ class AnalyticsService {
           event_label: event.properties.label,
           value: event.properties.value,
           user_id: event.userId,
-          custom_parameters: event.properties,
+          custom_parameters: event.properties
         });
       }
     } catch (error) {
@@ -207,9 +208,9 @@ class AnalyticsService {
       const response = await fetch('/api/analytics/track', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(event),
+        body: JSON.stringify(event)
       });
 
       if (!response.ok) {
@@ -231,7 +232,7 @@ class AnalyticsService {
       email,
       persona,
       source: this.getAttributionSource(),
-      value: 1,
+      value: 1
     });
   }
 
@@ -241,7 +242,7 @@ class AnalyticsService {
       tool_name: toolName,
       duration_ms: duration,
       success,
-      value: success ? 1 : 0,
+      value: success ? 1 : 0
     });
   }
 
@@ -252,7 +253,7 @@ class AnalyticsService {
       features: features.join(','),
       feature_count: features.length,
       deployment_time_ms: deploymentTime,
-      value: 10, // High-value event
+      value: 10 // High-value event
     });
   }
 
@@ -263,7 +264,7 @@ class AnalyticsService {
       platforms: platforms.join(','),
       platform_count: platforms.length,
       word_count: wordCount,
-      value: 5,
+      value: 5
     });
   }
 
@@ -273,7 +274,7 @@ class AnalyticsService {
       workflow_id: workflowId,
       duration_ms: duration,
       success,
-      value: success ? 20 : 0,
+      value: success ? 20 : 0
     });
   }
 
@@ -281,7 +282,7 @@ class AnalyticsService {
     this.track('page_view', {
       category: 'navigation',
       page,
-      ...properties,
+      ...properties
     });
   }
 
@@ -290,7 +291,7 @@ class AnalyticsService {
       category: 'engagement',
       feature,
       source,
-      value: 2,
+      value: 2
     });
   }
 
@@ -300,7 +301,7 @@ class AnalyticsService {
       error_type: error,
       error_message: message,
       ...context,
-      value: -1, // Negative value for errors
+      value: -1 // Negative value for errors
     });
   }
 
@@ -309,7 +310,7 @@ class AnalyticsService {
     // Update Google Analytics
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('config', 'GA_MEASUREMENT_ID', {
-        custom_map: properties,
+        custom_map: properties
       });
     }
 
@@ -335,7 +336,7 @@ class AnalyticsService {
       goal_name: goal.name,
       goal_category: goal.category,
       goal_value: goal.value || 1,
-      ...goal.properties,
+      ...goal.properties
     });
 
     // Special handling for revenue goals
@@ -350,7 +351,7 @@ class AnalyticsService {
       revenue_amount: amount,
       currency: 'USD',
       ...properties,
-      value: amount,
+      value: amount
     });
 
     // Send to Google Analytics Enhanced Ecommerce
@@ -359,15 +360,13 @@ class AnalyticsService {
         transaction_id: `transaction_${Date.now()}`,
         value: amount,
         currency: 'USD',
-        items: [
-          {
-            item_id: 'flashfusion_subscription',
-            item_name: 'FlashFusion Subscription',
-            category: 'subscription',
-            quantity: 1,
-            price: amount,
-          },
-        ],
+        items: [{
+          item_id: 'flashfusion_subscription',
+          item_name: 'FlashFusion Subscription',
+          category: 'subscription',
+          quantity: 1,
+          price: amount
+        }]
       });
     }
   }
@@ -402,7 +401,7 @@ class AnalyticsService {
       funnel_name: funnel,
       step_name: step,
       step_order: properties.order || 1,
-      ...properties,
+      ...properties
     });
   }
 
@@ -413,7 +412,7 @@ class AnalyticsService {
       experiment_name: experimentName,
       variant,
       converted,
-      value: converted ? 1 : 0,
+      value: converted ? 1 : 0
     });
   }
 
@@ -421,7 +420,7 @@ class AnalyticsService {
   trackSessionStart() {
     this.track('session_start', {
       category: 'session',
-      session_id: this.sessionId,
+      session_id: this.sessionId
     });
   }
 
@@ -429,7 +428,7 @@ class AnalyticsService {
     this.track('session_end', {
       category: 'session',
       session_id: this.sessionId,
-      duration_ms: duration,
+      duration_ms: duration
     });
   }
 
@@ -438,7 +437,7 @@ class AnalyticsService {
       category: 'engagement',
       action,
       target,
-      value: value || 1,
+      value: value || 1
     });
   }
 
@@ -457,7 +456,7 @@ class AnalyticsService {
       blocker_count: data.blockers,
       warning_count: data.warnings,
       check_duration_ms: data.checkDuration,
-      value: data.isReady ? 10 : 0,
+      value: data.isReady ? 10 : 0
     });
   }
 
@@ -475,7 +474,7 @@ class AnalyticsService {
       blocker_count: data.blockers,
       warning_count: data.warnings,
       environment: data.environment,
-      value: data.isReady ? 15 : 0,
+      value: data.isReady ? 15 : 0
     });
   }
 
@@ -485,14 +484,14 @@ class AnalyticsService {
       readiness_score: readinessState.overallScore,
       environment: readinessState.environment,
       blockers_resolved: readinessState.blockers.length === 0,
-      value: 25, // High-value event
+      value: 25 // High-value event
     });
   }
 
   trackLaunchModeDeactivated() {
     this.track('launch_mode_deactivated', {
       category: 'launch',
-      value: 0,
+      value: 0
     });
   }
 
@@ -500,7 +499,7 @@ class AnalyticsService {
     this.track(`launch_${event}`, {
       category: 'launch',
       ...properties,
-      value: 5,
+      value: 5
     });
   }
 
@@ -508,7 +507,7 @@ class AnalyticsService {
     this.track('launch_checklist_item_completed', {
       category: 'launch',
       item_id: itemId,
-      value: 2,
+      value: 2
     });
   }
 
@@ -517,7 +516,7 @@ class AnalyticsService {
     this.track(`performance_${eventName}`, {
       category: 'performance',
       ...data,
-      value: 0, // Performance events are informational
+      value: 0 // Performance events are informational
     });
   }
 
@@ -527,7 +526,7 @@ class AnalyticsService {
       component: componentName,
       render_time: renderTime,
       is_slow: renderTime > 16,
-      value: renderTime > 16 ? -1 : 0, // Negative for slow renders
+      value: renderTime > 16 ? -1 : 0 // Negative for slow renders
     });
   }
 
@@ -538,7 +537,7 @@ class AnalyticsService {
       memory_total: data.total,
       memory_percentage: data.percentage,
       is_high: data.percentage > 80,
-      value: data.percentage > 90 ? -5 : 0, // Negative for high memory usage
+      value: data.percentage > 90 ? -5 : 0 // Negative for high memory usage
     });
   }
 
@@ -547,7 +546,7 @@ class AnalyticsService {
       category: 'performance',
       bundle_size_bytes: size,
       bundle_size_mb: (size / 1024 / 1024).toFixed(2),
-      value: 0,
+      value: 0
     });
   }
 
@@ -555,7 +554,7 @@ class AnalyticsService {
     this.track('marketing_campaign_launched', {
       category: 'marketing',
       campaign_id: campaignId,
-      value: 8,
+      value: 8
     });
   }
 
@@ -601,9 +600,9 @@ class AnalyticsService {
       const response = await fetch('/api/analytics/batch', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ events: eventsToSend }),
+        body: JSON.stringify({ events: eventsToSend })
       });
 
       if (!response.ok) {
@@ -622,25 +621,23 @@ class AnalyticsService {
   // Real-time analytics dashboard data
   getSessionMetrics() {
     const events = this.getStoredEvents();
-    const sessionEvents = events.filter((e) => e.properties.sessionId === this.sessionId);
+    const sessionEvents = events.filter(e => e.properties.sessionId === this.sessionId);
 
     return {
       sessionId: this.sessionId,
       eventCount: sessionEvents.length,
-      toolsUsed: [
-        ...new Set(
-          sessionEvents.filter((e) => e.event === 'tool_used').map((e) => e.properties.tool_name)
-        ),
-      ],
-      pagesViewed: [
-        ...new Set(
-          sessionEvents.filter((e) => e.event === 'page_view').map((e) => e.properties.page)
-        ),
-      ],
-      conversionEvents: sessionEvents.filter((e) => e.properties.category === 'conversion').length,
+      toolsUsed: [...new Set(sessionEvents
+        .filter(e => e.event === 'tool_used')
+        .map(e => e.properties.tool_name))],
+      pagesViewed: [...new Set(sessionEvents
+        .filter(e => e.event === 'page_view')
+        .map(e => e.properties.page))],
+      conversionEvents: sessionEvents.filter(e => 
+        e.properties.category === 'conversion'
+      ).length,
       engagementScore: sessionEvents
-        .filter((e) => e.properties.category === 'engagement')
-        .reduce((sum, e) => sum + (e.properties.value || 0), 0),
+        .filter(e => e.properties.category === 'engagement')
+        .reduce((sum, e) => sum + (e.properties.value || 0), 0)
     };
   }
 }

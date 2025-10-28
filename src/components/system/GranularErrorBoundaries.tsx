@@ -2,30 +2,22 @@
  * @fileoverview Granular Error Boundary System with Enhanced Error Handling
  * @category Fix Mode - Error Boundary Improvements
  * @version 1.0.0
- *
+ * 
  * Advanced error boundary system with context-aware error handling,
  * automatic recovery, performance impact tracking, and user-friendly fallbacks.
  */
 
-import React, {
-  Component,
-  ErrorInfo,
-  ReactNode,
-  useEffect,
-  useState,
-  useCallback,
-  useRef,
-} from 'react';
+import React, { Component, ErrorInfo, ReactNode, useEffect, useState, useCallback, useRef } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { AlertTriangle, RefreshCw, Bug, Zap, Clock, TrendingDown } from 'lucide-react';
 
 // Error Types
 export enum ErrorSeverity {
-  LOW = 'low', // Minor UI glitches
-  MEDIUM = 'medium', // Component failures
-  HIGH = 'high', // Page-level failures
-  CRITICAL = 'critical', // App-breaking errors
+  LOW = 'low',           // Minor UI glitches
+  MEDIUM = 'medium',     // Component failures
+  HIGH = 'high',         // Page-level failures
+  CRITICAL = 'critical'  // App-breaking errors
 }
 
 export enum ErrorCategory {
@@ -36,7 +28,7 @@ export enum ErrorCategory {
   NETWORK = 'network',
   MEMORY = 'memory',
   PERMISSIONS = 'permissions',
-  UNKNOWN = 'unknown',
+  UNKNOWN = 'unknown'
 }
 
 // Error Context
@@ -108,7 +100,7 @@ class ErrorAnalytics {
 
   recordError(error: EnhancedError) {
     this.errors.push(error);
-
+    
     // Keep only last 100 errors
     if (this.errors.length > 100) {
       this.errors = this.errors.slice(-100);
@@ -123,7 +115,7 @@ class ErrorAnalytics {
       severity: error.severity,
       message: error.error.message,
       component: error.context.componentName,
-      retryCount: error.retryCount,
+      retryCount: error.retryCount
     });
   }
 
@@ -136,9 +128,9 @@ class ErrorAnalytics {
 
   getErrorStats() {
     const totalErrors = this.errors.length;
-    const criticalErrors = this.errors.filter((e) => e.severity === ErrorSeverity.CRITICAL).length;
-    const recentErrors = this.errors.filter((e) => Date.now() - e.lastOccurrence < 3600000).length; // Last hour
-
+    const criticalErrors = this.errors.filter(e => e.severity === ErrorSeverity.CRITICAL).length;
+    const recentErrors = this.errors.filter(e => Date.now() - e.lastOccurrence < 3600000).length; // Last hour
+    
     const errorsByCategory = Array.from(this.errorCounts.entries())
       .map(([key, count]) => ({ key, count }))
       .sort((a, b) => b.count - a.count);
@@ -153,10 +145,7 @@ class ErrorAnalytics {
   }
 
   private calculateRecoveryRate(): number {
-    const totalRecoveryAttempts = Array.from(this.recoverySuccess.values()).reduce(
-      (sum, count) => sum + count,
-      0
-    );
+    const totalRecoveryAttempts = Array.from(this.recoverySuccess.values()).reduce((sum, count) => sum + count, 0);
     const totalErrors = this.errorCounts.size;
     return totalErrors > 0 ? (totalRecoveryAttempts / totalErrors) * 100 : 0;
   }
@@ -166,77 +155,38 @@ class ErrorAnalytics {
  * Error Categorization and Analysis
  */
 class ErrorClassifier {
-  static categorizeError(
-    error: Error,
-    errorInfo: ErrorInfo
-  ): { category: ErrorCategory; severity: ErrorSeverity; recoverable: boolean } {
+  static categorizeError(error: Error, errorInfo: ErrorInfo): { category: ErrorCategory; severity: ErrorSeverity; recoverable: boolean } {
     const errorMessage = error.message.toLowerCase();
     const stack = error.stack?.toLowerCase() || '';
 
     // Authentication errors
-    if (
-      errorMessage.includes('auth') ||
-      errorMessage.includes('token') ||
-      errorMessage.includes('unauthorized')
-    ) {
-      return {
-        category: ErrorCategory.AUTHENTICATION,
-        severity: ErrorSeverity.HIGH,
-        recoverable: true,
-      };
+    if (errorMessage.includes('auth') || errorMessage.includes('token') || errorMessage.includes('unauthorized')) {
+      return { category: ErrorCategory.AUTHENTICATION, severity: ErrorSeverity.HIGH, recoverable: true };
     }
 
     // Navigation errors
-    if (
-      errorMessage.includes('navigation') ||
-      errorMessage.includes('route') ||
-      stack.includes('router')
-    ) {
-      return {
-        category: ErrorCategory.NAVIGATION,
-        severity: ErrorSeverity.MEDIUM,
-        recoverable: true,
-      };
+    if (errorMessage.includes('navigation') || errorMessage.includes('route') || stack.includes('router')) {
+      return { category: ErrorCategory.NAVIGATION, severity: ErrorSeverity.MEDIUM, recoverable: true };
     }
 
     // Network errors
-    if (
-      errorMessage.includes('fetch') ||
-      errorMessage.includes('network') ||
-      errorMessage.includes('timeout')
-    ) {
+    if (errorMessage.includes('fetch') || errorMessage.includes('network') || errorMessage.includes('timeout')) {
       return { category: ErrorCategory.NETWORK, severity: ErrorSeverity.MEDIUM, recoverable: true };
     }
 
     // Memory errors
-    if (
-      errorMessage.includes('memory') ||
-      errorMessage.includes('heap') ||
-      error.name === 'OutOfMemoryError'
-    ) {
-      return {
-        category: ErrorCategory.MEMORY,
-        severity: ErrorSeverity.CRITICAL,
-        recoverable: false,
-      };
+    if (errorMessage.includes('memory') || errorMessage.includes('heap') || error.name === 'OutOfMemoryError') {
+      return { category: ErrorCategory.MEMORY, severity: ErrorSeverity.CRITICAL, recoverable: false };
     }
 
     // Rendering errors
     if (stack.includes('react') || stack.includes('render') || errorMessage.includes('component')) {
-      return {
-        category: ErrorCategory.RENDERING,
-        severity: ErrorSeverity.MEDIUM,
-        recoverable: true,
-      };
+      return { category: ErrorCategory.RENDERING, severity: ErrorSeverity.MEDIUM, recoverable: true };
     }
 
     // Permission errors
     if (errorMessage.includes('permission') || errorMessage.includes('access denied')) {
-      return {
-        category: ErrorCategory.PERMISSIONS,
-        severity: ErrorSeverity.HIGH,
-        recoverable: false,
-      };
+      return { category: ErrorCategory.PERMISSIONS, severity: ErrorSeverity.HIGH, recoverable: false };
     }
 
     // Default to unknown
@@ -249,32 +199,32 @@ class ErrorClassifier {
         [ErrorSeverity.LOW]: 'Minor login display issue',
         [ErrorSeverity.MEDIUM]: 'Authentication feature unavailable',
         [ErrorSeverity.HIGH]: 'Cannot access authenticated features',
-        [ErrorSeverity.CRITICAL]: 'Complete authentication failure',
+        [ErrorSeverity.CRITICAL]: 'Complete authentication failure'
       },
       [ErrorCategory.NAVIGATION]: {
         [ErrorSeverity.LOW]: 'Minor navigation glitch',
         [ErrorSeverity.MEDIUM]: 'Some navigation features unavailable',
         [ErrorSeverity.HIGH]: 'Major navigation problems',
-        [ErrorSeverity.CRITICAL]: 'Cannot navigate the application',
+        [ErrorSeverity.CRITICAL]: 'Cannot navigate the application'
       },
       [ErrorCategory.NETWORK]: {
         [ErrorSeverity.LOW]: 'Minor connectivity issue',
         [ErrorSeverity.MEDIUM]: 'Some features may be slow',
         [ErrorSeverity.HIGH]: 'Limited functionality due to network issues',
-        [ErrorSeverity.CRITICAL]: 'Application offline',
+        [ErrorSeverity.CRITICAL]: 'Application offline'
       },
       [ErrorCategory.RENDERING]: {
         [ErrorSeverity.LOW]: 'Minor display issue',
         [ErrorSeverity.MEDIUM]: 'Component not displaying correctly',
         [ErrorSeverity.HIGH]: 'Page partially broken',
-        [ErrorSeverity.CRITICAL]: 'Application display completely broken',
+        [ErrorSeverity.CRITICAL]: 'Application display completely broken'
       },
       [ErrorCategory.MEMORY]: {
         [ErrorSeverity.LOW]: 'Minor performance impact',
         [ErrorSeverity.MEDIUM]: 'Noticeable slowdown',
         [ErrorSeverity.HIGH]: 'Significant performance issues',
-        [ErrorSeverity.CRITICAL]: 'Application may crash due to memory issues',
-      },
+        [ErrorSeverity.CRITICAL]: 'Application may crash due to memory issues'
+      }
     };
 
     return impacts[category]?.[severity] || 'Unknown impact';
@@ -319,7 +269,7 @@ export class GranularErrorBoundary extends Component<
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     const classification = ErrorClassifier.categorizeError(error, errorInfo);
-
+    
     const context: ErrorContext = {
       componentName: this.props.config.name,
       userAgent: navigator.userAgent,
@@ -338,10 +288,7 @@ export class GranularErrorBoundary extends Component<
       retryCount: this.state.retryCount,
       firstOccurrence: Date.now(),
       lastOccurrence: Date.now(),
-      userImpact: ErrorClassifier.getUserImpactDescription(
-        classification.category,
-        classification.severity
-      ),
+      userImpact: ErrorClassifier.getUserImpactDescription(classification.category, classification.severity),
     };
 
     this.setState({ error: enhancedError });
@@ -459,41 +406,31 @@ export class GranularErrorBoundary extends Component<
 /**
  * Default Error Fallback Component
  */
-const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({
-  error,
-  resetError,
-  canRetry,
-  config,
+const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({ 
+  error, 
+  resetError, 
+  canRetry, 
+  config 
 }) => {
   const [showDetails, setShowDetails] = useState(false);
 
   const getSeverityColor = (severity: ErrorSeverity) => {
     switch (severity) {
-      case ErrorSeverity.LOW:
-        return 'text-yellow-400 border-yellow-400';
-      case ErrorSeverity.MEDIUM:
-        return 'text-orange-400 border-orange-400';
-      case ErrorSeverity.HIGH:
-        return 'text-red-400 border-red-400';
-      case ErrorSeverity.CRITICAL:
-        return 'text-red-600 border-red-600';
-      default:
-        return 'text-gray-400 border-gray-400';
+      case ErrorSeverity.LOW: return 'text-yellow-400 border-yellow-400';
+      case ErrorSeverity.MEDIUM: return 'text-orange-400 border-orange-400';
+      case ErrorSeverity.HIGH: return 'text-red-400 border-red-400';
+      case ErrorSeverity.CRITICAL: return 'text-red-600 border-red-600';
+      default: return 'text-gray-400 border-gray-400';
     }
   };
 
   const getSeverityIcon = (severity: ErrorSeverity) => {
     switch (severity) {
-      case ErrorSeverity.LOW:
-        return <Clock className="h-5 w-5" />;
-      case ErrorSeverity.MEDIUM:
-        return <TrendingDown className="h-5 w-5" />;
-      case ErrorSeverity.HIGH:
-        return <AlertTriangle className="h-5 w-5" />;
-      case ErrorSeverity.CRITICAL:
-        return <Zap className="h-5 w-5" />;
-      default:
-        return <Bug className="h-5 w-5" />;
+      case ErrorSeverity.LOW: return <Clock className="h-5 w-5" />;
+      case ErrorSeverity.MEDIUM: return <TrendingDown className="h-5 w-5" />;
+      case ErrorSeverity.HIGH: return <AlertTriangle className="h-5 w-5" />;
+      case ErrorSeverity.CRITICAL: return <Zap className="h-5 w-5" />;
+      default: return <Bug className="h-5 w-5" />;
     }
   };
 
@@ -528,13 +465,21 @@ const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({
               Try Again
             </Button>
           )}
-
-          <Button onClick={() => window.location.reload()} variant="outline" size="sm">
+          
+          <Button
+            onClick={() => window.location.reload()}
+            variant="outline"
+            size="sm"
+          >
             Reload Page
           </Button>
 
           {config.showDebugInfo && (
-            <Button onClick={() => setShowDetails(!showDetails)} variant="ghost" size="sm">
+            <Button
+              onClick={() => setShowDetails(!showDetails)}
+              variant="ghost"
+              size="sm"
+            >
               <Bug className="h-4 w-4" />
               {showDetails ? 'Hide' : 'Show'} Details
             </Button>
@@ -545,29 +490,20 @@ const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({
           <div className="mt-4 p-3 bg-gray-900 rounded-lg">
             <h4 className="text-sm font-semibold mb-2">Debug Information</h4>
             <div className="text-xs space-y-1">
-              <div>
-                <strong>Error:</strong> {error.error.name}
-              </div>
-              <div>
-                <strong>Message:</strong> {error.error.message}
-              </div>
-              <div>
-                <strong>Component:</strong> {error.context.componentName}
-              </div>
-              <div>
-                <strong>Time:</strong> {new Date(error.context.timestamp).toLocaleString()}
-              </div>
+              <div><strong>Error:</strong> {error.error.name}</div>
+              <div><strong>Message:</strong> {error.error.message}</div>
+              <div><strong>Component:</strong> {error.context.componentName}</div>
+              <div><strong>Time:</strong> {new Date(error.context.timestamp).toLocaleString()}</div>
               {error.context.performanceMetrics && (
-                <div>
-                  <strong>Memory:</strong>{' '}
-                  {error.context.performanceMetrics.memoryUsage?.toFixed(1)}MB
-                </div>
+                <div><strong>Memory:</strong> {error.context.performanceMetrics.memoryUsage?.toFixed(1)}MB</div>
               )}
             </div>
             {error.error.stack && (
               <details className="mt-2">
                 <summary className="text-xs cursor-pointer">Stack Trace</summary>
-                <pre className="text-xs mt-1 overflow-auto max-h-32">{error.error.stack}</pre>
+                <pre className="text-xs mt-1 overflow-auto max-h-32">
+                  {error.error.stack}
+                </pre>
               </details>
             )}
           </div>
@@ -622,7 +558,7 @@ export const ErrorAnalyticsDashboard: React.FC = () => {
   return (
     <div className="fixed top-4 right-4 bg-black/90 text-white p-4 rounded-lg text-xs z-50 max-w-sm">
       <h3 className="font-semibold mb-2">🚨 Error Analytics</h3>
-
+      
       <div className="space-y-1 mb-3">
         <div>Total Errors: {stats.totalErrors}</div>
         <div className="text-red-400">Critical: {stats.criticalErrors}</div>
@@ -656,7 +592,7 @@ export function withErrorBoundary<P extends object>(
   config: Partial<ErrorBoundaryConfig> = {}
 ) {
   const WrappedComponent = React.forwardRef<any, P>((props, ref) => (
-    <GranularErrorBoundary
+    <GranularErrorBoundary 
       config={{
         name: Component.displayName || Component.name || 'UnknownComponent',
         enableRecovery: true,
@@ -664,7 +600,7 @@ export function withErrorBoundary<P extends object>(
         retryDelay: 1000,
         reportToAnalytics: true,
         showDebugInfo: process.env.NODE_ENV === 'development',
-        ...config,
+        ...config
       }}
     >
       <Component {...props} ref={ref} />

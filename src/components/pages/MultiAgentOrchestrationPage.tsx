@@ -4,18 +4,18 @@ import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  Brain,
-  Users,
-  Mic,
-  FileText,
-  TrendingUp,
+import { 
+  Brain, 
+  Users, 
+  Mic, 
+  FileText, 
+  TrendingUp, 
   Eye,
   Layers,
   Zap,
   Settings,
   RefreshCw,
-  Download,
+  Download
 } from 'lucide-react';
 
 // Import orchestration components
@@ -30,12 +30,7 @@ import { StakeholderPortal } from '../agents/StakeholderPortal';
 import { MultiProjectOrchestrator } from '../agents/MultiProjectOrchestrator';
 
 // Import types
-import {
-  Agent,
-  AgentInteraction,
-  ProjectRisk,
-  VoiceCommand,
-} from '../../types/multi-agent-orchestration';
+import { Agent, AgentInteraction, ProjectRisk, VoiceCommand } from '../../types/multi-agent-orchestration';
 import { UserStats } from '../../types';
 
 // Import constants
@@ -51,7 +46,7 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
   const [isListening, setIsListening] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string>('');
   const [timeframe, setTimeframe] = useState<'hour' | 'day' | 'week' | 'month'>('day');
-
+  
   // Orchestration state
   const [agents, setAgents] = useState<Agent[]>([]);
   const [interactions, setInteractions] = useState<AgentInteraction[]>([]);
@@ -66,29 +61,27 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
 
   const initializeOrchestration = async () => {
     // Generate initial agents based on definitions
-    const initialAgents: Agent[] = Object.entries(AGENT_DEFINITIONS).map(
-      ([role, definition], index) => ({
-        id: `agent-${role}`,
-        name: definition.name,
-        role: role as any,
-        status: 'active' as any,
-        personality: definition.defaultPersonality,
-        workload: Math.floor(Math.random() * 40) + 30,
-        efficiency: Math.floor(Math.random() * 30) + 70,
-        location: {
-          x: 100 + (index % 4) * 250,
-          y: 100 + Math.floor(index / 4) * 200,
-        },
-        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${role}`,
-        capabilities: definition.capabilities,
-        connectedAgents: [],
-        lastActive: new Date(),
-        totalTasksCompleted: Math.floor(Math.random() * 50) + 10,
-        averageTaskTime: Math.floor(Math.random() * 60) + 30,
-        expertise: Math.floor(Math.random() * 30) + 70,
-        currentTask: generateRandomTask(definition.name),
-      })
-    );
+    const initialAgents: Agent[] = Object.entries(AGENT_DEFINITIONS).map(([role, definition], index) => ({
+      id: `agent-${role}`,
+      name: definition.name,
+      role: role as any,
+      status: 'active' as any,
+      personality: definition.defaultPersonality,
+      workload: Math.floor(Math.random() * 40) + 30,
+      efficiency: Math.floor(Math.random() * 30) + 70,
+      location: {
+        x: 100 + (index % 4) * 250,
+        y: 100 + Math.floor(index / 4) * 200
+      },
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${role}`,
+      capabilities: definition.capabilities,
+      connectedAgents: [],
+      lastActive: new Date(),
+      totalTasksCompleted: Math.floor(Math.random() * 50) + 10,
+      averageTaskTime: Math.floor(Math.random() * 60) + 30,
+      expertise: Math.floor(Math.random() * 30) + 70,
+      currentTask: generateRandomTask(definition.name)
+    }));
 
     setAgents(initialAgents);
     setIsInitialized(true);
@@ -99,42 +92,42 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
 
   const generateRandomTask = (agentName: string) => {
     const tasks = {
-      Visionary: [
+      'Visionary': [
         'Developing strategic roadmap for Q2',
         'Analyzing market opportunities',
         'Reviewing product vision alignment',
-        'Planning innovation initiatives',
+        'Planning innovation initiatives'
       ],
       'Product Manager': [
         'Prioritizing backlog items',
         'Gathering stakeholder feedback',
         'Updating product requirements',
-        'Coordinating with development team',
+        'Coordinating with development team'
       ],
       'UI Designer': [
         'Creating component library',
         'Designing user interface mockups',
         'Updating design system',
-        'Conducting design reviews',
+        'Conducting design reviews'
       ],
       'Frontend Developer': [
         'Implementing React components',
         'Optimizing bundle performance',
         'Adding responsive layouts',
-        'Writing unit tests',
+        'Writing unit tests'
       ],
       'Backend Developer': [
         'Building REST API endpoints',
         'Optimizing database queries',
         'Implementing authentication',
-        'Setting up monitoring',
+        'Setting up monitoring'
       ],
       'QA Engineer': [
         'Writing automated tests',
         'Performing regression testing',
         'Reviewing code quality',
-        'Testing user workflows',
-      ],
+        'Testing user workflows'
+      ]
     };
 
     const agentTasks = tasks[agentName as keyof typeof tasks] || ['Working on assigned tasks'];
@@ -151,7 +144,7 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
         content: 'Design mockups ready for implementation',
         timestamp: new Date(Date.now() - 30 * 60 * 1000),
         status: 'completed',
-        priority: 'medium',
+        priority: 'medium'
       },
       {
         id: 'int-2',
@@ -161,7 +154,7 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
         content: 'API requirements for user authentication',
         timestamp: new Date(Date.now() - 15 * 60 * 1000),
         status: 'in_progress',
-        priority: 'high',
+        priority: 'high'
       },
       {
         id: 'int-3',
@@ -171,16 +164,16 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
         content: 'Found UI inconsistency in navigation component',
         timestamp: new Date(Date.now() - 5 * 60 * 1000),
         status: 'pending',
-        priority: 'medium',
-      },
+        priority: 'medium'
+      }
     ];
 
     setInteractions(newInteractions);
   };
 
   const handleVoiceCommand = (command: VoiceCommand) => {
-    setVoiceCommands((prev) => [command, ...prev.slice(0, 9)]); // Keep last 10 commands
-
+    setVoiceCommands(prev => [command, ...prev.slice(0, 9)]); // Keep last 10 commands
+    
     // Handle specific voice commands
     switch (command.intent) {
       case 'show_agent_status':
@@ -207,10 +200,10 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
   };
 
   const orchestrationStats = {
-    activeAgents: agents.filter((a) => a.status === 'active').length,
+    activeAgents: agents.filter(a => a.status === 'active').length,
     completedTasks: agents.reduce((sum, a) => sum + a.totalTasksCompleted, 0),
     efficiency: Math.round(agents.reduce((sum, a) => sum + a.efficiency, 0) / agents.length),
-    collaborationScore: 87, // Calculated based on interactions
+    collaborationScore: 87 // Calculated based on interactions
   };
 
   if (!isInitialized) {
@@ -235,7 +228,7 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
             Command center for 11 specialized AI agents working in perfect harmony
           </p>
         </div>
-
+        
         <div className="flex items-center gap-3">
           <Badge className="bg-primary/20 text-primary border-primary/30 px-3 py-1">
             {orchestrationStats.activeAgents} Active Agents
@@ -257,9 +250,7 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm text-muted-foreground">Active Agents</div>
-              <div className="text-2xl font-bold text-primary">
-                {orchestrationStats.activeAgents}
-              </div>
+              <div className="text-2xl font-bold text-primary">{orchestrationStats.activeAgents}</div>
             </div>
             <Users className="h-6 w-6 text-primary" />
           </div>
@@ -269,9 +260,7 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm text-muted-foreground">Tasks Completed</div>
-              <div className="text-2xl font-bold text-secondary">
-                {orchestrationStats.completedTasks}
-              </div>
+              <div className="text-2xl font-bold text-secondary">{orchestrationStats.completedTasks}</div>
             </div>
             <Zap className="h-6 w-6 text-secondary" />
           </div>
@@ -291,9 +280,7 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm text-muted-foreground">Collaboration Score</div>
-              <div className="text-2xl font-bold text-primary">
-                {orchestrationStats.collaborationScore}
-              </div>
+              <div className="text-2xl font-bold text-primary">{orchestrationStats.collaborationScore}</div>
             </div>
             <Brain className="h-6 w-6 text-primary" />
           </div>
@@ -347,9 +334,7 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
                 agents={agents}
                 interactions={interactions}
                 onAgentMove={handleAgentUpdate}
-                onInteractionCreate={(interaction) =>
-                  setInteractions((prev) => [interaction, ...prev])
-                }
+                onInteractionCreate={(interaction) => setInteractions(prev => [interaction, ...prev])}
                 selectedAgent={selectedAgent}
                 onAgentSelect={setSelectedAgent}
               />
@@ -357,11 +342,11 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
             <div>
               {selectedAgent && (
                 <AgentPersonalityPanel
-                  agent={agents.find((a) => a.id === selectedAgent)!}
+                  agent={agents.find(a => a.id === selectedAgent)!}
                   onPersonalityUpdate={(agentId, personality) => {
-                    setAgents((prev) =>
-                      prev.map((a) => (a.id === agentId ? { ...a, personality } : a))
-                    );
+                    setAgents(prev => prev.map(a => 
+                      a.id === agentId ? { ...a, personality } : a
+                    ));
                   }}
                 />
               )}
@@ -418,7 +403,7 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
             </Badge>
             <h3 className="text-lg font-semibold">Advanced Features</h3>
           </div>
-
+          
           <div className="grid lg:grid-cols-2 gap-6">
             <StakeholderPortal
               projectId="current-project"
@@ -427,7 +412,7 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
               risks={risks}
               stats={orchestrationStats}
             />
-
+            
             <LiveDocumentationSystem
               projectId="current-project"
               agents={agents}
@@ -444,8 +429,7 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
             <div>
               <h3 className="font-semibold mb-2">Unlock Advanced Orchestration Features</h3>
               <p className="text-sm text-muted-foreground mb-3">
-                Get stakeholder portals, live documentation, advanced analytics and more with
-                Enterprise tier.
+                Get stakeholder portals, live documentation, advanced analytics and more with Enterprise tier.
               </p>
               <div className="flex flex-wrap gap-2">
                 <Badge variant="secondary">Stakeholder Dashboards</Badge>
@@ -454,7 +438,9 @@ export function MultiAgentOrchestrationPage({ userStats, user }: MultiAgentOrche
                 <Badge variant="secondary">Multi-Project Synergies</Badge>
               </div>
             </div>
-            <Button className="ff-btn-primary">Upgrade to Enterprise</Button>
+            <Button className="ff-btn-primary">
+              Upgrade to Enterprise
+            </Button>
           </div>
         </Card>
       )}

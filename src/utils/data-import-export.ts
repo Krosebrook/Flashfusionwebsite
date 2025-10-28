@@ -59,7 +59,7 @@ export const formatDuration = (start: Date, end?: Date): string => {
   const hours = Math.floor(diff / (60 * 60 * 1000));
   const minutes = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000));
   const seconds = Math.floor((diff % (60 * 1000)) / 1000);
-
+  
   if (hours > 0) {
     return `${hours}h ${minutes}m`;
   } else if (minutes > 0) {
@@ -112,11 +112,11 @@ export const canCancelJob = (job: ImportJob | ExportJob): boolean => {
 
 export const getJobEstimatedCompletion = (job: ImportJob | ExportJob): Date | null => {
   if (job.status !== 'processing' || job.progress === 0) return null;
-
+  
   const elapsed = Date.now() - job.startTime.getTime();
   const rate = job.progress / elapsed;
   const remaining = (100 - job.progress) / rate;
-
+  
   return new Date(Date.now() + remaining);
 };
 
@@ -126,17 +126,17 @@ export const sortJobsByStatus = (jobs: (ImportJob | ExportJob)[]): (ImportJob | 
     pending: 1,
     failed: 2,
     completed: 3,
-    cancelled: 4,
+    cancelled: 4
   };
 
   return jobs.sort((a, b) => {
     const priorityA = statusPriority[a.status];
     const priorityB = statusPriority[b.status];
-
+    
     if (priorityA !== priorityB) {
       return priorityA - priorityB;
     }
-
+    
     return b.startTime.getTime() - a.startTime.getTime();
   });
 };
@@ -146,15 +146,13 @@ export const filterJobsByQuery = (
   query: string
 ): (ImportJob | ExportJob)[] => {
   if (!query.trim()) return jobs;
-
+  
   const lowercaseQuery = query.toLowerCase();
-  return jobs.filter(
-    (job) =>
-      job.name.toLowerCase().includes(lowercaseQuery) ||
-      ('source' in job
-        ? job.source.toLowerCase().includes(lowercaseQuery)
-        : job.destination.toLowerCase().includes(lowercaseQuery)) ||
-      job.format.toLowerCase().includes(lowercaseQuery)
+  return jobs.filter(job =>
+    job.name.toLowerCase().includes(lowercaseQuery) ||
+    ('source' in job ? job.source.toLowerCase().includes(lowercaseQuery) : 
+     job.destination.toLowerCase().includes(lowercaseQuery)) ||
+    job.format.toLowerCase().includes(lowercaseQuery)
   );
 };
 
@@ -167,10 +165,10 @@ export const getJobStatistics = (jobs: (ImportJob | ExportJob)[]) => {
     failed: 0,
     cancelled: 0,
     totalRecords: 0,
-    totalSize: 0,
+    totalSize: 0
   };
 
-  jobs.forEach((job) => {
+  jobs.forEach(job => {
     stats[job.status]++;
     if ('recordsProcessed' in job) {
       stats.totalRecords += job.recordsProcessed;

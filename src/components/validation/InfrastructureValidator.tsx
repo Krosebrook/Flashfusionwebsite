@@ -4,20 +4,20 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  CheckCircle,
-  AlertCircle,
-  XCircle,
-  Clock,
-  Zap,
-  Shield,
-  Database,
-  Globe,
+import { 
+  CheckCircle, 
+  AlertCircle, 
+  XCircle, 
+  Clock, 
+  Zap, 
+  Shield, 
+  Database, 
+  Globe, 
   Server,
   Monitor,
   RefreshCw,
   AlertTriangle,
-  Activity,
+  Activity
 } from 'lucide-react';
 
 interface ValidationCheck {
@@ -47,7 +47,7 @@ interface InfrastructureValidatorProps {
 export function InfrastructureValidator({
   onValidationComplete,
   onCriticalFailure,
-  autoStart = false,
+  autoStart = false
 }: InfrastructureValidatorProps) {
   const [validationSuites] = useState<ValidationSuite[]>([
     {
@@ -59,37 +59,37 @@ export function InfrastructureValidator({
           name: 'Frontend Build',
           description: 'Verify frontend application builds and serves correctly',
           category: 'critical',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'api-connectivity',
           name: 'API Connectivity',
           description: 'Test connection to backend services',
           category: 'critical',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'database-connection',
           name: 'Database Connection',
           description: 'Verify Supabase database connectivity',
           category: 'critical',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'authentication-flow',
           name: 'Authentication Flow',
           description: 'Test user authentication and session management',
           category: 'critical',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'cdn-performance',
           name: 'CDN Performance',
           description: 'Verify static asset delivery performance',
           category: 'important',
-          status: 'pending',
-        },
-      ],
+          status: 'pending'
+        }
+      ]
     },
     {
       name: 'AI Services',
@@ -100,30 +100,30 @@ export function InfrastructureValidator({
           name: 'OpenAI API',
           description: 'Test OpenAI API connectivity and quotas',
           category: 'critical',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'anthropic-api',
           name: 'Anthropic API',
           description: 'Test Claude API connectivity (fallback)',
           category: 'important',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'ai-model-selection',
           name: 'AI Model Selection',
           description: 'Verify model switching and fallback mechanisms',
           category: 'important',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'rate-limiting',
           name: 'Rate Limiting',
           description: 'Test API rate limiting and queue management',
           category: 'important',
-          status: 'pending',
-        },
-      ],
+          status: 'pending'
+        }
+      ]
     },
     {
       name: 'Core Features',
@@ -134,37 +134,37 @@ export function InfrastructureValidator({
           name: 'Code Generation',
           description: 'Test full-stack application generation',
           category: 'critical',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'content-generation',
           name: 'Content Generation',
           description: 'Test content creation pipeline',
           category: 'critical',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'deployment-pipeline',
           name: 'Deployment Pipeline',
           description: 'Test one-click deployment to Vercel',
           category: 'critical',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'multi-agent-workflow',
           name: 'Multi-Agent Workflow',
           description: 'Test agent orchestration system',
           category: 'important',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'real-time-collaboration',
           name: 'Real-time Collaboration',
           description: 'Test live collaboration features',
           category: 'important',
-          status: 'pending',
-        },
-      ],
+          status: 'pending'
+        }
+      ]
     },
     {
       name: 'Performance & Security',
@@ -175,38 +175,38 @@ export function InfrastructureValidator({
           name: 'Page Load Performance',
           description: 'Verify Core Web Vitals meet standards',
           category: 'important',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'security-headers',
           name: 'Security Headers',
           description: 'Check security header configuration',
           category: 'important',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'ssl-certificate',
           name: 'SSL Certificate',
           description: 'Verify HTTPS configuration',
           category: 'critical',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'error-monitoring',
           name: 'Error Monitoring',
           description: 'Test error tracking and alerting',
           category: 'important',
-          status: 'pending',
+          status: 'pending'
         },
         {
           id: 'backup-systems',
           name: 'Backup Systems',
           description: 'Verify data backup and recovery',
           category: 'important',
-          status: 'pending',
-        },
-      ],
-    },
+          status: 'pending'
+        }
+      ]
+    }
   ]);
 
   const [currentSuiteIndex, setCurrentSuiteIndex] = useState(0);
@@ -215,14 +215,14 @@ export function InfrastructureValidator({
     passed: 0,
     failed: 0,
     warnings: 0,
-    total: 0,
+    total: 0
   });
   const [startTime, setStartTime] = useState<number | null>(null);
 
   // Calculate total checks
   useEffect(() => {
     const total = validationSuites.reduce((sum, suite) => sum + suite.checks.length, 0);
-    setOverallResults((prev) => ({ ...prev, total }));
+    setOverallResults(prev => ({ ...prev, total }));
   }, [validationSuites]);
 
   // Auto-start validation if requested
@@ -234,10 +234,10 @@ export function InfrastructureValidator({
 
   const runValidationCheck = async (check: ValidationCheck): Promise<ValidationCheck> => {
     const startTime = Date.now();
-
+    
     try {
       let result;
-
+      
       switch (check.id) {
         case 'frontend-build':
           result = await validateFrontendBuild();
@@ -280,22 +280,22 @@ export function InfrastructureValidator({
       }
 
       const duration = Date.now() - startTime;
-
+      
       return {
         ...check,
-        status: result.success ? 'passed' : result.warning ? 'warning' : 'failed',
+        status: result.success ? 'passed' : (result.warning ? 'warning' : 'failed'),
         result: result.data,
         error: result.error,
-        duration,
+        duration
       };
     } catch (error) {
       const duration = Date.now() - startTime;
-
+      
       return {
         ...check,
         status: 'failed',
         error: error instanceof Error ? error.message : 'Unknown error',
-        duration,
+        duration
       };
     }
   };
@@ -303,14 +303,18 @@ export function InfrastructureValidator({
   // Validation implementations
   const validateFrontendBuild = async () => {
     // Check if essential components are available
-    const essentialElements = ['body', '[data-testid="app-container"]', '.ff-btn-primary'];
-
+    const essentialElements = [
+      'body',
+      '[data-testid="app-container"]',
+      '.ff-btn-primary'
+    ];
+    
     for (const selector of essentialElements) {
       if (!document.querySelector(selector)) {
         return { success: false, error: `Missing essential element: ${selector}` };
       }
     }
-
+    
     return { success: true, data: { elementsFound: essentialElements.length } };
   };
 
@@ -319,9 +323,9 @@ export function InfrastructureValidator({
       // Test basic connectivity
       const response = await fetch('/api/health', {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' }
       });
-
+      
       if (response.ok) {
         const data = await response.json();
         return { success: true, data };
@@ -338,11 +342,11 @@ export function InfrastructureValidator({
       // Check if Supabase client can be created
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
       const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
+      
       if (!supabaseUrl || !supabaseKey) {
         return { success: false, error: 'Missing Supabase configuration' };
       }
-
+      
       // Test basic query (would need actual Supabase client)
       return { success: true, data: { configured: true } };
     } catch (error) {
@@ -356,7 +360,7 @@ export function InfrastructureValidator({
       const authToken = localStorage.getItem('ff-auth-token');
       const canSetToken = localStorage.setItem('ff-test-token', 'test');
       localStorage.removeItem('ff-test-token');
-
+      
       return { success: true, data: { hasExistingAuth: !!authToken } };
     } catch (error) {
       return { success: false, error: 'Authentication flow validation failed' };
@@ -365,11 +369,11 @@ export function InfrastructureValidator({
 
   const validateOpenAIAPI = async () => {
     const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-
+    
     if (!apiKey) {
       return { success: false, error: 'OpenAI API key not configured' };
     }
-
+    
     try {
       // Would test actual API call in real implementation
       return { success: true, data: { keyConfigured: true } };
@@ -380,15 +384,11 @@ export function InfrastructureValidator({
 
   const validateAnthropicAPI = async () => {
     const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
-
+    
     if (!apiKey) {
-      return {
-        success: false,
-        warning: true,
-        error: 'Anthropic API key not configured (fallback)',
-      };
+      return { success: false, warning: true, error: 'Anthropic API key not configured (fallback)' };
     }
-
+    
     return { success: true, data: { keyConfigured: true } };
   };
 
@@ -396,7 +396,7 @@ export function InfrastructureValidator({
     // Test code generation capability
     try {
       // Simulate code generation test
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1000));
       return { success: true, data: { generationCapable: true } };
     } catch (error) {
       return { success: false, error: 'Code generation validation failed' };
@@ -406,7 +406,7 @@ export function InfrastructureValidator({
   const validateContentGeneration = async () => {
     // Test content generation capability
     try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      await new Promise(resolve => setTimeout(resolve, 800));
       return { success: true, data: { contentCapable: true } };
     } catch (error) {
       return { success: false, error: 'Content generation validation failed' };
@@ -416,11 +416,11 @@ export function InfrastructureValidator({
   const validateDeploymentPipeline = async () => {
     // Test deployment configuration
     const vercelToken = import.meta.env.VITE_VERCEL_TOKEN;
-
+    
     if (!vercelToken) {
       return { success: false, warning: true, error: 'Vercel token not configured' };
     }
-
+    
     return { success: true, data: { deploymentReady: true } };
   };
 
@@ -428,19 +428,19 @@ export function InfrastructureValidator({
     // Test Core Web Vitals
     const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
     const loadTime = navigation.loadEventEnd - navigation.loadEventStart;
-
+    
     const metrics = {
       loadTime,
       domContentLoaded: navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
-      firstPaint: performance.getEntriesByName('first-paint')[0]?.startTime || 0,
+      firstPaint: performance.getEntriesByName('first-paint')[0]?.startTime || 0
     };
-
+    
     const performanceScore = loadTime < 2000 ? 'good' : loadTime < 4000 ? 'fair' : 'poor';
-
+    
     return {
       success: performanceScore !== 'poor',
       warning: performanceScore === 'fair',
-      data: metrics,
+      data: metrics
     };
   };
 
@@ -450,17 +450,17 @@ export function InfrastructureValidator({
       const headers = {
         'x-frame-options': response.headers.get('x-frame-options'),
         'x-content-type-options': response.headers.get('x-content-type-options'),
-        'strict-transport-security': response.headers.get('strict-transport-security'),
+        'strict-transport-security': response.headers.get('strict-transport-security')
       };
-
+      
       const missingHeaders = Object.entries(headers)
         .filter(([_, value]) => !value)
         .map(([key]) => key);
-
+      
       return {
         success: missingHeaders.length === 0,
         warning: missingHeaders.length > 0 && missingHeaders.length < 2,
-        data: { headers, missingHeaders },
+        data: { headers, missingHeaders }
       };
     } catch (error) {
       return { success: false, error: 'Security headers validation failed' };
@@ -469,78 +469,78 @@ export function InfrastructureValidator({
 
   const validateSSLCertificate = async () => {
     const isHTTPS = window.location.protocol === 'https:';
-
+    
     if (!isHTTPS && window.location.hostname !== 'localhost') {
       return { success: false, error: 'SSL certificate not configured for production' };
     }
-
+    
     return { success: true, data: { ssl: isHTTPS } };
   };
 
   const simulateValidation = async (checkId: string) => {
     // Simulate validation for other checks
-    await new Promise((resolve) => setTimeout(resolve, Math.random() * 2000 + 500));
-
+    await new Promise(resolve => setTimeout(resolve, Math.random() * 2000 + 500));
+    
     // Random success/failure for simulation
     const success = Math.random() > 0.2; // 80% success rate
     const warning = !success && Math.random() > 0.5; // 50% of failures are warnings
-
+    
     return {
       success,
       warning,
       data: { simulated: true, checkId },
-      error: !success ? `Simulated ${warning ? 'warning' : 'failure'} for ${checkId}` : undefined,
+      error: !success ? `Simulated ${warning ? 'warning' : 'failure'} for ${checkId}` : undefined
     };
   };
 
   const startValidation = useCallback(async () => {
     setIsRunning(true);
     setStartTime(Date.now());
-
+    
     let passed = 0;
     let failed = 0;
     let warnings = 0;
-
+    
     for (let suiteIndex = 0; suiteIndex < validationSuites.length; suiteIndex++) {
       setCurrentSuiteIndex(suiteIndex);
       const suite = validationSuites[suiteIndex];
-
+      
       for (let checkIndex = 0; checkIndex < suite.checks.length; checkIndex++) {
         const check = suite.checks[checkIndex];
-
+        
         // Update check status to running
         validationSuites[suiteIndex].checks[checkIndex] = {
           ...check,
-          status: 'running',
+          status: 'running'
         };
-
+        
         // Run the validation
         const result = await runValidationCheck(check);
-
+        
         // Update check with result
         validationSuites[suiteIndex].checks[checkIndex] = result;
-
+        
         // Update counters
         if (result.status === 'passed') passed++;
         else if (result.status === 'warning') warnings++;
         else failed++;
-
+        
         // Update overall results
         setOverallResults({ passed, failed, warnings, total: overallResults.total });
       }
     }
-
+    
     setIsRunning(false);
-
+    
     // Check for critical failures
     const criticalFailures = validationSuites
-      .flatMap((suite) => suite.checks)
-      .filter((check) => check.category === 'critical' && check.status === 'failed');
-
+      .flatMap(suite => suite.checks)
+      .filter(check => check.category === 'critical' && check.status === 'failed');
+    
     if (criticalFailures.length > 0) {
       onCriticalFailure(criticalFailures);
     }
-
+    
     onValidationComplete({ passed, failed, warnings });
   }, [validationSuites, overallResults.total, onValidationComplete, onCriticalFailure]);
 
@@ -561,16 +561,11 @@ export function InfrastructureValidator({
 
   const getStatusColor = (status: ValidationCheck['status']) => {
     switch (status) {
-      case 'passed':
-        return 'text-success';
-      case 'failed':
-        return 'text-destructive';
-      case 'warning':
-        return 'text-warning';
-      case 'running':
-        return 'text-primary';
-      default:
-        return 'text-muted-foreground';
+      case 'passed': return 'text-success';
+      case 'failed': return 'text-destructive';
+      case 'warning': return 'text-warning';
+      case 'running': return 'text-primary';
+      default: return 'text-muted-foreground';
     }
   };
 
@@ -578,7 +573,7 @@ export function InfrastructureValidator({
     const suiteProgress = suite.checks.reduce((checkSum, check) => {
       return checkSum + (check.status !== 'pending' ? 1 : 0);
     }, 0);
-
+    
     return sum + (suiteIndex < currentSuiteIndex ? suite.checks.length : suiteProgress);
   }, 0);
 
@@ -589,10 +584,12 @@ export function InfrastructureValidator({
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center space-y-4 mb-8">
-          <h1 className="text-3xl font-bold ff-text-gradient">Infrastructure Validation</h1>
+          <h1 className="text-3xl font-bold ff-text-gradient">
+            Infrastructure Validation
+          </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Comprehensive validation of all critical systems before launch. This ensures your
-            FlashFusion deployment is production-ready.
+            Comprehensive validation of all critical systems before launch.
+            This ensures your FlashFusion deployment is production-ready.
           </p>
         </div>
 
@@ -610,14 +607,16 @@ export function InfrastructureValidator({
                     Running...
                   </Badge>
                 )}
-                <Badge variant="outline">{Math.round(progressPercentage)}% Complete</Badge>
+                <Badge variant="outline">
+                  {Math.round(progressPercentage)}% Complete
+                </Badge>
               </div>
             </CardTitle>
           </CardHeader>
-
+          
           <CardContent className="space-y-4">
             <Progress value={progressPercentage} className="h-3" />
-
+            
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div className="space-y-1">
                 <div className="text-2xl font-bold text-success">{overallResults.passed}</div>
@@ -632,22 +631,23 @@ export function InfrastructureValidator({
                 <div className="text-xs text-muted-foreground">Failed</div>
               </div>
               <div className="space-y-1">
-                <div className="text-2xl font-bold text-muted-foreground">
-                  {overallResults.total}
-                </div>
+                <div className="text-2xl font-bold text-muted-foreground">{overallResults.total}</div>
                 <div className="text-xs text-muted-foreground">Total Checks</div>
               </div>
             </div>
 
             {startTime && (
               <div className="text-center text-sm text-muted-foreground">
-                {isRunning ? 'Running for' : 'Completed in'}{' '}
-                {Math.floor((Date.now() - startTime) / 1000)}s
+                {isRunning ? 'Running for' : 'Completed in'} {Math.floor((Date.now() - startTime) / 1000)}s
               </div>
             )}
 
             <div className="flex justify-center">
-              <Button onClick={startValidation} disabled={isRunning} className="ff-btn-primary">
+              <Button
+                onClick={startValidation}
+                disabled={isRunning}
+                className="ff-btn-primary"
+              >
                 {isRunning ? (
                   <>
                     <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
@@ -684,30 +684,28 @@ export function InfrastructureValidator({
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <span>{suite.name}</span>
-                    <Badge variant="outline">Required for {suite.requiredFor}</Badge>
+                    <Badge variant="outline">
+                      Required for {suite.requiredFor}
+                    </Badge>
                   </CardTitle>
                 </CardHeader>
-
+                
                 <CardContent>
                   <div className="space-y-3">
                     {suite.checks.map((check, checkIndex) => (
                       <div
                         key={check.id}
                         className={`flex items-center justify-between p-3 rounded-lg border ${
-                          check.status === 'passed'
-                            ? 'bg-success/10 border-success/20'
-                            : check.status === 'failed'
-                              ? 'bg-destructive/10 border-destructive/20'
-                              : check.status === 'warning'
-                                ? 'bg-warning/10 border-warning/20'
-                                : check.status === 'running'
-                                  ? 'bg-primary/10 border-primary/20'
-                                  : 'bg-muted/30'
+                          check.status === 'passed' ? 'bg-success/10 border-success/20' :
+                          check.status === 'failed' ? 'bg-destructive/10 border-destructive/20' :
+                          check.status === 'warning' ? 'bg-warning/10 border-warning/20' :
+                          check.status === 'running' ? 'bg-primary/10 border-primary/20' :
+                          'bg-muted/30'
                         }`}
                       >
                         <div className="flex items-center gap-3 flex-1">
                           {getStatusIcon(check.status)}
-
+                          
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
                               <span className="font-medium">{check.name}</span>
@@ -718,7 +716,9 @@ export function InfrastructureValidator({
                                 {check.category}
                               </Badge>
                             </div>
-                            <div className="text-sm text-muted-foreground">{check.description}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {check.description}
+                            </div>
                             {check.error && (
                               <div className="text-sm text-destructive mt-1">
                                 Error: {check.error}
@@ -726,10 +726,14 @@ export function InfrastructureValidator({
                             )}
                           </div>
                         </div>
-
+                        
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          {check.duration && <span>{check.duration}ms</span>}
-                          <span className={getStatusColor(check.status)}>{check.status}</span>
+                          {check.duration && (
+                            <span>{check.duration}ms</span>
+                          )}
+                          <span className={getStatusColor(check.status)}>
+                            {check.status}
+                          </span>
                         </div>
                       </div>
                     ))}

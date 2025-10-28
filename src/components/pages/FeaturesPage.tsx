@@ -6,15 +6,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Progress } from '../ui/progress';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import {
-  Star,
-  Code,
-  ShoppingCart,
-  FileText,
-  Palette,
-  Smartphone,
-  Rocket,
-  Brain,
+import { 
+  Star, 
+  Code, 
+  ShoppingCart, 
+  FileText, 
+  Palette, 
+  Smartphone, 
+  Rocket, 
+  Brain, 
   BarChart3,
   Check,
   Zap,
@@ -38,7 +38,7 @@ import {
   X,
   ChevronDown,
   Clock,
-  Sparkles,
+  Sparkles
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -53,65 +53,29 @@ const featureModules = [
       {
         name: 'AI Code Generation',
         description: 'Generate production-ready code across 15+ frameworks',
-        capabilities: [
-          'React/Next.js',
-          'Vue/Nuxt.js',
-          'Angular',
-          'Svelte/SvelteKit',
-          'Node.js APIs',
-          'Python/Django',
-          'PHP/Laravel',
-          'Ruby/Rails',
-        ],
+        capabilities: ['React/Next.js', 'Vue/Nuxt.js', 'Angular', 'Svelte/SvelteKit', 'Node.js APIs', 'Python/Django', 'PHP/Laravel', 'Ruby/Rails']
       },
       {
         name: 'Repository Integration',
         description: 'Connect and analyze existing codebases for context-aware generation',
-        capabilities: [
-          'GitHub Integration',
-          'GitLab Support',
-          'Bitbucket Connect',
-          'Live Code Analysis',
-          'Architecture Recommendations',
-        ],
+        capabilities: ['GitHub Integration', 'GitLab Support', 'Bitbucket Connect', 'Live Code Analysis', 'Architecture Recommendations']
       },
       {
         name: 'Full-Stack App Builder',
         description: 'Complete application scaffolding with database, auth, and deployment',
-        capabilities: [
-          'Database Schema Generation',
-          'Authentication Setup',
-          'API Route Creation',
-          'Frontend Components',
-          'Testing Suite',
-        ],
+        capabilities: ['Database Schema Generation', 'Authentication Setup', 'API Route Creation', 'Frontend Components', 'Testing Suite']
       },
       {
         name: 'Code Review & Optimization',
         description: 'AI-powered code analysis and performance optimization',
-        capabilities: [
-          'Security Analysis',
-          'Performance Audits',
-          'Best Practices Check',
-          'Refactoring Suggestions',
-          'Documentation Generation',
-        ],
+        capabilities: ['Security Analysis', 'Performance Audits', 'Best Practices Check', 'Refactoring Suggestions', 'Documentation Generation']
       },
       {
         name: 'Multi-Language Support',
         description: 'Support for modern programming languages and frameworks',
-        capabilities: [
-          'TypeScript/JavaScript',
-          'Python',
-          'Go',
-          'Rust',
-          'Java/Kotlin',
-          'C#/.NET',
-          'Swift',
-          'Dart/Flutter',
-        ],
-      },
-    ],
+        capabilities: ['TypeScript/JavaScript', 'Python', 'Go', 'Rust', 'Java/Kotlin', 'C#/.NET', 'Swift', 'Dart/Flutter']
+      }
+    ]
   },
   {
     id: 'ecommerce',
@@ -123,59 +87,29 @@ const featureModules = [
       {
         name: 'Store Builder',
         description: 'AI-generated e-commerce stores with modern designs and functionality',
-        capabilities: [
-          'Shopify Integration',
-          'WooCommerce Setup',
-          'Custom Cart Systems',
-          'Payment Processing',
-          'Inventory Management',
-        ],
+        capabilities: ['Shopify Integration', 'WooCommerce Setup', 'Custom Cart Systems', 'Payment Processing', 'Inventory Management']
       },
       {
         name: 'Product Catalog AI',
         description: 'Automated product descriptions, images, and SEO optimization',
-        capabilities: [
-          'Product Description AI',
-          'Image Generation',
-          'SEO Optimization',
-          'Price Optimization',
-          'Category Organization',
-        ],
+        capabilities: ['Product Description AI', 'Image Generation', 'SEO Optimization', 'Price Optimization', 'Category Organization']
       },
       {
         name: 'Marketplace Integration',
         description: 'Multi-platform selling with automated listing management',
-        capabilities: [
-          'Amazon Seller Central',
-          'eBay Integration',
-          'Etsy Connect',
-          'Facebook Marketplace',
-          'Google Shopping',
-        ],
+        capabilities: ['Amazon Seller Central', 'eBay Integration', 'Etsy Connect', 'Facebook Marketplace', 'Google Shopping']
       },
       {
         name: 'Print-on-Demand Hub',
         description: 'Complete POD business automation with design tools',
-        capabilities: [
-          'Design Suite',
-          'Printful Integration',
-          'Gooten Connect',
-          'Automated Listings',
-          'Order Fulfillment',
-        ],
+        capabilities: ['Design Suite', 'Printful Integration', 'Gooten Connect', 'Automated Listings', 'Order Fulfillment']
       },
       {
         name: 'Analytics & Insights',
         description: 'Advanced e-commerce analytics and business intelligence',
-        capabilities: [
-          'Revenue Tracking',
-          'Customer Analytics',
-          'Inventory Insights',
-          'Marketing ROI',
-          'Profit Optimization',
-        ],
-      },
-    ],
+        capabilities: ['Revenue Tracking', 'Customer Analytics', 'Inventory Insights', 'Marketing ROI', 'Profit Optimization']
+      }
+    ]
   },
   {
     id: 'content',
@@ -187,59 +121,29 @@ const featureModules = [
       {
         name: 'AI Content Generator',
         description: 'Generate high-quality content across multiple formats and platforms',
-        capabilities: [
-          'Blog Posts & Articles',
-          'Social Media Content',
-          'Email Campaigns',
-          'Video Scripts',
-          'Podcast Outlines',
-        ],
+        capabilities: ['Blog Posts & Articles', 'Social Media Content', 'Email Campaigns', 'Video Scripts', 'Podcast Outlines']
       },
       {
         name: 'Brand Kit Generator',
         description: 'Complete brand identity creation with consistent assets',
-        capabilities: [
-          'Logo Design',
-          'Color Palettes',
-          'Typography Systems',
-          'Brand Guidelines',
-          'Asset Libraries',
-        ],
+        capabilities: ['Logo Design', 'Color Palettes', 'Typography Systems', 'Brand Guidelines', 'Asset Libraries']
       },
       {
         name: 'Multi-Platform Publishing',
         description: 'One-click publishing to all major content platforms',
-        capabilities: [
-          'WordPress Integration',
-          'Medium Publishing',
-          'LinkedIn Articles',
-          'Twitter Threads',
-          'YouTube Descriptions',
-        ],
+        capabilities: ['WordPress Integration', 'Medium Publishing', 'LinkedIn Articles', 'Twitter Threads', 'YouTube Descriptions']
       },
       {
         name: 'Content Rights Management',
         description: 'Protect and monetize your content across platforms',
-        capabilities: [
-          'Copyright Protection',
-          'Usage Tracking',
-          'License Management',
-          'Revenue Attribution',
-          'Plagiarism Detection',
-        ],
+        capabilities: ['Copyright Protection', 'Usage Tracking', 'License Management', 'Revenue Attribution', 'Plagiarism Detection']
       },
       {
         name: 'SEO Optimization Suite',
         description: 'Advanced SEO tools for maximum content visibility',
-        capabilities: [
-          'Keyword Research',
-          'Content Optimization',
-          'Meta Tag Generation',
-          'Schema Markup',
-          'Performance Tracking',
-        ],
-      },
-    ],
+        capabilities: ['Keyword Research', 'Content Optimization', 'Meta Tag Generation', 'Schema Markup', 'Performance Tracking']
+      }
+    ]
   },
   {
     id: 'design',
@@ -251,59 +155,29 @@ const featureModules = [
       {
         name: 'AI Design Generator',
         description: 'Generate stunning designs for web, mobile, and print',
-        capabilities: [
-          'Web UI/UX Design',
-          'Mobile App Designs',
-          'Print Materials',
-          'Social Media Graphics',
-          'Brand Assets',
-        ],
+        capabilities: ['Web UI/UX Design', 'Mobile App Designs', 'Print Materials', 'Social Media Graphics', 'Brand Assets']
       },
       {
         name: 'Figma Integration',
         description: 'Seamless workflow between design and development',
-        capabilities: [
-          'Import Figma Designs',
-          'Convert to Code',
-          'Design System Sync',
-          'Component Library',
-          'Asset Export',
-        ],
+        capabilities: ['Import Figma Designs', 'Convert to Code', 'Design System Sync', 'Component Library', 'Asset Export']
       },
       {
         name: 'Image Generation Suite',
         description: 'AI-powered image creation and editing capabilities',
-        capabilities: [
-          'DALL-E Integration',
-          'Midjourney Connect',
-          'Image Editing AI',
-          'Background Removal',
-          'Style Transfer',
-        ],
+        capabilities: ['DALL-E Integration', 'Midjourney Connect', 'Image Editing AI', 'Background Removal', 'Style Transfer']
       },
       {
         name: 'Design System Builder',
         description: 'Create and maintain consistent design systems',
-        capabilities: [
-          'Component Libraries',
-          'Design Tokens',
-          'Style Guides',
-          'Pattern Libraries',
-          'Documentation',
-        ],
+        capabilities: ['Component Libraries', 'Design Tokens', 'Style Guides', 'Pattern Libraries', 'Documentation']
       },
       {
         name: 'Responsive Design Tools',
         description: 'Ensure perfect designs across all devices and platforms',
-        capabilities: [
-          'Mobile-First Design',
-          'Tablet Optimization',
-          'Desktop Layouts',
-          'Cross-Browser Testing',
-          'Accessibility Compliance',
-        ],
-      },
-    ],
+        capabilities: ['Mobile-First Design', 'Tablet Optimization', 'Desktop Layouts', 'Cross-Browser Testing', 'Accessibility Compliance']
+      }
+    ]
   },
   {
     id: 'mobile',
@@ -315,59 +189,29 @@ const featureModules = [
       {
         name: 'Native App Generation',
         description: 'Generate native iOS and Android applications',
-        capabilities: [
-          'React Native Apps',
-          'Flutter Development',
-          'Swift/SwiftUI',
-          'Kotlin/Compose',
-          'Xamarin Integration',
-        ],
+        capabilities: ['React Native Apps', 'Flutter Development', 'Swift/SwiftUI', 'Kotlin/Compose', 'Xamarin Integration']
       },
       {
         name: 'Progressive Web Apps',
         description: 'Create fast, reliable PWAs with native-like experiences',
-        capabilities: [
-          'Service Workers',
-          'Offline Support',
-          'Push Notifications',
-          'App Install Prompts',
-          'Native API Access',
-        ],
+        capabilities: ['Service Workers', 'Offline Support', 'Push Notifications', 'App Install Prompts', 'Native API Access']
       },
       {
         name: 'Cross-Platform Tools',
         description: 'Build once, deploy everywhere with unified development',
-        capabilities: [
-          'Shared Codebase',
-          'Platform-Specific UI',
-          'Native Performance',
-          'Device Integration',
-          'App Store Deployment',
-        ],
+        capabilities: ['Shared Codebase', 'Platform-Specific UI', 'Native Performance', 'Device Integration', 'App Store Deployment']
       },
       {
         name: 'Mobile Backend Services',
         description: 'Complete backend infrastructure for mobile applications',
-        capabilities: [
-          'User Authentication',
-          'Real-time Database',
-          'Push Notifications',
-          'File Storage',
-          'Analytics Integration',
-        ],
+        capabilities: ['User Authentication', 'Real-time Database', 'Push Notifications', 'File Storage', 'Analytics Integration']
       },
       {
         name: 'App Store Optimization',
         description: 'Maximize app visibility and downloads',
-        capabilities: [
-          'ASO Strategy',
-          'Keyword Optimization',
-          'Screenshot Generation',
-          'Description Writing',
-          'Review Management',
-        ],
-      },
-    ],
+        capabilities: ['ASO Strategy', 'Keyword Optimization', 'Screenshot Generation', 'Description Writing', 'Review Management']
+      }
+    ]
   },
   {
     id: 'deployment',
@@ -379,63 +223,29 @@ const featureModules = [
       {
         name: 'Multi-Platform Deployment',
         description: 'Deploy to 8+ platforms with automated workflows',
-        capabilities: [
-          'Vercel Integration',
-          'Netlify Deploy',
-          'AWS Amplify',
-          'Heroku Pipeline',
-          'DigitalOcean Apps',
-          'Google Cloud Run',
-          'Azure Static Apps',
-          'Firebase Hosting',
-        ],
+        capabilities: ['Vercel Integration', 'Netlify Deploy', 'AWS Amplify', 'Heroku Pipeline', 'DigitalOcean Apps', 'Google Cloud Run', 'Azure Static Apps', 'Firebase Hosting']
       },
       {
         name: 'CI/CD Pipeline Builder',
         description: 'Automated testing, building, and deployment pipelines',
-        capabilities: [
-          'GitHub Actions',
-          'GitLab CI/CD',
-          'Jenkins Integration',
-          'Automated Testing',
-          'Quality Gates',
-          'Rollback Systems',
-        ],
+        capabilities: ['GitHub Actions', 'GitLab CI/CD', 'Jenkins Integration', 'Automated Testing', 'Quality Gates', 'Rollback Systems']
       },
       {
         name: 'Infrastructure as Code',
         description: 'Automated infrastructure provisioning and management',
-        capabilities: [
-          'Docker Containerization',
-          'Kubernetes Orchestration',
-          'Terraform Scripts',
-          'CloudFormation',
-          'Environment Management',
-        ],
+        capabilities: ['Docker Containerization', 'Kubernetes Orchestration', 'Terraform Scripts', 'CloudFormation', 'Environment Management']
       },
       {
         name: 'Monitoring & Observability',
         description: 'Comprehensive application monitoring and performance tracking',
-        capabilities: [
-          'Application Monitoring',
-          'Error Tracking',
-          'Performance Metrics',
-          'Log Aggregation',
-          'Alert Management',
-        ],
+        capabilities: ['Application Monitoring', 'Error Tracking', 'Performance Metrics', 'Log Aggregation', 'Alert Management']
       },
       {
         name: 'Security & Compliance',
         description: 'Enterprise-grade security and compliance automation',
-        capabilities: [
-          'Security Scanning',
-          'Vulnerability Assessment',
-          'Compliance Checks',
-          'Secret Management',
-          'Access Control',
-        ],
-      },
-    ],
+        capabilities: ['Security Scanning', 'Vulnerability Assessment', 'Compliance Checks', 'Secret Management', 'Access Control']
+      }
+    ]
   },
   {
     id: 'ai',
@@ -447,61 +257,29 @@ const featureModules = [
       {
         name: 'Multi-Agent Orchestration',
         description: 'Coordinate multiple AI agents for complex workflows',
-        capabilities: [
-          'Agent Collaboration',
-          'Workflow Automation',
-          'Task Distribution',
-          'Performance Optimization',
-          'Real-time Coordination',
-        ],
+        capabilities: ['Agent Collaboration', 'Workflow Automation', 'Task Distribution', 'Performance Optimization', 'Real-time Coordination']
       },
       {
         name: 'Custom AI Models',
         description: 'Train and deploy custom AI models for specific use cases',
-        capabilities: [
-          'Model Training',
-          'Fine-tuning',
-          'Custom Datasets',
-          'Model Deployment',
-          'Performance Monitoring',
-        ],
+        capabilities: ['Model Training', 'Fine-tuning', 'Custom Datasets', 'Model Deployment', 'Performance Monitoring']
       },
       {
         name: 'AI Model Integration',
         description: 'Access to 8+ leading AI providers and models',
-        capabilities: [
-          'OpenAI GPT Models',
-          'Anthropic Claude',
-          'Google Gemini',
-          'GitHub Copilot',
-          'xAI Grok',
-          'DeepSeek Coder',
-          'Local Models',
-        ],
+        capabilities: ['OpenAI GPT Models', 'Anthropic Claude', 'Google Gemini', 'GitHub Copilot', 'xAI Grok', 'DeepSeek Coder', 'Local Models']
       },
       {
         name: 'Intelligent Automation',
         description: 'Smart workflow automation with decision-making capabilities',
-        capabilities: [
-          'Process Automation',
-          'Decision Trees',
-          'Conditional Logic',
-          'Data Processing',
-          'API Orchestration',
-        ],
+        capabilities: ['Process Automation', 'Decision Trees', 'Conditional Logic', 'Data Processing', 'API Orchestration']
       },
       {
         name: 'AI Trust & Validation',
         description: 'Ensure AI outputs meet quality and safety standards',
-        capabilities: [
-          'Output Validation',
-          'Quality Assurance',
-          'Bias Detection',
-          'Safety Checks',
-          'Compliance Monitoring',
-        ],
-      },
-    ],
+        capabilities: ['Output Validation', 'Quality Assurance', 'Bias Detection', 'Safety Checks', 'Compliance Monitoring']
+      }
+    ]
   },
   {
     id: 'analytics',
@@ -513,64 +291,38 @@ const featureModules = [
       {
         name: 'Business Intelligence Suite',
         description: 'Advanced analytics and reporting across all business metrics',
-        capabilities: [
-          'Custom Dashboards',
-          'Real-time Analytics',
-          'Predictive Insights',
-          'Revenue Tracking',
-          'Performance KPIs',
-        ],
+        capabilities: ['Custom Dashboards', 'Real-time Analytics', 'Predictive Insights', 'Revenue Tracking', 'Performance KPIs']
       },
       {
         name: 'User Behavior Analytics',
         description: 'Deep insights into user interactions and engagement',
-        capabilities: [
-          'User Journey Mapping',
-          'Conversion Tracking',
-          'A/B Testing',
-          'Heatmap Analysis',
-          'Session Recording',
-        ],
+        capabilities: ['User Journey Mapping', 'Conversion Tracking', 'A/B Testing', 'Heatmap Analysis', 'Session Recording']
       },
       {
         name: 'Marketing Analytics',
         description: 'Comprehensive marketing performance and ROI tracking',
-        capabilities: [
-          'Campaign Performance',
-          'Attribution Modeling',
-          'Customer Acquisition',
-          'Lifetime Value',
-          'Channel Analytics',
-        ],
+        capabilities: ['Campaign Performance', 'Attribution Modeling', 'Customer Acquisition', 'Lifetime Value', 'Channel Analytics']
       },
       {
         name: 'Technical Performance',
         description: 'Monitor and optimize technical performance metrics',
-        capabilities: [
-          'Site Speed Analysis',
-          'Core Web Vitals',
-          'Error Monitoring',
-          'Uptime Tracking',
-          'Performance Optimization',
-        ],
+        capabilities: ['Site Speed Analysis', 'Core Web Vitals', 'Error Monitoring', 'Uptime Tracking', 'Performance Optimization']
       },
       {
         name: 'Competitive Intelligence',
         description: 'Stay ahead with market and competitor insights',
-        capabilities: [
-          'Market Analysis',
-          'Competitor Tracking',
-          'Trend Identification',
-          'Opportunity Assessment',
-          'Strategic Planning',
-        ],
-      },
-    ],
-  },
+        capabilities: ['Market Analysis', 'Competitor Tracking', 'Trend Identification', 'Opportunity Assessment', 'Strategic Planning']
+      }
+    ]
+  }
 ];
 
-const FeatureCard = ({ feature, moduleColor }: { feature: any; moduleColor: string }) => (
-  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="group">
+const FeatureCard = ({ feature, moduleColor }: { feature: any, moduleColor: string }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="group"
+  >
     <Card className="ff-card-interactive h-full hover:border-opacity-50 transition-all duration-300">
       <CardHeader className="pb-4">
         <div className="flex items-start justify-between">
@@ -582,8 +334,8 @@ const FeatureCard = ({ feature, moduleColor }: { feature: any; moduleColor: stri
               {feature.description}
             </CardDescription>
           </div>
-          <Badge
-            variant="secondary"
+          <Badge 
+            variant="secondary" 
             className="ff-badge-glow text-xs px-2 py-1"
             style={{ borderColor: moduleColor + '40', backgroundColor: moduleColor + '10' }}
           >
@@ -609,7 +361,7 @@ const FeatureCard = ({ feature, moduleColor }: { feature: any; moduleColor: stri
 
 const ModuleOverview = ({ module }: { module: any }) => {
   const Icon = module.icon;
-
+  
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -619,14 +371,16 @@ const ModuleOverview = ({ module }: { module: any }) => {
       <Card className="ff-card-interactive border-2" style={{ borderColor: module.color + '40' }}>
         <CardHeader className="pb-6">
           <div className="flex items-center gap-4">
-            <div
+            <div 
               className="w-16 h-16 rounded-xl flex items-center justify-center"
               style={{ backgroundColor: module.color + '15' }}
             >
               <Icon className="w-8 h-8" style={{ color: module.color }} />
             </div>
             <div className="space-y-2">
-              <CardTitle className="text-2xl ff-text-gradient">{module.title}</CardTitle>
+              <CardTitle className="text-2xl ff-text-gradient">
+                {module.title}
+              </CardTitle>
               <CardDescription className="text-base leading-relaxed max-w-2xl">
                 {module.description}
               </CardDescription>
@@ -641,13 +395,7 @@ const ModuleOverview = ({ module }: { module: any }) => {
             </div>
             <div className="flex items-center gap-2">
               <Target className="w-4 h-4" />
-              <span>
-                {module.features.reduce(
-                  (acc: number, feature: any) => acc + feature.capabilities.length,
-                  0
-                )}{' '}
-                Capabilities
-              </span>
+              <span>{module.features.reduce((acc: number, feature: any) => acc + feature.capabilities.length, 0)} Capabilities</span>
             </div>
             <div className="flex items-center gap-2">
               <Award className="w-4 h-4" />
@@ -664,36 +412,35 @@ export default function FeaturesPage() {
   const [selectedModule, setSelectedModule] = useState('development');
   const [searchTerm, setSearchTerm] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const currentModule = featureModules.find((m) => m.id === selectedModule);
+  const currentModule = featureModules.find(m => m.id === selectedModule);
 
   // Enhanced interactivity - filter features based on search
-  const filteredFeatures =
-    currentModule?.features.filter(
-      (feature) =>
-        feature.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        feature.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        feature.capabilities.some((cap) => cap.toLowerCase().includes(searchTerm.toLowerCase()))
-    ) || [];
+  const filteredFeatures = currentModule?.features.filter(feature => 
+    feature.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    feature.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    feature.capabilities.some(cap => cap.toLowerCase().includes(searchTerm.toLowerCase()))
+  ) || [];
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-8 ff-stagger-fade">
       {/* Hero Section */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-6 py-12"
       >
         <div className="flex items-center justify-center space-x-3 mb-4">
           <Star className="w-10 h-10 text-primary" />
-          <h1 className="ff-text-gradient text-4xl font-bold">Platform Features</h1>
+          <h1 className="ff-text-gradient text-4xl font-bold">
+            Platform Features
+          </h1>
         </div>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-          Discover FlashFusion's comprehensive suite of AI-powered tools and features designed to
-          revolutionize your development, content creation, and business workflows.
+          Discover FlashFusion's comprehensive suite of AI-powered tools and features designed to revolutionize your development, content creation, and business workflows.
         </p>
-
+        
         {/* Enhanced Stats with animations */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
@@ -703,7 +450,7 @@ export default function FeaturesPage() {
             { value: '60+', label: 'AI Tools', color: 'text-primary', icon: Bot },
             { value: '8', label: 'Core Modules', color: 'text-secondary', icon: Package },
             { value: '15+', label: 'Frameworks', color: 'text-accent', icon: Code },
-            { value: '100%', label: 'Production Ready', color: 'text-green-500', icon: Check },
+            { value: '100%', label: 'Production Ready', color: 'text-green-500', icon: Check }
           ].map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -726,9 +473,9 @@ export default function FeaturesPage() {
       <div className="space-y-6">
         <div className="text-center space-y-4">
           <h2 className="text-2xl font-semibold ff-text-gradient">Explore Our Feature Modules</h2>
-
+          
           {/* Search and Filter Bar */}
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-2xl mx-auto space-y-4"
@@ -761,27 +508,25 @@ export default function FeaturesPage() {
               >
                 <Filter className="w-4 h-4 mr-2" />
                 Filter
-                <ChevronDown
-                  className={`w-4 h-4 ml-2 transition-transform ${isFilterOpen ? 'rotate-180' : ''}`}
-                />
+                <ChevronDown className={`w-4 h-4 ml-2 transition-transform ${isFilterOpen ? 'rotate-180' : ''}`} />
               </Button>
             </div>
-
+            
             {/* Quick Filter Badges */}
             <div className="flex flex-wrap gap-2 justify-center">
               {featureModules.map((module) => (
                 <Badge
                   key={module.id}
-                  variant={selectedModule === module.id ? 'default' : 'outline'}
+                  variant={selectedModule === module.id ? "default" : "outline"}
                   className={`cursor-pointer transition-all duration-200 ${
-                    selectedModule === module.id
-                      ? 'ff-badge-glow'
+                    selectedModule === module.id 
+                      ? 'ff-badge-glow' 
                       : 'hover:border-primary/50 hover:bg-primary/5'
                   }`}
                   onClick={() => setSelectedModule(module.id)}
                   style={{
                     borderColor: selectedModule === module.id ? module.color : undefined,
-                    backgroundColor: selectedModule === module.id ? module.color + '15' : undefined,
+                    backgroundColor: selectedModule === module.id ? module.color + '15' : undefined
                   }}
                 >
                   <module.icon className="w-3 h-3 mr-1" />
@@ -797,13 +542,12 @@ export default function FeaturesPage() {
                 animate={{ opacity: 1 }}
                 className="text-sm text-muted-foreground"
               >
-                Found {filteredFeatures.length} feature{filteredFeatures.length !== 1 ? 's' : ''}{' '}
-                matching "{searchTerm}"
+                Found {filteredFeatures.length} feature{filteredFeatures.length !== 1 ? 's' : ''} matching "{searchTerm}"
               </motion.div>
             )}
           </motion.div>
         </div>
-
+        
         <Tabs value={selectedModule} onValueChange={setSelectedModule} className="w-full">
           <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 w-full h-auto p-2 bg-muted/50">
             {featureModules.map((module) => {
@@ -826,7 +570,7 @@ export default function FeaturesPage() {
           {featureModules.map((module) => (
             <TabsContent key={module.id} value={module.id} className="mt-8 space-y-8">
               <ModuleOverview module={module} />
-
+              
               {/* Enhanced Feature Grid with Search Results */}
               <div className="space-y-6">
                 {searchTerm && filteredFeatures.length === 0 ? (
@@ -842,8 +586,8 @@ export default function FeaturesPage() {
                     <p className="text-muted-foreground">
                       Try searching for different terms or explore other modules
                     </p>
-                    <Button
-                      variant="outline"
+                    <Button 
+                      variant="outline" 
                       onClick={() => setSearchTerm('')}
                       className="ff-focus-ring"
                     >
@@ -859,7 +603,10 @@ export default function FeaturesPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
                       >
-                        <FeatureCard feature={feature} moduleColor={module.color} />
+                        <FeatureCard 
+                          feature={feature} 
+                          moduleColor={module.color}
+                        />
                       </motion.div>
                     ))}
                   </div>
@@ -881,10 +628,7 @@ export default function FeaturesPage() {
                     </div>
                     <div className="space-y-1">
                       <div className="text-2xl font-bold text-secondary">
-                        {(searchTerm ? filteredFeatures : module.features).reduce(
-                          (acc, f) => acc + f.capabilities.length,
-                          0
-                        )}
+                        {(searchTerm ? filteredFeatures : module.features).reduce((acc, f) => acc + f.capabilities.length, 0)}
                       </div>
                       <div className="text-xs text-muted-foreground">Capabilities</div>
                     </div>
@@ -921,8 +665,7 @@ export default function FeaturesPage() {
               </CardTitle>
             </div>
             <CardDescription className="text-lg max-w-3xl mx-auto">
-              All FlashFusion modules work together seamlessly, creating a unified workflow from
-              idea to deployment.
+              All FlashFusion modules work together seamlessly, creating a unified workflow from idea to deployment.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -933,12 +676,10 @@ export default function FeaturesPage() {
                 </div>
                 <div className="space-y-1">
                   <div className="font-semibold">Unified Data</div>
-                  <div className="text-sm text-muted-foreground">
-                    Shared data across all modules
-                  </div>
+                  <div className="text-sm text-muted-foreground">Shared data across all modules</div>
                 </div>
               </div>
-
+              
               <div className="text-center space-y-3">
                 <div className="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mx-auto">
                   <Users className="w-6 h-6 text-secondary" />
@@ -948,28 +689,24 @@ export default function FeaturesPage() {
                   <div className="text-sm text-muted-foreground">Real-time team workflows</div>
                 </div>
               </div>
-
+              
               <div className="text-center space-y-3">
                 <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mx-auto">
                   <Shield className="w-6 h-6 text-accent" />
                 </div>
                 <div className="space-y-1">
                   <div className="font-semibold">Enterprise Security</div>
-                  <div className="text-sm text-muted-foreground">
-                    SOC 2 compliant infrastructure
-                  </div>
+                  <div className="text-sm text-muted-foreground">SOC 2 compliant infrastructure</div>
                 </div>
               </div>
-
+              
               <div className="text-center space-y-3">
                 <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mx-auto">
                   <CloudUpload className="w-6 h-6 text-green-500" />
                 </div>
                 <div className="space-y-1">
                   <div className="font-semibold">Auto Deployment</div>
-                  <div className="text-sm text-muted-foreground">
-                    One-click deployment to any platform
-                  </div>
+                  <div className="text-sm text-muted-foreground">One-click deployment to any platform</div>
                 </div>
               </div>
             </div>
@@ -983,10 +720,11 @@ export default function FeaturesPage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-6 py-12"
       >
-        <h2 className="text-3xl font-bold ff-text-gradient">Ready to Transform Your Workflow?</h2>
+        <h2 className="text-3xl font-bold ff-text-gradient">
+          Ready to Transform Your Workflow?
+        </h2>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Join thousands of developers, creators, and businesses using FlashFusion to build the
-          future.
+          Join thousands of developers, creators, and businesses using FlashFusion to build the future.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
           <Button size="lg" className="ff-btn-primary ff-hover-glow px-8">

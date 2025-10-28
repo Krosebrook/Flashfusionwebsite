@@ -7,7 +7,7 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
+import { 
   Shield,
   CheckCircle2,
   AlertTriangle,
@@ -29,7 +29,7 @@ import {
   Flag,
   Download,
   Copy,
-  Settings,
+  Settings
 } from 'lucide-react';
 
 interface FactCheckResult {
@@ -92,18 +92,18 @@ const SAMPLE_FACT_CHECKS: FactCheckResult[] = [
         url: 'https://sustainablepackaging.org/report-2024',
         domain: 'sustainablepackaging.org',
         credibility: 95,
-        datePublished: new Date('2024-01-15'),
+        datePublished: new Date('2024-01-15')
       },
       {
         title: 'Global Consumer Trends in Sustainability',
         url: 'https://research.nielsen.com/sustainability-trends',
         domain: 'nielsen.com',
         credibility: 90,
-        datePublished: new Date('2024-02-01'),
-      },
+        datePublished: new Date('2024-02-01')
+      }
     ],
     aiModel: 'Claude 3.5 Sonnet',
-    checkedAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
+    checkedAt: new Date(Date.now() - 2 * 60 * 60 * 1000)
   },
   {
     id: '2',
@@ -117,24 +117,22 @@ const SAMPLE_FACT_CHECKS: FactCheckResult[] = [
         url: 'https://apple.com/iphone-15-pro/specs',
         domain: 'apple.com',
         credibility: 100,
-        datePublished: new Date('2023-09-12'),
-      },
+        datePublished: new Date('2023-09-12')
+      }
     ],
     aiModel: 'GPT-4 Turbo',
     checkedAt: new Date(Date.now() - 1 * 60 * 60 * 1000),
     flags: [
       {
         type: 'potential-hallucination',
-        description:
-          'Camera specifications may be inaccurate. Official specs show 3x optical zoom, not 5x.',
-        severity: 'high',
-      },
-    ],
+        description: 'Camera specifications may be inaccurate. Official specs show 3x optical zoom, not 5x.',
+        severity: 'high'
+      }
+    ]
   },
   {
     id: '3',
-    content:
-      'According to WHO, global life expectancy increased by 5.5 years between 2000 and 2019',
+    content: 'According to WHO, global life expectancy increased by 5.5 years between 2000 and 2019',
     contentType: 'statistic',
     verificationStatus: 'verified',
     confidence: 98,
@@ -144,12 +142,12 @@ const SAMPLE_FACT_CHECKS: FactCheckResult[] = [
         url: 'https://who.int/publications/world-health-statistics-2021',
         domain: 'who.int',
         credibility: 100,
-        datePublished: new Date('2021-05-20'),
-      },
+        datePublished: new Date('2021-05-20')
+      }
     ],
     aiModel: 'Claude 3.5 Sonnet',
-    checkedAt: new Date(Date.now() - 30 * 60 * 1000),
-  },
+    checkedAt: new Date(Date.now() - 30 * 60 * 1000)
+  }
 ];
 
 export function AITrustVerificationSystem() {
@@ -158,29 +156,22 @@ export function AITrustVerificationSystem() {
   const [newContent, setNewContent] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
   const [selectedFactCheck, setSelectedFactCheck] = useState<FactCheckResult | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'fact-check' | 'sources' | 'settings'>(
-    'overview'
-  );
+  const [activeTab, setActiveTab] = useState<'overview' | 'fact-check' | 'sources' | 'settings'>('overview');
 
   // Calculate trust score
   const calculateTrustScore = (): TrustScore => {
-    const verifiedClaims = factChecks.filter((fc) => fc.verificationStatus === 'verified').length;
+    const verifiedClaims = factChecks.filter(fc => fc.verificationStatus === 'verified').length;
     const totalClaims = factChecks.length;
-    const highCredibilitySources = factChecks
-      .flatMap((fc) => fc.sources)
-      .filter((s) => s.credibility >= 90).length;
-    const totalSources = factChecks.flatMap((fc) => fc.sources).length;
-    const recentSources = factChecks
-      .flatMap((fc) => fc.sources)
-      .filter((s) => Date.now() - s.datePublished.getTime() < 365 * 24 * 60 * 60 * 1000).length;
-    const flaggedContent = factChecks.filter((fc) => fc.flags && fc.flags.length > 0).length;
+    const highCredibilitySources = factChecks.flatMap(fc => fc.sources).filter(s => s.credibility >= 90).length;
+    const totalSources = factChecks.flatMap(fc => fc.sources).length;
+    const recentSources = factChecks.flatMap(fc => fc.sources)
+      .filter(s => Date.now() - s.datePublished.getTime() < 365 * 24 * 60 * 60 * 1000).length;
+    const flaggedContent = factChecks.filter(fc => fc.flags && fc.flags.length > 0).length;
 
     const factualAccuracy = totalClaims > 0 ? (verifiedClaims / totalClaims) * 100 : 100;
-    const sourceCredibility =
-      totalSources > 0 ? (highCredibilitySources / totalSources) * 100 : 100;
+    const sourceCredibility = totalSources > 0 ? (highCredibilitySources / totalSources) * 100 : 100;
     const recency = totalSources > 0 ? (recentSources / totalSources) * 100 : 100;
-    const transparency =
-      totalClaims > 0 ? Math.max(0, (1 - flaggedContent / totalClaims) * 100) : 100;
+    const transparency = totalClaims > 0 ? Math.max(0, (1 - (flaggedContent / totalClaims)) * 100) : 100;
 
     const overall = (factualAccuracy + sourceCredibility + recency + transparency) / 4;
 
@@ -196,8 +187,8 @@ export function AITrustVerificationSystem() {
         highCredibilitySources,
         totalSources,
         recentSources,
-        flaggedContent,
-      },
+        flaggedContent
+      }
     };
   };
 
@@ -207,31 +198,31 @@ export function AITrustVerificationSystem() {
     if (!newContent.trim()) return;
 
     setIsVerifying(true);
-
+    
     const request: VerificationRequest = {
       id: Date.now().toString(),
       content: newContent,
       requestedAt: new Date(),
       status: 'processing',
       progress: 0,
-      estimatedCompletion: new Date(Date.now() + 2 * 60 * 1000), // 2 minutes
+      estimatedCompletion: new Date(Date.now() + 2 * 60 * 1000) // 2 minutes
     };
 
-    setVerificationRequests((prev) => [...prev, request]);
+    setVerificationRequests(prev => [...prev, request]);
 
     // Simulate verification process
     const progressInterval = setInterval(() => {
-      setVerificationRequests((prev) =>
-        prev.map((req) =>
-          req.id === request.id ? { ...req, progress: Math.min(req.progress + 10, 90) } : req
-        )
-      );
+      setVerificationRequests(prev => prev.map(req => 
+        req.id === request.id 
+          ? { ...req, progress: Math.min(req.progress + 10, 90) }
+          : req
+      ));
     }, 200);
 
     // Complete verification after delay
     setTimeout(() => {
       clearInterval(progressInterval);
-
+      
       const mockResult: FactCheckResult = {
         id: Date.now().toString(),
         content: newContent,
@@ -244,20 +235,20 @@ export function AITrustVerificationSystem() {
             url: 'https://example.com/source',
             domain: 'example.com',
             credibility: 88,
-            datePublished: new Date(),
-          },
+            datePublished: new Date()
+          }
         ],
         aiModel: 'Claude 3.5 Sonnet',
-        checkedAt: new Date(),
+        checkedAt: new Date()
       };
 
-      setFactChecks((prev) => [mockResult, ...prev]);
-      setVerificationRequests((prev) =>
-        prev.map((req) =>
-          req.id === request.id ? { ...req, status: 'completed', progress: 100 } : req
-        )
-      );
-
+      setFactChecks(prev => [mockResult, ...prev]);
+      setVerificationRequests(prev => prev.map(req => 
+        req.id === request.id 
+          ? { ...req, status: 'completed', progress: 100 }
+          : req
+      ));
+      
       setIsVerifying(false);
       setNewContent('');
     }, 2000);
@@ -301,37 +292,34 @@ export function AITrustVerificationSystem() {
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
-        <Card
+        <Card 
           className="cursor-pointer transition-all duration-300 hover:shadow-lg"
           style={{
             background: 'rgba(255, 255, 255, 0.95)',
             backdropFilter: 'blur(10px)',
-            border:
-              selectedFactCheck?.id === factCheck.id
-                ? `2px solid ${statusColor}`
-                : '1px solid rgba(255, 255, 255, 0.2)',
+            border: selectedFactCheck?.id === factCheck.id 
+              ? `2px solid ${statusColor}` 
+              : '1px solid rgba(255, 255, 255, 0.2)'
           }}
-          onClick={() =>
-            setSelectedFactCheck(selectedFactCheck?.id === factCheck.id ? null : factCheck)
-          }
+          onClick={() => setSelectedFactCheck(selectedFactCheck?.id === factCheck.id ? null : factCheck)}
         >
           <div className="p-6">
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <div
+                <div 
                   className="w-10 h-10 rounded-lg flex items-center justify-center"
                   style={{ backgroundColor: `${statusColor}15` }}
                 >
                   <StatusIcon className="h-5 w-5" style={{ color: statusColor }} />
                 </div>
                 <div>
-                  <Badge
+                  <Badge 
                     className="text-xs capitalize"
                     style={{
                       backgroundColor: `${statusColor}15`,
                       color: statusColor,
-                      border: `1px solid ${statusColor}30`,
+                      border: `1px solid ${statusColor}30`
                     }}
                   >
                     {factCheck.verificationStatus}
@@ -352,7 +340,9 @@ export function AITrustVerificationSystem() {
 
             {/* Content */}
             <div className="mb-4">
-              <p className="text-gray-700 leading-relaxed line-clamp-2">"{factCheck.content}"</p>
+              <p className="text-gray-700 leading-relaxed line-clamp-2">
+                "{factCheck.content}"
+              </p>
             </div>
 
             {/* Sources Summary */}
@@ -360,9 +350,7 @@ export function AITrustVerificationSystem() {
               <div className="flex items-center space-x-4 text-sm text-gray-600">
                 <div className="flex items-center space-x-1">
                   <BookOpen className="h-4 w-4" />
-                  <span>
-                    {factCheck.sources.length} source{factCheck.sources.length !== 1 ? 's' : ''}
-                  </span>
+                  <span>{factCheck.sources.length} source{factCheck.sources.length !== 1 ? 's' : ''}</span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <Clock className="h-4 w-4" />
@@ -381,10 +369,7 @@ export function AITrustVerificationSystem() {
             {/* Sources Preview */}
             <div className="space-y-2">
               {factCheck.sources.slice(0, 2).map((source, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between p-2 bg-gray-50 rounded-lg"
-                >
+                <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
                   <div className="flex items-center space-x-2 flex-1 min-w-0">
                     <Globe className="h-4 w-4 text-gray-400 flex-shrink-0" />
                     <div className="min-w-0">
@@ -395,17 +380,10 @@ export function AITrustVerificationSystem() {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2 flex-shrink-0">
-                    <div
-                      className="text-xs font-medium"
-                      style={{
-                        color:
-                          source.credibility >= 90
-                            ? '#10B981'
-                            : source.credibility >= 70
-                              ? '#F59E0B'
-                              : '#EF4444',
-                      }}
-                    >
+                    <div className="text-xs font-medium" style={{ 
+                      color: source.credibility >= 90 ? '#10B981' : 
+                             source.credibility >= 70 ? '#F59E0B' : '#EF4444' 
+                    }}>
                       {source.credibility}%
                     </div>
                     <Button size="sm" variant="ghost" className="h-6 w-6 p-0">
@@ -414,7 +392,7 @@ export function AITrustVerificationSystem() {
                   </div>
                 </div>
               ))}
-
+              
               {factCheck.sources.length > 2 && (
                 <div className="text-center">
                   <Button variant="ghost" size="sm" className="text-xs">
@@ -440,19 +418,12 @@ export function AITrustVerificationSystem() {
                       <h4 className="font-medium text-gray-900 mb-2">⚠️ Verification Flags</h4>
                       <div className="space-y-2">
                         {factCheck.flags.map((flag, index) => (
-                          <div
-                            key={index}
-                            className={`p-3 rounded-lg border-l-4 ${
-                              flag.severity === 'high'
-                                ? 'bg-red-50 border-red-400'
-                                : flag.severity === 'medium'
-                                  ? 'bg-yellow-50 border-yellow-400'
-                                  : 'bg-blue-50 border-blue-400'
-                            }`}
-                          >
-                            <div className="font-medium text-sm capitalize">
-                              {flag.type.replace('-', ' ')}
-                            </div>
+                          <div key={index} className={`p-3 rounded-lg border-l-4 ${
+                            flag.severity === 'high' ? 'bg-red-50 border-red-400' :
+                            flag.severity === 'medium' ? 'bg-yellow-50 border-yellow-400' :
+                            'bg-blue-50 border-blue-400'
+                          }`}>
+                            <div className="font-medium text-sm capitalize">{flag.type.replace('-', ' ')}</div>
                             <div className="text-sm text-gray-600 mt-1">{flag.description}</div>
                           </div>
                         ))}
@@ -468,28 +439,24 @@ export function AITrustVerificationSystem() {
                         <div key={index} className="p-3 bg-gray-50 rounded-lg">
                           <div className="flex items-start justify-between">
                             <div className="flex-1">
-                              <div className="font-medium text-sm text-gray-900">
-                                {source.title}
-                              </div>
+                              <div className="font-medium text-sm text-gray-900">{source.title}</div>
                               <div className="text-xs text-gray-500 mt-1">{source.domain}</div>
                               <div className="text-xs text-gray-500">
                                 Published: {source.datePublished.toLocaleDateString()}
                               </div>
                             </div>
                             <div className="flex items-center space-x-2 ml-4">
-                              <Badge
+                              <Badge 
                                 className={`text-xs ${
-                                  source.credibility >= 90
-                                    ? 'bg-green-100 text-green-700'
-                                    : source.credibility >= 70
-                                      ? 'bg-yellow-100 text-yellow-700'
-                                      : 'bg-red-100 text-red-700'
+                                  source.credibility >= 90 ? 'bg-green-100 text-green-700' :
+                                  source.credibility >= 70 ? 'bg-yellow-100 text-yellow-700' :
+                                  'bg-red-100 text-red-700'
                                 }`}
                               >
                                 {source.credibility}% credible
                               </Badge>
-                              <Button
-                                size="sm"
+                              <Button 
+                                size="sm" 
                                 variant="outline"
                                 onClick={() => window.open(source.url, '_blank')}
                               >
@@ -535,34 +502,20 @@ export function AITrustVerificationSystem() {
             AI Trust & Verification
           </h1>
           <p className="text-muted-foreground mt-2">
-            Ensure AI-generated content accuracy with automated fact-checking and source
-            verification
+            Ensure AI-generated content accuracy with automated fact-checking and source verification
           </p>
         </div>
 
         <div className="flex items-center space-x-3">
-          <Badge
+          <Badge 
             className="text-lg px-4 py-2"
             style={{
-              backgroundColor:
-                trustScore.overall >= 90
-                  ? '#10B98115'
-                  : trustScore.overall >= 70
-                    ? '#F59E0B15'
-                    : '#EF444415',
-              color:
-                trustScore.overall >= 90
-                  ? '#10B981'
-                  : trustScore.overall >= 70
-                    ? '#F59E0B'
-                    : '#EF4444',
-              border: `1px solid ${
-                trustScore.overall >= 90
-                  ? '#10B98130'
-                  : trustScore.overall >= 70
-                    ? '#F59E0B30'
-                    : '#EF444430'
-              }`,
+              backgroundColor: trustScore.overall >= 90 ? '#10B98115' : 
+                             trustScore.overall >= 70 ? '#F59E0B15' : '#EF444415',
+              color: trustScore.overall >= 90 ? '#10B981' : 
+                     trustScore.overall >= 70 ? '#F59E0B' : '#EF4444',
+              border: `1px solid ${trustScore.overall >= 90 ? '#10B98130' : 
+                                   trustScore.overall >= 70 ? '#F59E0B30' : '#EF444430'}`
             }}
           >
             <Shield className="h-5 w-5 mr-2" />
@@ -572,41 +525,29 @@ export function AITrustVerificationSystem() {
       </div>
 
       {/* Trust Score Overview */}
-      <Card
-        className="p-6"
-        style={{
-          background:
-            'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(16, 185, 129, 0.2)',
-        }}
-      >
+      <Card className="p-6" style={{
+        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(16, 185, 129, 0.2)'
+      }}>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="text-center">
-            <div className="text-3xl font-bold text-green-600">
-              {trustScore.factualAccuracy.toFixed(0)}%
-            </div>
+            <div className="text-3xl font-bold text-green-600">{trustScore.factualAccuracy.toFixed(0)}%</div>
             <div className="text-sm text-gray-600">Factual Accuracy</div>
             <Progress value={trustScore.factualAccuracy} className="mt-2" />
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-blue-600">
-              {trustScore.sourceCredibility.toFixed(0)}%
-            </div>
+            <div className="text-3xl font-bold text-blue-600">{trustScore.sourceCredibility.toFixed(0)}%</div>
             <div className="text-sm text-gray-600">Source Credibility</div>
             <Progress value={trustScore.sourceCredibility} className="mt-2" />
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-orange-600">
-              {trustScore.recency.toFixed(0)}%
-            </div>
+            <div className="text-3xl font-bold text-orange-600">{trustScore.recency.toFixed(0)}%</div>
             <div className="text-sm text-gray-600">Information Recency</div>
             <Progress value={trustScore.recency} className="mt-2" />
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-purple-600">
-              {trustScore.transparency.toFixed(0)}%
-            </div>
+            <div className="text-3xl font-bold text-purple-600">{trustScore.transparency.toFixed(0)}%</div>
             <div className="text-sm text-gray-600">Transparency</div>
             <Progress value={trustScore.transparency} className="mt-2" />
           </div>
@@ -626,21 +567,15 @@ export function AITrustVerificationSystem() {
           {/* Quick Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="p-6 text-center">
-              <div className="text-2xl font-bold text-green-600">
-                {trustScore.breakdown.verifiedClaims}
-              </div>
+              <div className="text-2xl font-bold text-green-600">{trustScore.breakdown.verifiedClaims}</div>
               <div className="text-sm text-gray-600">Verified Claims</div>
             </Card>
             <Card className="p-6 text-center">
-              <div className="text-2xl font-bold text-blue-600">
-                {trustScore.breakdown.highCredibilitySources}
-              </div>
+              <div className="text-2xl font-bold text-blue-600">{trustScore.breakdown.highCredibilitySources}</div>
               <div className="text-sm text-gray-600">High-Quality Sources</div>
             </Card>
             <Card className="p-6 text-center">
-              <div className="text-2xl font-bold text-red-600">
-                {trustScore.breakdown.flaggedContent}
-              </div>
+              <div className="text-2xl font-bold text-red-600">{trustScore.breakdown.flaggedContent}</div>
               <div className="text-sm text-gray-600">Flagged Items</div>
             </Card>
           </div>
@@ -671,7 +606,7 @@ export function AITrustVerificationSystem() {
                 <div className="text-sm text-gray-600">
                   AI will fact-check claims, verify statistics, and validate sources
                 </div>
-                <Button
+                <Button 
                   onClick={handleVerifyContent}
                   disabled={!newContent.trim() || isVerifying}
                   className="ff-btn-primary"
@@ -701,23 +636,19 @@ export function AITrustVerificationSystem() {
                   <div key={request.id} className="p-4 bg-blue-50 rounded-lg">
                     <div className="flex justify-between items-start mb-2">
                       <p className="text-sm text-gray-700 line-clamp-2">{request.content}</p>
-                      <Badge
-                        className={`ml-2 ${
-                          request.status === 'completed'
-                            ? 'bg-green-100 text-green-700'
-                            : request.status === 'processing'
-                              ? 'bg-blue-100 text-blue-700'
-                              : 'bg-gray-100 text-gray-700'
-                        }`}
-                      >
+                      <Badge className={`ml-2 ${
+                        request.status === 'completed' ? 'bg-green-100 text-green-700' :
+                        request.status === 'processing' ? 'bg-blue-100 text-blue-700' :
+                        'bg-gray-100 text-gray-700'
+                      }`}>
                         {request.status}
                       </Badge>
                     </div>
                     <Progress value={request.progress} className="mb-2" />
                     <div className="text-xs text-gray-500">
-                      {request.status === 'processing' &&
-                        request.estimatedCompletion &&
-                        `Estimated completion: ${request.estimatedCompletion.toLocaleTimeString()}`}
+                      {request.status === 'processing' && request.estimatedCompletion && (
+                        `Estimated completion: ${request.estimatedCompletion.toLocaleTimeString()}`
+                      )}
                     </div>
                   </div>
                 ))}
@@ -737,43 +668,30 @@ export function AITrustVerificationSystem() {
           <Card className="p-6">
             <h3 className="text-lg font-semibold mb-4">Source Credibility Analysis</h3>
             <div className="space-y-4">
-              {Array.from(new Set(factChecks.flatMap((fc) => fc.sources.map((s) => s.domain)))).map(
-                (domain) => {
-                  const domainSources = factChecks
-                    .flatMap((fc) => fc.sources)
-                    .filter((s) => s.domain === domain);
-                  const avgCredibility =
-                    domainSources.reduce((sum, s) => sum + s.credibility, 0) / domainSources.length;
-
+              {Array.from(new Set(factChecks.flatMap(fc => fc.sources.map(s => s.domain))))
+                .map(domain => {
+                  const domainSources = factChecks.flatMap(fc => fc.sources).filter(s => s.domain === domain);
+                  const avgCredibility = domainSources.reduce((sum, s) => sum + s.credibility, 0) / domainSources.length;
+                  
                   return (
-                    <div
-                      key={domain}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
-                    >
+                    <div key={domain} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                       <div className="flex items-center space-x-3">
                         <Globe className="h-5 w-5 text-gray-400" />
                         <div>
                           <div className="font-medium">{domain}</div>
-                          <div className="text-sm text-gray-600">
-                            {domainSources.length} sources
-                          </div>
+                          <div className="text-sm text-gray-600">{domainSources.length} sources</div>
                         </div>
                       </div>
-                      <Badge
-                        className={`${
-                          avgCredibility >= 90
-                            ? 'bg-green-100 text-green-700'
-                            : avgCredibility >= 70
-                              ? 'bg-yellow-100 text-yellow-700'
-                              : 'bg-red-100 text-red-700'
-                        }`}
-                      >
+                      <Badge className={`${
+                        avgCredibility >= 90 ? 'bg-green-100 text-green-700' :
+                        avgCredibility >= 70 ? 'bg-yellow-100 text-yellow-700' :
+                        'bg-red-100 text-red-700'
+                      }`}>
                         {avgCredibility.toFixed(0)}% credible
                       </Badge>
                     </div>
                   );
-                }
-              )}
+                })}
             </div>
           </Card>
         </TabsContent>
@@ -785,13 +703,11 @@ export function AITrustVerificationSystem() {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-medium">Auto-verify AI-generated content</div>
-                  <div className="text-sm text-gray-600">
-                    Automatically fact-check content from AI models
-                  </div>
+                  <div className="text-sm text-gray-600">Automatically fact-check content from AI models</div>
                 </div>
                 <Switch defaultChecked />
               </div>
-
+              
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-medium">Real-time verification</div>
@@ -799,13 +715,11 @@ export function AITrustVerificationSystem() {
                 </div>
                 <Switch defaultChecked />
               </div>
-
+              
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-medium">High confidence threshold</div>
-                  <div className="text-sm text-gray-600">
-                    Only mark content as verified with 90%+ confidence
-                  </div>
+                  <div className="text-sm text-gray-600">Only mark content as verified with 90%+ confidence</div>
                 </div>
                 <Switch />
               </div>
@@ -813,9 +727,7 @@ export function AITrustVerificationSystem() {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-medium">Source diversity requirement</div>
-                  <div className="text-sm text-gray-600">
-                    Require multiple independent sources for verification
-                  </div>
+                  <div className="text-sm text-gray-600">Require multiple independent sources for verification</div>
                 </div>
                 <Switch defaultChecked />
               </div>

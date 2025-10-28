@@ -4,34 +4,30 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Alert, AlertDescription } from '../ui/alert';
-import {
-  FeatureFlag,
-  FeatureFlagToggle,
-  useFeatureFlag,
+import { 
+  FeatureFlag, 
+  FeatureFlagToggle, 
+  useFeatureFlag, 
   useFeatureFlagToggle,
   useFeatureFlagContext,
   ExperimentalFeatures,
   PremiumFeatures,
-  BetaFeatures,
+  BetaFeatures 
 } from '../patterns/FeatureFlag';
-import {
-  Sparkles,
-  Zap,
-  Crown,
-  TestTube,
+import { 
+  Sparkles, 
+  Zap, 
+  Crown, 
+  TestTube, 
   AlertTriangle,
   CheckCircle,
   Info,
-  Settings,
+  Settings
 } from 'lucide-react';
 
 export function FeatureFlagDemo() {
   const debugMode = useFeatureFlag('debugMode');
-  const {
-    isEnabled: experimentalUI,
-    toggle: toggleExperimental,
-    isOverridden,
-  } = useFeatureFlagToggle('experimentalUI');
+  const { isEnabled: experimentalUI, toggle: toggleExperimental, isOverridden } = useFeatureFlagToggle('experimentalUI');
   const { flags } = useFeatureFlagContext();
 
   return (
@@ -41,7 +37,9 @@ export function FeatureFlagDemo() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <h2 className="text-2xl font-bold ff-text-gradient mb-2">Feature Flag System Demo</h2>
+        <h2 className="text-2xl font-bold ff-text-gradient mb-2">
+          Feature Flag System Demo
+        </h2>
         <p className="text-muted-foreground">
           Experience how feature flags control functionality in real-time
         </p>
@@ -58,25 +56,29 @@ export function FeatureFlagDemo() {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center p-3 bg-muted/30 rounded-lg">
-              <Badge variant={debugMode ? 'default' : 'secondary'} className="mb-2">
-                {debugMode ? 'Active' : 'Inactive'}
+              <Badge variant={debugMode ? "default" : "secondary"} className="mb-2">
+                {debugMode ? "Active" : "Inactive"}
               </Badge>
               <p className="text-sm font-medium">Debug Mode</p>
             </div>
             <div className="text-center p-3 bg-muted/30 rounded-lg">
-              <Badge variant={experimentalUI ? 'default' : 'secondary'} className="mb-2">
-                {experimentalUI ? 'Active' : 'Inactive'}
+              <Badge variant={experimentalUI ? "default" : "secondary"} className="mb-2">
+                {experimentalUI ? "Active" : "Inactive"}
               </Badge>
               <p className="text-sm font-medium">Experimental UI</p>
             </div>
             <div className="text-center p-3 bg-muted/30 rounded-lg">
-              <Badge variant={isOverridden ? 'outline' : 'secondary'} className="mb-2">
-                {isOverridden ? 'Overridden' : 'Default'}
+              <Badge variant={isOverridden ? "outline" : "secondary"} className="mb-2">
+                {isOverridden ? "Overridden" : "Default"}
               </Badge>
               <p className="text-sm font-medium">Override Status</p>
             </div>
             <div className="text-center p-3 bg-muted/30 rounded-lg">
-              <Button size="sm" onClick={toggleExperimental} className="mb-2 w-full ff-btn-primary">
+              <Button
+                size="sm"
+                onClick={toggleExperimental}
+                className="mb-2 w-full ff-btn-primary"
+              >
                 Toggle
               </Button>
               <p className="text-sm font-medium">Quick Toggle</p>
@@ -105,8 +107,8 @@ export function FeatureFlagDemo() {
                 <Alert>
                   <TestTube className="h-4 w-4" />
                   <AlertDescription>
-                    This content is only visible when "Experimental UI" is enabled! You're seeing
-                    cutting-edge features in development.
+                    This content is only visible when "Experimental UI" is enabled! 
+                    You're seeing cutting-edge features in development.
                   </AlertDescription>
                 </Alert>
                 <div className="mt-4 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg">
@@ -124,7 +126,7 @@ export function FeatureFlagDemo() {
         </ExperimentalFeatures>
 
         {/* Premium Features */}
-        <PremiumFeatures
+        <PremiumFeatures 
           fallback={
             <Card className="ff-card-interactive border-warning/30 bg-warning/5">
               <CardHeader>
@@ -137,8 +139,8 @@ export function FeatureFlagDemo() {
                 <Alert>
                   <AlertTriangle className="h-4 w-4" />
                   <AlertDescription>
-                    Premium features are currently disabled. Enable "Premium Features" in the
-                    feature flags to access advanced functionality.
+                    Premium features are currently disabled. Enable "Premium Features" 
+                    in the feature flags to access advanced functionality.
                   </AlertDescription>
                 </Alert>
                 <div className="mt-4 p-4 bg-muted/50 rounded-lg opacity-50">
@@ -197,21 +199,17 @@ export function FeatureFlagDemo() {
               <Alert>
                 <TestTube className="h-4 w-4" />
                 <AlertDescription>
-                  Beta deployment features are active! You can test the latest deployment platforms
-                  and experimental cloud integrations.
+                  Beta deployment features are active! You can test the latest deployment 
+                  platforms and experimental cloud integrations.
                 </AlertDescription>
               </Alert>
               <div className="grid grid-cols-2 gap-4 mt-4">
                 <div className="p-3 bg-muted/30 rounded-lg text-center">
-                  <Badge variant="outline" className="mb-2">
-                    Beta
-                  </Badge>
+                  <Badge variant="outline" className="mb-2">Beta</Badge>
                   <p className="text-sm font-medium">Railway Deploy</p>
                 </div>
                 <div className="p-3 bg-muted/30 rounded-lg text-center">
-                  <Badge variant="outline" className="mb-2">
-                    Beta
-                  </Badge>
+                  <Badge variant="outline" className="mb-2">Beta</Badge>
                   <p className="text-sm font-medium">Fly.io Deploy</p>
                 </div>
               </div>
@@ -233,8 +231,7 @@ export function FeatureFlagDemo() {
             <Alert>
               <Settings className="h-4 w-4" />
               <AlertDescription>
-                Debug mode is active. You can see the feature flag debug panel in the bottom-right
-                corner.
+                Debug mode is active. You can see the feature flag debug panel in the bottom-right corner.
               </AlertDescription>
             </Alert>
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -281,12 +278,12 @@ export function FeatureFlagDemo() {
               </ul>
             </div>
           </div>
-
+          
           <Alert>
             <Info className="h-4 w-4" />
             <AlertDescription>
-              Try toggling different features to see how they affect the interface! Changes are
-              applied immediately and persist across page reloads.
+              Try toggling different features to see how they affect the interface! 
+              Changes are applied immediately and persist across page reloads.
             </AlertDescription>
           </Alert>
         </CardContent>

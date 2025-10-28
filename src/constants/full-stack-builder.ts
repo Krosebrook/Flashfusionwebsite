@@ -7,25 +7,10 @@ export const FRONTEND_FRAMEWORKS = [
 ];
 
 export const BACKEND_FRAMEWORKS = [
-  {
-    id: 'nodejs-express',
-    name: 'Node.js + Express',
-    icon: '🚂',
-    description: 'JavaScript backend',
-  },
-  {
-    id: 'nodejs-fastify',
-    name: 'Node.js + Fastify',
-    icon: '⚡',
-    description: 'Fast Node.js framework',
-  },
+  { id: 'nodejs-express', name: 'Node.js + Express', icon: '🚂', description: 'JavaScript backend' },
+  { id: 'nodejs-fastify', name: 'Node.js + Fastify', icon: '⚡', description: 'Fast Node.js framework' },
   { id: 'python-fastapi', name: 'Python + FastAPI', icon: '🐍', description: 'Modern Python API' },
-  {
-    id: 'python-django',
-    name: 'Python + Django',
-    icon: '🎸',
-    description: 'Full-featured framework',
-  },
+  { id: 'python-django', name: 'Python + Django', icon: '🎸', description: 'Full-featured framework' },
   { id: 'go-gin', name: 'Go + Gin', icon: '🐹', description: 'Fast Go framework' },
   { id: 'rust-axum', name: 'Rust + Axum', icon: '🦀', description: 'High-performance Rust' },
 ];
@@ -58,18 +43,8 @@ export const DEPLOYMENT_PLATFORMS = [
 ];
 
 export const APP_TYPES = [
-  {
-    id: 'saas',
-    name: 'SaaS Application',
-    icon: '💼',
-    description: 'Software as a Service platform',
-  },
-  {
-    id: 'ecommerce',
-    name: 'E-commerce Store',
-    icon: '🛒',
-    description: 'Online shopping platform',
-  },
+  { id: 'saas', name: 'SaaS Application', icon: '💼', description: 'Software as a Service platform' },
+  { id: 'ecommerce', name: 'E-commerce Store', icon: '🛒', description: 'Online shopping platform' },
   { id: 'blog', name: 'Blog/CMS', icon: '📝', description: 'Content management system' },
   { id: 'social', name: 'Social Platform', icon: '👥', description: 'Social networking app' },
   { id: 'marketplace', name: 'Marketplace', icon: '🏪', description: 'Multi-vendor platform' },

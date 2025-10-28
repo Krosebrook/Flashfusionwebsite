@@ -23,10 +23,10 @@ interface PersonalizedOnboardingProps {
   onToolSelect: (tool: string) => void;
 }
 
-export function PersonalizedOnboarding({
-  selectedPersona,
-  onComplete,
-  onToolSelect,
+export function PersonalizedOnboarding({ 
+  selectedPersona, 
+  onComplete, 
+  onToolSelect 
 }: PersonalizedOnboardingProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
@@ -42,8 +42,8 @@ export function PersonalizedOnboarding({
         action: 'Watch 60-second intro',
         tool: 'Platform Tour',
         estimatedTime: '1 min',
-        completed: false,
-      },
+        completed: false
+      }
     ];
 
     switch (persona.id) {
@@ -57,7 +57,7 @@ export function PersonalizedOnboarding({
             action: 'Try Full-Stack Builder',
             tool: 'Full-Stack Builder',
             estimatedTime: '3 min',
-            completed: false,
+            completed: false
           },
           {
             id: 'code-optimization',
@@ -66,7 +66,7 @@ export function PersonalizedOnboarding({
             action: 'Upload code for analysis',
             tool: 'Code Optimizer',
             estimatedTime: '2 min',
-            completed: false,
+            completed: false
           },
           {
             id: 'deployment',
@@ -75,8 +75,8 @@ export function PersonalizedOnboarding({
             action: 'Deploy to production',
             tool: 'Deployment Manager',
             estimatedTime: '1 min',
-            completed: false,
-          },
+            completed: false
+          }
         ];
 
       case 'content-creator':
@@ -89,7 +89,7 @@ export function PersonalizedOnboarding({
             action: 'Build brand identity',
             tool: 'Brand Kit Generator',
             estimatedTime: '2 min',
-            completed: false,
+            completed: false
           },
           {
             id: 'content-generation',
@@ -98,7 +98,7 @@ export function PersonalizedOnboarding({
             action: 'Generate first content',
             tool: 'Creator Content Pipeline',
             estimatedTime: '2 min',
-            completed: false,
+            completed: false
           },
           {
             id: 'monetization',
@@ -108,8 +108,8 @@ export function PersonalizedOnboarding({
             tool: 'Creator Commerce Hub',
             estimatedTime: '3 min',
             completed: false,
-            optional: true,
-          },
+            optional: true
+          }
         ];
 
       case 'startup-team':
@@ -122,7 +122,7 @@ export function PersonalizedOnboarding({
             action: 'Create team workspace',
             tool: 'Team Collaboration',
             estimatedTime: '3 min',
-            completed: false,
+            completed: false
           },
           {
             id: 'multi-agent',
@@ -131,7 +131,7 @@ export function PersonalizedOnboarding({
             action: 'Build first workflow',
             tool: 'Multi-Agent Orchestration',
             estimatedTime: '5 min',
-            completed: false,
+            completed: false
           },
           {
             id: 'analytics',
@@ -140,8 +140,8 @@ export function PersonalizedOnboarding({
             action: 'Set up analytics',
             tool: 'Analytics Dashboard',
             estimatedTime: '2 min',
-            completed: false,
-          },
+            completed: false
+          }
         ];
 
       case 'agency-team':
@@ -154,7 +154,7 @@ export function PersonalizedOnboarding({
             action: 'Set up client access',
             tool: 'Client Portal',
             estimatedTime: '4 min',
-            completed: false,
+            completed: false
           },
           {
             id: 'multi-project',
@@ -163,7 +163,7 @@ export function PersonalizedOnboarding({
             action: 'Create project dashboard',
             tool: 'Multi-Project Orchestrator',
             estimatedTime: '5 min',
-            completed: false,
+            completed: false
           },
           {
             id: 'bulk-operations',
@@ -172,8 +172,8 @@ export function PersonalizedOnboarding({
             action: 'Try bulk generation',
             tool: 'Bulk Export Manager',
             estimatedTime: '3 min',
-            completed: false,
-          },
+            completed: false
+          }
         ];
 
       case 'enterprise-developer':
@@ -186,7 +186,7 @@ export function PersonalizedOnboarding({
             action: 'Set up compliance monitoring',
             tool: 'Security Compliance Monitor',
             estimatedTime: '5 min',
-            completed: false,
+            completed: false
           },
           {
             id: 'integration-setup',
@@ -195,7 +195,7 @@ export function PersonalizedOnboarding({
             action: 'Configure integrations',
             tool: 'Custom Integration Hub',
             estimatedTime: '10 min',
-            completed: false,
+            completed: false
           },
           {
             id: 'audit-setup',
@@ -205,8 +205,8 @@ export function PersonalizedOnboarding({
             tool: 'Audit Dashboard',
             estimatedTime: '3 min',
             completed: false,
-            optional: true,
-          },
+            optional: true
+          }
         ];
 
       default:
@@ -218,9 +218,9 @@ export function PersonalizedOnboarding({
   const progress = (completedSteps.size / steps.length) * 100;
 
   const handleStepComplete = (stepId: string) => {
-    setCompletedSteps((prev) => new Set([...prev, stepId]));
+    setCompletedSteps(prev => new Set([...prev, stepId]));
     if (currentStep < steps.length - 1) {
-      setCurrentStep((prev) => prev + 1);
+      setCurrentStep(prev => prev + 1);
     }
   };
 
@@ -246,12 +246,14 @@ export function PersonalizedOnboarding({
         {/* Header */}
         <div className="text-center space-y-4 mb-8">
           <div className="text-6xl mb-4">{selectedPersona.icon}</div>
-          <h1 className="text-3xl font-bold ff-text-gradient">Welcome, {selectedPersona.title}!</h1>
+          <h1 className="text-3xl font-bold ff-text-gradient">
+            Welcome, {selectedPersona.title}!
+          </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Let's get you started with the tools that matter most to you. This personalized tour
-            will have you productive in {selectedPersona.timeToValue}.
+            Let's get you started with the tools that matter most to you. 
+            This personalized tour will have you productive in {selectedPersona.timeToValue}.
           </p>
-
+          
           <div className="flex items-center justify-center gap-4 mt-6">
             <div className="text-center">
               <div className="text-2xl font-bold text-primary">{selectedPersona.timeToValue}</div>
@@ -262,9 +264,7 @@ export function PersonalizedOnboarding({
               <div className="text-xs text-muted-foreground">Quick Steps</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-accent">
-                {selectedPersona.primaryTools.length}
-              </div>
+              <div className="text-2xl font-bold text-accent">{selectedPersona.primaryTools.length}</div>
               <div className="text-xs text-muted-foreground">Primary Tools</div>
             </div>
           </div>
@@ -295,24 +295,21 @@ export function PersonalizedOnboarding({
                   isCompleted
                     ? 'bg-success/10 border-success/20'
                     : isCurrent
-                      ? 'ring-2 ring-primary bg-primary/5 border-primary/20'
-                      : 'bg-muted/30'
+                    ? 'ring-2 ring-primary bg-primary/5 border-primary/20'
+                    : 'bg-muted/30'
                 }`}
               >
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
-                    <div
-                      className={`
+                    <div className={`
                       w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1
-                      ${
-                        isCompleted
-                          ? 'bg-success text-success-foreground'
-                          : isCurrent
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted text-muted-foreground'
+                      ${isCompleted 
+                        ? 'bg-success text-success-foreground' 
+                        : isCurrent 
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-muted-foreground'
                       }
-                    `}
-                    >
+                    `}>
                       {isCompleted ? (
                         <CheckCircle className="w-4 h-4" />
                       ) : (
@@ -323,7 +320,9 @@ export function PersonalizedOnboarding({
                     <div className="flex-1 space-y-3">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-semibold text-foreground">{step.title}</h3>
+                          <h3 className="font-semibold text-foreground">
+                            {step.title}
+                          </h3>
                           {step.optional && (
                             <Badge variant="outline" className="text-xs">
                               Optional
@@ -333,7 +332,9 @@ export function PersonalizedOnboarding({
                             {step.estimatedTime}
                           </Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground">{step.description}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {step.description}
+                        </p>
                       </div>
 
                       {isAccessible && !isCompleted && (
@@ -367,8 +368,10 @@ export function PersonalizedOnboarding({
                               {step.action}
                             </Button>
                           )}
-
-                          <span className="text-xs text-muted-foreground">Using: {step.tool}</span>
+                          
+                          <span className="text-xs text-muted-foreground">
+                            Using: {step.tool}
+                          </span>
                         </div>
                       )}
 
@@ -396,10 +399,13 @@ export function PersonalizedOnboarding({
                   Congratulations! You're all set up.
                 </h3>
                 <p className="text-muted-foreground">
-                  You've completed your personalized onboarding. You're now ready to use FlashFusion
-                  to its full potential.
+                  You've completed your personalized onboarding. You're now ready to use FlashFusion to its full potential.
                 </p>
-                <Button onClick={onComplete} className="ff-btn-primary" size="lg">
+                <Button
+                  onClick={onComplete}
+                  className="ff-btn-primary"
+                  size="lg"
+                >
                   Start Building
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
@@ -411,7 +417,11 @@ export function PersonalizedOnboarding({
         {/* Skip Option */}
         {!isAllComplete && (
           <div className="text-center">
-            <Button variant="ghost" onClick={onComplete} className="text-muted-foreground">
+            <Button
+              variant="ghost"
+              onClick={onComplete}
+              className="text-muted-foreground"
+            >
               Skip onboarding and explore freely
             </Button>
           </div>

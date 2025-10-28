@@ -4,11 +4,11 @@ import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
-import {
-  AlertTriangle,
-  TrendingDown,
-  TrendingUp,
-  Shield,
+import { 
+  AlertTriangle, 
+  TrendingDown, 
+  TrendingUp, 
+  Shield, 
   Clock,
   Target,
   Users,
@@ -19,14 +19,11 @@ import {
   Filter,
   Download,
   Eye,
-  CheckCircle2,
+  CheckCircle2
 } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { Agent, ProjectRisk } from '../../types/multi-agent-orchestration';
-import {
-  RISK_SEVERITY_COLORS,
-  RISK_PROBABILITY_THRESHOLDS,
-} from '../../constants/multi-agent-orchestration';
+import { RISK_SEVERITY_COLORS, RISK_PROBABILITY_THRESHOLDS } from '../../constants/multi-agent-orchestration';
 
 interface PredictiveFailureDetectionProps {
   projectId: string;
@@ -39,7 +36,7 @@ export function PredictiveFailureDetection({
   projectId,
   agents,
   risks,
-  onRiskUpdate,
+  onRiskUpdate
 }: PredictiveFailureDetectionProps) {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [selectedRisk, setSelectedRisk] = useState<string>('');
@@ -48,7 +45,7 @@ export function PredictiveFailureDetection({
     overallRiskScore: 0,
     trendDirection: 'stable' as 'increasing' | 'decreasing' | 'stable',
     nextRiskWindow: '3-5 days',
-    confidenceLevel: 85,
+    confidenceLevel: 85
   });
 
   useEffect(() => {
@@ -61,7 +58,7 @@ export function PredictiveFailureDetection({
     setIsAnalyzing(true);
 
     // Simulate AI risk analysis
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     const newRisks: ProjectRisk[] = [
       {
@@ -75,15 +72,15 @@ export function PredictiveFailureDetection({
         mitigation: [
           'Schedule stakeholder alignment meeting',
           'Review and lock feature scope',
-          'Set up change request process',
+          'Set up change request process'
         ],
         timeline: '2-3 days',
         earlyWarnings: [
           'Increased communication volume between stakeholders',
           'New requirements appearing in backlog',
-          'Product Manager showing stress patterns',
+          'Product Manager showing stress patterns'
         ],
-        status: 'identified',
+        status: 'identified'
       },
       {
         id: 'risk-technical-debt',
@@ -92,23 +89,19 @@ export function PredictiveFailureDetection({
         probability: 85,
         impact: 80,
         description: 'Rapid development pace creating technical debt accumulation',
-        affectedAgents: [
-          'agent-frontend_developer',
-          'agent-backend_developer',
-          'agent-qa_engineer',
-        ],
+        affectedAgents: ['agent-frontend_developer', 'agent-backend_developer', 'agent-qa_engineer'],
         mitigation: [
           'Schedule refactoring sprint',
           'Implement code review checkpoints',
-          'Add automated testing coverage',
+          'Add automated testing coverage'
         ],
         timeline: '1-2 weeks',
         earlyWarnings: [
           'Increasing bug reports from QA',
           'Slower development velocity',
-          'Developer frustration indicators',
+          'Developer frustration indicators'
         ],
-        status: 'mitigating',
+        status: 'mitigating'
       },
       {
         id: 'risk-team-burnout',
@@ -121,30 +114,28 @@ export function PredictiveFailureDetection({
         mitigation: [
           'Distribute workload more evenly',
           'Schedule team wellness check',
-          'Consider timeline adjustments',
+          'Consider timeline adjustments'
         ],
         timeline: '1 week',
         earlyWarnings: [
           'Decreased efficiency in UI Designer',
           'Longer response times to requests',
-          'Reduced collaboration frequency',
+          'Reduced collaboration frequency'
         ],
-        status: 'identified',
-      },
+        status: 'identified'
+      }
     ];
 
     // Calculate overall metrics
-    const avgProbability =
-      newRisks.reduce((sum, risk) => sum + risk.probability, 0) / newRisks.length;
+    const avgProbability = newRisks.reduce((sum, risk) => sum + risk.probability, 0) / newRisks.length;
     const avgImpact = newRisks.reduce((sum, risk) => sum + risk.impact, 0) / newRisks.length;
     const overallScore = (avgProbability * avgImpact) / 100;
 
     setPredictiveMetrics({
       overallRiskScore: Math.round(overallScore),
-      trendDirection:
-        overallScore > 60 ? 'increasing' : overallScore < 40 ? 'decreasing' : 'stable',
+      trendDirection: overallScore > 60 ? 'increasing' : overallScore < 40 ? 'decreasing' : 'stable',
       nextRiskWindow: overallScore > 70 ? '1-2 days' : overallScore > 50 ? '3-5 days' : '1-2 weeks',
-      confidenceLevel: Math.round(85 + Math.random() * 10),
+      confidenceLevel: Math.round(85 + Math.random() * 10)
     });
 
     onRiskUpdate(newRisks);
@@ -153,16 +144,11 @@ export function PredictiveFailureDetection({
 
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
-      case 'critical':
-        return <AlertTriangle className="h-4 w-4 text-red-500" />;
-      case 'high':
-        return <TrendingUp className="h-4 w-4 text-orange-500" />;
-      case 'medium':
-        return <Activity className="h-4 w-4 text-yellow-500" />;
-      case 'low':
-        return <Shield className="h-4 w-4 text-green-500" />;
-      default:
-        return <Activity className="h-4 w-4" />;
+      case 'critical': return <AlertTriangle className="h-4 w-4 text-red-500" />;
+      case 'high': return <TrendingUp className="h-4 w-4 text-orange-500" />;
+      case 'medium': return <Activity className="h-4 w-4 text-yellow-500" />;
+      case 'low': return <Shield className="h-4 w-4 text-green-500" />;
+      default: return <Activity className="h-4 w-4" />;
     }
   };
 
@@ -175,24 +161,29 @@ export function PredictiveFailureDetection({
       timeline_slip: 'bg-yellow-500',
       quality_degradation: 'bg-pink-500',
       resource_conflict: 'bg-teal-500',
-      dependency_block: 'bg-indigo-500',
+      dependency_block: 'bg-indigo-500'
     };
     return colors[type] || 'bg-gray-500';
   };
 
-  const filteredRisks =
-    filterSeverity === 'all' ? risks : risks.filter((risk) => risk.severity === filterSeverity);
+  const filteredRisks = filterSeverity === 'all' 
+    ? risks 
+    : risks.filter(risk => risk.severity === filterSeverity);
 
   const handleMitigateRisk = (riskId: string) => {
-    onRiskUpdate(
-      risks.map((risk) => (risk.id === riskId ? { ...risk, status: 'mitigating' } : risk))
-    );
+    onRiskUpdate(risks.map(risk => 
+      risk.id === riskId 
+        ? { ...risk, status: 'mitigating' }
+        : risk
+    ));
   };
 
   const handleResolveRisk = (riskId: string) => {
-    onRiskUpdate(
-      risks.map((risk) => (risk.id === riskId ? { ...risk, status: 'resolved' } : risk))
-    );
+    onRiskUpdate(risks.map(risk => 
+      risk.id === riskId 
+        ? { ...risk, status: 'resolved' }
+        : risk
+    ));
   };
 
   return (
@@ -203,13 +194,14 @@ export function PredictiveFailureDetection({
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Overall Risk Score</p>
-              <p className="text-2xl font-bold text-primary">
-                {predictiveMetrics.overallRiskScore}%
-              </p>
+              <p className="text-2xl font-bold text-primary">{predictiveMetrics.overallRiskScore}%</p>
             </div>
             <Brain className="h-6 w-6 text-primary" />
           </div>
-          <Progress value={predictiveMetrics.overallRiskScore} className="mt-2" />
+          <Progress 
+            value={predictiveMetrics.overallRiskScore} 
+            className="mt-2"
+          />
         </Card>
 
         <Card className="p-4">
@@ -261,13 +253,13 @@ export function PredictiveFailureDetection({
             disabled={isAnalyzing}
             className="flex items-center gap-2"
           >
-            <RefreshCw className={cn('h-4 w-4', isAnalyzing && 'animate-spin')} />
+            <RefreshCw className={cn("h-4 w-4", isAnalyzing && "animate-spin")} />
             {isAnalyzing ? 'Analyzing...' : 'Run Analysis'}
           </Button>
 
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-muted-foreground" />
-            <select
+            <select 
               value={filterSeverity}
               onChange={(e) => setFilterSeverity(e.target.value)}
               className="bg-card border border-border rounded-md px-3 py-1 text-sm"
@@ -314,15 +306,13 @@ export function PredictiveFailureDetection({
               exit={{ opacity: 0, y: -20 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card
-                className={cn(
-                  'p-6 border-l-4 transition-all duration-300',
-                  risk.severity === 'critical' && 'border-l-red-500',
-                  risk.severity === 'high' && 'border-l-orange-500',
-                  risk.severity === 'medium' && 'border-l-yellow-500',
-                  risk.severity === 'low' && 'border-l-green-500'
-                )}
-              >
+              <Card className={cn(
+                "p-6 border-l-4 transition-all duration-300",
+                risk.severity === 'critical' && "border-l-red-500",
+                risk.severity === 'high' && "border-l-orange-500", 
+                risk.severity === 'medium' && "border-l-yellow-500",
+                risk.severity === 'low' && "border-l-green-500"
+              )}>
                 <div className="space-y-4">
                   {/* Risk Header */}
                   <div className="flex items-start justify-between">
@@ -331,7 +321,12 @@ export function PredictiveFailureDetection({
                       <div>
                         <h3 className="font-semibold">{risk.description}</h3>
                         <div className="flex items-center gap-2 mt-1">
-                          <Badge className={cn('text-white text-xs', getRiskTypeColor(risk.type))}>
+                          <Badge 
+                            className={cn(
+                              "text-white text-xs",
+                              getRiskTypeColor(risk.type)
+                            )}
+                          >
                             {risk.type.replace('_', ' ')}
                           </Badge>
                           <Badge variant="outline" className="text-xs">
@@ -349,7 +344,7 @@ export function PredictiveFailureDetection({
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
-
+                      
                       {risk.status === 'identified' && (
                         <Button
                           variant="outline"
@@ -360,7 +355,7 @@ export function PredictiveFailureDetection({
                           Start Mitigation
                         </Button>
                       )}
-
+                      
                       {risk.status === 'mitigating' && (
                         <Button
                           variant="outline"
@@ -396,10 +391,7 @@ export function PredictiveFailureDetection({
                     <div className="space-y-1">
                       <div className="text-sm text-muted-foreground">Risk Score</div>
                       <div className="flex items-center gap-2">
-                        <Progress
-                          value={(risk.probability * risk.impact) / 100}
-                          className="flex-1"
-                        />
+                        <Progress value={(risk.probability * risk.impact) / 100} className="flex-1" />
                         <span className="text-sm font-medium">
                           {Math.round((risk.probability * risk.impact) / 100)}%
                         </span>
@@ -411,8 +403,8 @@ export function PredictiveFailureDetection({
                   <div>
                     <div className="text-sm text-muted-foreground mb-2">Affected Agents</div>
                     <div className="flex flex-wrap gap-1">
-                      {risk.affectedAgents.map((agentId) => {
-                        const agent = agents.find((a) => a.id === agentId);
+                      {risk.affectedAgents.map(agentId => {
+                        const agent = agents.find(a => a.id === agentId);
                         return agent ? (
                           <Badge key={agentId} variant="secondary" className="text-xs">
                             {agent.name}
@@ -436,10 +428,7 @@ export function PredictiveFailureDetection({
                           <h4 className="font-medium mb-2">Early Warning Signals</h4>
                           <ul className="space-y-1">
                             {risk.earlyWarnings.map((warning, idx) => (
-                              <li
-                                key={idx}
-                                className="text-sm text-muted-foreground flex items-start gap-2"
-                              >
+                              <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
                                 <AlertTriangle className="h-3 w-3 text-yellow-500 mt-0.5 flex-shrink-0" />
                                 {warning}
                               </li>
@@ -452,10 +441,7 @@ export function PredictiveFailureDetection({
                           <h4 className="font-medium mb-2">Recommended Mitigation</h4>
                           <ul className="space-y-1">
                             {risk.mitigation.map((action, idx) => (
-                              <li
-                                key={idx}
-                                className="text-sm text-muted-foreground flex items-start gap-2"
-                              >
+                              <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
                                 <CheckCircle2 className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
                                 {action}
                               </li>

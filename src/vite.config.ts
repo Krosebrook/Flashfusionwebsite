@@ -4,7 +4,7 @@ import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [react()],
-
+  
   // Path resolution
   resolve: {
     alias: {
@@ -20,7 +20,7 @@ export default defineConfig({
       '@/constants': resolve(__dirname, './constants'),
     },
   },
-
+  
   // Development server - Use Vite's default port 5173
   server: {
     port: 5173,
@@ -30,14 +30,14 @@ export default defineConfig({
       overlay: true,
     },
   },
-
+  
   // Build options
   build: {
     outDir: 'dist',
     sourcemap: process.env.NODE_ENV === 'development',
     minify: 'terser',
     target: 'es2020',
-
+    
     // Optimize chunks
     rollupOptions: {
       output: {
@@ -47,20 +47,20 @@ export default defineConfig({
           supabase: ['@supabase/supabase-js'],
           ui: ['lucide-react', 'motion/react', 'recharts'],
           forms: ['react-hook-form', 'zod'],
-
+          
           // Feature chunks
           auth: ['./components/auth/AuthSystem'],
           gamification: [
             './components/gamification/AchievementSystem',
-            './components/gamification/GamificationHub',
+            './components/gamification/GamificationHub'
           ],
           collaboration: [
             './components/collaboration/LiveCollaborationEditor',
-            './components/collaboration/TeamCollaboration',
+            './components/collaboration/TeamCollaboration'
           ],
           agents: [
             './components/agents/MultiAgentOrchestrationDashboard',
-            './components/agents/AgentPerformanceAnalytics',
+            './components/agents/AgentPerformanceAnalytics'
           ],
           templates: ['./components/templates/AdvancedTemplates'],
           integrations: ['./components/integrations/IntegrationMarketplace'],
@@ -68,7 +68,7 @@ export default defineConfig({
         },
       },
     },
-
+    
     // Terser options for production
     terserOptions: {
       compress: {
@@ -77,14 +77,14 @@ export default defineConfig({
       },
     },
   },
-
+  
   // Environment variables
   define: {
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version || '1.0.0'),
     __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
     global: 'globalThis',
   },
-
+  
   // Optimizations
   optimizeDeps: {
     include: [
@@ -98,20 +98,22 @@ export default defineConfig({
       'react-hook-form',
       'zod',
     ],
-    exclude: ['@storybook/react'],
+    exclude: [
+      '@storybook/react',
+    ],
   },
-
+  
   // Preview server (for production build testing)
   preview: {
     port: 4173,
     host: true,
   },
-
+  
   // CSS options
   css: {
     devSourcemap: true,
   },
-
+  
   // Ensure proper handling of TypeScript
   esbuild: {
     target: 'es2020',

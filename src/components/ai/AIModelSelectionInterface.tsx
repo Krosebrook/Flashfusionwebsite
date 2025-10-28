@@ -10,7 +10,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Separator } from '../ui/separator';
-import {
+import { 
   Brain,
   Zap,
   Code,
@@ -39,9 +39,9 @@ import {
   AlertCircle,
   BarChart3,
   DollarSign,
-  Activity,
+  Activity
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 import AIService, { type AIModel, type AIProvider, AI_MODELS } from '../../services/AIService';
 
 interface ModelCapability {
@@ -92,7 +92,7 @@ const MODEL_CAPABILITIES: ModelCapability[] = [
     description: 'Creating written content, articles, and documentation',
     agentColor: '#61dafb', // Researcher
     proficiency: 95,
-    icon: FileText,
+    icon: FileText
   },
   {
     id: 'code-generation',
@@ -100,7 +100,7 @@ const MODEL_CAPABILITIES: ModelCapability[] = [
     description: 'Writing, debugging, and optimizing source code',
     agentColor: '#d14d21', // Creator
     proficiency: 90,
-    icon: Code,
+    icon: Code
   },
   {
     id: 'image-analysis',
@@ -108,7 +108,7 @@ const MODEL_CAPABILITIES: ModelCapability[] = [
     description: 'Understanding and describing visual content',
     agentColor: '#10b981', // Optimizer
     proficiency: 85,
-    icon: Image,
+    icon: Image
   },
   {
     id: 'creative-writing',
@@ -116,7 +116,7 @@ const MODEL_CAPABILITIES: ModelCapability[] = [
     description: 'Storytelling, poetry, and creative content',
     agentColor: '#764ba2', // Automator
     proficiency: 88,
-    icon: Palette,
+    icon: Palette
   },
   {
     id: 'data-analysis',
@@ -124,7 +124,7 @@ const MODEL_CAPABILITIES: ModelCapability[] = [
     description: 'Processing and interpreting complex datasets',
     agentColor: '#667eea', // Analyzer
     proficiency: 92,
-    icon: Database,
+    icon: Database
   },
   {
     id: 'conversation',
@@ -132,8 +132,8 @@ const MODEL_CAPABILITIES: ModelCapability[] = [
     description: 'Natural dialogue and interactive communication',
     agentColor: '#2a5298', // Orchestrator
     proficiency: 96,
-    icon: MessageSquare,
-  },
+    icon: MessageSquare
+  }
 ];
 
 // Remove old models array since we're using the real AI service
@@ -147,7 +147,7 @@ export function AIModelSelectionInterface() {
     anthropic: '',
     google: '',
     meta: '',
-    local: '',
+    local: ''
   });
   const [availableModels, setAvailableModels] = useState<AIModel[]>([]);
   const [isTestingModel, setIsTestingModel] = useState(false);
@@ -178,7 +178,7 @@ export function AIModelSelectionInterface() {
     try {
       AIService.setModel(modelId);
       setSelectedModel(modelId);
-      toast.success(`Switched to ${AI_MODELS.find((m) => m.id === modelId)?.name}`);
+      toast.success(`Switched to ${AI_MODELS.find(m => m.id === modelId)?.name}`);
       loadUsageStats();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Failed to select model');
@@ -186,7 +186,7 @@ export function AIModelSelectionInterface() {
   };
 
   const handleApiKeyUpdate = (provider: AIProvider, key: string) => {
-    setApiKeys((prev) => ({ ...prev, [provider]: key }));
+    setApiKeys(prev => ({ ...prev, [provider]: key }));
   };
 
   const saveApiKey = (provider: AIProvider) => {
@@ -219,8 +219,8 @@ export function AIModelSelectionInterface() {
         framework: 'react',
         requirements: 'Create a simple Hello World button component with TypeScript',
         options: {
-          includeTypeScript: true,
-        },
+          includeTypeScript: true
+        }
       });
 
       toast.success('Model test successful!');
@@ -280,17 +280,17 @@ export function AIModelSelectionInterface() {
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.3 }}
       >
-        <Card
+        <Card 
           className={`cursor-pointer transition-all duration-300 ff-card-interactive ${
             isSelected ? 'ring-2 ring-ff-primary' : 'hover:shadow-lg'
           } ${!hasApiKey ? 'opacity-60' : ''}`}
           onClick={() => hasApiKey && handleModelSelect(model.id)}
         >
           {/* Provider gradient border */}
-          <div
+          <div 
             className="absolute top-0 left-0 right-0 h-1"
             style={{
-              background: `linear-gradient(90deg, ${providerColor}, var(--ff-secondary))`,
+              background: `linear-gradient(90deg, ${providerColor}, var(--ff-secondary))`
             }}
           />
 
@@ -302,12 +302,12 @@ export function AIModelSelectionInterface() {
                   <h3 className="text-lg font-semibold text-ff-text-primary truncate">
                     {model.name}
                   </h3>
-                  <Badge
+                  <Badge 
                     className="flex items-center space-x-1 ff-badge-glow"
                     style={{
                       backgroundColor: `${providerColor}15`,
                       color: providerColor,
-                      border: `1px solid ${providerColor}30`,
+                      border: `1px solid ${providerColor}30`
                     }}
                   >
                     <ProviderIcon className="h-3 w-3" />
@@ -354,10 +354,14 @@ export function AIModelSelectionInterface() {
                   {model.capabilities.length} available
                 </span>
               </div>
-
+              
               <div className="flex flex-wrap gap-2">
                 {model.capabilities.map((capability) => (
-                  <Badge key={capability} variant="secondary" className="text-xs ff-btn-secondary">
+                  <Badge 
+                    key={capability}
+                    variant="secondary" 
+                    className="text-xs ff-btn-secondary"
+                  >
                     {capability.replace('-', ' ')}
                   </Badge>
                 ))}
@@ -370,9 +374,7 @@ export function AIModelSelectionInterface() {
                 <div>
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-xs text-ff-text-muted">Speed</span>
-                    <span className="text-xs font-semibold text-ff-text-primary">
-                      {model.speedRating}/5
-                    </span>
+                    <span className="text-xs font-semibold text-ff-text-primary">{model.speedRating}/5</span>
                   </div>
                   <div className="w-full bg-ff-surface rounded-full h-1.5">
                     <motion.div
@@ -386,9 +388,7 @@ export function AIModelSelectionInterface() {
                 <div>
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-xs text-ff-text-muted">Quality</span>
-                    <span className="text-xs font-semibold text-ff-text-primary">
-                      {model.qualityRating}/5
-                    </span>
+                    <span className="text-xs font-semibold text-ff-text-primary">{model.qualityRating}/5</span>
                   </div>
                   <div className="w-full bg-ff-surface rounded-full h-1.5">
                     <motion.div
@@ -407,7 +407,9 @@ export function AIModelSelectionInterface() {
               <div className="flex justify-between items-center">
                 <div>
                   <div className="text-sm font-medium text-ff-text-primary">Pricing</div>
-                  <div className="text-xs text-ff-text-muted">${model.costPer1k} per 1K tokens</div>
+                  <div className="text-xs text-ff-text-muted">
+                    ${model.costPer1k} per 1K tokens
+                  </div>
                   <div className="text-xs text-ff-text-muted">
                     Max: {model.maxTokens.toLocaleString()} tokens
                   </div>
@@ -416,11 +418,7 @@ export function AIModelSelectionInterface() {
                   <div className="flex items-center gap-1">
                     <DollarSign className="h-3 w-3 text-ff-secondary" />
                     <span className="text-sm font-semibold text-ff-text-primary">
-                      {model.costPer1k < 0.01
-                        ? 'Low Cost'
-                        : model.costPer1k < 0.05
-                          ? 'Medium'
-                          : 'Premium'}
+                      {model.costPer1k < 0.01 ? 'Low Cost' : model.costPer1k < 0.05 ? 'Medium' : 'Premium'}
                     </span>
                   </div>
                 </div>
@@ -431,11 +429,9 @@ export function AIModelSelectionInterface() {
             <div className="mb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div
-                    className={`w-2 h-2 rounded-full ${
-                      model.available ? 'bg-ff-success' : 'bg-ff-warning'
-                    }`}
-                  />
+                  <div className={`w-2 h-2 rounded-full ${
+                    model.available ? 'bg-ff-success' : 'bg-ff-warning'
+                  }`} />
                   <span className="text-sm font-medium text-ff-text-primary">
                     {model.available ? 'Available' : 'Setup Required'}
                   </span>
@@ -453,7 +449,7 @@ export function AIModelSelectionInterface() {
             <div className="flex space-x-2">
               {hasApiKey ? (
                 <>
-                  <Button
+                  <Button 
                     className={`flex-1 ${isSelected ? 'ff-btn-primary' : 'ff-btn-secondary'}`}
                     size="sm"
                     onClick={(e) => {
@@ -462,15 +458,11 @@ export function AIModelSelectionInterface() {
                     }}
                   >
                     {isSelected ? 'Selected' : 'Select Model'}
-                    {isSelected ? (
-                      <CheckCircle2 className="ml-2 h-3 w-3" />
-                    ) : (
-                      <ChevronRight className="ml-2 h-3 w-3" />
-                    )}
+                    {isSelected ? <CheckCircle2 className="ml-2 h-3 w-3" /> : <ChevronRight className="ml-2 h-3 w-3" />}
                   </Button>
                 </>
               ) : (
-                <Button
+                <Button 
                   className="flex-1 ff-btn-accent"
                   size="sm"
                   onClick={(e) => {
@@ -502,9 +494,7 @@ export function AIModelSelectionInterface() {
                     </div>
                     <div className="flex justify-between">
                       <span>Max Tokens:</span>
-                      <span className="text-ff-text-primary">
-                        {model.maxTokens.toLocaleString()}
-                      </span>
+                      <span className="text-ff-text-primary">{model.maxTokens.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Speed Rating:</span>
@@ -529,14 +519,14 @@ export function AIModelSelectionInterface() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <motion.h1
+          <motion.h1 
             className="text-3xl font-bold ff-text-gradient"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             AI Model Selection
           </motion.h1>
-          <motion.p
+          <motion.p 
             className="text-ff-text-secondary mt-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -547,8 +537,8 @@ export function AIModelSelectionInterface() {
         </div>
 
         <div className="flex items-center space-x-3">
-          <Button
-            variant="outline"
+          <Button 
+            variant="outline" 
             size="sm"
             onClick={() => setShowApiKeySetup(true)}
             className="ff-focus-ring"
@@ -556,8 +546,8 @@ export function AIModelSelectionInterface() {
             <Key className="h-4 w-4 mr-2" />
             API Keys
           </Button>
-          <Button
-            variant="outline"
+          <Button 
+            variant="outline" 
             size="sm"
             onClick={() => setShowComparison(!showComparison)}
             className="ff-focus-ring"
@@ -566,7 +556,7 @@ export function AIModelSelectionInterface() {
             Compare
           </Button>
           {selectedModel && (
-            <Button
+            <Button 
               onClick={testModel}
               disabled={isTestingModel}
               className="ff-btn-primary"
@@ -601,7 +591,9 @@ export function AIModelSelectionInterface() {
                 <div className="text-sm text-ff-text-muted">Available Models</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-ff-primary">{usageStats.requestCount}</div>
+                <div className="text-2xl font-bold text-ff-primary">
+                  {usageStats.requestCount}
+                </div>
                 <div className="text-sm text-ff-text-muted">Requests Made</div>
               </div>
               <div className="text-center">
@@ -612,7 +604,7 @@ export function AIModelSelectionInterface() {
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-ff-accent">
-                  {selectedModel ? AI_MODELS.find((m) => m.id === selectedModel)?.name : 'None'}
+                  {selectedModel ? AI_MODELS.find(m => m.id === selectedModel)?.name : 'None'}
                 </div>
                 <div className="text-sm text-ff-text-muted">Selected Model</div>
               </div>
@@ -656,8 +648,8 @@ export function AIModelSelectionInterface() {
                 <Key className="h-5 w-5 text-ff-primary" />
                 API Key Configuration
               </div>
-              <Button
-                variant="outline"
+              <Button 
+                variant="outline" 
                 size="sm"
                 onClick={() => setShowApiKeySetup(false)}
                 className="ff-focus-ring"

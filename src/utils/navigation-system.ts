@@ -4,7 +4,7 @@
  * @category utilities
  * @version 2.0.0
  * @author FlashFusion Team
- *
+ * 
  * Comprehensive navigation system with robust URL detection and state management.
  */
 
@@ -31,10 +31,10 @@ export class NavigationEventManager {
     // Real DOM events that we can listen to
     window.addEventListener('popstate', () => this.notifyListeners());
     window.addEventListener('hashchange', () => this.notifyListeners());
-
+    
     // Custom navigation event
     window.addEventListener('ff-navigation-change', () => this.notifyListeners());
-
+    
     // Storage events (for cross-tab sync)
     window.addEventListener('storage', (e) => {
       if (e.key === 'ff-show-app') {
@@ -50,12 +50,12 @@ export class NavigationEventManager {
     const originalPushState = history.pushState;
     const originalReplaceState = history.replaceState;
 
-    history.pushState = function (...args) {
+    history.pushState = function(...args) {
       originalPushState.apply(history, args);
       window.dispatchEvent(new CustomEvent('ff-navigation-change'));
     };
 
-    history.replaceState = function (...args) {
+    history.replaceState = function(...args) {
       originalReplaceState.apply(history, args);
       window.dispatchEvent(new CustomEvent('ff-navigation-change'));
     };
@@ -68,7 +68,7 @@ export class NavigationEventManager {
 
   private notifyListeners(): void {
     console.log('🔔 Navigation change detected, notifying', this.listeners.size, 'listeners');
-    this.listeners.forEach((callback) => {
+    this.listeners.forEach(callback => {
       try {
         callback();
       } catch (error) {
@@ -96,21 +96,21 @@ export class URLParameterDetector {
    */
   static shouldShowAppInterface(): boolean {
     const now = Date.now();
-
+    
     // Skip cache in development for immediate updates
     const useCache = process.env.NODE_ENV !== 'development';
-
-    if (useCache && this.cachedResult !== null && now - this.lastCheck < this.CACHE_DURATION) {
+    
+    if (useCache && this.cachedResult !== null && (now - this.lastCheck) < this.CACHE_DURATION) {
       return this.cachedResult;
     }
 
     try {
       const result = this.performDetection();
-
+      
       // Cache the result
       this.cachedResult = result;
       this.lastCheck = now;
-
+      
       return result;
     } catch (error) {
       console.warn('⚠️ URL detection failed:', error);
@@ -129,7 +129,7 @@ export class URLParameterDetector {
     // 2. Check URL parameters
     const { search, pathname, hash } = window.location;
     const searchParams = new URLSearchParams(search);
-
+    
     // URL parameter check
     const hasAppParam = searchParams.get('app') === 'true';
     if (hasAppParam) {
@@ -146,8 +146,8 @@ export class URLParameterDetector {
 
     // Pathname checks
     const appPaths = ['/app', '/dashboard', '/tools', '/projects'];
-    const matchesPath = appPaths.some(
-      (path) => pathname === path || pathname.startsWith(path + '/')
+    const matchesPath = appPaths.some(path => 
+      pathname === path || pathname.startsWith(path + '/')
     );
     if (matchesPath) {
       console.log('🔍 URL Detection: App path found:', pathname);
@@ -189,19 +189,19 @@ export class NavigationHelper {
   static enterApp(): void {
     try {
       console.log('🚀 NavigationHelper: Entering app...');
-
+      
       // Set localStorage
       localStorage.setItem('ff-show-app', 'true');
-
+      
       // Update URL
       const url = new URL(window.location.href);
       url.searchParams.set('app', 'true');
       history.pushState({}, '', url.toString());
-
+      
       // Clear cache and trigger events
       URLParameterDetector.clearCache();
       NavigationEventManager.getInstance().triggerNavigationChange();
-
+      
       console.log('✅ NavigationHelper: App entry completed');
     } catch (error) {
       console.error('❌ NavigationHelper: Failed to enter app:', error);
@@ -216,20 +216,20 @@ export class NavigationHelper {
   static exitApp(): void {
     try {
       console.log('🚪 NavigationHelper: Exiting app...');
-
+      
       // Remove localStorage
       localStorage.removeItem('ff-show-app');
-
+      
       // Update URL
       const url = new URL(window.location.href);
       url.searchParams.delete('app');
       url.hash = '';
       history.pushState({}, '', url.toString());
-
+      
       // Clear cache and trigger events
       URLParameterDetector.clearCache();
       NavigationEventManager.getInstance().triggerNavigationChange();
-
+      
       console.log('✅ NavigationHelper: App exit completed');
     } catch (error) {
       console.error('❌ NavigationHelper: Failed to exit app:', error);
@@ -251,7 +251,7 @@ export class NavigationHelper {
       showAppInterface: URLParameterDetector.shouldShowAppInterface(),
       url: window.location.href,
       localStorage: localStorage.getItem('ff-show-app'),
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     };
   }
 }
@@ -259,7 +259,7 @@ export class NavigationHelper {
 // Initialize the navigation system
 if (typeof window !== 'undefined') {
   NavigationEventManager.getInstance();
-
+  
   // Add global debug helpers
   if (process.env.NODE_ENV === 'development') {
     (window as any).ffNavigation = {
@@ -275,5 +275,5 @@ if (typeof window !== 'undefined') {
 export default {
   NavigationEventManager,
   URLParameterDetector,
-  NavigationHelper,
+  NavigationHelper
 };

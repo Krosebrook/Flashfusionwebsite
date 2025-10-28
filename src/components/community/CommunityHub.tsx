@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
+import { 
   MessageCircle,
   Users,
   Trophy,
@@ -29,7 +29,7 @@ import {
   Lightbulb,
   HelpCircle,
   Megaphone,
-  Zap,
+  Zap
 } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { useAuth } from '../auth/AuthSystem';
@@ -88,8 +88,7 @@ const mockPosts: CommunityPost[] = [
       isVerified: true,
     },
     title: 'How I built a SaaS app in 30 minutes with FlashFusion',
-    content:
-      "Just wanted to share my experience building a complete customer management system using FlashFusion's AI tools. The speed of development was incredible...",
+    content: 'Just wanted to share my experience building a complete customer management system using FlashFusion\'s AI tools. The speed of development was incredible...',
     category: 'Success Stories',
     tags: ['saas', 'tutorial', 'ai-tools'],
     likes: 47,
@@ -108,8 +107,7 @@ const mockPosts: CommunityPost[] = [
       isVerified: true,
     },
     title: 'Best practices for AI-powered code generation',
-    content:
-      'After using FlashFusion for several projects, here are my top tips for getting the most out of AI code generation...',
+    content: 'After using FlashFusion for several projects, here are my top tips for getting the most out of AI code generation...',
     category: 'Tips & Tricks',
     tags: ['best-practices', 'ai', 'code-generation'],
     likes: 32,
@@ -213,7 +211,7 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ className }) => {
   // Simulate real-time updates
   useEffect(() => {
     const interval = setInterval(() => {
-      setCommunityStats((prev) => ({
+      setCommunityStats(prev => ({
         ...prev,
         onlineMembers: prev.onlineMembers + Math.floor(Math.random() * 10 - 5),
         totalPosts: prev.totalPosts + Math.floor(Math.random() * 3),
@@ -224,25 +222,23 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ className }) => {
   }, []);
 
   const handleLikePost = (postId: string) => {
-    setPosts((prev) =>
-      prev.map((post) =>
-        post.id === postId
-          ? {
-              ...post,
-              isLiked: !post.isLiked,
-              likes: post.isLiked ? post.likes - 1 : post.likes + 1,
-            }
-          : post
-      )
-    );
+    setPosts(prev => prev.map(post => 
+      post.id === postId 
+        ? { 
+            ...post, 
+            isLiked: !post.isLiked,
+            likes: post.isLiked ? post.likes - 1 : post.likes + 1
+          }
+        : post
+    ));
   };
 
   const handleBookmarkPost = (postId: string) => {
-    setPosts((prev) =>
-      prev.map((post) =>
-        post.id === postId ? { ...post, isBookmarked: !post.isBookmarked } : post
-      )
-    );
+    setPosts(prev => prev.map(post => 
+      post.id === postId 
+        ? { ...post, isBookmarked: !post.isBookmarked }
+        : post
+    ));
   };
 
   const handleCreatePost = () => {
@@ -271,7 +267,7 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ className }) => {
       isLiked: false,
     };
 
-    setPosts((prev) => [newPost, ...prev]);
+    setPosts(prev => [newPost, ...prev]);
     setNewPostTitle('');
     setNewPostContent('');
     toast.success('Post created successfully!');
@@ -305,8 +301,8 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ className }) => {
           <h1 className="text-3xl font-bold ff-text-gradient">FlashFusion Community</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Connect with fellow developers, share your creations, get help, and stay updated with the
-          latest FlashFusion features and best practices.
+          Connect with fellow developers, share your creations, get help, and stay updated 
+          with the latest FlashFusion features and best practices.
         </p>
       </div>
 
@@ -322,7 +318,9 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ className }) => {
         </Card>
         <Card className="text-center">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold text-green-500">{communityStats.onlineMembers}</div>
+            <div className="text-2xl font-bold text-green-500">
+              {communityStats.onlineMembers}
+            </div>
             <div className="text-sm text-muted-foreground">Online Now</div>
           </CardContent>
         </Card>
@@ -336,7 +334,9 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ className }) => {
         </Card>
         <Card className="text-center">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold text-accent">{communityStats.activeDiscussions}</div>
+            <div className="text-2xl font-bold text-accent">
+              {communityStats.activeDiscussions}
+            </div>
             <div className="text-sm text-muted-foreground">Active Discussions</div>
           </CardContent>
         </Card>
@@ -354,7 +354,7 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ className }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <p className="text-muted-foreground">
-                Join over 1,200+ developers in our Discord server for real-time discussions,
+                Join over 1,200+ developers in our Discord server for real-time discussions, 
                 support, and exclusive updates.
               </p>
               <Button onClick={joinDiscord} className="ff-btn-primary">
@@ -362,20 +362,21 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ className }) => {
                 Join Discord Server
               </Button>
             </div>
-
+            
             <div className="space-y-3">
               <h4 className="font-medium">Popular Channels:</h4>
               {discordChannels.slice(0, 3).map((channel) => (
-                <div
-                  key={channel.id}
-                  className="flex items-center justify-between p-2 rounded bg-background/50"
-                >
+                <div key={channel.id} className="flex items-center justify-between p-2 rounded bg-background/50">
                   <div className="flex items-center space-x-2">
                     <Hash className="w-4 h-4 text-muted-foreground" />
                     <span className="text-sm font-medium">{channel.name}</span>
-                    {channel.isActive && <div className="w-2 h-2 rounded-full bg-green-500"></div>}
+                    {channel.isActive && (
+                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    )}
                   </div>
-                  <span className="text-xs text-muted-foreground">{channel.members} members</span>
+                  <span className="text-xs text-muted-foreground">
+                    {channel.members} members
+                  </span>
                 </div>
               ))}
             </div>
@@ -415,7 +416,7 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ className }) => {
                   rows={4}
                 />
                 <div className="flex items-center justify-between">
-                  <select
+                  <select 
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
                     className="px-3 py-2 rounded-md border border-border bg-background"
@@ -476,12 +477,10 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ className }) => {
                           size="sm"
                           onClick={() => handleBookmarkPost(post.id)}
                         >
-                          <Bookmark
-                            className={cn(
-                              'w-4 h-4',
-                              post.isBookmarked ? 'fill-current text-primary' : ''
-                            )}
-                          />
+                          <Bookmark className={cn(
+                            'w-4 h-4',
+                            post.isBookmarked ? 'fill-current text-primary' : ''
+                          )} />
                         </Button>
                       </div>
 
@@ -509,11 +508,14 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ className }) => {
                             variant="ghost"
                             size="sm"
                             onClick={() => handleLikePost(post.id)}
-                            className={cn(post.isLiked ? 'text-red-500' : 'text-muted-foreground')}
+                            className={cn(
+                              post.isLiked ? 'text-red-500' : 'text-muted-foreground'
+                            )}
                           >
-                            <Heart
-                              className={cn('w-4 h-4 mr-1', post.isLiked ? 'fill-current' : '')}
-                            />
+                            <Heart className={cn(
+                              'w-4 h-4 mr-1',
+                              post.isLiked ? 'fill-current' : ''
+                            )} />
                             {post.likes}
                           </Button>
                           <Button variant="ghost" size="sm" className="text-muted-foreground">
@@ -585,7 +587,9 @@ export const CommunityHub: React.FC<CommunityHubProps> = ({ className }) => {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm text-muted-foreground">Joined {member.joinDate}</div>
+                      <div className="text-sm text-muted-foreground">
+                        Joined {member.joinDate}
+                      </div>
                     </div>
                   </div>
                 </CardContent>

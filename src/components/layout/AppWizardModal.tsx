@@ -25,7 +25,11 @@ export function AppWizardModal({ showWizard, setShowWizard, onComplete }: AppWiz
         className="w-full max-w-4xl max-h-[90vh] overflow-auto"
       >
         <div className="flex justify-end mb-4">
-          <Button variant="ghost" size="sm" onClick={() => setShowWizard(false)}>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowWizard(false)}
+          >
             <X className="h-4 w-4" />
           </Button>
         </div>

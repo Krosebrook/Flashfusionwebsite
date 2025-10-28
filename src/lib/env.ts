@@ -6,24 +6,24 @@ interface EnvironmentConfig {
   // Application Environment
   NODE_ENV: 'development' | 'production' | 'test';
   MODE: 'development' | 'production' | 'test';
-
+  
   // Application Info
   VITE_APP_NAME?: string;
   VITE_APP_VERSION?: string;
   VITE_BUILD_TIME?: string;
-
+  
   // Analytics
   VITE_GOOGLE_ANALYTICS_ID?: string;
   VITE_MIXPANEL_TOKEN?: string;
   VITE_HOTJAR_ID?: string;
-
+  
   // Supabase Configuration
   VITE_SUPABASE_URL?: string;
   VITE_SUPABASE_ANON_KEY?: string;
-
+  
   // API Configuration
   VITE_API_BASE_URL?: string;
-
+  
   // Feature Flags
   VITE_ENABLE_ANALYTICS?: string;
   VITE_ENABLE_DEBUG?: string;
@@ -37,12 +37,12 @@ function safeGetEnvVar(key: string, fallback: string = ''): string {
     if (typeof window !== 'undefined' && typeof import.meta !== 'undefined' && import.meta.env) {
       return import.meta.env[key] || fallback;
     }
-
+    
     // Fallback for server-side or build environments
     if (typeof process !== 'undefined' && process.env) {
       return process.env[key] || fallback;
     }
-
+    
     return fallback;
   } catch (error) {
     console.warn(`Failed to access environment variable ${key}:`, error);
@@ -60,7 +60,7 @@ function getEnvironmentMode(): 'development' | 'production' | 'test' {
         return mode as 'development' | 'production' | 'test';
       }
     }
-
+    
     // Try process.env as fallback
     if (typeof process !== 'undefined' && process.env) {
       const nodeEnv = process.env.NODE_ENV;
@@ -68,17 +68,16 @@ function getEnvironmentMode(): 'development' | 'production' | 'test' {
         return nodeEnv as 'development' | 'production' | 'test';
       }
     }
-
+    
     // Default fallback based on other indicators
     if (typeof window !== 'undefined') {
       // In browser, assume development if localhost
-      const isDev =
-        window.location.hostname === 'localhost' ||
-        window.location.hostname === '127.0.0.1' ||
-        window.location.hostname.includes('dev');
+      const isDev = window.location.hostname === 'localhost' || 
+                   window.location.hostname === '127.0.0.1' ||
+                   window.location.hostname.includes('dev');
       return isDev ? 'development' : 'production';
     }
-
+    
     // Final fallback
     return 'development';
   } catch (error) {
@@ -90,36 +89,33 @@ function getEnvironmentMode(): 'development' | 'production' | 'test' {
 // Get environment configuration with proper fallbacks
 function getEnvironmentConfig(): EnvironmentConfig {
   const mode = getEnvironmentMode();
-
+  
   return {
     // Environment detection with fallbacks
     NODE_ENV: mode,
     MODE: mode,
-
+    
     // Application info
     VITE_APP_NAME: safeGetEnvVar('VITE_APP_NAME', 'FlashFusion'),
     VITE_APP_VERSION: safeGetEnvVar('VITE_APP_VERSION', '1.0.0'),
     VITE_BUILD_TIME: safeGetEnvVar('VITE_BUILD_TIME', new Date().toISOString()),
-
+    
     // Analytics
     VITE_GOOGLE_ANALYTICS_ID: safeGetEnvVar('VITE_GOOGLE_ANALYTICS_ID'),
     VITE_MIXPANEL_TOKEN: safeGetEnvVar('VITE_MIXPANEL_TOKEN'),
     VITE_HOTJAR_ID: safeGetEnvVar('VITE_HOTJAR_ID'),
-
+    
     // Supabase
     VITE_SUPABASE_URL: safeGetEnvVar('VITE_SUPABASE_URL'),
     VITE_SUPABASE_ANON_KEY: safeGetEnvVar('VITE_SUPABASE_ANON_KEY'),
-
+    
     // API
     VITE_API_BASE_URL: safeGetEnvVar('VITE_API_BASE_URL', '/api'),
-
+    
     // Feature flags
     VITE_ENABLE_ANALYTICS: safeGetEnvVar('VITE_ENABLE_ANALYTICS', 'true'),
-    VITE_ENABLE_DEBUG: safeGetEnvVar(
-      'VITE_ENABLE_DEBUG',
-      mode === 'development' ? 'true' : 'false'
-    ),
-    VITE_ENABLE_BETA_FEATURES: safeGetEnvVar('VITE_ENABLE_BETA_FEATURES', 'false'),
+    VITE_ENABLE_DEBUG: safeGetEnvVar('VITE_ENABLE_DEBUG', mode === 'development' ? 'true' : 'false'),
+    VITE_ENABLE_BETA_FEATURES: safeGetEnvVar('VITE_ENABLE_BETA_FEATURES', 'false')
   };
 }
 
@@ -137,7 +133,7 @@ function getConfig(): EnvironmentConfig {
 export const ENV = new Proxy({} as EnvironmentConfig, {
   get(target, prop) {
     return getConfig()[prop as keyof EnvironmentConfig];
-  },
+  }
 });
 
 // Environment helper functions with safe access
@@ -200,22 +196,25 @@ export function isBetaFeaturesEnabled(): boolean {
 export function validateRequiredEnvVars(): { isValid: boolean; missing: string[] } {
   try {
     const config = getConfig();
-    const requiredVars = ['VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY'];
-
-    const missing = requiredVars.filter((varName) => {
+    const requiredVars = [
+      'VITE_SUPABASE_URL',
+      'VITE_SUPABASE_ANON_KEY'
+    ];
+    
+    const missing = requiredVars.filter(varName => {
       const value = config[varName as keyof EnvironmentConfig];
       return !value || value === '';
     });
-
+    
     return {
       isValid: missing.length === 0,
-      missing,
+      missing
     };
   } catch (error) {
     console.warn('Failed to validate environment variables:', error);
     return {
       isValid: false,
-      missing: ['VALIDATION_FAILED'],
+      missing: ['VALIDATION_FAILED']
     };
   }
 }
@@ -232,7 +231,7 @@ export function logEnvironmentInfo(): void {
       console.log('Analytics Enabled:', isAnalyticsEnabled());
       console.log('Debug Enabled:', isDebugEnabled());
       console.log('Beta Features:', isBetaFeaturesEnabled());
-
+      
       const validation = validateRequiredEnvVars();
       if (!validation.isValid) {
         console.warn('Missing required environment variables:', validation.missing);

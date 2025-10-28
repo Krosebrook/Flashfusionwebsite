@@ -7,7 +7,7 @@ import type { TemplateCardProps } from '../../../types/data-import-export';
 
 export function TemplateCard({ template, onUse, onPreview }: TemplateCardProps) {
   const getTypeColor = (type: string) => {
-    return type === 'import'
+    return type === 'import' 
       ? 'bg-primary/10 text-primary border-primary/20'
       : 'bg-secondary/10 text-secondary border-secondary/20';
   };
@@ -24,11 +24,15 @@ export function TemplateCard({ template, onUse, onPreview }: TemplateCardProps) 
             <div className="text-2xl">{getTypeIcon(template.type)}</div>
             <div>
               <CardTitle className="text-base">{template.name}</CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">{template.description}</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                {template.description}
+              </p>
             </div>
           </div>
 
-          <Badge className={getTypeColor(template.type)}>{template.type}</Badge>
+          <Badge className={getTypeColor(template.type)}>
+            {template.type}
+          </Badge>
         </div>
       </CardHeader>
 
@@ -38,7 +42,7 @@ export function TemplateCard({ template, onUse, onPreview }: TemplateCardProps) 
             <FileText className="w-4 h-4 text-muted-foreground" />
             <span>Format: {template.format}</span>
           </div>
-
+          
           <div className="text-sm text-muted-foreground">
             {template.fields.length} fields • {template.sampleData.length} sample records
           </div>
@@ -46,10 +50,10 @@ export function TemplateCard({ template, onUse, onPreview }: TemplateCardProps) 
           <div className="space-y-1">
             <p className="text-xs font-medium text-muted-foreground">Key Fields:</p>
             <div className="flex flex-wrap gap-1">
-              {template.fields.slice(0, 4).map((field) => (
-                <Badge
-                  key={field.name}
-                  variant="outline"
+              {template.fields.slice(0, 4).map(field => (
+                <Badge 
+                  key={field.name} 
+                  variant="outline" 
                   className={`text-xs ${field.required ? 'border-warning/30 text-warning' : ''}`}
                 >
                   {field.name}
@@ -75,7 +79,7 @@ export function TemplateCard({ template, onUse, onPreview }: TemplateCardProps) 
             <Eye className="w-3 h-3 mr-1" />
             Preview
           </Button>
-
+          
           <Button
             size="sm"
             onClick={() => onUse(template)}

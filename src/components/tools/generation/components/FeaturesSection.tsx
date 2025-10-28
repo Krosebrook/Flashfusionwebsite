@@ -13,20 +13,20 @@ interface FeaturesSectionProps {
 export function FeaturesSection({
   features,
   selectedFeatures,
-  onFeatureToggle,
+  onFeatureToggle
 }: FeaturesSectionProps) {
   return (
     <>
       <Separator />
-
+      
       <div className="space-y-4">
         <h3 className="text-lg font-semibold flex items-center gap-2">
           <Zap className="w-5 h-5" />
           Features & Capabilities
         </h3>
-
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {features.map((feature) => (
+          {features.map(feature => (
             <div key={feature} className="flex items-center space-x-2">
               <Switch
                 id={feature}

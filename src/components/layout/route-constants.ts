@@ -20,7 +20,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'FlashFusion - AI Business Operating System',
     description: 'Transform ideas into reality with AI-powered business automation',
     requiresAuth: false,
-    category: 'public',
+    category: 'public'
   },
   about: {
     page: 'about',
@@ -28,7 +28,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'About FlashFusion',
     description: 'Learn about our mission to democratize AI-powered business creation',
     requiresAuth: false,
-    category: 'public',
+    category: 'public'
   },
   features: {
     page: 'features',
@@ -36,7 +36,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Features - FlashFusion',
     description: 'Discover 60+ AI tools across 6 categories for complete business automation',
     requiresAuth: false,
-    category: 'public',
+    category: 'public'
   },
   pricing: {
     page: 'pricing',
@@ -44,7 +44,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Pricing - FlashFusion',
     description: 'Choose the perfect plan for your AI-powered business needs',
     requiresAuth: false,
-    category: 'public',
+    category: 'public'
   },
   contact: {
     page: 'contact',
@@ -52,7 +52,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Contact Us - FlashFusion',
     description: 'Get in touch with our team for support and inquiries',
     requiresAuth: false,
-    category: 'public',
+    category: 'public'
   },
   testimonials: {
     page: 'testimonials',
@@ -60,7 +60,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Customer Success Stories - FlashFusion',
     description: 'See how businesses are transforming with FlashFusion AI platform',
     requiresAuth: false,
-    category: 'public',
+    category: 'public'
   },
   faq: {
     page: 'faq',
@@ -68,7 +68,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'FAQ - FlashFusion',
     description: 'Frequently asked questions about FlashFusion AI platform',
     requiresAuth: false,
-    category: 'public',
+    category: 'public'
   },
   privacy: {
     page: 'privacy',
@@ -76,7 +76,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Privacy Policy - FlashFusion',
     description: 'How we protect your data and privacy',
     requiresAuth: false,
-    category: 'public',
+    category: 'public'
   },
   terms: {
     page: 'terms',
@@ -84,7 +84,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Terms of Service - FlashFusion',
     description: 'Terms and conditions for using FlashFusion platform',
     requiresAuth: false,
-    category: 'public',
+    category: 'public'
   },
   demo: {
     page: 'demo',
@@ -92,7 +92,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Interactive Demo - FlashFusion',
     description: 'Experience FlashFusion AI platform with our interactive demo',
     requiresAuth: false,
-    category: 'public',
+    category: 'public'
   },
 
   // Protected routes
@@ -102,7 +102,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Dashboard - FlashFusion',
     description: 'Your AI-powered business command center',
     requiresAuth: true,
-    category: 'protected',
+    category: 'protected'
   },
   projects: {
     page: 'projects',
@@ -110,7 +110,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Projects - FlashFusion',
     description: 'Manage your AI-generated projects and applications',
     requiresAuth: true,
-    category: 'protected',
+    category: 'protected'
   },
   analytics: {
     page: 'analytics',
@@ -118,7 +118,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Analytics - FlashFusion',
     description: 'Comprehensive analytics and performance insights',
     requiresAuth: true,
-    category: 'protected',
+    category: 'protected'
   },
   'production-analytics': {
     page: 'production-analytics',
@@ -127,7 +127,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     description: 'Real-time production metrics and monitoring',
     requiresAuth: true,
     category: 'protected',
-    tier: 'pro',
+    tier: 'pro'
   },
   settings: {
     page: 'settings',
@@ -135,7 +135,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Settings - FlashFusion',
     description: 'Configure your FlashFusion account and preferences',
     requiresAuth: true,
-    category: 'protected',
+    category: 'protected'
   },
   integrations: {
     page: 'integrations',
@@ -143,7 +143,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Integrations - FlashFusion',
     description: 'Connect FlashFusion with your favorite tools and platforms',
     requiresAuth: true,
-    category: 'protected',
+    category: 'protected'
   },
   deployments: {
     page: 'deployments',
@@ -151,7 +151,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Deployments - FlashFusion',
     description: 'Deploy your projects to 8+ platforms instantly',
     requiresAuth: true,
-    category: 'protected',
+    category: 'protected'
   },
   templates: {
     page: 'templates',
@@ -159,7 +159,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Templates - FlashFusion',
     description: 'Pre-built templates for rapid development',
     requiresAuth: true,
-    category: 'protected',
+    category: 'protected'
   },
   collaboration: {
     page: 'collaboration',
@@ -168,7 +168,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     description: 'Collaborate with your team on AI projects',
     requiresAuth: true,
     category: 'protected',
-    tier: 'pro',
+    tier: 'pro'
   },
   cicd: {
     page: 'cicd',
@@ -177,7 +177,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     description: 'Automated continuous integration and deployment',
     requiresAuth: true,
     category: 'protected',
-    tier: 'enterprise',
+    tier: 'enterprise'
   },
   subscription: {
     page: 'subscription',
@@ -185,7 +185,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Subscription - FlashFusion',
     description: 'Manage your FlashFusion subscription and billing',
     requiresAuth: true,
-    category: 'protected',
+    category: 'protected'
   },
   'launch-campaign': {
     page: 'launch-campaign',
@@ -194,7 +194,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     description: 'AI-powered marketing campaign management',
     requiresAuth: true,
     category: 'protected',
-    tier: 'pro',
+    tier: 'pro'
   },
 
   // FlashFusion Design System routes
@@ -204,7 +204,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Universal Agent Dashboard - FlashFusion',
     description: 'Command center for AI agent orchestration',
     requiresAuth: true,
-    category: 'design-system',
+    category: 'design-system'
   },
   'workflow-pipeline': {
     page: 'workflow-pipeline',
@@ -212,7 +212,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Workflow Pipeline - FlashFusion',
     description: 'Visual workflow status and pipeline management',
     requiresAuth: true,
-    category: 'design-system',
+    category: 'design-system'
   },
   'integration-hub': {
     page: 'integration-hub',
@@ -220,7 +220,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Integration Hub - FlashFusion',
     description: 'Cross-platform integration management center',
     requiresAuth: true,
-    category: 'design-system',
+    category: 'design-system'
   },
   'revenue-dashboard': {
     page: 'revenue-dashboard',
@@ -229,7 +229,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     description: 'Comprehensive revenue stream analytics',
     requiresAuth: true,
     category: 'design-system',
-    tier: 'pro',
+    tier: 'pro'
   },
   'ai-models': {
     page: 'ai-models',
@@ -237,7 +237,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'AI Model Selection - FlashFusion',
     description: 'Choose and configure AI models for your projects',
     requiresAuth: true,
-    category: 'design-system',
+    category: 'design-system'
   },
   'mobile-agents': {
     page: 'mobile-agents',
@@ -245,7 +245,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Mobile Agent Selector - FlashFusion',
     description: 'Mobile-optimized AI agent selection interface',
     requiresAuth: true,
-    category: 'design-system',
+    category: 'design-system'
   },
   notifications: {
     page: 'notifications',
@@ -253,7 +253,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Notification Center - FlashFusion',
     description: 'Centralized notification management system',
     requiresAuth: true,
-    category: 'design-system',
+    category: 'design-system'
   },
   'automation-flow': {
     page: 'automation-flow',
@@ -261,7 +261,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Automation Flow Builder - FlashFusion',
     description: 'Visual automation workflow designer',
     requiresAuth: true,
-    category: 'design-system',
+    category: 'design-system'
   },
 
   // Market Differentiator Features
@@ -272,7 +272,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     description: 'Manage content licensing, FTC compliance, and usage rights',
     requiresAuth: true,
     category: 'differentiators',
-    tier: 'pro',
+    tier: 'pro'
   },
   'ai-trust': {
     page: 'ai-trust',
@@ -280,7 +280,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'AI Trust & Verification - FlashFusion',
     description: 'AI content verification and trust scoring system',
     requiresAuth: true,
-    category: 'differentiators',
+    category: 'differentiators'
   },
   'wellness-monitor': {
     page: 'wellness-monitor',
@@ -288,7 +288,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'AI Wellness Monitor - FlashFusion',
     description: 'Monitor AI usage patterns and maintain healthy habits',
     requiresAuth: true,
-    category: 'differentiators',
+    category: 'differentiators'
   },
   'no-code-workflows': {
     page: 'no-code-workflows',
@@ -296,7 +296,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'No-Code Workflows - FlashFusion',
     description: 'Drag-and-drop workflow builder for complex automations',
     requiresAuth: true,
-    category: 'differentiators',
+    category: 'differentiators'
   },
   'security-dashboard': {
     page: 'security-dashboard',
@@ -305,7 +305,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     description: 'Enterprise-grade security monitoring and compliance',
     requiresAuth: true,
     category: 'differentiators',
-    tier: 'enterprise',
+    tier: 'enterprise'
   },
 
   // Phase 3: Design/Dev Coordination Framework
@@ -313,10 +313,9 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     page: 'design-system-sync',
     path: '/design-system',
     title: 'Design System Sync Protocol - FlashFusion',
-    description:
-      'Comprehensive design system overview with automated token export and component updates',
+    description: 'Comprehensive design system overview with automated token export and component updates',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
   'development-workflow': {
     page: 'development-workflow',
@@ -324,7 +323,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Development Workflow - FlashFusion',
     description: 'Two-week sprint board with comprehensive task management and team coordination',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
 
   // Phase 4: Quality Gates & Success Metrics
@@ -332,19 +331,17 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     page: 'quality-thresholds',
     path: '/quality/thresholds',
     title: 'Quality Thresholds Dashboard - FlashFusion',
-    description:
-      'Comprehensive quality monitoring with WCAG compliance, performance targets, and visual consistency',
+    description: 'Comprehensive quality monitoring with WCAG compliance, performance targets, and visual consistency',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
   'success-metrics': {
     page: 'success-metrics',
     path: '/metrics/success',
     title: 'Success Metrics Dashboard - FlashFusion',
-    description:
-      'KPI dashboard with MAU, conversion rates, NPS, feature adoption, uptime, and performance metrics',
+    description: 'KPI dashboard with MAU, conversion rates, NPS, feature adoption, uptime, and performance metrics',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
 
   // Phase 5: Critical Risk Mitigation
@@ -352,19 +349,17 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     page: 'security-compliance',
     path: '/security/compliance',
     title: 'Security & Compliance Dashboard - FlashFusion',
-    description:
-      'SOC 2 Type II, GDPR/HIPAA/CCPA compliance with data encryption, consent management, and incident response',
+    description: 'SOC 2 Type II, GDPR/HIPAA/CCPA compliance with data encryption, consent management, and incident response',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
   'scalability-planning': {
     page: 'scalability-planning',
     path: '/scalability/planning',
     title: 'Scalability Planning Board - FlashFusion',
-    description:
-      'Database optimization, CDN configuration, auto-scaling policies, and capacity planning with team assignment',
+    description: 'Database optimization, CDN configuration, auto-scaling policies, and capacity planning with team assignment',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
 
   // Phase 6: Team Structure & Coordination
@@ -372,19 +367,17 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     page: 'team-structure',
     path: '/team/structure',
     title: 'Recommended Team Structure - FlashFusion',
-    description:
-      'Comprehensive organizational chart with core SaaS team roles, extended positions, and hiring timeline',
+    description: 'Comprehensive organizational chart with core SaaS team roles, extended positions, and hiring timeline',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
   'cross-functional-coordination': {
     page: 'cross-functional-coordination',
     path: '/team/coordination',
     title: 'Cross-Functional Coordination - FlashFusion',
-    description:
-      'Team coordination calendar with daily stand-ups, weekly syncs, sprint planning, and OKR sessions',
+    description: 'Team coordination calendar with daily stand-ups, weekly syncs, sprint planning, and OKR sessions',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
 
   // Phase 7: Implementation Roadmap
@@ -392,19 +385,17 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     page: 'discovery-phase-timeline',
     path: '/roadmap/discovery',
     title: 'Discovery Phase Timeline - FlashFusion',
-    description:
-      'Comprehensive discovery phase roadmap for weeks 1-2 with business requirements, architecture audit, and team setup',
+    description: 'Comprehensive discovery phase roadmap for weeks 1-2 with business requirements, architecture audit, and team setup',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
   'development-phase-timeline': {
     page: 'development-phase-timeline',
     path: '/roadmap/development',
     title: 'Development Phase Timeline - FlashFusion',
-    description:
-      'Complete development roadmap for weeks 3-8 covering foundation, feature development, and optimization phases',
+    description: 'Complete development roadmap for weeks 3-8 covering foundation, feature development, and optimization phases',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
 
   // Phase 8: Blindspot Mitigation
@@ -412,19 +403,17 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     page: 'common-blindspots',
     path: '/blindspot/matrix',
     title: 'Common Blindspots Matrix - FlashFusion',
-    description:
-      'Risk matrix board categorizing blindspots with comprehensive mitigation strategies and implementation tracking',
+    description: 'Risk matrix board categorizing blindspots with comprehensive mitigation strategies and implementation tracking',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
   'immediate-next-actions': {
     page: 'immediate-next-actions',
     path: '/blindspot/actions',
     title: 'Immediate Next Actions - FlashFusion',
-    description:
-      'Priority-based 7-day action plan with foundation tasks, quality gates, and success metrics implementation',
+    description: 'Priority-based 7-day action plan with foundation tasks, quality gates, and success metrics implementation',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
 
   // Advanced Platform Evolution
@@ -432,46 +421,41 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     page: 'advanced-performance',
     path: '/advanced/performance',
     title: 'Advanced Performance Optimizer - FlashFusion',
-    description:
-      'Enterprise-grade performance optimization with Core Web Vitals, intelligent caching, and automated optimization',
+    description: 'Enterprise-grade performance optimization with Core Web Vitals, intelligent caching, and automated optimization',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
   'enterprise-security': {
     page: 'enterprise-security',
     path: '/advanced/security',
     title: 'Enterprise Security Suite - FlashFusion',
-    description:
-      'Comprehensive security suite with threat detection, compliance automation, and zero-trust architecture',
+    description: 'Comprehensive security suite with threat detection, compliance automation, and zero-trust architecture',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
   'advanced-deployment': {
     page: 'advanced-deployment',
     path: '/advanced/deployment',
     title: 'Advanced Deployment Orchestrator - FlashFusion',
-    description:
-      'Intelligent deployment orchestration with CI/CD pipelines, infrastructure automation, and canary releases',
+    description: 'Intelligent deployment orchestration with CI/CD pipelines, infrastructure automation, and canary releases',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
   'ai-code-intelligence': {
     page: 'ai-code-intelligence',
     path: '/advanced/ai-intelligence',
     title: 'AI Code Intelligence System - FlashFusion',
-    description:
-      'AI-powered code analysis with intelligent review, predictive bug detection, and smart refactoring assistance',
+    description: 'AI-powered code analysis with intelligent review, predictive bug detection, and smart refactoring assistance',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
   'advanced-collaboration': {
     page: 'advanced-collaboration',
     path: '/advanced/collaboration',
     title: 'Advanced Collaboration Hub - FlashFusion',
-    description:
-      'Real-time collaboration platform with multi-user editing, team workspaces, and integrated communication',
+    description: 'Real-time collaboration platform with multi-user editing, team workspaces, and integrated communication',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
 
   // Phase 1 & 2: Business Intelligence and Technical Architecture
@@ -481,7 +465,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'SaaS Pricing Wireframe - FlashFusion',
     description: 'Three-tier pricing structure with conversion optimization and analytics',
     requiresAuth: false,
-    category: 'public',
+    category: 'public'
   },
   'user-personas': {
     page: 'user-personas',
@@ -489,7 +473,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'User Persona Matrix - FlashFusion',
     description: 'Comprehensive user persona analysis with behavioral insights and workflows',
     requiresAuth: false,
-    category: 'public',
+    category: 'public'
   },
   'responsive-ui-kit': {
     page: 'responsive-ui-kit',
@@ -497,7 +481,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Responsive UI Kit - FlashFusion',
     description: 'React 18 + TypeScript UI components with mobile-first design',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
   'backend-architecture': {
     page: 'backend-architecture',
@@ -505,7 +489,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Backend Architecture - FlashFusion',
     description: 'Interactive visualization of Supabase edge functions and microservices',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
   'infrastructure-strategy': {
     page: 'infrastructure-strategy',
@@ -513,7 +497,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Infrastructure Strategy - FlashFusion',
     description: 'Multi-region deployment with CDN, load balancers, and monitoring tools',
     requiresAuth: false,
-    category: 'design-system',
+    category: 'design-system'
   },
 
   // Multi-Agent Orchestration - NEW FEATURE
@@ -521,11 +505,10 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     page: 'multi-agent-orchestration',
     path: '/orchestration',
     title: 'Multi-Agent Orchestration - FlashFusion',
-    description:
-      'Advanced AI agent coordination with real-time collaboration, predictive analytics, and voice control',
+    description: 'Advanced AI agent coordination with real-time collaboration, predictive analytics, and voice control',
     requiresAuth: true,
     category: 'differentiators',
-    tier: 'pro',
+    tier: 'pro'
   },
 
   // Tool routes
@@ -535,7 +518,7 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'AI Tools - FlashFusion',
     description: 'Browse 60+ AI-powered tools across 6 categories',
     requiresAuth: false,
-    category: 'tools',
+    category: 'tools'
   },
   'tool-detail': {
     page: 'tool-detail',
@@ -543,8 +526,8 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     title: 'Tool Details - FlashFusion',
     description: 'Detailed information about AI tools and capabilities',
     requiresAuth: false,
-    category: 'tools',
-  },
+    category: 'tools'
+  }
 };
 
 // Helper functions for route management
@@ -553,20 +536,20 @@ export const getRouteConfig = (page: PageType): RouteConfig => {
 };
 
 export const getRoutesByCategory = (category: RouteConfig['category']): RouteConfig[] => {
-  return Object.values(ROUTE_CONFIGS).filter((route) => route.category === category);
+  return Object.values(ROUTE_CONFIGS).filter(route => route.category === category);
 };
 
 export const getProtectedRoutes = (): RouteConfig[] => {
-  return Object.values(ROUTE_CONFIGS).filter((route) => route.requiresAuth);
+  return Object.values(ROUTE_CONFIGS).filter(route => route.requiresAuth);
 };
 
 export const getPublicRoutes = (): RouteConfig[] => {
-  return Object.values(ROUTE_CONFIGS).filter((route) => !route.requiresAuth);
+  return Object.values(ROUTE_CONFIGS).filter(route => !route.requiresAuth);
 };
 
 export const getTierRestrictedRoutes = (tier?: string): RouteConfig[] => {
   if (!tier) return [];
-  return Object.values(ROUTE_CONFIGS).filter((route) => route.tier === tier);
+  return Object.values(ROUTE_CONFIGS).filter(route => route.tier === tier);
 };
 
 export const getPageTitle = (page: PageType): string => {
@@ -578,7 +561,12 @@ export const getPageDescription = (page: PageType): string => {
 };
 
 // Navigation constants for sidebar and mobile navigation
-export const MAIN_NAVIGATION = ['dashboard', 'projects', 'analytics', 'tools'] as PageType[];
+export const MAIN_NAVIGATION = [
+  'dashboard',
+  'projects',
+  'analytics',
+  'tools'
+] as PageType[];
 
 export const DESIGN_SYSTEM_NAVIGATION = [
   'agent-dashboard',
@@ -588,7 +576,7 @@ export const DESIGN_SYSTEM_NAVIGATION = [
   'ai-models',
   'mobile-agents',
   'notifications',
-  'automation-flow',
+  'automation-flow'
 ] as PageType[];
 
 export const DIFFERENTIATOR_NAVIGATION = [
@@ -597,14 +585,20 @@ export const DIFFERENTIATOR_NAVIGATION = [
   'ai-trust',
   'wellness-monitor',
   'no-code-workflows',
-  'security-dashboard',
+  'security-dashboard'
 ] as PageType[];
 
 export const ACCOUNT_NAVIGATION = [
   'settings',
   'subscription',
   'integrations',
-  'deployments',
+  'deployments'
 ] as PageType[];
 
-export const PUBLIC_NAVIGATION = ['home', 'features', 'pricing', 'about', 'contact'] as PageType[];
+export const PUBLIC_NAVIGATION = [
+  'home',
+  'features',
+  'pricing',
+  'about',
+  'contact'
+] as PageType[];

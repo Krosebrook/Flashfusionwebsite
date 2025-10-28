@@ -11,14 +11,10 @@ export const createUserStats = (userRole?: string, credits?: number): UserStats 
   credits: credits || 150, // Starter credit amount
   badges: [],
   dailyTasksCompleted: userRole === 'pro' ? 3 : 1, // Realistic daily engagement
-  streak: userRole === 'pro' ? 7 : 3, // Achievable streak counts
+  streak: userRole === 'pro' ? 7 : 3 // Achievable streak counts
 });
 
-export const updateUserStatsFromUser = (
-  userStats: UserStats,
-  userRole?: string,
-  credits?: number
-): UserStats => ({
+export const updateUserStatsFromUser = (userStats: UserStats, userRole?: string, credits?: number): UserStats => ({
   ...userStats,
   level: userRole === 'pro' ? 8 : 3,
   xp: userRole === 'pro' ? 2450 : 820,
@@ -28,7 +24,7 @@ export const updateUserStatsFromUser = (
   totalCode: userRole === 'pro' ? 89 : 23,
   credits: credits || userStats.credits,
   dailyTasksCompleted: userRole === 'pro' ? 3 : 1,
-  streak: userRole === 'pro' ? 7 : 3,
+  streak: userRole === 'pro' ? 7 : 3
 });
 
 // Platform-wide realistic startup statistics
@@ -44,7 +40,7 @@ export const getPlatformStats = () => ({
   customerSatisfaction: 4.6, // Strong satisfaction score
   monthlyGrowthRate: 28.5, // Strong startup growth
   retentionRate: 78.2, // Good user retention
-  averageSessionTime: 24.5, // Minutes - good engagement
+  averageSessionTime: 24.5 // Minutes - good engagement
 });
 
 // Growth metrics for realistic startup analytics
@@ -59,7 +55,7 @@ export const getGrowthMetrics = () => ({
   topFeature: 'full-stack-builder',
   mostActiveTimeUTC: '14:00-16:00',
   peakConcurrentUsers: 234,
-  averageProjectsPerUser: 1.9,
+  averageProjectsPerUser: 1.9
 });
 
 // Feature usage statistics for product analytics
@@ -71,31 +67,31 @@ export const getFeatureUsageStats = () => ({
   analytics: { usage: 1569, conversionRate: 58.3 },
   collaboration: { usage: 892, conversionRate: 76.9 },
   brandKit: { usage: 2103, conversionRate: 83.5 },
-  aiTools: { usage: 6742, conversionRate: 91.2 },
+  aiTools: { usage: 6742, conversionRate: 91.2 }
 });
 
 // Revenue metrics for business analytics
 export const getRevenueMetrics = () => ({
   mrr: 28450, // Monthly Recurring Revenue in USD
   arr: 341400, // Annual Recurring Revenue
-  averageRevenuePerUser: 34.5,
-  lifetimeValue: 287.6,
+  averageRevenuePerUser: 34.50,
+  lifetimeValue: 287.60,
   churnRate: 3.2,
   expansionRevenue: 8240,
   paidConversionRate: 8.7,
   trialToPayConversion: 24.3,
   revenueGrowthRate: 42.8,
-  customerAcquisitionCost: 12.4,
+  customerAcquisitionCost: 12.40
 });
 
 export const completeTask = (userStats: UserStats, taskId: string, tasks: any[]): UserStats => {
-  const task = tasks.find((t) => t.id === taskId);
+  const task = tasks.find(t => t.id === taskId);
   if (task && !task.completed) {
     task.completed = true;
     return {
       ...userStats,
       xp: userStats.xp + task.xpReward,
-      dailyTasksCompleted: userStats.dailyTasksCompleted + 1,
+      dailyTasksCompleted: userStats.dailyTasksCompleted + 1
     };
   }
   return userStats;

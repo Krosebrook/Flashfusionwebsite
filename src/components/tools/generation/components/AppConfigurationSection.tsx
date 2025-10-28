@@ -22,15 +22,13 @@ export function AppConfigurationSection({
   setAppDescription,
   appType,
   setAppType,
-  appTypes,
+  appTypes
 }: AppConfigurationSectionProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="appName" className="text-sm font-medium">
-            Application Name *
-          </Label>
+          <Label htmlFor="appName" className="text-sm font-medium">Application Name *</Label>
           <Input
             id="appName"
             placeholder="My Awesome App"
@@ -39,11 +37,9 @@ export function AppConfigurationSection({
             className="ff-focus-ring"
           />
         </div>
-
+        
         <div className="space-y-2">
-          <Label htmlFor="appDescription" className="text-sm font-medium">
-            Description *
-          </Label>
+          <Label htmlFor="appDescription" className="text-sm font-medium">Description *</Label>
           <Textarea
             id="appDescription"
             placeholder="Describe what your application does..."
@@ -59,10 +55,10 @@ export function AppConfigurationSection({
         <div className="space-y-2">
           <Label className="text-sm font-medium">Application Type</Label>
           <div className="grid grid-cols-2 gap-2">
-            {appTypes.slice(0, 6).map((type) => (
+            {appTypes.slice(0, 6).map(type => (
               <Button
                 key={type.id}
-                variant={appType === type.id ? 'default' : 'outline'}
+                variant={appType === type.id ? "default" : "outline"}
                 size="sm"
                 onClick={() => setAppType(type.id)}
                 className="justify-start h-auto p-3 ff-hover-scale"

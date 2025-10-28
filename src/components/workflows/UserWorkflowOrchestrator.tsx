@@ -43,16 +43,16 @@ interface UserWorkflowOrchestratorProps {
 export function UserWorkflowOrchestrator({
   currentUser,
   onWorkflowComplete,
-  onToolSelect,
+  onToolSelect
 }: UserWorkflowOrchestratorProps) {
   const [currentPhase, setCurrentPhase] = useState<
     'persona-selection' | 'onboarding' | 'workflow-selection' | 'workflow-execution'
   >('persona-selection');
-
+  
   const [selectedPersona, setSelectedPersona] = useState<UserPersona | null>(
     currentUser?.persona || null
   );
-
+  
   const [activeWorkflow, setActiveWorkflow] = useState<UserWorkflow | null>(null);
   const [availableWorkflows, setAvailableWorkflows] = useState<UserWorkflow[]>([]);
 
@@ -74,7 +74,7 @@ export function UserWorkflowOrchestrator({
             description: 'Navigate the main interface and understand key features',
             component: 'PlatformTour',
             estimatedTime: '2 min',
-            status: 'pending' as const,
+            status: 'pending' as const
           },
           {
             id: 'first-tool',
@@ -83,7 +83,7 @@ export function UserWorkflowOrchestrator({
             component: 'ToolDemo',
             estimatedTime: '3 min',
             status: 'pending' as const,
-            dependencies: ['platform-tour'],
+            dependencies: ['platform-tour']
           },
           {
             id: 'save-result',
@@ -92,10 +92,10 @@ export function UserWorkflowOrchestrator({
             component: 'SaveShare',
             estimatedTime: '2 min',
             status: 'pending' as const,
-            dependencies: ['first-tool'],
-          },
-        ],
-      },
+            dependencies: ['first-tool']
+          }
+        ]
+      }
     ];
 
     switch (persona.id) {
@@ -117,7 +117,7 @@ export function UserWorkflowOrchestrator({
                 description: 'Describe your app idea and requirements',
                 component: 'AppConceptForm',
                 estimatedTime: '3 min',
-                status: 'pending' as const,
+                status: 'pending' as const
               },
               {
                 id: 'generate-app',
@@ -126,7 +126,7 @@ export function UserWorkflowOrchestrator({
                 component: 'FullStackBuilder',
                 estimatedTime: '5 min',
                 status: 'pending' as const,
-                dependencies: ['app-concept'],
+                dependencies: ['app-concept']
               },
               {
                 id: 'customize-app',
@@ -135,7 +135,7 @@ export function UserWorkflowOrchestrator({
                 component: 'AppCustomizer',
                 estimatedTime: '4 min',
                 status: 'pending' as const,
-                dependencies: ['generate-app'],
+                dependencies: ['generate-app']
               },
               {
                 id: 'deploy-app',
@@ -144,9 +144,9 @@ export function UserWorkflowOrchestrator({
                 component: 'DeploymentManager',
                 estimatedTime: '3 min',
                 status: 'pending' as const,
-                dependencies: ['customize-app'],
-              },
-            ],
+                dependencies: ['customize-app']
+              }
+            ]
           },
           {
             id: 'code-optimization',
@@ -163,7 +163,7 @@ export function UserWorkflowOrchestrator({
                 description: 'Share your codebase for analysis',
                 component: 'CodeUploader',
                 estimatedTime: '2 min',
-                status: 'pending' as const,
+                status: 'pending' as const
               },
               {
                 id: 'analyze-code',
@@ -172,7 +172,7 @@ export function UserWorkflowOrchestrator({
                 component: 'CodeAnalyzer',
                 estimatedTime: '4 min',
                 status: 'pending' as const,
-                dependencies: ['upload-code'],
+                dependencies: ['upload-code']
               },
               {
                 id: 'apply-optimizations',
@@ -181,10 +181,10 @@ export function UserWorkflowOrchestrator({
                 component: 'CodeOptimizer',
                 estimatedTime: '4 min',
                 status: 'pending' as const,
-                dependencies: ['analyze-code'],
-              },
-            ],
-          },
+                dependencies: ['analyze-code']
+              }
+            ]
+          }
         ];
 
       case 'content-creator':
@@ -205,7 +205,7 @@ export function UserWorkflowOrchestrator({
                 description: 'Set up your unique brand identity',
                 component: 'BrandKitGenerator',
                 estimatedTime: '4 min',
-                status: 'pending' as const,
+                status: 'pending' as const
               },
               {
                 id: 'content-batch',
@@ -214,7 +214,7 @@ export function UserWorkflowOrchestrator({
                 component: 'ContentBatchGenerator',
                 estimatedTime: '5 min',
                 status: 'pending' as const,
-                dependencies: ['brand-setup'],
+                dependencies: ['brand-setup']
               },
               {
                 id: 'schedule-posts',
@@ -223,9 +223,9 @@ export function UserWorkflowOrchestrator({
                 component: 'ContentScheduler',
                 estimatedTime: '3 min',
                 status: 'pending' as const,
-                dependencies: ['content-batch'],
-              },
-            ],
+                dependencies: ['content-batch']
+              }
+            ]
           },
           {
             id: 'monetization-setup',
@@ -242,7 +242,7 @@ export function UserWorkflowOrchestrator({
                 description: 'Connect affiliate programs and links',
                 component: 'AffiliateManager',
                 estimatedTime: '3 min',
-                status: 'pending' as const,
+                status: 'pending' as const
               },
               {
                 id: 'product-creation',
@@ -251,10 +251,10 @@ export function UserWorkflowOrchestrator({
                 component: 'ProductCreator',
                 estimatedTime: '5 min',
                 status: 'pending' as const,
-                dependencies: ['affiliate-setup'],
-              },
-            ],
-          },
+                dependencies: ['affiliate-setup']
+              }
+            ]
+          }
         ];
 
       case 'startup-team':
@@ -275,7 +275,7 @@ export function UserWorkflowOrchestrator({
                 description: 'Set up collaborative environment',
                 component: 'TeamWorkspaceCreator',
                 estimatedTime: '5 min',
-                status: 'pending' as const,
+                status: 'pending' as const
               },
               {
                 id: 'invite-members',
@@ -284,7 +284,7 @@ export function UserWorkflowOrchestrator({
                 component: 'TeamInviteManager',
                 estimatedTime: '3 min',
                 status: 'pending' as const,
-                dependencies: ['team-workspace'],
+                dependencies: ['team-workspace']
               },
               {
                 id: 'workflow-automation',
@@ -293,7 +293,7 @@ export function UserWorkflowOrchestrator({
                 component: 'WorkflowAutomator',
                 estimatedTime: '7 min',
                 status: 'pending' as const,
-                dependencies: ['invite-members'],
+                dependencies: ['invite-members']
               },
               {
                 id: 'analytics-setup',
@@ -302,10 +302,10 @@ export function UserWorkflowOrchestrator({
                 component: 'TeamAnalytics',
                 estimatedTime: '3 min',
                 status: 'pending' as const,
-                dependencies: ['workflow-automation'],
-              },
-            ],
-          },
+                dependencies: ['workflow-automation']
+              }
+            ]
+          }
         ];
 
       default:
@@ -317,7 +317,7 @@ export function UserWorkflowOrchestrator({
   useEffect(() => {
     if (selectedPersona) {
       setAvailableWorkflows(getPersonaWorkflows(selectedPersona));
-
+      
       // Skip persona selection if user already has one
       if (currentUser?.persona && currentUser.onboardingCompleted) {
         setCurrentPhase('workflow-selection');
@@ -346,12 +346,14 @@ export function UserWorkflowOrchestrator({
 
     const updatedWorkflow = {
       ...activeWorkflow,
-      steps: activeWorkflow.steps.map((step) =>
-        step.id === stepId ? { ...step, status: 'completed' as const, result } : step
-      ),
+      steps: activeWorkflow.steps.map(step =>
+        step.id === stepId
+          ? { ...step, status: 'completed' as const, result }
+          : step
+      )
     };
 
-    const completedSteps = updatedWorkflow.steps.filter((s) => s.status === 'completed').length;
+    const completedSteps = updatedWorkflow.steps.filter(s => s.status === 'completed').length;
     updatedWorkflow.completionRate = (completedSteps / updatedWorkflow.steps.length) * 100;
 
     setActiveWorkflow(updatedWorkflow);
@@ -416,7 +418,7 @@ function WorkflowSelectionView({
   workflows,
   persona,
   onWorkflowSelect,
-  onToolSelect,
+  onToolSelect
 }: {
   workflows: UserWorkflow[];
   persona: UserPersona | null;
@@ -427,7 +429,9 @@ function WorkflowSelectionView({
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center space-y-4 mb-12">
-          <h1 className="text-3xl font-bold ff-text-gradient">Choose Your Workflow</h1>
+          <h1 className="text-3xl font-bold ff-text-gradient">
+            Choose Your Workflow
+          </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Select a guided workflow to accomplish your goals, or explore tools freely.
           </p>
@@ -442,15 +446,19 @@ function WorkflowSelectionView({
             >
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
-                  <Badge variant={workflow.priority === 'high' ? 'default' : 'secondary'}>
+                  <Badge
+                    variant={workflow.priority === 'high' ? 'default' : 'secondary'}
+                  >
                     {workflow.priority}
                   </Badge>
                   <span className="text-sm text-muted-foreground">{workflow.totalTime}</span>
                 </div>
                 <CardTitle className="text-lg">{workflow.name}</CardTitle>
-                <p className="text-sm text-muted-foreground">{workflow.description}</p>
+                <p className="text-sm text-muted-foreground">
+                  {workflow.description}
+                </p>
               </CardHeader>
-
+              
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-sm">
@@ -458,7 +466,7 @@ function WorkflowSelectionView({
                     <span>{workflow.completionRate}%</span>
                   </div>
                   <Progress value={workflow.completionRate} className="h-2" />
-
+                  
                   <div className="flex items-center gap-4 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <Target className="w-3 h-3" />
@@ -476,7 +484,11 @@ function WorkflowSelectionView({
         </div>
 
         <div className="text-center">
-          <Button variant="outline" onClick={() => onToolSelect('tools')} className="px-8">
+          <Button
+            variant="outline"
+            onClick={() => onToolSelect('tools')}
+            className="px-8"
+          >
             Explore Tools Freely
           </Button>
         </div>
@@ -490,7 +502,7 @@ function WorkflowExecutionView({
   workflow,
   onStepComplete,
   onToolSelect,
-  onBackToSelection,
+  onBackToSelection
 }: {
   workflow: UserWorkflow;
   onStepComplete: (stepId: string, result?: any) => void;
@@ -499,14 +511,14 @@ function WorkflowExecutionView({
 }) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const currentStep = workflow.steps[currentStepIndex];
-  const completedSteps = workflow.steps.filter((s) => s.status === 'completed').length;
+  const completedSteps = workflow.steps.filter(s => s.status === 'completed').length;
 
   const handleStepAction = () => {
     // Simulate step completion
     onStepComplete(currentStep.id, { timestamp: Date.now() });
-
+    
     if (currentStepIndex < workflow.steps.length - 1) {
-      setCurrentStepIndex((prev) => prev + 1);
+      setCurrentStepIndex(prev => prev + 1);
     }
   };
 
@@ -530,7 +542,9 @@ function WorkflowExecutionView({
             <span className="text-sm font-medium">
               Step {currentStepIndex + 1} of {workflow.steps.length}
             </span>
-            <span className="text-sm text-muted-foreground">{completedSteps} completed</span>
+            <span className="text-sm text-muted-foreground">
+              {completedSteps} completed
+            </span>
           </div>
           <Progress value={(completedSteps / workflow.steps.length) * 100} className="h-2" />
         </div>
@@ -544,11 +558,14 @@ function WorkflowExecutionView({
             </CardTitle>
             <p className="text-muted-foreground">{currentStep.description}</p>
           </CardHeader>
-
+          
           <CardContent>
             <div className="flex items-center justify-between">
               <Badge variant="outline">{currentStep.estimatedTime}</Badge>
-              <Button onClick={handleStepAction} className="ff-btn-primary">
+              <Button
+                onClick={handleStepAction}
+                className="ff-btn-primary"
+              >
                 {currentStep.status === 'completed' ? 'Completed' : 'Start Step'}
               </Button>
             </div>
@@ -565,31 +582,30 @@ function WorkflowExecutionView({
                 step.status === 'completed'
                   ? 'bg-success/10 border-success/20'
                   : index === currentStepIndex
-                    ? 'bg-primary/10 border-primary/20'
-                    : 'bg-muted/30'
+                  ? 'bg-primary/10 border-primary/20'
+                  : 'bg-muted/30'
               }`}
             >
-              <div
-                className={`
+              <div className={`
                 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold
-                ${
-                  step.status === 'completed'
-                    ? 'bg-success text-success-foreground'
-                    : index === currentStepIndex
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted text-muted-foreground'
+                ${step.status === 'completed'
+                  ? 'bg-success text-success-foreground'
+                  : index === currentStepIndex
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted text-muted-foreground'
                 }
-              `}
-              >
+              `}>
                 {step.status === 'completed' ? <CheckCircle className="w-4 h-4" /> : index + 1}
               </div>
-
+              
               <div className="flex-1">
                 <div className="font-medium text-sm">{step.title}</div>
                 <div className="text-xs text-muted-foreground">{step.estimatedTime}</div>
               </div>
-
-              {step.status === 'completed' && <CheckCircle className="w-4 h-4 text-success" />}
+              
+              {step.status === 'completed' && (
+                <CheckCircle className="w-4 h-4 text-success" />
+              )}
             </div>
           ))}
         </div>

@@ -7,14 +7,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Separator } from '../ui/separator';
 import { motion, AnimatePresence } from 'motion/react';
-import {
-  Search,
-  Filter,
-  Clock,
-  Star,
-  Zap,
-  Code,
-  Palette,
+import { 
+  Search, 
+  Filter, 
+  Clock, 
+  Star, 
+  Zap, 
+  Code, 
+  Palette, 
   ShoppingCart,
   FileText,
   Smartphone,
@@ -35,7 +35,7 @@ import {
   MicOff,
   Loader2,
   ChevronDown,
-  SlidersHorizontal,
+  SlidersHorizontal
 } from 'lucide-react';
 
 interface SearchResult {
@@ -97,8 +97,7 @@ const mockSearchResults: SearchResult[] = [
     id: '1',
     type: 'tool',
     title: 'Full-Stack App Builder',
-    description:
-      'Generate complete web applications with AI-powered code generation across 15+ frameworks',
+    description: 'Generate complete web applications with AI-powered code generation across 15+ frameworks',
     category: 'Development',
     subcategory: 'Code Generation',
     tags: ['react', 'nextjs', 'vue', 'angular', 'fullstack', 'ai'],
@@ -108,16 +107,15 @@ const mockSearchResults: SearchResult[] = [
     estimatedTime: '30-60 min',
     url: '/tools/full-stack-builder',
     icon: Code,
-    preview:
-      'Create production-ready applications with database, authentication, and deployment...',
+    preview: 'Create production-ready applications with database, authentication, and deployment...',
     metadata: {
       lastUpdated: '2024-01-15',
       version: '2.1.0',
       downloads: 12543,
       views: 45231,
-      bookmarks: 1205,
+      bookmarks: 1205
     },
-    relevanceScore: 98,
+    relevanceScore: 98
   },
   {
     id: '2',
@@ -139,16 +137,15 @@ const mockSearchResults: SearchResult[] = [
       version: '1.5.0',
       downloads: 8921,
       views: 32145,
-      bookmarks: 892,
+      bookmarks: 892
     },
-    relevanceScore: 92,
+    relevanceScore: 92
   },
   {
     id: '3',
     type: 'feature',
     title: 'Repository Integration',
-    description:
-      'Connect GitHub, GitLab, and Bitbucket repositories for context-aware AI generation',
+    description: 'Connect GitHub, GitLab, and Bitbucket repositories for context-aware AI generation',
     category: 'Development',
     subcategory: 'Version Control',
     tags: ['github', 'gitlab', 'bitbucket', 'integration', 'context'],
@@ -162,16 +159,15 @@ const mockSearchResults: SearchResult[] = [
     metadata: {
       lastUpdated: '2024-01-12',
       views: 28943,
-      bookmarks: 675,
+      bookmarks: 675
     },
-    relevanceScore: 87,
+    relevanceScore: 87
   },
   {
     id: '4',
     type: 'tool',
     title: 'E-commerce Store Generator',
-    description:
-      'Create fully functional online stores with payment processing and inventory management',
+    description: 'Create fully functional online stores with payment processing and inventory management',
     category: 'E-commerce',
     subcategory: 'Store Building',
     tags: ['ecommerce', 'store', 'shopify', 'woocommerce', 'payment'],
@@ -187,10 +183,10 @@ const mockSearchResults: SearchResult[] = [
       version: '1.8.0',
       downloads: 7654,
       views: 24567,
-      bookmarks: 543,
+      bookmarks: 543
     },
-    relevanceScore: 85,
-  },
+    relevanceScore: 85
+  }
 ];
 
 const categories = [
@@ -201,7 +197,7 @@ const categories = [
   { value: 'mobile', label: 'Mobile', icon: Smartphone },
   { value: 'deployment', label: 'Deployment', icon: Rocket },
   { value: 'ai', label: 'AI & Automation', icon: Brain },
-  { value: 'analytics', label: 'Analytics', icon: BarChart3 },
+  { value: 'analytics', label: 'Analytics', icon: BarChart3 }
 ];
 
 const popularSearches = [
@@ -212,13 +208,18 @@ const popularSearches = [
   'deployment pipeline',
   'mobile app',
   'content generator',
-  'design system',
+  'design system'
 ];
 
-const recentSearches = ['full stack app', 'ai agents', 'repository connect', 'shopify integration'];
+const recentSearches = [
+  'full stack app',
+  'ai agents',
+  'repository connect',
+  'shopify integration'
+];
 
 export function AdvancedSearchSystem({
-  placeholder = 'Search tools, features, templates...',
+  placeholder = "Search tools, features, templates...",
   initialQuery = '',
   onResultSelect,
   showFilters = true,
@@ -227,7 +228,7 @@ export function AdvancedSearchSystem({
   enableVoiceSearch = true,
   enableAISearch = true,
   recentSearches: propRecentSearches = recentSearches,
-  popularSearches: propPopularSearches = popularSearches,
+  popularSearches: propPopularSearches = popularSearches
 }: AdvancedSearchSystemProps) {
   const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -236,7 +237,7 @@ export function AdvancedSearchSystem({
   const [isVoiceSearching, setIsVoiceSearching] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [aiSearchMode, setAiSearchMode] = useState(false);
-
+  
   const [filters, setFilters] = useState<SearchFilters>({
     type: [],
     category: [],
@@ -245,81 +246,66 @@ export function AdvancedSearchSystem({
     tags: [],
     dateRange: 'all',
     sortBy: 'relevance',
-    sortOrder: 'desc',
+    sortOrder: 'desc'
   });
 
   // Simulated search function
-  const performSearch = useCallback(
-    async (searchQuery: string, searchFilters: SearchFilters) => {
-      if (!searchQuery.trim()) {
-        setResults([]);
-        return;
+  const performSearch = useCallback(async (searchQuery: string, searchFilters: SearchFilters) => {
+    if (!searchQuery.trim()) {
+      setResults([]);
+      return;
+    }
+
+    setIsSearching(true);
+    
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 200));
+    
+    // Filter and sort mock results
+    let filteredResults = mockSearchResults.filter(result => {
+      const matchesQuery = 
+        result.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        result.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        result.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      
+      const matchesType = searchFilters.type.length === 0 || searchFilters.type.includes(result.type);
+      const matchesCategory = searchFilters.category.length === 0 || searchFilters.category.includes(result.category.toLowerCase());
+      const matchesDifficulty = searchFilters.difficulty.length === 0 || searchFilters.difficulty.includes(result.difficulty);
+      const matchesRating = result.rating >= searchFilters.rating[0] && result.rating <= searchFilters.rating[1];
+      
+      return matchesQuery && matchesType && matchesCategory && matchesDifficulty && matchesRating;
+    });
+
+    // Add highlighting
+    filteredResults = filteredResults.map(result => ({
+      ...result,
+      highlighted: {
+        title: highlightText(result.title, searchQuery),
+        description: highlightText(result.description, searchQuery)
       }
+    }));
 
-      setIsSearching(true);
+    // Sort results
+    filteredResults.sort((a, b) => {
+      switch (searchFilters.sortBy) {
+        case 'popularity':
+          return searchFilters.sortOrder === 'desc' ? b.popularity - a.popularity : a.popularity - b.popularity;
+        case 'rating':
+          return searchFilters.sortOrder === 'desc' ? b.rating - a.rating : a.rating - b.rating;
+        case 'recent':
+          return searchFilters.sortOrder === 'desc' ? 
+            new Date(b.metadata.lastUpdated).getTime() - new Date(a.metadata.lastUpdated).getTime() :
+            new Date(a.metadata.lastUpdated).getTime() - new Date(b.metadata.lastUpdated).getTime();
+        case 'alphabetical':
+          return searchFilters.sortOrder === 'desc' ? b.title.localeCompare(a.title) : a.title.localeCompare(b.title);
+        default: // relevance
+          return b.relevanceScore - a.relevanceScore;
+      }
+    });
 
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 300 + Math.random() * 200));
-
-      // Filter and sort mock results
-      let filteredResults = mockSearchResults.filter((result) => {
-        const matchesQuery =
-          result.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          result.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          result.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-
-        const matchesType =
-          searchFilters.type.length === 0 || searchFilters.type.includes(result.type);
-        const matchesCategory =
-          searchFilters.category.length === 0 ||
-          searchFilters.category.includes(result.category.toLowerCase());
-        const matchesDifficulty =
-          searchFilters.difficulty.length === 0 ||
-          searchFilters.difficulty.includes(result.difficulty);
-        const matchesRating =
-          result.rating >= searchFilters.rating[0] && result.rating <= searchFilters.rating[1];
-
-        return matchesQuery && matchesType && matchesCategory && matchesDifficulty && matchesRating;
-      });
-
-      // Add highlighting
-      filteredResults = filteredResults.map((result) => ({
-        ...result,
-        highlighted: {
-          title: highlightText(result.title, searchQuery),
-          description: highlightText(result.description, searchQuery),
-        },
-      }));
-
-      // Sort results
-      filteredResults.sort((a, b) => {
-        switch (searchFilters.sortBy) {
-          case 'popularity':
-            return searchFilters.sortOrder === 'desc'
-              ? b.popularity - a.popularity
-              : a.popularity - b.popularity;
-          case 'rating':
-            return searchFilters.sortOrder === 'desc' ? b.rating - a.rating : a.rating - b.rating;
-          case 'recent':
-            return searchFilters.sortOrder === 'desc'
-              ? new Date(b.metadata.lastUpdated).getTime() -
-                  new Date(a.metadata.lastUpdated).getTime()
-              : new Date(a.metadata.lastUpdated).getTime() -
-                  new Date(b.metadata.lastUpdated).getTime();
-          case 'alphabetical':
-            return searchFilters.sortOrder === 'desc'
-              ? b.title.localeCompare(a.title)
-              : a.title.localeCompare(b.title);
-          default: // relevance
-            return b.relevanceScore - a.relevanceScore;
-        }
-      });
-
-      setResults(filteredResults.slice(0, maxResults));
-      setIsSearching(false);
-    },
-    [maxResults]
-  );
+    setResults(filteredResults.slice(0, maxResults));
+    setIsSearching(false);
+  }, [maxResults]);
 
   const highlightText = (text: string, searchTerm: string): string => {
     if (!searchTerm) return text;
@@ -367,7 +353,7 @@ export function AdvancedSearchSystem({
   };
 
   const handleFilterChange = (key: keyof SearchFilters, value: any) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+    setFilters(prev => ({ ...prev, [key]: value }));
   };
 
   const clearFilters = () => {
@@ -379,21 +365,19 @@ export function AdvancedSearchSystem({
       tags: [],
       dateRange: 'all',
       sortBy: 'relevance',
-      sortOrder: 'desc',
+      sortOrder: 'desc'
     });
   };
 
   const hasActiveFilters = useMemo(() => {
-    return (
-      filters.type.length > 0 ||
-      filters.category.length > 0 ||
-      filters.difficulty.length > 0 ||
-      filters.rating[0] > 0 ||
-      filters.rating[1] < 5 ||
-      filters.tags.length > 0 ||
-      filters.dateRange !== 'all' ||
-      filters.sortBy !== 'relevance'
-    );
+    return filters.type.length > 0 || 
+           filters.category.length > 0 || 
+           filters.difficulty.length > 0 || 
+           filters.rating[0] > 0 || 
+           filters.rating[1] < 5 ||
+           filters.tags.length > 0 ||
+           filters.dateRange !== 'all' ||
+           filters.sortBy !== 'relevance';
   }, [filters]);
 
   return (
@@ -415,7 +399,7 @@ export function AdvancedSearchSystem({
                 {enableAISearch && (
                   <Button
                     size="sm"
-                    variant={aiSearchMode ? 'default' : 'ghost'}
+                    variant={aiSearchMode ? "default" : "ghost"}
                     onClick={() => setAiSearchMode(!aiSearchMode)}
                     className="h-8 px-3"
                   >
@@ -444,7 +428,7 @@ export function AdvancedSearchSystem({
             <div className="flex items-center gap-2 overflow-x-auto pb-2">
               <Button
                 size="sm"
-                variant={selectedCategory === 'all' ? 'default' : 'outline'}
+                variant={selectedCategory === 'all' ? "default" : "outline"}
                 onClick={() => setSelectedCategory('all')}
                 className="flex-shrink-0"
               >
@@ -456,7 +440,7 @@ export function AdvancedSearchSystem({
                   <Button
                     key={category.value}
                     size="sm"
-                    variant={selectedCategory === category.value ? 'default' : 'outline'}
+                    variant={selectedCategory === category.value ? "default" : "outline"}
                     onClick={() => setSelectedCategory(category.value)}
                     className="flex-shrink-0"
                   >
@@ -492,9 +476,7 @@ export function AdvancedSearchSystem({
                 >
                   <SlidersHorizontal className="w-4 h-4 mr-2" />
                   Advanced Filters
-                  <ChevronDown
-                    className={`w-4 h-4 ml-2 transition-transform ${showAdvancedFilters ? 'rotate-180' : ''}`}
-                  />
+                  <ChevronDown className={`w-4 h-4 ml-2 transition-transform ${showAdvancedFilters ? 'rotate-180' : ''}`} />
                   {hasActiveFilters && (
                     <Badge variant="secondary" className="ml-2 h-5 w-5 p-0 text-xs">
                       !
@@ -538,7 +520,7 @@ export function AdvancedSearchSystem({
                         </SelectContent>
                       </Select>
                     </div>
-
+                    
                     <div>
                       <label className="text-sm font-medium mb-2 block">Difficulty</label>
                       <Select>
@@ -552,13 +534,10 @@ export function AdvancedSearchSystem({
                         </SelectContent>
                       </Select>
                     </div>
-
+                    
                     <div>
                       <label className="text-sm font-medium mb-2 block">Sort By</label>
-                      <Select
-                        value={filters.sortBy}
-                        onValueChange={(value) => handleFilterChange('sortBy', value)}
-                      >
+                      <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange('sortBy', value)}>
                         <SelectTrigger className="ff-focus-ring">
                           <SelectValue />
                         </SelectTrigger>
@@ -571,13 +550,10 @@ export function AdvancedSearchSystem({
                         </SelectContent>
                       </Select>
                     </div>
-
+                    
                     <div>
                       <label className="text-sm font-medium mb-2 block">Updated</label>
-                      <Select
-                        value={filters.dateRange}
-                        onValueChange={(value) => handleFilterChange('dateRange', value)}
-                      >
+                      <Select value={filters.dateRange} onValueChange={(value) => handleFilterChange('dateRange', value)}>
                         <SelectTrigger className="ff-focus-ring">
                           <SelectValue />
                         </SelectTrigger>
@@ -610,7 +586,9 @@ export function AdvancedSearchSystem({
               {isSearching && <Loader2 className="w-4 h-4 animate-spin" />}
             </div>
             {results.length > 0 && (
-              <div className="text-sm text-muted-foreground">Sorted by {filters.sortBy}</div>
+              <div className="text-sm text-muted-foreground">
+                Sorted by {filters.sortBy}
+              </div>
             )}
           </div>
 
@@ -627,7 +605,7 @@ export function AdvancedSearchSystem({
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <Card
+                    <Card 
                       className="ff-card-interactive cursor-pointer hover:border-primary/30"
                       onClick={() => onResultSelect?.(result)}
                     >
@@ -636,23 +614,23 @@ export function AdvancedSearchSystem({
                           <div className="p-2 bg-primary/10 rounded-lg">
                             <Icon className="w-5 h-5 text-primary" />
                           </div>
-
+                          
                           <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between gap-4">
                               <div className="flex-1 min-w-0">
-                                <h4
+                                <h4 
                                   className="font-semibold hover:text-primary transition-colors"
-                                  dangerouslySetInnerHTML={{
-                                    __html: result.highlighted?.title || result.title,
+                                  dangerouslySetInnerHTML={{ 
+                                    __html: result.highlighted?.title || result.title 
                                   }}
                                 />
-                                <p
+                                <p 
                                   className="text-sm text-muted-foreground mt-1 line-clamp-2"
-                                  dangerouslySetInnerHTML={{
-                                    __html: result.highlighted?.description || result.description,
+                                  dangerouslySetInnerHTML={{ 
+                                    __html: result.highlighted?.description || result.description 
                                   }}
                                 />
-
+                                
                                 <div className="flex items-center gap-3 mt-3">
                                   <Badge variant="outline" className="text-xs">
                                     {result.type}
@@ -671,21 +649,19 @@ export function AdvancedSearchSystem({
                                       </span>
                                     </div>
                                   )}
-                                  <Badge
-                                    variant="outline"
+                                  <Badge 
+                                    variant="outline" 
                                     className={`text-xs ${
-                                      result.difficulty === 'beginner'
-                                        ? 'text-green-600'
-                                        : result.difficulty === 'intermediate'
-                                          ? 'text-yellow-600'
-                                          : 'text-red-600'
+                                      result.difficulty === 'beginner' ? 'text-green-600' :
+                                      result.difficulty === 'intermediate' ? 'text-yellow-600' :
+                                      'text-red-600'
                                     }`}
                                   >
                                     {result.difficulty}
                                   </Badge>
                                 </div>
                               </div>
-
+                              
                               <div className="text-right space-y-1">
                                 <div className="text-xs text-muted-foreground">
                                   {result.metadata.views?.toLocaleString()} views
@@ -698,7 +674,7 @@ export function AdvancedSearchSystem({
                               </div>
                             </div>
                           </div>
-
+                          
                           <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                         </div>
                       </CardContent>

@@ -12,8 +12,7 @@ const meta: Meta<typeof Card> = {
     layout: 'centered',
     docs: {
       description: {
-        component:
-          'Flexible card component for displaying content in FlashFusion. Features interactive hover effects and multiple composition patterns.',
+        component: 'Flexible card component for displaying content in FlashFusion. Features interactive hover effects and multiple composition patterns.',
       },
     },
   },
@@ -75,8 +74,7 @@ export const ProjectCard: Story = {
       <CardContent>
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            A modern e-commerce platform with AI-powered recommendations and real-time inventory
-            management.
+            A modern e-commerce platform with AI-powered recommendations and real-time inventory management.
           </p>
           <div>
             <div className="flex justify-between items-center mb-2">
@@ -94,9 +92,7 @@ export const ProjectCard: Story = {
         </div>
       </CardContent>
       <CardFooter className="gap-2">
-        <Button variant="outline" size="sm">
-          Edit
-        </Button>
+        <Button variant="outline" size="sm">Edit</Button>
         <Button className="ff-btn-primary" size="sm">
           <Rocket className="w-4 h-4 mr-2" />
           Deploy
@@ -145,9 +141,7 @@ export const GlowEffect: Story = {
         <CardDescription>Unlock advanced capabilities</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>
-          This card has a special glow effect on hover, perfect for highlighting premium features.
-        </p>
+        <p>This card has a special glow effect on hover, perfect for highlighting premium features.</p>
       </CardContent>
       <CardFooter>
         <Button className="ff-btn-accent w-full">Upgrade Now</Button>
@@ -176,9 +170,7 @@ export const CardGrid: Story = {
             <Progress value={Math.random() * 100} className="h-2" />
           </CardContent>
           <CardFooter>
-            <Button variant="outline" size="sm">
-              View
-            </Button>
+            <Button variant="outline" size="sm">View</Button>
           </CardFooter>
         </Card>
       ))}

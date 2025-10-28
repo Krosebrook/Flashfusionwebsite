@@ -65,7 +65,7 @@ export class CriticalErrorBoundary extends React.Component<ErrorBoundaryProps, E
             <p className="text-sm text-muted-foreground">
               {this.state.error?.message || 'An unexpected error occurred'}
             </p>
-
+            
             {import.meta.env.DEV && this.state.error && (
               <details className="text-xs">
                 <summary className="cursor-pointer font-medium">Error Details</summary>
@@ -74,7 +74,7 @@ export class CriticalErrorBoundary extends React.Component<ErrorBoundaryProps, E
                 </pre>
               </details>
             )}
-
+            
             <Button onClick={this.handleRetry} size="sm" className="flex items-center gap-2">
               <RefreshCw className="h-4 w-4" />
               Try Again

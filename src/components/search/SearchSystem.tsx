@@ -6,22 +6,22 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../ui/dialog';
 import { Separator } from '../ui/separator';
-import {
-  Search,
-  Filter,
-  X,
-  Star,
-  Clock,
-  Tag,
-  Folder,
-  Code,
+import { 
+  Search, 
+  Filter, 
+  X, 
+  Star, 
+  Clock, 
+  Tag, 
+  Folder, 
+  Code, 
   Zap,
   Rocket,
   Users,
   ArrowRight,
   TrendingUp,
   Calendar,
-  Hash,
+  Hash
 } from 'lucide-react';
 import { useDebounce } from '../ui/use-mobile';
 
@@ -79,13 +79,13 @@ function useDebounce<T>(value: T, delay: number): T {
   return debouncedValue;
 }
 
-export function SearchSystem({
-  items,
-  onItemSelect,
-  placeholder = 'Search tools, projects, templates...',
+export function SearchSystem({ 
+  items, 
+  onItemSelect, 
+  placeholder = "Search tools, projects, templates...",
   showFilters = true,
   categories = [],
-  popularTags = [],
+  popularTags = []
 }: SearchSystemProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
@@ -106,8 +106,8 @@ export function SearchSystem({
   // Save search to recent searches
   const saveRecentSearch = (query: string) => {
     if (!query.trim()) return;
-
-    const updated = [query, ...recentSearches.filter((q) => q !== query)].slice(0, 5);
+    
+    const updated = [query, ...recentSearches.filter(q => q !== query)].slice(0, 5);
     setRecentSearches(updated);
     localStorage.setItem('ff_recent_searches', JSON.stringify(updated));
   };
@@ -119,39 +119,42 @@ export function SearchSystem({
     // Apply text search
     if (debouncedQuery.trim()) {
       const query = debouncedQuery.toLowerCase();
-      filtered = filtered.filter(
-        (item) =>
-          item.title.toLowerCase().includes(query) ||
-          item.description.toLowerCase().includes(query) ||
-          item.tags.some((tag) => tag.toLowerCase().includes(query)) ||
-          item.category?.toLowerCase().includes(query) ||
-          item.author?.toLowerCase().includes(query)
+      filtered = filtered.filter(item =>
+        item.title.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query) ||
+        item.tags.some(tag => tag.toLowerCase().includes(query)) ||
+        item.category?.toLowerCase().includes(query) ||
+        item.author?.toLowerCase().includes(query)
       );
     }
 
     // Apply filters
     if (filters.type?.length) {
-      filtered = filtered.filter((item) => filters.type!.includes(item.type));
+      filtered = filtered.filter(item => filters.type!.includes(item.type));
     }
 
     if (filters.category?.length) {
-      filtered = filtered.filter(
-        (item) => item.category && filters.category!.includes(item.category)
+      filtered = filtered.filter(item => 
+        item.category && filters.category!.includes(item.category)
       );
     }
 
     if (filters.tags?.length) {
-      filtered = filtered.filter((item) => filters.tags!.some((tag) => item.tags.includes(tag)));
+      filtered = filtered.filter(item =>
+        filters.tags!.some(tag => item.tags.includes(tag))
+      );
     }
 
     if (filters.difficulty?.length) {
-      filtered = filtered.filter(
-        (item) => item.difficulty && filters.difficulty!.includes(item.difficulty)
+      filtered = filtered.filter(item =>
+        item.difficulty && filters.difficulty!.includes(item.difficulty)
       );
     }
 
     if (filters.rating) {
-      filtered = filtered.filter((item) => item.rating && item.rating >= filters.rating!);
+      filtered = filtered.filter(item =>
+        item.rating && item.rating >= filters.rating!
+      );
     }
 
     // Sort by relevance and popularity
@@ -175,8 +178,8 @@ export function SearchSystem({
     const query = searchQuery.toLowerCase();
 
     // Add matching tags
-    items.forEach((item) => {
-      item.tags.forEach((tag) => {
+    items.forEach(item => {
+      item.tags.forEach(tag => {
         if (tag.toLowerCase().includes(query) && !tag.toLowerCase().startsWith(query)) {
           suggestions.add(tag);
         }
@@ -184,7 +187,7 @@ export function SearchSystem({
     });
 
     // Add matching categories
-    categories.forEach((category) => {
+    categories.forEach(category => {
       if (category.toLowerCase().includes(query)) {
         suggestions.add(category);
       }
@@ -216,7 +219,7 @@ export function SearchSystem({
     tool: Zap,
     project: Folder,
     template: Code,
-    tutorial: Users,
+    tutorial: Users
   };
 
   return (
@@ -284,9 +287,7 @@ export function SearchSystem({
                   <div>
                     <div className="flex items-center gap-2 mb-2">
                       <Clock className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm font-medium text-muted-foreground">
-                        Recent Searches
-                      </span>
+                      <span className="text-sm font-medium text-muted-foreground">Recent Searches</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {recentSearches.map((recent, index) => (
@@ -333,9 +334,7 @@ export function SearchSystem({
                   <div>
                     <div className="flex items-center gap-2 mb-2">
                       <TrendingUp className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm font-medium text-muted-foreground">
-                        Popular Tags
-                      </span>
+                      <span className="text-sm font-medium text-muted-foreground">Popular Tags</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {popularTags.map((tag, index) => (
@@ -368,12 +367,18 @@ export function SearchSystem({
               <h3 className="text-lg font-semibold">
                 {filteredItems.length} result{filteredItems.length !== 1 ? 's' : ''}
                 {debouncedQuery && (
-                  <span className="ml-2 text-muted-foreground">for "{debouncedQuery}"</span>
+                  <span className="ml-2 text-muted-foreground">
+                    for "{debouncedQuery}"
+                  </span>
                 )}
               </h3>
             </div>
             {activeFilterCount > 0 && (
-              <Button variant="outline" size="sm" onClick={clearFilters}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={clearFilters}
+              >
                 Clear filters
               </Button>
             )}
@@ -382,31 +387,27 @@ export function SearchSystem({
           {/* Active Filters */}
           {activeFilterCount > 0 && (
             <div className="flex flex-wrap gap-2">
-              {filters.type?.map((type) => (
+              {filters.type?.map(type => (
                 <Badge key={type} variant="secondary" className="flex items-center gap-1">
                   {type}
-                  <X
-                    className="w-3 h-3 cursor-pointer"
-                    onClick={() =>
-                      setFilters((prev) => ({
-                        ...prev,
-                        type: prev.type?.filter((t) => t !== type),
-                      }))
-                    }
+                  <X 
+                    className="w-3 h-3 cursor-pointer" 
+                    onClick={() => setFilters(prev => ({
+                      ...prev,
+                      type: prev.type?.filter(t => t !== type)
+                    }))}
                   />
                 </Badge>
               ))}
-              {filters.category?.map((category) => (
+              {filters.category?.map(category => (
                 <Badge key={category} variant="secondary" className="flex items-center gap-1">
                   {category}
-                  <X
+                  <X 
                     className="w-3 h-3 cursor-pointer"
-                    onClick={() =>
-                      setFilters((prev) => ({
-                        ...prev,
-                        category: prev.category?.filter((c) => c !== category),
-                      }))
-                    }
+                    onClick={() => setFilters(prev => ({
+                      ...prev,
+                      category: prev.category?.filter(c => c !== category)
+                    }))}
                   />
                 </Badge>
               ))}
@@ -435,7 +436,7 @@ export function SearchSystem({
             ) : (
               filteredItems.map((item) => {
                 const Icon = typeIcons[item.type] || Code;
-
+                
                 return (
                   <motion.div
                     key={item.id}
@@ -443,7 +444,7 @@ export function SearchSystem({
                     animate={{ opacity: 1, y: 0 }}
                     whileHover={{ scale: 1.02 }}
                   >
-                    <Card
+                    <Card 
                       className="ff-card-interactive cursor-pointer"
                       onClick={() => onItemSelect(item)}
                     >
@@ -452,7 +453,7 @@ export function SearchSystem({
                           <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                             <Icon className="w-5 h-5 text-primary" />
                           </div>
-
+                          
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
                               <h4 className="font-semibold truncate">{item.title}</h4>
@@ -466,11 +467,11 @@ export function SearchSystem({
                                 </div>
                               )}
                             </div>
-
+                            
                             <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
                               {item.description}
                             </p>
-
+                            
                             <div className="flex items-center gap-2 flex-wrap">
                               {item.category && (
                                 <Badge variant="secondary" className="text-xs">
@@ -478,20 +479,18 @@ export function SearchSystem({
                                 </Badge>
                               )}
                               {item.difficulty && (
-                                <Badge
-                                  variant="outline"
+                                <Badge 
+                                  variant="outline" 
                                   className={`text-xs ${
-                                    item.difficulty === 'beginner'
-                                      ? 'border-green-500 text-green-500'
-                                      : item.difficulty === 'intermediate'
-                                        ? 'border-yellow-500 text-yellow-500'
-                                        : 'border-red-500 text-red-500'
+                                    item.difficulty === 'beginner' ? 'border-green-500 text-green-500' :
+                                    item.difficulty === 'intermediate' ? 'border-yellow-500 text-yellow-500' :
+                                    'border-red-500 text-red-500'
                                   }`}
                                 >
                                   {item.difficulty}
                                 </Badge>
                               )}
-                              {item.tags.slice(0, 3).map((tag) => (
+                              {item.tags.slice(0, 3).map(tag => (
                                 <Badge key={tag} variant="outline" className="text-xs">
                                   {tag}
                                 </Badge>
@@ -503,7 +502,7 @@ export function SearchSystem({
                               )}
                             </div>
                           </div>
-
+                          
                           <ArrowRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                         </div>
                       </CardContent>
@@ -525,28 +524,26 @@ export function SearchSystem({
               Customize your search with advanced filters to find exactly what you're looking for.
             </DialogDescription>
           </DialogHeader>
-
+          
           <div className="space-y-6 py-4">
             {/* Content Type */}
             <div>
               <h4 className="font-medium mb-2">Content Type</h4>
               <div className="flex flex-wrap gap-2">
-                {['tool', 'project', 'template', 'tutorial'].map((type) => (
+                {['tool', 'project', 'template', 'tutorial'].map(type => (
                   <Button
                     key={type}
                     variant={filters.type?.includes(type) ? 'default' : 'outline'}
                     size="sm"
-                    onClick={() =>
-                      setFilters((prev) => {
-                        const currentTypes = prev.type || [];
-                        return {
-                          ...prev,
-                          type: currentTypes.includes(type)
-                            ? currentTypes.filter((t) => t !== type)
-                            : [...currentTypes, type],
-                        };
-                      })
-                    }
+                    onClick={() => setFilters(prev => {
+                      const currentTypes = prev.type || [];
+                      return {
+                        ...prev,
+                        type: currentTypes.includes(type)
+                          ? currentTypes.filter(t => t !== type)
+                          : [...currentTypes, type]
+                      };
+                    })}
                     className="capitalize"
                   >
                     {type}
@@ -560,22 +557,20 @@ export function SearchSystem({
               <div>
                 <h4 className="font-medium mb-2">Categories</h4>
                 <div className="flex flex-wrap gap-2">
-                  {categories.map((category) => (
+                  {categories.map(category => (
                     <Button
                       key={category}
                       variant={filters.category?.includes(category) ? 'default' : 'outline'}
                       size="sm"
-                      onClick={() =>
-                        setFilters((prev) => {
-                          const currentCategories = prev.category || [];
-                          return {
-                            ...prev,
-                            category: currentCategories.includes(category)
-                              ? currentCategories.filter((c) => c !== category)
-                              : [...currentCategories, category],
-                          };
-                        })
-                      }
+                      onClick={() => setFilters(prev => {
+                        const currentCategories = prev.category || [];
+                        return {
+                          ...prev,
+                          category: currentCategories.includes(category)
+                            ? currentCategories.filter(c => c !== category)
+                            : [...currentCategories, category]
+                        };
+                      })}
                     >
                       {category}
                     </Button>
@@ -588,22 +583,20 @@ export function SearchSystem({
             <div>
               <h4 className="font-medium mb-2">Difficulty Level</h4>
               <div className="flex gap-2">
-                {['beginner', 'intermediate', 'advanced'].map((difficulty) => (
+                {['beginner', 'intermediate', 'advanced'].map(difficulty => (
                   <Button
                     key={difficulty}
                     variant={filters.difficulty?.includes(difficulty) ? 'default' : 'outline'}
                     size="sm"
-                    onClick={() =>
-                      setFilters((prev) => {
-                        const currentDifficulty = prev.difficulty || [];
-                        return {
-                          ...prev,
-                          difficulty: currentDifficulty.includes(difficulty)
-                            ? currentDifficulty.filter((d) => d !== difficulty)
-                            : [...currentDifficulty, difficulty],
-                        };
-                      })
-                    }
+                    onClick={() => setFilters(prev => {
+                      const currentDifficulty = prev.difficulty || [];
+                      return {
+                        ...prev,
+                        difficulty: currentDifficulty.includes(difficulty)
+                          ? currentDifficulty.filter(d => d !== difficulty)
+                          : [...currentDifficulty, difficulty]
+                      };
+                    })}
                     className="capitalize"
                   >
                     {difficulty}
@@ -616,10 +609,16 @@ export function SearchSystem({
 
             {/* Actions */}
             <div className="flex justify-between">
-              <Button variant="outline" onClick={clearFilters}>
+              <Button
+                variant="outline"
+                onClick={clearFilters}
+              >
                 Clear All Filters
               </Button>
-              <Button onClick={() => setShowAdvancedSearch(false)} className="ff-btn-primary">
+              <Button
+                onClick={() => setShowAdvancedSearch(false)}
+                className="ff-btn-primary"
+              >
                 Apply Filters
               </Button>
             </div>
@@ -629,7 +628,10 @@ export function SearchSystem({
 
       {/* Click outside to close search results */}
       {isSearchFocused && (
-        <div className="fixed inset-0 z-40" onClick={() => setIsSearchFocused(false)} />
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setIsSearchFocused(false)}
+        />
       )}
     </div>
   );

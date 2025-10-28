@@ -4,13 +4,13 @@
  * @category generation
  * @version 2.0.0
  * @author FlashFusion Team
- *
+ * 
  * FLASHFUSION - IMAGE GENERATION SUITE
- *
+ * 
  * State-of-the-art image generation tool featuring multi-model AI support,
  * advanced customization options, batch processing, and professional
  * export capabilities.
- *
+ * 
  * Features:
  * - Multi-model AI support (DALL-E, Midjourney, Stable Diffusion)
  * - Advanced style presets and customization
@@ -19,10 +19,10 @@
  * - Image enhancement and upscaling
  * - History and favorites system
  * - Real-time generation preview
- *
+ * 
  * @example
  * ```tsx
- * <ImageGeneratorTool
+ * <ImageGeneratorTool 
  *   onGenerate={(images) => handleGenerated(images)}
  *   defaultSettings={userPreferences}
  * />
@@ -43,14 +43,14 @@ import { Label } from '../../ui/label';
 import { Separator } from '../../ui/separator';
 import { Progress } from '../../ui/progress';
 import { ScrollArea } from '../../ui/scroll-area';
-import { toast } from 'sonner';
-import {
-  Image,
-  Download,
-  Settings,
-  Wand2,
-  Palette,
-  Layers,
+import { toast } from 'sonner@2.0.3';
+import { 
+  Image, 
+  Download, 
+  Settings, 
+  Wand2, 
+  Palette, 
+  Layers, 
   Zap,
   Heart,
   History,
@@ -73,18 +73,18 @@ import {
   Play,
   Pause,
   Square,
-  RotateCcw,
+  RotateCcw
 } from 'lucide-react';
-import {
-  AI_MODELS,
-  STYLE_PRESETS,
-  ASPECT_RATIOS,
+import { 
+  AI_MODELS, 
+  STYLE_PRESETS, 
+  ASPECT_RATIOS, 
   QUALITY_SETTINGS,
   EXPORT_FORMATS,
   type ImageGenerationRequest,
   type GeneratedImage,
   type StylePreset,
-  type AIModel,
+  type AIModel
 } from '../../../types/image-generation';
 import { useImageGeneration } from '../../../hooks/useImageGeneration';
 import { ImagePreviewGrid } from './components/ImagePreviewGrid';
@@ -123,14 +123,14 @@ interface GenerationState {
 
 /**
  * Advanced AI Image Generation Tool Component
- *
+ * 
  * Professional image generation suite with multi-model support,
  * advanced customization, and batch processing capabilities.
- *
+ * 
  * @component
  * @example
  * ```tsx
- * <ImageGeneratorTool
+ * <ImageGeneratorTool 
  *   onGenerate={(images) => console.log('Generated:', images)}
  *   maxBatchSize={10}
  *   enableAdvanced={true}
@@ -142,73 +142,64 @@ export function ImageGeneratorTool({
   defaultSettings,
   maxBatchSize = 4,
   availableModels = AI_MODELS,
-  enableAdvanced = true,
+  enableAdvanced = true
 }: ImageGeneratorToolProps): JSX.Element {
   // Generation state management
   const [prompt, setPrompt] = useState<string>(defaultSettings?.prompt || '');
-  const [negativePrompt, setNegativePrompt] = useState<string>(
-    defaultSettings?.negativePrompt || ''
-  );
+  const [negativePrompt, setNegativePrompt] = useState<string>(defaultSettings?.negativePrompt || '');
   const [selectedModel, setSelectedModel] = useState<string>(defaultSettings?.model || 'dall-e-3');
-  const [selectedStyle, setSelectedStyle] = useState<string>(
-    defaultSettings?.style || 'photorealistic'
-  );
+  const [selectedStyle, setSelectedStyle] = useState<string>(defaultSettings?.style || 'photorealistic');
   const [aspectRatio, setAspectRatio] = useState<string>(defaultSettings?.aspectRatio || '1:1');
   const [quality, setQuality] = useState<number>(defaultSettings?.quality || 80);
   const [batchCount, setBatchCount] = useState<number>(defaultSettings?.batchCount || 1);
   const [seed, setSeed] = useState<number | undefined>(defaultSettings?.seed);
   const [steps, setSteps] = useState<number>(defaultSettings?.steps || 20);
   const [guidanceScale, setGuidanceScale] = useState<number>(defaultSettings?.guidanceScale || 7.5);
-
+  
   // UI state
   const [activeTab, setActiveTab] = useState<string>('generate');
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set());
-
+  
   // Generation state
   const [generationState, setGenerationState] = useState<GenerationState>({
     isGenerating: false,
     progress: 0,
     currentModel: '',
     queueSize: 0,
-    estimatedTime: 0,
+    estimatedTime: 0
   });
 
   // Custom hook for image generation
-  const { generateImages, generatedImages, generationHistory, isLoading, error, clearHistory } =
-    useImageGeneration();
+  const {
+    generateImages,
+    generatedImages,
+    generationHistory,
+    isLoading,
+    error,
+    clearHistory
+  } = useImageGeneration();
 
   /**
    * Memoized generation request object
    */
-  const generationRequest = useMemo(
-    (): ImageGenerationRequest => ({
-      prompt,
-      negativePrompt,
-      model: selectedModel,
-      style: selectedStyle,
-      aspectRatio,
-      quality,
-      batchCount,
-      seed,
-      steps,
-      guidanceScale,
-      timestamp: Date.now(),
-    }),
-    [
-      prompt,
-      negativePrompt,
-      selectedModel,
-      selectedStyle,
-      aspectRatio,
-      quality,
-      batchCount,
-      seed,
-      steps,
-      guidanceScale,
-    ]
-  );
+  const generationRequest = useMemo((): ImageGenerationRequest => ({
+    prompt,
+    negativePrompt,
+    model: selectedModel,
+    style: selectedStyle,
+    aspectRatio,
+    quality,
+    batchCount,
+    seed,
+    steps,
+    guidanceScale,
+    timestamp: Date.now()
+  }), [
+    prompt, negativePrompt, selectedModel, selectedStyle, 
+    aspectRatio, quality, batchCount, seed, steps, guidanceScale
+  ]);
 
   /**
    * Handle image generation with validation and progress tracking
@@ -225,30 +216,30 @@ export function ImageGeneratorTool({
     }
 
     try {
-      setGenerationState((prev) => ({
+      setGenerationState(prev => ({
         ...prev,
         isGenerating: true,
         progress: 0,
         currentModel: selectedModel,
-        queueSize: batchCount,
+        queueSize: batchCount
       }));
 
       // Progress simulation for better UX
       const progressInterval = setInterval(() => {
-        setGenerationState((prev) => ({
+        setGenerationState(prev => ({
           ...prev,
-          progress: Math.min(prev.progress + Math.random() * 15, 95),
+          progress: Math.min(prev.progress + Math.random() * 15, 95)
         }));
       }, 500);
 
       const images = await generateImages(generationRequest);
-
+      
       clearInterval(progressInterval);
-
-      setGenerationState((prev) => ({
+      
+      setGenerationState(prev => ({
         ...prev,
         isGenerating: false,
-        progress: 100,
+        progress: 100
       }));
 
       // Call parent callback if provided
@@ -256,21 +247,20 @@ export function ImageGeneratorTool({
         onGenerate(images);
       }
 
-      toast.success(
-        `Successfully generated ${images.length} image${images.length > 1 ? 's' : ''}!`
-      );
-
+      toast.success(`Successfully generated ${images.length} image${images.length > 1 ? 's' : ''}!`);
+      
       // Auto-switch to results tab
       setActiveTab('results');
+      
     } catch (error) {
       console.error('Image generation failed:', error);
-
-      setGenerationState((prev) => ({
+      
+      setGenerationState(prev => ({
         ...prev,
         isGenerating: false,
-        progress: 0,
+        progress: 0
       }));
-
+      
       toast.error(error instanceof Error ? error.message : 'Failed to generate images');
     }
   }, [generationRequest, generateImages, onGenerate, selectedModel, batchCount]);
@@ -287,12 +277,13 @@ export function ImageGeneratorTool({
     try {
       // Simulate prompt enhancement
       toast.info('Enhancing prompt with AI...');
-
+      
       // This would call an AI service to enhance the prompt
       const enhancedPrompt = `${prompt}, highly detailed, professional photography, studio lighting, vibrant colors, sharp focus, masterpiece`;
-
+      
       setPrompt(enhancedPrompt);
       toast.success('Prompt enhanced successfully!');
+      
     } catch (error) {
       console.error('Prompt enhancement failed:', error);
       toast.error('Failed to enhance prompt');
@@ -302,29 +293,26 @@ export function ImageGeneratorTool({
   /**
    * Handle style preset selection
    */
-  const handleStyleSelect = useCallback(
-    (styleId: string): void => {
-      const style = STYLE_PRESETS.find((s) => s.id === styleId);
-      if (style) {
-        setSelectedStyle(styleId);
-
-        // Apply style-specific optimizations
-        if (style.recommendedSettings) {
-          setSteps(style.recommendedSettings.steps || steps);
-          setGuidanceScale(style.recommendedSettings.guidanceScale || guidanceScale);
-        }
-
-        toast.success(`Applied ${style.name} style`);
+  const handleStyleSelect = useCallback((styleId: string): void => {
+    const style = STYLE_PRESETS.find(s => s.id === styleId);
+    if (style) {
+      setSelectedStyle(styleId);
+      
+      // Apply style-specific optimizations
+      if (style.recommendedSettings) {
+        setSteps(style.recommendedSettings.steps || steps);
+        setGuidanceScale(style.recommendedSettings.guidanceScale || guidanceScale);
       }
-    },
-    [steps, guidanceScale]
-  );
+      
+      toast.success(`Applied ${style.name} style`);
+    }
+  }, [steps, guidanceScale]);
 
   /**
    * Handle image favoriting
    */
   const handleToggleFavorite = useCallback((imageId: string): void => {
-    setFavorites((prev) => {
+    setFavorites(prev => {
       const newFavorites = new Set(prev);
       if (newFavorites.has(imageId)) {
         newFavorites.delete(imageId);
@@ -341,7 +329,7 @@ export function ImageGeneratorTool({
    * Handle batch image selection
    */
   const handleImageSelect = useCallback((imageId: string): void => {
-    setSelectedImages((prev) => {
+    setSelectedImages(prev => {
       const newSelection = new Set(prev);
       if (newSelection.has(imageId)) {
         newSelection.delete(imageId);
@@ -396,7 +384,7 @@ export function ImageGeneratorTool({
             </p>
           </div>
         </div>
-
+        
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="text-xs">
             {availableModels.length} Models Available
@@ -523,14 +511,10 @@ export function ImageGeneratorTool({
                         {availableModels.map((model) => (
                           <SelectItem key={model.id} value={model.id}>
                             <div className="flex items-center gap-2">
-                              <div
-                                className={`w-2 h-2 rounded-full bg-${model.status === 'active' ? 'green' : 'yellow'}-500`}
-                              />
+                              <div className={`w-2 h-2 rounded-full bg-${model.status === 'active' ? 'green' : 'yellow'}-500`} />
                               <span>{model.name}</span>
                               {model.isPremium && (
-                                <Badge variant="secondary" className="text-xs">
-                                  Pro
-                                </Badge>
+                                <Badge variant="secondary" className="text-xs">Pro</Badge>
                               )}
                             </div>
                           </SelectItem>
@@ -550,7 +534,7 @@ export function ImageGeneratorTool({
                         {ASPECT_RATIOS.map((ratio) => (
                           <SelectItem key={ratio.value} value={ratio.value}>
                             <div className="flex items-center gap-2">
-                              <div
+                              <div 
                                 className="w-4 h-3 border border-[var(--ff-text-muted)] rounded-sm"
                                 style={{ aspectRatio: ratio.value.replace(':', '/') }}
                               />
@@ -691,7 +675,7 @@ export function ImageGeneratorTool({
               setSeed(request.seed);
               setSteps(request.steps || 20);
               setGuidanceScale(request.guidanceScale || 7.5);
-
+              
               setActiveTab('generate');
               toast.success('Settings applied from history');
             }}
@@ -704,9 +688,7 @@ export function ImageGeneratorTool({
             selectedImages={Array.from(selectedImages)}
             generatedImages={generatedImages}
             onEnhance={(enhancedImages) => {
-              toast.success(
-                `Enhanced ${enhancedImages.length} image${enhancedImages.length > 1 ? 's' : ''}!`
-              );
+              toast.success(`Enhanced ${enhancedImages.length} image${enhancedImages.length > 1 ? 's' : ''}!`);
             }}
           />
         </TabsContent>
@@ -726,8 +708,7 @@ export function ImageGeneratorTool({
                     Generation in Progress
                   </p>
                   <p className="text-sm text-[var(--ff-text-secondary)]">
-                    {generationState.queueSize} image{generationState.queueSize > 1 ? 's' : ''}{' '}
-                    remaining
+                    {generationState.queueSize} image{generationState.queueSize > 1 ? 's' : ''} remaining
                   </p>
                 </div>
               </div>

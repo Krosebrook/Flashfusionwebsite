@@ -4,7 +4,7 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
+import { 
   Monitor,
   RefreshCw,
   Shield,
@@ -17,32 +17,26 @@ import {
   XCircle,
   AlertTriangle,
   CheckCircle,
-  AlertCircle,
+  AlertCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 // Local imports
-import type {
-  SystemMetric,
-  ErrorLog,
-  PerformanceMetric,
-  Incident,
-  HealthScore,
-} from './system-health/types';
-import {
+import type { SystemMetric, ErrorLog, PerformanceMetric, Incident, HealthScore } from './system-health/types';
+import { 
   INITIAL_HEALTH_SCORE,
   INITIAL_SYSTEM_METRICS,
   INITIAL_ERROR_LOGS,
   INITIAL_PERFORMANCE_METRICS,
-  INITIAL_INCIDENTS,
+  INITIAL_INCIDENTS
 } from './system-health/constants';
 import { getScoreColor } from './system-health/utils';
-import {
+import { 
   MetricCard,
   ErrorLogCard,
   PerformanceCard,
   IncidentCard,
-  TrendsPlaceholder,
+  TrendsPlaceholder
 } from './system-health/components';
 
 export function SystemHealthMonitor() {
@@ -69,39 +63,36 @@ export function SystemHealthMonitor() {
 
     // Simulate health check process
     for (let i = 0; i <= 100; i += 5) {
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 100));
       setHealthProgress(i);
     }
 
     // Update some results after check
-    setSystemMetrics((prev) =>
-      prev.map((metric) => ({
-        ...metric,
-        lastUpdate: 'just now',
-        value:
-          metric.name === 'CPU Usage'
-            ? Math.max(10, Math.min(90, metric.value + Math.floor(Math.random() * 20) - 10))
-            : metric.value,
-      }))
-    );
+    setSystemMetrics(prev => prev.map(metric => ({
+      ...metric,
+      lastUpdate: 'just now',
+      value: metric.name === 'CPU Usage' ? 
+        Math.max(10, Math.min(90, metric.value + Math.floor(Math.random() * 20) - 10)) :
+        metric.value
+    })));
 
-    setHealthScore((prev) => ({
+    setHealthScore(prev => ({
       ...prev,
-      overall: Math.min(100, prev.overall + Math.floor(Math.random() * 4) - 1),
+      overall: Math.min(100, prev.overall + Math.floor(Math.random() * 4) - 1)
     }));
 
     setIsRunningHealthCheck(false);
   };
 
-  const criticalMetrics = systemMetrics.filter((metric) => metric.status === 'critical').length;
-  const warningMetrics = systemMetrics.filter((metric) => metric.status === 'warning').length;
-  const activeIncidents = incidents.filter((incident) => incident.status !== 'resolved').length;
-  const unresolvedErrors = errorLogs.filter((log) => !log.resolved && log.level === 'error').length;
+  const criticalMetrics = systemMetrics.filter(metric => metric.status === 'critical').length;
+  const warningMetrics = systemMetrics.filter(metric => metric.status === 'warning').length;
+  const activeIncidents = incidents.filter(incident => incident.status !== 'resolved').length;
+  const unresolvedErrors = errorLogs.filter(log => !log.resolved && log.level === 'error').length;
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Header */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -111,13 +102,12 @@ export function SystemHealthMonitor() {
           <h1 className="ff-text-gradient">System Health Monitor</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Comprehensive observability with real-time monitoring, error tracking, performance
-          analytics, and automated incident management.
+          Comprehensive observability with real-time monitoring, error tracking, performance analytics, and automated incident management.
         </p>
       </motion.div>
 
       {/* Health Score Overview */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
@@ -132,11 +122,10 @@ export function SystemHealthMonitor() {
                     {healthScore.overall}
                   </span>
                 </div>
-                <div
-                  className="absolute inset-0 rounded-full border-4 border-primary"
-                  style={{
-                    background: `conic-gradient(from 0deg, var(--ff-primary) 0deg, var(--ff-primary) ${healthScore.overall * 3.6}deg, transparent ${healthScore.overall * 3.6}deg)`,
-                  }}
+                <div className="absolute inset-0 rounded-full border-4 border-primary" 
+                     style={{ 
+                       background: `conic-gradient(from 0deg, var(--ff-primary) 0deg, var(--ff-primary) ${healthScore.overall * 3.6}deg, transparent ${healthScore.overall * 3.6}deg)`
+                     }}
                 />
               </div>
               <div>
@@ -162,7 +151,7 @@ export function SystemHealthMonitor() {
               <XCircle className="w-8 h-8 text-red-500" />
             </div>
             <div className="mt-2">
-              <Badge variant={criticalMetrics === 0 ? 'outline' : 'destructive'}>
+              <Badge variant={criticalMetrics === 0 ? "outline" : "destructive"}>
                 {criticalMetrics === 0 ? 'None' : 'Action Required'}
               </Badge>
             </div>
@@ -213,7 +202,7 @@ export function SystemHealthMonitor() {
               <XCircle className="w-8 h-8 text-red-500" />
             </div>
             <div className="mt-2">
-              <Badge variant={unresolvedErrors === 0 ? 'outline' : 'destructive'}>
+              <Badge variant={unresolvedErrors === 0 ? "outline" : "destructive"}>
                 {unresolvedErrors === 0 ? 'Clean' : 'Needs Review'}
               </Badge>
             </div>
@@ -228,8 +217,8 @@ export function SystemHealthMonitor() {
         transition={{ delay: 0.2 }}
         className="flex flex-wrap gap-4"
       >
-        <Button
-          onClick={runHealthCheck}
+        <Button 
+          onClick={runHealthCheck} 
           disabled={isRunningHealthCheck}
           className="ff-btn-primary"
           size="lg"

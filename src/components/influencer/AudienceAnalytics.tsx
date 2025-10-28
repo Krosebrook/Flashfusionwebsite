@@ -6,9 +6,9 @@ import { Badge } from '../ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Progress } from '../ui/progress';
-import {
-  Users,
-  TrendingUp,
+import { 
+  Users, 
+  TrendingUp, 
   TrendingDown,
   Globe,
   Clock,
@@ -22,7 +22,7 @@ import {
   BarChart3,
   PieChart,
   LineChart,
-  Activity,
+  Activity
 } from 'lucide-react';
 
 interface AudienceAnalyticsProps {
@@ -63,7 +63,7 @@ interface AudienceData {
 export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
   const [timeRange, setTimeRange] = useState('30days');
   const [selectedPlatform, setSelectedPlatform] = useState('all');
-
+  
   const [audienceData] = useState<AudienceData>({
     totalFollowers: 45280,
     monthlyGrowth: 12.5,
@@ -72,7 +72,7 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
         { range: '18-24', percentage: 35 },
         { range: '25-34', percentage: 42 },
         { range: '35-44', percentage: 18 },
-        { range: '45+', percentage: 5 },
+        { range: '45+', percentage: 5 }
       ],
       genderSplit: { male: 58, female: 40, other: 2 },
       topLocations: [
@@ -80,8 +80,8 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
         { country: 'United Kingdom', percentage: 15 },
         { country: 'Canada', percentage: 12 },
         { country: 'Australia', percentage: 8 },
-        { country: 'Germany', percentage: 7 },
-      ],
+        { country: 'Germany', percentage: 7 }
+      ]
     },
     engagement: {
       averageRate: 4.8,
@@ -89,13 +89,13 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
       peakTimes: [
         { day: 'Tuesday', hour: 14 },
         { day: 'Wednesday', hour: 15 },
-        { day: 'Thursday', hour: 13 },
-      ],
+        { day: 'Thursday', hour: 13 }
+      ]
     },
     deviceUsage: {
       mobile: 68,
       desktop: 24,
-      tablet: 8,
+      tablet: 8
     },
     contentPerformance: {
       topPosts: [
@@ -105,7 +105,7 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
           platform: 'Instagram',
           engagement: 1250,
           reach: 15400,
-          date: '2024-03-10',
+          date: '2024-03-10'
         },
         {
           id: '2',
@@ -113,7 +113,7 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
           platform: 'YouTube',
           engagement: 2100,
           reach: 8900,
-          date: '2024-03-08',
+          date: '2024-03-08'
         },
         {
           id: '3',
@@ -121,19 +121,17 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
           platform: 'LinkedIn',
           engagement: 890,
           reach: 12300,
-          date: '2024-03-05',
-        },
-      ],
-    },
+          date: '2024-03-05'
+        }
+      ]
+    }
   });
 
-  const MetricCard = ({ icon: Icon, title, value, change, color = 'text-primary' }: any) => (
+  const MetricCard = ({ icon: Icon, title, value, change, color = "text-primary" }: any) => (
     <Card className="p-6 ff-card-interactive">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div
-            className={`w-12 h-12 rounded-lg bg-${color === 'text-primary' ? 'primary' : color === 'text-secondary' ? 'secondary' : 'accent'}/10 flex items-center justify-center`}
-          >
+          <div className={`w-12 h-12 rounded-lg bg-${color === 'text-primary' ? 'primary' : color === 'text-secondary' ? 'secondary' : 'accent'}/10 flex items-center justify-center`}>
             <Icon className={`h-6 w-6 ${color}`} />
           </div>
           <div>
@@ -142,14 +140,9 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
           </div>
         </div>
         {change !== undefined && (
-          <div
-            className={`flex items-center space-x-1 text-sm ${change > 0 ? 'text-green-400' : 'text-red-400'}`}
-          >
+          <div className={`flex items-center space-x-1 text-sm ${change > 0 ? 'text-green-400' : 'text-red-400'}`}>
             {change > 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
-            <span>
-              {change > 0 ? '+' : ''}
-              {change}%
-            </span>
+            <span>{change > 0 ? '+' : ''}{change}%</span>
           </div>
         )}
       </div>
@@ -220,19 +213,19 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
           </div>
           <span className="font-semibold">{audienceData.demographics.genderSplit.other}%</span>
         </div>
-
+        
         <div className="mt-4">
           <div className="flex h-4 rounded-full overflow-hidden">
-            <div
-              className="bg-primary"
+            <div 
+              className="bg-primary" 
               style={{ width: `${audienceData.demographics.genderSplit.male}%` }}
             ></div>
-            <div
-              className="bg-secondary"
+            <div 
+              className="bg-secondary" 
               style={{ width: `${audienceData.demographics.genderSplit.female}%` }}
             ></div>
-            <div
-              className="bg-accent"
+            <div 
+              className="bg-accent" 
               style={{ width: `${audienceData.demographics.genderSplit.other}%` }}
             ></div>
           </div>
@@ -257,7 +250,7 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
             <span className="font-semibold">{audienceData.deviceUsage.mobile}%</span>
           </div>
         </div>
-
+        
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Monitor className="h-4 w-4 text-secondary" />
@@ -270,7 +263,7 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
             <span className="font-semibold">{audienceData.deviceUsage.desktop}%</span>
           </div>
         </div>
-
+        
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Tablet className="h-4 w-4 text-accent" />
@@ -287,29 +280,21 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
     </Card>
   );
 
-  const TopContentCard = ({
-    post,
-  }: {
-    post: (typeof audienceData.contentPerformance.topPosts)[0];
-  }) => (
+  const TopContentCard = ({ post }: { post: typeof audienceData.contentPerformance.topPosts[0] }) => (
     <Card className="p-4 ff-card-interactive">
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
           <p className="text-sm font-medium line-clamp-2 mb-2">{post.content}</p>
           <div className="flex items-center space-x-2 mb-2">
-            <Badge variant="outline" className="text-xs">
-              {post.platform}
-            </Badge>
+            <Badge variant="outline" className="text-xs">{post.platform}</Badge>
             <span className="text-xs text-muted-foreground">{post.date}</span>
           </div>
         </div>
       </div>
-
+      
       <div className="grid grid-cols-2 gap-4">
         <div className="text-center">
-          <div className="text-lg font-semibold text-primary">
-            {post.engagement.toLocaleString()}
-          </div>
+          <div className="text-lg font-semibold text-primary">{post.engagement.toLocaleString()}</div>
           <div className="text-xs text-muted-foreground">Engagement</div>
         </div>
         <div className="text-center">
@@ -330,7 +315,7 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
             Deep insights into your audience demographics and engagement patterns
           </p>
         </div>
-
+        
         <div className="flex gap-3">
           <Select value={timeRange} onValueChange={setTimeRange}>
             <SelectTrigger className="w-32">
@@ -343,7 +328,7 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
               <SelectItem value="1year">Last year</SelectItem>
             </SelectContent>
           </Select>
-
+          
           <Select value={selectedPlatform} onValueChange={setSelectedPlatform}>
             <SelectTrigger className="w-32">
               <SelectValue />
@@ -414,10 +399,7 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
               <h3 className="font-semibold mb-4">Best Posting Times</h3>
               <div className="space-y-4">
                 {audienceData.engagement.peakTimes.map((time) => (
-                  <div
-                    key={`${time.day}-${time.hour}`}
-                    className="flex items-center justify-between"
-                  >
+                  <div key={`${time.day}-${time.hour}`} className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <Clock className="h-4 w-4 text-primary" />
                       <span className="font-medium">{time.day}</span>
@@ -435,9 +417,7 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-sm text-muted-foreground">Best Performing Content</span>
-                  <span className="font-semibold">
-                    {audienceData.engagement.bestPerformingContent}
-                  </span>
+                  <span className="font-semibold">{audienceData.engagement.bestPerformingContent}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-muted-foreground">Average Engagement</span>
@@ -464,7 +444,7 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
                   <div key={day} className="text-center">
                     <div className="text-xs text-muted-foreground mb-2">{day}</div>
                     <div className="h-20 bg-muted rounded relative overflow-hidden">
-                      <div
+                      <div 
                         className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary to-primary/60 transition-all duration-300"
                         style={{ height: `${engagement}%` }}
                       ></div>
@@ -494,27 +474,21 @@ export function AudienceAnalytics({ user, userTier }: AudienceAnalyticsProps) {
                   <div className="w-2 h-2 rounded-full bg-primary mt-2"></div>
                   <div>
                     <p className="font-medium text-sm">Peak Engagement Window</p>
-                    <p className="text-xs text-muted-foreground">
-                      Your audience is most active on Tuesday-Thursday between 2-4 PM
-                    </p>
+                    <p className="text-xs text-muted-foreground">Your audience is most active on Tuesday-Thursday between 2-4 PM</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 rounded-full bg-secondary mt-2"></div>
                   <div>
                     <p className="font-medium text-sm">Content Sweet Spot</p>
-                    <p className="text-xs text-muted-foreground">
-                      Educational tech content gets 3x more engagement than other topics
-                    </p>
+                    <p className="text-xs text-muted-foreground">Educational tech content gets 3x more engagement than other topics</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 rounded-full bg-accent mt-2"></div>
                   <div>
                     <p className="font-medium text-sm">Mobile-First Audience</p>
-                    <p className="text-xs text-muted-foreground">
-                      68% of your audience consumes content on mobile devices
-                    </p>
+                    <p className="text-xs text-muted-foreground">68% of your audience consumes content on mobile devices</p>
                   </div>
                 </div>
               </div>

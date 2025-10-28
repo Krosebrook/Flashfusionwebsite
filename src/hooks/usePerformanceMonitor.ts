@@ -1,9 +1,9 @@
 import { useEffect, useMemo } from 'react';
-import {
-  PerformanceMonitor,
-  PerformanceMetrics,
+import { 
+  PerformanceMonitor, 
+  PerformanceMetrics, 
   createComponentPerformanceUtils,
-  ComponentPerformanceUtils,
+  ComponentPerformanceUtils 
 } from '../utils/performance';
 
 /**
@@ -38,12 +38,12 @@ export function usePagePerformance(pageName: string) {
 
   useEffect(() => {
     const startTime = performance.now();
-
+    
     // Record page navigation
     performanceMonitor.recordMetric(`page-${pageName}-start`, {
       loadTime: startTime,
       renderTime: 0,
-      interactionTime: 0,
+      interactionTime: 0
     });
 
     return () => {
@@ -51,7 +51,7 @@ export function usePagePerformance(pageName: string) {
       performanceMonitor.recordMetric(`page-${pageName}-end`, {
         loadTime: endTime - startTime,
         renderTime: 0,
-        interactionTime: 0,
+        interactionTime: 0
       });
     };
   }, [pageName, performanceMonitor]);
@@ -61,7 +61,7 @@ export function usePagePerformance(pageName: string) {
     performanceMonitor.recordMetric(`page-${pageName}-interaction-${interactionName}`, {
       loadTime: 0,
       renderTime: 0,
-      interactionTime: timestamp,
+      interactionTime: timestamp
     });
   };
 
@@ -77,16 +77,16 @@ export function useRenderPerformance(componentName: string) {
 
   useEffect(() => {
     const renderStart = performance.now();
-
+    
     // Use setTimeout to measure render completion
     setTimeout(() => {
       const renderEnd = performance.now();
       const renderTime = renderEnd - renderStart;
-
+      
       performanceMonitor.recordMetric(`render-${componentName}`, {
         loadTime: 0,
         renderTime,
-        interactionTime: 0,
+        interactionTime: 0
       });
     }, 0);
   });
@@ -96,7 +96,7 @@ export function useRenderPerformance(componentName: string) {
     performanceMonitor.recordMetric(`rerender-${componentName}-${reason}`, {
       loadTime: 0,
       renderTime: timestamp,
-      interactionTime: 0,
+      interactionTime: 0
     });
   };
 

@@ -14,97 +14,76 @@ interface LightweightDashboardProps {
   className?: string;
 }
 
-const QuickStatsCard = memo(
-  ({ title, value, change }: { title: string; value: string; change?: string }) => (
-    <Card className="ff-card-compact">
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-muted-foreground">{title}</p>
-            <h3 className="text-lg font-semibold text-foreground">{value}</h3>
-          </div>
-          {change && (
-            <Badge variant="secondary" className="text-xs">
-              {change}
-            </Badge>
-          )}
+const QuickStatsCard = memo(({ title, value, change }: { title: string; value: string; change?: string }) => (
+  <Card className="ff-card-compact">
+    <CardContent className="p-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm text-muted-foreground">{title}</p>
+          <h3 className="text-lg font-semibold text-foreground">{value}</h3>
         </div>
-      </CardContent>
-    </Card>
-  )
-);
+        {change && (
+          <Badge variant="secondary" className="text-xs">
+            {change}
+          </Badge>
+        )}
+      </div>
+    </CardContent>
+  </Card>
+));
 
-const QuickActionButton = memo(
-  ({
-    icon,
-    label,
-    onClick,
-    disabled = false,
-  }: {
-    icon: string;
-    label: string;
-    onClick: () => void;
-    disabled?: boolean;
-  }) => (
-    <Button
-      variant="outline"
-      size="sm"
-      onClick={onClick}
-      disabled={disabled}
-      className="flex items-center gap-2 text-sm"
-    >
-      <span className="text-base">{icon}</span>
-      {label}
-    </Button>
-  )
-);
+const QuickActionButton = memo(({ icon, label, onClick, disabled = false }: {
+  icon: string;
+  label: string;
+  onClick: () => void;
+  disabled?: boolean;
+}) => (
+  <Button
+    variant="outline"
+    size="sm"
+    onClick={onClick}
+    disabled={disabled}
+    className="flex items-center gap-2 text-sm"
+  >
+    <span className="text-base">{icon}</span>
+    {label}
+  </Button>
+));
 
 export function LightweightDashboard({ className = '' }: LightweightDashboardProps) {
   const [activeView, setActiveView] = useState<'overview' | 'tools' | 'recent'>('overview');
-
+  
   // Memory-aware data - only keep essential items
-  const quickStats = useMemo(
-    () => [
-      { title: 'Projects', value: '3', change: '+1' },
-      { title: 'Tools Used', value: '12', change: '+4' },
-      {
-        title: 'Memory Usage',
-        value: `${memoryOptimizer.getMemoryStats()?.percentage.toFixed(0) || 0}%`,
-      },
-    ],
-    []
-  );
-
-  const quickActions = useMemo(
-    () => [
-      {
-        icon: '⚡',
-        label: 'Quick Generate',
-        onClick: () => console.log('Quick generate clicked'),
-      },
-      {
-        icon: '📊',
-        label: 'View Analytics',
-        onClick: () => setActiveView('tools'),
-      },
-      {
-        icon: '🔧',
-        label: 'Settings',
-        onClick: () => console.log('Settings clicked'),
-      },
-    ],
-    []
-  );
-
-  const recentActivity = useMemo(
-    () => [
-      { icon: '🎯', text: 'Generated React app', time: '2m ago' },
-      { icon: '📱', text: 'Created mobile layout', time: '15m ago' },
-      { icon: '🚀', text: 'Deployed to production', time: '1h ago' },
-    ],
-    []
-  );
-
+  const quickStats = useMemo(() => [
+    { title: 'Projects', value: '3', change: '+1' },
+    { title: 'Tools Used', value: '12', change: '+4' },
+    { title: 'Memory Usage', value: `${memoryOptimizer.getMemoryStats()?.percentage.toFixed(0) || 0}%` },
+  ], []);
+  
+  const quickActions = useMemo(() => [
+    {
+      icon: '⚡',
+      label: 'Quick Generate',
+      onClick: () => console.log('Quick generate clicked'),
+    },
+    {
+      icon: '📊',
+      label: 'View Analytics',
+      onClick: () => setActiveView('tools'),
+    },
+    {
+      icon: '🔧',
+      label: 'Settings',
+      onClick: () => console.log('Settings clicked'),
+    },
+  ], []);
+  
+  const recentActivity = useMemo(() => [
+    { icon: '🎯', text: 'Generated React app', time: '2m ago' },
+    { icon: '📱', text: 'Created mobile layout', time: '15m ago' },
+    { icon: '🚀', text: 'Deployed to production', time: '1h ago' },
+  ], []);
+  
   return (
     <div className={`container mx-auto px-4 py-6 space-y-6 ${className}`}>
       {/* Header with Memory Monitor */}
@@ -122,7 +101,7 @@ export function LightweightDashboard({ className = '' }: LightweightDashboardPro
           </Badge>
         </div>
       </div>
-
+      
       {/* View Selector */}
       <div className="flex gap-2">
         {(['overview', 'tools', 'recent'] as const).map((view) => (
@@ -137,7 +116,7 @@ export function LightweightDashboard({ className = '' }: LightweightDashboardPro
           </Button>
         ))}
       </div>
-
+      
       {/* Content based on active view */}
       {activeView === 'overview' && (
         <div className="space-y-6">
@@ -152,7 +131,7 @@ export function LightweightDashboard({ className = '' }: LightweightDashboardPro
               />
             ))}
           </div>
-
+          
           {/* Quick Actions */}
           <Card>
             <CardHeader>
@@ -173,7 +152,7 @@ export function LightweightDashboard({ className = '' }: LightweightDashboardPro
           </Card>
         </div>
       )}
-
+      
       {activeView === 'tools' && (
         <div className="grid gap-4 md:grid-cols-2">
           {[
@@ -199,7 +178,7 @@ export function LightweightDashboard({ className = '' }: LightweightDashboardPro
           ))}
         </div>
       )}
-
+      
       {activeView === 'recent' && (
         <Card>
           <CardHeader>
@@ -208,10 +187,7 @@ export function LightweightDashboard({ className = '' }: LightweightDashboardPro
           <CardContent>
             <div className="space-y-3">
               {recentActivity.map((activity, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors"
-                >
+                <div key={index} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
                   <span className="text-base">{activity.icon}</span>
                   <div className="flex-1">
                     <p className="text-sm">{activity.text}</p>
@@ -223,12 +199,11 @@ export function LightweightDashboard({ className = '' }: LightweightDashboardPro
           </CardContent>
         </Card>
       )}
-
+      
       {/* Footer */}
       <div className="text-center pt-4 border-t">
         <p className="text-xs text-muted-foreground">
-          Running in memory-optimized mode •{' '}
-          {memoryOptimizer.getMemoryStats()?.percentage.toFixed(1)}% memory used
+          Running in memory-optimized mode • {memoryOptimizer.getMemoryStats()?.percentage.toFixed(1)}% memory used
         </p>
         <Button
           variant="ghost"

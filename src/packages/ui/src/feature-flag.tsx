@@ -37,30 +37,28 @@ interface FeatureFlagProviderProps {
 export function FeatureFlagProvider({ children, initialFlags = [] }: FeatureFlagProviderProps) {
   const [flags, setFlags] = React.useState<FeatureFlag[]>(initialFlags);
 
-  const isEnabled = React.useCallback(
-    (key: string) => {
-      const flag = flags.find((f) => f.key === key);
-      return flag?.enabled ?? false;
-    },
-    [flags]
-  );
+  const isEnabled = React.useCallback((key: string) => {
+    const flag = flags.find(f => f.key === key);
+    return flag?.enabled ?? false;
+  }, [flags]);
 
   const toggle = React.useCallback((key: string) => {
-    setFlags((prev) =>
-      prev.map((flag) => (flag.key === key ? { ...flag, enabled: !flag.enabled } : flag))
-    );
+    setFlags(prev => prev.map(flag => 
+      flag.key === key ? { ...flag, enabled: !flag.enabled } : flag
+    ));
   }, []);
 
-  const value = React.useMemo(
-    () => ({
-      flags,
-      isEnabled,
-      toggle,
-    }),
-    [flags, isEnabled, toggle]
-  );
+  const value = React.useMemo(() => ({
+    flags,
+    isEnabled,
+    toggle
+  }), [flags, isEnabled, toggle]);
 
-  return <FeatureFlagContext.Provider value={value}>{children}</FeatureFlagContext.Provider>;
+  return (
+    <FeatureFlagContext.Provider value={value}>
+      {children}
+    </FeatureFlagContext.Provider>
+  );
 }
 
 export function FeatureFlagDebugPanel() {
@@ -101,7 +99,7 @@ export function FeatureFlagDebugPanel() {
             </Button>
           </div>
         </CardHeader>
-
+        
         <CardContent className="space-y-3">
           {flags.length === 0 ? (
             <p className="text-xs text-muted-foreground">No feature flags configured</p>
@@ -118,10 +116,15 @@ export function FeatureFlagDebugPanel() {
                     )}
                   </div>
                   {flag.description && (
-                    <p className="text-xs text-muted-foreground line-clamp-2">{flag.description}</p>
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      {flag.description}
+                    </p>
                   )}
                 </div>
-                <Switch checked={flag.enabled} onCheckedChange={() => toggle(flag.key)} />
+                <Switch
+                  checked={flag.enabled}
+                  onCheckedChange={() => toggle(flag.key)}
+                />
               </div>
             ))
           )}

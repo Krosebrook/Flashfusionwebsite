@@ -4,7 +4,7 @@
  * @category utils
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * Supabase client setup with proper configuration for authentication
  */
 
@@ -20,20 +20,20 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
     persistSession: true,
     autoRefreshToken: true,
     detectSessionInUrl: true,
-    flowType: 'pkce',
+    flowType: 'pkce'
   },
   global: {
     headers: {
-      'X-Client-Info': 'flashfusion-web@1.0.0',
-    },
-  },
+      'X-Client-Info': 'flashfusion-web@1.0.0'
+    }
+  }
 });
 
 // Export configuration for use in components
 export const supabaseConfig = {
   url: supabaseUrl,
   key: supabaseKey,
-  projectId,
+  projectId
 };
 
 export default supabase;

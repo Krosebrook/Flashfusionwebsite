@@ -22,18 +22,18 @@ interface MergedComponentProps {
   // Define props that combine both component interfaces
   // Original component props
   originalProp?: string;
-
+  
   // FlashFusion enhanced props
   flashfusionEnhanced?: boolean;
   className?: string;
-
+  
   // Common props
   children?: React.ReactNode;
 }
 
 /**
  * Template for merging external components with FlashFusion
- *
+ * 
  * MERGE STRATEGY:
  * 1. Keep FlashFusion UI/UX patterns
  * 2. Integrate functionality from other component
@@ -49,15 +49,15 @@ export const MergedComponent: React.FC<MergedComponentProps> = ({
 }) => {
   // Use FlashFusion hooks and state management
   const { user } = useAuth();
-
+  
   // Integrate any state/logic from the original component
   // const originalLogic = useOriginalComponentLogic();
-
+  
   // Enhanced logic that combines both approaches
   const handleAction = () => {
     // Combine original functionality with FlashFusion enhancements
     // originalLogic.performAction();
-
+    
     // Add FlashFusion specific enhancements
     console.log('Enhanced action with FlashFusion patterns');
   };
@@ -72,10 +72,10 @@ export const MergedComponent: React.FC<MergedComponentProps> = ({
         // Base FlashFusion styling
         'ff-component-wrapper',
         'relative',
-
+        
         // FlashFusion interactive patterns
         flashfusionEnhanced && 'ff-card-interactive',
-
+        
         // Custom className
         className
       )}
@@ -86,7 +86,7 @@ export const MergedComponent: React.FC<MergedComponentProps> = ({
             {/* Keep FlashFusion typography patterns */}
             Merged Component Title
           </CardTitle>
-
+          
           {/* Add FlashFusion status indicators */}
           {flashfusionEnhanced && (
             <Badge variant="outline" className="ff-badge-glow">
@@ -94,25 +94,31 @@ export const MergedComponent: React.FC<MergedComponentProps> = ({
             </Badge>
           )}
         </CardHeader>
-
+        
         <CardContent className="space-y-4">
           {/* Integrate original component content */}
           {/* <OriginalComponent {...originalProps} /> */}
-
+          
           {/* Add FlashFusion enhancements */}
           <div className="ff-stagger-fade">
             {children}
-
+            
             {/* Example: Enhanced interaction */}
-            <Button onClick={handleAction} className="ff-btn-primary" size="sm">
+            <Button
+              onClick={handleAction}
+              className="ff-btn-primary"
+              size="sm"
+            >
               Enhanced Action
             </Button>
           </div>
-
+          
           {/* Show user-specific content using FlashFusion auth */}
           {user && (
             <div className="ff-fade-in-up">
-              <p className="text-muted-foreground">Welcome back, {user.email}!</p>
+              <p className="text-muted-foreground">
+                Welcome back, {user.email}!
+              </p>
             </div>
           )}
         </CardContent>
@@ -129,11 +135,11 @@ export const withFlashFusionIntegration = <P extends object>(
 ) => {
   return React.forwardRef<any, P & { flashfusionTheme?: boolean }>((props, ref) => {
     const { flashfusionTheme = true, ...originalProps } = props;
-
+    
     if (!flashfusionTheme) {
       return <OriginalComponent {...(originalProps as P)} ref={ref} />;
     }
-
+    
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -151,34 +157,34 @@ export const withFlashFusionIntegration = <P extends object>(
  */
 export const adaptToFlashFusion = (externalProps: any) => {
   const adaptedProps = { ...externalProps };
-
+  
   // Adapt color schemes
   if (adaptedProps.color === 'blue') adaptedProps.color = 'primary';
   if (adaptedProps.color === 'cyan') adaptedProps.color = 'secondary';
   if (adaptedProps.color === 'pink') adaptedProps.color = 'accent';
-
+  
   // Adapt size patterns
   if (adaptedProps.size === 'large') adaptedProps.size = 'lg';
   if (adaptedProps.size === 'small') adaptedProps.size = 'sm';
-
+  
   // Add FlashFusion class patterns
   const ffClasses = [];
-
+  
   if (adaptedProps.interactive) ffClasses.push('ff-card-interactive');
   if (adaptedProps.glowing) ffClasses.push('ff-hover-glow');
   if (adaptedProps.animated) ffClasses.push('ff-fade-in-up');
-
+  
   adaptedProps.className = cn(adaptedProps.className, ...ffClasses);
-
+  
   return adaptedProps;
 };
 
 /**
  * Example usage:
- *
+ * 
  * // For automatic integration:
  * const EnhancedExternalComponent = withFlashFusionIntegration(ExternalComponent);
- *
+ * 
  * // For manual integration:
  * <MergedComponent
  *   originalProp="value"
@@ -187,7 +193,7 @@ export const adaptToFlashFusion = (externalProps: any) => {
  * >
  *   Content here
  * </MergedComponent>
- *
+ * 
  * // For prop adaptation:
  * const adaptedProps = adaptToFlashFusion({
  *   color: 'blue',

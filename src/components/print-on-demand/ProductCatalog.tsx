@@ -6,14 +6,9 @@ import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-import { toast } from 'sonner';
-import {
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { toast } from "sonner@2.0.3";
+import { 
   Plus,
   Search,
   Filter,
@@ -37,15 +32,15 @@ import {
   Download,
   Power,
   PowerOff,
-  ExternalLink,
+  ExternalLink
 } from 'lucide-react';
 import { PRODUCT_TYPES, MARKETPLACES } from '../../constants/print-on-demand';
-import {
-  MOCK_PRODUCTS,
-  PRODUCT_CATEGORIES,
+import { 
+  MOCK_PRODUCTS, 
+  PRODUCT_CATEGORIES, 
   PRODUCT_STATUS_OPTIONS,
   SORT_OPTIONS,
-  Product,
+  Product 
 } from '../../constants/product-catalog';
 import {
   calculateCatalogStats,
@@ -55,7 +50,7 @@ import {
   createDuplicateProduct,
   formatCurrency,
   formatNumber,
-  getStatusColor,
+  getStatusColor
 } from '../../utils/product-catalog';
 import { ProductDetailModal } from './ProductDetailModal';
 
@@ -66,12 +61,7 @@ interface ProductCatalogProps {
   onDeleteProduct: (productId: string) => void;
 }
 
-export function ProductCatalog({
-  userTier,
-  onCreateProduct,
-  onEditProduct,
-  onDeleteProduct,
-}: ProductCatalogProps) {
+export function ProductCatalog({ userTier, onCreateProduct, onEditProduct, onDeleteProduct }: ProductCatalogProps) {
   const [products, setProducts] = useState<Product[]>(MOCK_PRODUCTS);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
@@ -85,57 +75,49 @@ export function ProductCatalog({
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Apply filters and sorting
-  const filteredProducts = filterProducts(
-    products,
-    searchQuery,
-    filterStatus,
-    filterCategory,
-    filterProductType
-  );
+  const filteredProducts = filterProducts(products, searchQuery, filterStatus, filterCategory, filterProductType);
   const sortedProducts = sortProducts(filteredProducts, sortBy, sortOrder);
-
+  
   // Calculate stats
   const catalogStats = calculateCatalogStats(products);
 
   // Event handlers
   const updateProductStatus = (productId: string, status: Product['status']) => {
-    setProducts((prev) => updateProductInArray(prev, productId, { status }));
+    setProducts(prev => updateProductInArray(prev, productId, { status }));
     toast.success(`Product status updated to ${status}`);
   };
 
   const toggleProductVisibility = (productId: string) => {
-    const product = products.find((p) => p.id === productId);
+    const product = products.find(p => p.id === productId);
     if (!product) return;
 
     const newVisibility = product.visibility === 'public' ? 'private' : 'public';
-    setProducts((prev) => updateProductInArray(prev, productId, { visibility: newVisibility }));
+    setProducts(prev => updateProductInArray(prev, productId, { visibility: newVisibility }));
     toast.success('Product visibility updated');
   };
 
   const duplicateProduct = (productId: string) => {
-    const product = products.find((p) => p.id === productId);
+    const product = products.find(p => p.id === productId);
     if (!product) return;
 
     const newProduct = createDuplicateProduct(product);
-    setProducts((prev) => [newProduct, ...prev]);
+    setProducts(prev => [newProduct, ...prev]);
     toast.success('Product duplicated successfully');
   };
 
   const bulkUpdateStatus = (status: Product['status']) => {
-    setProducts((prev) =>
-      prev.map((product) =>
-        selectedProducts.includes(product.id)
-          ? { ...product, status, updatedAt: new Date().toISOString() }
-          : product
-      )
-    );
+    setProducts(prev => prev.map(product => 
+      selectedProducts.includes(product.id)
+        ? { ...product, status, updatedAt: new Date().toISOString() }
+        : product
+    ));
     setSelectedProducts([]);
     toast.success(`${selectedProducts.length} products updated to ${status}`);
   };
 
   const bulkDelete = () => {
-    setProducts((prev) => prev.filter((product) => !selectedProducts.includes(product.id)));
-    selectedProducts.forEach((id) => onDeleteProduct(id));
+    setProducts(prev => prev.filter(product => !selectedProducts.includes(product.id)));
+    selectedProducts.forEach(id => onDeleteProduct(id));
     setSelectedProducts([]);
     toast.success(`${selectedProducts.length} products deleted`);
   };
@@ -143,13 +125,19 @@ export function ProductCatalog({
   const ProductCard = ({ product }: { product: Product }) => (
     <Card className="overflow-hidden ff-card-interactive">
       <div className="aspect-video bg-muted relative">
-        <img src={product.images[0]} alt={product.title} className="w-full h-full object-cover" />
+        <img 
+          src={product.images[0]} 
+          alt={product.title}
+          className="w-full h-full object-cover"
+        />
         <div className="absolute top-2 right-2">
-          <Badge className={getStatusColor(product.status)}>{product.status}</Badge>
+          <Badge className={getStatusColor(product.status)}>
+            {product.status}
+          </Badge>
         </div>
         <div className="absolute bottom-2 left-2 flex space-x-1">
           {product.marketplaces.slice(0, 2).map((marketplace) => {
-            const mp = Object.values(MARKETPLACES).find((m) => m.id === marketplace);
+            const mp = Object.values(MARKETPLACES).find(m => m.id === marketplace);
             return mp ? (
               <Badge key={marketplace} variant="secondary" className="text-xs">
                 {mp.name}
@@ -158,14 +146,12 @@ export function ProductCatalog({
           })}
         </div>
       </div>
-
+      
       <div className="p-4 space-y-3">
         <div>
           <h3 className="font-semibold line-clamp-2 text-sm">{product.title}</h3>
           <div className="flex items-center justify-between mt-1">
-            <span className="text-lg font-bold text-primary">
-              {formatCurrency(product.suggestedPrice)}
-            </span>
+            <span className="text-lg font-bold text-primary">{formatCurrency(product.suggestedPrice)}</span>
             <div className="flex space-x-2 text-xs text-muted-foreground">
               <span className="flex items-center">
                 <Eye className="h-3 w-3 mr-1" />
@@ -182,9 +168,7 @@ export function ProductCatalog({
         <div className="grid grid-cols-2 gap-2 text-xs">
           <div>
             <span className="text-muted-foreground">Revenue:</span>
-            <div className="font-semibold text-green-600">
-              {formatCurrency(product.stats.revenue)}
-            </div>
+            <div className="font-semibold text-green-600">{formatCurrency(product.stats.revenue)}</div>
           </div>
           <div>
             <span className="text-muted-foreground">Rating:</span>
@@ -206,11 +190,15 @@ export function ProductCatalog({
         </div>
 
         <div className="flex items-center justify-between">
-          <Button variant="outline" size="sm" onClick={() => setSelectedProduct(product)}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setSelectedProduct(product)}
+          >
             <Eye className="h-3 w-3 mr-1" />
             View Details
           </Button>
-
+          
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm">
@@ -227,26 +215,16 @@ export function ProductCatalog({
                 Duplicate
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => toggleProductVisibility(product.id)}>
-                {product.visibility === 'public' ? (
-                  <EyeOff className="h-3 w-3 mr-2" />
-                ) : (
-                  <Eye className="h-3 w-3 mr-2" />
-                )}
+                {product.visibility === 'public' ? <EyeOff className="h-3 w-3 mr-2" /> : <Eye className="h-3 w-3 mr-2" />}
                 {product.visibility === 'public' ? 'Make Private' : 'Make Public'}
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() =>
-                  updateProductStatus(product.id, product.status === 'active' ? 'paused' : 'active')
-                }
+              <DropdownMenuItem 
+                onClick={() => updateProductStatus(product.id, product.status === 'active' ? 'paused' : 'active')}
               >
-                {product.status === 'active' ? (
-                  <PowerOff className="h-3 w-3 mr-2" />
-                ) : (
-                  <Power className="h-3 w-3 mr-2" />
-                )}
+                {product.status === 'active' ? <PowerOff className="h-3 w-3 mr-2" /> : <Power className="h-3 w-3 mr-2" />}
                 {product.status === 'active' ? 'Pause' : 'Activate'}
               </DropdownMenuItem>
-              <DropdownMenuItem
+              <DropdownMenuItem 
                 onClick={() => onDeleteProduct(product.id)}
                 className="text-destructive"
               >
@@ -272,13 +250,16 @@ export function ProductCatalog({
             Manage your product designs, variants, and marketplace listings
           </p>
         </div>
-
+        
         <div className="flex gap-3">
           <Button variant="outline" onClick={() => setShowFilters(!showFilters)}>
             <Filter className="h-4 w-4 mr-2" />
             Filters
           </Button>
-          <Button className="bg-gradient-to-r from-primary to-secondary" onClick={onCreateProduct}>
+          <Button 
+            className="bg-gradient-to-r from-primary to-secondary"
+            onClick={onCreateProduct}
+          >
             <Plus className="h-4 w-4 mr-2" />
             Create Product
           </Button>
@@ -324,8 +305,7 @@ export function ProductCatalog({
               <p className="text-sm text-muted-foreground">Total Orders</p>
               <p className="text-2xl font-bold">{catalogStats.orders}</p>
               <p className="text-xs text-muted-foreground">
-                Avg: {formatCurrency(catalogStats.revenue / Math.max(catalogStats.orders, 1))} per
-                order
+                Avg: {formatCurrency(catalogStats.revenue / Math.max(catalogStats.orders, 1))} per order
               </p>
             </div>
             <div className="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center">
@@ -408,12 +388,13 @@ export function ProductCatalog({
                   <SelectContent>
                     <SelectItem value="all">All Types</SelectItem>
                     {Object.values(PRODUCT_TYPES)
-                      .flatMap((category) => Object.values(category))
+                      .flatMap(category => Object.values(category))
                       .map((product) => (
                         <SelectItem key={product.id} value={product.id}>
                           {product.name}
                         </SelectItem>
-                      ))}
+                      ))
+                    }
                   </SelectContent>
                 </Select>
 
@@ -430,17 +411,13 @@ export function ProductCatalog({
                       ))}
                     </SelectContent>
                   </Select>
-
+                  
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
                   >
-                    {sortOrder === 'desc' ? (
-                      <SortDesc className="h-4 w-4" />
-                    ) : (
-                      <SortAsc className="h-4 w-4" />
-                    )}
+                    {sortOrder === 'desc' ? <SortDesc className="h-4 w-4" /> : <SortAsc className="h-4 w-4" />}
                   </Button>
                 </div>
               </div>
@@ -479,7 +456,7 @@ export function ProductCatalog({
         <div className="text-sm text-muted-foreground">
           Showing {sortedProducts.length} of {catalogStats.total} products
         </div>
-
+        
         <div className="flex items-center space-x-2">
           <Button
             variant={viewMode === 'grid' ? 'default' : 'outline'}
@@ -500,13 +477,11 @@ export function ProductCatalog({
 
       {/* Products Grid/List */}
       {sortedProducts.length > 0 ? (
-        <div
-          className={
-            viewMode === 'grid'
-              ? 'grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6'
-              : 'space-y-4'
-          }
-        >
+        <div className={
+          viewMode === 'grid' 
+            ? "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6" 
+            : "space-y-4"
+        }>
           {sortedProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -516,14 +491,15 @@ export function ProductCatalog({
           <Package className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
           <h3 className="text-lg font-semibold mb-2">No products found</h3>
           <p className="text-muted-foreground mb-4">
-            {searchQuery ||
-            filterStatus !== 'all' ||
-            filterCategory !== 'all' ||
-            filterProductType !== 'all'
+            {searchQuery || filterStatus !== 'all' || filterCategory !== 'all' || filterProductType !== 'all'
               ? 'Try adjusting your search or filters'
-              : 'Create your first product to get started'}
+              : 'Create your first product to get started'
+            }
           </p>
-          <Button className="bg-gradient-to-r from-primary to-secondary" onClick={onCreateProduct}>
+          <Button 
+            className="bg-gradient-to-r from-primary to-secondary"
+            onClick={onCreateProduct}
+          >
             <Plus className="h-4 w-4 mr-2" />
             Create First Product
           </Button>

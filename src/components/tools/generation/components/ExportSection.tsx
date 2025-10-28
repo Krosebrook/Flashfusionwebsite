@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../../ui/card';
 import { Badge } from '../../../ui/badge';
 import { Separator } from '../../../ui/separator';
 import { Download, Package, GitBranch, Terminal, Check, Sparkles } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 import { MultiFormatDownloadSelector } from '../../../ui/multi-format-download-selector';
 import type { GeneratedApp } from '../../../../types/full-stack-builder';
 
@@ -88,32 +88,30 @@ npm run dev
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-ff-text-primary">Quick Actions</h3>
-
-              <Button
-                onClick={handleQuickDownload}
-                className="w-full ff-btn-primary ff-hover-glow"
+              
+              <Button 
+                onClick={handleQuickDownload} 
+                className="w-full ff-btn-primary ff-hover-glow" 
                 size="lg"
               >
                 <Package className="w-4 h-4 mr-2" />
                 Quick Download (ZIP)
               </Button>
-
-              <Button
-                variant="outline"
-                className="w-full ff-focus-ring"
+              
+              <Button 
+                variant="outline" 
+                className="w-full ff-focus-ring" 
                 size="lg"
                 onClick={createGitHubRepo}
               >
                 <GitBranch className="w-4 h-4 mr-2" />
                 Create GitHub Repository
-                <Badge variant="secondary" className="ml-2 text-xs">
-                  Soon
-                </Badge>
+                <Badge variant="secondary" className="ml-2 text-xs">Soon</Badge>
               </Button>
-
-              <Button
-                variant="outline"
-                className="w-full ff-focus-ring"
+              
+              <Button 
+                variant="outline" 
+                className="w-full ff-focus-ring" 
                 size="lg"
                 onClick={showSetupCommands}
               >
@@ -121,7 +119,7 @@ npm run dev
                 Copy Setup Commands
               </Button>
             </div>
-
+            
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-ff-text-primary">Quick Start Guide</h3>
               <div className="space-y-3 text-sm">
@@ -129,46 +127,28 @@ npm run dev
                   <Check className="w-4 h-4 text-ff-success mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="font-medium text-ff-text-primary">Extract Project Files</p>
-                    <p className="text-ff-text-muted">
-                      Unzip the downloaded project to your workspace
-                    </p>
+                    <p className="text-ff-text-muted">Unzip the downloaded project to your workspace</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
                   <Check className="w-4 h-4 text-ff-success mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="font-medium text-ff-text-primary">Install Dependencies</p>
-                    <p className="text-ff-text-muted">
-                      Run{' '}
-                      <code className="bg-ff-surface px-1 rounded text-ff-primary">
-                        npm run setup
-                      </code>{' '}
-                      for complete installation
-                    </p>
+                    <p className="text-ff-text-muted">Run <code className="bg-ff-surface px-1 rounded text-ff-primary">npm run setup</code> for complete installation</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
                   <Check className="w-4 h-4 text-ff-success mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="font-medium text-ff-text-primary">Setup Environment</p>
-                    <p className="text-ff-text-muted">
-                      Configure your{' '}
-                      <code className="bg-ff-surface px-1 rounded text-ff-primary">.env</code> files
-                      with your credentials
-                    </p>
+                    <p className="text-ff-text-muted">Configure your <code className="bg-ff-surface px-1 rounded text-ff-primary">.env</code> files with your credentials</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
                   <Check className="w-4 h-4 text-ff-success mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="font-medium text-ff-text-primary">Start Development</p>
-                    <p className="text-ff-text-muted">
-                      Run{' '}
-                      <code className="bg-ff-surface px-1 rounded text-ff-primary">
-                        npm run dev
-                      </code>{' '}
-                      to launch both servers
-                    </p>
+                    <p className="text-ff-text-muted">Run <code className="bg-ff-surface px-1 rounded text-ff-primary">npm run dev</code> to launch both servers</p>
                   </div>
                 </div>
               </div>
@@ -176,8 +156,7 @@ npm run dev
               <div className="mt-4 p-3 bg-ff-primary/10 border border-ff-primary/20 rounded-lg">
                 <p className="text-xs text-ff-text-primary flex items-center gap-2">
                   <Sparkles className="h-3 w-3 text-ff-primary" />
-                  Your app will be available at localhost:3000 (frontend) and localhost:3001
-                  (backend)
+                  Your app will be available at localhost:3000 (frontend) and localhost:3001 (backend)
                 </p>
               </div>
             </div>
@@ -186,7 +165,9 @@ npm run dev
           <Separator />
 
           <div className="flex items-center justify-between">
-            <p className="text-sm text-ff-text-muted">Need more download options or formats?</p>
+            <p className="text-sm text-ff-text-muted">
+              Need more download options or formats?
+            </p>
             <Button
               variant="outline"
               size="sm"
@@ -215,9 +196,7 @@ npm run dev
       {/* Additional Export Information */}
       <Card className="ff-glass">
         <CardHeader>
-          <CardTitle className="text-base text-ff-text-primary">
-            What's Included in Your Export?
-          </CardTitle>
+          <CardTitle className="text-base text-ff-text-primary">What's Included in Your Export?</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">

@@ -6,7 +6,7 @@ export const INITIAL_HEALTH_SCORE: HealthScore = {
   infrastructure: 96,
   application: 89,
   security: 98,
-  user: 87,
+  user: 87
 };
 
 export const INITIAL_SYSTEM_METRICS: SystemMetric[] = [
@@ -20,7 +20,7 @@ export const INITIAL_SYSTEM_METRICS: SystemMetric[] = [
     threshold: { warning: 70, critical: 90 },
     trend: 'stable',
     lastUpdate: '30 seconds ago',
-    description: 'Average CPU utilization across all servers',
+    description: 'Average CPU utilization across all servers'
   },
   {
     id: 'memory-usage',
@@ -32,7 +32,7 @@ export const INITIAL_SYSTEM_METRICS: SystemMetric[] = [
     threshold: { warning: 80, critical: 95 },
     trend: 'up',
     lastUpdate: '30 seconds ago',
-    description: 'Memory consumption across application servers',
+    description: 'Memory consumption across application servers'
   },
   {
     id: 'response-time',
@@ -44,7 +44,7 @@ export const INITIAL_SYSTEM_METRICS: SystemMetric[] = [
     threshold: { warning: 500, critical: 1000 },
     trend: 'down',
     lastUpdate: '1 minute ago',
-    description: 'Average API response time across all endpoints',
+    description: 'Average API response time across all endpoints'
   },
   {
     id: 'error-rate',
@@ -56,7 +56,7 @@ export const INITIAL_SYSTEM_METRICS: SystemMetric[] = [
     threshold: { warning: 1, critical: 5 },
     trend: 'stable',
     lastUpdate: '2 minutes ago',
-    description: 'Application error rate over the last hour',
+    description: 'Application error rate over the last hour'
   },
   {
     id: 'uptime',
@@ -68,7 +68,7 @@ export const INITIAL_SYSTEM_METRICS: SystemMetric[] = [
     threshold: { warning: 99, critical: 95 },
     trend: 'stable',
     lastUpdate: '5 minutes ago',
-    description: 'Overall system availability over the last 30 days',
+    description: 'Overall system availability over the last 30 days'
   },
   {
     id: 'active-users',
@@ -80,8 +80,8 @@ export const INITIAL_SYSTEM_METRICS: SystemMetric[] = [
     threshold: { warning: 10000, critical: 15000 },
     trend: 'up',
     lastUpdate: '1 minute ago',
-    description: 'Currently active users on the platform',
-  },
+    description: 'Currently active users on the platform'
+  }
 ];
 
 export const INITIAL_ERROR_LOGS: ErrorLog[] = [
@@ -95,7 +95,7 @@ export const INITIAL_ERROR_LOGS: ErrorLog[] = [
     sessionId: 'session-456',
     count: 3,
     resolved: false,
-    category: 'backend',
+    category: 'backend'
   },
   {
     id: 'error-2',
@@ -105,7 +105,7 @@ export const INITIAL_ERROR_LOGS: ErrorLog[] = [
     message: 'High memory usage detected in product catalog service',
     count: 1,
     resolved: false,
-    category: 'backend',
+    category: 'backend'
   },
   {
     id: 'error-3',
@@ -117,7 +117,7 @@ export const INITIAL_ERROR_LOGS: ErrorLog[] = [
     sessionId: 'session-012',
     count: 2,
     resolved: true,
-    category: 'network',
+    category: 'network'
   },
   {
     id: 'error-4',
@@ -127,8 +127,8 @@ export const INITIAL_ERROR_LOGS: ErrorLog[] = [
     message: 'Multiple failed login attempts detected',
     count: 5,
     resolved: false,
-    category: 'auth',
-  },
+    category: 'auth'
+  }
 ];
 
 export const INITIAL_PERFORMANCE_METRICS: PerformanceMetric[] = [
@@ -140,7 +140,7 @@ export const INITIAL_PERFORMANCE_METRICS: PerformanceMetric[] = [
     benchmark: 2.0,
     status: 'excellent',
     impact: 'high',
-    suggestions: ['Optimize image compression', 'Enable browser caching'],
+    suggestions: ['Optimize image compression', 'Enable browser caching']
   },
   {
     id: 'ttfb',
@@ -150,7 +150,7 @@ export const INITIAL_PERFORMANCE_METRICS: PerformanceMetric[] = [
     benchmark: 200,
     status: 'good',
     impact: 'medium',
-    suggestions: ['Optimize database queries', 'Use CDN for static assets'],
+    suggestions: ['Optimize database queries', 'Use CDN for static assets']
   },
   {
     id: 'cls',
@@ -160,7 +160,7 @@ export const INITIAL_PERFORMANCE_METRICS: PerformanceMetric[] = [
     benchmark: 0.1,
     status: 'excellent',
     impact: 'medium',
-    suggestions: ['Pre-size image dimensions', 'Reserve space for ads'],
+    suggestions: ['Pre-size image dimensions', 'Reserve space for ads']
   },
   {
     id: 'fcp',
@@ -170,8 +170,8 @@ export const INITIAL_PERFORMANCE_METRICS: PerformanceMetric[] = [
     benchmark: 1.8,
     status: 'excellent',
     impact: 'high',
-    suggestions: ['Minify CSS', 'Optimize critical rendering path'],
-  },
+    suggestions: ['Minify CSS', 'Optimize critical rendering path']
+  }
 ];
 
 export const INITIAL_INCIDENTS: Incident[] = [
@@ -188,15 +188,15 @@ export const INITIAL_INCIDENTS: Incident[] = [
         id: 'update-1',
         timestamp: '30 minutes ago',
         message: 'Identified high memory usage in validation service',
-        status: 'identified',
+        status: 'identified'
       },
       {
         id: 'update-2',
         timestamp: '15 minutes ago',
         message: 'Applied memory optimization patches',
-        status: 'monitoring',
-      },
-    ],
+        status: 'monitoring'
+      }
+    ]
   },
   {
     id: 'incident-2',
@@ -212,8 +212,8 @@ export const INITIAL_INCIDENTS: Incident[] = [
         id: 'update-3',
         timestamp: '1.5 hours ago',
         message: 'Increased connection pool size and optimized queries',
-        status: 'resolved',
-      },
-    ],
-  },
+        status: 'resolved'
+      }
+    ]
+  }
 ];

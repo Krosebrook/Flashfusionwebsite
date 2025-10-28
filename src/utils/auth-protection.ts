@@ -4,7 +4,7 @@
  * @category security
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * Utilities for managing authentication state and route protection
  */
 
@@ -35,7 +35,7 @@ export const PUBLIC_ROUTES = [
   '/privacy',
   '/terms',
   '/testimonials',
-  '/faq',
+  '/faq'
 ];
 
 // Protected routes that require authentication
@@ -51,11 +51,16 @@ export const PROTECTED_ROUTES = [
   '/integrations',
   '/settings',
   '/profile',
-  '/education',
+  '/education'
 ];
 
 // Admin routes that require admin privileges
-export const ADMIN_ROUTES = ['/admin', '/system', '/monitoring', '/user-management'];
+export const ADMIN_ROUTES = [
+  '/admin',
+  '/system',
+  '/monitoring',
+  '/user-management'
+];
 
 /**
  * Check if user is authenticated based on stored tokens
@@ -64,13 +69,13 @@ export function checkAuthenticationStatus(): Promise<AuthState> {
   return new Promise((resolve) => {
     try {
       // Check multiple storage locations for auth data
-      const authToken =
-        localStorage.getItem('ff-auth-token') ||
+      const authToken = 
+        localStorage.getItem('ff-auth-token') || 
         sessionStorage.getItem('ff-auth-token') ||
         localStorage.getItem('supabase.auth.token') ||
         localStorage.getItem('auth-token');
 
-      const userData =
+      const userData = 
         localStorage.getItem('ff-user-data') ||
         localStorage.getItem('user-data') ||
         sessionStorage.getItem('ff-user-data');
@@ -78,13 +83,13 @@ export function checkAuthenticationStatus(): Promise<AuthState> {
       if (authToken && userData) {
         try {
           const user = JSON.parse(userData);
-
+          
           // Validate token format (basic check)
           if (typeof authToken === 'string' && authToken.length > 10) {
             resolve({
               isAuthenticated: true,
               isLoading: false,
-              user,
+              user
             });
             return;
           }
@@ -107,8 +112,8 @@ export function checkAuthenticationStatus(): Promise<AuthState> {
             id: 'demo-user',
             name: 'Demo User',
             email: 'demo@flashfusion.dev',
-            plan: 'demo',
-          },
+            plan: 'demo'
+          }
         });
         return;
       }
@@ -117,7 +122,7 @@ export function checkAuthenticationStatus(): Promise<AuthState> {
       resolve({
         isAuthenticated: false,
         isLoading: false,
-        user: null,
+        user: null
       });
     } catch (error) {
       console.error('Authentication check failed:', error);
@@ -125,7 +130,7 @@ export function checkAuthenticationStatus(): Promise<AuthState> {
         isAuthenticated: false,
         isLoading: false,
         user: null,
-        error: 'Authentication check failed',
+        error: 'Authentication check failed'
       });
     }
   });
@@ -140,14 +145,14 @@ export function clearAuthData(): void {
   localStorage.removeItem('ff-user-data');
   sessionStorage.removeItem('ff-auth-token');
   sessionStorage.removeItem('ff-user-data');
-
+  
   // Clear generic auth data
   localStorage.removeItem('auth-token');
   localStorage.removeItem('user-data');
-
+  
   // Clear Supabase auth data
   localStorage.removeItem('supabase.auth.token');
-
+  
   // Clear temporary access
   sessionStorage.removeItem('ff-temp-access');
   localStorage.removeItem('ff-demo-mode');
@@ -158,39 +163,29 @@ export function clearAuthData(): void {
  */
 export function getRouteProtectionLevel(path?: string): RouteProtectionLevel {
   const currentPath = path || (typeof window !== 'undefined' ? window.location.pathname : '/');
-  const searchParams =
-    typeof window !== 'undefined'
-      ? new URLSearchParams(window.location.search)
-      : new URLSearchParams();
-
+  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams();
+  
   // Check for demo mode
-  if (
-    searchParams.has('demo') ||
-    currentPath.includes('/demo') ||
-    localStorage.getItem('ff-demo-mode') === 'true'
-  ) {
+  if (searchParams.has('demo') || currentPath.includes('/demo') || localStorage.getItem('ff-demo-mode') === 'true') {
     return 'demo';
   }
-
+  
   // Check admin routes
-  if (ADMIN_ROUTES.some((route) => currentPath.startsWith(route))) {
+  if (ADMIN_ROUTES.some(route => currentPath.startsWith(route))) {
     return 'admin';
   }
-
+  
   // Check protected routes
-  if (PROTECTED_ROUTES.some((route) => currentPath.startsWith(route))) {
+  if (PROTECTED_ROUTES.some(route => currentPath.startsWith(route))) {
     return 'protected';
   }
-
+  
   // Check if explicitly requesting app access
   const showApp = searchParams.has('app') || localStorage.getItem('ff-show-app') === 'true';
-  if (
-    showApp &&
-    !PUBLIC_ROUTES.some((route) => currentPath === route || currentPath.startsWith(route + '/'))
-  ) {
+  if (showApp && !PUBLIC_ROUTES.some(route => currentPath === route || currentPath.startsWith(route + '/'))) {
     return 'protected';
   }
-
+  
   // Default to public
   return 'public';
 }
@@ -198,25 +193,20 @@ export function getRouteProtectionLevel(path?: string): RouteProtectionLevel {
 /**
  * Check if user has permission to access a route
  */
-export function hasRoutePermission(
-  authState: AuthState,
-  routeLevel: RouteProtectionLevel
-): boolean {
+export function hasRoutePermission(authState: AuthState, routeLevel: RouteProtectionLevel): boolean {
   switch (routeLevel) {
     case 'public':
     case 'demo':
       return true;
-
+      
     case 'protected':
       return authState.isAuthenticated;
-
+      
     case 'admin':
-      return (
-        authState.isAuthenticated &&
-        authState.user &&
-        (authState.user.role === 'admin' || authState.user.plan === 'enterprise')
-      );
-
+      return authState.isAuthenticated && 
+             authState.user && 
+             (authState.user.role === 'admin' || authState.user.plan === 'enterprise');
+      
     default:
       return false;
   }
@@ -226,11 +216,7 @@ export function hasRoutePermission(
  * Get redirect URL for authentication
  */
 export function getAuthRedirectUrl(intendedPath?: string): string {
-  const redirectPath =
-    intendedPath ||
-    (typeof window !== 'undefined'
-      ? window.location.pathname + window.location.search
-      : '/dashboard');
+  const redirectPath = intendedPath || (typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/dashboard');
   return `/auth?mode=signin&redirect=${encodeURIComponent(redirectPath)}`;
 }
 
@@ -239,11 +225,11 @@ export function getAuthRedirectUrl(intendedPath?: string): string {
  */
 export function storeAuthData(token: string, userData: any, persistent: boolean = true): void {
   const storage = persistent ? localStorage : sessionStorage;
-
+  
   try {
     storage.setItem('ff-auth-token', token);
     storage.setItem('ff-user-data', JSON.stringify(userData));
-
+    
     // Set show app flag for future visits
     localStorage.setItem('ff-show-app', 'true');
   } catch (error) {
@@ -258,14 +244,14 @@ export function validateTokenFormat(token: string): boolean {
   if (!token || typeof token !== 'string') {
     return false;
   }
-
+  
   // Basic token validation (adjust based on your token format)
   // JWT tokens typically have 3 parts separated by dots
   if (token.includes('.')) {
     const parts = token.split('.');
-    return parts.length === 3 && parts.every((part) => part.length > 0);
+    return parts.length === 3 && parts.every(part => part.length > 0);
   }
-
+  
   // Simple token should be at least 20 characters
   return token.length >= 20;
 }
@@ -276,7 +262,7 @@ export function validateTokenFormat(token: string): boolean {
 export function createDemoSession(): AuthState {
   sessionStorage.setItem('ff-temp-access', 'true');
   localStorage.setItem('ff-demo-mode', 'true');
-
+  
   return {
     isAuthenticated: true,
     isLoading: false,
@@ -285,8 +271,8 @@ export function createDemoSession(): AuthState {
       name: 'Demo User',
       email: 'demo@flashfusion.dev',
       plan: 'demo',
-      isDemo: true,
-    },
+      isDemo: true
+    }
   };
 }
 
@@ -300,14 +286,12 @@ export function handleAuthStateChange(
   if (onStateChange) {
     onStateChange(newAuthState);
   }
-
+  
   // Trigger custom events for other parts of the app
   if (typeof window !== 'undefined') {
-    window.dispatchEvent(
-      new CustomEvent('ff-auth-state-change', {
-        detail: newAuthState,
-      })
-    );
+    window.dispatchEvent(new CustomEvent('ff-auth-state-change', {
+      detail: newAuthState
+    }));
   }
 }
 
@@ -318,7 +302,7 @@ export function getUserRole(authState: AuthState): string {
   if (!authState.isAuthenticated || !authState.user) {
     return 'guest';
   }
-
+  
   return authState.user.role || authState.user.plan || 'user';
 }
 
@@ -329,9 +313,9 @@ export function hasPermission(authState: AuthState, permission: string): boolean
   if (!authState.isAuthenticated || !authState.user) {
     return false;
   }
-
+  
   const userRole = getUserRole(authState);
-
+  
   // Define role-based permissions
   const rolePermissions: Record<string, string[]> = {
     admin: ['*'], // Admin has all permissions
@@ -339,11 +323,11 @@ export function hasPermission(authState: AuthState, permission: string): boolean
     pro: ['create', 'edit', 'export', 'collaborate'],
     free: ['create', 'edit'],
     demo: ['view', 'demo'],
-    guest: [],
+    guest: []
   };
-
+  
   const permissions = rolePermissions[userRole] || [];
-
+  
   return permissions.includes('*') || permissions.includes(permission);
 }
 
@@ -358,5 +342,5 @@ export default {
   createDemoSession,
   handleAuthStateChange,
   getUserRole,
-  hasPermission,
+  hasPermission
 };

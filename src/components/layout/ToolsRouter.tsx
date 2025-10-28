@@ -22,8 +22,9 @@ export function ToolsRouter({
   setSelectedTool,
   isAuthenticated,
   user,
-  onToolUsage,
+  onToolUsage
 }: ToolsRouterProps) {
+  
   const renderToolPage = () => {
     switch (currentPage) {
       case 'tools':

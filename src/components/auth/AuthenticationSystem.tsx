@@ -4,7 +4,7 @@
  * @category authentication
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * Comprehensive authentication system with login, signup, forgot password,
  * and CAPTCHA verification using FlashFusion design system.
  */
@@ -20,14 +20,14 @@ import { Checkbox } from '../ui/checkbox';
 import { Separator } from '../ui/separator';
 import { Badge } from '../ui/badge';
 import { supabase } from '../../utils/supabase/client';
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  User,
-  Shield,
-  AlertCircle,
+import { 
+  Eye, 
+  EyeOff, 
+  Mail, 
+  Lock, 
+  User, 
+  Shield, 
+  AlertCircle, 
   CheckCircle,
   Loader2,
   ArrowLeft,
@@ -35,7 +35,7 @@ import {
   Chrome,
   KeyRound,
   Zap,
-  X,
+  X
 } from 'lucide-react';
 
 export interface AuthUser {
@@ -79,7 +79,7 @@ function SimpleCaptcha({ onVerify, isLoading }: CaptchaProps) {
   const handleVerify = useCallback(() => {
     const correctAnswer = num1 + num2;
     const userAnswer = parseInt(answer);
-
+    
     if (userAnswer === correctAnswer) {
       setIsVerified(true);
       onVerify(true);
@@ -97,18 +97,12 @@ function SimpleCaptcha({ onVerify, isLoading }: CaptchaProps) {
 
   return (
     <div className="space-y-3">
-      <Label
-        className="text-sm font-semibold text-[var(--ff-text-primary)]"
-        style={{ fontFamily: 'var(--ff-font-primary)' }}
-      >
+      <Label className="text-sm font-semibold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
         <Shield className="w-4 h-4 inline mr-2" />
         Verify you're not a robot
       </Label>
       <div className="flex items-center gap-3 p-4 bg-[var(--ff-surface)] rounded-lg border border-[var(--border)]">
-        <div
-          className="text-lg font-bold text-[var(--ff-text-primary)]"
-          style={{ fontFamily: 'var(--ff-font-mono)' }}
-        >
+        <div className="text-lg font-bold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-mono)' }}>
           {num1} + {num2} = ?
         </div>
         <Input
@@ -119,7 +113,9 @@ function SimpleCaptcha({ onVerify, isLoading }: CaptchaProps) {
           className="w-20 text-center bg-[var(--input-background)] border-[var(--border)] text-[var(--ff-text-primary)] focus:border-[var(--ff-primary)] focus:ring-[var(--ff-primary)] focus:ring-opacity-20"
           disabled={isLoading}
         />
-        {isVerified && <CheckCircle className="w-5 h-5 text-[var(--ff-success)]" />}
+        {isVerified && (
+          <CheckCircle className="w-5 h-5 text-[var(--ff-success)]" />
+        )}
       </div>
     </div>
   );
@@ -128,17 +124,13 @@ function SimpleCaptcha({ onVerify, isLoading }: CaptchaProps) {
 /**
  * Main Authentication System Component
  */
-export function AuthenticationSystem({
-  onAuthSuccess,
-  onAuthError,
-  onClose,
-}: AuthenticationSystemProps) {
+export function AuthenticationSystem({ onAuthSuccess, onAuthError, onClose }: AuthenticationSystemProps) {
   const [mode, setMode] = useState<AuthMode>('login');
   const [authState, setAuthState] = useState<AuthState>({
     user: null,
     isAuthenticated: false,
     isLoading: false,
-    error: null,
+    error: null
   });
 
   // Form states
@@ -206,325 +198,302 @@ export function AuthenticationSystem({
   }, []);
 
   // Handle login
-  const handleLogin = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
+  const handleLogin = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateEmail(email) || !isCaptchaVerified) return;
 
-      if (!validateEmail(email) || !isCaptchaVerified) return;
+    setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
 
-      setAuthState((prev) => ({ ...prev, isLoading: true, error: null }));
-
-      try {
-        // Quick demo mode for testing
-        if (email === 'demo@flashfusion.ai' && password === 'demo123') {
-          console.log('🎯 Demo login activated');
-
-          const demoUser: AuthUser = {
-            id: 'demo-user-001',
-            email: 'demo@flashfusion.ai',
-            name: 'Demo User',
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=demo',
-            role: 'pro',
-            subscription: 'pro',
-          };
-
-          setAuthState({
-            user: demoUser,
-            isAuthenticated: true,
-            isLoading: false,
-            error: null,
-          });
-
-          // Store demo user data
-          if (rememberMe) {
-            localStorage.setItem('ff-remember-user', JSON.stringify(demoUser));
-            localStorage.setItem('ff-auth-token', 'demo-token-' + Date.now());
-          }
-
-          onAuthSuccess(demoUser);
-          return;
-        }
-
-        console.log('🔐 Attempting login with Supabase for:', email);
-
-        // Real Supabase authentication
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-        if (error) {
-          console.error('❌ Supabase login error:', error);
-          throw new Error(error.message);
-        }
-
-        if (!data.user) {
-          throw new Error('Authentication failed - no user data received');
-        }
-
-        // Check if email is verified
-        if (!data.user.email_confirmed_at) {
-          setAuthState((prev) => ({
-            ...prev,
-            isLoading: false,
-            error:
-              'Please verify your email address before signing in. Check your inbox for a verification link.',
-          }));
-          return;
-        }
-
-        console.log('✅ Supabase login successful for:', email);
-
-        // Get user profile from database
-        const { data: profile, error: profileError } = await supabase
-          .from('user_profiles')
-          .select('*')
-          .eq('id', data.user.id)
-          .single();
-
-        if (profileError) {
-          console.warn('⚠️ Profile fetch warning:', profileError.message);
-        }
-
-        const user: AuthUser = {
-          id: data.user.id,
-          email: data.user.email || email,
-          name: profile?.name || data.user.user_metadata?.name || email.split('@')[0],
-          avatar:
-            profile?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.user.email}`,
-          role: profile?.role || 'user',
-          subscription: profile?.subscription_tier || 'free',
+    try {
+      // Quick demo mode for testing
+      if (email === 'demo@flashfusion.ai' && password === 'demo123') {
+        console.log('🎯 Demo login activated');
+        
+        const demoUser: AuthUser = {
+          id: 'demo-user-001',
+          email: 'demo@flashfusion.ai',
+          name: 'Demo User',
+          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=demo',
+          role: 'pro',
+          subscription: 'pro'
         };
 
         setAuthState({
-          user,
+          user: demoUser,
           isAuthenticated: true,
           isLoading: false,
-          error: null,
+          error: null
         });
 
-        // Store user data if remember me is checked
+        // Store demo user data
         if (rememberMe) {
-          localStorage.setItem('ff-remember-user', JSON.stringify(user));
-          localStorage.setItem('ff-auth-token', data.session?.access_token || '');
+          localStorage.setItem('ff-remember-user', JSON.stringify(demoUser));
+          localStorage.setItem('ff-auth-token', 'demo-token-' + Date.now());
         }
 
-        onAuthSuccess(user);
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Login failed';
-        console.error('❌ Login failed:', errorMessage);
+        onAuthSuccess(demoUser);
+        return;
+      }
+      
+      console.log('🔐 Attempting login with Supabase for:', email);
+      
+      // Real Supabase authentication
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
 
-        setAuthState((prev) => ({
+      if (error) {
+        console.error('❌ Supabase login error:', error);
+        throw new Error(error.message);
+      }
+
+      if (!data.user) {
+        throw new Error('Authentication failed - no user data received');
+      }
+
+      // Check if email is verified
+      if (!data.user.email_confirmed_at) {
+        setAuthState(prev => ({
           ...prev,
           isLoading: false,
-          error: errorMessage,
+          error: 'Please verify your email address before signing in. Check your inbox for a verification link.'
         }));
-        onAuthError(errorMessage);
+        return;
       }
-    },
-    [email, password, isCaptchaVerified, rememberMe, validateEmail, onAuthSuccess, onAuthError]
-  );
+
+      console.log('✅ Supabase login successful for:', email);
+
+      // Get user profile from database
+      const { data: profile, error: profileError } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('id', data.user.id)
+        .single();
+
+      if (profileError) {
+        console.warn('⚠️ Profile fetch warning:', profileError.message);
+      }
+
+      const user: AuthUser = {
+        id: data.user.id,
+        email: data.user.email || email,
+        name: profile?.name || data.user.user_metadata?.name || email.split('@')[0],
+        avatar: profile?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.user.email}`,
+        role: profile?.role || 'user',
+        subscription: profile?.subscription_tier || 'free'
+      };
+
+      setAuthState({
+        user,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null
+      });
+
+      // Store user data if remember me is checked
+      if (rememberMe) {
+        localStorage.setItem('ff-remember-user', JSON.stringify(user));
+        localStorage.setItem('ff-auth-token', data.session?.access_token || '');
+      }
+
+      onAuthSuccess(user);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Login failed';
+      console.error('❌ Login failed:', errorMessage);
+      
+      setAuthState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: errorMessage
+      }));
+      onAuthError(errorMessage);
+    }
+  }, [email, password, isCaptchaVerified, rememberMe, validateEmail, onAuthSuccess, onAuthError]);
 
   // Handle signup
-  const handleSignup = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
+  const handleSignup = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const isEmailValid = validateEmail(email);
+    const isPasswordValid = validatePassword(password);
+    const isNameValid = validateName(name);
+    
+    if (!isEmailValid || !isPasswordValid || !isNameValid || !acceptTerms || !isCaptchaVerified) {
+      return;
+    }
 
-      const isEmailValid = validateEmail(email);
-      const isPasswordValid = validatePassword(password);
-      const isNameValid = validateName(name);
+    if (password !== confirmPassword) {
+      setPasswordError('Passwords do not match');
+      return;
+    }
 
-      if (!isEmailValid || !isPasswordValid || !isNameValid || !acceptTerms || !isCaptchaVerified) {
+    setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
+
+    try {
+      console.log('📝 Attempting signup with Supabase for:', email);
+      
+      // Real Supabase authentication signup
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name,
+            created_via: 'flashfusion_signup',
+            signup_timestamp: new Date().toISOString()
+          }
+        }
+      });
+
+      if (error) {
+        console.error('❌ Supabase signup error:', error);
+        throw new Error(error.message);
+      }
+
+      if (!data.user) {
+        throw new Error('Signup failed - no user data received');
+      }
+
+      console.log('✅ Supabase signup successful for:', email);
+      
+      // Check if email confirmation is needed
+      if (!data.user.email_confirmed_at) {
+        console.log('📧 Email confirmation required for:', email);
+        setMode('verify-email');
+        setAuthState(prev => ({ ...prev, isLoading: false }));
         return;
       }
 
-      if (password !== confirmPassword) {
-        setPasswordError('Passwords do not match');
-        return;
-      }
-
-      setAuthState((prev) => ({ ...prev, isLoading: true, error: null }));
-
-      try {
-        console.log('📝 Attempting signup with Supabase for:', email);
-
-        // Real Supabase authentication signup
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              name,
-              created_via: 'flashfusion_signup',
-              signup_timestamp: new Date().toISOString(),
-            },
-          },
-        });
-
-        if (error) {
-          console.error('❌ Supabase signup error:', error);
-          throw new Error(error.message);
-        }
-
-        if (!data.user) {
-          throw new Error('Signup failed - no user data received');
-        }
-
-        console.log('✅ Supabase signup successful for:', email);
-
-        // Check if email confirmation is needed
-        if (!data.user.email_confirmed_at) {
-          console.log('📧 Email confirmation required for:', email);
-          setMode('verify-email');
-          setAuthState((prev) => ({ ...prev, isLoading: false }));
-          return;
-        }
-
-        // If auto-confirmed, proceed to create profile
-        const { error: profileError } = await supabase.from('user_profiles').insert({
+      // If auto-confirmed, proceed to create profile
+      const { error: profileError } = await supabase
+        .from('user_profiles')
+        .insert({
           id: data.user.id,
           email: data.user.email,
           name,
           created_at: new Date().toISOString(),
           subscription_tier: 'free',
-          onboarding_completed: false,
+          onboarding_completed: false
         });
 
-        if (profileError) {
-          console.warn('⚠️ Profile creation warning:', profileError.message);
-        }
-
-        // Auto-login if confirmed
-        const user: AuthUser = {
-          id: data.user.id,
-          email: data.user.email || email,
-          name,
-          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.user.email}`,
-          role: 'user',
-          subscription: 'free',
-        };
-
-        setAuthState({
-          user,
-          isAuthenticated: true,
-          isLoading: false,
-          error: null,
-        });
-
-        onAuthSuccess(user);
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Registration failed';
-        console.error('❌ Signup failed:', errorMessage);
-
-        setAuthState((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: errorMessage,
-        }));
-        onAuthError(errorMessage);
+      if (profileError) {
+        console.warn('⚠️ Profile creation warning:', profileError.message);
       }
-    },
-    [
-      email,
-      password,
-      confirmPassword,
-      name,
-      acceptTerms,
-      isCaptchaVerified,
-      validateEmail,
-      validatePassword,
-      validateName,
-      onAuthSuccess,
-      onAuthError,
-    ]
-  );
+
+      // Auto-login if confirmed
+      const user: AuthUser = {
+        id: data.user.id,
+        email: data.user.email || email,
+        name,
+        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.user.email}`,
+        role: 'user',
+        subscription: 'free'
+      };
+
+      setAuthState({
+        user,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null
+      });
+
+      onAuthSuccess(user);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Registration failed';
+      console.error('❌ Signup failed:', errorMessage);
+      
+      setAuthState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: errorMessage
+      }));
+      onAuthError(errorMessage);
+    }
+  }, [email, password, confirmPassword, name, acceptTerms, isCaptchaVerified, validateEmail, validatePassword, validateName, onAuthSuccess, onAuthError]);
 
   // Handle forgot password
-  const handleForgotPassword = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
+  const handleForgotPassword = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateEmail(email) || !isCaptchaVerified) return;
 
-      if (!validateEmail(email) || !isCaptchaVerified) return;
+    setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
 
-      setAuthState((prev) => ({ ...prev, isLoading: true, error: null }));
+    try {
+      console.log('🔑 Attempting password reset for:', email);
+      
+      // Real Supabase password reset
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`
+      });
 
-      try {
-        console.log('🔑 Attempting password reset for:', email);
-
-        // Real Supabase password reset
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `${window.location.origin}/reset-password`,
-        });
-
-        if (error) {
-          console.error('❌ Password reset error:', error);
-          throw new Error(error.message);
-        }
-
-        console.log('✅ Password reset email sent to:', email);
-
-        setAuthState((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: null,
-        }));
-
-        // Show success message
-        setMode('verify-email');
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to send reset email';
-        console.error('❌ Password reset failed:', errorMessage);
-
-        setAuthState((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: errorMessage,
-        }));
-        onAuthError(errorMessage);
+      if (error) {
+        console.error('❌ Password reset error:', error);
+        throw new Error(error.message);
       }
-    },
-    [email, isCaptchaVerified, validateEmail, onAuthError]
-  );
+
+      console.log('✅ Password reset email sent to:', email);
+      
+      setAuthState(prev => ({ 
+        ...prev, 
+        isLoading: false,
+        error: null 
+      }));
+      
+      // Show success message
+      setMode('verify-email');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to send reset email';
+      console.error('❌ Password reset failed:', errorMessage);
+      
+      setAuthState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: errorMessage
+      }));
+      onAuthError(errorMessage);
+    }
+  }, [email, isCaptchaVerified, validateEmail, onAuthError]);
 
   // Handle social login
-  const handleSocialLogin = useCallback(
-    async (provider: 'google' | 'github') => {
-      setAuthState((prev) => ({ ...prev, isLoading: true, error: null }));
+  const handleSocialLogin = useCallback(async (provider: 'google' | 'github') => {
+    setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
 
-      try {
-        console.log(`🔐 Attempting ${provider} social login`);
-
-        // Real Supabase social login
-        const { data, error } = await supabase.auth.signInWithOAuth({
-          provider,
-          options: {
-            redirectTo: `${window.location.origin}/auth/callback`,
-          },
-        });
-
-        if (error) {
-          console.error(`❌ ${provider} login error:`, error);
-          throw new Error(error.message);
+    try {
+      console.log(`🔐 Attempting ${provider} social login`);
+      
+      // Real Supabase social login
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`
         }
+      });
 
-        console.log(`✅ ${provider} login initiated successfully`);
-
-        // OAuth will redirect, so we don't need to handle success here
-        // The redirect will be handled by the auth callback
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : `${provider} login failed`;
-        console.error(`❌ ${provider} login failed:`, errorMessage);
-
-        setAuthState((prev) => ({
-          ...prev,
-          isLoading: false,
-          error: errorMessage,
-        }));
-        onAuthError(errorMessage);
+      if (error) {
+        console.error(`❌ ${provider} login error:`, error);
+        throw new Error(error.message);
       }
-    },
-    [onAuthError]
-  );
+
+      console.log(`✅ ${provider} login initiated successfully`);
+      
+      // OAuth will redirect, so we don't need to handle success here
+      // The redirect will be handled by the auth callback
+      
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : `${provider} login failed`;
+      console.error(`❌ ${provider} login failed:`, errorMessage);
+      
+      setAuthState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: errorMessage
+      }));
+      onAuthError(errorMessage);
+    }
+  }, [onAuthError]);
 
   // Check for remembered user
   useEffect(() => {
@@ -546,20 +515,13 @@ export function AuthenticationSystem({
       <Alert className="border-[var(--ff-secondary)] bg-[var(--ff-secondary)]/10">
         <Zap className="h-4 w-4 text-[var(--ff-secondary)]" />
         <AlertDescription className="text-[var(--ff-text-secondary)]">
-          <strong className="text-[var(--ff-secondary)]">Quick Demo:</strong> Use email{' '}
-          <code className="bg-[var(--ff-surface)] px-1 rounded">demo@flashfusion.ai</code> and
-          password <code className="bg-[var(--ff-surface)] px-1 rounded">demo123</code> to instantly
-          access the platform.
+          <strong className="text-[var(--ff-secondary)]">Quick Demo:</strong> Use email <code className="bg-[var(--ff-surface)] px-1 rounded">demo@flashfusion.ai</code> and password <code className="bg-[var(--ff-surface)] px-1 rounded">demo123</code> to instantly access the platform.
         </AlertDescription>
       </Alert>
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label
-            htmlFor="email"
-            className="text-sm font-semibold text-[var(--ff-text-primary)]"
-            style={{ fontFamily: 'var(--ff-font-primary)' }}
-          >
+          <Label htmlFor="email" className="text-sm font-semibold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
             Email Address
           </Label>
           <div className="relative">
@@ -579,15 +541,13 @@ export function AuthenticationSystem({
               required
             />
           </div>
-          {emailError && <p className="text-sm text-[var(--ff-error)] mt-1">{emailError}</p>}
+          {emailError && (
+            <p className="text-sm text-[var(--ff-error)] mt-1">{emailError}</p>
+          )}
         </div>
 
         <div className="space-y-2">
-          <Label
-            htmlFor="password"
-            className="text-sm font-semibold text-[var(--ff-text-primary)]"
-            style={{ fontFamily: 'var(--ff-font-primary)' }}
-          >
+          <Label htmlFor="password" className="text-sm font-semibold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
             Password
           </Label>
           <div className="relative">
@@ -664,11 +624,7 @@ export function AuthenticationSystem({
     <div className="space-y-6">
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label
-            htmlFor="signup-name"
-            className="text-sm font-semibold text-[var(--ff-text-primary)]"
-            style={{ fontFamily: 'var(--ff-font-primary)' }}
-          >
+          <Label htmlFor="signup-name" className="text-sm font-semibold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
             Full Name
           </Label>
           <div className="relative">
@@ -688,15 +644,13 @@ export function AuthenticationSystem({
               required
             />
           </div>
-          {nameError && <p className="text-sm text-[var(--ff-error)] mt-1">{nameError}</p>}
+          {nameError && (
+            <p className="text-sm text-[var(--ff-error)] mt-1">{nameError}</p>
+          )}
         </div>
 
         <div className="space-y-2">
-          <Label
-            htmlFor="signup-email"
-            className="text-sm font-semibold text-[var(--ff-text-primary)]"
-            style={{ fontFamily: 'var(--ff-font-primary)' }}
-          >
+          <Label htmlFor="signup-email" className="text-sm font-semibold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
             Email Address
           </Label>
           <div className="relative">
@@ -716,15 +670,13 @@ export function AuthenticationSystem({
               required
             />
           </div>
-          {emailError && <p className="text-sm text-[var(--ff-error)] mt-1">{emailError}</p>}
+          {emailError && (
+            <p className="text-sm text-[var(--ff-error)] mt-1">{emailError}</p>
+          )}
         </div>
 
         <div className="space-y-2">
-          <Label
-            htmlFor="signup-password"
-            className="text-sm font-semibold text-[var(--ff-text-primary)]"
-            style={{ fontFamily: 'var(--ff-font-primary)' }}
-          >
+          <Label htmlFor="signup-password" className="text-sm font-semibold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
             Password
           </Label>
           <div className="relative">
@@ -752,15 +704,13 @@ export function AuthenticationSystem({
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
           </div>
-          {passwordError && <p className="text-sm text-[var(--ff-error)] mt-1">{passwordError}</p>}
+          {passwordError && (
+            <p className="text-sm text-[var(--ff-error)] mt-1">{passwordError}</p>
+          )}
         </div>
 
         <div className="space-y-2">
-          <Label
-            htmlFor="confirm-password"
-            className="text-sm font-semibold text-[var(--ff-text-primary)]"
-            style={{ fontFamily: 'var(--ff-font-primary)' }}
-          >
+          <Label htmlFor="confirm-password" className="text-sm font-semibold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
             Confirm Password
           </Label>
           <div className="relative">
@@ -801,17 +751,11 @@ export function AuthenticationSystem({
         />
         <Label htmlFor="terms" className="text-sm text-[var(--ff-text-secondary)] leading-relaxed">
           I agree to the{' '}
-          <a
-            href="/terms"
-            className="text-[var(--ff-primary)] hover:text-[var(--ff-primary-400)] transition-colors"
-          >
+          <a href="/terms" className="text-[var(--ff-primary)] hover:text-[var(--ff-primary-400)] transition-colors">
             Terms of Service
           </a>{' '}
           and{' '}
-          <a
-            href="/privacy"
-            className="text-[var(--ff-primary)] hover:text-[var(--ff-primary-400)] transition-colors"
-          >
+          <a href="/privacy" className="text-[var(--ff-primary)] hover:text-[var(--ff-primary-400)] transition-colors">
             Privacy Policy
           </a>
         </Label>
@@ -820,16 +764,7 @@ export function AuthenticationSystem({
       <Button
         type="submit"
         onClick={handleSignup}
-        disabled={
-          authState.isLoading ||
-          !name ||
-          !email ||
-          !password ||
-          !confirmPassword ||
-          !acceptTerms ||
-          !isCaptchaVerified ||
-          password !== confirmPassword
-        }
+        disabled={authState.isLoading || !name || !email || !password || !confirmPassword || !acceptTerms || !isCaptchaVerified || password !== confirmPassword}
         className="w-full bg-[var(--ff-secondary)] hover:bg-[var(--ff-secondary-600)] text-white font-semibold py-3 rounded-lg transition-all duration-200 hover:transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
         style={{ fontFamily: 'var(--ff-font-primary)' }}
       >
@@ -851,10 +786,7 @@ export function AuthenticationSystem({
   const renderForgotPasswordForm = () => (
     <div className="space-y-6">
       <div className="text-center space-y-2">
-        <h3
-          className="text-xl font-semibold text-[var(--ff-text-primary)]"
-          style={{ fontFamily: 'var(--ff-font-primary)' }}
-        >
+        <h3 className="text-xl font-semibold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
           Reset your password
         </h3>
         <p className="text-[var(--ff-text-secondary)] text-sm">
@@ -864,11 +796,7 @@ export function AuthenticationSystem({
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label
-            htmlFor="reset-email"
-            className="text-sm font-semibold text-[var(--ff-text-primary)]"
-            style={{ fontFamily: 'var(--ff-font-primary)' }}
-          >
+          <Label htmlFor="reset-email" className="text-sm font-semibold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
             Email Address
           </Label>
           <div className="relative">
@@ -888,7 +816,9 @@ export function AuthenticationSystem({
               required
             />
           </div>
-          {emailError && <p className="text-sm text-[var(--ff-error)] mt-1">{emailError}</p>}
+          {emailError && (
+            <p className="text-sm text-[var(--ff-error)] mt-1">{emailError}</p>
+          )}
         </div>
       </div>
 
@@ -935,15 +865,11 @@ export function AuthenticationSystem({
           <Mail className="w-8 h-8 text-[var(--ff-primary)]" />
         </div>
         <div className="space-y-2">
-          <h3
-            className="text-xl font-semibold text-[var(--ff-text-primary)]"
-            style={{ fontFamily: 'var(--ff-font-primary)' }}
-          >
+          <h3 className="text-xl font-semibold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
             Check your email
           </h3>
           <p className="text-[var(--ff-text-secondary)] text-sm max-w-sm mx-auto">
-            We've sent you a verification link at{' '}
-            <strong className="text-[var(--ff-text-primary)]">{email}</strong>
+            We've sent you a verification link at <strong className="text-[var(--ff-text-primary)]">{email}</strong>
           </p>
         </div>
       </div>
@@ -952,23 +878,23 @@ export function AuthenticationSystem({
         <p className="text-center text-sm text-[var(--ff-text-muted)]">
           Didn't receive the email? Check your spam folder or
         </p>
-
+        
         <Button
           type="button"
           onClick={async () => {
             if (!email) return;
-
-            setAuthState((prev) => ({ ...prev, isLoading: true, error: null }));
-
+            
+            setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
+            
             try {
               console.log('📧 Resending verification email to:', email);
-
+              
               const { error } = await supabase.auth.resend({
                 type: 'signup',
                 email,
                 options: {
-                  emailRedirectTo: `${window.location.origin}/verify-email`,
-                },
+                  emailRedirectTo: `${window.location.origin}/verify-email`
+                }
               });
 
               if (error) {
@@ -977,21 +903,20 @@ export function AuthenticationSystem({
               }
 
               console.log('✅ Verification email resent to:', email);
-
-              setAuthState((prev) => ({
-                ...prev,
+              
+              setAuthState(prev => ({ 
+                ...prev, 
                 isLoading: false,
-                error: null,
+                error: null 
               }));
             } catch (error) {
-              const errorMessage =
-                error instanceof Error ? error.message : 'Failed to resend verification email';
+              const errorMessage = error instanceof Error ? error.message : 'Failed to resend verification email';
               console.error('❌ Resend verification failed:', errorMessage);
-
-              setAuthState((prev) => ({
+              
+              setAuthState(prev => ({
                 ...prev,
                 isLoading: false,
-                error: errorMessage,
+                error: errorMessage
               }));
             }
           }}
@@ -1051,7 +976,7 @@ export function AuthenticationSystem({
           <Chrome className="w-5 h-5 mr-2" />
           Google
         </Button>
-
+        
         <Button
           type="button"
           variant="outline"
@@ -1130,10 +1055,7 @@ export function AuthenticationSystem({
             <div className="w-12 h-12 mx-auto bg-[var(--ff-primary)] bg-opacity-10 rounded-full flex items-center justify-center mb-4">
               <Zap className="w-6 h-6 text-[var(--ff-primary)]" />
             </div>
-            <CardTitle
-              className="text-2xl font-bold text-[var(--ff-text-primary)]"
-              style={{ fontFamily: 'var(--ff-font-primary)' }}
-            >
+            <CardTitle className="text-2xl font-bold text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
               {getTitle()}
             </CardTitle>
             <CardDescription className="text-[var(--ff-text-secondary)]">

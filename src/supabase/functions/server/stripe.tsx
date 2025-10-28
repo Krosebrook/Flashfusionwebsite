@@ -6,12 +6,7 @@ const supabase = createClient(
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 );
 
-export async function createStripeCheckoutSession(
-  userId: string,
-  priceId: string,
-  successUrl: string,
-  cancelUrl: string
-) {
+export async function createStripeCheckoutSession(userId: string, priceId: string, successUrl: string, cancelUrl: string) {
   const stripeKey = Deno.env.get('stripe_secret_api_key');
   if (!stripeKey) {
     throw new Error('Stripe API key not configured');
@@ -32,13 +27,13 @@ export async function createStripeCheckoutSession(
       const customerResponse = await fetch('https://api.stripe.com/v1/customers', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${stripeKey}`,
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `Bearer ${stripeKey}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: new URLSearchParams({
           email: user?.email || '',
-          metadata: JSON.stringify({ user_id: userId }),
-        }),
+          metadata: JSON.stringify({ user_id: userId })
+        })
       });
 
       if (!customerResponse.ok) {
@@ -49,15 +44,18 @@ export async function createStripeCheckoutSession(
       customerId = customer.id;
 
       // Update user with Stripe customer ID
-      await supabase.from('users').update({ stripe_customer_id: customerId }).eq('id', userId);
+      await supabase
+        .from('users')
+        .update({ stripe_customer_id: customerId })
+        .eq('id', userId);
     }
 
     // Create checkout session
     const sessionResponse = await fetch('https://api.stripe.com/v1/checkout/sessions', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${stripeKey}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${stripeKey}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
       body: new URLSearchParams({
         customer: customerId,
@@ -69,8 +67,8 @@ export async function createStripeCheckoutSession(
         'metadata[user_id]': userId,
         allow_promotion_codes: 'true',
         billing_address_collection: 'required',
-        automatic_tax_enabled: 'true',
-      }),
+        automatic_tax_enabled: 'true'
+      })
     });
 
     if (!sessionResponse.ok) {
@@ -79,6 +77,7 @@ export async function createStripeCheckoutSession(
 
     const session = await sessionResponse.json();
     return session;
+
   } catch (error) {
     console.error('Stripe checkout session error:', error);
     throw error;
@@ -105,13 +104,13 @@ export async function createCustomerPortalSession(userId: string, returnUrl: str
     const portalResponse = await fetch('https://api.stripe.com/v1/billing_portal/sessions', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${stripeKey}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${stripeKey}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
       body: new URLSearchParams({
         customer: user.stripe_customer_id,
-        return_url: returnUrl,
-      }),
+        return_url: returnUrl
+      })
     });
 
     if (!portalResponse.ok) {
@@ -120,6 +119,7 @@ export async function createCustomerPortalSession(userId: string, returnUrl: str
 
     const portal = await portalResponse.json();
     return portal;
+
   } catch (error) {
     console.error('Stripe portal session error:', error);
     throw error;
@@ -186,7 +186,7 @@ async function handleSubscriptionChange(subscription: any) {
         subscription_status: subscription.status,
         stripe_subscription_id: subscription.id,
         subscription_ends_at: new Date(subscription.current_period_end * 1000).toISOString(),
-        updated_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       })
       .eq('id', userId);
 
@@ -196,7 +196,7 @@ async function handleSubscriptionChange(subscription: any) {
       .from('users')
       .update({
         api_calls_limit: limits.api_calls,
-        storage_limit_bytes: limits.storage_bytes,
+        storage_limit_bytes: limits.storage_bytes
       })
       .eq('id', userId);
 
@@ -221,7 +221,7 @@ async function handleSubscriptionCancellation(subscription: any) {
         subscription_tier: 'free',
         subscription_status: 'canceled',
         subscription_ends_at: new Date(subscription.current_period_end * 1000).toISOString(),
-        updated_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       })
       .eq('id', userId);
 
@@ -249,7 +249,7 @@ async function handlePaymentSuccess(invoice: any) {
         .update({
           monthly_generations: 0,
           api_calls_used: 0,
-          updated_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         })
         .eq('id', user.id);
     }
@@ -272,19 +272,18 @@ async function handlePaymentFailure(invoice: any) {
       .single();
 
     if (user) {
-      await supabase.from('notifications').insert([
-        {
+      await supabase
+        .from('notifications')
+        .insert([{
           user_id: user.id,
           title: 'Payment Failed',
-          message:
-            'Your recent payment failed. Please update your payment method to continue using FlashFusion.',
+          message: 'Your recent payment failed. Please update your payment method to continue using FlashFusion.',
           type: 'error',
           category: 'billing',
           action_url: '/settings/billing',
           action_text: 'Update Payment Method',
-          created_at: new Date().toISOString(),
-        },
-      ]);
+          created_at: new Date().toISOString()
+        }]);
     }
 
     console.log(`Payment failed for customer ${customerId}`);
@@ -295,12 +294,12 @@ async function handlePaymentFailure(invoice: any) {
 
 function getSubscriptionTier(priceId: string): string {
   const priceTierMap: Record<string, string> = {
-    price_pro_monthly: 'pro',
-    price_pro_yearly: 'pro',
-    price_enterprise_monthly: 'enterprise',
-    price_enterprise_yearly: 'enterprise',
-    price_unlimited_monthly: 'unlimited',
-    price_unlimited_yearly: 'unlimited',
+    'price_pro_monthly': 'pro',
+    'price_pro_yearly': 'pro',
+    'price_enterprise_monthly': 'enterprise',
+    'price_enterprise_yearly': 'enterprise',
+    'price_unlimited_monthly': 'unlimited',
+    'price_unlimited_yearly': 'unlimited'
   };
 
   return priceTierMap[priceId] || 'free';
@@ -310,20 +309,20 @@ function getUsageLimits(tier: string) {
   const limits = {
     free: {
       api_calls: 100,
-      storage_bytes: 1073741824, // 1GB
+      storage_bytes: 1073741824 // 1GB
     },
     pro: {
       api_calls: 1000,
-      storage_bytes: 10737418240, // 10GB
+      storage_bytes: 10737418240 // 10GB
     },
     enterprise: {
       api_calls: 10000,
-      storage_bytes: 107374182400, // 100GB
+      storage_bytes: 107374182400 // 100GB
     },
     unlimited: {
       api_calls: -1,
-      storage_bytes: -1,
-    },
+      storage_bytes: -1
+    }
   };
 
   return limits[tier] || limits.free;

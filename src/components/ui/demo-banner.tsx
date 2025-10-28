@@ -29,17 +29,17 @@ export function DemoBanner() {
   if (!isVisible) return null;
 
   return (
-    <div
+    <div 
       className={`relative bg-gradient-to-r from-primary via-secondary to-accent text-white transition-all duration-300 ${
         isAnimating ? 'opacity-0 transform -translate-y-full' : 'opacity-100'
       }`}
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
-        <div
+        <div 
           className="absolute inset-0 bg-repeat"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
           }}
         />
       </div>
@@ -57,23 +57,21 @@ export function DemoBanner() {
             {/* Content */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center space-x-3">
-                <Badge
-                  variant="secondary"
-                  className="bg-white/20 text-white border-white/30 font-medium"
-                >
+                <Badge variant="secondary" className="bg-white/20 text-white border-white/30 font-medium">
                   ✨ Demo Mode
                 </Badge>
-
-                <p className="text-sm font-medium">You're exploring FlashFusion Demo</p>
-
+                
+                <p className="text-sm font-medium">
+                  You're exploring FlashFusion Demo
+                </p>
+                
                 <span className="hidden sm:inline text-sm opacity-90">
                   • Experience 60+ AI tools with real outputs
                 </span>
               </div>
-
+              
               <p className="text-xs opacity-75 mt-1 hidden md:block">
-                Generate production-ready applications across multiple frameworks with full CI/CD
-                integration
+                Generate production-ready applications across multiple frameworks with full CI/CD integration
               </p>
             </div>
           </div>
@@ -91,7 +89,7 @@ export function DemoBanner() {
                 Learn More
               </Button>
             )}
-
+            
             <button
               onClick={handleClose}
               className="flex-shrink-0 w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors duration-200"
@@ -106,10 +104,7 @@ export function DemoBanner() {
       {/* Progress bar for development mode */}
       {isDevelopment && (
         <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/20">
-          <div
-            className="h-full bg-white/60 ff-progress-bar"
-            style={{ animationDuration: '30s' }}
-          ></div>
+          <div className="h-full bg-white/60 ff-progress-bar" style={{ animationDuration: '30s' }}></div>
         </div>
       )}
     </div>

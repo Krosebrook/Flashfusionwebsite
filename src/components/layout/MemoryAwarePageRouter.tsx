@@ -16,7 +16,7 @@ interface MemoryAwarePageRouterProps {
 }
 
 // Lightweight fallback components for high memory situations
-const LightweightDashboard = React.lazy(() =>
+const LightweightDashboard = React.lazy(() => 
   Promise.resolve({
     default: () => (
       <div className="container mx-auto px-4 py-8">
@@ -26,15 +26,17 @@ const LightweightDashboard = React.lazy(() =>
           </CardHeader>
           <CardContent>
             <p>Dashboard is running in memory-optimized mode.</p>
-            <Button onClick={() => window.location.reload()}>Try Full Dashboard</Button>
+            <Button onClick={() => window.location.reload()}>
+              Try Full Dashboard
+            </Button>
           </CardContent>
         </Card>
       </div>
-    ),
+    )
   })
 );
 
-const LightweightTools = React.lazy(() =>
+const LightweightTools = React.lazy(() => 
   Promise.resolve({
     default: () => (
       <div className="container mx-auto px-4 py-8">
@@ -55,7 +57,7 @@ const LightweightTools = React.lazy(() =>
           </CardContent>
         </Card>
       </div>
-    ),
+    )
   })
 );
 
@@ -64,43 +66,34 @@ const getPageComponent = (page: string, memoryUsage: number) => {
   // If memory is critical (>90%), use lightweight components
   if (memoryUsage > 90) {
     switch (page) {
-      case 'dashboard':
-        return LightweightDashboard;
-      case 'tools':
-        return LightweightTools;
-      default:
-        return LightweightDashboard;
+      case 'dashboard': return LightweightDashboard;
+      case 'tools': return LightweightTools;
+      default: return LightweightDashboard;
     }
   }
-
+  
   // If memory is high (75-90%), load medium priority components
   if (memoryUsage > 75) {
     switch (page) {
       case 'dashboard':
-        return lazy(() =>
-          import('../pages/DashboardPage').catch(() =>
-            Promise.resolve({ default: LightweightDashboard })
-          )
-        );
+        return lazy(() => import('../pages/DashboardPage').catch(() => 
+          Promise.resolve({ default: LightweightDashboard })
+        ));
       case 'tools':
-        return lazy(() =>
-          import('../pages/ToolsPage').catch(() => Promise.resolve({ default: LightweightTools }))
-        );
+        return lazy(() => import('../pages/ToolsPage').catch(() =>
+          Promise.resolve({ default: LightweightTools })
+        ));
       case 'analytics':
-        return lazy(() =>
-          import('../pages/AnalyticsPage').catch(() =>
-            Promise.resolve({ default: LightweightDashboard })
-          )
-        );
+        return lazy(() => import('../pages/AnalyticsPage').catch(() =>
+          Promise.resolve({ default: LightweightDashboard })
+        ));
       default:
-        return lazy(() =>
-          import('../pages/HomePage').catch(() =>
-            Promise.resolve({ default: LightweightDashboard })
-          )
-        );
+        return lazy(() => import('../pages/HomePage').catch(() =>
+          Promise.resolve({ default: LightweightDashboard })
+        ));
     }
   }
-
+  
   // Normal memory usage - load all components
   switch (page) {
     case 'home':
@@ -148,9 +141,13 @@ const MemoryOptimizedLoader = ({ memoryUsage }: { memoryUsage: number }) => (
           <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
           <div>
             <h3 className="font-semibold">Loading FlashFusion</h3>
-            <p className="text-sm text-muted-foreground">Memory usage: {memoryUsage.toFixed(1)}%</p>
+            <p className="text-sm text-muted-foreground">
+              Memory usage: {memoryUsage.toFixed(1)}%
+            </p>
             {memoryUsage > 85 && (
-              <p className="text-xs text-warning mt-1">Optimizing for memory efficiency...</p>
+              <p className="text-xs text-warning mt-1">
+                Optimizing for memory efficiency...
+              </p>
             )}
           </div>
         </div>
@@ -159,25 +156,23 @@ const MemoryOptimizedLoader = ({ memoryUsage }: { memoryUsage: number }) => (
   </div>
 );
 
-export function MemoryAwarePageRouter({
-  currentPage,
-  isAuthenticated,
-  onPageChange,
+export function MemoryAwarePageRouter({ 
+  currentPage, 
+  isAuthenticated, 
+  onPageChange 
 }: MemoryAwarePageRouterProps) {
   const memoryStats = memoryOptimizer.getMemoryStats();
   const memoryUsage = memoryStats?.percentage || 0;
-
+  
   const PageComponent = useMemo(() => {
     return getPageComponent(currentPage, memoryUsage);
   }, [currentPage, memoryUsage]);
-
+  
   const handleComponentError = useCallback(() => {
-    console.warn(
-      `Component failed to load for page: ${currentPage}, falling back to lightweight version`
-    );
+    console.warn(`Component failed to load for page: ${currentPage}, falling back to lightweight version`);
     return LightweightDashboard;
   }, [currentPage]);
-
+  
   return (
     <Suspense fallback={<MemoryOptimizedLoader memoryUsage={memoryUsage} />}>
       <PageComponent />

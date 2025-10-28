@@ -4,12 +4,12 @@
  * @category generation
  * @version 2.0.0
  * @author FlashFusion Team
- *
+ * 
  * FLASHFUSION - FULL STACK APP BUILDER
- *
- * Generate complete production-ready applications with React, Node.js,
+ * 
+ * Generate complete production-ready applications with React, Node.js, 
  * database integration, authentication, and deployment configuration.
- *
+ * 
  * Features:
  * - Multiple frontend frameworks (React, Next.js, Vue, Angular)
  * - Backend options (Node.js, Python, Go, .NET)
@@ -32,12 +32,12 @@ import { Checkbox } from '../../ui/checkbox';
 import { Badge } from '../../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../ui/tabs';
 import { Progress } from '../../ui/progress';
-import {
-  Layers,
-  Code,
-  Database,
-  Shield,
-  Rocket,
+import { 
+  Layers, 
+  Code, 
+  Database, 
+  Shield, 
+  Rocket, 
   Download,
   Eye,
   Settings,
@@ -51,9 +51,9 @@ import {
   FileText,
   Package,
   GitBranch,
-  RefreshCw,
+  RefreshCw
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface AppConfig {
   name: string;
@@ -91,7 +91,7 @@ const FRONTEND_OPTIONS = [
   { value: 'react', label: 'React', icon: '⚛️', description: 'Popular frontend library' },
   { value: 'vue', label: 'Vue.js', icon: '💚', description: 'Progressive framework' },
   { value: 'angular', label: 'Angular', icon: '🅰️', description: 'Full-featured framework' },
-  { value: 'svelte', label: 'SvelteKit', icon: '🧡', description: 'Compile-time optimized' },
+  { value: 'svelte', label: 'SvelteKit', icon: '🧡', description: 'Compile-time optimized' }
 ];
 
 const BACKEND_OPTIONS = [
@@ -99,7 +99,7 @@ const BACKEND_OPTIONS = [
   { value: 'fastapi', label: 'Python + FastAPI', icon: '🐍', description: 'Modern Python API' },
   { value: 'golang', label: 'Go + Gin', icon: '🐹', description: 'High-performance backend' },
   { value: 'dotnet', label: '.NET Core', icon: '🔷', description: 'Microsoft framework' },
-  { value: 'django', label: 'Django', icon: '🐍', description: 'Python web framework' },
+  { value: 'django', label: 'Django', icon: '🐍', description: 'Python web framework' }
 ];
 
 const DATABASE_OPTIONS = [
@@ -107,20 +107,15 @@ const DATABASE_OPTIONS = [
   { value: 'mysql', label: 'MySQL', icon: '🐬', description: 'Popular relational DB' },
   { value: 'mongodb', label: 'MongoDB', icon: '🍃', description: 'Document database' },
   { value: 'supabase', label: 'Supabase', icon: '⚡', description: 'Backend as a service' },
-  { value: 'firebase', label: 'Firebase', icon: '🔥', description: "Google's BaaS platform" },
+  { value: 'firebase', label: 'Firebase', icon: '🔥', description: 'Google\'s BaaS platform' }
 ];
 
 const AUTH_OPTIONS = [
   { value: 'nextauth', label: 'NextAuth.js', icon: '🔐', description: 'Next.js authentication' },
   { value: 'auth0', label: 'Auth0', icon: '🛡️', description: 'Identity platform' },
-  {
-    value: 'firebase-auth',
-    label: 'Firebase Auth',
-    icon: '🔥',
-    description: 'Google authentication',
-  },
+  { value: 'firebase-auth', label: 'Firebase Auth', icon: '🔥', description: 'Google authentication' },
   { value: 'supabase-auth', label: 'Supabase Auth', icon: '⚡', description: 'Open source auth' },
-  { value: 'custom', label: 'Custom JWT', icon: '🔑', description: 'Custom implementation' },
+  { value: 'custom', label: 'Custom JWT', icon: '🔑', description: 'Custom implementation' }
 ];
 
 const DEPLOYMENT_OPTIONS = [
@@ -128,7 +123,7 @@ const DEPLOYMENT_OPTIONS = [
   { value: 'netlify', label: 'Netlify', icon: '🌐', description: 'Web development platform' },
   { value: 'aws', label: 'AWS', icon: '☁️', description: 'Amazon cloud services' },
   { value: 'digitalocean', label: 'DigitalOcean', icon: '🌊', description: 'Developer cloud' },
-  { value: 'railway', label: 'Railway', icon: '🚂', description: 'Infrastructure platform' },
+  { value: 'railway', label: 'Railway', icon: '🚂', description: 'Infrastructure platform' }
 ];
 
 const FEATURE_OPTIONS = [
@@ -151,7 +146,7 @@ const FEATURE_OPTIONS = [
   'Error Tracking (Sentry)',
   'Rate Limiting & Security',
   'Backup & Recovery',
-  'Testing Suite (Jest/Playwright)',
+  'Testing Suite (Jest/Playwright)'
 ];
 
 export function FullStackBuilderTool(): JSX.Element {
@@ -164,7 +159,7 @@ export function FullStackBuilderTool(): JSX.Element {
     database: 'postgresql',
     auth: 'nextauth',
     deployment: 'vercel',
-    features: [],
+    features: []
   });
 
   const [generatedApp, setGeneratedApp] = useState<GeneratedApp | null>(null);
@@ -196,18 +191,18 @@ export function FullStackBuilderTool(): JSX.Element {
         'Configuring database schema...',
         'Setting up authentication...',
         'Configuring deployment...',
-        'Finalizing project...',
+        'Finalizing project...'
       ];
 
       for (let i = 0; i < steps.length; i++) {
         setProgress(((i + 1) / steps.length) * 100);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
       }
 
       // Generate mock app
       const app = await generateMockApp(config);
       setGeneratedApp(app);
-
+      
       toast.success('Full-stack application generated successfully!');
     } catch (error) {
       toast.error('App generation failed. Please try again.');
@@ -221,11 +216,11 @@ export function FullStackBuilderTool(): JSX.Element {
    * Handle feature selection
    */
   const handleFeatureToggle = useCallback((feature: string): void => {
-    setConfig((prev) => ({
+    setConfig(prev => ({
       ...prev,
       features: prev.features.includes(feature)
-        ? prev.features.filter((f) => f !== feature)
-        : [...prev.features, feature],
+        ? prev.features.filter(f => f !== feature)
+        : [...prev.features, feature]
     }));
   }, []);
 
@@ -236,9 +231,9 @@ export function FullStackBuilderTool(): JSX.Element {
     if (!generatedApp) return;
 
     // Create zip file content (simplified)
-    const projectFiles = generatedApp.files.map((file) => ({
+    const projectFiles = generatedApp.files.map(file => ({
       path: file.path,
-      content: file.content,
+      content: file.content
     }));
 
     // In a real implementation, this would create an actual zip file
@@ -246,13 +241,13 @@ export function FullStackBuilderTool(): JSX.Element {
       name: generatedApp.name,
       files: projectFiles,
       instructions: generatedApp.buildInstructions,
-      stack: generatedApp.stack,
+      stack: generatedApp.stack
     };
 
     const dataStr = JSON.stringify(projectData, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-
+    
     const link = document.createElement('a');
     link.href = url;
     link.download = `${generatedApp.name.toLowerCase().replace(/\s+/g, '-')}-project.json`;
@@ -260,7 +255,7 @@ export function FullStackBuilderTool(): JSX.Element {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-
+    
     toast.success('Project files downloaded successfully');
   }, [generatedApp]);
 
@@ -281,7 +276,7 @@ export function FullStackBuilderTool(): JSX.Element {
             </p>
           </div>
         </div>
-
+        
         <div className="flex items-center gap-3">
           <Badge variant="secondary" className="text-xs">
             Production Ready
@@ -344,7 +339,7 @@ export function FullStackBuilderTool(): JSX.Element {
                   <Input
                     placeholder="My Awesome App"
                     value={config.name}
-                    onChange={(e) => setConfig((prev) => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => setConfig(prev => ({ ...prev, name: e.target.value }))}
                     className="ff-input"
                   />
                 </div>
@@ -354,19 +349,14 @@ export function FullStackBuilderTool(): JSX.Element {
                   <Textarea
                     placeholder="Describe what your app does..."
                     value={config.description}
-                    onChange={(e) =>
-                      setConfig((prev) => ({ ...prev, description: e.target.value }))
-                    }
+                    onChange={(e) => setConfig(prev => ({ ...prev, description: e.target.value }))}
                     className="ff-input min-h-[100px]"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-sm font-semibold">App Type</Label>
-                  <Select
-                    value={config.type}
-                    onValueChange={(value) => setConfig((prev) => ({ ...prev, type: value }))}
-                  >
+                  <Select value={config.type} onValueChange={(value) => setConfig(prev => ({ ...prev, type: value }))}>
                     <SelectTrigger className="ff-input">
                       <SelectValue />
                     </SelectTrigger>
@@ -402,15 +392,13 @@ export function FullStackBuilderTool(): JSX.Element {
                         className={`ff-card-interactive cursor-pointer p-3 ${
                           config.frontend === option.value ? 'ring-2 ring-[var(--ff-primary)]' : ''
                         }`}
-                        onClick={() => setConfig((prev) => ({ ...prev, frontend: option.value }))}
+                        onClick={() => setConfig(prev => ({ ...prev, frontend: option.value }))}
                       >
                         <div className="flex items-center gap-2">
                           <span className="text-lg">{option.icon}</span>
                           <div>
                             <div className="font-medium text-sm">{option.label}</div>
-                            <div className="text-xs text-[var(--ff-text-muted)]">
-                              {option.description}
-                            </div>
+                            <div className="text-xs text-[var(--ff-text-muted)]">{option.description}</div>
                           </div>
                         </div>
                       </Card>
@@ -427,15 +415,13 @@ export function FullStackBuilderTool(): JSX.Element {
                         className={`ff-card-interactive cursor-pointer p-3 ${
                           config.backend === option.value ? 'ring-2 ring-[var(--ff-primary)]' : ''
                         }`}
-                        onClick={() => setConfig((prev) => ({ ...prev, backend: option.value }))}
+                        onClick={() => setConfig(prev => ({ ...prev, backend: option.value }))}
                       >
                         <div className="flex items-center gap-2">
                           <span className="text-lg">{option.icon}</span>
                           <div>
                             <div className="font-medium text-sm">{option.label}</div>
-                            <div className="text-xs text-[var(--ff-text-muted)]">
-                              {option.description}
-                            </div>
+                            <div className="text-xs text-[var(--ff-text-muted)]">{option.description}</div>
                           </div>
                         </div>
                       </Card>
@@ -446,10 +432,7 @@ export function FullStackBuilderTool(): JSX.Element {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Database</Label>
-                    <Select
-                      value={config.database}
-                      onValueChange={(value) => setConfig((prev) => ({ ...prev, database: value }))}
-                    >
+                    <Select value={config.database} onValueChange={(value) => setConfig(prev => ({ ...prev, database: value }))}>
                       <SelectTrigger className="ff-input">
                         <SelectValue />
                       </SelectTrigger>
@@ -468,10 +451,7 @@ export function FullStackBuilderTool(): JSX.Element {
 
                   <div className="space-y-2">
                     <Label className="text-sm font-semibold">Authentication</Label>
-                    <Select
-                      value={config.auth}
-                      onValueChange={(value) => setConfig((prev) => ({ ...prev, auth: value }))}
-                    >
+                    <Select value={config.auth} onValueChange={(value) => setConfig(prev => ({ ...prev, auth: value }))}>
                       <SelectTrigger className="ff-input">
                         <SelectValue />
                       </SelectTrigger>
@@ -511,20 +491,16 @@ export function FullStackBuilderTool(): JSX.Element {
                   <Card
                     key={feature}
                     className={`ff-card-interactive cursor-pointer p-4 ${
-                      config.features.includes(feature)
-                        ? 'ring-2 ring-[var(--ff-primary)] bg-[var(--ff-primary)]/5'
-                        : ''
+                      config.features.includes(feature) ? 'ring-2 ring-[var(--ff-primary)] bg-[var(--ff-primary)]/5' : ''
                     }`}
                     onClick={() => handleFeatureToggle(feature)}
                   >
                     <div className="flex items-center gap-3">
-                      <div
-                        className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                          config.features.includes(feature)
-                            ? 'bg-[var(--ff-primary)] border-[var(--ff-primary)]'
-                            : 'border-[var(--ff-text-muted)]'
-                        }`}
-                      >
+                      <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                        config.features.includes(feature) 
+                          ? 'bg-[var(--ff-primary)] border-[var(--ff-primary)]' 
+                          : 'border-[var(--ff-text-muted)]'
+                      }`}>
                         {config.features.includes(feature) && (
                           <CheckCircle className="h-3 w-3 text-white" />
                         )}
@@ -559,7 +535,9 @@ export function FullStackBuilderTool(): JSX.Element {
                   </div>
                   <div className="w-full max-w-md mx-auto">
                     <Progress value={progress} className="w-full" />
-                    <p className="text-xs text-[var(--ff-text-muted)] mt-2">{progress}% complete</p>
+                    <p className="text-xs text-[var(--ff-text-muted)] mt-2">
+                      {progress}% complete
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -584,7 +562,9 @@ export function FullStackBuilderTool(): JSX.Element {
                         <Download className="h-4 w-4 mr-2" />
                         Download
                       </Button>
-                      <Badge className="bg-green-500 text-white">Ready to Deploy</Badge>
+                      <Badge className="bg-green-500 text-white">
+                        Ready to Deploy
+                      </Badge>
                     </div>
                   </div>
                 </CardHeader>
@@ -601,22 +581,12 @@ export function FullStackBuilderTool(): JSX.Element {
                       </div>
 
                       <div className="space-y-2">
-                        <h4 className="font-semibold text-[var(--ff-text-primary)] text-sm">
-                          Tech Stack
-                        </h4>
+                        <h4 className="font-semibold text-[var(--ff-text-primary)] text-sm">Tech Stack</h4>
                         <div className="flex flex-wrap gap-2">
-                          <Badge variant="outline">
-                            {FRONTEND_OPTIONS.find((f) => f.value === config.frontend)?.label}
-                          </Badge>
-                          <Badge variant="outline">
-                            {BACKEND_OPTIONS.find((b) => b.value === config.backend)?.label}
-                          </Badge>
-                          <Badge variant="outline">
-                            {DATABASE_OPTIONS.find((d) => d.value === config.database)?.label}
-                          </Badge>
-                          <Badge variant="outline">
-                            {AUTH_OPTIONS.find((a) => a.value === config.auth)?.label}
-                          </Badge>
+                          <Badge variant="outline">{FRONTEND_OPTIONS.find(f => f.value === config.frontend)?.label}</Badge>
+                          <Badge variant="outline">{BACKEND_OPTIONS.find(b => b.value === config.backend)?.label}</Badge>
+                          <Badge variant="outline">{DATABASE_OPTIONS.find(d => d.value === config.database)?.label}</Badge>
+                          <Badge variant="outline">{AUTH_OPTIONS.find(a => a.value === config.auth)?.label}</Badge>
                         </div>
                       </div>
                     </div>
@@ -624,27 +594,19 @@ export function FullStackBuilderTool(): JSX.Element {
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-4 text-center">
                         <div>
-                          <div className="text-xl font-bold text-[var(--ff-primary)]">
-                            {generatedApp.files.length}
-                          </div>
+                          <div className="text-xl font-bold text-[var(--ff-primary)]">{generatedApp.files.length}</div>
                           <div className="text-xs text-[var(--ff-text-muted)]">Files Generated</div>
                         </div>
                         <div>
-                          <div className="text-xl font-bold text-[var(--ff-secondary)]">
-                            {generatedApp.setupTime}min
-                          </div>
+                          <div className="text-xl font-bold text-[var(--ff-secondary)]">{generatedApp.setupTime}min</div>
                           <div className="text-xs text-[var(--ff-text-muted)]">Setup Time</div>
                         </div>
                         <div>
-                          <div className="text-xl font-bold text-[var(--ff-accent)]">
-                            ${generatedApp.estimatedCost}
-                          </div>
+                          <div className="text-xl font-bold text-[var(--ff-accent)]">${generatedApp.estimatedCost}</div>
                           <div className="text-xs text-[var(--ff-text-muted)]">Monthly Cost</div>
                         </div>
                         <div>
-                          <div className="text-xl font-bold text-green-500">
-                            {config.features.length}
-                          </div>
+                          <div className="text-xl font-bold text-green-500">{config.features.length}</div>
                           <div className="text-xs text-[var(--ff-text-muted)]">Features</div>
                         </div>
                       </div>
@@ -667,15 +629,11 @@ export function FullStackBuilderTool(): JSX.Element {
                       <div
                         key={index}
                         className="flex items-center justify-between p-2 rounded hover:bg-[var(--ff-surface)]/50 cursor-pointer group"
-                        onClick={() =>
-                          setSelectedFile(selectedFile === file.path ? null : file.path)
-                        }
+                        onClick={() => setSelectedFile(selectedFile === file.path ? null : file.path)}
                       >
                         <div className="flex items-center gap-2">
                           <FileText className="h-4 w-4 text-[var(--ff-text-muted)]" />
-                          <span className="font-mono text-sm text-[var(--ff-text-primary)]">
-                            {file.path}
-                          </span>
+                          <span className="font-mono text-sm text-[var(--ff-text-primary)]">{file.path}</span>
                           <Badge variant="outline" className="text-xs">
                             {file.type}
                           </Badge>
@@ -705,7 +663,7 @@ export function FullStackBuilderTool(): JSX.Element {
                   <CardContent>
                     <div className="bg-black rounded-lg p-4 max-h-64 overflow-y-auto">
                       <pre className="text-green-400 text-sm font-mono">
-                        {generatedApp.files.find((f) => f.path === selectedFile)?.content}
+                        {generatedApp.files.find(f => f.path === selectedFile)?.content}
                       </pre>
                     </div>
                   </CardContent>
@@ -744,7 +702,7 @@ export function FullStackBuilderTool(): JSX.Element {
                     className={`ff-card-interactive cursor-pointer p-4 text-center ${
                       config.deployment === option.value ? 'ring-2 ring-[var(--ff-primary)]' : ''
                     }`}
-                    onClick={() => setConfig((prev) => ({ ...prev, deployment: option.value }))}
+                    onClick={() => setConfig(prev => ({ ...prev, deployment: option.value }))}
                   >
                     <div className="space-y-2">
                       <span className="text-2xl">{option.icon}</span>
@@ -759,9 +717,12 @@ export function FullStackBuilderTool(): JSX.Element {
 
               {generatedApp && (
                 <div className="mt-6 text-center">
-                  <Button size="lg" className="ff-btn-primary font-['Sora'] font-semibold px-8">
+                  <Button
+                    size="lg"
+                    className="ff-btn-primary font-['Sora'] font-semibold px-8"
+                  >
                     <Rocket className="h-5 w-5 mr-2" />
-                    Deploy to {DEPLOYMENT_OPTIONS.find((d) => d.value === config.deployment)?.label}
+                    Deploy to {DEPLOYMENT_OPTIONS.find(d => d.value === config.deployment)?.label}
                   </Button>
                 </div>
               )}
@@ -780,27 +741,23 @@ async function generateMockApp(config: AppConfig): Promise<GeneratedApp> {
   const mockFiles: GeneratedFile[] = [
     {
       path: 'package.json',
-      content: JSON.stringify(
-        {
-          name: config.name.toLowerCase().replace(/\s+/g, '-'),
-          version: '1.0.0',
-          description: config.description,
-          scripts: {
-            dev: 'next dev',
-            build: 'next build',
-            start: 'next start',
-          },
-          dependencies: {
-            next: '^14.0.0',
-            react: '^18.0.0',
-            'react-dom': '^18.0.0',
-          },
+      content: JSON.stringify({
+        name: config.name.toLowerCase().replace(/\s+/g, '-'),
+        version: '1.0.0',
+        description: config.description,
+        scripts: {
+          dev: 'next dev',
+          build: 'next build',
+          start: 'next start'
         },
-        null,
-        2
-      ),
+        dependencies: {
+          'next': '^14.0.0',
+          'react': '^18.0.0',
+          'react-dom': '^18.0.0'
+        }
+      }, null, 2),
       type: 'json',
-      description: 'Package configuration',
+      description: 'Package configuration'
     },
     {
       path: 'src/app/page.tsx',
@@ -831,7 +788,7 @@ export default function HomePage() {
   );
 }`,
       type: 'typescript',
-      description: 'Home page component',
+      description: 'Home page component'
     },
     {
       path: 'README.md',
@@ -841,14 +798,14 @@ ${config.description}
 
 ## Tech Stack
 
-- **Frontend**: ${FRONTEND_OPTIONS.find((f) => f.value === config.frontend)?.label}
-- **Backend**: ${BACKEND_OPTIONS.find((b) => b.value === config.backend)?.label}  
-- **Database**: ${DATABASE_OPTIONS.find((d) => d.value === config.database)?.label}
-- **Authentication**: ${AUTH_OPTIONS.find((a) => a.value === config.auth)?.label}
+- **Frontend**: ${FRONTEND_OPTIONS.find(f => f.value === config.frontend)?.label}
+- **Backend**: ${BACKEND_OPTIONS.find(b => b.value === config.backend)?.label}  
+- **Database**: ${DATABASE_OPTIONS.find(d => d.value === config.database)?.label}
+- **Authentication**: ${AUTH_OPTIONS.find(a => a.value === config.auth)?.label}
 
 ## Features
 
-${config.features.map((f) => `- ${f}`).join('\n')}
+${config.features.map(f => `- ${f}`).join('\n')}
 
 ## Quick Start
 
@@ -859,11 +816,11 @@ ${config.features.map((f) => `- ${f}`).join('\n')}
 
 ## Deployment
 
-This app is configured for deployment on ${DEPLOYMENT_OPTIONS.find((d) => d.value === config.deployment)?.label}.
+This app is configured for deployment on ${DEPLOYMENT_OPTIONS.find(d => d.value === config.deployment)?.label}.
 
 Generated by FlashFusion AI Platform.`,
       type: 'markdown',
-      description: 'Project documentation',
+      description: 'Project documentation'
     },
     {
       path: 'Dockerfile',
@@ -880,8 +837,8 @@ EXPOSE 3000
 
 CMD ["npm", "start"]`,
       type: 'dockerfile',
-      description: 'Docker configuration',
-    },
+      description: 'Docker configuration'
+    }
   ];
 
   return {
@@ -896,10 +853,10 @@ CMD ["npm", "start"]`,
       'Run npm install to install dependencies',
       'Copy .env.example to .env and configure',
       'Run npm run dev to start development server',
-      'Access application at http://localhost:3000',
+      'Access application at http://localhost:3000'
     ],
     setupTime: Math.floor(Math.random() * 10) + 5,
-    estimatedCost: Math.floor(Math.random() * 50) + 10,
+    estimatedCost: Math.floor(Math.random() * 50) + 10
   };
 }
 

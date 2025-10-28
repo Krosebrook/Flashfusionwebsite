@@ -5,11 +5,11 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  TrendingUp,
-  TrendingDown,
-  BarChart3,
-  Clock,
+import { 
+  TrendingUp, 
+  TrendingDown, 
+  BarChart3, 
+  Clock, 
   Target,
   Zap,
   Users,
@@ -19,7 +19,7 @@ import {
   RefreshCw,
   Award,
   AlertTriangle,
-  CheckCircle2,
+  CheckCircle2
 } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { Agent, AgentInteraction, AgentMetrics } from '../../types/multi-agent-orchestration';
@@ -33,7 +33,7 @@ interface AgentPerformanceAnalyticsProps {
 export function AgentPerformanceAnalytics({
   agents,
   interactions,
-  timeframe,
+  timeframe
 }: AgentPerformanceAnalyticsProps) {
   const [selectedAgent, setSelectedAgent] = useState<string>('');
   const [metrics, setMetrics] = useState<AgentMetrics[]>([]);
@@ -47,11 +47,11 @@ export function AgentPerformanceAnalytics({
 
   const generatePerformanceMetrics = async () => {
     setIsAnalyzing(true);
-
+    
     // Simulate analytics processing
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    const agentMetrics: AgentMetrics[] = agents.map((agent) => ({
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    const agentMetrics: AgentMetrics[] = agents.map(agent => ({
       agentId: agent.id,
       timeframe: selectedTimeframe,
       tasksCompleted: Math.floor(Math.random() * 50) + 10,
@@ -63,11 +63,11 @@ export function AgentPerformanceAnalytics({
       handoffSuccessRate: Math.floor(Math.random() * 20) + 80,
       blockerFrequency: Math.floor(Math.random() * 5),
       clientSatisfaction: Math.floor(Math.random() * 25) + 75,
-      learningProgress: Math.floor(Math.random() * 30) + 70,
+      learningProgress: Math.floor(Math.random() * 30) + 70
     }));
-
+    
     const trends = generatePerformanceTrends();
-
+    
     setMetrics(agentMetrics);
     setPerformanceTrends(trends);
     setIsAnalyzing(false);
@@ -75,26 +75,26 @@ export function AgentPerformanceAnalytics({
 
   const generatePromptMetrics = () => [
     {
-      prompt: 'Analyze user requirements and create feature specifications',
+      prompt: "Analyze user requirements and create feature specifications",
       usage: Math.floor(Math.random() * 20) + 5,
       successRate: Math.floor(Math.random() * 20) + 80,
       averageResponseTime: Math.floor(Math.random() * 5000) + 2000,
-      outputQuality: Math.floor(Math.random() * 20) + 80,
+      outputQuality: Math.floor(Math.random() * 20) + 80
     },
     {
-      prompt: 'Generate code implementation based on design specs',
+      prompt: "Generate code implementation based on design specs",
       usage: Math.floor(Math.random() * 15) + 3,
       successRate: Math.floor(Math.random() * 15) + 85,
       averageResponseTime: Math.floor(Math.random() * 3000) + 1500,
-      outputQuality: Math.floor(Math.random() * 25) + 75,
+      outputQuality: Math.floor(Math.random() * 25) + 75
     },
     {
-      prompt: 'Review and provide feedback on deliverables',
+      prompt: "Review and provide feedback on deliverables",
       usage: Math.floor(Math.random() * 10) + 8,
       successRate: Math.floor(Math.random() * 10) + 90,
       averageResponseTime: Math.floor(Math.random() * 2000) + 1000,
-      outputQuality: Math.floor(Math.random() * 15) + 85,
-    },
+      outputQuality: Math.floor(Math.random() * 15) + 85
+    }
   ];
 
   const generatePerformanceTrends = () => {
@@ -103,7 +103,7 @@ export function AgentPerformanceAnalytics({
       efficiency: Math.floor(Math.random() * 20) + 70,
       collaboration: Math.floor(Math.random() * 25) + 65,
       innovation: Math.floor(Math.random() * 30) + 60,
-      quality: Math.floor(Math.random() * 15) + 80,
+      quality: Math.floor(Math.random() * 15) + 80
     }));
   };
 
@@ -117,31 +117,30 @@ export function AgentPerformanceAnalytics({
   };
 
   const getAgentMetrics = (agentId: string) => {
-    return metrics.find((m) => m.agentId === agentId);
+    return metrics.find(m => m.agentId === agentId);
   };
 
   const calculateOverallPerformance = (agentMetrics: AgentMetrics) => {
     return Math.round(
-      (agentMetrics.qualityScore +
-        agentMetrics.collaborationScore +
-        agentMetrics.innovationScore +
-        agentMetrics.handoffSuccessRate +
-        agentMetrics.clientSatisfaction) /
-        5
+      (agentMetrics.qualityScore + 
+       agentMetrics.collaborationScore + 
+       agentMetrics.innovationScore + 
+       agentMetrics.handoffSuccessRate + 
+       agentMetrics.clientSatisfaction) / 5
     );
   };
 
   const topPerformers = metrics
-    .map((m) => ({
+    .map(m => ({
       ...m,
-      agent: agents.find((a) => a.id === m.agentId)!,
-      overallScore: calculateOverallPerformance(m),
+      agent: agents.find(a => a.id === m.agentId)!,
+      overallScore: calculateOverallPerformance(m)
     }))
     .sort((a, b) => b.overallScore - a.overallScore)
     .slice(0, 3);
 
   const selectedAgentMetrics = selectedAgent ? getAgentMetrics(selectedAgent) : null;
-  const selectedAgentData = selectedAgent ? agents.find((a) => a.id === selectedAgent) : null;
+  const selectedAgentData = selectedAgent ? agents.find(a => a.id === selectedAgent) : null;
 
   return (
     <div className="space-y-6">
@@ -152,10 +151,7 @@ export function AgentPerformanceAnalytics({
             <div>
               <p className="text-sm text-muted-foreground">Avg Efficiency</p>
               <p className="text-2xl font-bold text-primary">
-                {metrics.length > 0
-                  ? Math.round(metrics.reduce((sum, m) => sum + m.qualityScore, 0) / metrics.length)
-                  : 0}
-                %
+                {metrics.length > 0 ? Math.round(metrics.reduce((sum, m) => sum + m.qualityScore, 0) / metrics.length) : 0}%
               </p>
             </div>
             <TrendingUp className="h-6 w-6 text-primary" />
@@ -167,12 +163,7 @@ export function AgentPerformanceAnalytics({
             <div>
               <p className="text-sm text-muted-foreground">Collaboration Score</p>
               <p className="text-2xl font-bold text-secondary">
-                {metrics.length > 0
-                  ? Math.round(
-                      metrics.reduce((sum, m) => sum + m.collaborationScore, 0) / metrics.length
-                    )
-                  : 0}
-                %
+                {metrics.length > 0 ? Math.round(metrics.reduce((sum, m) => sum + m.collaborationScore, 0) / metrics.length) : 0}%
               </p>
             </div>
             <Users className="h-6 w-6 text-secondary" />
@@ -184,12 +175,7 @@ export function AgentPerformanceAnalytics({
             <div>
               <p className="text-sm text-muted-foreground">Innovation Index</p>
               <p className="text-2xl font-bold text-accent">
-                {metrics.length > 0
-                  ? Math.round(
-                      metrics.reduce((sum, m) => sum + m.innovationScore, 0) / metrics.length
-                    )
-                  : 0}
-                %
+                {metrics.length > 0 ? Math.round(metrics.reduce((sum, m) => sum + m.innovationScore, 0) / metrics.length) : 0}%
               </p>
             </div>
             <Brain className="h-6 w-6 text-accent" />
@@ -229,7 +215,7 @@ export function AgentPerformanceAnalytics({
             variant="outline"
             className="flex items-center gap-2"
           >
-            <RefreshCw className={cn('h-4 w-4', isAnalyzing && 'animate-spin')} />
+            <RefreshCw className={cn("h-4 w-4", isAnalyzing && "animate-spin")} />
             Refresh Data
           </Button>
         </div>
@@ -256,13 +242,10 @@ export function AgentPerformanceAnalytics({
               {topPerformers.map((performer, index) => {
                 const grade = getPerformanceGrade(performer.overallScore);
                 return (
-                  <div
-                    key={performer.agentId}
-                    className="flex items-center justify-between p-3 bg-muted/30 rounded-lg"
-                  >
+                  <div key={performer.agentId} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-2">
-                        <Badge className={cn('text-xs px-2 py-1', grade.bg, grade.color)}>
+                        <Badge className={cn("text-xs px-2 py-1", grade.bg, grade.color)}>
                           #{index + 1}
                         </Badge>
                         {index === 0 && <Award className="h-4 w-4 text-yellow-500" />}
@@ -272,13 +255,15 @@ export function AgentPerformanceAnalytics({
                         {performer.agent.role.replace('_', ' ')}
                       </Badge>
                     </div>
-
+                    
                     <div className="flex items-center gap-4">
                       <div className="text-right">
                         <div className="text-sm font-medium">{performer.overallScore}%</div>
                         <div className="text-xs text-muted-foreground">Overall Score</div>
                       </div>
-                      <Badge className={cn('text-xs', grade.bg, grade.color)}>{grade.grade}</Badge>
+                      <Badge className={cn("text-xs", grade.bg, grade.color)}>
+                        {grade.grade}
+                      </Badge>
                     </div>
                   </div>
                 );
@@ -288,7 +273,7 @@ export function AgentPerformanceAnalytics({
 
           {/* Agent Performance Grid */}
           <div className="grid gap-4">
-            {agents.map((agent) => {
+            {agents.map(agent => {
               const agentMetrics = getAgentMetrics(agent.id);
               if (!agentMetrics) return null;
 
@@ -304,7 +289,9 @@ export function AgentPerformanceAnalytics({
                         {agent.role.replace('_', ' ')}
                       </Badge>
                     </div>
-                    <Badge className={cn('text-xs', grade.bg, grade.color)}>{grade.grade}</Badge>
+                    <Badge className={cn("text-xs", grade.bg, grade.color)}>
+                      {grade.grade}
+                    </Badge>
                   </div>
 
                   <div className="grid grid-cols-5 gap-4">
@@ -362,10 +349,10 @@ export function AgentPerformanceAnalytics({
           <Card className="p-4">
             <h3 className="font-semibold mb-3">Select Agent for Detailed Analysis</h3>
             <div className="grid grid-cols-3 gap-2">
-              {agents.map((agent) => (
+              {agents.map(agent => (
                 <Button
                   key={agent.id}
-                  variant={selectedAgent === agent.id ? 'default' : 'outline'}
+                  variant={selectedAgent === agent.id ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedAgent(agent.id)}
                   className="justify-start"
@@ -380,10 +367,8 @@ export function AgentPerformanceAnalytics({
           {selectedAgentMetrics && selectedAgentData && (
             <div className="space-y-4">
               <Card className="p-6">
-                <h3 className="font-semibold mb-4">
-                  {selectedAgentData.name} Performance Analysis
-                </h3>
-
+                <h3 className="font-semibold mb-4">{selectedAgentData.name} Performance Analysis</h3>
+                
                 {/* Detailed Metrics */}
                 <div className="grid grid-cols-3 gap-6 mb-6">
                   <div className="space-y-3">
@@ -395,9 +380,7 @@ export function AgentPerformanceAnalytics({
                       </div>
                       <div className="flex justify-between text-sm">
                         <span>Average Time:</span>
-                        <span className="font-medium">
-                          {selectedAgentMetrics.averageTaskTime}min
-                        </span>
+                        <span className="font-medium">{selectedAgentMetrics.averageTaskTime}min</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span>Blocker Frequency:</span>
@@ -415,9 +398,7 @@ export function AgentPerformanceAnalytics({
                       </div>
                       <div className="flex justify-between text-sm">
                         <span>Client Satisfaction:</span>
-                        <span className="font-medium">
-                          {selectedAgentMetrics.clientSatisfaction}%
-                        </span>
+                        <span className="font-medium">{selectedAgentMetrics.clientSatisfaction}%</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span>Innovation Index:</span>
@@ -466,7 +447,7 @@ export function AgentPerformanceAnalytics({
         <TabsContent value="learning" className="space-y-6">
           <Card className="p-6">
             <h3 className="font-semibold mb-4">Learning & Optimization Insights</h3>
-
+            
             <div className="space-y-6">
               {/* Optimization Recommendations */}
               <div>
@@ -475,12 +456,10 @@ export function AgentPerformanceAnalytics({
                   <div className="flex items-start gap-3 p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
                     <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5" />
                     <div>
-                      <div className="font-medium text-green-800">
-                        High Collaboration Performance
-                      </div>
+                      <div className="font-medium text-green-800">High Collaboration Performance</div>
                       <div className="text-sm text-green-700">
-                        UI Designer and Frontend Developer show excellent handoff patterns. Consider
-                        replicating this model for other agent pairs.
+                        UI Designer and Frontend Developer show excellent handoff patterns. 
+                        Consider replicating this model for other agent pairs.
                       </div>
                     </div>
                   </div>
@@ -488,12 +467,10 @@ export function AgentPerformanceAnalytics({
                   <div className="flex items-start gap-3 p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
                     <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
                     <div>
-                      <div className="font-medium text-yellow-800">
-                        Prompt Optimization Opportunity
-                      </div>
+                      <div className="font-medium text-yellow-800">Prompt Optimization Opportunity</div>
                       <div className="text-sm text-yellow-700">
-                        Backend Developer's API generation prompts have 73% success rate. Suggested
-                        improvement: Add more specific context about data models.
+                        Backend Developer's API generation prompts have 73% success rate. 
+                        Suggested improvement: Add more specific context about data models.
                       </div>
                     </div>
                   </div>
@@ -503,8 +480,8 @@ export function AgentPerformanceAnalytics({
                     <div>
                       <div className="font-medium text-blue-800">Learning Pattern Detected</div>
                       <div className="text-sm text-blue-700">
-                        QA Engineer's efficiency increased 18% after implementing automated testing
-                        prompts. Recommend similar automation for other repetitive tasks.
+                        QA Engineer's efficiency increased 18% after implementing automated testing prompts.
+                        Recommend similar automation for other repetitive tasks.
                       </div>
                     </div>
                   </div>
@@ -515,15 +492,12 @@ export function AgentPerformanceAnalytics({
               <div>
                 <h4 className="font-medium mb-3">Learning Progress Tracking</h4>
                 <div className="grid gap-3">
-                  {metrics.map((metric) => {
-                    const agent = agents.find((a) => a.id === metric.agentId);
+                  {metrics.map(metric => {
+                    const agent = agents.find(a => a.id === metric.agentId);
                     if (!agent) return null;
 
                     return (
-                      <div
-                        key={metric.agentId}
-                        className="flex items-center justify-between p-3 bg-muted/30 rounded-lg"
-                      >
+                      <div key={metric.agentId} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                         <div className="flex items-center gap-3">
                           <span className="font-medium">{agent.name}</span>
                           <Progress value={metric.learningProgress} className="w-32 h-2" />
@@ -545,10 +519,9 @@ export function AgentPerformanceAnalytics({
             <h3 className="font-semibold mb-4">Performance Trends</h3>
             <div className="space-y-4">
               <div className="text-sm text-muted-foreground">
-                Performance metrics over the last 7 days showing efficiency, collaboration,
-                innovation, and quality scores.
+                Performance metrics over the last 7 days showing efficiency, collaboration, innovation, and quality scores.
               </div>
-
+              
               {/* Simple trend visualization */}
               <div className="grid gap-4">
                 {performanceTrends.map((trend, index) => (

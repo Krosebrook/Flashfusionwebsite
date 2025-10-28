@@ -36,46 +36,42 @@ const AI_PROVIDERS = {
     provider: 'openai',
     apiKey: Deno.env.get('Openai_api_key'),
     endpoint: 'https://api.openai.com/v1/chat/completions',
-    model: 'gpt-4-turbo-preview',
+    model: 'gpt-4-turbo-preview'
   },
   'claude-3-opus': {
     provider: 'anthropic',
     apiKey: Deno.env.get('Anthropic'),
     endpoint: 'https://api.anthropic.com/v1/messages',
-    model: 'claude-3-opus-20240229',
+    model: 'claude-3-opus-20240229'
   },
   'gemini-pro': {
     provider: 'google',
     apiKey: Deno.env.get('Gemini_api_key'),
     endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
-    model: 'gemini-pro',
+    model: 'gemini-pro'
   },
   'codellama-34b': {
     provider: 'openrouter',
     apiKey: Deno.env.get('OpenRouter_API_KEY'),
     endpoint: 'https://openrouter.ai/api/v1/chat/completions',
-    model: 'meta-llama/codellama-34b-instruct',
+    model: 'meta-llama/codellama-34b-instruct'
   },
   'mistral-large': {
     provider: 'openrouter',
     apiKey: Deno.env.get('OpenRouter_API_KEY'),
     endpoint: 'https://openrouter.ai/api/v1/chat/completions',
-    model: 'mistralai/mistral-large',
-  },
+    model: 'mistralai/mistral-large'
+  }
 };
 
 // OpenAI API call
-async function callOpenAI(
-  config: any,
-  prompt: string,
-  maxTokens: number = 4000
-): Promise<AIResponse> {
+async function callOpenAI(config: any, prompt: string, maxTokens: number = 4000): Promise<AIResponse> {
   const startTime = Date.now();
-
+  
   const response = await fetch(config.endpoint, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${config.apiKey}`,
+      'Authorization': `Bearer ${config.apiKey}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -98,18 +94,14 @@ async function callOpenAI(
     tokensUsed: data.usage?.total_tokens || 0,
     confidence: 0.95,
     responseTime,
-    model: config.model,
+    model: config.model
   };
 }
 
 // Anthropic API call
-async function callAnthropic(
-  config: any,
-  prompt: string,
-  maxTokens: number = 4000
-): Promise<AIResponse> {
+async function callAnthropic(config: any, prompt: string, maxTokens: number = 4000): Promise<AIResponse> {
   const startTime = Date.now();
-
+  
   const response = await fetch(config.endpoint, {
     method: 'POST',
     headers: {
@@ -136,29 +128,23 @@ async function callAnthropic(
     tokensUsed: data.usage?.output_tokens || 0,
     confidence: 0.96,
     responseTime,
-    model: config.model,
+    model: config.model
   };
 }
 
 // Google Gemini API call
-async function callGemini(
-  config: any,
-  prompt: string,
-  maxTokens: number = 4000
-): Promise<AIResponse> {
+async function callGemini(config: any, prompt: string, maxTokens: number = 4000): Promise<AIResponse> {
   const startTime = Date.now();
-
+  
   const response = await fetch(`${config.endpoint}?key=${config.apiKey}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      contents: [
-        {
-          parts: [{ text: prompt }],
-        },
-      ],
+      contents: [{
+        parts: [{ text: prompt }]
+      }],
       generationConfig: {
         maxOutputTokens: maxTokens,
         temperature: 0.7,
@@ -178,22 +164,18 @@ async function callGemini(
     tokensUsed: 0, // Gemini doesn't return token count
     confidence: 0.94,
     responseTime,
-    model: config.model,
+    model: config.model
   };
 }
 
 // OpenRouter API call (for CodeLlama and Mistral)
-async function callOpenRouter(
-  config: any,
-  prompt: string,
-  maxTokens: number = 4000
-): Promise<AIResponse> {
+async function callOpenRouter(config: any, prompt: string, maxTokens: number = 4000): Promise<AIResponse> {
   const startTime = Date.now();
-
+  
   const response = await fetch(config.endpoint, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${config.apiKey}`,
+      'Authorization': `Bearer ${config.apiKey}`,
       'Content-Type': 'application/json',
       'HTTP-Referer': supabaseUrl,
       'X-Title': 'FlashFusion AI Platform',
@@ -218,7 +200,7 @@ async function callOpenRouter(
     tokensUsed: data.usage?.total_tokens || 0,
     confidence: 0.93,
     responseTime,
-    model: config.model,
+    model: config.model
   };
 }
 
@@ -268,13 +250,14 @@ aiApp.post('/make-server-88829a40/ai/generate', async (c) => {
       tokens_used: result.tokensUsed,
       response_time: result.responseTime,
       success: true,
-      created_at: new Date().toISOString(),
+      created_at: new Date().toISOString()
     });
 
     return c.json(result);
+
   } catch (error) {
     console.error('AI generation error:', error);
-
+    
     // Log error to Supabase
     try {
       await supabase.from('ai_usage_logs').insert({
@@ -284,19 +267,16 @@ aiApp.post('/make-server-88829a40/ai/generate', async (c) => {
         response_time: 0,
         success: false,
         error_message: error.message,
-        created_at: new Date().toISOString(),
+        created_at: new Date().toISOString()
       });
     } catch (logError) {
       console.error('Failed to log error:', logError);
     }
 
-    return c.json(
-      {
-        error: 'AI generation failed',
-        message: error.message,
-      },
-      500
-    );
+    return c.json({
+      error: 'AI generation failed',
+      message: error.message
+    }, 500);
   }
 });
 
@@ -304,13 +284,12 @@ aiApp.post('/make-server-88829a40/ai/generate', async (c) => {
 aiApp.get('/make-server-88829a40/ai/models', async (c) => {
   const models = Object.entries(AI_PROVIDERS).map(([id, config]) => ({
     id,
-    name: id
-      .split('-')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' '),
+    name: id.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' '),
     provider: config.provider,
     available: !!config.apiKey,
-    status: config.apiKey ? 'available' : 'no_api_key',
+    status: !!config.apiKey ? 'available' : 'no_api_key'
   }));
 
   return c.json({ models });
@@ -331,21 +310,16 @@ aiApp.get('/make-server-88829a40/ai/analytics', async (c) => {
 
     // Calculate analytics
     const totalCalls = usageData?.length || 0;
-    const successfulCalls = usageData?.filter((log) => log.success).length || 0;
-    const averageResponseTime =
-      usageData?.length > 0
-        ? usageData.reduce((sum, log) => sum + (log.response_time || 0), 0) / usageData.length
-        : 0;
+    const successfulCalls = usageData?.filter(log => log.success).length || 0;
+    const averageResponseTime = usageData?.length > 0 
+      ? usageData.reduce((sum, log) => sum + (log.response_time || 0), 0) / usageData.length 
+      : 0;
     const totalTokens = usageData?.reduce((sum, log) => sum + (log.tokens_used || 0), 0) || 0;
 
-    const modelUsage =
-      usageData?.reduce(
-        (acc, log) => {
-          acc[log.model] = (acc[log.model] || 0) + 1;
-          return acc;
-        },
-        {} as Record<string, number>
-      ) || {};
+    const modelUsage = usageData?.reduce((acc, log) => {
+      acc[log.model] = (acc[log.model] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>) || {};
 
     return c.json({
       totalCalls,
@@ -353,17 +327,15 @@ aiApp.get('/make-server-88829a40/ai/analytics', async (c) => {
       successRate: totalCalls > 0 ? (successfulCalls / totalCalls) * 100 : 0,
       averageResponseTime: Math.round(averageResponseTime),
       totalTokens,
-      modelUsage,
+      modelUsage
     });
+
   } catch (error) {
     console.error('Analytics error:', error);
-    return c.json(
-      {
-        error: 'Failed to fetch analytics',
-        message: error.message,
-      },
-      500
-    );
+    return c.json({
+      error: 'Failed to fetch analytics',
+      message: error.message
+    }, 500);
   }
 });
 

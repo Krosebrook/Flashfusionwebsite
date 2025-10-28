@@ -31,18 +31,18 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
       errorInfo: null,
       errorId: null,
       retryCount: 0,
-      isRecovering: false,
+      isRecovering: false
     };
   }
 
   static getDerivedStateFromError(error: Error): Partial<State> {
     // Generate unique error ID for tracking
     const errorId = `ff_error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
+    
     return {
       hasError: true,
       error,
-      errorId,
+      errorId
     };
   }
 
@@ -66,7 +66,7 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
 
   componentWillUnmount() {
     // Clear any pending retry timeouts
-    this.retryTimeouts.forEach((timeout) => clearTimeout(timeout));
+    this.retryTimeouts.forEach(timeout => clearTimeout(timeout));
   }
 
   private reportError = async (error: Error, errorInfo: ErrorInfo) => {
@@ -82,7 +82,7 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
         userId: this.getUserId(),
         sessionId: this.getSessionId(),
         appVersion: this.getAppVersion(),
-        additionalContext: this.gatherAdditionalContext(),
+        additionalContext: this.gatherAdditionalContext()
       };
 
       // Send to error reporting service (replace with your service)
@@ -91,7 +91,7 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(errorReport),
+        body: JSON.stringify(errorReport)
       });
 
       console.log('Error reported successfully:', errorReport.id);
@@ -123,13 +123,11 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
   private gatherAdditionalContext = () => {
     try {
       return {
-        memoryUsage: (performance as any).memory
-          ? {
-              used: (performance as any).memory.usedJSHeapSize,
-              total: (performance as any).memory.totalJSHeapSize,
-              limit: (performance as any).memory.jsHeapSizeLimit,
-            }
-          : null,
+        memoryUsage: (performance as any).memory ? {
+          used: (performance as any).memory.usedJSHeapSize,
+          total: (performance as any).memory.totalJSHeapSize,
+          limit: (performance as any).memory.jsHeapSizeLimit
+        } : null,
         connectionType: (navigator as any).connection?.effectiveType || 'unknown',
         deviceMemory: (navigator as any).deviceMemory || 'unknown',
         hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
@@ -138,7 +136,7 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
         cookieEnabled: navigator.cookieEnabled,
         onLine: navigator.onLine,
         localStorage: this.checkLocalStorageAvailability(),
-        sessionStorage: this.checkSessionStorageAvailability(),
+        sessionStorage: this.checkSessionStorageAvailability()
       };
     } catch {
       return {};
@@ -181,7 +179,7 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
 
       // Wait a bit before retrying
       const retryDelay = Math.min(1000 * Math.pow(2, this.state.retryCount), 5000);
-
+      
       const timeout = setTimeout(() => {
         this.setState({
           hasError: false,
@@ -189,11 +187,12 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
           errorInfo: null,
           errorId: null,
           retryCount: this.state.retryCount + 1,
-          isRecovering: false,
+          isRecovering: false
         });
       }, retryDelay);
 
       this.retryTimeouts.push(timeout);
+
     } catch (recoveryError) {
       console.error('Recovery cleanup failed:', recoveryError);
       this.setState({ isRecovering: false });
@@ -206,7 +205,7 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
       if ('caches' in window) {
         const cacheNames = await caches.keys();
         const criticalCaches = ['flashfusion-v1.0.0']; // Keep critical caches
-
+        
         for (const cacheName of cacheNames) {
           if (!criticalCaches.includes(cacheName)) {
             await caches.delete(cacheName);
@@ -218,9 +217,9 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
       if (typeof localStorage !== 'undefined') {
         const essentialKeys = ['ff-user-id', 'ff-theme', 'ff-language'];
         const keys = Object.keys(localStorage);
-
-        keys.forEach((key) => {
-          if (!essentialKeys.some((essential) => key.includes(essential))) {
+        
+        keys.forEach(key => {
+          if (!essentialKeys.some(essential => key.includes(essential))) {
             try {
               localStorage.removeItem(key);
             } catch {
@@ -254,11 +253,11 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
     const errorDetails = {
       id: this.state.errorId,
       message: this.state.error?.message || 'Unknown error',
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     };
 
     const mailto = `mailto:support@flashfusion.ai?subject=Error%20Report%20${errorDetails.id}&body=Error%20Details:%0A%0AID:%20${errorDetails.id}%0AMessage:%20${encodeURIComponent(errorDetails.message)}%0ATimestamp:%20${errorDetails.timestamp}%0A%0APlease%20describe%20what%20you%20were%20doing%20when%20this%20error%20occurred:%0A%0A`;
-
+    
     window.open(mailto);
   };
 
@@ -269,7 +268,9 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
 
     return (
       <details className="mt-6 p-4 bg-muted/50 rounded-lg">
-        <summary className="cursor-pointer text-sm font-medium mb-2">Technical Details</summary>
+        <summary className="cursor-pointer text-sm font-medium mb-2">
+          Technical Details
+        </summary>
         <div className="space-y-2 text-xs font-mono">
           <div>
             <strong>Error ID:</strong> {this.state.errorId}
@@ -311,24 +312,13 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
           <Card className="w-full max-w-2xl border-destructive/20">
             <CardHeader className="text-center pb-6">
               <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg
-                  className="w-8 h-8 text-destructive"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"
-                  />
+                <svg className="w-8 h-8 text-destructive" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
                 </svg>
               </div>
               <CardTitle className="text-2xl text-destructive">Something went wrong</CardTitle>
               <p className="text-muted-foreground mt-2">
-                We encountered an unexpected error in FlashFusion. Our team has been notified and is
-                working on a fix.
+                We encountered an unexpected error in FlashFusion. Our team has been notified and is working on a fix.
               </p>
               {this.state.errorId && (
                 <Badge variant="secondary" className="mt-2">
@@ -336,12 +326,12 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
                 </Badge>
               )}
             </CardHeader>
-
+            
             <CardContent className="space-y-6">
               {/* Recovery Actions */}
               <div className="grid gap-3 sm:grid-cols-2">
                 {this.props.enableRecovery !== false && this.state.retryCount < 3 && (
-                  <Button
+                  <Button 
                     onClick={this.handleRetry}
                     disabled={this.state.isRecovering}
                     className="w-full"
@@ -354,74 +344,46 @@ export class EnhancedErrorBoundary extends Component<Props, State> {
                       </div>
                     ) : (
                       <>
-                        <svg
-                          className="w-4 h-4 mr-2"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                          />
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                         </svg>
                         Try Again ({3 - this.state.retryCount} attempts left)
                       </>
                     )}
                   </Button>
                 )}
-
-                <Button onClick={this.handleRefresh} variant="outline" className="w-full">
-                  <svg
-                    className="w-4 h-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                    />
+                
+                <Button 
+                  onClick={this.handleRefresh}
+                  variant="outline"
+                  className="w-full"
+                >
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                   </svg>
                   Refresh Page
                 </Button>
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2">
-                <Button onClick={this.handleGoHome} variant="secondary" className="w-full">
-                  <svg
-                    className="w-4 h-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                    />
+                <Button 
+                  onClick={this.handleGoHome}
+                  variant="secondary"
+                  className="w-full"
+                >
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
                   Go to Home
                 </Button>
-
-                <Button onClick={this.handleReportIssue} variant="outline" className="w-full">
-                  <svg
-                    className="w-4 h-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"
-                    />
+                
+                <Button 
+                  onClick={this.handleReportIssue}
+                  variant="outline"
+                  className="w-full"
+                >
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
                   </svg>
                   Report Issue
                 </Button>
@@ -463,7 +425,7 @@ export const withErrorBoundary = <P extends object>(
   );
 
   WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name})`;
-
+  
   return WrappedComponent;
 };
 

@@ -6,13 +6,13 @@ import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Alert, AlertDescription } from '../ui/alert';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
   ResponsiveContainer,
   LineChart,
   Line,
@@ -22,10 +22,10 @@ import {
   Pie,
   Cell,
   RadialBarChart,
-  RadialBar,
+  RadialBar
 } from 'recharts';
-import {
-  TrendingUp,
+import { 
+  TrendingUp, 
   TrendingDown,
   Users,
   Activity,
@@ -54,7 +54,7 @@ import {
   BarChart3,
   PieChart as PieChartIcon,
   LineChart as LineChartIcon,
-  Gauge,
+  Gauge
 } from 'lucide-react';
 
 interface AnalyticsMetric {
@@ -125,7 +125,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
         trend: [8420, 9150, 10280, 11200, 11934, 12847],
         unit: '',
         description: 'Total active users in the selected period',
-        category: 'user',
+        category: 'user'
       },
       {
         id: 'sessions',
@@ -137,7 +137,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
         trend: [18200, 20400, 23100, 25600, 26823, 28945],
         unit: '',
         description: 'Total number of user sessions',
-        category: 'engagement',
+        category: 'engagement'
       },
       {
         id: 'conversion_rate',
@@ -149,7 +149,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
         trend: [2.8, 2.9, 3.1, 3.2, 3.18, 3.42],
         unit: '%',
         description: 'Percentage of users who complete desired actions',
-        category: 'business',
+        category: 'business'
       },
       {
         id: 'avg_session_duration',
@@ -161,7 +161,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
         trend: [185, 203, 218, 229, 231, 247],
         unit: 'seconds',
         description: 'Average time users spend per session',
-        category: 'engagement',
+        category: 'engagement'
       },
       {
         id: 'revenue',
@@ -173,7 +173,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
         trend: [52000, 58200, 65800, 72100, 78450, 84320],
         unit: '$',
         description: 'Total revenue generated',
-        category: 'business',
+        category: 'business'
       },
       {
         id: 'page_load_time',
@@ -185,43 +185,15 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
         trend: [2.1, 1.9, 1.7, 1.5, 1.47, 1.23],
         unit: 'seconds',
         description: 'Average page load time',
-        category: 'performance',
-      },
+        category: 'performance'
+      }
     ];
 
     const segments: UserSegment[] = [
-      {
-        name: 'New Users',
-        users: 3456,
-        percentage: 27,
-        color: '#FF7B00',
-        engagement: 2.3,
-        conversion: 1.8,
-      },
-      {
-        name: 'Returning Users',
-        users: 5821,
-        percentage: 45,
-        color: '#00B4D8',
-        engagement: 4.7,
-        conversion: 4.2,
-      },
-      {
-        name: 'Premium Users',
-        users: 2156,
-        percentage: 17,
-        color: '#E91E63',
-        engagement: 8.9,
-        conversion: 12.3,
-      },
-      {
-        name: 'Enterprise',
-        users: 1414,
-        percentage: 11,
-        color: '#10B981',
-        engagement: 12.4,
-        conversion: 18.7,
-      },
+      { name: 'New Users', users: 3456, percentage: 27, color: '#FF7B00', engagement: 2.3, conversion: 1.8 },
+      { name: 'Returning Users', users: 5821, percentage: 45, color: '#00B4D8', engagement: 4.7, conversion: 4.2 },
+      { name: 'Premium Users', users: 2156, percentage: 17, color: '#E91E63', engagement: 8.9, conversion: 12.3 },
+      { name: 'Enterprise', users: 1414, percentage: 11, color: '#10B981', engagement: 12.4, conversion: 18.7 }
     ];
 
     const intelligentInsights: Insight[] = [
@@ -233,7 +205,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
         impact: 'high',
         actionRequired: true,
         recommendation: 'Optimize mobile checkout flow and add mobile-specific features',
-        estimatedValue: '+$12,400/month',
+        estimatedValue: '+$12,400/month'
       },
       {
         id: 'insight-002',
@@ -242,7 +214,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
         description: 'AI tools usage increased 156% among premium users this week',
         impact: 'medium',
         actionRequired: false,
-        recommendation: 'Promote AI features to free users to drive upgrades',
+        recommendation: 'Promote AI features to free users to drive upgrades'
       },
       {
         id: 'insight-003',
@@ -252,7 +224,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
         impact: 'high',
         actionRequired: true,
         recommendation: 'Simplify onboarding step 3 or add progress indicators',
-        estimatedValue: '+890 conversions/month',
+        estimatedValue: '+890 conversions/month'
       },
       {
         id: 'insight-004',
@@ -261,51 +233,16 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
         description: 'Significant organic traffic growth from European markets',
         impact: 'medium',
         actionRequired: false,
-        recommendation: 'Consider localization for German and French markets',
-      },
+        recommendation: 'Consider localization for German and French markets'
+      }
     ];
 
     const behaviorData: UserBehavior[] = [
-      {
-        path: '/dashboard',
-        users: 8945,
-        conversions: 234,
-        conversionRate: 2.6,
-        avgTime: 312,
-        bounceRate: 23,
-      },
-      {
-        path: '/tools',
-        users: 6821,
-        conversions: 456,
-        conversionRate: 6.7,
-        avgTime: 445,
-        bounceRate: 18,
-      },
-      {
-        path: '/pricing',
-        users: 4567,
-        conversions: 123,
-        conversionRate: 2.7,
-        avgTime: 156,
-        bounceRate: 45,
-      },
-      {
-        path: '/features',
-        users: 3456,
-        conversions: 89,
-        conversionRate: 2.6,
-        avgTime: 234,
-        bounceRate: 34,
-      },
-      {
-        path: '/onboarding',
-        users: 2345,
-        conversions: 789,
-        conversionRate: 33.6,
-        avgTime: 678,
-        bounceRate: 12,
-      },
+      { path: '/dashboard', users: 8945, conversions: 234, conversionRate: 2.6, avgTime: 312, bounceRate: 23 },
+      { path: '/tools', users: 6821, conversions: 456, conversionRate: 6.7, avgTime: 445, bounceRate: 18 },
+      { path: '/pricing', users: 4567, conversions: 123, conversionRate: 2.7, avgTime: 156, bounceRate: 45 },
+      { path: '/features', users: 3456, conversions: 89, conversionRate: 2.6, avgTime: 234, bounceRate: 34 },
+      { path: '/onboarding', users: 2345, conversions: 789, conversionRate: 33.6, avgTime: 678, bounceRate: 12 }
     ];
 
     // Generate real-time data
@@ -313,7 +250,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
       time: `${i}:00`,
       users: Math.floor(Math.random() * 500) + 200,
       sessions: Math.floor(Math.random() * 800) + 400,
-      conversions: Math.floor(Math.random() * 50) + 10,
+      conversions: Math.floor(Math.random() * 50) + 10
     }));
 
     setMetrics(baseMetrics);
@@ -328,16 +265,11 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
     if (!isRealTime) return;
 
     const interval = setInterval(() => {
-      setMetrics((prev) =>
-        prev.map((metric) => ({
-          ...metric,
-          value: metric.value + (Math.random() - 0.5) * metric.value * 0.02,
-          trend: [
-            ...metric.trend.slice(1),
-            metric.value + (Math.random() - 0.5) * metric.value * 0.05,
-          ],
-        }))
-      );
+      setMetrics(prev => prev.map(metric => ({
+        ...metric,
+        value: metric.value + (Math.random() - 0.5) * metric.value * 0.02,
+        trend: [...metric.trend.slice(1), metric.value + (Math.random() - 0.5) * metric.value * 0.05]
+      })));
 
       setLastUpdated(new Date());
     }, 3000);
@@ -378,21 +310,16 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
 
   const getInsightIcon = (type: string) => {
     switch (type) {
-      case 'opportunity':
-        return <Lightbulb className="h-4 w-4 text-yellow-500" />;
-      case 'warning':
-        return <AlertTriangle className="h-4 w-4 text-orange-500" />;
-      case 'success':
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
-      case 'info':
-        return <Info className="h-4 w-4 text-blue-500" />;
-      default:
-        return <Info className="h-4 w-4" />;
+      case 'opportunity': return <Lightbulb className="h-4 w-4 text-yellow-500" />;
+      case 'warning': return <AlertTriangle className="h-4 w-4 text-orange-500" />;
+      case 'success': return <CheckCircle className="h-4 w-4 text-green-500" />;
+      case 'info': return <Info className="h-4 w-4 text-blue-500" />;
+      default: return <Info className="h-4 w-4" />;
     }
   };
 
   const selectedMetricData = useMemo(() => {
-    return metrics.find((m) => m.id === selectedMetric);
+    return metrics.find(m => m.id === selectedMetric);
   }, [metrics, selectedMetric]);
 
   return (
@@ -414,9 +341,9 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
             </div>
           </div>
         </div>
-
+        
         <div className="flex items-center gap-3">
-          <Badge variant={isRealTime ? 'default' : 'secondary'} className="ff-badge-glow">
+          <Badge variant={isRealTime ? "default" : "secondary"} className="ff-badge-glow">
             {isRealTime ? (
               <>
                 <div className="ff-status-dot ff-status-active mr-2"></div>
@@ -429,7 +356,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
               </>
             )}
           </Badge>
-
+          
           <Button
             onClick={() => setIsRealTime(!isRealTime)}
             variant="outline"
@@ -438,7 +365,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
           >
             {isRealTime ? 'Pause' : 'Resume'} Updates
           </Button>
-
+          
           <Button variant="outline" size="sm" className="ff-hover-scale">
             <Download className="h-4 w-4 mr-2" />
             Export
@@ -456,7 +383,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
             <TabsTrigger value="90d">90 Days</TabsTrigger>
           </TabsList>
         </Tabs>
-
+        
         <div className="flex items-center gap-2 ff-text-sm text-muted-foreground">
           <Clock className="h-4 w-4" />
           Last updated: {lastUpdated.toLocaleTimeString()}
@@ -472,7 +399,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
           >
-            <Card
+            <Card 
               className={`ff-card-interactive cursor-pointer transition-all duration-200 ${
                 selectedMetric === metric.id ? 'ring-2 ring-primary/20 bg-primary/5' : ''
               }`}
@@ -489,9 +416,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
                         {formatValue(metric.value, metric.unit)}
                       </p>
                     </div>
-                    <div
-                      className={`flex items-center gap-1 ff-text-sm ${getChangeColor(metric.changeType, metric.change)}`}
-                    >
+                    <div className={`flex items-center gap-1 ff-text-sm ${getChangeColor(metric.changeType, metric.change)}`}>
                       {metric.change > 0 ? (
                         <ArrowUpRight className="h-4 w-4" />
                       ) : (
@@ -500,19 +425,17 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
                       {Math.abs(metric.change).toFixed(1)}%
                     </div>
                   </div>
-
+                  
                   <div className="h-12">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={metric.trend.map((value, index) => ({ value, index }))}>
-                        <Line
-                          type="monotone"
-                          dataKey="value"
+                        <Line 
+                          type="monotone" 
+                          dataKey="value" 
                           stroke="currentColor"
                           strokeWidth={2}
                           dot={false}
-                          className={
-                            metric.changeType === 'increase' ? 'text-green-500' : 'text-blue-500'
-                          }
+                          className={metric.changeType === 'increase' ? 'text-green-500' : 'text-blue-500'}
                         />
                       </LineChart>
                     </ResponsiveContainer>
@@ -541,13 +464,10 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
                 className={`p-4 rounded-lg border-l-4 ${
-                  insight.type === 'opportunity'
-                    ? 'border-l-yellow-500 bg-yellow-50/50 dark:bg-yellow-950/20'
-                    : insight.type === 'warning'
-                      ? 'border-l-orange-500 bg-orange-50/50 dark:bg-orange-950/20'
-                      : insight.type === 'success'
-                        ? 'border-l-green-500 bg-green-50/50 dark:bg-green-950/20'
-                        : 'border-l-blue-500 bg-blue-50/50 dark:bg-blue-950/20'
+                  insight.type === 'opportunity' ? 'border-l-yellow-500 bg-yellow-50/50 dark:bg-yellow-950/20' :
+                  insight.type === 'warning' ? 'border-l-orange-500 bg-orange-50/50 dark:bg-orange-950/20' :
+                  insight.type === 'success' ? 'border-l-green-500 bg-green-50/50 dark:bg-green-950/20' :
+                  'border-l-blue-500 bg-blue-50/50 dark:bg-blue-950/20'
                 }`}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -555,23 +475,15 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
                     <div className="flex items-center gap-3">
                       {getInsightIcon(insight.type)}
                       <h4 className="font-semibold font-sora">{insight.title}</h4>
-                      <Badge
-                        variant={
-                          insight.impact === 'high'
-                            ? 'destructive'
-                            : insight.impact === 'medium'
-                              ? 'default'
-                              : 'secondary'
-                        }
+                      <Badge 
+                        variant={insight.impact === 'high' ? 'destructive' : 
+                                insight.impact === 'medium' ? 'default' : 'secondary'}
                         className="ff-text-xs"
                       >
                         {insight.impact} impact
                       </Badge>
                       {insight.actionRequired && (
-                        <Badge
-                          variant="outline"
-                          className="ff-text-xs text-orange-600 border-orange-600"
-                        >
+                        <Badge variant="outline" className="ff-text-xs text-orange-600 border-orange-600">
                           Action Required
                         </Badge>
                       )}
@@ -622,25 +534,25 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
             {/* Main Chart */}
             <Card className="ff-card-interactive">
               <CardHeader>
-                <CardTitle className="font-sora">{selectedMetricData?.name} Trend</CardTitle>
+                <CardTitle className="font-sora">
+                  {selectedMetricData?.name} Trend
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart
-                      data={selectedMetricData?.trend.map((value, index) => ({
-                        value,
-                        index: index + 1,
-                        label: `Period ${index + 1}`,
-                      }))}
-                    >
+                    <AreaChart data={selectedMetricData?.trend.map((value, index) => ({ 
+                      value, 
+                      index: index + 1,
+                      label: `Period ${index + 1}`
+                    }))}>
                       <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
                       <XAxis dataKey="index" />
                       <YAxis />
                       <Tooltip />
-                      <Area
-                        type="monotone"
-                        dataKey="value"
+                      <Area 
+                        type="monotone" 
+                        dataKey="value" 
                         stroke="rgb(var(--ff-primary))"
                         fill="rgb(var(--ff-primary))"
                         fillOpacity={0.1}
@@ -669,7 +581,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div
+                          <div 
                             className="w-3 h-3 rounded-full"
                             style={{ backgroundColor: segment.color }}
                           />
@@ -710,7 +622,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
                         data={[
                           { name: 'Desktop', value: 45, color: '#FF7B00' },
                           { name: 'Mobile', value: 38, color: '#00B4D8' },
-                          { name: 'Tablet', value: 17, color: '#E91E63' },
+                          { name: 'Tablet', value: 17, color: '#E91E63' }
                         ]}
                         dataKey="value"
                         nameKey="name"
@@ -722,7 +634,7 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
                         {[
                           { name: 'Desktop', value: 45, color: '#FF7B00' },
                           { name: 'Mobile', value: 38, color: '#00B4D8' },
-                          { name: 'Tablet', value: 17, color: '#E91E63' },
+                          { name: 'Tablet', value: 17, color: '#E91E63' }
                         ].map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
@@ -749,7 +661,11 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
                       <XAxis dataKey="time" />
                       <YAxis />
                       <Tooltip />
-                      <Bar dataKey="users" fill="rgb(var(--ff-primary))" radius={[4, 4, 0, 0]} />
+                      <Bar 
+                        dataKey="users" 
+                        fill="rgb(var(--ff-primary))"
+                        radius={[4, 4, 0, 0]}
+                      />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -782,32 +698,26 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
                         {behavior.users.toLocaleString()} users
                       </Badge>
                     </div>
-
+                    
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 ff-text-sm">
                       <div>
                         <p className="text-muted-foreground font-inter">Conversions</p>
-                        <p className="font-semibold text-green-600 font-sora">
-                          {behavior.conversions}
-                        </p>
+                        <p className="font-semibold text-green-600 font-sora">{behavior.conversions}</p>
                       </div>
                       <div>
                         <p className="text-muted-foreground font-inter">Conv. Rate</p>
-                        <p className="font-semibold font-sora">
-                          {behavior.conversionRate.toFixed(1)}%
-                        </p>
+                        <p className="font-semibold font-sora">{behavior.conversionRate.toFixed(1)}%</p>
                       </div>
                       <div>
                         <p className="text-muted-foreground font-inter">Avg Time</p>
-                        <p className="font-semibold font-sora">
-                          {Math.floor(behavior.avgTime / 60)}m {behavior.avgTime % 60}s
-                        </p>
+                        <p className="font-semibold font-sora">{Math.floor(behavior.avgTime / 60)}m {behavior.avgTime % 60}s</p>
                       </div>
                       <div>
                         <p className="text-muted-foreground font-inter">Bounce Rate</p>
                         <p className="font-semibold font-sora">{behavior.bounceRate}%</p>
                       </div>
                     </div>
-
+                    
                     <div className="space-y-2">
                       <div className="flex justify-between ff-text-xs text-muted-foreground">
                         <span>Conversion Rate</span>
@@ -839,16 +749,16 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
                       <XAxis dataKey="time" />
                       <YAxis />
                       <Tooltip />
-                      <Line
-                        type="monotone"
-                        dataKey="users"
+                      <Line 
+                        type="monotone" 
+                        dataKey="users" 
                         stroke="rgb(var(--ff-primary))"
                         strokeWidth={2}
                         dot={{ r: 3 }}
                       />
-                      <Line
-                        type="monotone"
-                        dataKey="sessions"
+                      <Line 
+                        type="monotone" 
+                        dataKey="sessions" 
                         stroke="rgb(var(--ff-secondary))"
                         strokeWidth={2}
                         dot={{ r: 3 }}
@@ -881,14 +791,14 @@ const IntelligentAnalyticsDashboard: React.FC = () => {
                     <p className="ff-text-sm text-muted-foreground font-inter">Active Sessions</p>
                   </div>
                 </div>
-
+                
                 <div className="mt-6 space-y-3">
                   <div className="flex justify-between ff-text-sm">
                     <span className="font-inter">Server Load</span>
                     <span className="font-sora">23%</span>
                   </div>
                   <Progress value={23} className="h-2" />
-
+                  
                   <div className="flex justify-between ff-text-sm">
                     <span className="font-inter">Response Time</span>
                     <span className="font-sora">1.2s</span>

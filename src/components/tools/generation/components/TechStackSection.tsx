@@ -3,11 +3,11 @@ import { Label } from '../../../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../ui/select';
 import { Separator } from '../../../ui/separator';
 import { Server, Globe, Database, Shield, CloudUpload } from 'lucide-react';
-import type {
-  FrameworkOption,
-  DatabaseOption,
-  AuthProviderOption,
-  DeploymentOption,
+import type { 
+  FrameworkOption, 
+  DatabaseOption, 
+  AuthProviderOption, 
+  DeploymentOption 
 } from '../../../../types/full-stack-builder';
 
 interface TechStackSectionProps {
@@ -43,12 +43,12 @@ export function TechStackSection({
   backendFrameworks,
   databases,
   authProviders,
-  deploymentPlatforms,
+  deploymentPlatforms
 }: TechStackSectionProps) {
   return (
     <>
       <Separator />
-
+      
       <div className="space-y-6">
         <h3 className="text-lg font-semibold flex items-center gap-2">
           <Server className="w-5 h-5" />
@@ -67,7 +67,7 @@ export function TechStackSection({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {frontendFrameworks.map((fw) => (
+                {frontendFrameworks.map(fw => (
                   <SelectItem key={fw.id} value={fw.id}>
                     <div className="flex items-center gap-2">
                       <span>{fw.icon}</span>
@@ -93,7 +93,7 @@ export function TechStackSection({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {backendFrameworks.map((fw) => (
+                {backendFrameworks.map(fw => (
                   <SelectItem key={fw.id} value={fw.id}>
                     <div className="flex items-center gap-2">
                       <span>{fw.icon}</span>
@@ -119,7 +119,7 @@ export function TechStackSection({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {databases.map((db) => (
+                {databases.map(db => (
                   <SelectItem key={db.id} value={db.id}>
                     <div className="flex items-center gap-2">
                       <span>{db.icon}</span>
@@ -145,7 +145,7 @@ export function TechStackSection({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {authProviders.map((provider) => (
+                {authProviders.map(provider => (
                   <SelectItem key={provider.id} value={provider.id}>
                     <div className="flex items-center gap-2">
                       <span>{provider.icon}</span>
@@ -171,7 +171,7 @@ export function TechStackSection({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {deploymentPlatforms.map((platform) => (
+                {deploymentPlatforms.map(platform => (
                   <SelectItem key={platform.id} value={platform.id}>
                     <div className="flex items-center gap-2">
                       <span>{platform.icon}</span>

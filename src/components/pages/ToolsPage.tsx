@@ -4,11 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  Code,
-  ShoppingCart,
-  FileText,
-  Rocket,
+import { 
+  Code, 
+  ShoppingCart, 
+  FileText, 
+  Rocket, 
   Search,
   Filter,
   Download,
@@ -20,7 +20,7 @@ import {
   Globe,
   Database,
   Palette,
-  Brain,
+  Brain
 } from 'lucide-react';
 
 interface Tool {
@@ -48,7 +48,7 @@ const tools: Tool[] = [
     downloads: '12.5K',
     isPremium: false,
     isNew: false,
-    route: '/tools/code-generator',
+    route: '/tools/code-generator'
   },
   {
     id: 'react-builder',
@@ -60,7 +60,7 @@ const tools: Tool[] = [
     downloads: '8.2K',
     isPremium: false,
     isNew: true,
-    route: '/tools/react-builder',
+    route: '/tools/react-builder'
   },
   {
     id: 'api-generator',
@@ -72,7 +72,7 @@ const tools: Tool[] = [
     downloads: '6.1K',
     isPremium: true,
     isNew: false,
-    route: '/tools/api-generator',
+    route: '/tools/api-generator'
   },
 
   // E-commerce
@@ -86,7 +86,7 @@ const tools: Tool[] = [
     downloads: '15.3K',
     isPremium: false,
     isNew: false,
-    route: '/tools/ecommerce-generator',
+    route: '/tools/ecommerce-generator'
   },
   {
     id: 'product-catalog',
@@ -98,7 +98,7 @@ const tools: Tool[] = [
     downloads: '9.8K',
     isPremium: false,
     isNew: false,
-    route: '/tools/product-catalog',
+    route: '/tools/product-catalog'
   },
   {
     id: 'payment-integration',
@@ -110,7 +110,7 @@ const tools: Tool[] = [
     downloads: '7.4K',
     isPremium: true,
     isNew: true,
-    route: '/tools/payment-setup',
+    route: '/tools/payment-setup'
   },
 
   // Content Creation
@@ -124,7 +124,7 @@ const tools: Tool[] = [
     downloads: '22.1K',
     isPremium: false,
     isNew: false,
-    route: '/tools/content-generator',
+    route: '/tools/content-generator'
   },
   {
     id: 'blog-writer',
@@ -136,7 +136,7 @@ const tools: Tool[] = [
     downloads: '18.5K',
     isPremium: false,
     isNew: false,
-    route: '/tools/blog-writer',
+    route: '/tools/blog-writer'
   },
   {
     id: 'social-media',
@@ -148,7 +148,7 @@ const tools: Tool[] = [
     downloads: '14.2K',
     isPremium: true,
     isNew: true,
-    route: '/tools/social-media',
+    route: '/tools/social-media'
   },
 
   // Design & Visual
@@ -162,7 +162,7 @@ const tools: Tool[] = [
     downloads: '11.7K',
     isPremium: false,
     isNew: false,
-    route: '/tools/logo-generator',
+    route: '/tools/logo-generator'
   },
   {
     id: 'image-generator',
@@ -174,7 +174,7 @@ const tools: Tool[] = [
     downloads: '19.3K',
     isPremium: true,
     isNew: true,
-    route: '/tools/image-generator',
+    route: '/tools/image-generator'
   },
   {
     id: 'ui-components',
@@ -186,7 +186,7 @@ const tools: Tool[] = [
     downloads: '8.9K',
     isPremium: false,
     isNew: false,
-    route: '/tools/ui-components',
+    route: '/tools/ui-components'
   },
 
   // Mobile & Apps
@@ -200,7 +200,7 @@ const tools: Tool[] = [
     downloads: '13.4K',
     isPremium: true,
     isNew: true,
-    route: '/tools/mobile-app',
+    route: '/tools/mobile-app'
   },
   {
     id: 'pwa-generator',
@@ -212,7 +212,7 @@ const tools: Tool[] = [
     downloads: '7.8K',
     isPremium: false,
     isNew: false,
-    route: '/tools/pwa-generator',
+    route: '/tools/pwa-generator'
   },
 
   // Deployment & CI/CD
@@ -226,7 +226,7 @@ const tools: Tool[] = [
     downloads: '10.2K',
     isPremium: false,
     isNew: false,
-    route: '/tools/cicd-pipeline',
+    route: '/tools/cicd-pipeline'
   },
   {
     id: 'docker-setup',
@@ -238,7 +238,7 @@ const tools: Tool[] = [
     downloads: '6.5K',
     isPremium: true,
     isNew: false,
-    route: '/tools/docker-setup',
+    route: '/tools/docker-setup'
   },
 
   // AI & Analytics
@@ -252,7 +252,7 @@ const tools: Tool[] = [
     downloads: '9.1K',
     isPremium: true,
     isNew: true,
-    route: '/tools/ai-chatbot',
+    route: '/tools/ai-chatbot'
   },
   {
     id: 'analytics-dashboard',
@@ -264,8 +264,8 @@ const tools: Tool[] = [
     downloads: '12.8K',
     isPremium: false,
     isNew: false,
-    route: '/tools/analytics-dashboard',
-  },
+    route: '/tools/analytics-dashboard'
+  }
 ];
 
 const categories = [
@@ -276,7 +276,7 @@ const categories = [
   { id: 'design', name: 'Design', icon: Palette },
   { id: 'mobile', name: 'Mobile', icon: Smartphone },
   { id: 'deployment', name: 'Deployment', icon: Rocket },
-  { id: 'ai', name: 'AI & Analytics', icon: Brain },
+  { id: 'ai', name: 'AI & Analytics', icon: Brain }
 ];
 
 function ToolsPage() {
@@ -285,10 +285,9 @@ function ToolsPage() {
   const [filteredTools, setFilteredTools] = useState(tools);
 
   useEffect(() => {
-    const filtered = tools.filter((tool) => {
-      const matchesSearch =
-        tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        tool.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const filtered = tools.filter(tool => {
+      const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           tool.description.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = selectedCategory === 'all' || tool.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
@@ -301,10 +300,8 @@ function ToolsPage() {
     window.location.hash = tool.route;
   };
 
-  const popularTools = tools
-    .filter((tool) => parseFloat(tool.downloads.replace('K', '')) > 10)
-    .slice(0, 6);
-  const newTools = tools.filter((tool) => tool.isNew).slice(0, 4);
+  const popularTools = tools.filter(tool => parseFloat(tool.downloads.replace('K', '')) > 10).slice(0, 6);
+  const newTools = tools.filter(tool => tool.isNew).slice(0, 4);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
@@ -332,17 +329,17 @@ function ToolsPage() {
             {filteredTools.length} tools available
           </Badge>
         </div>
-
+        
         <div className="flex gap-2 flex-wrap">
           {categories.slice(0, 6).map((category) => {
             const IconComponent = category.icon;
             return (
               <Button
                 key={category.id}
-                variant={selectedCategory === category.id ? 'default' : 'outline'}
+                variant={selectedCategory === category.id ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSelectedCategory(category.id)}
-                className={`text-xs ${selectedCategory === category.id ? 'ff-btn-primary' : ''}`}
+                className={`text-xs ${selectedCategory === category.id ? "ff-btn-primary" : ""}`}
               >
                 <IconComponent className="h-3 w-3 mr-1" />
                 {category.name}
@@ -355,15 +352,9 @@ function ToolsPage() {
       <Tabs defaultValue="all-tools" className="w-full">
         <div className="flex items-center justify-between">
           <TabsList className="inline-flex h-10 items-center justify-center rounded-xl bg-muted/30 p-1">
-            <TabsTrigger value="all-tools" className="text-sm">
-              All Tools
-            </TabsTrigger>
-            <TabsTrigger value="popular" className="text-sm">
-              Popular
-            </TabsTrigger>
-            <TabsTrigger value="new" className="text-sm">
-              New
-            </TabsTrigger>
+            <TabsTrigger value="all-tools" className="text-sm">All Tools</TabsTrigger>
+            <TabsTrigger value="popular" className="text-sm">Popular</TabsTrigger>
+            <TabsTrigger value="new" className="text-sm">New</TabsTrigger>
           </TabsList>
         </div>
 
@@ -372,8 +363,8 @@ function ToolsPage() {
             {filteredTools.map((tool) => {
               const IconComponent = tool.icon;
               return (
-                <Card
-                  key={tool.id}
+                <Card 
+                  key={tool.id} 
                   className="ff-card-interactive cursor-pointer group hover:bg-muted/20 p-3"
                   onClick={() => handleToolClick(tool)}
                 >
@@ -395,7 +386,7 @@ function ToolsPage() {
                         )}
                       </div>
                     </div>
-
+                    
                     <div className="space-y-2">
                       <h3 className="font-medium text-sm group-hover:text-primary transition-colors line-clamp-2">
                         {tool.name}
@@ -404,7 +395,7 @@ function ToolsPage() {
                         {tool.description}
                       </p>
                     </div>
-
+                    
                     <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-1">
                         <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
@@ -427,8 +418,8 @@ function ToolsPage() {
             {popularTools.map((tool) => {
               const IconComponent = tool.icon;
               return (
-                <Card
-                  key={tool.id}
+                <Card 
+                  key={tool.id} 
                   className="ff-card-interactive cursor-pointer group"
                   onClick={() => handleToolClick(tool)}
                 >
@@ -455,7 +446,9 @@ function ToolsPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">{tool.description}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {tool.description}
+                    </p>
                   </CardContent>
                 </Card>
               );
@@ -468,8 +461,8 @@ function ToolsPage() {
             {newTools.map((tool) => {
               const IconComponent = tool.icon;
               return (
-                <Card
-                  key={tool.id}
+                <Card 
+                  key={tool.id} 
                   className="ff-card-interactive cursor-pointer group"
                   onClick={() => handleToolClick(tool)}
                 >
@@ -482,7 +475,9 @@ function ToolsPage() {
                         <h3 className="font-semibold group-hover:text-primary transition-colors">
                           {tool.name}
                         </h3>
-                        <p className="text-sm text-muted-foreground mt-1">{tool.description}</p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {tool.description}
+                        </p>
                       </div>
                       <Badge variant="secondary" className="bg-green-100 text-green-800">
                         New

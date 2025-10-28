@@ -14,13 +14,13 @@ function createAnalyticsConfig(): AnalyticsConfig {
     return {
       googleAnalyticsId: ENV.VITE_GOOGLE_ANALYTICS_ID,
       enabled: isProduction() && isAnalyticsEnabled(),
-      debug: isDevelopment(),
+      debug: isDevelopment()
     };
   } catch (error) {
     console.warn('Failed to create analytics config:', error);
     return {
       enabled: false,
-      debug: false,
+      debug: false
     };
   }
 }
@@ -37,7 +37,7 @@ function getAnalyticsConfig(): AnalyticsConfig {
 // Track page views
 export function trackPageView(page: PageType, title?: string) {
   const config = getAnalyticsConfig();
-
+  
   if (!config.enabled) {
     if (config.debug) {
       console.log('Analytics (Debug): Page view -', { page, title });
@@ -51,13 +51,13 @@ export function trackPageView(page: PageType, title?: string) {
       window.gtag('config', config.googleAnalyticsId!, {
         page_title: title || page,
         page_location: window.location.href,
-        page_path: window.location.pathname,
+        page_path: window.location.pathname
       });
-
+      
       window.gtag('event', 'page_view', {
         page_title: title || page,
         page_location: window.location.href,
-        page_path: window.location.pathname,
+        page_path: window.location.pathname
       });
     }
   } catch (error) {
@@ -66,9 +66,12 @@ export function trackPageView(page: PageType, title?: string) {
 }
 
 // Track custom events
-export function trackEvent(eventName: string, parameters: Record<string, any> = {}) {
+export function trackEvent(
+  eventName: string, 
+  parameters: Record<string, any> = {}
+) {
   const config = getAnalyticsConfig();
-
+  
   if (!config.enabled) {
     if (config.debug) {
       console.log('Analytics (Debug): Event -', { eventName, parameters });
@@ -80,7 +83,7 @@ export function trackEvent(eventName: string, parameters: Record<string, any> = 
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', eventName, {
         ...parameters,
-        timestamp: Date.now(),
+        timestamp: Date.now()
       });
     }
   } catch (error) {
@@ -94,7 +97,7 @@ export function trackToolUsage(toolName: string, action: string, metadata?: Reco
     tool_name: toolName,
     action,
     category: 'Tools',
-    ...metadata,
+    ...metadata
   });
 }
 
@@ -102,7 +105,7 @@ export function trackToolUsage(toolName: string, action: string, metadata?: Reco
 export function trackAuth(action: 'login' | 'logout' | 'signup') {
   trackEvent('auth_action', {
     action,
-    category: 'Authentication',
+    category: 'Authentication'
   });
 }
 
@@ -116,7 +119,7 @@ export function trackGeneration(
     generation_type: type,
     status,
     category: 'Generation',
-    ...metadata,
+    ...metadata
   });
 }
 
@@ -126,7 +129,7 @@ export function trackDownload(fileName: string, fileType: string, source: string
     file_name: fileName,
     file_type: fileType,
     source,
-    category: 'Downloads',
+    category: 'Downloads'
   });
 }
 
@@ -136,17 +139,21 @@ export function trackPerformance(metric: string, value: number, unit: string = '
     metric_name: metric,
     value,
     unit,
-    category: 'Performance',
+    category: 'Performance'
   });
 }
 
 // Track errors
-export function trackError(errorType: string, errorMessage: string, context?: Record<string, any>) {
+export function trackError(
+  errorType: string,
+  errorMessage: string,
+  context?: Record<string, any>
+) {
   trackEvent('error_occurred', {
     error_type: errorType,
     error_message: errorMessage,
     category: 'Errors',
-    ...context,
+    ...context
   });
 }
 
@@ -154,7 +161,7 @@ export function trackError(errorType: string, errorMessage: string, context?: Re
 export function Analytics() {
   useEffect(() => {
     const config = getAnalyticsConfig();
-
+    
     // Initialize Google Analytics
     if (config.enabled && config.googleAnalyticsId) {
       try {
@@ -166,7 +173,7 @@ export function Analytics() {
 
         // Initialize gtag
         if (!window.gtag) {
-          window.gtag = function () {
+          window.gtag = function() {
             (window.gtag as any).dataLayer = (window.gtag as any).dataLayer || [];
             (window.gtag as any).dataLayer.push(arguments);
           };
@@ -192,19 +199,11 @@ export function Analytics() {
         window.addEventListener('load', () => {
           setTimeout(() => {
             try {
-              const perfData = performance.getEntriesByType(
-                'navigation'
-              )[0] as PerformanceNavigationTiming;
+              const perfData = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
               if (perfData) {
                 trackPerformance('page_load_time', perfData.loadEventEnd - perfData.fetchStart);
-                trackPerformance(
-                  'dom_content_loaded',
-                  perfData.domContentLoadedEventEnd - perfData.fetchStart
-                );
-                trackPerformance(
-                  'first_contentful_paint',
-                  perfData.loadEventStart - perfData.fetchStart
-                );
+                trackPerformance('dom_content_loaded', perfData.domContentLoadedEventEnd - perfData.fetchStart);
+                trackPerformance('first_contentful_paint', perfData.loadEventStart - perfData.fetchStart);
               }
             } catch (error) {
               console.warn('Failed to track performance metrics:', error);
@@ -274,7 +273,7 @@ export function Analytics() {
             const sessionTime = Date.now() - startTime;
             trackEvent('session_engagement', {
               session_duration: sessionTime,
-              category: 'Engagement',
+              category: 'Engagement'
             });
             isActive = false;
           }
@@ -293,7 +292,7 @@ export function Analytics() {
           const sessionTime = Date.now() - startTime;
           trackEvent('session_end', {
             session_duration: sessionTime,
-            category: 'Engagement',
+            category: 'Engagement'
           });
         }
       } catch (error) {
@@ -324,7 +323,7 @@ export function useAnalytics() {
     trackGeneration,
     trackDownload,
     trackPerformance,
-    trackError,
+    trackError
   };
 }
 
@@ -338,13 +337,13 @@ export function withAnalytics<P extends object>(
       try {
         trackEvent('component_mounted', {
           component_name: componentName,
-          category: 'Components',
+          category: 'Components'
         });
 
         return () => {
           trackEvent('component_unmounted', {
             component_name: componentName,
-            category: 'Components',
+            category: 'Components'
           });
         };
       } catch (error) {

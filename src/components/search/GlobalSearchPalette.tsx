@@ -4,8 +4,8 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  Search,
+import { 
+  Search, 
   Command,
   ArrowRight,
   File,
@@ -26,7 +26,7 @@ import {
   Play,
   Plus,
   Copy,
-  ExternalLink,
+  ExternalLink
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import type { SearchResult, Command as CommandType } from '../../types/core';
@@ -59,7 +59,7 @@ export default function GlobalSearchPalette() {
         description: 'E-commerce platform for content creators with AI-powered product generation',
         url: '/projects/creator-commerce',
         metadata: { framework: 'React', status: 'active' },
-        score: 0.95,
+        score: 0.95
       },
       {
         id: 'tool-1',
@@ -68,7 +68,7 @@ export default function GlobalSearchPalette() {
         description: 'Generate high-quality content using advanced AI models',
         url: '/tools/ai-content-generator',
         metadata: { category: 'AI Tools', pricing: 'pro' },
-        score: 0.92,
+        score: 0.92
       },
       {
         id: 'template-1',
@@ -77,7 +77,7 @@ export default function GlobalSearchPalette() {
         description: 'Modern landing page template for SaaS products',
         url: '/templates/saas-landing',
         metadata: { framework: 'Next.js', complexity: 'intermediate' },
-        score: 0.88,
+        score: 0.88
       },
       {
         id: 'doc-1',
@@ -86,7 +86,7 @@ export default function GlobalSearchPalette() {
         description: 'Complete guide to building your first FlashFusion application',
         url: '/docs/getting-started',
         metadata: { category: 'Documentation', updated: '2024-03-20' },
-        score: 0.85,
+        score: 0.85
       },
       {
         id: 'user-1',
@@ -95,8 +95,8 @@ export default function GlobalSearchPalette() {
         description: 'Product Designer at FlashFusion',
         url: '/users/sarah-chen',
         metadata: { role: 'team_member', department: 'Design' },
-        score: 0.82,
-      },
+        score: 0.82
+      }
     ];
 
     const mockCommands: CommandType[] = [
@@ -107,7 +107,7 @@ export default function GlobalSearchPalette() {
         shortcut: '⌘+N',
         category: 'Actions',
         action: () => console.log('Creating new project'),
-        icon: 'Plus',
+        icon: 'Plus'
       },
       {
         id: 'open-settings',
@@ -116,7 +116,7 @@ export default function GlobalSearchPalette() {
         shortcut: '⌘+,',
         category: 'Navigation',
         action: () => console.log('Opening settings'),
-        icon: 'Settings',
+        icon: 'Settings'
       },
       {
         id: 'toggle-theme',
@@ -125,7 +125,7 @@ export default function GlobalSearchPalette() {
         shortcut: '⌘+D',
         category: 'Preferences',
         action: () => console.log('Toggling theme'),
-        icon: 'Palette',
+        icon: 'Palette'
       },
       {
         id: 'run-validation',
@@ -134,7 +134,7 @@ export default function GlobalSearchPalette() {
         shortcut: '⌘+R',
         category: 'Tools',
         action: () => console.log('Running validation'),
-        icon: 'Zap',
+        icon: 'Zap'
       },
       {
         id: 'open-docs',
@@ -143,8 +143,8 @@ export default function GlobalSearchPalette() {
         shortcut: '⌘+?',
         category: 'Help',
         action: () => console.log('Opening docs'),
-        icon: 'BookOpen',
-      },
+        icon: 'BookOpen'
+      }
     ];
 
     setSearchResults(mockResults);
@@ -213,64 +213,62 @@ export default function GlobalSearchPalette() {
         name: 'Projects',
         icon: Folder,
         color: 'text-blue-500',
-        results: [],
+        results: []
       },
       tools: {
         id: 'tools',
         name: 'Tools',
         icon: Zap,
         color: 'text-purple-500',
-        results: [],
+        results: []
       },
       templates: {
         id: 'templates',
         name: 'Templates',
         icon: File,
         color: 'text-green-500',
-        results: [],
+        results: []
       },
       docs: {
         id: 'docs',
         name: 'Documentation',
         icon: BookOpen,
         color: 'text-orange-500',
-        results: [],
+        results: []
       },
       users: {
         id: 'users',
         name: 'People',
         icon: User,
         color: 'text-pink-500',
-        results: [],
-      },
+        results: []
+      }
     };
 
-    const filteredResults = searchResults.filter(
-      (result) =>
-        result.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        result.description.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredResults = searchResults.filter(result =>
+      result.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      result.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    filteredResults.forEach((result) => {
+    filteredResults.forEach(result => {
       const categoryKey = result.type === 'documentation' ? 'docs' : `${result.type}s`;
       if (categories[categoryKey]) {
         categories[categoryKey].results.push(result);
       }
     });
 
-    return Object.values(categories).filter((category) => category.results.length > 0);
+    return Object.values(categories).filter(category => category.results.length > 0);
   };
 
-  const filteredCommands = commands.filter(
-    (command) =>
-      command.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      command.description.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCommands = commands.filter(command =>
+    command.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    command.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Header */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -280,8 +278,7 @@ export default function GlobalSearchPalette() {
           <h1 className="ff-text-gradient">Global Search & Command Palette</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Instantly find projects, tools, templates, documentation, and execute commands across your
-          entire FlashFusion workspace.
+          Instantly find projects, tools, templates, documentation, and execute commands across your entire FlashFusion workspace.
         </p>
       </motion.div>
 
@@ -300,11 +297,7 @@ export default function GlobalSearchPalette() {
               )}
               <Input
                 ref={searchInputRef}
-                placeholder={
-                  isCommandMode
-                    ? 'Type a command...'
-                    : 'Search projects, tools, templates, docs... (⌘+K)'
-                }
+                placeholder={isCommandMode ? "Type a command..." : "Search projects, tools, templates, docs... (⌘+K)"}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-12 pr-12 h-12 text-lg border-2 border-primary/20 focus:border-primary"
@@ -321,14 +314,14 @@ export default function GlobalSearchPalette() {
               <div className="mt-4 flex items-center space-x-2 text-sm text-muted-foreground">
                 <span>Search in:</span>
                 <Button
-                  variant={isCommandMode ? 'ghost' : 'secondary'}
+                  variant={isCommandMode ? "ghost" : "secondary"}
                   size="sm"
                   onClick={() => setIsCommandMode(false)}
                 >
                   Content
                 </Button>
                 <Button
-                  variant={isCommandMode ? 'secondary' : 'ghost'}
+                  variant={isCommandMode ? "secondary" : "ghost"}
                   size="sm"
                   onClick={() => setIsCommandMode(true)}
                 >
@@ -504,13 +497,11 @@ export default function GlobalSearchPalette() {
                                   </p>
                                   {result.metadata && (
                                     <div className="flex items-center space-x-2 mt-2">
-                                      {Object.entries(result.metadata)
-                                        .slice(0, 2)
-                                        .map(([key, value], idx) => (
-                                          <Badge key={idx} variant="outline" className="text-xs">
-                                            {key}: {String(value)}
-                                          </Badge>
-                                        ))}
+                                      {Object.entries(result.metadata).slice(0, 2).map(([key, value], idx) => (
+                                        <Badge key={idx} variant="outline" className="text-xs">
+                                          {key}: {String(value)}
+                                        </Badge>
+                                      ))}
                                     </div>
                                   )}
                                 </div>
@@ -555,12 +546,9 @@ export default function GlobalSearchPalette() {
                 { key: '⌘+,', desc: 'Settings' },
                 { key: '⌘+D', desc: 'Toggle theme' },
                 { key: '⌘+R', desc: 'Run validation' },
-                { key: '⌘+?', desc: 'Help docs' },
+                { key: '⌘+?', desc: 'Help docs' }
               ].map((shortcut, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between p-2 bg-muted/30 rounded-lg"
-                >
+                <div key={index} className="flex items-center justify-between p-2 bg-muted/30 rounded-lg">
                   <span className="text-sm">{shortcut.desc}</span>
                   <Badge variant="outline" className="text-xs font-mono">
                     {shortcut.key}

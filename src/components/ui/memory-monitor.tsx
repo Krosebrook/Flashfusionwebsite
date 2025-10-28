@@ -12,44 +12,44 @@ interface MemoryMonitorProps {
 export function MemoryMonitor({ className = '', showDetails = false }: MemoryMonitorProps) {
   const [memoryStats, setMemoryStats] = useState<any>(null);
   const [cleanupCount, setCleanupCount] = useState(0);
-
+  
   useEffect(() => {
     const updateMemoryStats = () => {
       const stats = memoryOptimizer.getMemoryStats();
       setMemoryStats(stats);
     };
-
+    
     // Update immediately
     updateMemoryStats();
-
+    
     // Update every 5 seconds
     const interval = setInterval(updateMemoryStats, 5000);
-
+    
     return () => clearInterval(interval);
   }, []);
-
+  
   const handleCleanup = async () => {
     forceMemoryCleanup();
-    setCleanupCount((prev) => prev + 1);
-
+    setCleanupCount(prev => prev + 1);
+    
     // Update stats after cleanup
     setTimeout(() => {
       const stats = memoryOptimizer.getMemoryStats();
       setMemoryStats(stats);
     }, 1000);
   };
-
+  
   if (!memoryStats) return null;
-
+  
   const getMemoryStatus = (percentage: number) => {
     if (percentage > 95) return { color: 'destructive', label: 'Critical' };
     if (percentage > 85) return { color: 'warning', label: 'High' };
     if (percentage > 75) return { color: 'secondary', label: 'Moderate' };
     return { color: 'success', label: 'Good' };
   };
-
+  
   const status = getMemoryStatus(memoryStats.percentage);
-
+  
   return (
     <Card className={`${className} ${memoryStats.percentage > 90 ? 'border-destructive' : ''}`}>
       <CardContent className="p-4">
@@ -59,18 +59,22 @@ export function MemoryMonitor({ className = '', showDetails = false }: MemoryMon
               <Badge variant={status.color as any} className="text-xs">
                 {status.label}
               </Badge>
-              <span className="text-sm font-mono">{memoryStats.percentage.toFixed(1)}%</span>
+              <span className="text-sm font-mono">
+                {memoryStats.percentage.toFixed(1)}%
+              </span>
             </div>
-
+            
             {showDetails && (
               <div className="text-xs text-muted-foreground space-y-1">
                 <div>Used: {(memoryStats.used / 1024 / 1024).toFixed(1)} MB</div>
                 <div>Total: {(memoryStats.total / 1024 / 1024).toFixed(1)} MB</div>
-                {cleanupCount > 0 && <div>Cleanups: {cleanupCount}</div>}
+                {cleanupCount > 0 && (
+                  <div>Cleanups: {cleanupCount}</div>
+                )}
               </div>
             )}
           </div>
-
+          
           <div className="space-y-2">
             <Button
               size="sm"
@@ -80,7 +84,7 @@ export function MemoryMonitor({ className = '', showDetails = false }: MemoryMon
             >
               🧹 Clean
             </Button>
-
+            
             {memoryStats.percentage > 95 && (
               <Button
                 size="sm"
@@ -93,15 +97,15 @@ export function MemoryMonitor({ className = '', showDetails = false }: MemoryMon
             )}
           </div>
         </div>
-
+        
         {/* Memory usage bar */}
         <div className="mt-3">
           <div className="w-full bg-muted rounded-full h-2">
             <div
               className={`h-2 rounded-full transition-all duration-300 ${
-                memoryStats.percentage > 95
-                  ? 'bg-destructive'
-                  : memoryStats.percentage > 85
+                memoryStats.percentage > 95 
+                  ? 'bg-destructive' 
+                  : memoryStats.percentage > 85 
                     ? 'bg-warning'
                     : memoryStats.percentage > 75
                       ? 'bg-secondary'

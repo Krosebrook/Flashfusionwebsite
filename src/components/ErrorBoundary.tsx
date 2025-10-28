@@ -2,7 +2,7 @@
  * @fileoverview Enhanced Error Boundary Component
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * Production-ready error boundary with:
  * - Detailed error reporting
  * - Graceful fallback UI
@@ -30,7 +30,7 @@ export class ErrorBoundary extends Component<Props, State> {
     this.state = {
       hasError: false,
       error: null,
-      errorInfo: null,
+      errorInfo: null
     };
   }
 
@@ -38,14 +38,14 @@ export class ErrorBoundary extends Component<Props, State> {
     return {
       hasError: true,
       error,
-      errorInfo: null,
+      errorInfo: null
     };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({
       error,
-      errorInfo,
+      errorInfo
     });
 
     // Call custom error handler if provided
@@ -69,7 +69,7 @@ export class ErrorBoundary extends Component<Props, State> {
     this.setState({
       hasError: false,
       error: null,
-      errorInfo: null,
+      errorInfo: null
     });
   };
 
@@ -82,23 +82,26 @@ export class ErrorBoundary extends Component<Props, State> {
 
       // Default fallback UI
       return (
-        <div
+        <div 
           className="min-h-screen bg-[var(--ff-bg-dark)] flex items-center justify-center"
           style={{ fontFamily: 'var(--ff-font-secondary)' }}
         >
           <div className="max-w-md mx-auto text-center space-y-6 p-8">
             <div className="space-y-4">
               <div className="text-6xl">😵</div>
-              <h1
+              <h1 
                 className="text-2xl text-white"
-                style={{
+                style={{ 
                   fontFamily: 'var(--ff-font-primary)',
-                  fontWeight: 'var(--ff-weight-bold)',
+                  fontWeight: 'var(--ff-weight-bold)'
                 }}
               >
                 Something went wrong
               </h1>
-              <p className="text-gray-300" style={{ fontSize: 'var(--ff-text-base)' }}>
+              <p 
+                className="text-gray-300"
+                style={{ fontSize: 'var(--ff-text-base)' }}
+              >
                 We've encountered an unexpected error. Don't worry, your data is safe.
               </p>
             </div>
@@ -107,20 +110,20 @@ export class ErrorBoundary extends Component<Props, State> {
               <button
                 onClick={this.handleRetry}
                 className="w-full px-4 py-2 bg-[var(--ff-primary)] text-white rounded-lg hover:bg-[var(--ff-primary-600)] transition-colors"
-                style={{
+                style={{ 
                   fontFamily: 'var(--ff-font-primary)',
-                  fontWeight: 'var(--ff-weight-semibold)',
+                  fontWeight: 'var(--ff-weight-semibold)'
                 }}
               >
                 Try Again
               </button>
-
+              
               <button
                 onClick={() => window.location.reload()}
                 className="w-full px-4 py-2 bg-[var(--ff-surface)] text-gray-300 rounded-lg hover:bg-[var(--ff-surface-light)] transition-colors"
-                style={{
+                style={{ 
                   fontFamily: 'var(--ff-font-primary)',
-                  fontWeight: 'var(--ff-weight-medium)',
+                  fontWeight: 'var(--ff-weight-medium)'
                 }}
               >
                 Reload Page
@@ -130,13 +133,13 @@ export class ErrorBoundary extends Component<Props, State> {
             {/* Development error details */}
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="mt-6 text-left">
-                <summary
+                <summary 
                   className="cursor-pointer text-sm text-gray-400 hover:text-gray-300"
                   style={{ fontFamily: 'var(--ff-font-mono)' }}
                 >
                   Error Details (Development)
                 </summary>
-                <div
+                <div 
                   className="mt-2 p-4 bg-red-900/20 border border-red-500/30 rounded text-xs text-red-300 overflow-auto max-h-40"
                   style={{ fontFamily: 'var(--ff-font-mono)' }}
                 >
@@ -164,7 +167,10 @@ export class ErrorBoundary extends Component<Props, State> {
             )}
 
             <div className="pt-4 border-t border-gray-700">
-              <p className="text-xs text-gray-500" style={{ fontSize: 'var(--ff-text-xs)' }}>
+              <p 
+                className="text-xs text-gray-500"
+                style={{ fontSize: 'var(--ff-text-xs)' }}
+              >
                 If this problem persists, please contact our support team.
               </p>
             </div>

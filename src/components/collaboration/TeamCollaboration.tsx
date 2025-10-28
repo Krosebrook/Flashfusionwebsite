@@ -9,26 +9,14 @@ import { Textarea } from '../ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { ScrollArea } from '../ui/scroll-area';
-import {
-  Users,
-  UserPlus,
-  MessageSquare,
-  Share2,
-  Crown,
-  Eye,
-  Edit,
-  Trash2,
-  Clock,
-  Send,
-  MoreHorizontal,
-  GitBranch,
-  History,
-  Bell,
-  Settings,
+import { 
+  Users, UserPlus, MessageSquare, Share2, Crown, 
+  Eye, Edit, Trash2, Clock, Send, MoreHorizontal,
+  GitBranch, History, Bell, Settings
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../auth/AuthSystem';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface TeamMember {
   id: string;
@@ -75,7 +63,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
   const [inviteEmail, setInviteEmail] = useState('');
   const [isInviting, setIsInviting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
+  
   const { user } = useAuth();
 
   useEffect(() => {
@@ -95,7 +83,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
           role: 'owner',
           joinedAt: '2024-01-15',
           status: 'active',
-          lastActive: '2 minutes ago',
+          lastActive: '2 minutes ago'
         },
         {
           id: '2',
@@ -105,7 +93,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
           role: 'admin',
           joinedAt: '2024-02-01',
           status: 'active',
-          lastActive: '1 hour ago',
+          lastActive: '1 hour ago'
         },
         {
           id: '3',
@@ -114,8 +102,8 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
           role: 'member',
           joinedAt: '2024-02-15',
           status: 'offline',
-          lastActive: '3 days ago',
-        },
+          lastActive: '3 days ago'
+        }
       ];
 
       const mockComments: Comment[] = [
@@ -129,17 +117,17 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
               id: '2',
               author: mockTeamMembers[1],
               content: 'Thanks! I spent some time tweaking the timing.',
-              createdAt: '2024-08-20T11:00:00Z',
-            },
-          ],
+              createdAt: '2024-08-20T11:00:00Z'
+            }
+          ]
         },
         {
           id: '3',
           author: mockTeamMembers[1],
           content: 'Should we consider adding error handling to the API calls?',
           createdAt: '2024-08-20T14:15:00Z',
-          mentions: ['@alex'],
-        },
+          mentions: ['@alex']
+        }
       ];
 
       setTeamMembers(mockTeamMembers);
@@ -153,12 +141,12 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
 
   const handleInviteMember = async () => {
     if (!inviteEmail) return;
-
+    
     setIsInviting(true);
     try {
       // Mock API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       const newMember: TeamMember = {
         id: Date.now().toString(),
         name: inviteEmail.split('@')[0],
@@ -166,10 +154,10 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
         role: 'member',
         joinedAt: new Date().toISOString(),
         status: 'invited',
-        lastActive: 'Never',
+        lastActive: 'Never'
       };
-
-      setTeamMembers((prev) => [...prev, newMember]);
+      
+      setTeamMembers(prev => [...prev, newMember]);
       setInviteEmail('');
       toast.success(`Invitation sent to ${inviteEmail}`);
     } catch (error) {
@@ -181,16 +169,16 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
 
   const handlePostComment = async () => {
     if (!newComment.trim()) return;
-
+    
     try {
       const comment: Comment = {
         id: Date.now().toString(),
-        author: teamMembers.find((m) => m.id === currentUserId) || teamMembers[0],
+        author: teamMembers.find(m => m.id === currentUserId) || teamMembers[0],
         content: newComment,
-        createdAt: new Date().toISOString(),
+        createdAt: new Date().toISOString()
       };
-
-      setComments((prev) => [comment, ...prev]);
+      
+      setComments(prev => [comment, ...prev]);
       setNewComment('');
       toast.success('Comment posted');
     } catch (error) {
@@ -200,31 +188,21 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
 
   const getRoleColor = (role: string) => {
     switch (role) {
-      case 'owner':
-        return 'text-yellow-500';
-      case 'admin':
-        return 'text-blue-500';
-      case 'member':
-        return 'text-green-500';
-      case 'viewer':
-        return 'text-gray-500';
-      default:
-        return 'text-gray-500';
+      case 'owner': return 'text-yellow-500';
+      case 'admin': return 'text-blue-500';
+      case 'member': return 'text-green-500';
+      case 'viewer': return 'text-gray-500';
+      default: return 'text-gray-500';
     }
   };
 
   const getRoleIcon = (role: string) => {
     switch (role) {
-      case 'owner':
-        return Crown;
-      case 'admin':
-        return Settings;
-      case 'member':
-        return Users;
-      case 'viewer':
-        return Eye;
-      default:
-        return Users;
+      case 'owner': return Crown;
+      case 'admin': return Settings;
+      case 'member': return Users;
+      case 'viewer': return Eye;
+      default: return Users;
     }
   };
 
@@ -232,7 +210,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
     const date = new Date(dateString);
     const now = new Date();
     const diff = now.getTime() - date.getTime();
-
+    
     if (diff < 60000) return 'Just now';
     if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
     if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
@@ -269,7 +247,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
             </div>
           </div>
         </Card>
-
+        
         <Card className="p-6">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-secondary/10 rounded-lg">
@@ -281,7 +259,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
             </div>
           </div>
         </Card>
-
+        
         <Card className="p-6">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-accent/10 rounded-lg">
@@ -328,7 +306,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
                         onChange={(e) => setInviteEmail(e.target.value)}
                       />
                     </div>
-                    <Button
+                    <Button 
                       onClick={handleInviteMember}
                       disabled={isInviting || !inviteEmail}
                       className="w-full ff-btn-primary"
@@ -354,22 +332,13 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
                       <div className="relative">
                         <Avatar>
                           <AvatarImage src={member.avatar} />
-                          <AvatarFallback>
-                            {member.name
-                              .split(' ')
-                              .map((n) => n[0])
-                              .join('')}
-                          </AvatarFallback>
+                          <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                         </Avatar>
-                        <div
-                          className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background ${
-                            member.status === 'active'
-                              ? 'bg-green-500'
-                              : member.status === 'invited'
-                                ? 'bg-yellow-500'
-                                : 'bg-gray-500'
-                          }`}
-                        />
+                        <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-background ${
+                          member.status === 'active' ? 'bg-green-500' :
+                          member.status === 'invited' ? 'bg-yellow-500' :
+                          'bg-gray-500'
+                        }`} />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
@@ -400,7 +369,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
         <TabsContent value="comments" className="space-y-6">
           <Card className="p-6">
             <h3 className="text-lg font-semibold mb-4">Project Discussion</h3>
-
+            
             {/* New Comment */}
             <div className="space-y-3 mb-6">
               <Textarea
@@ -410,7 +379,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
                 className="min-h-[100px]"
               />
               <div className="flex justify-end">
-                <Button
+                <Button 
                   onClick={handlePostComment}
                   disabled={!newComment.trim()}
                   size="sm"
@@ -436,10 +405,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
                       <Avatar className="h-8 w-8">
                         <AvatarImage src={comment.author.avatar} />
                         <AvatarFallback>
-                          {comment.author.name
-                            .split(' ')
-                            .map((n) => n[0])
-                            .join('')}
+                          {comment.author.name.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1">
@@ -449,13 +415,11 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
                             {formatTime(comment.createdAt)}
                           </p>
                           {comment.edited && (
-                            <Badge variant="secondary" className="text-xs">
-                              edited
-                            </Badge>
+                            <Badge variant="secondary" className="text-xs">edited</Badge>
                           )}
                         </div>
                         <p className="text-sm mb-2">{comment.content}</p>
-
+                        
                         {comment.mentions && (
                           <div className="flex gap-1 mb-2">
                             {comment.mentions.map((mention, i) => (
@@ -465,7 +429,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
                             ))}
                           </div>
                         )}
-
+                        
                         <div className="flex items-center gap-2">
                           <Button variant="ghost" size="sm" className="text-xs">
                             Reply
@@ -474,7 +438,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
                             React
                           </Button>
                         </div>
-
+                        
                         {/* Replies */}
                         {comment.replies && comment.replies.length > 0 && (
                           <div className="mt-3 pl-4 border-l-2 border-muted space-y-3">
@@ -483,10 +447,7 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
                                 <Avatar className="h-6 w-6">
                                   <AvatarImage src={reply.author.avatar} />
                                   <AvatarFallback className="text-xs">
-                                    {reply.author.name
-                                      .split(' ')
-                                      .map((n) => n[0])
-                                      .join('')}
+                                    {reply.author.name.split(' ').map(n => n[0]).join('')}
                                   </AvatarFallback>
                                 </Avatar>
                                 <div>
@@ -519,43 +480,18 @@ export function TeamCollaboration({ projectId, currentUserId }: TeamCollaboratio
             </h3>
             <div className="space-y-4">
               {[
-                {
-                  user: 'Alex Chen',
-                  action: 'updated the header component',
-                  time: '2 minutes ago',
-                  type: 'edit',
-                },
-                {
-                  user: 'Sarah Johnson',
-                  action: 'added a new comment',
-                  time: '1 hour ago',
-                  type: 'comment',
-                },
-                {
-                  user: 'Mike Rodriguez',
-                  action: 'joined the project',
-                  time: '2 days ago',
-                  type: 'join',
-                },
-                {
-                  user: 'Alex Chen',
-                  action: 'deployed to staging',
-                  time: '3 days ago',
-                  type: 'deploy',
-                },
+                { user: 'Alex Chen', action: 'updated the header component', time: '2 minutes ago', type: 'edit' },
+                { user: 'Sarah Johnson', action: 'added a new comment', time: '1 hour ago', type: 'comment' },
+                { user: 'Mike Rodriguez', action: 'joined the project', time: '2 days ago', type: 'join' },
+                { user: 'Alex Chen', action: 'deployed to staging', time: '3 days ago', type: 'deploy' }
               ].map((activity, index) => (
                 <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
-                  <div
-                    className={`w-2 h-2 rounded-full ${
-                      activity.type === 'edit'
-                        ? 'bg-blue-500'
-                        : activity.type === 'comment'
-                          ? 'bg-green-500'
-                          : activity.type === 'join'
-                            ? 'bg-purple-500'
-                            : 'bg-orange-500'
-                    }`}
-                  />
+                  <div className={`w-2 h-2 rounded-full ${
+                    activity.type === 'edit' ? 'bg-blue-500' :
+                    activity.type === 'comment' ? 'bg-green-500' :
+                    activity.type === 'join' ? 'bg-purple-500' :
+                    'bg-orange-500'
+                  }`} />
                   <div className="flex-1">
                     <p className="text-sm">
                       <span className="font-medium">{activity.user}</span> {activity.action}

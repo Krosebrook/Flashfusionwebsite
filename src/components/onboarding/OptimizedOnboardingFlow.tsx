@@ -37,7 +37,7 @@ const PERSONAS: UserPersona[] = [
     description: 'Build full-stack applications with AI assistance',
     icon: Code,
     tools: ['Full-Stack Builder', 'Code Generator', 'Deployment Manager'],
-    color: 'primary',
+    color: 'primary'
   },
   {
     id: 'creator',
@@ -45,7 +45,7 @@ const PERSONAS: UserPersona[] = [
     description: 'Generate content and build your creator business',
     icon: Palette,
     tools: ['Content Generator', 'Brand Kit Generator', 'Creator Commerce'],
-    color: 'secondary',
+    color: 'secondary'
   },
   {
     id: 'entrepreneur',
@@ -53,7 +53,7 @@ const PERSONAS: UserPersona[] = [
     description: 'Launch and scale your business with AI tools',
     icon: Rocket,
     tools: ['Multi-Agent Orchestration', 'Analytics Dashboard', 'Team Collaboration'],
-    color: 'accent',
+    color: 'accent'
   },
   {
     id: 'enterprise',
@@ -61,31 +61,15 @@ const PERSONAS: UserPersona[] = [
     description: 'Scale team productivity with advanced AI workflows',
     icon: Briefcase,
     tools: ['Team Collaboration', 'Deployment Manager', 'Security Monitor'],
-    color: 'primary',
-  },
+    color: 'primary'
+  }
 ];
 
 const EXPERIENCE_LEVELS = [
-  {
-    value: 'beginner',
-    label: 'Beginner (0-1 years)',
-    description: 'New to development/content creation',
-  },
-  {
-    value: 'intermediate',
-    label: 'Intermediate (2-5 years)',
-    description: 'Some experience with tools and workflows',
-  },
-  {
-    value: 'advanced',
-    label: 'Advanced (5+ years)',
-    description: 'Experienced with complex projects',
-  },
-  {
-    value: 'expert',
-    label: 'Expert (10+ years)',
-    description: 'Industry veteran and thought leader',
-  },
+  { value: 'beginner', label: 'Beginner (0-1 years)', description: 'New to development/content creation' },
+  { value: 'intermediate', label: 'Intermediate (2-5 years)', description: 'Some experience with tools and workflows' },
+  { value: 'advanced', label: 'Advanced (5+ years)', description: 'Experienced with complex projects' },
+  { value: 'expert', label: 'Expert (10+ years)', description: 'Industry veteran and thought leader' }
 ];
 
 const GOALS = [
@@ -94,42 +78,27 @@ const GOALS = [
   { id: 'automate-workflows', label: 'Automate Development Workflows', icon: Zap },
   { id: 'scale-team', label: 'Scale Team Productivity', icon: Briefcase },
   { id: 'deploy-fast', label: 'Deploy to Production Quickly', icon: Rocket },
-  { id: 'analyze-performance', label: 'Monitor & Optimize Performance', icon: Target },
+  { id: 'analyze-performance', label: 'Monitor & Optimize Performance', icon: Target }
 ];
 
 const TECH_STACKS = [
-  'React',
-  'Vue.js',
-  'Angular',
-  'Next.js',
-  'Nuxt.js',
-  'Svelte',
-  'Node.js',
-  'Python',
-  'Java',
-  'C#',
-  'Go',
-  'Rust',
-  'TypeScript',
-  'JavaScript',
-  'PHP',
-  'Ruby',
-  'Swift',
-  'Kotlin',
+  'React', 'Vue.js', 'Angular', 'Next.js', 'Nuxt.js', 'Svelte',
+  'Node.js', 'Python', 'Java', 'C#', 'Go', 'Rust',
+  'TypeScript', 'JavaScript', 'PHP', 'Ruby', 'Swift', 'Kotlin'
 ];
 
 const PROJECT_SCALES = [
   { value: 'personal', label: 'Personal Projects', description: 'Side projects and learning' },
   { value: 'startup', label: 'Startup/Small Business', description: '1-10 team members' },
   { value: 'medium', label: 'Medium Business', description: '10-100 team members' },
-  { value: 'enterprise', label: 'Enterprise', description: '100+ team members' },
+  { value: 'enterprise', label: 'Enterprise', description: '100+ team members' }
 ];
 
 const TIMELINES = [
   { value: 'immediate', label: 'Immediate (This week)', urgency: 'high' },
   { value: 'month', label: 'Within a month', urgency: 'medium' },
   { value: 'quarter', label: 'Within 3 months', urgency: 'low' },
-  { value: 'exploring', label: 'Just exploring', urgency: 'none' },
+  { value: 'exploring', label: 'Just exploring', urgency: 'none' }
 ];
 
 export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboardingFlowProps) {
@@ -144,7 +113,7 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
     timeline: '',
     collaboration: false,
     newsletter: true,
-    completedSteps: 0,
+    completedSteps: 0
   });
 
   const [startTime] = useState(Date.now());
@@ -154,7 +123,7 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
   // Track onboarding analytics
   useEffect(() => {
     analyticsService.trackOnboardingStart();
-
+    
     return () => {
       const duration = Date.now() - startTime;
       analyticsService.trackOnboardingAbandoned(currentStep, duration);
@@ -163,20 +132,20 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
 
   useEffect(() => {
     if (currentStep > data.completedSteps) {
-      setData((prev) => ({ ...prev, completedSteps: currentStep }));
+      setData(prev => ({ ...prev, completedSteps: currentStep }));
       analyticsService.trackOnboardingStepCompleted(currentStep, Date.now() - startTime);
     }
   }, [currentStep, data.completedSteps, startTime]);
 
   const handleNext = useCallback(() => {
     if (currentStep < totalSteps - 1) {
-      setCurrentStep((prev) => prev + 1);
+      setCurrentStep(prev => prev + 1);
     }
   }, [currentStep, totalSteps]);
 
   const handlePrevious = useCallback(() => {
     if (currentStep > 0) {
-      setCurrentStep((prev) => prev - 1);
+      setCurrentStep(prev => prev - 1);
     }
   }, [currentStep]);
 
@@ -193,25 +162,18 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
   }, [currentStep, onSkip, startTime]);
 
   const updateData = useCallback((updates: Partial<OnboardingData>) => {
-    setData((prev) => ({ ...prev, ...updates }));
+    setData(prev => ({ ...prev, ...updates }));
   }, []);
 
   const isStepValid = useCallback(() => {
     switch (currentStep) {
-      case 0:
-        return data.persona !== null;
-      case 1:
-        return data.experience !== '';
-      case 2:
-        return data.goals.length > 0;
-      case 3:
-        return data.primaryUseCase.trim().length > 0;
-      case 4:
-        return data.projectScale !== '' && data.timeline !== '';
-      case 5:
-        return true; // Final step
-      default:
-        return false;
+      case 0: return data.persona !== null;
+      case 1: return data.experience !== '';
+      case 2: return data.goals.length > 0;
+      case 3: return data.primaryUseCase.trim().length > 0;
+      case 4: return data.projectScale !== '' && data.timeline !== '';
+      case 5: return true; // Final step
+      default: return false;
     }
   }, [currentStep, data]);
 
@@ -237,26 +199,24 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
               {PERSONAS.map((persona) => {
                 const Icon = persona.icon;
                 const isSelected = data.persona?.id === persona.id;
-
+                
                 return (
                   <Card
                     key={persona.id}
                     className={`ff-card-interactive cursor-pointer transition-all duration-300 ${
-                      isSelected ? 'ring-2 ring-primary bg-primary/5' : 'hover:bg-muted/50'
+                      isSelected 
+                        ? 'ring-2 ring-primary bg-primary/5' 
+                        : 'hover:bg-muted/50'
                     }`}
                     onClick={() => updateData({ persona })}
                   >
                     <CardContent className="p-6 space-y-4">
                       <div className="flex items-center gap-3">
-                        <div
-                          className={`p-3 rounded-lg ${
-                            persona.color === 'primary'
-                              ? 'bg-primary/10 text-primary'
-                              : persona.color === 'secondary'
-                                ? 'bg-secondary/10 text-secondary'
-                                : 'bg-accent/10 text-accent'
-                          }`}
-                        >
+                        <div className={`p-3 rounded-lg ${
+                          persona.color === 'primary' ? 'bg-primary/10 text-primary' :
+                          persona.color === 'secondary' ? 'bg-secondary/10 text-secondary' :
+                          'bg-accent/10 text-accent'
+                        }`}>
                           <Icon className="h-6 w-6" />
                         </div>
                         <div>
@@ -264,7 +224,7 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
                           <p className="text-sm text-muted-foreground">{persona.description}</p>
                         </div>
                       </div>
-
+                      
                       <div className="space-y-2">
                         <p className="text-xs font-medium text-muted-foreground">Top Tools:</p>
                         <div className="flex flex-wrap gap-1">
@@ -304,8 +264,8 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
                 <Card
                   key={level.value}
                   className={`ff-card-interactive cursor-pointer transition-all duration-200 ${
-                    data.experience === level.value
-                      ? 'ring-2 ring-primary bg-primary/5'
+                    data.experience === level.value 
+                      ? 'ring-2 ring-primary bg-primary/5' 
                       : 'hover:bg-muted/50'
                   }`}
                   onClick={() => updateData({ experience: level.value })}
@@ -316,13 +276,11 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
                         <h4 className="font-medium">{level.label}</h4>
                         <p className="text-sm text-muted-foreground">{level.description}</p>
                       </div>
-                      <div
-                        className={`w-4 h-4 rounded-full border-2 transition-colors ${
-                          data.experience === level.value
-                            ? 'bg-primary border-primary'
-                            : 'border-muted-foreground'
-                        }`}
-                      />
+                      <div className={`w-4 h-4 rounded-full border-2 transition-colors ${
+                        data.experience === level.value 
+                          ? 'bg-primary border-primary' 
+                          : 'border-muted-foreground'
+                      }`} />
                     </div>
                   </CardContent>
                 </Card>
@@ -351,35 +309,38 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
               {GOALS.map((goal) => {
                 const Icon = goal.icon;
                 const isSelected = data.goals.includes(goal.id);
-
+                
                 return (
                   <Card
                     key={goal.id}
                     className={`ff-card-interactive cursor-pointer transition-all duration-200 ${
-                      isSelected ? 'ring-2 ring-primary bg-primary/5' : 'hover:bg-muted/50'
+                      isSelected 
+                        ? 'ring-2 ring-primary bg-primary/5' 
+                        : 'hover:bg-muted/50'
                     }`}
                     onClick={() => {
-                      const newGoals = isSelected
-                        ? data.goals.filter((g) => g !== goal.id)
+                      const newGoals = isSelected 
+                        ? data.goals.filter(g => g !== goal.id)
                         : [...data.goals, goal.id];
                       updateData({ goals: newGoals });
                     }}
                   >
                     <CardContent className="p-4">
                       <div className="flex items-center gap-3">
-                        <div
-                          className={`p-2 rounded-lg transition-colors ${
-                            isSelected
-                              ? 'bg-primary/20 text-primary'
-                              : 'bg-muted text-muted-foreground'
-                          }`}
-                        >
+                        <div className={`p-2 rounded-lg transition-colors ${
+                          isSelected 
+                            ? 'bg-primary/20 text-primary' 
+                            : 'bg-muted text-muted-foreground'
+                        }`}>
                           <Icon className="h-5 w-5" />
                         </div>
                         <div className="flex-1">
                           <h4 className="font-medium">{goal.label}</h4>
                         </div>
-                        <Checkbox checked={isSelected} className="ff-focus-ring" />
+                        <Checkbox 
+                          checked={isSelected}
+                          className="ff-focus-ring"
+                        />
                       </div>
                     </CardContent>
                   </Card>
@@ -409,8 +370,7 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
             <div className="text-center space-y-4">
               <h2 className="text-2xl font-bold">Tell us about your primary project</h2>
               <p className="text-muted-foreground">
-                Describe what you're working on or planning to build. This helps us recommend the
-                best tools.
+                Describe what you're working on or planning to build. This helps us recommend the best tools.
               </p>
             </div>
 
@@ -437,13 +397,13 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
                     return (
                       <Badge
                         key={tech}
-                        variant={isSelected ? 'default' : 'outline'}
+                        variant={isSelected ? "default" : "outline"}
                         className={`cursor-pointer transition-all duration-200 ${
                           isSelected ? 'ff-badge-glow' : 'hover:bg-muted'
                         }`}
                         onClick={() => {
-                          const newTechStack = isSelected
-                            ? data.techStack.filter((t) => t !== tech)
+                          const newTechStack = isSelected 
+                            ? data.techStack.filter(t => t !== tech)
                             : [...data.techStack, tech];
                           updateData({ techStack: newTechStack });
                         }}
@@ -487,8 +447,8 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
                     <Card
                       key={scale.value}
                       className={`ff-card-interactive cursor-pointer transition-all duration-200 ${
-                        data.projectScale === scale.value
-                          ? 'ring-2 ring-primary bg-primary/5'
+                        data.projectScale === scale.value 
+                          ? 'ring-2 ring-primary bg-primary/5' 
                           : 'hover:bg-muted/50'
                       }`}
                       onClick={() => updateData({ projectScale: scale.value })}
@@ -511,8 +471,8 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
                     <Card
                       key={timeline.value}
                       className={`ff-card-interactive cursor-pointer transition-all duration-200 ${
-                        data.timeline === timeline.value
-                          ? 'ring-2 ring-primary bg-primary/5'
+                        data.timeline === timeline.value 
+                          ? 'ring-2 ring-primary bg-primary/5' 
                           : 'hover:bg-muted/50'
                       }`}
                       onClick={() => updateData({ timeline: timeline.value })}
@@ -520,23 +480,14 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
                       <CardContent className="p-3">
                         <div className="flex items-center justify-between">
                           <h4 className="font-medium text-sm">{timeline.label}</h4>
-                          <Badge
-                            variant={
-                              timeline.urgency === 'high'
-                                ? 'destructive'
-                                : timeline.urgency === 'medium'
-                                  ? 'default'
-                                  : 'secondary'
-                            }
+                          <Badge 
+                            variant={timeline.urgency === 'high' ? 'destructive' : 
+                                   timeline.urgency === 'medium' ? 'default' : 'secondary'}
                             className="text-xs"
                           >
-                            {timeline.urgency === 'high'
-                              ? 'Urgent'
-                              : timeline.urgency === 'medium'
-                                ? 'Soon'
-                                : timeline.urgency === 'low'
-                                  ? 'Planned'
-                                  : 'Exploring'}
+                            {timeline.urgency === 'high' ? 'Urgent' :
+                             timeline.urgency === 'medium' ? 'Soon' :
+                             timeline.urgency === 'low' ? 'Planned' : 'Exploring'}
                           </Badge>
                         </div>
                       </CardContent>
@@ -571,7 +522,7 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
               <CardContent className="p-6 space-y-4">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <Checkbox
+                    <Checkbox 
                       checked={data.collaboration}
                       onCheckedChange={(checked) => updateData({ collaboration: !!checked })}
                       className="ff-focus-ring"
@@ -585,7 +536,7 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Checkbox
+                    <Checkbox 
                       checked={data.newsletter}
                       onCheckedChange={(checked) => updateData({ newsletter: !!checked })}
                       className="ff-focus-ring"
@@ -653,7 +604,7 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
               Skip Setup
             </Button>
           </div>
-
+          
           <div className="space-y-2">
             <Progress value={progress} className="h-2" />
             <div className="flex justify-between text-xs text-muted-foreground">
@@ -664,8 +615,10 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
         </CardHeader>
 
         <CardContent className="pb-8">
-          <AnimatePresence mode="wait">{renderStep()}</AnimatePresence>
-
+          <AnimatePresence mode="wait">
+            {renderStep()}
+          </AnimatePresence>
+          
           <div className="flex justify-between mt-8 pt-6 border-t">
             <Button
               variant="outline"
@@ -675,10 +628,13 @@ export function OptimizedOnboardingFlow({ onComplete, onSkip }: OptimizedOnboard
             >
               Previous
             </Button>
-
+            
             <div className="flex gap-2">
               {currentStep === totalSteps - 1 ? (
-                <Button onClick={handleComplete} className="ff-btn-primary px-8">
+                <Button
+                  onClick={handleComplete}
+                  className="ff-btn-primary px-8"
+                >
                   Complete Setup
                   <Rocket className="ml-2 h-4 w-4" />
                 </Button>

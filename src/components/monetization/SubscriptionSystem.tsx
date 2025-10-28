@@ -4,16 +4,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
-import {
-  Check,
-  Crown,
-  Zap,
-  Star,
-  ArrowRight,
+import { 
+  Check, 
+  Crown, 
+  Zap, 
+  Star, 
+  ArrowRight, 
   CreditCard,
   Shield,
   Users,
-  Rocket,
+  Rocket
 } from 'lucide-react';
 import { useAuth } from '../auth/AuthSystem';
 import { cn } from '../ui/utils';
@@ -138,9 +138,9 @@ export const SubscriptionSystem: React.FC<SubscriptionSystemProps> = ({
 
   const handleSubscriptionChange = async (tierId: string) => {
     if (!user || isLoading) return;
-
+    
     setIsLoading(tierId);
-
+    
     try {
       if (tierId === 'free' && onDowngrade) {
         await onDowngrade(tierId);
@@ -169,12 +169,10 @@ export const SubscriptionSystem: React.FC<SubscriptionSystemProps> = ({
     <div className={cn('space-y-8', className)}>
       {/* Billing Toggle */}
       <div className="flex items-center justify-center space-x-4">
-        <span
-          className={cn(
-            'text-sm font-medium',
-            billingCycle === 'monthly' ? 'text-primary' : 'text-muted-foreground'
-          )}
-        >
+        <span className={cn(
+          'text-sm font-medium',
+          billingCycle === 'monthly' ? 'text-primary' : 'text-muted-foreground'
+        )}>
           Monthly
         </span>
         <button
@@ -191,12 +189,10 @@ export const SubscriptionSystem: React.FC<SubscriptionSystemProps> = ({
             )}
           />
         </button>
-        <span
-          className={cn(
-            'text-sm font-medium flex items-center gap-2',
-            billingCycle === 'yearly' ? 'text-primary' : 'text-muted-foreground'
-          )}
-        >
+        <span className={cn(
+          'text-sm font-medium flex items-center gap-2',
+          billingCycle === 'yearly' ? 'text-primary' : 'text-muted-foreground'
+        )}>
           Yearly
           <Badge variant="secondary" className="text-xs">
             Save 20%
@@ -210,7 +206,7 @@ export const SubscriptionSystem: React.FC<SubscriptionSystemProps> = ({
           const isCurrentTier = currentTier === tier.id;
           const IconComponent = tier.icon;
           const discountedPrice = tier.price > 0 ? getDiscountedPrice(tier.price) : 0;
-
+          
           return (
             <motion.div
               key={tier.id}
@@ -227,24 +223,22 @@ export const SubscriptionSystem: React.FC<SubscriptionSystemProps> = ({
                   </Badge>
                 </div>
               )}
-
-              <Card
-                className={cn(
-                  'relative overflow-hidden transition-all duration-300 ff-hover-lift',
-                  isCurrentTier && 'ring-2 ring-primary',
-                  tier.popular && 'border-primary/50 shadow-lg shadow-primary/20'
-                )}
-              >
+              
+              <Card className={cn(
+                'relative overflow-hidden transition-all duration-300 ff-hover-lift',
+                isCurrentTier && 'ring-2 ring-primary',
+                tier.popular && 'border-primary/50 shadow-lg shadow-primary/20'
+              )}>
                 {tier.popular && (
                   <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary to-orange-500" />
                 )}
-
+                
                 <CardHeader className="text-center pb-2">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <IconComponent className={cn('w-6 h-6', tier.color)} />
                     <CardTitle className="text-xl">{tier.name}</CardTitle>
                   </div>
-
+                  
                   <div className="space-y-1">
                     <div className="flex items-center justify-center space-x-2">
                       {tier.price > 0 && billingCycle === 'yearly' && (
@@ -252,22 +246,26 @@ export const SubscriptionSystem: React.FC<SubscriptionSystemProps> = ({
                           ${tier.price}
                         </span>
                       )}
-                      <span className="text-3xl font-bold text-primary">${discountedPrice}</span>
+                      <span className="text-3xl font-bold text-primary">
+                        ${discountedPrice}
+                      </span>
                       <span className="text-muted-foreground">
                         /{billingCycle === 'yearly' ? 'year' : 'month'}
                       </span>
                     </div>
-
+                    
                     {billingCycle === 'yearly' && tier.price > 0 && (
                       <div className="text-sm text-green-500 font-medium">
                         Save ${tier.price * 12 - discountedPrice * 12}/year
                       </div>
                     )}
                   </div>
-
-                  <p className="text-sm text-muted-foreground mt-2">{tier.description}</p>
+                  
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {tier.description}
+                  </p>
                 </CardHeader>
-
+                
                 <CardContent className="space-y-4">
                   <ul className="space-y-2">
                     {tier.features.map((feature, index) => (
@@ -277,7 +275,7 @@ export const SubscriptionSystem: React.FC<SubscriptionSystemProps> = ({
                       </li>
                     ))}
                   </ul>
-
+                  
                   <Button
                     onClick={() => handleSubscriptionChange(tier.id)}
                     disabled={isCurrentTier || isLoading === tier.id}
@@ -300,7 +298,7 @@ export const SubscriptionSystem: React.FC<SubscriptionSystemProps> = ({
                       </>
                     )}
                   </Button>
-
+                  
                   {isCurrentTier && (
                     <div className="text-center">
                       <Badge variant="secondary" className="text-xs">
@@ -340,13 +338,10 @@ export const SubscriptionSystem: React.FC<SubscriptionSystemProps> = ({
               <h3 className="text-xl font-semibold">Need a Custom Solution?</h3>
             </div>
             <p className="text-muted-foreground">
-              Contact our sales team for custom pricing, on-premise deployment, and enterprise
-              features tailored to your organization.
+              Contact our sales team for custom pricing, on-premise deployment, 
+              and enterprise features tailored to your organization.
             </p>
-            <Button
-              variant="outline"
-              className="border-accent text-accent hover:bg-accent hover:text-white"
-            >
+            <Button variant="outline" className="border-accent text-accent hover:bg-accent hover:text-white">
               Contact Sales
             </Button>
           </div>
@@ -363,7 +358,7 @@ interface UsageTrackerProps {
 
 const UsageTracker: React.FC<UsageTrackerProps> = ({ currentTier }) => {
   const tier = SUBSCRIPTION_TIERS[currentTier.toUpperCase() as keyof typeof SUBSCRIPTION_TIERS];
-
+  
   // Mock usage data - replace with real data from your backend
   const [usage, setUsage] = useState({
     aiToolUsage: 23,
@@ -389,8 +384,8 @@ const UsageTracker: React.FC<UsageTrackerProps> = ({ currentTier }) => {
             {usage.aiToolUsage} / {tier.limits.aiToolUsage}
           </span>
         </div>
-        <Progress
-          value={getUsagePercentage(usage.aiToolUsage, tier.limits.aiToolUsage)}
+        <Progress 
+          value={getUsagePercentage(usage.aiToolUsage, tier.limits.aiToolUsage)} 
           className="h-2"
         />
       </div>
@@ -403,8 +398,8 @@ const UsageTracker: React.FC<UsageTrackerProps> = ({ currentTier }) => {
             {usage.projects} / {tier.limits.projects}
           </span>
         </div>
-        <Progress
-          value={getUsagePercentage(usage.projects, tier.limits.projects)}
+        <Progress 
+          value={getUsagePercentage(usage.projects, tier.limits.projects)} 
           className="h-2"
         />
       </div>
@@ -421,13 +416,11 @@ const UsageTracker: React.FC<UsageTrackerProps> = ({ currentTier }) => {
       </div>
 
       {/* Upgrade prompt if near limits */}
-      {getUsagePercentage(usage.aiToolUsage, tier.limits.aiToolUsage) > 80 && (
+      {(getUsagePercentage(usage.aiToolUsage, tier.limits.aiToolUsage) > 80) && (
         <div className="mt-4 p-3 bg-primary/10 border border-primary/20 rounded-lg">
           <div className="flex items-center space-x-2 text-sm">
             <Zap className="w-4 h-4 text-primary" />
-            <span>
-              You're approaching your usage limits. Consider upgrading for unlimited access.
-            </span>
+            <span>You're approaching your usage limits. Consider upgrading for unlimited access.</span>
           </div>
         </div>
       )}

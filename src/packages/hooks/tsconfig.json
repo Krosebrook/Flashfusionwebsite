@@ -10,6 +10,13 @@
       "@flashfusion/services": ["../services/src"]
     }
   },
-  "include": ["src/**/*", "../types/src/**/*", "../services/src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*",
+    "../types/src/**/*",
+    "../services/src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

@@ -5,7 +5,10 @@ import type { PageType } from '../../../types/core';
 const ValidationNexusHub = lazy(() => import('../../validation/ValidationNexusHub'));
 const AIValidationEngine = lazy(() => import('../../validation/AIValidationEngine'));
 
-export function handleValidationRoutes(currentPage: PageType, isAuthenticated: boolean) {
+export function handleValidationRoutes(
+  currentPage: PageType,
+  isAuthenticated: boolean
+) {
   // Validation routes require authentication
   if (!isAuthenticated) {
     return null;
@@ -14,13 +17,16 @@ export function handleValidationRoutes(currentPage: PageType, isAuthenticated: b
   switch (currentPage) {
     case 'validation':
       return <ValidationNexusHub />;
-
+    
     case 'ai-validation':
       return <AIValidationEngine />;
-
+    
     default:
       return null;
   }
 }
 
-export const validationRoutes: PageType[] = ['validation', 'ai-validation'];
+export const validationRoutes: PageType[] = [
+  'validation',
+  'ai-validation'
+];

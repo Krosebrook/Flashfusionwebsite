@@ -6,31 +6,15 @@ import { Badge } from '../ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { ScrollArea } from '../ui/scroll-area';
-import {
-  Users,
-  MessageSquare,
-  Eye,
-  Edit3,
-  Share2,
-  Save,
-  Play,
-  GitBranch,
-  Clock,
-  Cursor,
-  FileText,
-  Code,
-  Settings,
-  Bell,
-  Video,
-  Mic,
-  MicOff,
-  VideoOff,
-  Phone,
-  PhoneOff,
+import { 
+  Users, MessageSquare, Eye, Edit3, Share2, 
+  Save, Play, GitBranch, Clock, Cursor, 
+  FileText, Code, Settings, Bell, Video,
+  Mic, MicOff, VideoOff, Phone, PhoneOff
 } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface CollaboratorPresence {
   id: string;
@@ -87,11 +71,11 @@ interface LiveCollaborationEditorProps {
   onSave?: (files: FileContent[]) => void;
 }
 
-export function LiveCollaborationEditor({
-  projectId,
-  currentUserId,
+export function LiveCollaborationEditor({ 
+  projectId, 
+  currentUserId, 
   onContentChange,
-  onSave,
+  onSave 
 }: LiveCollaborationEditorProps) {
   const [collaborators, setCollaborators] = useState<CollaboratorPresence[]>([]);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -106,7 +90,7 @@ export function LiveCollaborationEditor({
   const [selectedLine, setSelectedLine] = useState<number | null>(null);
   const [editorContent, setEditorContent] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-
+  
   const editorRef = useRef<HTMLTextAreaElement>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -119,7 +103,7 @@ export function LiveCollaborationEditor({
     try {
       // Mock WebSocket connection simulation
       setIsConnected(true);
-
+      
       // Mock collaborators
       const mockCollaborators: CollaboratorPresence[] = [
         {
@@ -128,13 +112,13 @@ export function LiveCollaborationEditor({
             id: '1',
             name: 'Alice Johnson',
             avatar: '/api/placeholder/32/32',
-            color: '#FF7B00',
+            color: '#FF7B00'
           },
           cursor: { line: 15, column: 23 },
           isActive: true,
           isTyping: false,
           lastActive: '2 seconds ago',
-          currentFile: 'App.tsx',
+          currentFile: 'App.tsx'
         },
         {
           id: '2',
@@ -142,32 +126,32 @@ export function LiveCollaborationEditor({
             id: '2',
             name: 'Bob Smith',
             avatar: '/api/placeholder/32/32',
-            color: '#00B4D8',
+            color: '#00B4D8'
           },
           cursor: { line: 8, column: 10 },
           selection: {
             start: { line: 8, column: 5 },
-            end: { line: 8, column: 20 },
+            end: { line: 8, column: 20 }
           },
           isActive: true,
           isTyping: true,
           lastActive: '1 minute ago',
-          currentFile: 'components/Header.tsx',
+          currentFile: 'components/Header.tsx'
         },
         {
           id: '3',
           user: {
             id: '3',
             name: 'Carol Davis',
-            color: '#E91E63',
+            color: '#E91E63'
           },
           isActive: false,
           isTyping: false,
           lastActive: '5 minutes ago',
-          currentFile: 'styles/globals.css',
-        },
+          currentFile: 'styles/globals.css'
+        }
       ];
-
+      
       setCollaborators(mockCollaborators);
       toast.success('Connected to collaborative session');
     } catch (error) {
@@ -208,7 +192,7 @@ function App() {
 export default App;`,
           language: 'typescript',
           lastModified: '2 minutes ago',
-          modifiedBy: 'Alice Johnson',
+          modifiedBy: 'Alice Johnson'
         },
         {
           id: 'header-tsx',
@@ -241,7 +225,7 @@ const Header: React.FC = () => {
 export default Header;`,
           language: 'typescript',
           lastModified: '5 minutes ago',
-          modifiedBy: 'Bob Smith',
+          modifiedBy: 'Bob Smith'
         },
         {
           id: 'globals-css',
@@ -276,14 +260,14 @@ body {
 }`,
           language: 'css',
           lastModified: '10 minutes ago',
-          modifiedBy: 'Carol Davis',
-        },
+          modifiedBy: 'Carol Davis'
+        }
       ];
-
+      
       setFiles(mockFiles);
       setActiveFile(mockFiles[0].id);
       setEditorContent(mockFiles[0].content);
-
+      
       // Mock comments
       const mockComments: Comment[] = [
         {
@@ -291,7 +275,7 @@ body {
           author: {
             id: '2',
             name: 'Bob Smith',
-            avatar: '/api/placeholder/32/32',
+            avatar: '/api/placeholder/32/32'
           },
           content: 'Should we add error handling here?',
           position: { line: 10, column: 0 },
@@ -303,53 +287,48 @@ body {
               author: {
                 id: '1',
                 name: 'Alice Johnson',
-                avatar: '/api/placeholder/32/32',
+                avatar: '/api/placeholder/32/32'
               },
-              content: "Good point! I'll add a try-catch block.",
+              content: 'Good point! I\'ll add a try-catch block.',
               position: { line: 10, column: 0 },
               isResolved: false,
               createdAt: '3 minutes ago',
-              replies: [],
-            },
-          ],
-        },
+              replies: []
+            }
+          ]
+        }
       ];
-
+      
       setComments(mockComments);
     } catch (error) {
       console.error('Error loading project files:', error);
     }
   };
 
-  const handleContentChange = useCallback(
-    (content: string) => {
-      setEditorContent(content);
-      setIsTyping(true);
-
-      // Clear existing timeout
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-      }
-
-      // Set new timeout to stop typing indicator
-      typingTimeoutRef.current = setTimeout(() => {
-        setIsTyping(false);
-      }, 1000);
-
-      // Broadcast changes to other collaborators
-      onContentChange?.(activeFile, content);
-
-      // Update file content
-      setFiles((prev) =>
-        prev.map((file) =>
-          file.id === activeFile
-            ? { ...file, content, lastModified: 'just now', modifiedBy: 'You' }
-            : file
-        )
-      );
-    },
-    [activeFile, onContentChange]
-  );
+  const handleContentChange = useCallback((content: string) => {
+    setEditorContent(content);
+    setIsTyping(true);
+    
+    // Clear existing timeout
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+    
+    // Set new timeout to stop typing indicator
+    typingTimeoutRef.current = setTimeout(() => {
+      setIsTyping(false);
+    }, 1000);
+    
+    // Broadcast changes to other collaborators
+    onContentChange?.(activeFile, content);
+    
+    // Update file content
+    setFiles(prev => prev.map(file => 
+      file.id === activeFile 
+        ? { ...file, content, lastModified: 'just now', modifiedBy: 'You' }
+        : file
+    ));
+  }, [activeFile, onContentChange]);
 
   const handleSaveFiles = async () => {
     try {
@@ -362,21 +341,21 @@ body {
 
   const addComment = (line: number) => {
     if (!newComment.trim()) return;
-
+    
     const comment: Comment = {
       id: Date.now().toString(),
       author: {
         id: currentUserId,
-        name: 'You',
+        name: 'You'
       },
       content: newComment,
       position: { line, column: 0 },
       isResolved: false,
       createdAt: 'just now',
-      replies: [],
+      replies: []
     };
-
-    setComments((prev) => [...prev, comment]);
+    
+    setComments(prev => [...prev, comment]);
     setNewComment('');
     setSelectedLine(null);
     toast.success('Comment added');
@@ -391,10 +370,10 @@ body {
     }
   };
 
-  const currentFile = files.find((f) => f.id === activeFile);
-  const activeCollaborators = collaborators.filter((c) => c.isActive);
-  const currentFileComments = comments.filter(
-    (c) => c.position.line >= 0 // All comments for now, in real app would filter by file
+  const currentFile = files.find(f => f.id === activeFile);
+  const activeCollaborators = collaborators.filter(c => c.isActive);
+  const currentFileComments = comments.filter(c => 
+    c.position.line >= 0 // All comments for now, in real app would filter by file
   );
 
   return (
@@ -403,28 +382,20 @@ body {
       <div className="flex items-center justify-between p-4 border-b bg-card">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <div
-              className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}
-            />
+            <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
             <span className="text-sm text-muted-foreground">
               {isConnected ? 'Connected' : 'Disconnected'}
             </span>
           </div>
-
+          
           {/* Active Collaborators */}
           <div className="flex items-center gap-1">
             {activeCollaborators.map((collaborator) => (
               <div key={collaborator.id} className="relative">
-                <Avatar
-                  className="h-6 w-6 border-2"
-                  style={{ borderColor: collaborator.user.color }}
-                >
+                <Avatar className="h-6 w-6 border-2" style={{ borderColor: collaborator.user.color }}>
                   <AvatarImage src={collaborator.user.avatar} />
                   <AvatarFallback className="text-xs">
-                    {collaborator.user.name
-                      .split(' ')
-                      .map((n) => n[0])
-                      .join('')}
+                    {collaborator.user.name.split(' ').map(n => n[0]).join('')}
                   </AvatarFallback>
                 </Avatar>
                 {collaborator.isTyping && (
@@ -444,9 +415,13 @@ body {
             size="sm"
             onClick={toggleVoiceCall}
           >
-            {isVoiceCallActive ? <PhoneOff className="h-4 w-4" /> : <Phone className="h-4 w-4" />}
+            {isVoiceCallActive ? (
+              <PhoneOff className="h-4 w-4" />
+            ) : (
+              <Phone className="h-4 w-4" />
+            )}
           </Button>
-
+          
           <Button
             variant="outline"
             size="sm"
@@ -456,11 +431,19 @@ body {
             {isMuted ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
           </Button>
 
-          <Button variant="outline" size="sm" onClick={() => setShowComments(!showComments)}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowComments(!showComments)}
+          >
             <MessageSquare className="h-4 w-4" />
           </Button>
 
-          <Button variant="outline" size="sm" onClick={() => setShowPresence(!showPresence)}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowPresence(!showPresence)}
+          >
             <Users className="h-4 w-4" />
           </Button>
 
@@ -488,7 +471,9 @@ body {
                     setEditorContent(file.content);
                   }}
                   className={`w-full text-left p-2 rounded text-sm transition-colors ${
-                    activeFile === file.id ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                    activeFile === file.id 
+                      ? 'bg-primary text-primary-foreground' 
+                      : 'hover:bg-muted'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -521,7 +506,7 @@ body {
                     </Badge>
                   )}
                 </div>
-
+                
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <Clock className="h-3 w-3" />
                   <span>Last modified {currentFile.lastModified}</span>
@@ -537,10 +522,10 @@ body {
                       value={editorContent}
                       onChange={(e) => handleContentChange(e.target.value)}
                       className="w-full h-full p-4 font-mono text-sm bg-background border-none outline-none resize-none"
-                      style={{
+                      style={{ 
                         fontFamily: 'JetBrains Mono, SF Mono, Consolas, monospace',
                         lineHeight: '1.5',
-                        tabSize: 2,
+                        tabSize: 2
                       }}
                       spellCheck={false}
                       onClick={(e) => {
@@ -550,51 +535,47 @@ body {
                         setSelectedLine(currentLine);
                       }}
                     />
-
+                    
                     {/* Live Cursors */}
-                    {showPresence &&
-                      collaborators.map(
-                        (collaborator) =>
-                          collaborator.cursor &&
-                          collaborator.isActive && (
-                            <motion.div
-                              key={collaborator.id}
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              className="absolute pointer-events-none"
-                              style={{
-                                top: `${collaborator.cursor.line * 1.5}rem`,
-                                left: `${collaborator.cursor.column * 0.6}rem`,
-                                zIndex: 10,
-                              }}
-                            >
-                              <div
-                                className="w-0.5 h-5 animate-pulse"
-                                style={{ backgroundColor: collaborator.user.color }}
-                              />
-                              <div
-                                className="absolute -top-6 left-0 px-2 py-1 rounded text-xs text-white whitespace-nowrap"
-                                style={{ backgroundColor: collaborator.user.color }}
-                              >
-                                {collaborator.user.name}
-                              </div>
-                            </motion.div>
-                          )
-                      )}
+                    {showPresence && collaborators.map((collaborator) => (
+                      collaborator.cursor && collaborator.isActive && (
+                        <motion.div
+                          key={collaborator.id}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="absolute pointer-events-none"
+                          style={{
+                            top: `${collaborator.cursor.line * 1.5}rem`,
+                            left: `${collaborator.cursor.column * 0.6}rem`,
+                            zIndex: 10
+                          }}
+                        >
+                          <div 
+                            className="w-0.5 h-5 animate-pulse"
+                            style={{ backgroundColor: collaborator.user.color }}
+                          />
+                          <div 
+                            className="absolute -top-6 left-0 px-2 py-1 rounded text-xs text-white whitespace-nowrap"
+                            style={{ backgroundColor: collaborator.user.color }}
+                          >
+                            {collaborator.user.name}
+                          </div>
+                        </motion.div>
+                      )
+                    ))}
 
                     {/* Comment Indicators */}
-                    {showComments &&
-                      currentFileComments.map((comment) => (
-                        <div
-                          key={comment.id}
-                          className="absolute left-0 w-2 h-5 bg-yellow-500 rounded-r cursor-pointer hover:bg-yellow-600"
-                          style={{
-                            top: `${comment.position.line * 1.5}rem`,
-                            zIndex: 5,
-                          }}
-                          title={`${comment.author.name}: ${comment.content}`}
-                        />
-                      ))}
+                    {showComments && currentFileComments.map((comment) => (
+                      <div
+                        key={comment.id}
+                        className="absolute left-0 w-2 h-5 bg-yellow-500 rounded-r cursor-pointer hover:bg-yellow-600"
+                        style={{
+                          top: `${comment.position.line * 1.5}rem`,
+                          zIndex: 5
+                        }}
+                        title={`${comment.author.name}: ${comment.content}`}
+                      />
+                    ))}
                   </div>
 
                   {/* Syntax Highlighted Preview */}
@@ -610,7 +591,7 @@ body {
                           backgroundColor: 'transparent',
                           padding: 0,
                           margin: 0,
-                          fontSize: '0.875rem',
+                          fontSize: '0.875rem'
                         }}
                         wrapLongLines={true}
                       >
@@ -639,7 +620,7 @@ body {
                   Comments
                 </h3>
               </div>
-
+              
               <ScrollArea className="flex-1 p-4">
                 <div className="space-y-4">
                   {currentFileComments.map((comment) => (
@@ -648,10 +629,7 @@ body {
                         <Avatar className="h-6 w-6">
                           <AvatarImage src={comment.author.avatar} />
                           <AvatarFallback className="text-xs">
-                            {comment.author.name
-                              .split(' ')
-                              .map((n) => n[0])
-                              .join('')}
+                            {comment.author.name.split(' ').map(n => n[0]).join('')}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1">
@@ -664,25 +642,23 @@ body {
                           <span className="text-xs text-muted-foreground">{comment.createdAt}</span>
                         </div>
                       </div>
-
+                      
                       <p className="text-sm mb-2">{comment.content}</p>
-
+                      
                       {comment.replies.length > 0 && (
                         <div className="pl-4 border-l space-y-2">
                           {comment.replies.map((reply) => (
                             <div key={reply.id} className="text-sm">
                               <div className="flex items-center gap-2 mb-1">
                                 <span className="font-medium">{reply.author.name}</span>
-                                <span className="text-xs text-muted-foreground">
-                                  {reply.createdAt}
-                                </span>
+                                <span className="text-xs text-muted-foreground">{reply.createdAt}</span>
                               </div>
                               <p>{reply.content}</p>
                             </div>
                           ))}
                         </div>
                       )}
-
+                      
                       <div className="flex gap-2 mt-2">
                         <Button variant="ghost" size="sm" className="text-xs">
                           Reply
@@ -697,7 +673,7 @@ body {
                   ))}
                 </div>
               </ScrollArea>
-
+              
               {/* Add Comment */}
               {selectedLine && (
                 <div className="p-4 border-t">
@@ -744,18 +720,14 @@ body {
       <div className="flex items-center justify-between px-4 py-2 bg-card border-t text-xs text-muted-foreground">
         <div className="flex items-center gap-4">
           <span>
-            {collaborators.filter((c) => c.isTyping).length > 0 && (
+            {collaborators.filter(c => c.isTyping).length > 0 && (
               <span className="text-green-500 animate-pulse">
-                {collaborators
-                  .filter((c) => c.isTyping)
-                  .map((c) => c.user.name)
-                  .join(', ')}{' '}
-                typing...
+                {collaborators.filter(c => c.isTyping).map(c => c.user.name).join(', ')} typing...
               </span>
             )}
           </span>
         </div>
-
+        
         <div className="flex items-center gap-4">
           <span>Language: {currentFile?.language}</span>
           <span>Lines: {editorContent.split('\n').length}</span>

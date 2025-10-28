@@ -6,19 +6,19 @@ import { Input } from '../../ui/input';
 import { Textarea } from '../../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
 import { Badge } from '../../ui/badge';
-import {
-  Mail,
-  MessageCircle,
-  Calendar,
-  MapPin,
-  Clock,
+import { 
+  Mail, 
+  MessageCircle, 
+  Calendar, 
+  MapPin, 
+  Clock, 
   Send,
   Twitter,
   Github,
   Linkedin,
   BookOpen,
   Users,
-  Headphones,
+  Headphones
 } from 'lucide-react';
 
 export function ContactSection() {
@@ -28,79 +28,74 @@ export function ContactSection() {
     company: '',
     subject: '',
     message: '',
-    type: '',
+    type: ''
   });
 
   const contactMethods = [
     {
       icon: Mail,
-      title: 'Email Support',
-      description: 'Get help from our support team',
-      contact: 'support@flashfusion.ai',
-      responseTime: '24 hours',
-      availability: '24/7',
-      color: 'text-primary',
+      title: "Email Support",
+      description: "Get help from our support team",
+      contact: "support@flashfusion.ai",
+      responseTime: "24 hours",
+      availability: "24/7",
+      color: "text-primary"
     },
     {
       icon: MessageCircle,
-      title: 'Live Chat',
-      description: 'Chat with our team in real-time',
-      contact: 'Available in app',
-      responseTime: '< 5 minutes',
-      availability: '9 AM - 6 PM PST',
-      color: 'text-secondary',
+      title: "Live Chat",
+      description: "Chat with our team in real-time",
+      contact: "Available in app",
+      responseTime: "< 5 minutes",
+      availability: "9 AM - 6 PM PST",
+      color: "text-secondary"
     },
     {
       icon: Calendar,
-      title: 'Schedule Demo',
-      description: 'Book a personalized demo',
-      contact: 'calendly.com/flashfusion',
-      responseTime: 'Same day',
-      availability: 'Business hours',
-      color: 'text-accent',
+      title: "Schedule Demo",
+      description: "Book a personalized demo",
+      contact: "calendly.com/flashfusion",
+      responseTime: "Same day",
+      availability: "Business hours",
+      color: "text-accent"
     },
     {
       icon: Users,
-      title: 'Community Discord',
-      description: 'Join our developer community',
-      contact: 'discord.gg/flashfusion',
-      responseTime: 'Community driven',
-      availability: '24/7',
-      color: 'text-primary',
-    },
+      title: "Community Discord",
+      description: "Join our developer community",
+      contact: "discord.gg/flashfusion",
+      responseTime: "Community driven",
+      availability: "24/7",
+      color: "text-primary"
+    }
   ];
 
   const socialLinks = [
-    { icon: Twitter, name: 'Twitter', url: '@FlashFusionAI', handle: '@FlashFusionAI' },
-    { icon: Github, name: 'GitHub', url: 'github.com/flashfusion', handle: 'flashfusion' },
-    {
-      icon: Linkedin,
-      name: 'LinkedIn',
-      url: 'linkedin.com/company/flashfusion',
-      handle: 'FlashFusion',
-    },
-    { icon: BookOpen, name: 'Blog', url: 'blog.flashfusion.ai', handle: 'blog.flashfusion.ai' },
+    { icon: Twitter, name: "Twitter", url: "@FlashFusionAI", handle: "@FlashFusionAI" },
+    { icon: Github, name: "GitHub", url: "github.com/flashfusion", handle: "flashfusion" },
+    { icon: Linkedin, name: "LinkedIn", url: "linkedin.com/company/flashfusion", handle: "FlashFusion" },
+    { icon: BookOpen, name: "Blog", url: "blog.flashfusion.ai", handle: "blog.flashfusion.ai" }
   ];
 
   const offices = [
     {
-      city: 'San Francisco',
-      address: '123 Innovation Drive, Suite 400',
-      timezone: 'PST',
-      type: 'Headquarters',
+      city: "San Francisco",
+      address: "123 Innovation Drive, Suite 400",
+      timezone: "PST",
+      type: "Headquarters"
     },
     {
-      city: 'New York',
-      address: '456 Tech Avenue, Floor 15',
-      timezone: 'EST',
-      type: 'East Coast Office',
+      city: "New York",
+      address: "456 Tech Avenue, Floor 15",
+      timezone: "EST",
+      type: "East Coast Office"
     },
     {
-      city: 'London',
-      address: '789 Digital Street, Level 3',
-      timezone: 'GMT',
-      type: 'European Office',
-    },
+      city: "London",
+      address: "789 Digital Street, Level 3",
+      timezone: "GMT",
+      type: "European Office"
+    }
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -110,7 +105,7 @@ export function ContactSection() {
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -122,10 +117,11 @@ export function ContactSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-6 ff-text-gradient">Get in Touch</h2>
+          <h2 className="text-4xl font-bold mb-6 ff-text-gradient">
+            Get in Touch
+          </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Have questions about FlashFusion? We're here to help you succeed with AI-powered
-            development.
+            Have questions about FlashFusion? We're here to help you succeed with AI-powered development.
           </p>
         </motion.div>
 
@@ -179,10 +175,7 @@ export function ContactSection() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">Inquiry Type</label>
-                      <Select
-                        value={formData.type}
-                        onValueChange={(value) => handleInputChange('type', value)}
-                      >
+                      <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value)}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select inquiry type" />
                         </SelectTrigger>
@@ -246,9 +239,7 @@ export function ContactSection() {
                 <Card className="ff-card-interactive">
                   <CardContent className="p-4">
                     <div className="flex items-start space-x-3">
-                      <div
-                        className={`w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center ${method.color}`}
-                      >
+                      <div className={`w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center ${method.color}`}>
                         <method.icon className="w-5 h-5" />
                       </div>
                       <div className="flex-1">
@@ -260,9 +251,7 @@ export function ContactSection() {
                             <Clock className="w-3 h-3 mr-1" />
                             {method.responseTime}
                           </Badge>
-                          <span className="text-xs text-muted-foreground">
-                            {method.availability}
-                          </span>
+                          <span className="text-xs text-muted-foreground">{method.availability}</span>
                         </div>
                       </div>
                     </div>
@@ -288,10 +277,7 @@ export function ContactSection() {
               <CardContent>
                 <div className="grid grid-cols-2 gap-4">
                   {socialLinks.map((social, index) => (
-                    <div
-                      key={social.name}
-                      className="flex items-center space-x-3 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors cursor-pointer"
-                    >
+                    <div key={social.name} className="flex items-center space-x-3 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors cursor-pointer">
                       <social.icon className="w-5 h-5 text-primary" />
                       <div>
                         <p className="font-medium text-sm">{social.name}</p>
@@ -323,9 +309,7 @@ export function ContactSection() {
                     <div key={office.city} className="p-3 rounded-lg bg-muted/50">
                       <div className="flex items-center justify-between mb-1">
                         <h4 className="font-medium">{office.city}</h4>
-                        <Badge variant="outline" className="text-xs">
-                          {office.type}
-                        </Badge>
+                        <Badge variant="outline" className="text-xs">{office.type}</Badge>
                       </div>
                       <p className="text-sm text-muted-foreground mb-1">{office.address}</p>
                       <p className="text-xs text-muted-foreground">{office.timezone}</p>

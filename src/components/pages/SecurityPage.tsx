@@ -8,10 +8,10 @@ import { Separator } from '../ui/separator';
 import { SecurityScanInterface } from '../security/SecurityScanInterface';
 import { SecurityPostureDashboard } from '../security/SecurityPostureDashboard';
 import ComprehensiveSecurityScanner from '../security/ComprehensiveSecurityScanner';
-import {
-  Shield,
-  ShieldAlert,
-  ShieldCheck,
+import { 
+  Shield, 
+  ShieldAlert, 
+  ShieldCheck, 
   ShieldX,
   Scan,
   Activity,
@@ -27,9 +27,9 @@ import {
   Lock,
   Eye,
   FileText,
-  Zap,
+  Zap
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 import type { SecurityThreat, SecurityMetric } from '../security/types';
 
 interface SecurityPageProps {
@@ -43,7 +43,7 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
     resolvedThreats: 8,
     activeScans: 1,
     lastScan: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
-    systemStatus: 'secure' as 'secure' | 'warning' | 'critical',
+    systemStatus: 'secure' as 'secure' | 'warning' | 'critical'
   });
 
   const [recentThreats, setRecentThreats] = useState<SecurityThreat[]>([
@@ -57,7 +57,7 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
       timestamp: new Date(Date.now() - 30 * 60 * 1000),
       status: 'investigating',
       affectedAssets: ['Auth Service', 'User Database'],
-      responseTime: 15,
+      responseTime: 15
     },
     {
       id: 'threat-2',
@@ -69,7 +69,7 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
       timestamp: new Date(Date.now() - 45 * 60 * 1000),
       status: 'mitigated',
       affectedAssets: ['File Storage'],
-      responseTime: 8,
+      responseTime: 8
     },
     {
       id: 'threat-3',
@@ -81,8 +81,8 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
       timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
       status: 'resolved',
       affectedAssets: ['API Gateway'],
-      responseTime: 3,
-    },
+      responseTime: 3
+    }
   ]);
 
   const [securityMetrics, setSecurityMetrics] = useState<SecurityMetric[]>([
@@ -95,7 +95,7 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
       lastChecked: new Date(),
       details: 'Strong multi-factor authentication implemented',
       recommendations: ['Consider implementing WebAuthn', 'Review session timeout policies'],
-      trend: 'up',
+      trend: 'up'
     },
     {
       id: 'data-encryption',
@@ -106,7 +106,7 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
       lastChecked: new Date(),
       details: 'End-to-end encryption active for sensitive data',
       recommendations: ['Update encryption keys rotation policy'],
-      trend: 'stable',
+      trend: 'stable'
     },
     {
       id: 'network-security',
@@ -117,7 +117,7 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
       lastChecked: new Date(),
       details: 'Some network endpoints require additional hardening',
       recommendations: ['Enable DDoS protection', 'Implement rate limiting on all APIs'],
-      trend: 'down',
+      trend: 'down'
     },
     {
       id: 'compliance',
@@ -128,17 +128,17 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
       lastChecked: new Date(),
       details: 'Full compliance with GDPR, SOC2, and industry standards',
       recommendations: [],
-      trend: 'up',
-    },
+      trend: 'up'
+    }
   ]);
 
   const handleScanComplete = useCallback((result: any) => {
     console.log('Security scan completed:', result);
-
+    
     // Update security overview based on scan results
     const criticalIssues = result.summary.criticalCount;
     const highIssues = result.summary.highCount;
-
+    
     let newStatus: 'secure' | 'warning' | 'critical' = 'secure';
     if (criticalIssues > 0) {
       newStatus = 'critical';
@@ -146,38 +146,38 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
       newStatus = 'warning';
     }
 
-    setSecurityOverview((prev) => ({
+    setSecurityOverview(prev => ({
       ...prev,
       lastScan: new Date(),
       systemStatus: newStatus,
-      totalThreats: prev.totalThreats + criticalIssues + highIssues,
+      totalThreats: prev.totalThreats + criticalIssues + highIssues
     }));
 
     // Show notification
     if (criticalIssues > 0) {
       toast.error('Critical security issues found', {
-        description: `${criticalIssues} critical vulnerabilities need immediate attention`,
+        description: `${criticalIssues} critical vulnerabilities need immediate attention`
       });
     } else if (highIssues > 0) {
       toast.warning('High priority security issues found', {
-        description: `${highIssues} high-severity vulnerabilities detected`,
+        description: `${highIssues} high-severity vulnerabilities detected`
       });
     } else {
       toast.success('Security scan completed successfully', {
-        description: 'No critical issues found in your application',
+        description: 'No critical issues found in your application'
       });
     }
   }, []);
 
   const handleThreatDetected = useCallback((threat: SecurityThreat) => {
     console.log('New threat detected:', threat);
-
-    setRecentThreats((prev) => [threat, ...prev.slice(0, 9)]);
-
+    
+    setRecentThreats(prev => [threat, ...prev.slice(0, 9)]);
+    
     // Update overview
-    setSecurityOverview((prev) => ({
+    setSecurityOverview(prev => ({
       ...prev,
-      totalThreats: prev.totalThreats + 1,
+      totalThreats: prev.totalThreats + 1
     }));
 
     // Show real-time notification
@@ -185,64 +185,46 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
       description: threat.title,
       action: {
         label: 'View Details',
-        onClick: () => console.log('View threat details:', threat.id),
-      },
+        onClick: () => console.log('View threat details:', threat.id)
+      }
     });
   }, []);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'secure':
-        return <ShieldCheck className="h-5 w-5 text-success" />;
-      case 'warning':
-        return <ShieldAlert className="h-5 w-5 text-warning" />;
-      case 'critical':
-        return <ShieldX className="h-5 w-5 text-destructive" />;
-      default:
-        return <Shield className="h-5 w-5 text-muted-foreground" />;
+      case 'secure': return <ShieldCheck className="h-5 w-5 text-success" />;
+      case 'warning': return <ShieldAlert className="h-5 w-5 text-warning" />;
+      case 'critical': return <ShieldX className="h-5 w-5 text-destructive" />;
+      default: return <Shield className="h-5 w-5 text-muted-foreground" />;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'secure':
-        return 'success';
-      case 'warning':
-        return 'warning';
-      case 'critical':
-        return 'destructive';
-      default:
-        return 'secondary';
+      case 'secure': return 'success';
+      case 'warning': return 'warning';
+      case 'critical': return 'destructive';
+      default: return 'secondary';
     }
   };
 
   const getThreatSeverityIcon = (severity: string) => {
     switch (severity) {
-      case 'critical':
-        return <ShieldX className="h-4 w-4 text-destructive" />;
-      case 'high':
-        return <ShieldAlert className="h-4 w-4 text-warning" />;
-      case 'medium':
-        return <AlertTriangle className="h-4 w-4 text-warning" />;
-      case 'low':
-        return <Shield className="h-4 w-4 text-info" />;
-      default:
-        return <Shield className="h-4 w-4 text-muted-foreground" />;
+      case 'critical': return <ShieldX className="h-4 w-4 text-destructive" />;
+      case 'high': return <ShieldAlert className="h-4 w-4 text-warning" />;
+      case 'medium': return <AlertTriangle className="h-4 w-4 text-warning" />;
+      case 'low': return <Shield className="h-4 w-4 text-info" />;
+      default: return <Shield className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
   const getThreatStatusIcon = (status: string) => {
     switch (status) {
-      case 'resolved':
-        return <CheckCircle className="h-4 w-4 text-success" />;
-      case 'mitigated':
-        return <ShieldCheck className="h-4 w-4 text-success" />;
-      case 'investigating':
-        return <Clock className="h-4 w-4 text-warning" />;
-      case 'detected':
-        return <AlertTriangle className="h-4 w-4 text-destructive" />;
-      default:
-        return <Activity className="h-4 w-4 text-muted-foreground" />;
+      case 'resolved': return <CheckCircle className="h-4 w-4 text-success" />;
+      case 'mitigated': return <ShieldCheck className="h-4 w-4 text-success" />;
+      case 'investigating': return <Clock className="h-4 w-4 text-warning" />;
+      case 'detected': return <AlertTriangle className="h-4 w-4 text-destructive" />;
+      default: return <Activity className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
@@ -250,9 +232,9 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       // In a real implementation, this would fetch live security data
-      setSecurityOverview((prev) => ({
+      setSecurityOverview(prev => ({
         ...prev,
-        lastScan: new Date(prev.lastScan.getTime() + Math.random() * 60000),
+        lastScan: new Date(prev.lastScan.getTime() + Math.random() * 60000)
       }));
     }, 30000); // Refresh every 30 seconds
 
@@ -265,21 +247,19 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h1 className="ff-text-3xl font-bold ff-text-gradient font-sora">Security Center</h1>
+            <h1 className="ff-text-3xl font-bold ff-text-gradient font-sora">
+              Security Center
+            </h1>
             <p className="ff-text-base text-muted-foreground font-inter">
               Comprehensive security monitoring, vulnerability scanning, and threat protection
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <Badge
-              variant={getStatusColor(securityOverview.systemStatus) as any}
-              className="px-3 py-1"
-            >
+            <Badge variant={getStatusColor(securityOverview.systemStatus) as any} className="px-3 py-1">
               {getStatusIcon(securityOverview.systemStatus)}
               <span className="ml-2 font-sora">
-                {securityOverview.systemStatus.charAt(0).toUpperCase() +
-                  securityOverview.systemStatus.slice(1)}
+                {securityOverview.systemStatus.charAt(0).toUpperCase() + securityOverview.systemStatus.slice(1)}
               </span>
             </Badge>
           </div>
@@ -310,11 +290,11 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
               <div className="flex items-center justify-between">
                 <div className="space-y-2">
                   <p className="ff-text-sm text-muted-foreground font-inter">Active Threats</p>
-                  <p className="ff-text-2xl font-bold font-sora">{securityOverview.totalThreats}</p>
+                  <p className="ff-text-2xl font-bold font-sora">
+                    {securityOverview.totalThreats}
+                  </p>
                   <div className="flex items-center gap-1 ff-text-xs">
-                    <span className="text-muted-foreground">
-                      {securityOverview.resolvedThreats} resolved
-                    </span>
+                    <span className="text-muted-foreground">{securityOverview.resolvedThreats} resolved</span>
                   </div>
                 </div>
                 <AlertTriangle className="h-8 w-8 text-warning" />
@@ -328,8 +308,7 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
                 <div className="space-y-2">
                   <p className="ff-text-sm text-muted-foreground font-inter">Last Scan</p>
                   <p className="ff-text-lg font-semibold font-sora">
-                    {Math.round((Date.now() - securityOverview.lastScan.getTime()) / (1000 * 60))}m
-                    ago
+                    {Math.round((Date.now() - securityOverview.lastScan.getTime()) / (1000 * 60))}m ago
                   </p>
                   <div className="flex items-center gap-1 ff-text-xs">
                     <Activity className="h-3 w-3 text-primary animate-pulse" />
@@ -346,7 +325,9 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
               <div className="flex items-center justify-between">
                 <div className="space-y-2">
                   <p className="ff-text-sm text-muted-foreground font-inter">Compliance</p>
-                  <p className="ff-text-2xl font-bold text-success font-sora">100%</p>
+                  <p className="ff-text-2xl font-bold text-success font-sora">
+                    100%
+                  </p>
                   <div className="flex items-center gap-1 ff-text-xs">
                     <CheckCircle className="h-3 w-3 text-success" />
                     <span className="text-success">GDPR, SOC2</span>
@@ -361,21 +342,16 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
 
       {/* Security Status Alert */}
       {securityOverview.systemStatus !== 'secure' && (
-        <Alert
-          className={
-            securityOverview.systemStatus === 'critical' ? 'border-destructive' : 'border-warning'
-          }
-        >
+        <Alert className={securityOverview.systemStatus === 'critical' ? 'border-destructive' : 'border-warning'}>
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle className="font-sora">
-            {securityOverview.systemStatus === 'critical'
-              ? 'Critical Security Issues Detected'
-              : 'Security Warnings Found'}
+            {securityOverview.systemStatus === 'critical' ? 'Critical Security Issues Detected' : 'Security Warnings Found'}
           </AlertTitle>
           <AlertDescription className="font-inter">
-            {securityOverview.systemStatus === 'critical'
+            {securityOverview.systemStatus === 'critical' 
               ? 'Immediate action required to secure your application. Please review and address critical vulnerabilities.'
-              : 'Some security issues require attention. Review the scan results and apply recommended fixes.'}
+              : 'Some security issues require attention. Review the scan results and apply recommended fixes.'
+            }
           </AlertDescription>
         </Alert>
       )}
@@ -402,7 +378,7 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
         </TabsList>
 
         <TabsContent value="scanner" className="space-y-6">
-          <SecurityScanInterface
+          <SecurityScanInterface 
             onScanComplete={handleScanComplete}
             onThreatDetected={handleThreatDetected}
           />
@@ -433,48 +409,33 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
                   </div>
                 ) : (
                   recentThreats.map((threat) => (
-                    <div
-                      key={threat.id}
-                      className="flex items-start gap-4 p-4 border rounded-lg ff-hover-lift"
-                    >
+                    <div key={threat.id} className="flex items-start gap-4 p-4 border rounded-lg ff-hover-lift">
                       <div className="flex-shrink-0 mt-1">
                         {getThreatSeverityIcon(threat.severity)}
                       </div>
-
+                      
                       <div className="flex-1 space-y-2">
                         <div className="flex items-start justify-between">
                           <div>
                             <h4 className="ff-text-sm font-semibold font-sora">{threat.title}</h4>
-                            <p className="ff-text-xs text-muted-foreground font-inter">
-                              {threat.description}
-                            </p>
+                            <p className="ff-text-xs text-muted-foreground font-inter">{threat.description}</p>
                           </div>
-
+                          
                           <div className="flex items-center gap-2">
-                            <Badge
-                              variant={
-                                threat.severity === 'critical' || threat.severity === 'high'
-                                  ? 'destructive'
-                                  : 'secondary'
-                              }
-                            >
+                            <Badge variant={threat.severity === 'critical' || threat.severity === 'high' ? 'destructive' : 'secondary'}>
                               {threat.severity}
                             </Badge>
                             <div className="flex items-center gap-1">
                               {getThreatStatusIcon(threat.status)}
-                              <span className="ff-text-xs capitalize font-inter">
-                                {threat.status}
-                              </span>
+                              <span className="ff-text-xs capitalize font-inter">{threat.status}</span>
                             </div>
                           </div>
                         </div>
-
+                        
                         <div className="flex items-center justify-between ff-text-xs text-muted-foreground">
                           <div className="flex items-center gap-4">
                             <span className="font-inter">Source: {threat.source}</span>
-                            <span className="font-inter">
-                              Assets: {threat.affectedAssets.join(', ')}
-                            </span>
+                            <span className="font-inter">Assets: {threat.affectedAssets.join(', ')}</span>
                             {threat.responseTime && (
                               <span className="font-inter">Response: {threat.responseTime}min</span>
                             )}
@@ -516,28 +477,25 @@ export function SecurityPage({ className = '' }: SecurityPageProps) {
                         )}
                       </div>
                     </div>
-
+                    
                     <div className="space-y-2">
                       <div className="w-full bg-muted rounded-full h-2">
-                        <div
+                        <div 
                           className="ff-progress-bar h-2 rounded-full"
                           style={{ width: `${metric.score}%` }}
                         />
                       </div>
-
+                      
                       <p className="ff-text-xs text-muted-foreground font-inter">
                         {metric.details}
                       </p>
-
+                      
                       {metric.recommendations && metric.recommendations.length > 0 && (
                         <div className="space-y-1">
                           <p className="ff-text-xs font-semibold font-sora">Recommendations:</p>
                           <ul className="space-y-1">
                             {metric.recommendations.map((rec, index) => (
-                              <li
-                                key={index}
-                                className="ff-text-xs text-muted-foreground font-inter flex items-start gap-1"
-                              >
+                              <li key={index} className="ff-text-xs text-muted-foreground font-inter flex items-start gap-1">
                                 <span className="text-primary">•</span>
                                 {rec}
                               </li>

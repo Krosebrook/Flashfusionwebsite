@@ -3,13 +3,20 @@ import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Layers, TrendingUp, Users, Zap, Plus, Download } from 'lucide-react';
+import { 
+  Layers, 
+  TrendingUp,
+  Users,
+  Zap,
+  Plus,
+  Download
+} from 'lucide-react';
 import { Agent, CrossProjectSynergy } from '../../types/multi-agent-orchestration';
 import { SAMPLE_PROJECTS, SAMPLE_SYNERGIES } from '../../constants/multi-project-orchestrator';
-import {
-  getTotalProjectProgress,
+import { 
+  getTotalProjectProgress, 
   getActiveAgentsCount,
-  generateResourceAllocation,
+  generateResourceAllocation 
 } from '../../utils/multi-project-orchestrator';
 import { ProjectCard } from './multi-project/ProjectCard';
 import { SynergyCard } from './multi-project/SynergyCard';
@@ -25,7 +32,7 @@ interface MultiProjectOrchestratorProps {
 export function MultiProjectOrchestrator({
   currentProjectId,
   agents,
-  userStats,
+  userStats
 }: MultiProjectOrchestratorProps) {
   const [projects] = useState(SAMPLE_PROJECTS);
   const [synergies, setSynergies] = useState<CrossProjectSynergy[]>([]);
@@ -49,17 +56,15 @@ export function MultiProjectOrchestrator({
 
   const handleImplementSynergy = async (synergyId: string) => {
     setIsOptimizing(true);
-
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    setSynergies((prev) =>
-      prev.map((s) =>
-        s.projectIds.join('-') === synergyId
-          ? { ...s, implementationEffort: 'completed' as any }
-          : s
-      )
-    );
-
+    
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    setSynergies(prev => prev.map(s => 
+      s.projectIds.join('-') === synergyId 
+        ? { ...s, implementationEffort: 'completed' as any }
+        : s
+    ));
+    
     setIsOptimizing(false);
   };
 
@@ -72,7 +77,7 @@ export function MultiProjectOrchestrator({
             <div>
               <p className="text-sm text-muted-foreground">Active Projects</p>
               <p className="text-2xl font-bold text-primary">
-                {projects.filter((p) => p.status === 'active').length}
+                {projects.filter(p => p.status === 'active').length}
               </p>
             </div>
             <Layers className="h-6 w-6 text-primary" />
@@ -83,9 +88,7 @@ export function MultiProjectOrchestrator({
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Portfolio Progress</p>
-              <p className="text-2xl font-bold text-secondary">
-                {getTotalProjectProgress(projects)}%
-              </p>
+              <p className="text-2xl font-bold text-secondary">{getTotalProjectProgress(projects)}%</p>
             </div>
             <TrendingUp className="h-6 w-6 text-secondary" />
           </div>
@@ -186,7 +189,7 @@ export function MultiProjectOrchestrator({
                 Export Report
               </Button>
             </div>
-
+            
             <div className="space-y-4">
               <OptimizationRecommendation
                 type="success"

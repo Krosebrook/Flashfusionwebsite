@@ -33,17 +33,20 @@ export function createLazyComponent<T = {}>(
         {
           details: error.message,
           code: 'COMPONENT_LOAD_FAILURE',
-          context: { componentName: options.componentName },
+          context: { componentName: options.componentName }
         }
       );
-
+      
       errorService.handleError(appError);
       throw error;
     });
   });
 
   return React.forwardRef<any, T>((props, ref) => (
-    <LazyComponentLoader {...options} importFn={importFn}>
+    <LazyComponentLoader
+      {...options}
+      importFn={importFn}
+    >
       <LazyComponent {...props} ref={ref} />
     </LazyComponentLoader>
   ));
@@ -59,7 +62,7 @@ class LazyComponentLoader extends React.Component<
     super(props);
     this.state = {
       hasError: false,
-      retryCount: 0,
+      retryCount: 0
     };
   }
 
@@ -69,13 +72,17 @@ class LazyComponentLoader extends React.Component<
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     const { componentName } = this.props;
-
+    
     errorService.handleError(
-      errorService.createError('component', `Lazy component crash: ${componentName || 'Unknown'}`, {
-        details: errorInfo.componentStack,
-        code: 'LAZY_COMPONENT_CRASH',
-        context: { componentName, retryCount: this.state.retryCount },
-      })
+      errorService.createError(
+        'component',
+        `Lazy component crash: ${componentName || 'Unknown'}`,
+        {
+          details: errorInfo.componentStack,
+          code: 'LAZY_COMPONENT_CRASH',
+          context: { componentName, retryCount: this.state.retryCount }
+        }
+      )
     );
   }
 
@@ -87,9 +94,9 @@ class LazyComponentLoader extends React.Component<
 
   handleRetry = () => {
     if (this.state.retryCount < MAX_RETRIES) {
-      this.setState((prevState) => ({
+      this.setState(prevState => ({
         hasError: false,
-        retryCount: prevState.retryCount + 1,
+        retryCount: prevState.retryCount + 1
       }));
     }
   };
@@ -99,22 +106,19 @@ class LazyComponentLoader extends React.Component<
       clearTimeout(this.retryTimeoutId);
     }
 
-    this.retryTimeoutId = setTimeout(
-      () => {
-        this.handleRetry();
-      },
-      RETRY_DELAY * (this.state.retryCount + 1)
-    );
+    this.retryTimeoutId = setTimeout(() => {
+      this.handleRetry();
+    }, RETRY_DELAY * (this.state.retryCount + 1));
   };
 
   render() {
-    const {
-      children,
-      fallback,
-      errorFallback,
-      retryable = true,
+    const { 
+      children, 
+      fallback, 
+      errorFallback, 
+      retryable = true, 
       loadingMessage = 'Loading component...',
-      componentName,
+      componentName 
     } = this.props;
     const { hasError, retryCount } = this.state;
 
@@ -137,7 +141,7 @@ class LazyComponentLoader extends React.Component<
                 </p>
               </div>
             </div>
-
+            
             {retryable && retryCount < MAX_RETRIES && (
               <div className="flex gap-2">
                 <button
@@ -161,14 +165,16 @@ class LazyComponentLoader extends React.Component<
 
     return (
       <ComponentErrorBoundary>
-        <Suspense
+        <Suspense 
           fallback={
             fallback || (
               <div className="flex items-center justify-center p-8">
                 <div className="text-center space-y-4">
                   <FullPageLoader message={loadingMessage} />
                   {componentName && (
-                    <p className="text-sm text-muted-foreground">Loading {componentName}...</p>
+                    <p className="text-sm text-muted-foreground">
+                      Loading {componentName}...
+                    </p>
                   )}
                 </div>
               </div>
@@ -183,32 +189,29 @@ class LazyComponentLoader extends React.Component<
 }
 
 // Predefined lazy loaders for common components
-export const LazyDashboardPage = createLazyComponent(() => import('../pages/DashboardPage'), {
-  componentName: 'Dashboard',
-  loadingMessage: 'Loading dashboard...',
-});
+export const LazyDashboardPage = createLazyComponent(
+  () => import('../pages/DashboardPage'),
+  { componentName: 'Dashboard', loadingMessage: 'Loading dashboard...' }
+);
 
-export const LazyToolsPage = createLazyComponent(() => import('../pages/ToolsPage'), {
-  componentName: 'Tools',
-  loadingMessage: 'Loading AI tools...',
-});
+export const LazyToolsPage = createLazyComponent(
+  () => import('../pages/ToolsPage'),
+  { componentName: 'Tools', loadingMessage: 'Loading AI tools...' }
+);
 
-export const LazyProjectsPage = createLazyComponent(() => import('../pages/ProjectsPage'), {
-  componentName: 'Projects',
-  loadingMessage: 'Loading projects...',
-});
+export const LazyProjectsPage = createLazyComponent(
+  () => import('../pages/ProjectsPage'),
+  { componentName: 'Projects', loadingMessage: 'Loading projects...' }
+);
 
-export const LazySettingsPage = createLazyComponent(() => import('../pages/SettingsPage'), {
-  componentName: 'Settings',
-  loadingMessage: 'Loading settings...',
-});
+export const LazySettingsPage = createLazyComponent(
+  () => import('../pages/SettingsPage'),
+  { componentName: 'Settings', loadingMessage: 'Loading settings...' }
+);
 
 export const LazyMultiAgentOrchestrationPage = createLazyComponent(
   () => import('../pages/MultiAgentOrchestrationPage'),
-  {
-    componentName: 'Multi-Agent Orchestration',
-    loadingMessage: 'Loading orchestration dashboard...',
-  }
+  { componentName: 'Multi-Agent Orchestration', loadingMessage: 'Loading orchestration dashboard...' }
 );
 
 // Utility for creating route-based lazy components
@@ -218,6 +221,6 @@ export function createRouteComponent(
 ) {
   return createLazyComponent(importFn, {
     componentName: routeName,
-    loadingMessage: `Loading ${routeName.toLowerCase()}...`,
+    loadingMessage: `Loading ${routeName.toLowerCase()}...`
   });
 }

@@ -5,20 +5,20 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  Copy,
-  ExternalLink,
-  FileText,
-  Terminal,
-  Code,
+import { 
+  Copy, 
+  ExternalLink, 
+  FileText, 
+  Terminal, 
+  Code, 
   CheckCircle2,
   AlertCircle,
   Key,
   Globe,
   Zap,
-  Download,
+  Download
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 const ENV_TEMPLATE = `# FlashFusion AI Configuration
 # Copy this template to your .env file and add your API keys
@@ -104,9 +104,9 @@ const PROVIDER_SETUP: ProviderSetupInfo[] = [
       'Sign up or log in to OpenAI Platform',
       'Navigate to the API Keys section',
       'Click "Create new secret key"',
-      "Copy the key (you won't be able to see it again)",
-      'Paste it in your .env file as VITE_OPENAI_API_KEY',
-    ],
+      'Copy the key (you won\'t be able to see it again)',
+      'Paste it in your .env file as VITE_OPENAI_API_KEY'
+    ]
   },
   {
     id: 'anthropic',
@@ -122,8 +122,8 @@ const PROVIDER_SETUP: ProviderSetupInfo[] = [
       'Go to Account Settings and then API Keys',
       'Click "Create Key"',
       'Give your key a name and copy it',
-      'Add it to your .env file as VITE_ANTHROPIC_API_KEY',
-    ],
+      'Add it to your .env file as VITE_ANTHROPIC_API_KEY'
+    ]
   },
   {
     id: 'google',
@@ -139,9 +139,9 @@ const PROVIDER_SETUP: ProviderSetupInfo[] = [
       'Enable the AI Platform API',
       'Create credentials (API Key)',
       'Restrict the key to AI Platform services',
-      'Copy the API key to your .env file as VITE_GOOGLE_AI_API_KEY',
-    ],
-  },
+      'Copy the API key to your .env file as VITE_GOOGLE_AI_API_KEY'
+    ]
+  }
 ];
 
 export function EnvironmentSetupGuide() {
@@ -154,12 +154,12 @@ export function EnvironmentSetupGuide() {
   const copyToClipboard = async (text: string, itemId: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      setCopiedItems((prev) => new Set([...prev, itemId]));
+      setCopiedItems(prev => new Set([...prev, itemId]));
       toast.success('Copied to clipboard!');
-
+      
       // Reset the copied state after 2 seconds
       setTimeout(() => {
-        setCopiedItems((prev) => {
+        setCopiedItems(prev => {
           const newSet = new Set(prev);
           newSet.delete(itemId);
           return newSet;
@@ -183,7 +183,7 @@ export function EnvironmentSetupGuide() {
     toast.success(`${filename} downloaded successfully!`);
   };
 
-  const selectedProviderInfo = PROVIDER_SETUP.find((p) => p.id === selectedProvider);
+  const selectedProviderInfo = PROVIDER_SETUP.find(p => p.id === selectedProvider);
 
   return (
     <div className="space-y-6">
@@ -215,8 +215,8 @@ export function EnvironmentSetupGuide() {
               <Alert>
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription>
-                  This will create template files for your environment configuration. You'll still
-                  need to add your actual API keys.
+                  This will create template files for your environment configuration.
+                  You'll still need to add your actual API keys.
                 </AlertDescription>
               </Alert>
 
@@ -288,48 +288,20 @@ export function EnvironmentSetupGuide() {
                 <h3 className="font-semibold text-ff-text-primary">Next Steps:</h3>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <Badge
-                      variant="outline"
-                      className="w-6 h-6 rounded-full p-0 flex items-center justify-center"
-                    >
-                      1
-                    </Badge>
-                    <span className="text-sm text-ff-text-secondary">
-                      Download or copy the .env template
-                    </span>
+                    <Badge variant="outline" className="w-6 h-6 rounded-full p-0 flex items-center justify-center">1</Badge>
+                    <span className="text-sm text-ff-text-secondary">Download or copy the .env template</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge
-                      variant="outline"
-                      className="w-6 h-6 rounded-full p-0 flex items-center justify-center"
-                    >
-                      2
-                    </Badge>
-                    <span className="text-sm text-ff-text-secondary">
-                      Rename .env.template to .env in your project root
-                    </span>
+                    <Badge variant="outline" className="w-6 h-6 rounded-full p-0 flex items-center justify-center">2</Badge>
+                    <span className="text-sm text-ff-text-secondary">Rename .env.template to .env in your project root</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge
-                      variant="outline"
-                      className="w-6 h-6 rounded-full p-0 flex items-center justify-center"
-                    >
-                      3
-                    </Badge>
-                    <span className="text-sm text-ff-text-secondary">
-                      Get API keys from the "Get API Keys" tab
-                    </span>
+                    <Badge variant="outline" className="w-6 h-6 rounded-full p-0 flex items-center justify-center">3</Badge>
+                    <span className="text-sm text-ff-text-secondary">Get API keys from the "Get API Keys" tab</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge
-                      variant="outline"
-                      className="w-6 h-6 rounded-full p-0 flex items-center justify-center"
-                    >
-                      4
-                    </Badge>
-                    <span className="text-sm text-ff-text-secondary">
-                      Replace the placeholder values with your real API keys
-                    </span>
+                    <Badge variant="outline" className="w-6 h-6 rounded-full p-0 flex items-center justify-center">4</Badge>
+                    <span className="text-sm text-ff-text-secondary">Replace the placeholder values with your real API keys</span>
                   </div>
                 </div>
               </div>
@@ -355,11 +327,11 @@ export function EnvironmentSetupGuide() {
                 <div className="space-y-2">
                   <div className="font-semibold text-ff-text-primary">{provider.name}</div>
                   <div className="text-xs text-ff-text-muted">{provider.description}</div>
-                  <Badge
-                    className="text-xs"
-                    style={{
+                  <Badge 
+                    className="text-xs" 
+                    style={{ 
                       backgroundColor: `${provider.color}15`,
-                      color: provider.color,
+                      color: provider.color 
                     }}
                   >
                     {provider.envVar}
@@ -372,7 +344,7 @@ export function EnvironmentSetupGuide() {
           {selectedProviderInfo && (
             <Card className="ff-card-interactive">
               <CardHeader>
-                <CardTitle
+                <CardTitle 
                   className="flex items-center gap-2"
                   style={{ color: selectedProviderInfo.color }}
                 >
@@ -382,14 +354,14 @@ export function EnvironmentSetupGuide() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-ff-text-secondary">{selectedProviderInfo.description}</p>
-
+                
                 <div className="space-y-3">
                   <h4 className="font-medium text-ff-text-primary">Step-by-step instructions:</h4>
                   <div className="space-y-2">
                     {selectedProviderInfo.instructions.map((instruction, index) => (
                       <div key={index} className="flex items-start gap-3">
-                        <Badge
-                          variant="outline"
+                        <Badge 
+                          variant="outline" 
                           className="w-6 h-6 rounded-full p-0 flex items-center justify-center shrink-0"
                         >
                           {index + 1}
@@ -408,7 +380,7 @@ export function EnvironmentSetupGuide() {
                     <ExternalLink className="w-4 h-4 mr-2" />
                     Sign Up / Login
                   </Button>
-
+                  
                   <Button
                     variant="outline"
                     onClick={() => window.open(selectedProviderInfo.keyLocation, '_blank')}
@@ -416,7 +388,7 @@ export function EnvironmentSetupGuide() {
                     <Key className="w-4 h-4 mr-2" />
                     Get API Key
                   </Button>
-
+                  
                   <Button
                     variant="outline"
                     onClick={() => window.open(selectedProviderInfo.docsUrl, '_blank')}
@@ -424,15 +396,10 @@ export function EnvironmentSetupGuide() {
                     <FileText className="w-4 h-4 mr-2" />
                     Documentation
                   </Button>
-
+                  
                   <Button
                     variant="outline"
-                    onClick={() =>
-                      copyToClipboard(
-                        selectedProviderInfo.envVar + '=your_api_key_here',
-                        `env-${selectedProviderInfo.id}`
-                      )
-                    }
+                    onClick={() => copyToClipboard(selectedProviderInfo.envVar + '=your_api_key_here', `env-${selectedProviderInfo.id}`)}
                   >
                     {copiedItems.has(`env-${selectedProviderInfo.id}`) ? (
                       <CheckCircle2 className="w-4 h-4 mr-2 text-ff-success" />
@@ -446,8 +413,8 @@ export function EnvironmentSetupGuide() {
                 <Alert>
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    <strong>Important:</strong> Keep your API keys secure and never commit them to
-                    version control. Add your .env file to .gitignore.
+                    <strong>Important:</strong> Keep your API keys secure and never commit them to version control.
+                    Add your .env file to .gitignore.
                   </AlertDescription>
                 </Alert>
               </CardContent>
@@ -490,9 +457,7 @@ export function EnvironmentSetupGuide() {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold text-ff-text-primary mb-2">
-                    2. Add environment variables
-                  </h3>
+                  <h3 className="font-semibold text-ff-text-primary mb-2">2. Add environment variables</h3>
                   <p className="text-sm text-ff-text-muted mb-2">
                     Add your API keys to the .env file:
                   </p>
@@ -517,9 +482,7 @@ export function EnvironmentSetupGuide() {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold text-ff-text-primary mb-2">
-                    3. Secure your .env file
-                  </h3>
+                  <h3 className="font-semibold text-ff-text-primary mb-2">3. Secure your .env file</h3>
                   <p className="text-sm text-ff-text-muted mb-2">
                     Add .env to your .gitignore to prevent committing secrets:
                   </p>
@@ -542,12 +505,9 @@ export function EnvironmentSetupGuide() {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold text-ff-text-primary mb-2">
-                    4. Restart your development server
-                  </h3>
+                  <h3 className="font-semibold text-ff-text-primary mb-2">4. Restart your development server</h3>
                   <p className="text-sm text-ff-text-muted">
-                    After adding environment variables, restart your development server to load
-                    them.
+                    After adding environment variables, restart your development server to load them.
                   </p>
                 </div>
               </div>

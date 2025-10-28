@@ -7,30 +7,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Switch } from '../ui/switch';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
-import {
-  CheckCircle,
-  Rocket,
-  Globe,
-  Settings,
-  Monitor,
-  Smartphone,
-  Zap,
-  Cloud,
-  Database,
-  Shield,
-  ArrowRight,
-  ExternalLink,
-} from 'lucide-react';
+import { CheckCircle, Rocket, Globe, Settings, Monitor, Smartphone, Zap, Cloud, Database, Shield, ArrowRight, ExternalLink } from 'lucide-react';
 
 interface OneClickPublishingWorkflowProps {
   createdContent?: any;
   onComplete?: () => void;
 }
 
-export function OneClickPublishingWorkflow({
-  createdContent,
-  onComplete,
-}: OneClickPublishingWorkflowProps) {
+export function OneClickPublishingWorkflow({ createdContent, onComplete }: OneClickPublishingWorkflowProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
   const [deploymentSettings, setDeploymentSettings] = useState<any>({});
@@ -48,7 +32,7 @@ export function OneClickPublishingWorkflow({
       color: 'bg-black',
       features: ['Auto-scaling', 'Global CDN', 'Serverless Functions', 'Analytics'],
       deployTime: '30-60 seconds',
-      recommended: true,
+      recommended: true
     },
     {
       id: 'netlify',
@@ -58,7 +42,7 @@ export function OneClickPublishingWorkflow({
       category: 'hosting',
       color: 'bg-teal-600',
       features: ['Form Handling', 'Split Testing', 'Edge Functions', 'Identity'],
-      deployTime: '45-90 seconds',
+      deployTime: '45-90 seconds'
     },
     {
       id: 'aws',
@@ -68,7 +52,7 @@ export function OneClickPublishingWorkflow({
       category: 'cloud',
       color: 'bg-orange-600',
       features: ['EC2', 'S3', 'RDS', 'CloudFront', 'Lambda'],
-      deployTime: '2-5 minutes',
+      deployTime: '2-5 minutes'
     },
     {
       id: 'github-pages',
@@ -78,7 +62,7 @@ export function OneClickPublishingWorkflow({
       category: 'hosting',
       color: 'bg-gray-800',
       features: ['Custom Domains', 'HTTPS', 'Jekyll Support'],
-      deployTime: '60-120 seconds',
+      deployTime: '60-120 seconds'
     },
     {
       id: 'heroku',
@@ -88,17 +72,17 @@ export function OneClickPublishingWorkflow({
       category: 'paas',
       color: 'bg-purple-600',
       features: ['Add-ons', 'Dynos', 'Postgres', 'Redis'],
-      deployTime: '2-3 minutes',
+      deployTime: '2-3 minutes'
     },
     {
       id: 'firebase',
       name: 'Firebase',
-      description: "Google's app development platform",
+      description: 'Google\'s app development platform',
       icon: '🔥',
       category: 'baas',
       color: 'bg-yellow-600',
       features: ['Hosting', 'Database', 'Auth', 'Functions'],
-      deployTime: '1-2 minutes',
+      deployTime: '1-2 minutes'
     },
     {
       id: 'docker-hub',
@@ -108,7 +92,7 @@ export function OneClickPublishingWorkflow({
       category: 'containers',
       color: 'bg-blue-600',
       features: ['Container Registry', 'Automated Builds', 'Webhooks'],
-      deployTime: '3-5 minutes',
+      deployTime: '3-5 minutes'
     },
     {
       id: 'cloudflare-pages',
@@ -118,7 +102,7 @@ export function OneClickPublishingWorkflow({
       category: 'hosting',
       color: 'bg-orange-500',
       features: ['Workers', 'Analytics', 'Web3 Gateway'],
-      deployTime: '45-75 seconds',
+      deployTime: '45-75 seconds'
     },
     {
       id: 'railway',
@@ -128,7 +112,7 @@ export function OneClickPublishingWorkflow({
       category: 'paas',
       color: 'bg-indigo-600',
       features: ['Databases', 'Cron Jobs', 'Templates'],
-      deployTime: '90-150 seconds',
+      deployTime: '90-150 seconds'
     },
     {
       id: 'render',
@@ -138,8 +122,8 @@ export function OneClickPublishingWorkflow({
       category: 'hosting',
       color: 'bg-green-600',
       features: ['Static Sites', 'Web Services', 'Databases'],
-      deployTime: '2-4 minutes',
-    },
+      deployTime: '2-4 minutes'
+    }
   ];
 
   const categories = [
@@ -147,61 +131,63 @@ export function OneClickPublishingWorkflow({
     { id: 'paas', name: 'Platform as a Service', icon: Cloud },
     { id: 'baas', name: 'Backend as a Service', icon: Database },
     { id: 'cloud', name: 'Cloud Infrastructure', icon: Monitor },
-    { id: 'containers', name: 'Container Platforms', icon: Shield },
+    { id: 'containers', name: 'Container Platforms', icon: Shield }
   ];
 
   const handlePlatformToggle = (platformId: string) => {
-    setSelectedPlatforms((prev) =>
-      prev.includes(platformId) ? prev.filter((id) => id !== platformId) : [...prev, platformId]
+    setSelectedPlatforms(prev => 
+      prev.includes(platformId) 
+        ? prev.filter(id => id !== platformId)
+        : [...prev, platformId]
     );
   };
 
   const handlePublish = async () => {
     setIsPublishing(true);
     setCurrentStep(3);
-
+    
     // Simulate deployment process
     const totalSteps = selectedPlatforms.length * 20;
     for (let i = 0; i <= totalSteps; i++) {
       setPublishingProgress((i / totalSteps) * 100);
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 100));
     }
-
+    
     // Generate results
     setPublishedResults({
-      platforms: selectedPlatforms.map((platformId) => {
-        const platform = platforms.find((p) => p.id === platformId);
+      platforms: selectedPlatforms.map(platformId => {
+        const platform = platforms.find(p => p.id === platformId);
         return {
           id: platformId,
           name: platform?.name,
           url: generateDeploymentUrl(platformId),
           status: 'deployed',
           deployTime: platform?.deployTime,
-          analytics: generateAnalytics(),
+          analytics: generateAnalytics()
         };
       }),
       summary: {
         totalPlatforms: selectedPlatforms.length,
         successfulDeployments: selectedPlatforms.length,
         totalDeployTime: `${Math.floor(Math.random() * 5) + 2} minutes`,
-        optimizationsApplied: Math.floor(Math.random() * 8) + 12,
-      },
+        optimizationsApplied: Math.floor(Math.random() * 8) + 12
+      }
     });
-
+    
     setIsPublishing(false);
     setCurrentStep(4);
   };
 
   const generateDeploymentUrl = (platformId: string) => {
     const baseUrls = {
-      vercel: 'https://flashfusion-creation.vercel.app',
-      netlify: 'https://flashfusion-creation.netlify.app',
+      'vercel': 'https://flashfusion-creation.vercel.app',
+      'netlify': 'https://flashfusion-creation.netlify.app',
       'github-pages': 'https://username.github.io/flashfusion-creation',
-      firebase: 'https://flashfusion-creation.web.app',
-      heroku: 'https://flashfusion-creation.herokuapp.com',
-      railway: 'https://flashfusion-creation.up.railway.app',
-      render: 'https://flashfusion-creation.onrender.com',
-      'cloudflare-pages': 'https://flashfusion-creation.pages.dev',
+      'firebase': 'https://flashfusion-creation.web.app',
+      'heroku': 'https://flashfusion-creation.herokuapp.com',
+      'railway': 'https://flashfusion-creation.up.railway.app',
+      'render': 'https://flashfusion-creation.onrender.com',
+      'cloudflare-pages': 'https://flashfusion-creation.pages.dev'
     };
     return baseUrls[platformId as keyof typeof baseUrls] || `https://${platformId}.example.com`;
   };
@@ -214,8 +200,8 @@ export function OneClickPublishingWorkflow({
       performance: Math.floor(Math.random() * 10) + 90,
       accessibility: Math.floor(Math.random() * 5) + 95,
       bestPractices: Math.floor(Math.random() * 8) + 92,
-      seo: Math.floor(Math.random() * 12) + 88,
-    },
+      seo: Math.floor(Math.random() * 12) + 88
+    }
   });
 
   const renderStepContent = () => {
@@ -229,9 +215,7 @@ export function OneClickPublishingWorkflow({
               </div>
               <div>
                 <h2 className="ff-text-headline">One-Click Publishing</h2>
-                <p className="ff-text-body">
-                  Deploy your creations instantly across 20+ platforms with automated optimization
-                </p>
+                <p className="ff-text-body">Deploy your creations instantly across 20+ platforms with automated optimization</p>
               </div>
             </div>
 
@@ -262,25 +246,25 @@ export function OneClickPublishingWorkflow({
 
             <div className="space-y-4">
               <h3 className="ff-text-title">Select Deployment Platforms</h3>
-
-              {categories.map((category) => {
-                const categoryPlatforms = platforms.filter((p) => p.category === category.id);
+              
+              {categories.map(category => {
+                const categoryPlatforms = platforms.filter(p => p.category === category.id);
                 const Icon = category.icon;
-
+                
                 return (
                   <div key={category.id} className="space-y-3">
                     <div className="flex items-center space-x-2">
                       <Icon className="w-5 h-5 text-gray-400" />
                       <h4 className="ff-text-title text-base">{category.name}</h4>
                     </div>
-
+                    
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                      {categoryPlatforms.map((platform) => (
-                        <Card
+                      {categoryPlatforms.map(platform => (
+                        <Card 
                           key={platform.id}
                           className={`ff-card-interactive cursor-pointer transition-all duration-200 ${
-                            selectedPlatforms.includes(platform.id)
-                              ? 'ring-2 ring-blue-500 bg-blue-500/10'
+                            selectedPlatforms.includes(platform.id) 
+                              ? 'ring-2 ring-blue-500 bg-blue-500/10' 
                               : 'hover:bg-white/5'
                           }`}
                           onClick={() => handlePlatformToggle(platform.id)}
@@ -288,9 +272,7 @@ export function OneClickPublishingWorkflow({
                           <CardContent className="p-4">
                             <div className="flex items-start justify-between mb-3">
                               <div className="flex items-center space-x-3">
-                                <div
-                                  className={`w-8 h-8 rounded-lg ${platform.color} flex items-center justify-center text-white text-sm`}
-                                >
+                                <div className={`w-8 h-8 rounded-lg ${platform.color} flex items-center justify-center text-white text-sm`}>
                                   {platform.icon}
                                 </div>
                                 <div>
@@ -304,17 +286,17 @@ export function OneClickPublishingWorkflow({
                                 <CheckCircle className="w-5 h-5 text-blue-500" />
                               )}
                             </div>
-
+                            
                             <p className="text-sm text-gray-400 mb-3">{platform.description}</p>
-
+                            
                             <div className="space-y-2">
                               <div className="flex items-center justify-between text-xs">
                                 <span className="text-gray-500">Deploy Time:</span>
                                 <span className="text-gray-300">{platform.deployTime}</span>
                               </div>
-
+                              
                               <div className="flex flex-wrap gap-1">
-                                {platform.features.slice(0, 3).map((feature) => (
+                                {platform.features.slice(0, 3).map(feature => (
                                   <Badge key={feature} variant="secondary" className="text-xs">
                                     {feature}
                                   </Badge>
@@ -336,13 +318,12 @@ export function OneClickPublishingWorkflow({
             </div>
 
             <div className="flex justify-center">
-              <Button
+              <Button 
                 onClick={() => setCurrentStep(2)}
                 disabled={selectedPlatforms.length === 0}
                 className="ff-btn-primary ff-btn-lg"
               >
-                Configure Deployment ({selectedPlatforms.length} platform
-                {selectedPlatforms.length !== 1 ? 's' : ''})
+                Configure Deployment ({selectedPlatforms.length} platform{selectedPlatforms.length !== 1 ? 's' : ''})
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
@@ -363,17 +344,12 @@ export function OneClickPublishingWorkflow({
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {selectedPlatforms.map((platformId) => {
-                    const platform = platforms.find((p) => p.id === platformId);
+                  {selectedPlatforms.map(platformId => {
+                    const platform = platforms.find(p => p.id === platformId);
                     return (
-                      <div
-                        key={platformId}
-                        className="flex items-center justify-between p-3 bg-gray-800 rounded-lg border"
-                      >
+                      <div key={platformId} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg border">
                         <div className="flex items-center space-x-3">
-                          <div
-                            className={`w-6 h-6 rounded ${platform?.color} flex items-center justify-center text-white text-xs`}
-                          >
+                          <div className={`w-6 h-6 rounded ${platform?.color} flex items-center justify-center text-white text-xs`}>
                             {platform?.icon}
                           </div>
                           <span className="font-medium">{platform?.name}</span>
@@ -392,19 +368,19 @@ export function OneClickPublishingWorkflow({
                 <TabsTrigger value="optimization">Optimization</TabsTrigger>
                 <TabsTrigger value="monitoring">Monitoring</TabsTrigger>
               </TabsList>
-
+              
               <TabsContent value="general" className="space-y-4">
                 <Card className="ff-card">
                   <CardContent className="p-6 space-y-4">
                     <div className="space-y-2">
                       <label className="ff-text-title text-sm">Project Name</label>
-                      <Input
-                        placeholder="flashfusion-creation"
+                      <Input 
+                        placeholder="flashfusion-creation" 
                         className="ff-input"
                         defaultValue="flashfusion-creation"
                       />
                     </div>
-
+                    
                     <div className="space-y-2">
                       <label className="ff-text-title text-sm">Environment Variables</label>
                       <Textarea
@@ -422,7 +398,7 @@ export function OneClickPublishingWorkflow({
                         </div>
                         <Switch defaultChecked />
                       </div>
-
+                      
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">HTTPS Redirect</div>
@@ -434,7 +410,7 @@ export function OneClickPublishingWorkflow({
                   </CardContent>
                 </Card>
               </TabsContent>
-
+              
               <TabsContent value="optimization" className="space-y-4">
                 <Card className="ff-card">
                   <CardContent className="p-6 space-y-4">
@@ -446,7 +422,7 @@ export function OneClickPublishingWorkflow({
                         </div>
                         <Switch defaultChecked />
                       </div>
-
+                      
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">Image Optimization</div>
@@ -454,7 +430,7 @@ export function OneClickPublishingWorkflow({
                         </div>
                         <Switch defaultChecked />
                       </div>
-
+                      
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">Compression</div>
@@ -462,7 +438,7 @@ export function OneClickPublishingWorkflow({
                         </div>
                         <Switch defaultChecked />
                       </div>
-
+                      
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">Caching</div>
@@ -474,7 +450,7 @@ export function OneClickPublishingWorkflow({
                   </CardContent>
                 </Card>
               </TabsContent>
-
+              
               <TabsContent value="monitoring" className="space-y-4">
                 <Card className="ff-card">
                   <CardContent className="p-6 space-y-4">
@@ -486,7 +462,7 @@ export function OneClickPublishingWorkflow({
                         </div>
                         <Switch defaultChecked />
                       </div>
-
+                      
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">Error Tracking</div>
@@ -494,7 +470,7 @@ export function OneClickPublishingWorkflow({
                         </div>
                         <Switch defaultChecked />
                       </div>
-
+                      
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">Performance</div>
@@ -502,7 +478,7 @@ export function OneClickPublishingWorkflow({
                         </div>
                         <Switch defaultChecked />
                       </div>
-
+                      
                       <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                         <div>
                           <div className="font-medium text-sm">Uptime Monitor</div>
@@ -517,16 +493,18 @@ export function OneClickPublishingWorkflow({
             </Tabs>
 
             <div className="flex justify-between">
-              <Button
-                variant="outline"
+              <Button 
+                variant="outline" 
                 onClick={() => setCurrentStep(1)}
                 className="ff-btn-outline"
               >
                 Back to Platform Selection
               </Button>
-              <Button onClick={handlePublish} className="ff-btn-primary ff-btn-lg">
-                Deploy to {selectedPlatforms.length} Platform
-                {selectedPlatforms.length !== 1 ? 's' : ''}
+              <Button 
+                onClick={handlePublish}
+                className="ff-btn-primary ff-btn-lg"
+              >
+                Deploy to {selectedPlatforms.length} Platform{selectedPlatforms.length !== 1 ? 's' : ''}
                 <Rocket className="w-4 h-4 ml-2" />
               </Button>
             </div>
@@ -542,10 +520,7 @@ export function OneClickPublishingWorkflow({
               </div>
               <div>
                 <h2 className="ff-text-headline">Deploying Your Creation</h2>
-                <p className="ff-text-body">
-                  Publishing to {selectedPlatforms.length} platform
-                  {selectedPlatforms.length !== 1 ? 's' : ''} with automated optimization
-                </p>
+                <p className="ff-text-body">Publishing to {selectedPlatforms.length} platform{selectedPlatforms.length !== 1 ? 's' : ''} with automated optimization</p>
               </div>
             </div>
 
@@ -560,20 +535,15 @@ export function OneClickPublishingWorkflow({
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {selectedPlatforms.map((platformId) => {
-                    const platform = platforms.find((p) => p.id === platformId);
-                    const progress = Math.min(
-                      publishingProgress * (Math.random() * 0.3 + 0.8),
-                      100
-                    );
-
+                  {selectedPlatforms.map(platformId => {
+                    const platform = platforms.find(p => p.id === platformId);
+                    const progress = Math.min(publishingProgress * (Math.random() * 0.3 + 0.8), 100);
+                    
                     return (
                       <div key={platformId} className="p-4 bg-gray-800 rounded-lg border">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center space-x-2">
-                            <div
-                              className={`w-5 h-5 rounded ${platform?.color} flex items-center justify-center text-white text-xs`}
-                            >
+                            <div className={`w-5 h-5 rounded ${platform?.color} flex items-center justify-center text-white text-xs`}>
                               {platform?.icon}
                             </div>
                             <span className="font-medium text-sm">{platform?.name}</span>
@@ -585,7 +555,7 @@ export function OneClickPublishingWorkflow({
                           )}
                         </div>
                         <div className="w-full bg-gray-700 rounded-full h-2">
-                          <div
+                          <div 
                             className="bg-blue-500 h-2 rounded-full transition-all duration-300"
                             style={{ width: `${progress}%` }}
                           />
@@ -624,10 +594,7 @@ export function OneClickPublishingWorkflow({
               </div>
               <div>
                 <h2 className="ff-text-headline">Successfully Deployed!</h2>
-                <p className="ff-text-body">
-                  Your creation is now live across {selectedPlatforms.length} platform
-                  {selectedPlatforms.length !== 1 ? 's' : ''}
-                </p>
+                <p className="ff-text-body">Your creation is now live across {selectedPlatforms.length} platform{selectedPlatforms.length !== 1 ? 's' : ''}</p>
               </div>
             </div>
 
@@ -640,21 +607,15 @@ export function OneClickPublishingWorkflow({
                   <CardContent className="space-y-4">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                       <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
-                        <div className="text-2xl font-bold text-green-500">
-                          {publishedResults.summary.successfulDeployments}
-                        </div>
+                        <div className="text-2xl font-bold text-green-500">{publishedResults.summary.successfulDeployments}</div>
                         <div className="text-sm text-gray-400">Successful Deployments</div>
                       </div>
                       <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                        <div className="text-2xl font-bold text-blue-500">
-                          {publishedResults.summary.totalDeployTime}
-                        </div>
+                        <div className="text-2xl font-bold text-blue-500">{publishedResults.summary.totalDeployTime}</div>
                         <div className="text-sm text-gray-400">Total Deploy Time</div>
                       </div>
                       <div className="p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg">
-                        <div className="text-2xl font-bold text-purple-500">
-                          {publishedResults.summary.optimizationsApplied}
-                        </div>
+                        <div className="text-2xl font-bold text-purple-500">{publishedResults.summary.optimizationsApplied}</div>
                         <div className="text-sm text-gray-400">Optimizations Applied</div>
                       </div>
                       <div className="p-4 bg-orange-500/10 border border-orange-500/20 rounded-lg">
@@ -671,19 +632,14 @@ export function OneClickPublishingWorkflow({
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {publishedResults.platforms.map((deployment: any) => (
-                      <div
-                        key={deployment.id}
-                        className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border"
-                      >
+                      <div key={deployment.id} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border">
                         <div className="flex items-center space-x-4">
                           <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center">
                             <CheckCircle className="w-4 h-4 text-white" />
                           </div>
                           <div>
                             <h4 className="font-semibold">{deployment.name}</h4>
-                            <p className="text-sm text-gray-400">
-                              Deployed in {deployment.deployTime}
-                            </p>
+                            <p className="text-sm text-gray-400">Deployed in {deployment.deployTime}</p>
                           </div>
                         </div>
                         <div className="flex items-center space-x-2">
@@ -706,7 +662,7 @@ export function OneClickPublishingWorkflow({
                     <TabsTrigger value="analytics">Analytics</TabsTrigger>
                     <TabsTrigger value="monitoring">Monitoring</TabsTrigger>
                   </TabsList>
-
+                  
                   <TabsContent value="performance" className="space-y-4">
                     <Card className="ff-card">
                       <CardContent className="p-6">
@@ -732,7 +688,7 @@ export function OneClickPublishingWorkflow({
                       </CardContent>
                     </Card>
                   </TabsContent>
-
+                  
                   <TabsContent value="analytics" className="space-y-4">
                     <Card className="ff-card">
                       <CardContent className="p-6">
@@ -763,17 +719,14 @@ export function OneClickPublishingWorkflow({
                       </CardContent>
                     </Card>
                   </TabsContent>
-
+                  
                   <TabsContent value="monitoring" className="space-y-4">
                     <Card className="ff-card">
                       <CardContent className="p-6">
                         <h4 className="ff-text-title mb-4">Uptime Monitoring</h4>
                         <div className="space-y-3">
                           {publishedResults.platforms.map((deployment: any) => (
-                            <div
-                              key={deployment.id}
-                              className="flex items-center justify-between p-3 bg-gray-800 rounded-lg"
-                            >
+                            <div key={deployment.id} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
                               <div>
                                 <div className="font-medium text-sm">{deployment.name}</div>
                                 <div className="text-xs text-gray-400">{deployment.url}</div>
@@ -793,8 +746,8 @@ export function OneClickPublishingWorkflow({
             )}
 
             <div className="flex justify-center space-x-4">
-              <Button
-                variant="outline"
+              <Button 
+                variant="outline" 
                 onClick={() => {
                   setCurrentStep(1);
                   setSelectedPlatforms([]);
@@ -805,7 +758,10 @@ export function OneClickPublishingWorkflow({
               >
                 Deploy Another
               </Button>
-              <Button onClick={onComplete} className="ff-btn-primary ff-btn-lg">
+              <Button 
+                onClick={onComplete}
+                className="ff-btn-primary ff-btn-lg"
+              >
                 Continue to Commerce Setup
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -824,17 +780,17 @@ export function OneClickPublishingWorkflow({
       <div className="flex items-center justify-center space-x-4 mb-8">
         {[1, 2, 3, 4].map((step) => (
           <div key={step} className="flex items-center">
-            <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                step <= currentStep ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-400'
-              }`}
-            >
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
+              step <= currentStep 
+                ? 'bg-blue-500 text-white' 
+                : 'bg-gray-700 text-gray-400'
+            }`}>
               {step < currentStep ? <CheckCircle className="w-4 h-4" /> : step}
             </div>
             {step < 4 && (
-              <div
-                className={`w-16 h-1 mx-2 ${step < currentStep ? 'bg-blue-500' : 'bg-gray-700'}`}
-              />
+              <div className={`w-16 h-1 mx-2 ${
+                step < currentStep ? 'bg-blue-500' : 'bg-gray-700'
+              }`} />
             )}
           </div>
         ))}

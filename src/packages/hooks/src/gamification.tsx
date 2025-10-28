@@ -45,11 +45,11 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
     xpToNext: 100,
     achievements: [],
     streak: 0,
-    credits: 0,
+    credits: 0
   });
 
   const addXP = useCallback((amount: number, reason?: string) => {
-    setState((prev) => {
+    setState(prev => {
       const newXP = prev.xp + amount;
       const newLevel = Math.floor(newXP / 100) + 1;
       const xpInCurrentLevel = newXP % 100;
@@ -59,13 +59,13 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
         ...prev,
         xp: newXP,
         level: newLevel,
-        xpToNext,
+        xpToNext
       };
     });
   }, []);
 
   const unlockAchievement = useCallback((achievementId: string) => {
-    setState((prev) => ({
+    setState(prev => ({
       ...prev,
       achievements: [
         ...prev.achievements,
@@ -74,16 +74,16 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
           name: `Achievement ${achievementId}`,
           description: 'Unlocked achievement',
           icon: '🏆',
-          unlockedAt: new Date(),
-        },
-      ],
+          unlockedAt: new Date()
+        }
+      ]
     }));
   }, []);
 
   const addCredits = useCallback((amount: number) => {
-    setState((prev) => ({
+    setState(prev => ({
       ...prev,
-      credits: prev.credits + amount,
+      credits: prev.credits + amount
     }));
   }, []);
 
@@ -91,8 +91,12 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
     state,
     addXP,
     unlockAchievement,
-    addCredits,
+    addCredits
   };
 
-  return <GamificationContext.Provider value={value}>{children}</GamificationContext.Provider>;
+  return (
+    <GamificationContext.Provider value={value}>
+      {children}
+    </GamificationContext.Provider>
+  );
 }

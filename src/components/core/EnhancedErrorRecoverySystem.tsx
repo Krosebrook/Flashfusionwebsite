@@ -59,9 +59,9 @@ export function useErrorRecovery() {
       network: 'healthy',
       storage: 'healthy',
       performance: 'healthy',
-      memory: 'healthy',
+      memory: 'healthy'
     },
-    lastCheck: Date.now(),
+    lastCheck: Date.now()
   });
   const [isRecovering, setIsRecovering] = useState(false);
   const errorQueueRef = useRef<ErrorInfo[]>([]);
@@ -77,7 +77,7 @@ export function useErrorRecovery() {
       stack: error.stack,
       component: errorInfo?.componentStack?.split('\n')[1]?.trim(),
       url: window.location.href,
-      userAgent: navigator.userAgent,
+      userAgent: navigator.userAgent
     };
 
     // Classify by error message and stack
@@ -110,9 +110,9 @@ export function useErrorRecovery() {
         network: 'healthy',
         storage: 'healthy',
         performance: 'healthy',
-        memory: 'healthy',
+        memory: 'healthy'
       },
-      lastCheck: Date.now(),
+      lastCheck: Date.now()
     };
 
     try {
@@ -148,18 +148,19 @@ export function useErrorRecovery() {
         const memoryUsage = memory.usedJSHeapSize / memory.totalJSHeapSize;
         if (memoryUsage > 0.8) health.components.performance = 'degraded';
         if (memoryUsage > 0.9) health.components.performance = 'critical';
-
+        
         if (memoryUsage > 0.8) health.components.memory = 'degraded';
         if (memoryUsage > 0.9) health.components.memory = 'critical';
       }
 
       // Determine overall health
       const componentStates = Object.values(health.components);
-      if (componentStates.some((state) => state === 'critical')) {
+      if (componentStates.some(state => state === 'critical')) {
         health.overall = 'critical';
-      } else if (componentStates.some((state) => state === 'degraded')) {
+      } else if (componentStates.some(state => state === 'degraded')) {
         health.overall = 'degraded';
       }
+
     } catch (error) {
       console.error('Health check failed:', error);
       health.overall = 'critical';
@@ -179,7 +180,7 @@ export function useErrorRecovery() {
       action: async () => {
         window.location.reload();
         return true;
-      },
+      }
     },
     {
       id: 'clear-cache',
@@ -193,13 +194,13 @@ export function useErrorRecovery() {
           sessionStorage.clear();
           if ('caches' in window) {
             const cacheNames = await caches.keys();
-            await Promise.all(cacheNames.map((name) => caches.delete(name)));
+            await Promise.all(cacheNames.map(name => caches.delete(name)));
           }
           return true;
         } catch {
           return false;
         }
-      },
+      }
     },
     {
       id: 'reset-auth',
@@ -217,7 +218,7 @@ export function useErrorRecovery() {
         } catch {
           return false;
         }
-      },
+      }
     },
     {
       id: 'safe-mode',
@@ -235,7 +236,7 @@ export function useErrorRecovery() {
         } catch {
           return false;
         }
-      },
+      }
     },
     {
       id: 'memory-cleanup',
@@ -249,109 +250,101 @@ export function useErrorRecovery() {
           if ('gc' in window) {
             (window as any).gc();
           }
-
+          
           // Clear large data structures
           const analytics = localStorage.getItem('ff-analytics');
           if (analytics && analytics.length > 50000) {
             localStorage.setItem('ff-analytics', '[]');
           }
-
+          
           return true;
         } catch {
           return false;
         }
-      },
-    },
+      }
+    }
   ];
 
   // Automatic recovery attempt
-  const attemptRecovery = useCallback(
-    async (error: ErrorInfo): Promise<boolean> => {
-      setIsRecovering(true);
-
-      try {
-        // Select appropriate recovery action based on error type
-        let actionId: string;
-
-        switch (error.type) {
-          case 'auth':
-            actionId = 'reset-auth';
-            break;
-          case 'memory':
-            actionId = 'memory-cleanup';
-            break;
-          case 'network':
-            actionId = 'refresh-page';
-            break;
-          case 'performance':
-            actionId = 'safe-mode';
-            break;
-          default:
-            actionId = 'clear-cache';
-        }
-
-        const action = recoveryActions.find((a) => a.id === actionId);
-        if (action) {
-          const success = await action.action();
-
-          // Update error with recovery info
-          setErrors((prev) =>
-            prev.map((e) =>
-              e.id === error.id
-                ? { ...e, recovery: { attempted: true, successful: success, method: action.label } }
-                : e
-            )
-          );
-
-          return success;
-        }
-      } catch (recoveryError) {
-        console.error('Recovery attempt failed:', recoveryError);
-      } finally {
-        setIsRecovering(false);
+  const attemptRecovery = useCallback(async (error: ErrorInfo): Promise<boolean> => {
+    setIsRecovering(true);
+    
+    try {
+      // Select appropriate recovery action based on error type
+      let actionId: string;
+      
+      switch (error.type) {
+        case 'auth':
+          actionId = 'reset-auth';
+          break;
+        case 'memory':
+          actionId = 'memory-cleanup';
+          break;
+        case 'network':
+          actionId = 'refresh-page';
+          break;
+        case 'performance':
+          actionId = 'safe-mode';
+          break;
+        default:
+          actionId = 'clear-cache';
       }
-
-      return false;
-    },
-    [recoveryActions]
-  );
+      
+      const action = recoveryActions.find(a => a.id === actionId);
+      if (action) {
+        const success = await action.action();
+        
+        // Update error with recovery info
+        setErrors(prev => prev.map(e => 
+          e.id === error.id 
+            ? { ...e, recovery: { attempted: true, successful: success, method: action.label } }
+            : e
+        ));
+        
+        return success;
+      }
+    } catch (recoveryError) {
+      console.error('Recovery attempt failed:', recoveryError);
+    } finally {
+      setIsRecovering(false);
+    }
+    
+    return false;
+  }, [recoveryActions]);
 
   // Log error and attempt recovery
-  const logError = useCallback(
-    async (error: Error, errorInfo?: any) => {
-      const errorObj = classifyError(error, errorInfo);
-
-      // Add to error queue for batch processing
-      errorQueueRef.current.push(errorObj);
-      setErrors((prev) => [...prev.slice(-19), errorObj]); // Keep last 20 errors
-
-      // Check system health
-      const health = await checkSystemHealth();
-      setSystemHealth(health);
-
-      // Attempt automatic recovery for critical errors
-      if (errorObj.severity === 'critical' || health.overall === 'critical') {
-        await attemptRecovery(errorObj);
+  const logError = useCallback(async (error: Error, errorInfo?: any) => {
+    const errorObj = classifyError(error, errorInfo);
+    
+    // Add to error queue for batch processing
+    errorQueueRef.current.push(errorObj);
+    setErrors(prev => [...prev.slice(-19), errorObj]); // Keep last 20 errors
+    
+    // Check system health
+    const health = await checkSystemHealth();
+    setSystemHealth(health);
+    
+    // Attempt automatic recovery for critical errors
+    if (errorObj.severity === 'critical' || health.overall === 'critical') {
+      await attemptRecovery(errorObj);
+    }
+    
+    // Send to monitoring service in production
+    if (process.env.NODE_ENV === 'production') {
+      try {
+        // Analytics.track('error_occurred', { 
+        //   error: errorObj,
+        //   health: health
+        // });
+      } catch {
+        // Silent fail for analytics
       }
-
-      // Send to monitoring service in production
-      if (process.env.NODE_ENV === 'production') {
-        try {
-          // Analytics.track('error_occurred', {
-          //   error: errorObj,
-          //   health: health
-          // });
-        } catch {
-          // Silent fail for analytics
-        }
-      }
-    },
-    [classifyError, checkSystemHealth, attemptRecovery]
-  );
+    }
+  }, [classifyError, checkSystemHealth, attemptRecovery]);
 
   // Clear resolved errors
   const clearError = useCallback((errorId: string) => {
-    setErrors((prev) => prev.filter((e) => e.id !== errorId));
+    setErrors(prev => prev.filter(e => e.id !== errorId));
   }, []);
 
   // Clear all errors
@@ -366,7 +359,7 @@ export function useErrorRecovery() {
       const health = await checkSystemHealth();
       setSystemHealth(health);
     }, 30000); // Check every 30 seconds
-
+    
     return () => clearInterval(interval);
   }, [checkSystemHealth]);
 
@@ -379,7 +372,7 @@ export function useErrorRecovery() {
     clearError,
     clearAllErrors,
     attemptRecovery,
-    checkSystemHealth,
+    checkSystemHealth
   };
 }
 
@@ -395,7 +388,7 @@ export function EnhancedErrorRecoverySystem() {
     clearError,
     clearAllErrors,
     attemptRecovery,
-    checkSystemHealth,
+    checkSystemHealth
   } = useErrorRecovery();
 
   const [selectedError, setSelectedError] = useState<string | null>(null);
@@ -403,30 +396,21 @@ export function EnhancedErrorRecoverySystem() {
   // Get severity color
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'critical':
-        return 'from-red-500 to-red-600';
-      case 'high':
-        return 'from-orange-500 to-red-500';
-      case 'medium':
-        return 'from-yellow-500 to-orange-500';
-      case 'low':
-        return 'from-blue-500 to-cyan-500';
-      default:
-        return 'from-gray-500 to-gray-600';
+      case 'critical': return 'from-red-500 to-red-600';
+      case 'high': return 'from-orange-500 to-red-500';
+      case 'medium': return 'from-yellow-500 to-orange-500';
+      case 'low': return 'from-blue-500 to-cyan-500';
+      default: return 'from-gray-500 to-gray-600';
     }
   };
 
   // Get health status color
   const getHealthColor = (status: string) => {
     switch (status) {
-      case 'healthy':
-        return 'text-green-500';
-      case 'degraded':
-        return 'text-yellow-500';
-      case 'critical':
-        return 'text-red-500';
-      default:
-        return 'text-gray-500';
+      case 'healthy': return 'text-green-500';
+      case 'degraded': return 'text-yellow-500';
+      case 'critical': return 'text-red-500';
+      default: return 'text-gray-500';
     }
   };
 
@@ -437,14 +421,12 @@ export function EnhancedErrorRecoverySystem() {
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span className="ff-text-title">System Health Status</span>
-            <Badge
+            <Badge 
               variant={systemHealth.overall === 'healthy' ? 'default' : 'destructive'}
               className={
-                systemHealth.overall === 'healthy'
-                  ? 'ff-badge-primary'
-                  : systemHealth.overall === 'degraded'
-                    ? 'ff-badge-warning'
-                    : 'ff-badge-error'
+                systemHealth.overall === 'healthy' ? 'ff-badge-primary' :
+                systemHealth.overall === 'degraded' ? 'ff-badge-warning' :
+                'ff-badge-error'
               }
             >
               {systemHealth.overall.toUpperCase()}
@@ -455,36 +437,30 @@ export function EnhancedErrorRecoverySystem() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {Object.entries(systemHealth.components).map(([component, status]) => (
               <div key={component} className="text-center space-y-2">
-                <div
-                  className={`w-12 h-12 rounded-full mx-auto flex items-center justify-center ${
-                    status === 'healthy'
-                      ? 'bg-green-500/20'
-                      : status === 'degraded'
-                        ? 'bg-yellow-500/20'
-                        : 'bg-red-500/20'
-                  }`}
-                >
-                  <div
-                    className={`w-6 h-6 rounded-full ${
-                      status === 'healthy'
-                        ? 'bg-green-500'
-                        : status === 'degraded'
-                          ? 'bg-yellow-500'
-                          : 'bg-red-500'
-                    }`}
-                  />
+                <div className={`w-12 h-12 rounded-full mx-auto flex items-center justify-center ${
+                  status === 'healthy' ? 'bg-green-500/20' :
+                  status === 'degraded' ? 'bg-yellow-500/20' :
+                  'bg-red-500/20'
+                }`}>
+                  <div className={`w-6 h-6 rounded-full ${
+                    status === 'healthy' ? 'bg-green-500' :
+                    status === 'degraded' ? 'bg-yellow-500' :
+                    'bg-red-500'
+                  }`} />
                 </div>
                 <div className="ff-text-sm font-medium capitalize">{component}</div>
-                <div className={`ff-text-xs ${getHealthColor(status)}`}>{status}</div>
+                <div className={`ff-text-xs ${getHealthColor(status)}`}>
+                  {status}
+                </div>
               </div>
             ))}
           </div>
-
+          
           <div className="mt-6 flex items-center justify-between">
             <div className="ff-text-caption">
               Last checked: {new Date(systemHealth.lastCheck).toLocaleTimeString()}
             </div>
-            <Button
+            <Button 
               onClick={checkSystemHealth}
               variant="outline"
               size="sm"
@@ -514,82 +490,75 @@ export function EnhancedErrorRecoverySystem() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {errors
-                .slice()
-                .reverse()
-                .map((error) => (
-                  <div key={error.id} className="p-4 border border-border rounded-lg space-y-3">
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-2 flex-1">
-                        <div className="flex items-center gap-2">
-                          <Badge
-                            variant={error.severity === 'critical' ? 'destructive' : 'secondary'}
-                            className={
-                              error.severity === 'critical'
-                                ? 'ff-badge-error'
-                                : error.severity === 'high'
-                                  ? 'ff-badge-warning'
-                                  : 'ff-badge-secondary'
-                            }
+              {errors.slice().reverse().map((error) => (
+                <div key={error.id} className="p-4 border border-border rounded-lg space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-2 flex-1">
+                      <div className="flex items-center gap-2">
+                        <Badge 
+                          variant={error.severity === 'critical' ? 'destructive' : 'secondary'}
+                          className={
+                            error.severity === 'critical' ? 'ff-badge-error' :
+                            error.severity === 'high' ? 'ff-badge-warning' :
+                            'ff-badge-secondary'
+                          }
+                        >
+                          {error.type.toUpperCase()}
+                        </Badge>
+                        <Badge variant="outline" className="ff-badge-secondary">
+                          {error.severity}
+                        </Badge>
+                        {error.recovery?.attempted && (
+                          <Badge 
+                            variant={error.recovery.successful ? 'default' : 'destructive'}
+                            className={error.recovery.successful ? 'ff-badge-primary' : 'ff-badge-error'}
                           >
-                            {error.type.toUpperCase()}
+                            {error.recovery.successful ? 'Recovered' : 'Recovery Failed'}
                           </Badge>
-                          <Badge variant="outline" className="ff-badge-secondary">
-                            {error.severity}
-                          </Badge>
-                          {error.recovery?.attempted && (
-                            <Badge
-                              variant={error.recovery.successful ? 'default' : 'destructive'}
-                              className={
-                                error.recovery.successful ? 'ff-badge-primary' : 'ff-badge-error'
-                              }
-                            >
-                              {error.recovery.successful ? 'Recovered' : 'Recovery Failed'}
-                            </Badge>
-                          )}
-                        </div>
-                        <h4 className="ff-text-lg font-semibold">{error.message}</h4>
-                        <div className="ff-text-caption">
-                          {new Date(error.timestamp).toLocaleString()}
-                          {error.component && ` • ${error.component}`}
-                        </div>
+                        )}
                       </div>
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          onClick={() => attemptRecovery(error)}
-                          disabled={isRecovering}
-                          className="ff-btn-primary"
-                        >
-                          {isRecovering ? 'Recovering...' : 'Recover'}
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => clearError(error.id)}
-                          className="ff-btn-outline"
-                        >
-                          Dismiss
-                        </Button>
+                      <h4 className="ff-text-lg font-semibold">{error.message}</h4>
+                      <div className="ff-text-caption">
+                        {new Date(error.timestamp).toLocaleString()}
+                        {error.component && ` • ${error.component}`}
                       </div>
                     </div>
-
-                    {selectedError === error.id && error.stack && (
-                      <div className="mt-3 p-3 bg-muted rounded text-xs font-mono max-h-40 overflow-y-auto">
-                        {error.stack}
-                      </div>
-                    )}
-
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setSelectedError(selectedError === error.id ? null : error.id)}
-                      className="ff-text-caption"
-                    >
-                      {selectedError === error.id ? 'Hide Details' : 'Show Details'}
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        onClick={() => attemptRecovery(error)}
+                        disabled={isRecovering}
+                        className="ff-btn-primary"
+                      >
+                        {isRecovering ? 'Recovering...' : 'Recover'}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => clearError(error.id)}
+                        className="ff-btn-outline"
+                      >
+                        Dismiss
+                      </Button>
+                    </div>
                   </div>
-                ))}
+                  
+                  {selectedError === error.id && error.stack && (
+                    <div className="mt-3 p-3 bg-muted rounded text-xs font-mono max-h-40 overflow-y-auto">
+                      {error.stack}
+                    </div>
+                  )}
+                  
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSelectedError(selectedError === error.id ? null : error.id)}
+                    className="ff-text-caption"
+                  >
+                    {selectedError === error.id ? 'Hide Details' : 'Show Details'}
+                  </Button>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
@@ -605,9 +574,7 @@ export function EnhancedErrorRecoverySystem() {
             {recoveryActions.map((action) => (
               <div key={action.id} className="p-4 border border-border rounded-lg space-y-3">
                 <div className="flex items-center gap-3">
-                  <div
-                    className={`w-10 h-10 bg-gradient-to-br ${getSeverityColor(action.severity)} rounded-lg flex items-center justify-center text-white text-lg`}
-                  >
+                  <div className={`w-10 h-10 bg-gradient-to-br ${getSeverityColor(action.severity)} rounded-lg flex items-center justify-center text-white text-lg`}>
                     {action.icon}
                   </div>
                   <div className="flex-1">
@@ -620,9 +587,7 @@ export function EnhancedErrorRecoverySystem() {
                   disabled={isRecovering}
                   variant={action.severity === 'high' ? 'destructive' : 'outline'}
                   size="sm"
-                  className={
-                    action.severity === 'high' ? 'ff-btn-accent w-full' : 'ff-btn-outline w-full'
-                  }
+                  className={action.severity === 'high' ? 'ff-btn-accent w-full' : 'ff-btn-outline w-full'}
                 >
                   Execute
                 </Button>
@@ -637,9 +602,7 @@ export function EnhancedErrorRecoverySystem() {
         <div className="flex items-center justify-between">
           <div>
             <h4 className="ff-text-lg font-semibold">Emergency Recovery</h4>
-            <p className="ff-text-body">
-              If the system is unresponsive, use these emergency actions.
-            </p>
+            <p className="ff-text-body">If the system is unresponsive, use these emergency actions.</p>
           </div>
           <div className="flex gap-2">
             <Button

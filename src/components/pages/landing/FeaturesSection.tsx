@@ -4,21 +4,21 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { Badge } from '../../ui/badge';
 import { Button } from '../../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../ui/tabs';
-import {
-  Brain,
-  Code,
+import { 
+  Brain, 
+  Code, 
   ShoppingCart,
   FileText,
-  Palette,
+  Palette, 
   Smartphone,
-  Rocket,
+  Rocket, 
   BarChart3,
   Check,
   Zap,
   Star,
   Award,
   Target,
-  TrendingUp,
+  TrendingUp
 } from 'lucide-react';
 
 export function FeaturesSection() {
@@ -31,7 +31,7 @@ export function FeaturesSection() {
       icon: Code,
       color: 'text-primary',
       description: 'Full-stack development suite',
-      highlight: '15+ Frameworks',
+      highlight: '15+ Frameworks'
     },
     {
       id: 'ecommerce',
@@ -39,7 +39,7 @@ export function FeaturesSection() {
       icon: ShoppingCart,
       color: 'text-secondary',
       description: 'Complete commerce solution',
-      highlight: 'Multi-Platform',
+      highlight: 'Multi-Platform'
     },
     {
       id: 'content',
@@ -47,7 +47,7 @@ export function FeaturesSection() {
       icon: FileText,
       color: 'text-accent',
       description: 'AI content creation',
-      highlight: 'Brand Kit',
+      highlight: 'Brand Kit'
     },
     {
       id: 'design',
@@ -55,7 +55,7 @@ export function FeaturesSection() {
       icon: Palette,
       color: 'text-primary',
       description: 'Design systems & UI',
-      highlight: 'Figma Sync',
+      highlight: 'Figma Sync'
     },
     {
       id: 'mobile',
@@ -63,7 +63,7 @@ export function FeaturesSection() {
       icon: Smartphone,
       color: 'text-secondary',
       description: 'Native & PWA apps',
-      highlight: 'Cross-Platform',
+      highlight: 'Cross-Platform'
     },
     {
       id: 'deployment',
@@ -71,7 +71,7 @@ export function FeaturesSection() {
       icon: Rocket,
       color: 'text-accent',
       description: 'Automated deployment',
-      highlight: '8+ Platforms',
+      highlight: '8+ Platforms'
     },
     {
       id: 'ai',
@@ -79,7 +79,7 @@ export function FeaturesSection() {
       icon: Brain,
       color: 'text-primary',
       description: 'Advanced AI capabilities',
-      highlight: 'Multi-Agent',
+      highlight: 'Multi-Agent'
     },
     {
       id: 'analytics',
@@ -87,8 +87,8 @@ export function FeaturesSection() {
       icon: BarChart3,
       color: 'text-secondary',
       description: 'Business intelligence',
-      highlight: 'Real-time',
-    },
+      highlight: 'Real-time'
+    }
   ];
 
   const moduleFeatures = {
@@ -96,224 +96,169 @@ export function FeaturesSection() {
       {
         title: 'AI Code Generation',
         description: 'Generate production-ready code across 15+ frameworks with natural language',
-        capabilities: [
-          'React/Next.js',
-          'Vue/Nuxt',
-          'Angular',
-          'Svelte',
-          'Node.js APIs',
-          'Python/Django',
-        ],
-        icon: Brain,
+        capabilities: ['React/Next.js', 'Vue/Nuxt', 'Angular', 'Svelte', 'Node.js APIs', 'Python/Django'],
+        icon: Brain
       },
       {
         title: 'Repository Integration',
         description: 'Connect GitHub, GitLab, and Bitbucket for context-aware code generation',
-        capabilities: [
-          'Live Analysis',
-          'Architecture Recommendations',
-          'Code Reviews',
-          'Performance Audits',
-        ],
-        icon: Code,
+        capabilities: ['Live Analysis', 'Architecture Recommendations', 'Code Reviews', 'Performance Audits'],
+        icon: Code
       },
       {
         title: 'Full-Stack Builder',
         description: 'Complete application scaffolding with database, auth, and deployment setup',
         capabilities: ['Database Schema', 'Authentication', 'API Routes', 'Testing Suite'],
-        icon: Zap,
-      },
+        icon: Zap
+      }
     ],
     ecommerce: [
       {
         title: 'Store Builder AI',
         description: 'Generate complete e-commerce stores with modern designs and functionality',
-        capabilities: [
-          'Shopify Integration',
-          'WooCommerce',
-          'Payment Processing',
-          'Inventory Management',
-        ],
-        icon: ShoppingCart,
+        capabilities: ['Shopify Integration', 'WooCommerce', 'Payment Processing', 'Inventory Management'],
+        icon: ShoppingCart
       },
       {
         title: 'Print-on-Demand Hub',
-        description:
-          'Complete POD business automation with design tools and marketplace integration',
-        capabilities: [
-          'Design Suite',
-          'Printful Integration',
-          'Automated Listings',
-          'Order Fulfillment',
-        ],
-        icon: Palette,
+        description: 'Complete POD business automation with design tools and marketplace integration',
+        capabilities: ['Design Suite', 'Printful Integration', 'Automated Listings', 'Order Fulfillment'],
+        icon: Palette
       },
       {
         title: 'Marketplace Connect',
         description: 'Multi-platform selling with automated listing management',
         capabilities: ['Amazon Seller', 'eBay Integration', 'Etsy Connect', 'Facebook Marketplace'],
-        icon: Target,
-      },
+        icon: Target
+      }
     ],
     content: [
       {
         title: 'AI Content Generator',
         description: 'Generate high-quality content across multiple formats and platforms',
         capabilities: ['Blog Posts', 'Social Media', 'Email Campaigns', 'Video Scripts'],
-        icon: FileText,
+        icon: FileText
       },
       {
         title: 'Brand Kit Generator',
         description: 'Complete brand identity creation with consistent assets and guidelines',
         capabilities: ['Logo Design', 'Color Palettes', 'Typography Systems', 'Brand Guidelines'],
-        icon: Palette,
+        icon: Palette
       },
       {
         title: 'Multi-Platform Publishing',
         description: 'One-click publishing to all major content platforms',
         capabilities: ['WordPress', 'Medium', 'LinkedIn Articles', 'Twitter Threads'],
-        icon: Rocket,
-      },
+        icon: Rocket
+      }
     ],
     design: [
       {
         title: 'AI Design Generator',
         description: 'Generate stunning designs for web, mobile, and print applications',
         capabilities: ['Web UI/UX', 'Mobile Designs', 'Print Materials', 'Social Graphics'],
-        icon: Palette,
+        icon: Palette
       },
       {
         title: 'Figma Integration',
         description: 'Seamless workflow between design and development with real-time sync',
         capabilities: ['Import Designs', 'Convert to Code', 'Component Library', 'Asset Export'],
-        icon: Code,
+        icon: Code
       },
       {
         title: 'Design System Builder',
         description: 'Create and maintain consistent design systems across projects',
         capabilities: ['Component Libraries', 'Design Tokens', 'Style Guides', 'Documentation'],
-        icon: Award,
-      },
+        icon: Award
+      }
     ],
     mobile: [
       {
         title: 'Native App Generation',
         description: 'Generate native iOS and Android applications with platform optimization',
         capabilities: ['React Native', 'Flutter', 'Swift/SwiftUI', 'Kotlin/Compose'],
-        icon: Smartphone,
+        icon: Smartphone
       },
       {
         title: 'Progressive Web Apps',
         description: 'Create fast, reliable PWAs with native-like experiences',
         capabilities: ['Service Workers', 'Offline Support', 'Push Notifications', 'App Install'],
-        icon: Zap,
+        icon: Zap
       },
       {
         title: 'App Store Optimization',
         description: 'Maximize app visibility and downloads with ASO tools',
-        capabilities: [
-          'ASO Strategy',
-          'Keyword Optimization',
-          'Screenshot Generation',
-          'Review Management',
-        ],
-        icon: TrendingUp,
-      },
+        capabilities: ['ASO Strategy', 'Keyword Optimization', 'Screenshot Generation', 'Review Management'],
+        icon: TrendingUp
+      }
     ],
     deployment: [
       {
         title: 'Multi-Platform Deploy',
         description: 'Deploy to 8+ platforms with automated workflows and monitoring',
-        capabilities: [
-          'Vercel',
-          'Netlify',
-          'AWS Amplify',
-          'Heroku',
-          'DigitalOcean',
-          'Google Cloud',
-        ],
-        icon: Rocket,
+        capabilities: ['Vercel', 'Netlify', 'AWS Amplify', 'Heroku', 'DigitalOcean', 'Google Cloud'],
+        icon: Rocket
       },
       {
         title: 'CI/CD Pipeline Builder',
         description: 'Automated testing, building, and deployment with quality gates',
         capabilities: ['GitHub Actions', 'GitLab CI/CD', 'Automated Testing', 'Quality Gates'],
-        icon: Target,
+        icon: Target
       },
       {
         title: 'Infrastructure as Code',
         description: 'Automated infrastructure provisioning and management',
         capabilities: ['Docker', 'Kubernetes', 'Terraform', 'Environment Management'],
-        icon: Code,
-      },
+        icon: Code
+      }
     ],
     ai: [
       {
         title: 'Multi-Agent Orchestration',
         description: 'Coordinate multiple AI agents for complex workflows and automation',
-        capabilities: [
-          'Agent Collaboration',
-          'Workflow Automation',
-          'Task Distribution',
-          'Performance Optimization',
-        ],
-        icon: Brain,
+        capabilities: ['Agent Collaboration', 'Workflow Automation', 'Task Distribution', 'Performance Optimization'],
+        icon: Brain
       },
       {
         title: 'AI Model Integration',
         description: 'Access to 8+ leading AI providers and models for diverse capabilities',
         capabilities: ['OpenAI GPT', 'Anthropic Claude', 'Google Gemini', 'GitHub Copilot'],
-        icon: Zap,
+        icon: Zap
       },
       {
         title: 'Custom AI Training',
         description: 'Train and deploy custom AI models for specific use cases',
-        capabilities: [
-          'Model Training',
-          'Fine-tuning',
-          'Custom Datasets',
-          'Performance Monitoring',
-        ],
-        icon: Award,
-      },
+        capabilities: ['Model Training', 'Fine-tuning', 'Custom Datasets', 'Performance Monitoring'],
+        icon: Award
+      }
     ],
     analytics: [
       {
         title: 'Business Intelligence Suite',
         description: 'Advanced analytics and reporting across all business metrics',
-        capabilities: [
-          'Custom Dashboards',
-          'Real-time Analytics',
-          'Predictive Insights',
-          'Revenue Tracking',
-        ],
-        icon: BarChart3,
+        capabilities: ['Custom Dashboards', 'Real-time Analytics', 'Predictive Insights', 'Revenue Tracking'],
+        icon: BarChart3
       },
       {
         title: 'User Behavior Analytics',
         description: 'Deep insights into user interactions and engagement patterns',
-        capabilities: [
-          'User Journey Mapping',
-          'Conversion Tracking',
-          'A/B Testing',
-          'Heatmap Analysis',
-        ],
-        icon: Target,
+        capabilities: ['User Journey Mapping', 'Conversion Tracking', 'A/B Testing', 'Heatmap Analysis'],
+        icon: Target
       },
       {
         title: 'Performance Monitoring',
         description: 'Monitor and optimize technical performance across all platforms',
         capabilities: ['Site Speed', 'Core Web Vitals', 'Error Monitoring', 'Uptime Tracking'],
-        icon: TrendingUp,
-      },
-    ],
+        icon: TrendingUp
+      }
+    ]
   };
 
   const stats = [
     { value: '60+', label: 'AI Tools', icon: Brain },
     { value: '15+', label: 'Frameworks', icon: Code },
     { value: '8+', label: 'Deploy Platforms', icon: Rocket },
-    { value: '100%', label: 'Production Ready', icon: Star },
+    { value: '100%', label: 'Production Ready', icon: Star }
   ];
 
   return (
@@ -330,8 +275,7 @@ export function FeaturesSection() {
             Complete Development Platform
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Everything you need to build, deploy, and scale modern applications with AI-powered
-            tools and automation.
+            Everything you need to build, deploy, and scale modern applications with AI-powered tools and automation.
           </p>
         </motion.div>
 
@@ -426,7 +370,9 @@ export function FeaturesSection() {
                             {feature.capabilities.length} Features
                           </Badge>
                         </div>
-                        <CardTitle className="text-lg leading-tight">{feature.title}</CardTitle>
+                        <CardTitle className="text-lg leading-tight">
+                          {feature.title}
+                        </CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <p className="text-muted-foreground leading-relaxed">
@@ -466,8 +412,7 @@ export function FeaturesSection() {
                   Ready to Transform Your Workflow?
                 </h3>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                  Join thousands of developers, creators, and businesses using FlashFusion to build
-                  the future.
+                  Join thousands of developers, creators, and businesses using FlashFusion to build the future.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
                   <Button size="lg" className="ff-btn-primary ff-hover-glow px-8">

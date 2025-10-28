@@ -7,12 +7,12 @@ import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Progress } from '../ui/progress';
-import {
-  FileText,
-  Mic,
-  Upload,
-  Play,
-  Pause,
+import { 
+  FileText, 
+  Mic, 
+  Upload, 
+  Play, 
+  Pause, 
   Square,
   Check,
   X,
@@ -29,7 +29,7 @@ import {
   ArrowRight,
   Zap,
   Clock,
-  RefreshCw,
+  RefreshCw
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import type { ValidationIdea } from '../../types/core';
@@ -47,7 +47,7 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
   const [processingStep, setProcessingStep] = useState(0);
   const [recordingTime, setRecordingTime] = useState(0);
   const [voiceTranscript, setVoiceTranscript] = useState('');
-
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
   const recordingIntervalRef = useRef<NodeJS.Timeout>();
 
@@ -60,28 +60,35 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
     problemStatement: '',
     proposedSolution: '',
     rawInput: '',
-    additionalContext: '',
+    additionalContext: ''
   });
 
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
-  const categories = ['saas', 'ecommerce', 'content', 'service', 'marketplace', 'other'];
+  const categories = [
+    'saas',
+    'ecommerce', 
+    'content',
+    'service',
+    'marketplace',
+    'other'
+  ];
 
   const processingSteps = [
     'Analyzing input content...',
     'Extracting key insights...',
     'Identifying problem statement...',
     'Determining target audience...',
-    'Preparing validation pipeline...',
+    'Preparing validation pipeline...'
   ];
 
   // Voice recording handlers
   const startRecording = useCallback(() => {
     setIsRecording(true);
     setRecordingTime(0);
-
+    
     recordingIntervalRef.current = setInterval(() => {
-      setRecordingTime((prev) => prev + 1);
+      setRecordingTime(prev => prev + 1);
     }, 1000);
 
     // Simulate voice recording
@@ -97,12 +104,10 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
     if (recordingIntervalRef.current) {
       clearInterval(recordingIntervalRef.current);
     }
-
+    
     // Simulate transcription
     setTimeout(() => {
-      setVoiceTranscript(
-        "I have an idea for a SaaS platform that helps small businesses manage their social media presence more effectively. The problem is that many small business owners don't have time to create consistent, engaging content across multiple platforms, and they can't afford to hire social media managers. My solution would be an AI-powered tool that generates personalized content based on their business type, analyzes their audience engagement, and automatically schedules posts across platforms. The target audience would be small to medium business owners who want to improve their online presence but lack the time or expertise."
-      );
+      setVoiceTranscript("I have an idea for a SaaS platform that helps small businesses manage their social media presence more effectively. The problem is that many small business owners don't have time to create consistent, engaging content across multiple platforms, and they can't afford to hire social media managers. My solution would be an AI-powered tool that generates personalized content based on their business type, analyzes their audience engagement, and automatically schedules posts across platforms. The target audience would be small to medium business owners who want to improve their online presence but lack the time or expertise.");
     }, 2000);
   }, []);
 
@@ -120,13 +125,13 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
     if (!file) return;
 
     setIsUploading(true);
-
+    
     // Simulate file upload and processing
     setTimeout(() => {
       setIsUploading(false);
-      setFormData((prev) => ({
+      setFormData(prev => ({
         ...prev,
-        rawInput: `Document processed: "${file.name}"\n\nExtracted content: Business concept for an AI-powered fitness coaching app that provides personalized workout plans and nutrition guidance. The app would use machine learning to adapt to user progress and preferences, offering real-time form correction through computer vision, and integration with wearable devices for comprehensive health tracking.`,
+        rawInput: `Document processed: "${file.name}"\n\nExtracted content: Business concept for an AI-powered fitness coaching app that provides personalized workout plans and nutrition guidance. The app would use machine learning to adapt to user progress and preferences, offering real-time form correction through computer vision, and integration with wearable devices for comprehensive health tracking.`
       }));
     }, 3000);
   }, []);
@@ -134,23 +139,23 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
   // Form validation
   const validateForm = useCallback(() => {
     const errors: Record<string, string> = {};
-
+    
     if (!formData.title.trim()) {
       errors.title = 'Title is required';
     }
-
+    
     if (!formData.description.trim()) {
       errors.description = 'Description is required';
     }
-
+    
     if (!formData.category) {
       errors.category = 'Category is required';
     }
-
+    
     if (!formData.targetAudience.trim()) {
       errors.targetAudience = 'Target audience is required';
     }
-
+    
     if (!formData.problemStatement.trim()) {
       errors.problemStatement = 'Problem statement is required';
     }
@@ -163,34 +168,31 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
   const generateSuggestions = useCallback((field: string) => {
     setIsProcessing(true);
     setProcessingStep(0);
-
+    
     const interval = setInterval(() => {
-      setProcessingStep((prev) => {
+      setProcessingStep(prev => {
         if (prev >= processingSteps.length - 1) {
           clearInterval(interval);
           setIsProcessing(false);
-
+          
           // Generate suggestions based on field
           switch (field) {
             case 'problemStatement':
-              setFormData((prev) => ({
+              setFormData(prev => ({
                 ...prev,
-                problemStatement:
-                  'Small business owners struggle to maintain consistent social media presence due to time constraints and lack of content creation expertise, resulting in poor online engagement and missed customer acquisition opportunities.',
+                problemStatement: 'Small business owners struggle to maintain consistent social media presence due to time constraints and lack of content creation expertise, resulting in poor online engagement and missed customer acquisition opportunities.'
               }));
               break;
             case 'targetAudience':
-              setFormData((prev) => ({
+              setFormData(prev => ({
                 ...prev,
-                targetAudience:
-                  'Small to medium business owners (1-50 employees) who want to improve their social media presence but lack dedicated marketing resources or expertise.',
+                targetAudience: 'Small to medium business owners (1-50 employees) who want to improve their social media presence but lack dedicated marketing resources or expertise.'
               }));
               break;
             case 'proposedSolution':
-              setFormData((prev) => ({
+              setFormData(prev => ({
                 ...prev,
-                proposedSolution:
-                  'An AI-powered SaaS platform that generates personalized social media content, provides engagement analytics, and automates posting schedules across multiple platforms, specifically designed for small businesses.',
+                proposedSolution: 'An AI-powered SaaS platform that generates personalized social media content, provides engagement analytics, and automates posting schedules across multiple platforms, specifically designed for small businesses.'
               }));
               break;
           }
@@ -219,7 +221,7 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
       voiceTranscript: activeTab === 'voice' ? voiceTranscript : undefined,
       status: 'submitted',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
 
     onIdeaSubmit?.(ideaData);
@@ -234,7 +236,7 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       {/* Header */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
@@ -244,8 +246,7 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
           <h1 className="ff-text-gradient">Submit Your Idea</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Share your business idea through text, voice, or document upload. Our AI will analyze and
-          prepare it for comprehensive validation.
+          Share your business idea through text, voice, or document upload. Our AI will analyze and prepare it for comprehensive validation.
         </p>
       </motion.div>
 
@@ -255,11 +256,7 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <Tabs
-          value={activeTab}
-          onValueChange={(value: any) => setActiveTab(value)}
-          className="w-full"
-        >
+        <Tabs value={activeTab} onValueChange={(value: any) => setActiveTab(value)} className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="text" className="flex items-center space-x-2">
               <FileText className="w-4 h-4" />
@@ -294,7 +291,7 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
                     <Input
                       placeholder="e.g., AI-Powered Social Media Manager for SMBs"
                       value={formData.title}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
+                      onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                       className={validationErrors.title ? 'border-red-500' : ''}
                     />
                     {validationErrors.title && (
@@ -304,17 +301,14 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Category *</label>
-                    <Select
-                      value={formData.category}
-                      onValueChange={(value) =>
-                        setFormData((prev) => ({ ...prev, category: value }))
-                      }
-                    >
+                    <Select value={formData.category} onValueChange={(value) => 
+                      setFormData(prev => ({ ...prev, category: value }))
+                    }>
                       <SelectTrigger className={validationErrors.category ? 'border-red-500' : ''}>
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent>
-                        {categories.map((category) => (
+                        {categories.map(category => (
                           <SelectItem key={category} value={category}>
                             {category.charAt(0).toUpperCase() + category.slice(1)}
                           </SelectItem>
@@ -332,9 +326,7 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
                   <Textarea
                     placeholder="Provide a comprehensive description of your business idea, including what it does and how it works..."
                     value={formData.description}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, description: e.target.value }))
-                    }
+                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                     rows={4}
                     className={validationErrors.description ? 'border-red-500' : ''}
                   />
@@ -346,9 +338,9 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium">Target Audience *</label>
-                    <Button
-                      size="sm"
-                      variant="outline"
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
                       onClick={() => generateSuggestions('targetAudience')}
                       disabled={isProcessing}
                     >
@@ -363,9 +355,7 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
                   <Textarea
                     placeholder="Describe who would use your product or service..."
                     value={formData.targetAudience}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, targetAudience: e.target.value }))
-                    }
+                    onChange={(e) => setFormData(prev => ({ ...prev, targetAudience: e.target.value }))}
                     rows={2}
                     className={validationErrors.targetAudience ? 'border-red-500' : ''}
                   />
@@ -377,9 +367,9 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium">Problem Statement *</label>
-                    <Button
-                      size="sm"
-                      variant="outline"
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
                       onClick={() => generateSuggestions('problemStatement')}
                       disabled={isProcessing}
                     >
@@ -394,9 +384,7 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
                   <Textarea
                     placeholder="What specific problem does your idea solve?"
                     value={formData.problemStatement}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, problemStatement: e.target.value }))
-                    }
+                    onChange={(e) => setFormData(prev => ({ ...prev, problemStatement: e.target.value }))}
                     rows={3}
                     className={validationErrors.problemStatement ? 'border-red-500' : ''}
                   />
@@ -408,9 +396,9 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium">Proposed Solution</label>
-                    <Button
-                      size="sm"
-                      variant="outline"
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
                       onClick={() => generateSuggestions('proposedSolution')}
                       disabled={isProcessing}
                     >
@@ -425,9 +413,7 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
                   <Textarea
                     placeholder="How does your idea solve the problem?"
                     value={formData.proposedSolution}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, proposedSolution: e.target.value }))
-                    }
+                    onChange={(e) => setFormData(prev => ({ ...prev, proposedSolution: e.target.value }))}
                     rows={3}
                   />
                 </div>
@@ -437,9 +423,7 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
                   <Textarea
                     placeholder="Any additional information, market research, or context you'd like to share..."
                     value={formData.additionalContext}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, additionalContext: e.target.value }))
-                    }
+                    onChange={(e) => setFormData(prev => ({ ...prev, additionalContext: e.target.value }))}
                     rows={2}
                   />
                 </div>
@@ -462,16 +446,10 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
               <CardContent className="space-y-6">
                 <div className="flex flex-col items-center space-y-6">
                   <div className="relative">
-                    <div
-                      className={`w-32 h-32 rounded-full border-4 flex items-center justify-center ${
-                        isRecording
-                          ? 'border-red-500 bg-red-500/10'
-                          : 'border-secondary bg-secondary/10'
-                      }`}
-                    >
-                      <Mic
-                        className={`w-12 h-12 ${isRecording ? 'text-red-500' : 'text-secondary'}`}
-                      />
+                    <div className={`w-32 h-32 rounded-full border-4 flex items-center justify-center ${
+                      isRecording ? 'border-red-500 bg-red-500/10' : 'border-secondary bg-secondary/10'
+                    }`}>
+                      <Mic className={`w-12 h-12 ${isRecording ? 'text-red-500' : 'text-secondary'}`} />
                       {isRecording && (
                         <div className="absolute inset-0 rounded-full border-4 border-red-500 animate-ping" />
                       )}
@@ -479,7 +457,9 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
                   </div>
 
                   <div className="text-center space-y-2">
-                    <div className="text-2xl font-mono">{formatTime(recordingTime)}</div>
+                    <div className="text-2xl font-mono">
+                      {formatTime(recordingTime)}
+                    </div>
                     <div className="text-sm text-muted-foreground">
                       {isRecording ? 'Recording in progress...' : 'Ready to record'}
                     </div>
@@ -546,7 +526,7 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div
+                <div 
                   className="border-2 border-dashed border-border rounded-lg p-8 text-center space-y-4 hover:border-primary/50 transition-colors cursor-pointer"
                   onClick={() => fileInputRef.current?.click()}
                 >
@@ -626,20 +606,15 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
                         ) : (
                           <Clock className="w-4 h-4 text-muted-foreground" />
                         )}
-                        <span
-                          className={`text-sm ${
-                            index <= processingStep ? 'text-foreground' : 'text-muted-foreground'
-                          }`}
-                        >
+                        <span className={`text-sm ${
+                          index <= processingStep ? 'text-foreground' : 'text-muted-foreground'
+                        }`}>
                           {step}
                         </span>
                       </div>
                     ))}
                   </div>
-                  <Progress
-                    value={(processingStep / (processingSteps.length - 1)) * 100}
-                    className="h-2"
-                  />
+                  <Progress value={(processingStep / (processingSteps.length - 1)) * 100} className="h-2" />
                 </div>
               </CardContent>
             </Card>
@@ -658,13 +633,13 @@ export function IdeaInputInterface({ onIdeaSubmit, onBack }: IdeaInputInterfaceP
           <X className="w-4 h-4 mr-2" />
           Cancel
         </Button>
-
+        
         <div className="flex items-center space-x-4">
           <div className="text-sm text-muted-foreground">
             Validation cost: <span className="font-medium text-primary">5 credits</span>
           </div>
-          <Button
-            onClick={handleSubmit}
+          <Button 
+            onClick={handleSubmit} 
             className="ff-btn-primary"
             disabled={isProcessing || isRecording || isUploading}
           >

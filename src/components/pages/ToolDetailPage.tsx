@@ -13,19 +13,13 @@ interface ToolDetailPageProps {
   onToolUse: (toolId: string) => void;
 }
 
-export function ToolDetailPage({
-  toolId,
-  setCurrentPage,
-  userRole = 'free',
-  onToolUse,
-}: ToolDetailPageProps) {
+export function ToolDetailPage({ toolId, setCurrentPage, userRole = 'free', onToolUse }: ToolDetailPageProps) {
   // Mock tool data - in real app, fetch by toolId
   const tool = {
     id: toolId,
     name: 'React Component Generator',
     description: 'Generate React components with TypeScript and Tailwind CSS',
-    longDescription:
-      'This powerful AI tool helps you create production-ready React components with TypeScript support, Tailwind CSS styling, and best practices built-in. Perfect for rapid prototyping and maintaining consistent code quality across your projects.',
+    longDescription: 'This powerful AI tool helps you create production-ready React components with TypeScript support, Tailwind CSS styling, and best practices built-in. Perfect for rapid prototyping and maintaining consistent code quality across your projects.',
     category: 'code',
     icon: '⚛️',
     isPremium: false,
@@ -39,7 +33,7 @@ export function ToolDetailPage({
       'Responsive design patterns',
       'Accessibility best practices',
       'Component documentation generation',
-      'Props interface generation',
+      'Props interface generation'
     ],
     examples: [
       {
@@ -57,9 +51,9 @@ export function Button({ variant, size, children }: ButtonProps) {
       {children}
     </button>
   );
-}`,
-      },
-    ],
+}`
+      }
+    ]
   };
 
   const handleUseTool = () => {
@@ -75,7 +69,11 @@ export function Button({ variant, size, children }: ButtonProps) {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Back Button */}
-      <Button variant="ghost" onClick={() => setCurrentPage('tools')} className="mb-4">
+      <Button 
+        variant="ghost" 
+        onClick={() => setCurrentPage('tools')}
+        className="mb-4"
+      >
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back to Tools
       </Button>
@@ -89,10 +87,14 @@ export function Button({ variant, size, children }: ButtonProps) {
         <div className="text-6xl mb-4">{tool.icon}</div>
         <h1 className="text-3xl font-bold ff-text-gradient mb-2">
           {tool.name}
-          {tool.isPremium && <Crown className="w-6 h-6 text-yellow-500 inline ml-2" />}
+          {tool.isPremium && (
+            <Crown className="w-6 h-6 text-yellow-500 inline ml-2" />
+          )}
         </h1>
-        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{tool.longDescription}</p>
-
+        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          {tool.longDescription}
+        </p>
+        
         <div className="flex items-center justify-center gap-6 mt-6">
           <div className="flex items-center gap-1">
             <Star className="w-5 h-5 text-yellow-500 fill-current" />
@@ -115,10 +117,12 @@ export function Button({ variant, size, children }: ButtonProps) {
         transition={{ delay: 0.1 }}
         className="text-center"
       >
-        <Button
+        <Button 
           onClick={handleUseTool}
           className={`text-lg px-8 py-3 ${
-            tool.isPremium && userRole === 'free' ? 'ff-btn-accent' : 'ff-btn-primary'
+            tool.isPremium && userRole === 'free' 
+              ? 'ff-btn-accent' 
+              : 'ff-btn-primary'
           }`}
           disabled={tool.isPremium && userRole === 'free'}
         >
@@ -161,7 +165,9 @@ export function Button({ variant, size, children }: ButtonProps) {
                 <div key={index} className="space-y-4">
                   <div>
                     <h4 className="font-medium mb-2">{example.title}</h4>
-                    <p className="text-sm text-muted-foreground mb-4">{example.description}</p>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {example.description}
+                    </p>
                   </div>
                   <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-sm">
                     <code>{example.code}</code>

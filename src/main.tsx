@@ -7,24 +7,25 @@ import './styles/globals.css';
 try {
   // Get root element
   const rootElement = document.getElementById('root');
-
+  
   if (!rootElement) {
     throw new Error('Root element not found');
   }
-
+  
   // Create root and render app
   const root = createRoot(rootElement);
-
+  
   root.render(
     <StrictMode>
       <App />
     </StrictMode>
   );
-
+  
   console.log('FlashFusion initialized successfully');
+  
 } catch (error) {
   console.error('Failed to initialize FlashFusion:', error);
-
+  
   // Fallback error display
   const rootElement = document.getElementById('root');
   if (rootElement) {

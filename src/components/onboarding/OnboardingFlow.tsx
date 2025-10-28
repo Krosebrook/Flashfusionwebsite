@@ -5,20 +5,20 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../ui/dialog';
-import {
-  ArrowRight,
-  ArrowLeft,
-  CheckCircle,
-  Sparkles,
-  Rocket,
-  Zap,
+import { 
+  ArrowRight, 
+  ArrowLeft, 
+  CheckCircle, 
+  Sparkles, 
+  Rocket, 
+  Zap, 
   Target,
   Play,
   Star,
   Gift,
   Users,
   Settings,
-  X,
+  X
 } from 'lucide-react';
 import { PageType } from '../../types/core';
 
@@ -51,13 +51,13 @@ interface OnboardingFlowProps {
   setShowWizard: (show: boolean) => void;
 }
 
-export function OnboardingFlow({
-  isOpen,
-  onClose,
-  onComplete,
+export function OnboardingFlow({ 
+  isOpen, 
+  onClose, 
+  onComplete, 
   userLevel = 1,
   setCurrentPage,
-  setShowWizard,
+  setShowWizard 
 }: OnboardingFlowProps) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
@@ -77,8 +77,8 @@ export function OnboardingFlow({
           <div className="space-y-2">
             <h3 className="text-2xl font-bold ff-text-gradient">Welcome to FlashFusion!</h3>
             <p className="text-muted-foreground max-w-md mx-auto">
-              The most powerful AI development platform that helps you build applications 70% faster
-              with our comprehensive suite of tools and gamified learning experience.
+              The most powerful AI development platform that helps you build applications 
+              70% faster with our comprehensive suite of tools and gamified learning experience.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto text-center">
@@ -97,7 +97,7 @@ export function OnboardingFlow({
           </div>
         </div>
       ),
-      skippable: false,
+      skippable: false
     },
     {
       id: 'dashboard',
@@ -132,8 +132,8 @@ export function OnboardingFlow({
       ),
       action: {
         label: 'View Dashboard',
-        onClick: () => setCurrentPage('dashboard'),
-      },
+        onClick: () => setCurrentPage('dashboard')
+      }
     },
     {
       id: 'tools',
@@ -150,23 +150,21 @@ export function OnboardingFlow({
             </p>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            {['Code Generator', 'UI Designer', 'API Builder', 'Database Helper'].map(
-              (tool, index) => (
-                <Card key={tool} className="ff-card-interactive text-center p-3">
-                  <div className="w-8 h-8 mx-auto rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-2">
-                    <Zap className="w-4 h-4 text-white" />
-                  </div>
-                  <div className="text-sm font-medium">{tool}</div>
-                </Card>
-              )
-            )}
+            {['Code Generator', 'UI Designer', 'API Builder', 'Database Helper'].map((tool, index) => (
+              <Card key={tool} className="ff-card-interactive text-center p-3">
+                <div className="w-8 h-8 mx-auto rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-2">
+                  <Zap className="w-4 h-4 text-white" />
+                </div>
+                <div className="text-sm font-medium">{tool}</div>
+              </Card>
+            ))}
           </div>
         </div>
       ),
       action: {
         label: 'Explore Tools',
-        onClick: () => setCurrentPage('tools'),
-      },
+        onClick: () => setCurrentPage('tools')
+      }
     },
     {
       id: 'project',
@@ -212,8 +210,8 @@ export function OnboardingFlow({
         onClick: () => {
           setShowWizard(true);
           onClose();
-        },
-      },
+        }
+      }
     },
     {
       id: 'gamification',
@@ -253,7 +251,7 @@ export function OnboardingFlow({
             </div>
           </div>
         </div>
-      ),
+      )
     },
     {
       id: 'community',
@@ -287,17 +285,17 @@ export function OnboardingFlow({
           </div>
         </div>
       ),
-      skippable: true,
-    },
+      skippable: true
+    }
   ];
 
   const currentStep = onboardingSteps[currentStepIndex];
 
   const goToNextStep = () => {
     if (currentStep) {
-      setCompletedSteps((prev) => new Set([...prev, currentStep.id]));
+      setCompletedSteps(prev => new Set([...prev, currentStep.id]));
     }
-
+    
     if (currentStepIndex < onboardingSteps.length - 1) {
       setCurrentStepIndex(currentStepIndex + 1);
     } else {
@@ -344,17 +342,20 @@ export function OnboardingFlow({
                   <Badge variant="secondary">
                     {currentStepIndex + 1} of {onboardingSteps.length}
                   </Badge>
-                  <Button variant="ghost" size="sm" onClick={onClose}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onClose}
+                  >
                     <X className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
-
+              
               <DialogDescription className="sr-only">
-                {currentStep?.description ||
-                  `Step ${currentStepIndex + 1} of ${onboardingSteps.length} in the FlashFusion onboarding process`}
+                {currentStep?.description || `Step ${currentStepIndex + 1} of ${onboardingSteps.length} in the FlashFusion onboarding process`}
               </DialogDescription>
-
+              
               {/* Progress Bar */}
               <div className="space-y-2">
                 <Progress value={progress} className="h-2" />
@@ -382,7 +383,10 @@ export function OnboardingFlow({
             <div className="flex items-center justify-between pt-4 border-t">
               <div className="flex items-center gap-2">
                 {currentStepIndex > 0 && (
-                  <Button variant="outline" onClick={goToPreviousStep}>
+                  <Button
+                    variant="outline"
+                    onClick={goToPreviousStep}
+                  >
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Previous
                   </Button>
@@ -415,7 +419,10 @@ export function OnboardingFlow({
                 )}
 
                 {/* Next/Complete Button */}
-                <Button className="ff-btn-primary" onClick={goToNextStep}>
+                <Button
+                  className="ff-btn-primary"
+                  onClick={goToNextStep}
+                >
                   {currentStepIndex === onboardingSteps.length - 1 ? (
                     <>
                       Complete
@@ -446,7 +453,7 @@ export function useOnboarding() {
     // Check if user has completed onboarding (you'd store this in localStorage or user preferences)
     const completed = localStorage.getItem('ff_onboarding_completed');
     setHasCompletedOnboarding(!!completed);
-
+    
     // Show onboarding for new users
     if (!completed) {
       const timer = setTimeout(() => setIsOnboardingOpen(true), 1000);
@@ -475,6 +482,6 @@ export function useOnboarding() {
     startOnboarding,
     completeOnboarding,
     resetOnboarding,
-    closeOnboarding: () => setIsOnboardingOpen(false),
+    closeOnboarding: () => setIsOnboardingOpen(false)
   };
 }

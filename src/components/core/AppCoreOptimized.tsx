@@ -4,7 +4,7 @@
  * @category application
  * @version 6.0.0
  * @author FlashFusion Team
- *
+ * 
  * Comprehensive optimization with:
  * - URL-based routing with proper history management
  * - Enhanced performance with React.memo and useMemo
@@ -31,9 +31,7 @@ const createEnhancedFallback = (name: string, message: string, action?: () => vo
           <span className="text-3xl">⚡</span>
         </div>
         <h2 className="ff-text-title">{message}</h2>
-        <p className="ff-text-body">
-          This component is temporarily unavailable. Our team has been notified.
-        </p>
+        <p className="ff-text-body">This component is temporarily unavailable. Our team has been notified.</p>
         <div className="flex flex-col gap-3">
           <button
             onClick={action || (() => window.location.reload())}
@@ -65,7 +63,7 @@ const createLazyComponentWithPreload = (
   preloadTrigger?: string
 ) => {
   let componentPromise: Promise<any> | null = null;
-
+  
   const loadComponent = () => {
     if (!componentPromise) {
       componentPromise = importFn().catch((error) => {
@@ -81,31 +79,19 @@ const createLazyComponentWithPreload = (
 
   // Preload on trigger
   if (preloadTrigger) {
-    const observer = new IntersectionObserver(
-      () => {
-        loadComponent();
-      },
-      { threshold: 0.1 }
-    );
+    const observer = new IntersectionObserver(() => {
+      loadComponent();
+    }, { threshold: 0.1 });
   }
 
   return LazyComponent;
 };
 
 // Enhanced fallback components
-const InterfaceFallback = createEnhancedFallback(
-  'FlashFusionInterface',
-  'Interface Temporarily Unavailable'
-);
-const LandingFallback = createEnhancedFallback(
-  'FlashFusionLandingPage',
-  'Landing Page Temporarily Unavailable'
-);
+const InterfaceFallback = createEnhancedFallback('FlashFusionInterface', 'Interface Temporarily Unavailable');
+const LandingFallback = createEnhancedFallback('FlashFusionLandingPage', 'Landing Page Temporarily Unavailable');
 const DemoFallback = createEnhancedFallback('TryDemoInterface', 'Demo Temporarily Unavailable');
-const AuthFallback = createEnhancedFallback(
-  'AuthenticationSystem',
-  'Authentication Temporarily Unavailable'
-);
+const AuthFallback = createEnhancedFallback('AuthenticationSystem', 'Authentication Temporarily Unavailable');
 
 // Enhanced lazy components with preloading
 const FlashFusionInterface = createLazyComponentWithPreload(
@@ -130,15 +116,14 @@ const TryDemoInterface = createLazyComponentWithPreload(
 const useDeviceDetection = () => {
   return useMemo(() => {
     if (typeof window === 'undefined') return { isMobile: false, isTablet: false, isDesktop: true };
-
+    
     const userAgent = navigator.userAgent;
     const width = window.innerWidth;
-
-    const isMobile =
-      /Android|webOS|iPhone|iPod|BlackBerry|Opera Mini/i.test(userAgent) || width <= 768;
+    
+    const isMobile = /Android|webOS|iPhone|iPod|BlackBerry|Opera Mini/i.test(userAgent) || width <= 768;
     const isTablet = /iPad|Android/i.test(userAgent) && width > 768 && width <= 1024;
     const isDesktop = !isMobile && !isTablet;
-
+    
     return { isMobile, isTablet, isDesktop };
   }, []);
 };
@@ -146,11 +131,11 @@ const useDeviceDetection = () => {
 // Enhanced authentication component selection
 const AuthenticationSystem = React.lazy(() => {
   const { isMobile } = { isMobile: window.innerWidth <= 768 }; // Simplified check for lazy loading
-
-  const authImport = isMobile
+  
+  const authImport = isMobile 
     ? import('../auth/MobileAuthenticationSystem')
     : import('../auth/AuthenticationSystem');
-
+    
   return authImport.catch((error) => {
     console.warn('Failed to load auth system:', error);
     return import('../auth/AuthenticationSystem').catch(() => ({ default: AuthFallback }));
@@ -186,64 +171,54 @@ function useEnhancedRouting() {
         isDemoMode: false,
         isAuthRoute: false,
         shouldShowApp: false,
-        routeData: {},
+        routeData: {}
       };
     }
-
+    
     const url = new URL(window.location.href);
-    const isMobileDevice =
-      /Android|webOS|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent) ||
-      window.innerWidth <= 768;
-
+    const isMobileDevice = /Android|webOS|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    
     // For mobile devices, be more conservative about showing app vs landing page
-    const shouldShowApp = isMobileDevice
+    const shouldShowApp = isMobileDevice 
       ? url.searchParams.has('app') && url.searchParams.get('app') === 'true' // Explicit app parameter required for mobile
       : url.searchParams.has('app') || localStorage.getItem('ff-show-app') === 'true';
-
+    
     return {
       currentPath: url.pathname,
       searchParams: url.searchParams,
       isDemoMode: url.searchParams.has('demo') || url.pathname.includes('/demo'),
-      isAuthRoute:
-        url.pathname.includes('/auth/') ||
-        url.pathname.includes('/verify-') ||
-        url.pathname.includes('/reset-'),
+      isAuthRoute: url.pathname.includes('/auth/') || url.pathname.includes('/verify-') || url.pathname.includes('/reset-'),
       shouldShowApp,
-      routeData: {},
+      routeData: {}
     };
   });
 
   const updateRouteState = useCallback(() => {
     const url = new URL(window.location.href);
-    const isMobileDevice =
-      /Android|webOS|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent) ||
-      window.innerWidth <= 768;
-
+    const isMobileDevice = /Android|webOS|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    
     // For mobile devices, be more conservative about showing app vs landing page
-    const shouldShowApp = isMobileDevice
+    const shouldShowApp = isMobileDevice 
       ? url.searchParams.has('app') && url.searchParams.get('app') === 'true' // Explicit app parameter required for mobile
       : url.searchParams.has('app') || localStorage.getItem('ff-show-app') === 'true';
-
+    
     setRouteState({
       currentPath: url.pathname,
       searchParams: url.searchParams,
       isDemoMode: url.searchParams.has('demo') || url.pathname.includes('/demo'),
-      isAuthRoute:
-        url.pathname.includes('/auth/') ||
-        url.pathname.includes('/verify-') ||
-        url.pathname.includes('/reset-'),
+      isAuthRoute: url.pathname.includes('/auth/') || url.pathname.includes('/verify-') || url.pathname.includes('/reset-'),
       shouldShowApp,
-      routeData: {},
+      routeData: {}
     });
   }, []);
 
   useEffect(() => {
     const handleRouteChange = () => updateRouteState();
-
+    
     window.addEventListener('popstate', handleRouteChange);
     window.addEventListener('pushstate', handleRouteChange);
     window.addEventListener('replacestate', handleRouteChange);
-
+    
     return () => {
       window.removeEventListener('popstate', handleRouteChange);
       window.removeEventListener('pushstate', handleRouteChange);
@@ -251,14 +226,11 @@ function useEnhancedRouting() {
     };
   }, [updateRouteState]);
 
-  const navigateToRoute = useCallback(
-    (path: string, replace: boolean = false) => {
-      const method = replace ? 'replaceState' : 'pushState';
-      window.history[method]({}, '', path);
-      updateRouteState();
-    },
-    [updateRouteState]
-  );
+  const navigateToRoute = useCallback((path: string, replace: boolean = false) => {
+    const method = replace ? 'replaceState' : 'pushState';
+    window.history[method]({}, '', path);
+    updateRouteState();
+  }, [updateRouteState]);
 
   return { routeState, navigateToRoute, updateRouteState };
 }
@@ -269,7 +241,7 @@ function useEnhancedRouting() {
 function useEnhancedSystemInfo() {
   return useMemo(() => {
     if (typeof window === 'undefined') return {};
-
+    
     const nav = navigator as any;
     return {
       connection: nav.connection?.effectiveType || 'unknown',
@@ -280,7 +252,7 @@ function useEnhancedSystemInfo() {
       cookieEnabled: nav.cookieEnabled,
       onLine: nav.onLine,
       language: nav.language,
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
     };
   }, []);
 }
@@ -294,47 +266,44 @@ function useEnhancedAppInitialization() {
     isLoading: true,
     error: null,
     isInitialized: false,
-    retryCount: 0,
+    retryCount: 0
   });
 
-  const initializeSystem = useCallback(
-    async (isRetry: boolean = false) => {
-      try {
-        console.log(`🚀 FlashFusion initialization ${isRetry ? 'retry' : 'starting'}...`);
-
-        setAppState((prev) => ({
-          ...prev,
-          isLoading: true,
-          error: null,
-          retryCount: isRetry ? prev.retryCount + 1 : 0,
-        }));
-
-        const detectedMode = await initializeApp();
-
-        setAppState({
-          mode: detectedMode,
-          isLoading: false,
-          error: null,
-          isInitialized: true,
-          retryCount: isRetry ? appState.retryCount + 1 : 0,
-        });
-
-        console.log(`✅ FlashFusion initialized in ${detectedMode} mode`);
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Initialization failed';
-        console.error('❌ FlashFusion initialization failed:', error);
-
-        setAppState((prev) => ({
-          mode: prev.retryCount >= 2 ? 'emergency' : 'lite', // Emergency after 3 failures
-          isLoading: false,
-          error: errorMessage,
-          isInitialized: true,
-          retryCount: prev.retryCount + 1,
-        }));
-      }
-    },
-    [appState.retryCount]
-  );
+  const initializeSystem = useCallback(async (isRetry: boolean = false) => {
+    try {
+      console.log(`🚀 FlashFusion initialization ${isRetry ? 'retry' : 'starting'}...`);
+      
+      setAppState(prev => ({
+        ...prev,
+        isLoading: true,
+        error: null,
+        retryCount: isRetry ? prev.retryCount + 1 : 0
+      }));
+      
+      const detectedMode = await initializeApp();
+      
+      setAppState({
+        mode: detectedMode,
+        isLoading: false,
+        error: null,
+        isInitialized: true,
+        retryCount: isRetry ? appState.retryCount + 1 : 0
+      });
+      
+      console.log(`✅ FlashFusion initialized in ${detectedMode} mode`);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Initialization failed';
+      console.error('❌ FlashFusion initialization failed:', error);
+      
+      setAppState(prev => ({
+        mode: prev.retryCount >= 2 ? 'emergency' : 'lite', // Emergency after 3 failures
+        isLoading: false,
+        error: errorMessage,
+        isInitialized: true,
+        retryCount: prev.retryCount + 1
+      }));
+    }
+  }, [appState.retryCount]);
 
   useEffect(() => {
     initializeSystem();
@@ -360,7 +329,7 @@ function usePerformanceMonitoring() {
   const performanceRef = useRef({
     componentMounts: 0,
     lastRender: Date.now(),
-    renderCount: 0,
+    renderCount: 0
   });
 
   useEffect(() => {
@@ -373,7 +342,7 @@ function usePerformanceMonitoring() {
       console.log('🔄 Performance metrics:', {
         mounts: performanceRef.current.componentMounts,
         renders: performanceRef.current.renderCount,
-        lastRender: new Date(performanceRef.current.lastRender).toISOString(),
+        lastRender: new Date(performanceRef.current.lastRender).toISOString()
       });
     }
   });
@@ -395,7 +364,7 @@ export function AppCoreOptimized(): JSX.Element {
   // Enhanced error recovery
   const handleError = useCallback((error: Error, errorInfo: any) => {
     console.error('🚨 Application Error:', error, errorInfo);
-
+    
     // Send error to monitoring service
     if (process.env.NODE_ENV === 'production') {
       // Analytics.track('app_error', { error: error.message, stack: error.stack });
@@ -424,7 +393,7 @@ export function AppCoreOptimized(): JSX.Element {
             {appState.retryCount > 0 && ` (${appState.retryCount} previous attempts)`}
           </p>
           <div className="space-y-3">
-            <button
+            <button 
               onClick={retryInitialization}
               disabled={appState.retryCount >= 3}
               className="ff-btn ff-btn-primary ff-btn-lg w-full"
@@ -449,7 +418,7 @@ export function AppCoreOptimized(): JSX.Element {
   // Enhanced loading state with progress
   if (!appState.isInitialized || appState.isLoading) {
     return (
-      <LoadingState
+      <LoadingState 
         message="Initializing FlashFusion"
         detail="Setting up your AI development workspace..."
         isRecovering={appState.retryCount > 0}
@@ -460,22 +429,29 @@ export function AppCoreOptimized(): JSX.Element {
 
   // Enhanced error state with better recovery options
   if (appState.error && appState.mode !== 'emergency') {
-    return <ErrorState error={appState.error} onRetry={retryInitialization} mode={appState.mode} />;
+    return (
+      <ErrorState 
+        error={appState.error}
+        onRetry={retryInitialization}
+        mode={appState.mode}
+      />
+    );
   }
 
   // Demo mode with enhanced error boundary
   if (routeState.isDemoMode) {
     return (
-      <ErrorBoundary fallback={<DemoFallback />} onError={handleError}>
+      <ErrorBoundary 
+        fallback={<DemoFallback />}
+        onError={handleError}
+      >
         <div className="min-h-screen bg-[var(--ff-bg-dark)]">
-          <Suspense
-            fallback={
-              <LoadingState
-                message="Loading FlashFusion Demo"
-                detail="Preparing your interactive experience..."
-              />
-            }
-          >
+          <Suspense fallback={
+            <LoadingState 
+              message="Loading FlashFusion Demo" 
+              detail="Preparing your interactive experience..." 
+            />
+          }>
             <TryDemoInterface />
           </Suspense>
         </div>
@@ -488,11 +464,12 @@ export function AppCoreOptimized(): JSX.Element {
     return (
       <AuthErrorBoundary>
         <div className="min-h-screen bg-[var(--ff-bg-dark)]">
-          <Suspense
-            fallback={
-              <LoadingState message="Loading Authentication" detail="Securing your session..." />
-            }
-          >
+          <Suspense fallback={
+            <LoadingState 
+              message="Loading Authentication" 
+              detail="Securing your session..." 
+            />
+          }>
             <AuthenticationSystem
               onAuthSuccess={(user) => {
                 console.log('✅ Auth success:', user?.email);
@@ -513,19 +490,15 @@ export function AppCoreOptimized(): JSX.Element {
 
   // Enhanced authentication modal - Fixed mobile routing
   // Only show auth modal if explicitly requested, not for mobile landing page visits
-  if (
-    routeState.shouldShowApp &&
-    !auth.isAuthenticated &&
-    auth.isInitialized &&
-    !deviceDetection.isMobile
-  ) {
+  if (routeState.shouldShowApp && !auth.isAuthenticated && auth.isInitialized && !deviceDetection.isMobile) {
     return (
       <AuthErrorBoundary>
-        <Suspense
-          fallback={
-            <LoadingState message="Loading Authentication" detail="Preparing secure login..." />
-          }
-        >
+        <Suspense fallback={
+          <LoadingState 
+            message="Loading Authentication" 
+            detail="Preparing secure login..." 
+          />
+        }>
           <AuthenticationSystem
             onAuthSuccess={(user) => {
               console.log('✅ Modal auth success:', user?.email);
@@ -542,25 +515,21 @@ export function AppCoreOptimized(): JSX.Element {
   }
 
   // Mobile authentication - Only for explicit auth routes or user-initiated sign in
-  if (
-    routeState.shouldShowApp &&
-    !auth.isAuthenticated &&
-    auth.isInitialized &&
-    deviceDetection.isMobile
-  ) {
+  if (routeState.shouldShowApp && !auth.isAuthenticated && auth.isInitialized && deviceDetection.isMobile) {
     // For mobile, redirect to landing page and clear the app flag
     cleanupUrlParams();
     return (
-      <ErrorBoundary fallback={<LandingFallback />} onError={handleError}>
+      <ErrorBoundary 
+        fallback={<LandingFallback />}
+        onError={handleError}
+      >
         <div className="min-h-screen bg-[var(--ff-bg-dark)]">
-          <Suspense
-            fallback={
-              <LoadingState
-                message="Loading FlashFusion"
-                detail="Preparing the ultimate creators hub..."
-              />
-            }
-          >
+          <Suspense fallback={
+            <LoadingState 
+              message="Loading FlashFusion" 
+              detail="Preparing the ultimate creators hub..." 
+            />
+          }>
             <FlashFusionLandingPage />
           </Suspense>
         </div>
@@ -571,41 +540,29 @@ export function AppCoreOptimized(): JSX.Element {
   // Enhanced main application interface
   if (auth.isAuthenticated && auth.user) {
     return (
-      <ErrorBoundary fallback={<InterfaceFallback />} onError={handleError}>
+      <ErrorBoundary 
+        fallback={<InterfaceFallback />}
+        onError={handleError}
+      >
         <div className="min-h-screen bg-[var(--ff-bg-dark)]">
-          <Suspense
-            fallback={
-              <LoadingState
-                message="Loading FlashFusion Interface"
-                detail="Preparing your AI development workspace..."
-              />
-            }
-          >
+          <Suspense fallback={
+            <LoadingState 
+              message="Loading FlashFusion Interface" 
+              detail="Preparing your AI development workspace..." 
+            />
+          }>
             <FlashFusionInterface mode={appState.mode} />
           </Suspense>
-
+          
           {/* Enhanced development debug info */}
           {process.env.NODE_ENV === 'development' && (
             <div className="fixed bottom-4 right-4 bg-black/90 text-white p-3 rounded-lg text-xs space-y-1 max-w-xs">
-              <div>
-                Mode: <span className="text-orange-400">{appState.mode}</span>
-              </div>
-              <div>
-                User: <span className="text-cyan-400">{auth.user.email}</span>
-              </div>
-              <div>
-                Device:{' '}
-                <span className="text-purple-400">
-                  {deviceDetection.isMobile
-                    ? 'Mobile'
-                    : deviceDetection.isTablet
-                      ? 'Tablet'
-                      : 'Desktop'}
-                </span>
-              </div>
-              <div>
-                Renders: <span className="text-green-400">{performanceMetrics.renderCount}</span>
-              </div>
+              <div>Mode: <span className="text-orange-400">{appState.mode}</span></div>
+              <div>User: <span className="text-cyan-400">{auth.user.email}</span></div>
+              <div>Device: <span className="text-purple-400">
+                {deviceDetection.isMobile ? 'Mobile' : deviceDetection.isTablet ? 'Tablet' : 'Desktop'}
+              </span></div>
+              <div>Renders: <span className="text-green-400">{performanceMetrics.renderCount}</span></div>
             </div>
           )}
         </div>
@@ -615,35 +572,27 @@ export function AppCoreOptimized(): JSX.Element {
 
   // Enhanced landing page
   return (
-    <ErrorBoundary fallback={<LandingFallback />} onError={handleError}>
+    <ErrorBoundary 
+      fallback={<LandingFallback />}
+      onError={handleError}
+    >
       <div className="min-h-screen bg-[var(--ff-bg-dark)]">
-        <Suspense
-          fallback={
-            <LoadingState
-              message="Loading FlashFusion"
-              detail="Preparing the ultimate creators hub..."
-            />
-          }
-        >
+        <Suspense fallback={
+          <LoadingState 
+            message="Loading FlashFusion" 
+            detail="Preparing the ultimate creators hub..." 
+          />
+        }>
           <FlashFusionLandingPage />
         </Suspense>
-
+        
         {/* Enhanced development debug info */}
         {process.env.NODE_ENV === 'development' && (
           <div className="fixed bottom-4 right-4 bg-black/90 text-white p-3 rounded-lg text-xs space-y-1 max-w-xs">
-            <div>
-              Mode: <span className="text-orange-400">{appState.mode}</span>
-            </div>
-            <div>
-              Auth:{' '}
-              <span className="text-cyan-400">{auth.isInitialized ? 'Ready' : 'Loading'}</span>
-            </div>
-            <div>
-              Route: <span className="text-purple-400">{routeState.currentPath}</span>
-            </div>
-            <div>
-              Connection: <span className="text-green-400">{systemInfo.connection}</span>
-            </div>
+            <div>Mode: <span className="text-orange-400">{appState.mode}</span></div>
+            <div>Auth: <span className="text-cyan-400">{auth.isInitialized ? 'Ready' : 'Loading'}</span></div>
+            <div>Route: <span className="text-purple-400">{routeState.currentPath}</span></div>
+            <div>Connection: <span className="text-green-400">{systemInfo.connection}</span></div>
           </div>
         )}
       </div>
@@ -665,15 +614,15 @@ if (process.env.NODE_ENV === 'development') {
       'Memory Optimization',
       'Progressive Enhancement',
       'Enhanced Mobile Support',
-      'Real-time Performance Metrics',
+      'Real-time Performance Metrics'
     ],
     architecture: 'Clean, Optimized & Production-Ready',
     performance: {
       memoryOptimized: true,
       lazyLoading: true,
       preloadingEnabled: true,
-      errorRecovery: true,
-    },
+      errorRecovery: true
+    }
   };
 }
 

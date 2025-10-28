@@ -15,15 +15,15 @@ export function CompetitiveSection() {
       features: {
         'AI Tools': '60+',
         'Deployment Platforms': '8+',
-        Gamification: 'Full System',
+        'Gamification': 'Full System',
         'Real-time Collaboration': 'Yes',
         'Code Review AI': 'Advanced',
         'Community Challenges': 'Yes',
         'Custom Templates': 'Unlimited',
         'White-label': 'Enterprise',
         'Mobile Development': 'Coming Q2',
-        'Enterprise Support': '24/7',
-      },
+        'Enterprise Support': '24/7'
+      }
     },
     {
       name: 'GitHub Copilot',
@@ -34,15 +34,15 @@ export function CompetitiveSection() {
       features: {
         'AI Tools': 'Code Only',
         'Deployment Platforms': 'Limited',
-        Gamification: 'None',
+        'Gamification': 'None',
         'Real-time Collaboration': 'Basic',
         'Code Review AI': 'Limited',
         'Community Challenges': 'None',
         'Custom Templates': 'None',
         'White-label': 'No',
         'Mobile Development': 'Limited',
-        'Enterprise Support': 'Business Hours',
-      },
+        'Enterprise Support': 'Business Hours'
+      }
     },
     {
       name: 'Replit',
@@ -53,15 +53,15 @@ export function CompetitiveSection() {
       features: {
         'AI Tools': 'Basic',
         'Deployment Platforms': '3',
-        Gamification: 'Basic',
+        'Gamification': 'Basic',
         'Real-time Collaboration': 'Yes',
         'Code Review AI': 'None',
         'Community Challenges': 'Limited',
         'Custom Templates': 'Basic',
         'White-label': 'No',
         'Mobile Development': 'No',
-        'Enterprise Support': 'Limited',
-      },
+        'Enterprise Support': 'Limited'
+      }
     },
     {
       name: 'CodeSandbox',
@@ -72,47 +72,43 @@ export function CompetitiveSection() {
       features: {
         'AI Tools': 'Limited',
         'Deployment Platforms': '2',
-        Gamification: 'None',
+        'Gamification': 'None',
         'Real-time Collaboration': 'Yes',
         'Code Review AI': 'None',
         'Community Challenges': 'None',
         'Custom Templates': 'Limited',
         'White-label': 'No',
         'Mobile Development': 'No',
-        'Enterprise Support': 'Email Only',
-      },
-    },
+        'Enterprise Support': 'Email Only'
+      }
+    }
   ];
 
   const differentiators = [
     {
       icon: Zap,
       title: 'Comprehensive AI Suite',
-      description:
-        'While others focus on single aspects, FlashFusion provides 60+ AI tools covering every aspect of development from design to deployment.',
-      advantage: '60+ vs 1-5 tools',
+      description: 'While others focus on single aspects, FlashFusion provides 60+ AI tools covering every aspect of development from design to deployment.',
+      advantage: '60+ vs 1-5 tools'
     },
     {
       icon: Target,
       title: 'Gamified Learning',
-      description:
-        'Unique XP system, achievements, and daily challenges make coding addictive and accelerate skill development.',
-      advantage: 'Only platform with full gamification',
+      description: 'Unique XP system, achievements, and daily challenges make coding addictive and accelerate skill development.',
+      advantage: 'Only platform with full gamification'
     },
     {
       icon: Crown,
       title: 'End-to-End Platform',
-      description:
-        'Complete development lifecycle in one platform - from idea to deployment, monitoring, and scaling.',
-      advantage: 'Full stack vs partial solutions',
+      description: 'Complete development lifecycle in one platform - from idea to deployment, monitoring, and scaling.',
+      advantage: 'Full stack vs partial solutions'
     },
     {
       icon: Star,
       title: 'Community-Driven',
-      description:
-        'Active community with challenges, mentorship, and shared components. Learning together accelerates growth.',
-      advantage: 'Active learning community',
-    },
+      description: 'Active community with challenges, mentorship, and shared components. Learning together accelerates growth.',
+      advantage: 'Active learning community'
+    }
   ];
 
   const useCases = [
@@ -123,8 +119,8 @@ export function CompetitiveSection() {
         'Guided learning with gamification',
         'Natural language to code',
         'Step-by-step tutorials',
-        'Community mentorship',
-      ],
+        'Community mentorship'
+      ]
     },
     {
       title: 'For Professionals',
@@ -133,8 +129,8 @@ export function CompetitiveSection() {
         '10x faster prototyping',
         'Advanced AI code review',
         'Multi-platform deployment',
-        'Team collaboration tools',
-      ],
+        'Team collaboration tools'
+      ]
     },
     {
       title: 'For Teams',
@@ -143,8 +139,8 @@ export function CompetitiveSection() {
         'Real-time collaboration',
         'Shared component libraries',
         'Standardized workflows',
-        'Enterprise security',
-      ],
+        'Enterprise security'
+      ]
     },
     {
       title: 'For Enterprises',
@@ -153,27 +149,22 @@ export function CompetitiveSection() {
         'White-label solutions',
         'Custom AI training',
         'SOC 2 compliance',
-        'Dedicated support',
-      ],
-    },
+        'Dedicated support'
+      ]
+    }
   ];
 
   const getFeatureValue = (feature: string, competitor: any) => {
     const value = competitor.features[feature];
-
-    if (
-      value === 'Yes' ||
-      value === 'Advanced' ||
-      value === 'Full System' ||
-      value === 'Unlimited'
-    ) {
+    
+    if (value === 'Yes' || value === 'Advanced' || value === 'Full System' || value === 'Unlimited') {
       return <Check className="w-5 h-5 text-green-500" />;
     }
-
+    
     if (value === 'No' || value === 'None') {
       return <X className="w-5 h-5 text-red-500" />;
     }
-
+    
     return <span className="text-sm text-muted-foreground">{value}</span>;
   };
 
@@ -186,10 +177,11 @@ export function CompetitiveSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-6 ff-text-gradient">Why Choose FlashFusion?</h2>
+          <h2 className="text-4xl font-bold mb-6 ff-text-gradient">
+            Why Choose FlashFusion?
+          </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            See how FlashFusion compares to other development platforms and discover why thousands
-            of developers choose us.
+            See how FlashFusion compares to other development platforms and discover why thousands of developers choose us.
           </p>
         </motion.div>
 
@@ -240,35 +232,24 @@ export function CompetitiveSection() {
                   <div className="grid grid-cols-5 border-b border-border">
                     <div className="p-4 font-medium">Features</div>
                     {competitors.map((competitor) => (
-                      <div
-                        key={competitor.name}
-                        className={`p-4 text-center ${competitor.isUs ? 'bg-primary/5' : ''}`}
-                      >
+                      <div key={competitor.name} className={`p-4 text-center ${competitor.isUs ? 'bg-primary/5' : ''}`}>
                         <div className="flex items-center justify-center space-x-2 mb-1">
                           <span className="text-2xl">{competitor.logo}</span>
                           <span className="font-medium">{competitor.name}</span>
                           {competitor.isUs && <Crown className="w-4 h-4 text-primary" />}
                         </div>
                         <div className="text-xs text-muted-foreground">{competitor.tagline}</div>
-                        <Badge variant="outline" className="mt-2 text-xs">
-                          {competitor.pricing}
-                        </Badge>
+                        <Badge variant="outline" className="mt-2 text-xs">{competitor.pricing}</Badge>
                       </div>
                     ))}
                   </div>
 
                   {/* Feature Rows */}
                   {Object.keys(competitors[0].features).map((feature, index) => (
-                    <div
-                      key={feature}
-                      className={`grid grid-cols-5 border-b border-border ${index % 2 === 0 ? 'bg-muted/20' : ''}`}
-                    >
+                    <div key={feature} className={`grid grid-cols-5 border-b border-border ${index % 2 === 0 ? 'bg-muted/20' : ''}`}>
                       <div className="p-4 font-medium">{feature}</div>
                       {competitors.map((competitor) => (
-                        <div
-                          key={`${competitor.name}-${feature}`}
-                          className={`p-4 text-center ${competitor.isUs ? 'bg-primary/5' : ''}`}
-                        >
+                        <div key={`${competitor.name}-${feature}`} className={`p-4 text-center ${competitor.isUs ? 'bg-primary/5' : ''}`}>
                           {getFeatureValue(feature, competitor)}
                         </div>
                       ))}
@@ -326,8 +307,7 @@ export function CompetitiveSection() {
         >
           <h4 className="text-2xl font-bold mb-4">Ready to Experience the Difference?</h4>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Join thousands of developers who have already discovered why FlashFusion is the future
-            of AI-powered development.
+            Join thousands of developers who have already discovered why FlashFusion is the future of AI-powered development.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="ff-btn-primary px-8 py-3 rounded-lg">Start Free Trial</button>

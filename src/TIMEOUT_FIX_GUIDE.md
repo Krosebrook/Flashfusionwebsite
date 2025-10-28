@@ -1,10 +1,13 @@
 # FlashFusion Timeout Error Fix Guide
 
 ## Issue Description
+
 The application is experiencing "Message getPage (id: 3) response timed out after 30000ms" errors.
 
 ## Root Cause
+
 The timeout errors are likely caused by:
+
 1. Missing React dependencies
 2. Complex lazy loading causing component resolution failures
 3. Memory optimization features interfering with normal operation
@@ -13,12 +16,15 @@ The timeout errors are likely caused by:
 ## Solution Applied
 
 ### 1. Simplified Application Structure
+
 - Removed complex lazy loading that was causing timeout issues
 - Replaced with direct component imports for reliability
 - Simplified error boundaries to prevent cascading failures
 
 ### 2. Updated Dependencies
+
 Added essential React dependencies to package.json:
+
 ```json
 {
   "dependencies": {
@@ -34,9 +40,11 @@ Added essential React dependencies to package.json:
 ```
 
 ### 3. Fixed TypeScript Configuration
+
 Updated tsconfig.json to work with the current file structure instead of the monorepo setup.
 
 ### 4. Enhanced Error Handling
+
 - Added comprehensive error boundaries
 - Implemented fallback error displays
 - Added initialization error handling in main.tsx
@@ -44,6 +52,7 @@ Updated tsconfig.json to work with the current file structure instead of the mon
 ## Installation Steps
 
 ### Step 1: Install Dependencies
+
 ```bash
 # Using npm
 npm install
@@ -56,6 +65,7 @@ yarn install
 ```
 
 ### Step 2: Clear Cache and Reinstall (if needed)
+
 ```bash
 # Clear node_modules and package-lock.json
 rm -rf node_modules package-lock.json
@@ -65,6 +75,7 @@ npm install
 ```
 
 ### Step 3: Start Development Server
+
 ```bash
 npm run dev
 ```
@@ -99,6 +110,7 @@ npm run dev
 ### If Dependencies Are Missing:
 
 1. **Manual Installation**:
+
 ```bash
 npm install react react-dom @types/react @types/react-dom
 npm install @radix-ui/react-slot class-variance-authority
@@ -113,11 +125,13 @@ npm install @vitejs/plugin-react
 ### If Build Errors Occur:
 
 1. **Type Check**:
+
 ```bash
 npm run type-check
 ```
 
 2. **Clean Build**:
+
 ```bash
 rm -rf dist
 npm run build
@@ -126,6 +140,7 @@ npm run build
 ## Current Application Features
 
 The simplified application now includes:
+
 - **Safe Mode Interface**: Memory-optimized version of FlashFusion
 - **Emergency Recovery**: Automatic memory crisis detection and recovery
 - **Error Boundaries**: Comprehensive error handling and recovery
@@ -134,6 +149,7 @@ The simplified application now includes:
 ## Next Steps
 
 Once the timeout issues are resolved:
+
 1. Gradually re-enable advanced features
 2. Add back complex components one by one
 3. Monitor for performance issues
@@ -142,6 +158,7 @@ Once the timeout issues are resolved:
 ## Support
 
 If issues persist:
+
 1. Check browser console for specific error messages
 2. Verify all dependencies are installed correctly
 3. Ensure proper Node.js version (>=18)

@@ -5,12 +5,12 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
-import {
-  Rocket,
-  Share2,
-  Mail,
-  Twitter,
-  Linkedin,
+import { 
+  Rocket, 
+  Share2, 
+  Mail, 
+  Twitter, 
+  Linkedin, 
   MessageCircle,
   TrendingUp,
   Users,
@@ -18,7 +18,7 @@ import {
   Calendar,
   ExternalLink,
   Copy,
-  CheckCircle,
+  CheckCircle
 } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { toast } from 'sonner';
@@ -40,13 +40,13 @@ const LAUNCH_CAMPAIGNS = {
       'Prepare social media assets and GIFs',
       'Notify personal network about launch day',
       'Schedule launch day social media posts',
-      'Prepare launch day email to subscribers',
+      'Prepare launch day email to subscribers'
     ],
     metrics: {
       target_votes: 500,
       target_comments: 50,
       target_signups: 200,
-    },
+    }
   },
   HACKER_NEWS: {
     id: 'hacker-news',
@@ -68,7 +68,7 @@ const LAUNCH_CAMPAIGNS = {
       target_points: 100,
       target_comments: 30,
       target_clicks: 1000,
-    },
+    }
   },
   SOCIAL_MEDIA: {
     id: 'social-media',
@@ -85,13 +85,13 @@ const LAUNCH_CAMPAIGNS = {
       'Design social media graphics',
       'Write platform-specific copy',
       'Schedule posts across platforms',
-      'Engage with community responses',
+      'Engage with community responses'
     ],
     metrics: {
       target_impressions: 10000,
       target_engagements: 500,
       target_clicks: 300,
-    },
+    }
   },
   EMAIL_CAMPAIGN: {
     id: 'email-campaign',
@@ -108,14 +108,14 @@ const LAUNCH_CAMPAIGNS = {
       'Write compelling subject line',
       'Include demo video and screenshots',
       'Add clear call-to-action buttons',
-      'Set up tracking and analytics',
+      'Set up tracking and analytics'
     ],
     metrics: {
       target_open_rate: 25,
       target_click_rate: 5,
       target_conversions: 50,
-    },
-  },
+    }
+  }
 };
 
 const SOCIAL_TEMPLATES = {
@@ -137,7 +137,7 @@ Try it free: https://flashfusion.ai
 What should I build next? 👇
 
 #AI #WebDev #NoCode #React #OpenSource`,
-    hashtags: ['#AI', '#WebDev', '#NoCode', '#React', '#OpenSource'],
+    hashtags: ['#AI', '#WebDev', '#NoCode', '#React', '#OpenSource']
   },
   LINKEDIN: {
     platform: 'LinkedIn',
@@ -158,8 +158,8 @@ Try FlashFusion for free: https://flashfusion.ai
 I'd love to hear your thoughts on how AI is transforming the development landscape. What challenges are you facing in your development workflow?
 
 #ArtificialIntelligence #WebDevelopment #SaaS #TechInnovation #Startup`,
-    hashtags: ['#ArtificialIntelligence', '#WebDevelopment', '#SaaS', '#TechInnovation'],
-  },
+    hashtags: ['#ArtificialIntelligence', '#WebDevelopment', '#SaaS', '#TechInnovation']
+  }
 };
 
 interface LaunchCampaignProps {
@@ -179,7 +179,7 @@ export const LaunchCampaign: React.FC<LaunchCampaignProps> = ({ className }) => 
   // Mock real-time metrics updates
   useEffect(() => {
     const interval = setInterval(() => {
-      setLaunchMetrics((prev) => ({
+      setLaunchMetrics(prev => ({
         totalSignups: prev.totalSignups + Math.floor(Math.random() * 3),
         totalVisitors: prev.totalVisitors + Math.floor(Math.random() * 10),
         socialEngagement: prev.socialEngagement + Math.floor(Math.random() * 5),
@@ -227,19 +227,27 @@ export const LaunchCampaign: React.FC<LaunchCampaignProps> = ({ className }) => 
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center space-y-2">
-              <div className="text-2xl font-bold text-primary">{launchMetrics.totalSignups}</div>
+              <div className="text-2xl font-bold text-primary">
+                {launchMetrics.totalSignups}
+              </div>
               <div className="text-sm text-muted-foreground">Total Signups</div>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-2xl font-bold text-secondary">{launchMetrics.totalVisitors}</div>
+              <div className="text-2xl font-bold text-secondary">
+                {launchMetrics.totalVisitors}
+              </div>
               <div className="text-sm text-muted-foreground">Visitors</div>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-2xl font-bold text-accent">{launchMetrics.socialEngagement}</div>
+              <div className="text-2xl font-bold text-accent">
+                {launchMetrics.socialEngagement}
+              </div>
               <div className="text-sm text-muted-foreground">Social Engagement</div>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-2xl font-bold text-green-500">{launchMetrics.emailOpens}</div>
+              <div className="text-2xl font-bold text-green-500">
+                {launchMetrics.emailOpens}
+              </div>
               <div className="text-sm text-muted-foreground">Email Opens</div>
             </div>
           </div>
@@ -250,7 +258,7 @@ export const LaunchCampaign: React.FC<LaunchCampaignProps> = ({ className }) => 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {Object.values(LAUNCH_CAMPAIGNS).map((campaign) => {
           const IconComponent = campaign.icon;
-
+          
           return (
             <motion.div
               key={campaign.id}
@@ -258,36 +266,34 @@ export const LaunchCampaign: React.FC<LaunchCampaignProps> = ({ className }) => 
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <Card
-                className="ff-hover-lift cursor-pointer"
-                onClick={() =>
-                  setSelectedCampaign(selectedCampaign === campaign.id ? null : campaign.id)
-                }
-              >
+              <Card className="ff-hover-lift cursor-pointer" 
+                    onClick={() => setSelectedCampaign(
+                      selectedCampaign === campaign.id ? null : campaign.id
+                    )}>
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <IconComponent className={cn('w-6 h-6', campaign.color)} />
                       <div>
                         <CardTitle className="text-lg">{campaign.name}</CardTitle>
-                        <p className="text-sm text-muted-foreground mt-1">{campaign.description}</p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {campaign.description}
+                        </p>
                       </div>
                     </div>
                     {getStatusBadge(campaign.status)}
                   </div>
                 </CardHeader>
-
+                
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm">
                       <div className="flex items-center space-x-2">
                         <Calendar className="w-4 h-4 text-muted-foreground" />
-                        <span>
-                          {campaign.date} at {campaign.time}
-                        </span>
+                        <span>{campaign.date} at {campaign.time}</span>
                       </div>
                       <Button
-                        variant="ghost"
+                        variant="ghost" 
                         size="sm"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -297,20 +303,17 @@ export const LaunchCampaign: React.FC<LaunchCampaignProps> = ({ className }) => 
                         <ExternalLink className="w-4 h-4" />
                       </Button>
                     </div>
-
+                    
                     {/* Progress indicators for metrics */}
                     <div className="space-y-2">
                       {Object.entries(campaign.metrics).map(([key, value]) => (
-                        <div
-                          key={key}
-                          className="flex justify-between text-xs text-muted-foreground"
-                        >
+                        <div key={key} className="flex justify-between text-xs text-muted-foreground">
                           <span>{key.replace('target_', '').replace('_', ' ')}</span>
                           <span>Target: {value}</span>
                         </div>
                       ))}
                     </div>
-
+                    
                     {/* Expanded content */}
                     {selectedCampaign === campaign.id && (
                       <motion.div
@@ -350,14 +353,14 @@ export const LaunchCampaign: React.FC<LaunchCampaignProps> = ({ className }) => 
           <div className="space-y-6">
             {Object.values(SOCIAL_TEMPLATES).map((template) => {
               const IconComponent = template.icon;
-
+              
               return (
                 <div key={template.platform} className="space-y-3">
                   <div className="flex items-center space-x-2">
                     <IconComponent className="w-5 h-5 text-blue-500" />
                     <h4 className="font-medium">{template.platform}</h4>
                   </div>
-
+                  
                   <div className="relative">
                     <Textarea
                       value={template.template}
@@ -377,7 +380,7 @@ export const LaunchCampaign: React.FC<LaunchCampaignProps> = ({ className }) => 
                       )}
                     </Button>
                   </div>
-
+                  
                   <div className="flex flex-wrap gap-2">
                     {template.hashtags.map((hashtag) => (
                       <Badge key={hashtag} variant="secondary" className="text-xs">

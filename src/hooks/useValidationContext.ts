@@ -17,9 +17,9 @@ export function useValidationContext() {
   };
 
   const handleAnalysisComplete = (analysis: ValidationAnalysis) => {
-    setValidationContext((prev) => ({
-      ...prev,
-      analysisId: analysis.id,
+    setValidationContext(prev => ({ 
+      ...prev, 
+      analysisId: analysis.id 
     }));
   };
 
@@ -31,6 +31,6 @@ export function useValidationContext() {
     validationContext,
     handleIdeaSubmit,
     handleAnalysisComplete,
-    resetValidationContext,
+    resetValidationContext
   };
 }

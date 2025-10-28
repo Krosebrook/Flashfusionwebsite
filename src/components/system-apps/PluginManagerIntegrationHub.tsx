@@ -9,43 +9,13 @@ import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 import { Progress } from '../ui/progress';
-import {
-  Puzzle,
-  Search,
-  Filter,
-  Star,
-  Download,
-  Settings,
-  Power,
-  AlertCircle,
-  Check,
-  X,
-  RefreshCw,
-  Eye,
-  Package,
-  Shield,
-  Zap,
-  Code,
-  Palette,
-  Database,
-  Cloud,
-  Globe,
-  Users,
-  TrendingUp,
-  Clock,
-  ChevronRight,
-  Github,
-  Slack,
-  Discord,
-  Twitter,
-  Facebook,
-  Figma,
-  ExternalLink,
-  Play,
-  Pause,
-  Trash2,
-  Upload,
-  HelpCircle,
+import { 
+  Puzzle, Search, Filter, Star, Download, Settings, 
+  Power, AlertCircle, Check, X, RefreshCw, Eye,
+  Package, Shield, Zap, Code, Palette, Database,
+  Cloud, Globe, Users, TrendingUp, Clock, ChevronRight,
+  Github, Slack, Discord, Twitter, Facebook, Figma,
+  ExternalLink, Play, Pause, Trash2, Upload, HelpCircle
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -98,8 +68,7 @@ const mockPlugins: Plugin[] = [
   {
     id: 'eslint-formatter',
     name: 'ESLint Auto-Formatter',
-    description:
-      'Automatically format and fix JavaScript/TypeScript code according to ESLint rules',
+    description: 'Automatically format and fix JavaScript/TypeScript code according to ESLint rules',
     version: '2.1.4',
     author: 'FlashFusion Team',
     category: 'development',
@@ -116,7 +85,7 @@ const mockPlugins: Plugin[] = [
     screenshots: [],
     lastUpdated: new Date('2024-11-01'),
     compatibility: ['VSCode', 'WebStorm', 'Sublime'],
-    tags: ['linting', 'formatting', 'javascript', 'typescript'],
+    tags: ['linting', 'formatting', 'javascript', 'typescript']
   },
   {
     id: 'figma-sync',
@@ -138,7 +107,7 @@ const mockPlugins: Plugin[] = [
     screenshots: [],
     lastUpdated: new Date('2024-10-28'),
     compatibility: ['Figma', 'React', 'Vue'],
-    tags: ['figma', 'design', 'components', 'sync'],
+    tags: ['figma', 'design', 'components', 'sync']
   },
   {
     id: 'ai-code-reviewer',
@@ -160,13 +129,12 @@ const mockPlugins: Plugin[] = [
     screenshots: [],
     lastUpdated: new Date('2024-11-15'),
     compatibility: ['All IDEs', 'Git'],
-    tags: ['ai', 'code-review', 'analysis', 'bugs'],
+    tags: ['ai', 'code-review', 'analysis', 'bugs']
   },
   {
     id: 'performance-monitor',
     name: 'Performance Monitor',
-    description:
-      'Real-time performance monitoring and optimization suggestions for your applications',
+    description: 'Real-time performance monitoring and optimization suggestions for your applications',
     version: '1.5.7',
     author: 'Performance Labs',
     category: 'analytics',
@@ -183,13 +151,12 @@ const mockPlugins: Plugin[] = [
     screenshots: [],
     lastUpdated: new Date('2024-10-20'),
     compatibility: ['Web', 'Node.js', 'React'],
-    tags: ['performance', 'monitoring', 'optimization', 'metrics'],
+    tags: ['performance', 'monitoring', 'optimization', 'metrics']
   },
   {
     id: 'docker-manager',
     name: 'Docker Container Manager',
-    description:
-      'Manage Docker containers and deployments directly from your development environment',
+    description: 'Manage Docker containers and deployments directly from your development environment',
     version: '2.2.0',
     author: 'DevOps Tools',
     category: 'automation',
@@ -206,8 +173,8 @@ const mockPlugins: Plugin[] = [
     screenshots: [],
     lastUpdated: new Date('2024-11-10'),
     compatibility: ['Docker', 'Kubernetes'],
-    tags: ['docker', 'containers', 'devops', 'deployment'],
-  },
+    tags: ['docker', 'containers', 'devops', 'deployment']
+  }
 ];
 
 const mockIntegrations: Integration[] = [
@@ -224,7 +191,7 @@ const mockIntegrations: Integration[] = [
     features: ['Repository sync', 'Issue tracking', 'Pull requests', 'Actions'],
     setupComplexity: 'easy',
     documentation: 'https://docs.github.com/api',
-    syncFrequency: 'realtime',
+    syncFrequency: 'realtime'
   },
   {
     id: 'slack',
@@ -239,7 +206,7 @@ const mockIntegrations: Integration[] = [
     features: ['Notifications', 'Bot commands', 'File sharing', 'Status updates'],
     setupComplexity: 'easy',
     documentation: 'https://api.slack.com/',
-    syncFrequency: 'realtime',
+    syncFrequency: 'realtime'
   },
   {
     id: 'figma',
@@ -254,7 +221,7 @@ const mockIntegrations: Integration[] = [
     features: ['Design import', 'Asset export', 'Component sync', 'Version control'],
     setupComplexity: 'medium',
     documentation: 'https://www.figma.com/developers/api',
-    syncFrequency: 'daily',
+    syncFrequency: 'daily'
   },
   {
     id: 'aws',
@@ -269,7 +236,7 @@ const mockIntegrations: Integration[] = [
     features: ['S3 Storage', 'EC2 Instances', 'Lambda Functions', 'CloudFormation'],
     setupComplexity: 'advanced',
     documentation: 'https://docs.aws.amazon.com/',
-    syncFrequency: 'manual',
+    syncFrequency: 'manual'
   },
   {
     id: 'discord',
@@ -284,7 +251,7 @@ const mockIntegrations: Integration[] = [
     features: ['Webhooks', 'Bot notifications', 'File sharing', 'Voice channels'],
     setupComplexity: 'easy',
     documentation: 'https://discord.com/developers/docs/',
-    syncFrequency: 'realtime',
+    syncFrequency: 'realtime'
   },
   {
     id: 'google-analytics',
@@ -299,76 +266,28 @@ const mockIntegrations: Integration[] = [
     features: ['User tracking', 'Event analytics', 'Conversion tracking', 'Reports'],
     setupComplexity: 'medium',
     documentation: 'https://developers.google.com/analytics/',
-    syncFrequency: 'hourly',
-  },
+    syncFrequency: 'hourly'
+  }
 ];
 
 const categories = [
   { id: 'all', name: 'All Categories', count: mockPlugins.length },
-  {
-    id: 'development',
-    name: 'Development',
-    count: mockPlugins.filter((p) => p.category === 'development').length,
-  },
-  {
-    id: 'design',
-    name: 'Design',
-    count: mockPlugins.filter((p) => p.category === 'design').length,
-  },
-  {
-    id: 'productivity',
-    name: 'Productivity',
-    count: mockPlugins.filter((p) => p.category === 'productivity').length,
-  },
-  {
-    id: 'analytics',
-    name: 'Analytics',
-    count: mockPlugins.filter((p) => p.category === 'analytics').length,
-  },
-  {
-    id: 'automation',
-    name: 'Automation',
-    count: mockPlugins.filter((p) => p.category === 'automation').length,
-  },
-  {
-    id: 'security',
-    name: 'Security',
-    count: mockPlugins.filter((p) => p.category === 'security').length,
-  },
+  { id: 'development', name: 'Development', count: mockPlugins.filter(p => p.category === 'development').length },
+  { id: 'design', name: 'Design', count: mockPlugins.filter(p => p.category === 'design').length },
+  { id: 'productivity', name: 'Productivity', count: mockPlugins.filter(p => p.category === 'productivity').length },
+  { id: 'analytics', name: 'Analytics', count: mockPlugins.filter(p => p.category === 'analytics').length },
+  { id: 'automation', name: 'Automation', count: mockPlugins.filter(p => p.category === 'automation').length },
+  { id: 'security', name: 'Security', count: mockPlugins.filter(p => p.category === 'security').length }
 ];
 
 const integrationCategories = [
   { id: 'all', name: 'All Services', count: mockIntegrations.length },
-  {
-    id: 'development',
-    name: 'Development',
-    count: mockIntegrations.filter((i) => i.category === 'development').length,
-  },
-  {
-    id: 'design',
-    name: 'Design',
-    count: mockIntegrations.filter((i) => i.category === 'design').length,
-  },
-  {
-    id: 'communication',
-    name: 'Communication',
-    count: mockIntegrations.filter((i) => i.category === 'communication').length,
-  },
-  {
-    id: 'storage',
-    name: 'Storage',
-    count: mockIntegrations.filter((i) => i.category === 'storage').length,
-  },
-  {
-    id: 'analytics',
-    name: 'Analytics',
-    count: mockIntegrations.filter((i) => i.category === 'analytics').length,
-  },
-  {
-    id: 'deployment',
-    name: 'Deployment',
-    count: mockIntegrations.filter((i) => i.category === 'deployment').length,
-  },
+  { id: 'development', name: 'Development', count: mockIntegrations.filter(i => i.category === 'development').length },
+  { id: 'design', name: 'Design', count: mockIntegrations.filter(i => i.category === 'design').length },
+  { id: 'communication', name: 'Communication', count: mockIntegrations.filter(i => i.category === 'communication').length },
+  { id: 'storage', name: 'Storage', count: mockIntegrations.filter(i => i.category === 'storage').length },
+  { id: 'analytics', name: 'Analytics', count: mockIntegrations.filter(i => i.category === 'analytics').length },
+  { id: 'deployment', name: 'Deployment', count: mockIntegrations.filter(i => i.category === 'deployment').length }
 ];
 
 export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegrationHubProps) {
@@ -386,16 +305,15 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
     let filtered = plugins;
 
     if (searchQuery) {
-      filtered = filtered.filter(
-        (plugin) =>
-          plugin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          plugin.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          plugin.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+      filtered = filtered.filter(plugin =>
+        plugin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        plugin.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        plugin.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
       );
     }
 
     if (selectedCategory !== 'all') {
-      filtered = filtered.filter((plugin) => plugin.category === selectedCategory);
+      filtered = filtered.filter(plugin => plugin.category === selectedCategory);
     }
 
     // Sort plugins
@@ -424,92 +342,68 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
     let filtered = integrations;
 
     if (searchQuery) {
-      filtered = filtered.filter(
-        (integration) =>
-          integration.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          integration.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          integration.features.some((feature) =>
-            feature.toLowerCase().includes(searchQuery.toLowerCase())
-          )
+      filtered = filtered.filter(integration =>
+        integration.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        integration.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        integration.features.some(feature => feature.toLowerCase().includes(searchQuery.toLowerCase()))
       );
     }
 
     if (selectedCategory !== 'all') {
-      filtered = filtered.filter((integration) => integration.category === selectedCategory);
+      filtered = filtered.filter(integration => integration.category === selectedCategory);
     }
 
     return filtered;
   }, [integrations, searchQuery, selectedCategory]);
 
-  const installedCount = useMemo(() => plugins.filter((p) => p.installed).length, [plugins]);
-  const updatesAvailable = useMemo(
-    () => plugins.filter((p) => p.updatesAvailable).length,
-    [plugins]
-  );
-  const connectedCount = useMemo(
-    () => integrations.filter((i) => i.connected).length,
-    [integrations]
-  );
+  const installedCount = useMemo(() => plugins.filter(p => p.installed).length, [plugins]);
+  const updatesAvailable = useMemo(() => plugins.filter(p => p.updatesAvailable).length, [plugins]);
+  const connectedCount = useMemo(() => integrations.filter(i => i.connected).length, [integrations]);
 
   const handleInstallPlugin = useCallback(async (pluginId: string) => {
-    setPlugins((prev) =>
-      prev.map((plugin) =>
-        plugin.id === pluginId ? { ...plugin, installed: true, enabled: true } : plugin
-      )
-    );
+    setPlugins(prev => prev.map(plugin =>
+      plugin.id === pluginId ? { ...plugin, installed: true, enabled: true } : plugin
+    ));
     toast.success('Plugin installed successfully!');
   }, []);
 
   const handleUninstallPlugin = useCallback(async (pluginId: string) => {
-    setPlugins((prev) =>
-      prev.map((plugin) =>
-        plugin.id === pluginId ? { ...plugin, installed: false, enabled: false } : plugin
-      )
-    );
+    setPlugins(prev => prev.map(plugin =>
+      plugin.id === pluginId ? { ...plugin, installed: false, enabled: false } : plugin
+    ));
     toast.success('Plugin uninstalled successfully!');
   }, []);
 
-  const handleTogglePlugin = useCallback(
-    async (pluginId: string) => {
-      setPlugins((prev) =>
-        prev.map((plugin) =>
-          plugin.id === pluginId ? { ...plugin, enabled: !plugin.enabled } : plugin
-        )
-      );
-      const plugin = plugins.find((p) => p.id === pluginId);
-      toast.success(`Plugin ${plugin?.enabled ? 'disabled' : 'enabled'}!`);
-    },
-    [plugins]
-  );
+  const handleTogglePlugin = useCallback(async (pluginId: string) => {
+    setPlugins(prev => prev.map(plugin =>
+      plugin.id === pluginId ? { ...plugin, enabled: !plugin.enabled } : plugin
+    ));
+    const plugin = plugins.find(p => p.id === pluginId);
+    toast.success(`Plugin ${plugin?.enabled ? 'disabled' : 'enabled'}!`);
+  }, [plugins]);
 
   const handleUpdatePlugin = useCallback(async (pluginId: string) => {
-    setPlugins((prev) =>
-      prev.map((plugin) =>
-        plugin.id === pluginId ? { ...plugin, updatesAvailable: false } : plugin
-      )
-    );
+    setPlugins(prev => prev.map(plugin =>
+      plugin.id === pluginId ? { ...plugin, updatesAvailable: false } : plugin
+    ));
     toast.success('Plugin updated successfully!');
   }, []);
 
   const handleConnectIntegration = useCallback(async (integrationId: string) => {
-    setIntegrations((prev) =>
-      prev.map((integration) =>
-        integration.id === integrationId
-          ? { ...integration, connected: true, status: 'active', lastSync: new Date() }
-          : integration
-      )
-    );
+    setIntegrations(prev => prev.map(integration =>
+      integration.id === integrationId 
+        ? { ...integration, connected: true, status: 'active', lastSync: new Date() }
+        : integration
+    ));
     toast.success('Integration connected successfully!');
   }, []);
 
   const handleDisconnectIntegration = useCallback(async (integrationId: string) => {
-    setIntegrations((prev) =>
-      prev.map((integration) =>
-        integration.id === integrationId
-          ? { ...integration, connected: false, status: 'inactive' }
-          : integration
-      )
-    );
+    setIntegrations(prev => prev.map(integration =>
+      integration.id === integrationId 
+        ? { ...integration, connected: false, status: 'inactive' }
+        : integration
+    ));
     toast.success('Integration disconnected!');
   }, []);
 
@@ -565,9 +459,7 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
         <div className="flex items-center gap-4">
           <Puzzle className="w-8 h-8 text-primary" />
           <div>
-            <h1 className="text-2xl font-bold ff-text-gradient">
-              Plugin Manager & Integration Hub
-            </h1>
+            <h1 className="text-2xl font-bold ff-text-gradient">Plugin Manager & Integration Hub</h1>
             <p className="text-sm text-muted-foreground">
               Extend functionality and connect with external services
             </p>
@@ -641,7 +533,7 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
+                    {categories.map(category => (
                       <SelectItem key={category.id} value={category.id}>
                         <div className="flex items-center gap-2">
                           {getCategoryIcon(category.id)}
@@ -672,10 +564,10 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
 
             {/* Category Filter Pills */}
             <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
+              {categories.map(category => (
                 <Button
                   key={category.id}
-                  variant={selectedCategory === category.id ? 'default' : 'outline'}
+                  variant={selectedCategory === category.id ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedCategory(category.id)}
                   className="ff-hover-scale"
@@ -708,10 +600,7 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
                             <div className="flex items-center gap-2">
                               <h3 className="font-semibold text-sm line-clamp-1">{plugin.name}</h3>
                               {plugin.verified && (
-                                <Badge
-                                  variant="default"
-                                  className="text-xs bg-success/10 text-success border-success/20"
-                                >
+                                <Badge variant="default" className="text-xs bg-success/10 text-success border-success/20">
                                   <Check className="w-3 h-3 mr-1" />
                                   Verified
                                 </Badge>
@@ -723,10 +612,7 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
 
                         <div className="flex items-center gap-2">
                           {plugin.updatesAvailable && (
-                            <Badge
-                              variant="secondary"
-                              className="text-xs bg-warning/10 text-warning"
-                            >
+                            <Badge variant="secondary" className="text-xs bg-warning/10 text-warning">
                               Update
                             </Badge>
                           )}
@@ -757,7 +643,7 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
                       </div>
 
                       <div className="flex flex-wrap gap-1">
-                        {plugin.tags.slice(0, 3).map((tag) => (
+                        {plugin.tags.slice(0, 3).map(tag => (
                           <Badge key={tag} variant="outline" className="text-xs">
                             {tag}
                           </Badge>
@@ -858,7 +744,7 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {integrationCategories.map((category) => (
+                  {integrationCategories.map(category => (
                     <SelectItem key={category.id} value={category.id}>
                       <div className="flex items-center gap-2">
                         {getCategoryIcon(category.id)}
@@ -906,7 +792,7 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
                     <div className="space-y-2">
                       <Label className="text-xs font-medium">Features</Label>
                       <div className="flex flex-wrap gap-1">
-                        {integration.features.slice(0, 4).map((feature) => (
+                        {integration.features.slice(0, 4).map(feature => (
                           <Badge key={feature} variant="outline" className="text-xs">
                             {feature}
                           </Badge>
@@ -927,14 +813,12 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-xs">
-                        <Badge
-                          variant="outline"
+                        <Badge 
+                          variant="outline" 
                           className={
-                            integration.setupComplexity === 'easy'
-                              ? 'border-success/20 text-success'
-                              : integration.setupComplexity === 'medium'
-                                ? 'border-warning/20 text-warning'
-                                : 'border-destructive/20 text-destructive'
+                            integration.setupComplexity === 'easy' ? 'border-success/20 text-success' :
+                            integration.setupComplexity === 'medium' ? 'border-warning/20 text-warning' :
+                            'border-destructive/20 text-destructive'
                           }
                         >
                           {integration.setupComplexity}
@@ -1076,15 +960,11 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
                   <div className="text-xs text-muted-foreground">Rating</div>
                 </div>
                 <div className="text-center p-3 bg-muted/50 rounded-lg">
-                  <div className="text-lg font-bold">
-                    {selectedPlugin.downloads.toLocaleString()}
-                  </div>
+                  <div className="text-lg font-bold">{selectedPlugin.downloads.toLocaleString()}</div>
                   <div className="text-xs text-muted-foreground">Downloads</div>
                 </div>
                 <div className="text-center p-3 bg-muted/50 rounded-lg">
-                  <div className="text-lg font-bold">
-                    {formatFileSize(selectedPlugin.size * 1024 * 1024)}
-                  </div>
+                  <div className="text-lg font-bold">{formatFileSize(selectedPlugin.size * 1024 * 1024)}</div>
                   <div className="text-xs text-muted-foreground">Size</div>
                 </div>
                 <div className="text-center p-3 bg-muted/50 rounded-lg">
@@ -1096,7 +976,7 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
               <div className="space-y-3">
                 <Label>Permissions Required</Label>
                 <div className="space-y-2">
-                  {selectedPlugin.permissions.map((permission) => (
+                  {selectedPlugin.permissions.map(permission => (
                     <div key={permission} className="flex items-center gap-2 text-sm">
                       <Shield className="w-4 h-4 text-warning" />
                       {permission}
@@ -1108,7 +988,7 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
               <div className="space-y-3">
                 <Label>Compatibility</Label>
                 <div className="flex flex-wrap gap-2">
-                  {selectedPlugin.compatibility.map((comp) => (
+                  {selectedPlugin.compatibility.map(comp => (
                     <Badge key={comp} variant="outline">
                       {comp}
                     </Badge>
@@ -1194,14 +1074,12 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Setup Complexity</span>
-                  <Badge
+                  <Badge 
                     variant="outline"
                     className={
-                      selectedIntegration.setupComplexity === 'easy'
-                        ? 'border-success/20 text-success'
-                        : selectedIntegration.setupComplexity === 'medium'
-                          ? 'border-warning/20 text-warning'
-                          : 'border-destructive/20 text-destructive'
+                      selectedIntegration.setupComplexity === 'easy' ? 'border-success/20 text-success' :
+                      selectedIntegration.setupComplexity === 'medium' ? 'border-warning/20 text-warning' :
+                      'border-destructive/20 text-destructive'
                     }
                   >
                     {selectedIntegration.setupComplexity}
@@ -1212,7 +1090,7 @@ export function PluginManagerIntegrationHub({ onClose }: PluginManagerIntegratio
               <div className="space-y-3">
                 <Label>Available Features</Label>
                 <div className="grid grid-cols-2 gap-2">
-                  {selectedIntegration.features.map((feature) => (
+                  {selectedIntegration.features.map(feature => (
                     <div key={feature} className="flex items-center gap-2 text-sm">
                       <Check className="w-4 h-4 text-success" />
                       {feature}

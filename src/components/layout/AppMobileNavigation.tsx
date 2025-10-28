@@ -11,18 +11,16 @@ interface AppMobileNavigationProps {
   isAuthenticated: boolean;
 }
 
-export function AppMobileNavigation({
-  currentPage,
-  setCurrentPage,
-  isAuthenticated,
+export function AppMobileNavigation({ 
+  currentPage, 
+  setCurrentPage, 
+  isAuthenticated 
 }: AppMobileNavigationProps) {
   return (
     <>
       {/* Mobile Header */}
       <MobileHeader
-        title={
-          PAGE_TITLES[currentPage] || currentPage.charAt(0).toUpperCase() + currentPage.slice(1)
-        }
+        title={PAGE_TITLES[currentPage] || currentPage.charAt(0).toUpperCase() + currentPage.slice(1)}
         showBackButton={currentPage !== 'home' && !isAuthenticated}
         onBack={() => setCurrentPage('home')}
         actions={

@@ -14,35 +14,39 @@ const createLazyComponent = (importFn: () => Promise<any>, componentName: string
   return lazy(async () => {
     try {
       const module = await importFn();
-
+      
       // Try default export first
       if (module.default) {
         return { default: module.default };
       }
-
+      
       // Try named export matching component name
       if (module[componentName]) {
         return { default: module[componentName] };
       }
-
+      
       // Fallback to first available export
-      const exportNames = Object.keys(module).filter((key) => key !== 'default');
+      const exportNames = Object.keys(module).filter(key => key !== 'default');
       if (exportNames.length > 0) {
         return { default: module[exportNames[0]] };
       }
-
+      
       throw new Error(`No valid export found for ${componentName}`);
     } catch (error) {
       console.error(`Failed to load component ${componentName}:`, error);
-
+      
       // Return a fallback component
       return {
         default: () => (
           <div className="flex items-center justify-center min-h-[60vh]">
             <div className="text-center space-y-4">
-              <h2 className="text-xl font-semibold text-destructive">Component Load Error</h2>
-              <p className="text-muted-foreground">Failed to load {componentName}</p>
-              <button
+              <h2 className="text-xl font-semibold text-destructive">
+                Component Load Error
+              </h2>
+              <p className="text-muted-foreground">
+                Failed to load {componentName}
+              </p>
+              <button 
                 onClick={() => window.location.reload()}
                 className="ff-btn-primary px-4 py-2 rounded"
               >
@@ -50,7 +54,7 @@ const createLazyComponent = (importFn: () => Promise<any>, componentName: string
               </button>
             </div>
           </div>
-        ),
+        )
       };
     }
   });
@@ -66,176 +70,68 @@ const PricingPage = createLazyComponent(() => import('../pages/PricingPage'), 'P
 const AboutPage = createLazyComponent(() => import('../pages/AboutPage'), 'AboutPage');
 const ContactPage = createLazyComponent(() => import('../pages/ContactPage'), 'ContactPage');
 const FeaturesPage = createLazyComponent(() => import('../pages/FeaturesPage'), 'FeaturesPage');
-const TestimonialsPage = createLazyComponent(
-  () => import('../pages/TestimonialsPage'),
-  'TestimonialsPage'
-);
+const TestimonialsPage = createLazyComponent(() => import('../pages/TestimonialsPage'), 'TestimonialsPage');
 const FAQPage = createLazyComponent(() => import('../pages/FAQPage'), 'FAQPage');
 const PrivacyPage = createLazyComponent(() => import('../pages/PrivacyPage'), 'PrivacyPage');
 const TermsPage = createLazyComponent(() => import('../pages/TermsPage'), 'TermsPage');
 const NotFoundPage = createLazyComponent(() => import('../pages/NotFoundPage'), 'NotFoundPage');
 
 // Tool components with enhanced error handling
-const CodeGenerator = createLazyComponent(
-  () => import('../generation/CodeGenerator'),
-  'CodeGenerator'
-);
-const FullStackBuilderTool = createLazyComponent(
-  () => import('../tools/FullStackBuilderTool'),
-  'FullStackBuilderTool'
-);
-const ContentGeneratorTool = createLazyComponent(
-  () => import('../tools/ContentGeneratorTool'),
-  'ContentGeneratorTool'
-);
-const CreatorCommerceHub = createLazyComponent(
-  () => import('../creator/CreatorCommerceHub'),
-  'CreatorCommerceHub'
-);
-const ContentCreationHub = createLazyComponent(
-  () => import('../creator/ContentCreationHub'),
-  'ContentCreationHub'
-);
-const CICDPipelineIntegration = createLazyComponent(
-  () => import('../cicd/CICDPipelineIntegration'),
-  'CICDPipelineIntegration'
-);
+const CodeGenerator = createLazyComponent(() => import('../generation/CodeGenerator'), 'CodeGenerator');
+const FullStackBuilderTool = createLazyComponent(() => import('../tools/FullStackBuilderTool'), 'FullStackBuilderTool');
+const ContentGeneratorTool = createLazyComponent(() => import('../tools/ContentGeneratorTool'), 'ContentGeneratorTool');
+const CreatorCommerceHub = createLazyComponent(() => import('../creator/CreatorCommerceHub'), 'CreatorCommerceHub');
+const ContentCreationHub = createLazyComponent(() => import('../creator/ContentCreationHub'), 'ContentCreationHub');
+const CICDPipelineIntegration = createLazyComponent(() => import('../cicd/CICDPipelineIntegration'), 'CICDPipelineIntegration');
 
 // System components with enhanced error handling
-const GlobalSearchPalette = createLazyComponent(
-  () => import('../search/GlobalSearchPalette'),
-  'GlobalSearchPalette'
-);
-const UserProfileHub = createLazyComponent(
-  () => import('../user/UserProfileHub'),
-  'UserProfileHub'
-);
-const NotificationCenter = createLazyComponent(
-  () => import('../notifications/NotificationCenter'),
-  'NotificationCenter'
-);
+const GlobalSearchPalette = createLazyComponent(() => import('../search/GlobalSearchPalette'), 'GlobalSearchPalette');
+const UserProfileHub = createLazyComponent(() => import('../user/UserProfileHub'), 'UserProfileHub');
+const NotificationCenter = createLazyComponent(() => import('../notifications/NotificationCenter'), 'NotificationCenter');
 
 // Additional page components
 const AnalyticsPage = createLazyComponent(() => import('../pages/AnalyticsPage'), 'AnalyticsPage');
 const DemoPage = createLazyComponent(() => import('../pages/DemoPage'), 'DemoPage');
-const DeploymentsPage = createLazyComponent(
-  () => import('../pages/DeploymentsPage'),
-  'DeploymentsPage'
-);
-const CollaborationPage = createLazyComponent(
-  () => import('../pages/CollaborationPage'),
-  'CollaborationPage'
-);
-const IntegrationsPage = createLazyComponent(
-  () => import('../pages/IntegrationsPage'),
-  'IntegrationsPage'
-);
-const MultiAgentOrchestrationPage = createLazyComponent(
-  () => import('../pages/MultiAgentOrchestrationPage'),
-  'MultiAgentOrchestrationPage'
-);
+const DeploymentsPage = createLazyComponent(() => import('../pages/DeploymentsPage'), 'DeploymentsPage');
+const CollaborationPage = createLazyComponent(() => import('../pages/CollaborationPage'), 'CollaborationPage');
+const IntegrationsPage = createLazyComponent(() => import('../pages/IntegrationsPage'), 'IntegrationsPage');
+const MultiAgentOrchestrationPage = createLazyComponent(() => import('../pages/MultiAgentOrchestrationPage'), 'MultiAgentOrchestrationPage');
 const TemplatesPage = createLazyComponent(() => import('../pages/TemplatesPage'), 'TemplatesPage');
-const ToolDetailPage = createLazyComponent(
-  () => import('../pages/ToolDetailPage'),
-  'ToolDetailPage'
-);
+const ToolDetailPage = createLazyComponent(() => import('../pages/ToolDetailPage'), 'ToolDetailPage');
 
 // Showcase components
-const FlashFusionPlatformShowcase = createLazyComponent(
-  () => import('../showcase/FlashFusionPlatformShowcase'),
-  'FlashFusionPlatformShowcase'
-);
+const FlashFusionPlatformShowcase = createLazyComponent(() => import('../showcase/FlashFusionPlatformShowcase'), 'FlashFusionPlatformShowcase');
 
 // Launch-ready optimization components
-const OptimizedOnboardingFlow = createLazyComponent(
-  () => import('../onboarding/OptimizedOnboardingFlow'),
-  'OptimizedOnboardingFlow'
-);
-const LaunchPerformanceDashboard = createLazyComponent(
-  () => import('../performance/LaunchPerformanceDashboard'),
-  'LaunchPerformanceDashboard'
-);
-const ErrorRecoverySystem = createLazyComponent(
-  () => import('../stability/ErrorRecoverySystem'),
-  'ErrorRecoverySystem'
-);
-const UserEngagementHub = createLazyComponent(
-  () => import('../engagement/UserEngagementHub'),
-  'UserEngagementHub'
-);
-const MobileOptimizationCenter = createLazyComponent(
-  () => import('../mobile/MobileOptimizationCenter'),
-  'MobileOptimizationCenter'
-);
-const SEOOptimizationSuite = createLazyComponent(
-  () => import('../seo/SEOOptimizationSuite'),
-  'SEOOptimizationSuite'
-);
-const CommunityFeedbackHub = createLazyComponent(
-  () => import('../community/CommunityFeedbackHub'),
-  'CommunityFeedbackHub'
-);
-const LaunchDayCommand = createLazyComponent(
-  () => import('../launch/LaunchDayCommand'),
-  'LaunchDayCommand'
-);
+const OptimizedOnboardingFlow = createLazyComponent(() => import('../onboarding/OptimizedOnboardingFlow'), 'OptimizedOnboardingFlow');
+const LaunchPerformanceDashboard = createLazyComponent(() => import('../performance/LaunchPerformanceDashboard'), 'LaunchPerformanceDashboard');
+const ErrorRecoverySystem = createLazyComponent(() => import('../stability/ErrorRecoverySystemFixed'), 'ErrorRecoverySystem');
+const UserEngagementHub = createLazyComponent(() => import('../engagement/UserEngagementHub'), 'UserEngagementHub');
+const MobileOptimizationCenter = createLazyComponent(() => import('../mobile/MobileOptimizationCenter'), 'MobileOptimizationCenter');
+const SEOOptimizationSuite = createLazyComponent(() => import('../seo/SEOOptimizationSuite'), 'SEOOptimizationSuite');
+const CommunityFeedbackHub = createLazyComponent(() => import('../community/CommunityFeedbackHub'), 'CommunityFeedbackHub');
+const LaunchDayCommand = createLazyComponent(() => import('../launch/LaunchDayCommandFixed'), 'LaunchDayCommand');
 
 // Testing, monitoring, and launch preparation components
-const LaunchStabilityTester = createLazyComponent(
-  () => import('../testing/LaunchStabilityTester'),
-  'LaunchStabilityTester'
-);
-const AdvancedMonitoringSystem = createLazyComponent(
-  () => import('../monitoring/AdvancedMonitoringSystem'),
-  'AdvancedMonitoringSystem'
-);
-const LaunchMarketingCampaign = createLazyComponent(
-  () => import('../marketing/LaunchMarketingCampaign'),
-  'LaunchMarketingCampaign'
-);
-const LaunchDayPreparationChecklist = createLazyComponent(
-  () => import('../launch/LaunchDayPreparationChecklist'),
-  'LaunchDayPreparationChecklist'
-);
+const LaunchStabilityTester = createLazyComponent(() => import('../testing/LaunchStabilityTester'), 'LaunchStabilityTester');
+const AdvancedMonitoringSystem = createLazyComponent(() => import('../monitoring/AdvancedMonitoringSystem'), 'AdvancedMonitoringSystem');
+const LaunchMarketingCampaign = createLazyComponent(() => import('../marketing/LaunchMarketingCampaign'), 'LaunchMarketingCampaign');
+const LaunchDayPreparationChecklist = createLazyComponent(() => import('../launch/LaunchDayPreparationChecklist'), 'LaunchDayPreparationChecklist');
 
 // Launch readiness demo component
-const LaunchReadinessDemo = createLazyComponent(
-  () => import('../pages/LaunchReadinessDemo'),
-  'LaunchReadinessDemo'
-);
+const LaunchReadinessDemo = createLazyComponent(() => import('../pages/LaunchReadinessDemo'), 'LaunchReadinessDemo');
 
 // Pricing and FAQ demo component
-const PricingFAQDemoPage = createLazyComponent(
-  () => import('../pages/PricingFAQDemoPage'),
-  'PricingFAQDemoPage'
-);
+const PricingFAQDemoPage = createLazyComponent(() => import('../pages/PricingFAQDemoPage'), 'PricingFAQDemoPage');
 
 // Enhanced performance and security components
-const RealTimePerformanceMonitor = createLazyComponent(
-  () => import('../performance/RealTimePerformanceMonitor'),
-  'RealTimePerformanceMonitor'
-);
-const ComprehensiveSecurityScanner = createLazyComponent(
-  () => import('../security/ComprehensiveSecurityScanner'),
-  'ComprehensiveSecurityScanner'
-);
+const RealTimePerformanceMonitor = createLazyComponent(() => import('../performance/RealTimePerformanceMonitor'), 'RealTimePerformanceMonitor');
+const ComprehensiveSecurityScanner = createLazyComponent(() => import('../security/ComprehensiveSecurityScanner'), 'ComprehensiveSecurityScanner');
 const SecurityPage = createLazyComponent(() => import('../pages/SecurityPage'), 'SecurityPage');
-const PremiumMicroInteractions = createLazyComponent(
-  () => import('../ui/PremiumMicroInteractions'),
-  'PremiumMicroInteractions'
-);
-const IntelligentAnalyticsDashboard = createLazyComponent(
-  () => import('../analytics/IntelligentAnalyticsDashboard'),
-  'IntelligentAnalyticsDashboard'
-);
-const SmartOptimizationEngine = createLazyComponent(
-  () => import('../performance/SmartOptimizationEngine'),
-  'SmartOptimizationEngine'
-);
-const PerformanceSecurityShowcase = createLazyComponent(
-  () => import('../pages/PerformanceSecurityShowcase'),
-  'PerformanceSecurityShowcase'
-);
+const PremiumMicroInteractions = createLazyComponent(() => import('../ui/PremiumMicroInteractions'), 'PremiumMicroInteractions');
+const IntelligentAnalyticsDashboard = createLazyComponent(() => import('../analytics/IntelligentAnalyticsDashboard'), 'IntelligentAnalyticsDashboard');
+const SmartOptimizationEngine = createLazyComponent(() => import('../performance/SmartOptimizationEngine'), 'SmartOptimizationEngine');
+const PerformanceSecurityShowcase = createLazyComponent(() => import('../pages/PerformanceSecurityShowcase'), 'PerformanceSecurityShowcase');
 
 // Fallback component for missing pages
 const MissingPageComponent = ({ pageName }: { pageName: string }) => (
@@ -245,12 +141,17 @@ const MissingPageComponent = ({ pageName }: { pageName: string }) => (
         <span className="text-2xl">🚧</span>
       </div>
       <div className="space-y-2">
-        <h2 className="text-2xl font-semibold text-foreground">Page Under Construction</h2>
+        <h2 className="text-2xl font-semibold text-foreground">
+          Page Under Construction
+        </h2>
         <p className="text-muted-foreground">
           The {pageName} page is currently being built. Please check back soon!
         </p>
       </div>
-      <button onClick={() => window.history.back()} className="ff-btn-primary px-6 py-2 rounded">
+      <button 
+        onClick={() => window.history.back()}
+        className="ff-btn-primary px-6 py-2 rounded"
+      >
         Go Back
       </button>
     </div>
@@ -269,7 +170,7 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
     const hash = window.location.hash.slice(1);
     if (hash.startsWith('/tools/')) {
       const toolRoute = hash.replace('/tools/', '');
-
+      
       try {
         switch (toolRoute) {
           case 'code-generator':
@@ -437,7 +338,7 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
               <TermsPage />
             </ErrorBoundary>
           );
-
+        
         // System Components
         case 'search':
           return (
@@ -471,7 +372,7 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
               <NotificationCenter />
             </ErrorBoundary>
           );
-
+        
         // Additional pages
         case 'analytics':
           if (!isAuthenticated) {
@@ -555,7 +456,7 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
               <FlashFusionPlatformShowcase />
             </ErrorBoundary>
           );
-
+        
         // Tool-specific routes
         case 'code-generator':
           return (
@@ -594,12 +495,12 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
               <CICDPipelineIntegration />
             </ErrorBoundary>
           );
-
+        
         // Launch optimization components
         case 'onboarding-optimization':
           return (
             <ErrorBoundary>
-              <OptimizedOnboardingFlow
+              <OptimizedOnboardingFlow 
                 onComplete={(data) => {
                   console.log('Onboarding completed:', data);
                   onPageChange('dashboard');
@@ -650,7 +551,7 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
               <LaunchDayCommand />
             </ErrorBoundary>
           );
-
+        
         // Testing, monitoring, and launch preparation
         case 'stability-testing':
           return (
@@ -688,7 +589,7 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
               <PricingFAQDemoPage />
             </ErrorBoundary>
           );
-
+        
         // Enhanced Performance & Security Components
         case 'performance-monitor':
           return (
@@ -734,7 +635,7 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
               <PerformanceSecurityShowcase onNavigateToTool={onPageChange} />
             </ErrorBoundary>
           );
-
+        
         // Not Found
         case 'not-found':
           return (
@@ -742,7 +643,7 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
               <NotFoundPage />
             </ErrorBoundary>
           );
-
+        
         default:
           console.warn(`Unknown page: ${currentPage}`);
           return (
@@ -759,7 +660,7 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
 
   return (
     <div className="min-h-screen" id="main-content">
-      <Suspense
+      <Suspense 
         fallback={
           <div className="flex items-center justify-center min-h-[60vh]">
             <div className="text-center space-y-6 ff-fade-in-up max-w-md mx-auto px-6">
@@ -776,7 +677,9 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
           </div>
         }
       >
-        <ErrorBoundary>{renderPage()}</ErrorBoundary>
+        <ErrorBoundary>
+          {renderPage()}
+        </ErrorBoundary>
       </Suspense>
     </div>
   );

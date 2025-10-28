@@ -1,14 +1,7 @@
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 export interface AppError {
-  type:
-    | 'initialization'
-    | 'authentication'
-    | 'network'
-    | 'component'
-    | 'permission'
-    | 'api'
-    | 'validation';
+  type: 'initialization' | 'authentication' | 'network' | 'component' | 'permission' | 'api' | 'validation';
   message: string;
   details?: string;
   recoverable?: boolean;
@@ -49,7 +42,7 @@ export class ErrorService {
       recoverable: options.recoverable ?? true,
       code: options.code ?? `${type.toUpperCase()}_ERROR`,
       timestamp: new Date().toISOString(),
-      context: options.context,
+      context: options.context
     };
   }
 
@@ -64,7 +57,7 @@ export class ErrorService {
     } else if (error instanceof Error) {
       processedError = this.createError('component', error.message, {
         details: error.stack,
-        context: { ...context, originalError: error.name },
+        context: { ...context, originalError: error.name }
       });
     } else {
       processedError = { ...error, context: { ...error.context, ...context } };
@@ -111,7 +104,7 @@ export class ErrorService {
    */
   private showUserFeedback(error: AppError): void {
     const severity = this.getErrorSeverity(error);
-
+    
     // Don't show toasts for critical errors (they should be handled by components)
     if (severity === 'critical') {
       return;
@@ -120,12 +113,10 @@ export class ErrorService {
     const toastOptions = {
       description: error.details,
       duration: this.getToastDuration(severity),
-      action: error.recoverable
-        ? {
-            label: 'Retry',
-            onClick: () => this.triggerRetry(error),
-          }
-        : undefined,
+      action: error.recoverable ? {
+        label: 'Retry',
+        onClick: () => this.triggerRetry(error)
+      } : undefined
     };
 
     switch (severity) {
@@ -164,11 +155,9 @@ export class ErrorService {
    */
   private triggerRetry(error: AppError): void {
     // Emit retry event that components can listen to
-    window.dispatchEvent(
-      new CustomEvent('ff-error-retry', {
-        detail: { error },
-      })
-    );
+    window.dispatchEvent(new CustomEvent('ff-error-retry', {
+      detail: { error }
+    }));
   }
 
   /**
@@ -181,7 +170,7 @@ export class ErrorService {
       severity,
       userAgent: navigator.userAgent,
       url: window.location.href,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     };
 
     switch (severity) {
@@ -220,10 +209,13 @@ export class ErrorService {
       const monitoringData = {
         ...errorData,
         sessionId: this.getSessionId(),
-        userId: this.getUserId(),
+        userId: this.getUserId()
       };
 
-      localStorage.setItem(`ff-error-${Date.now()}`, JSON.stringify(monitoringData));
+      localStorage.setItem(
+        `ff-error-${Date.now()}`,
+        JSON.stringify(monitoringData)
+      );
 
       // Clean up old error reports (keep last 10)
       this.cleanupLocalErrorReports();
@@ -259,14 +251,14 @@ export class ErrorService {
   private cleanupLocalErrorReports(): void {
     try {
       const errorKeys = Object.keys(localStorage)
-        .filter((key) => key.startsWith('ff-error-'))
+        .filter(key => key.startsWith('ff-error-'))
         .sort()
         .reverse();
 
       // Keep only the last 10 error reports
       if (errorKeys.length > 10) {
         const keysToRemove = errorKeys.slice(10);
-        keysToRemove.forEach((key) => localStorage.removeItem(key));
+        keysToRemove.forEach(key => localStorage.removeItem(key));
       }
     } catch (error) {
       console.warn('Failed to cleanup error reports:', error);
@@ -287,7 +279,7 @@ export class ErrorService {
    * Notify error listeners
    */
   private notifyListeners(error: AppError): void {
-    this.errorListeners.forEach((listener) => {
+    this.errorListeners.forEach(listener => {
       try {
         listener(error);
       } catch (listenerError) {
@@ -301,7 +293,7 @@ export class ErrorService {
    */
   subscribe(listener: (error: AppError) => void): () => void {
     this.errorListeners.push(listener);
-
+    
     return () => {
       const index = this.errorListeners.indexOf(listener);
       if (index > -1) {
@@ -332,11 +324,11 @@ export class ErrorService {
     if (error.type === 'network' && error.recoverable) {
       return true;
     }
-
+    
     if (error.type === 'api' && error.code?.includes('TIMEOUT')) {
       return true;
     }
-
+    
     return false;
   }
 
@@ -347,7 +339,7 @@ export class ErrorService {
     return this.createError('network', message, {
       details,
       recoverable: true,
-      code: 'NETWORK_ERROR',
+      code: 'NETWORK_ERROR'
     });
   }
 
@@ -359,7 +351,7 @@ export class ErrorService {
       details,
       recoverable: statusCode ? statusCode >= 500 : true,
       code: `API_ERROR_${statusCode || 'UNKNOWN'}`,
-      context: { statusCode },
+      context: { statusCode }
     });
   }
 
@@ -368,14 +360,12 @@ export class ErrorService {
    */
   createValidationError(message: string, fieldErrors?: Record<string, string[]>): AppError {
     return this.createError('validation', message, {
-      details: fieldErrors
-        ? Object.entries(fieldErrors)
-            .map(([field, errors]) => `${field}: ${errors.join(', ')}`)
-            .join('\n')
-        : undefined,
+      details: fieldErrors ? Object.entries(fieldErrors)
+        .map(([field, errors]) => `${field}: ${errors.join(', ')}`)
+        .join('\n') : undefined,
       recoverable: true,
       code: 'VALIDATION_ERROR',
-      context: { fieldErrors },
+      context: { fieldErrors }
     });
   }
 }

@@ -14,26 +14,26 @@
 
 :root {
   /* Base Dark Theme - Exact Figma Palette */
-  --figma-bg-dark-primary: #0d1321;
-  --figma-bg-dark-secondary: #0d1b2a;
+  --figma-bg-dark-primary: #0D1321;
+  --figma-bg-dark-secondary: #0D1B2A;
   --figma-surface-card: rgba(30, 41, 59, 0.6);
-
+  
   /* Accent Colors - Exact Figma Match */
-  --figma-purple: #5e3df5;
-  --figma-teal: #5df9a4;
-  --figma-blue: #2d6fbe;
-  --figma-orange: #f47a34;
-
+  --figma-purple: #5E3DF5;
+  --figma-teal: #5DF9A4;
+  --figma-blue: #2D6FBE;
+  --figma-orange: #F47A34;
+  
   /* Text Colors */
-  --figma-text-primary: #ffffff;
-  --figma-text-secondary: #cbd5e1;
-  --figma-text-muted: #94a3b8;
-
+  --figma-text-primary: #FFFFFF;
+  --figma-text-secondary: #CBD5E1;
+  --figma-text-muted: #94A3B8;
+  
   /* Gradients - Exact Figma Implementation */
-  --figma-gradient-purple-teal: linear-gradient(135deg, #5e3df5 0%, #5df9a4 100%);
-  --figma-gradient-teal-blue: linear-gradient(135deg, #5df9a4 0%, #2d6fbe 100%);
-  --figma-gradient-blue-orange: linear-gradient(135deg, #2d6fbe 0%, #f47a34 100%);
-  --figma-gradient-orange-purple: linear-gradient(135deg, #f47a34 0%, #5e3df5 100%);
+  --figma-gradient-purple-teal: linear-gradient(135deg, #5E3DF5 0%, #5DF9A4 100%);
+  --figma-gradient-teal-blue: linear-gradient(135deg, #5DF9A4 0%, #2D6FBE 100%);
+  --figma-gradient-blue-orange: linear-gradient(135deg, #2D6FBE 0%, #F47A34 100%);
+  --figma-gradient-orange-purple: linear-gradient(135deg, #F47A34 0%, #5E3DF5 100%);
 }
 
 /* ============================================
@@ -42,59 +42,55 @@
 
 /* Card Hover Effect */
 @keyframes figma-card-hover {
-  0% {
-    transform: translateY(0) scale(1);
+  0% { 
+    transform: translateY(0) scale(1); 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
-  100% {
-    transform: translateY(-4px) scale(1.02);
+  100% { 
+    transform: translateY(-4px) scale(1.02); 
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
   }
 }
 
 /* Button Ripple Effect */
 @keyframes figma-button-ripple {
-  0% {
-    transform: scale(0);
-    opacity: 1;
+  0% { 
+    transform: scale(0); 
+    opacity: 1; 
   }
-  100% {
-    transform: scale(4);
-    opacity: 0;
+  100% { 
+    transform: scale(4); 
+    opacity: 0; 
   }
 }
 
 /* Progress Bar Fill */
 @keyframes figma-progress-fill {
-  0% {
-    width: 0%;
-  }
-  100% {
-    width: var(--progress-value, 100%);
-  }
+  0% { width: 0%; }
+  100% { width: var(--progress-value, 100%); }
 }
 
 /* Fade Slide Up */
 @keyframes figma-fade-slide-up {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
+  0% { 
+    opacity: 0; 
+    transform: translateY(30px); 
   }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
   }
 }
 
 /* Stagger Fade Animation */
 @keyframes figma-stagger-fade {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
+  0% { 
+    opacity: 0; 
+    transform: translateY(20px); 
   }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
   }
 }
 
@@ -110,8 +106,7 @@
 
 /* Pulse Glow Effect */
 @keyframes figma-pulse-glow {
-  0%,
-  100% {
+  0%, 100% {
     box-shadow: 0 0 20px rgba(94, 61, 245, 0.3);
   }
   50% {
@@ -194,30 +189,14 @@
   animation: figma-stagger-fade 0.6s cubic-bezier(0, 0, 0.2, 1) forwards;
 }
 
-.figma-stagger-fade > *:nth-child(1) {
-  animation-delay: 0.1s;
-}
-.figma-stagger-fade > *:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.figma-stagger-fade > *:nth-child(3) {
-  animation-delay: 0.3s;
-}
-.figma-stagger-fade > *:nth-child(4) {
-  animation-delay: 0.4s;
-}
-.figma-stagger-fade > *:nth-child(5) {
-  animation-delay: 0.5s;
-}
-.figma-stagger-fade > *:nth-child(6) {
-  animation-delay: 0.6s;
-}
-.figma-stagger-fade > *:nth-child(7) {
-  animation-delay: 0.7s;
-}
-.figma-stagger-fade > *:nth-child(8) {
-  animation-delay: 0.8s;
-}
+.figma-stagger-fade > *:nth-child(1) { animation-delay: 0.1s; }
+.figma-stagger-fade > *:nth-child(2) { animation-delay: 0.2s; }
+.figma-stagger-fade > *:nth-child(3) { animation-delay: 0.3s; }
+.figma-stagger-fade > *:nth-child(4) { animation-delay: 0.4s; }
+.figma-stagger-fade > *:nth-child(5) { animation-delay: 0.5s; }
+.figma-stagger-fade > *:nth-child(6) { animation-delay: 0.6s; }
+.figma-stagger-fade > *:nth-child(7) { animation-delay: 0.7s; }
+.figma-stagger-fade > *:nth-child(8) { animation-delay: 0.8s; }
 
 /* Gradient Text */
 .figma-text-gradient {
@@ -322,7 +301,7 @@
 }
 
 .figma-workflow-step-circle.completed {
-  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
   color: white;
 }
 
@@ -352,7 +331,7 @@
 }
 
 .figma-workflow-connector.completed {
-  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+  background: linear-gradient(90deg, #10B981 0%, #34D399 100%);
 }
 
 /* ============================================
@@ -377,7 +356,10 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(94, 61, 245, 0.5) 50%, transparent 100%);
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(94, 61, 245, 0.5) 50%, 
+    transparent 100%);
 }
 
 .figma-feature-card:hover {
@@ -466,21 +448,13 @@
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 @keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 /* ============================================
@@ -569,7 +543,7 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-
+  
   .figma-parallax-bg {
     transform: none !important;
   }
@@ -597,26 +571,26 @@
   .figma-workflow-progress {
     gap: 8px;
   }
-
+  
   .figma-workflow-step-circle {
     width: 40px;
     height: 40px;
     font-size: 16px;
   }
-
+  
   .figma-workflow-connector {
     width: 32px;
   }
-
+  
   .figma-feature-card {
     padding: 16px;
   }
-
+  
   .figma-feature-icon {
     width: 48px;
     height: 48px;
   }
-
+  
   .figma-modal-content {
     max-width: 95vw;
     border-radius: 12px;

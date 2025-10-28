@@ -4,12 +4,12 @@
  * @category analysis
  * @version 2.0.0
  * @author FlashFusion Team
- *
+ * 
  * FLASHFUSION - SECURITY SCANNER PRO
- *
- * Comprehensive security analysis for vulnerabilities, compliance checks,
+ * 
+ * Comprehensive security analysis for vulnerabilities, compliance checks, 
  * and penetration testing based on industry-leading practices.
- *
+ * 
  * Features:
  * - OWASP Top 10 vulnerability scanning
  * - Dependency vulnerability audit
@@ -31,10 +31,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../ui/tabs';
 import { Progress } from '../../ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
 import { Switch } from '../../ui/switch';
-import {
-  Shield,
-  AlertTriangle,
-  CheckCircle,
+import { 
+  Shield, 
+  AlertTriangle, 
+  CheckCircle, 
   XCircle,
   Eye,
   Search,
@@ -53,9 +53,9 @@ import {
   TrendingUp,
   BarChart3,
   Target,
-  Settings,
+  Settings
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface SecurityScanResult {
   overall_score: number;
@@ -113,41 +113,41 @@ interface SecurityRecommendation {
 }
 
 const SCAN_TYPES = [
-  {
-    value: 'comprehensive',
-    label: 'Comprehensive Scan',
+  { 
+    value: 'comprehensive', 
+    label: 'Comprehensive Scan', 
     description: 'Full security assessment including OWASP Top 10, dependencies, and compliance',
     duration: '10-15 minutes',
-    depth: 'Deep',
+    depth: 'Deep'
   },
-  {
-    value: 'quick',
-    label: 'Quick Scan',
+  { 
+    value: 'quick', 
+    label: 'Quick Scan', 
     description: 'Rapid security check for critical vulnerabilities',
     duration: '2-3 minutes',
-    depth: 'Surface',
+    depth: 'Surface'
   },
-  {
-    value: 'dependency',
-    label: 'Dependency Audit',
+  { 
+    value: 'dependency', 
+    label: 'Dependency Audit', 
     description: 'Focus on third-party package vulnerabilities',
     duration: '1-2 minutes',
-    depth: 'Focused',
+    depth: 'Focused'
   },
-  {
-    value: 'compliance',
-    label: 'Compliance Check',
+  { 
+    value: 'compliance', 
+    label: 'Compliance Check', 
     description: 'Verify adherence to security standards (SOC 2, PCI DSS)',
     duration: '5-8 minutes',
-    depth: 'Regulatory',
+    depth: 'Regulatory'
   },
-  {
-    value: 'penetration',
-    label: 'Penetration Test',
+  { 
+    value: 'penetration', 
+    label: 'Penetration Test', 
     description: 'Simulated attacks to test security defenses',
     duration: '15-20 minutes',
-    depth: 'Intensive',
-  },
+    depth: 'Intensive'
+  }
 ];
 
 const COMPLIANCE_STANDARDS = [
@@ -156,7 +156,7 @@ const COMPLIANCE_STANDARDS = [
   { value: 'pci-dss', label: 'PCI DSS', description: 'Payment card industry standards' },
   { value: 'gdpr', label: 'GDPR', description: 'General data protection regulation' },
   { value: 'hipaa', label: 'HIPAA', description: 'Healthcare information protection' },
-  { value: 'iso27001', label: 'ISO 27001', description: 'Information security management' },
+  { value: 'iso27001', label: 'ISO 27001', description: 'Information security management' }
 ];
 
 export function SecurityScannerTool(): JSX.Element {
@@ -184,8 +184,8 @@ export function SecurityScannerTool(): JSX.Element {
     setActiveTab('results');
 
     try {
-      const selectedScanType = SCAN_TYPES.find((s) => s.value === scanType);
-
+      const selectedScanType = SCAN_TYPES.find(s => s.value === scanType);
+      
       // Simulate security scanning
       const steps = [
         'Initializing security scanner...',
@@ -196,18 +196,18 @@ export function SecurityScannerTool(): JSX.Element {
         'Analyzing data handling practices...',
         'Checking compliance requirements...',
         'Generating security recommendations...',
-        'Finalizing scan report...',
+        'Finalizing scan report...'
       ];
 
       for (let i = 0; i < steps.length; i++) {
         setProgress(((i + 1) / steps.length) * 100);
-        await new Promise((resolve) => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 800));
       }
 
       // Generate mock scan results
       const results = generateMockScanResults(scanType, selectedStandards);
       setScanResults(results);
-
+      
       toast.success(`Security scan completed! Found ${results.vulnerabilities.length} issues.`);
     } catch (error) {
       toast.error('Security scan failed. Please try again.');
@@ -222,16 +222,11 @@ export function SecurityScannerTool(): JSX.Element {
    */
   const getSeverityColor = (severity: string): string => {
     switch (severity) {
-      case 'critical':
-        return 'text-red-700 bg-red-50 border-red-200';
-      case 'high':
-        return 'text-orange-700 bg-orange-50 border-orange-200';
-      case 'medium':
-        return 'text-yellow-700 bg-yellow-50 border-yellow-200';
-      case 'low':
-        return 'text-blue-700 bg-blue-50 border-blue-200';
-      default:
-        return 'text-gray-700 bg-gray-50 border-gray-200';
+      case 'critical': return 'text-red-700 bg-red-50 border-red-200';
+      case 'high': return 'text-orange-700 bg-orange-50 border-orange-200';
+      case 'medium': return 'text-yellow-700 bg-yellow-50 border-yellow-200';
+      case 'low': return 'text-blue-700 bg-blue-50 border-blue-200';
+      default: return 'text-gray-700 bg-gray-50 border-gray-200';
     }
   };
 
@@ -245,7 +240,7 @@ export function SecurityScannerTool(): JSX.Element {
     return 'text-red-600';
   };
 
-  const selectedScanType = SCAN_TYPES.find((s) => s.value === scanType);
+  const selectedScanType = SCAN_TYPES.find(s => s.value === scanType);
 
   return (
     <div className="space-y-6 ff-fade-in-up">
@@ -264,7 +259,7 @@ export function SecurityScannerTool(): JSX.Element {
             </p>
           </div>
         </div>
-
+        
         <div className="flex items-center gap-3">
           <Badge variant="secondary" className="text-xs">
             Enterprise Grade
@@ -338,14 +333,10 @@ export function SecurityScannerTool(): JSX.Element {
                             <h3 className="font-semibold text-sm text-[var(--ff-text-primary)]">
                               {scan.label}
                             </h3>
-                            <p className="text-xs text-[var(--ff-text-muted)]">
-                              {scan.description}
-                            </p>
+                            <p className="text-xs text-[var(--ff-text-muted)]">{scan.description}</p>
                           </div>
                           <div className="text-right">
-                            <div className="text-xs text-[var(--ff-text-muted)]">
-                              {scan.duration}
-                            </div>
+                            <div className="text-xs text-[var(--ff-text-muted)]">{scan.duration}</div>
                             <Badge variant="outline" className="text-xs mt-1">
                               {scan.depth}
                             </Badge>
@@ -370,19 +361,18 @@ export function SecurityScannerTool(): JSX.Element {
                   <div className="flex items-center justify-between">
                     <div>
                       <Label className="text-sm font-semibold">Include Source Code Analysis</Label>
-                      <p className="text-xs text-[var(--ff-text-muted)]">
-                        Analyze code for security patterns
-                      </p>
+                      <p className="text-xs text-[var(--ff-text-muted)]">Analyze code for security patterns</p>
                     </div>
-                    <Switch checked={includeSourceCode} onCheckedChange={setIncludeSourceCode} />
+                    <Switch
+                      checked={includeSourceCode}
+                      onCheckedChange={setIncludeSourceCode}
+                    />
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div>
                       <Label className="text-sm font-semibold">Dependency Audit</Label>
-                      <p className="text-xs text-[var(--ff-text-muted)]">
-                        Check for vulnerable dependencies
-                      </p>
+                      <p className="text-xs text-[var(--ff-text-muted)]">Check for vulnerable dependencies</p>
                     </div>
                     <Switch
                       checked={includeDependencies}
@@ -490,14 +480,14 @@ export function SecurityScannerTool(): JSX.Element {
                   <Card
                     key={standard.value}
                     className={`ff-card-interactive cursor-pointer p-4 ${
-                      selectedStandards.includes(standard.value)
-                        ? 'ring-2 ring-[var(--ff-primary)] bg-[var(--ff-primary)]/5'
+                      selectedStandards.includes(standard.value) 
+                        ? 'ring-2 ring-[var(--ff-primary)] bg-[var(--ff-primary)]/5' 
                         : ''
                     }`}
                     onClick={() => {
-                      setSelectedStandards((prev) =>
+                      setSelectedStandards(prev => 
                         prev.includes(standard.value)
-                          ? prev.filter((s) => s !== standard.value)
+                          ? prev.filter(s => s !== standard.value)
                           : [...prev, standard.value]
                       );
                     }}
@@ -511,7 +501,9 @@ export function SecurityScannerTool(): JSX.Element {
                           <CheckCircle className="h-4 w-4 text-[var(--ff-primary)]" />
                         )}
                       </div>
-                      <p className="text-xs text-[var(--ff-text-muted)]">{standard.description}</p>
+                      <p className="text-xs text-[var(--ff-text-muted)]">
+                        {standard.description}
+                      </p>
                     </div>
                   </Card>
                 ))}
@@ -539,7 +531,9 @@ export function SecurityScannerTool(): JSX.Element {
                   </div>
                   <div className="w-full max-w-md mx-auto">
                     <Progress value={progress} className="w-full" />
-                    <p className="text-xs text-[var(--ff-text-muted)] mt-2">{progress}% complete</p>
+                    <p className="text-xs text-[var(--ff-text-muted)] mt-2">
+                      {progress}% complete
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -557,24 +551,16 @@ export function SecurityScannerTool(): JSX.Element {
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div className="text-center">
-                      <div
-                        className={`text-3xl font-bold ${getScoreColor(scanResults.overall_score)}`}
-                      >
+                      <div className={`text-3xl font-bold ${getScoreColor(scanResults.overall_score)}`}>
                         {scanResults.overall_score}/100
                       </div>
                       <div className="text-sm text-[var(--ff-text-muted)]">Overall Score</div>
                     </div>
                     <div className="text-center">
                       <div className="text-3xl font-bold text-red-600">
-                        {
-                          scanResults.vulnerabilities.filter(
-                            (v) => v.severity === 'critical' || v.severity === 'high'
-                          ).length
-                        }
+                        {scanResults.vulnerabilities.filter(v => v.severity === 'critical' || v.severity === 'high').length}
                       </div>
-                      <div className="text-sm text-[var(--ff-text-muted)]">
-                        Critical/High Issues
-                      </div>
+                      <div className="text-sm text-[var(--ff-text-muted)]">Critical/High Issues</div>
                     </div>
                     <div className="text-center">
                       <div className="text-3xl font-bold text-orange-600">
@@ -605,12 +591,8 @@ export function SecurityScannerTool(): JSX.Element {
                     {scanResults.vulnerabilities.length === 0 ? (
                       <div className="text-center py-8">
                         <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
-                        <h3 className="font-semibold text-green-600 mb-2">
-                          No Vulnerabilities Found
-                        </h3>
-                        <p className="text-[var(--ff-text-secondary)]">
-                          Your application appears to be secure!
-                        </p>
+                        <h3 className="font-semibold text-green-600 mb-2">No Vulnerabilities Found</h3>
+                        <p className="text-[var(--ff-text-secondary)]">Your application appears to be secure!</p>
                       </div>
                     ) : (
                       scanResults.vulnerabilities.map((vuln) => (
@@ -639,31 +621,21 @@ export function SecurityScannerTool(): JSX.Element {
                                 </div>
                                 <div className="text-right">
                                   <div className="text-xs text-[var(--ff-text-muted)]">Impact</div>
-                                  <div className="text-sm font-bold text-red-600">
-                                    {vuln.impact}/10
-                                  </div>
+                                  <div className="text-sm font-bold text-red-600">{vuln.impact}/10</div>
                                 </div>
                               </div>
 
                               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                                <h5 className="font-semibold text-blue-800 text-sm mb-1">
-                                  Remediation
-                                </h5>
+                                <h5 className="font-semibold text-blue-800 text-sm mb-1">Remediation</h5>
                                 <p className="text-sm text-blue-700">{vuln.remediation}</p>
                               </div>
 
                               {vuln.affected_files.length > 0 && (
                                 <div>
-                                  <div className="text-xs font-semibold text-[var(--ff-text-muted)] mb-1">
-                                    Affected Files:
-                                  </div>
+                                  <div className="text-xs font-semibold text-[var(--ff-text-muted)] mb-1">Affected Files:</div>
                                   <div className="flex flex-wrap gap-1">
                                     {vuln.affected_files.map((file, index) => (
-                                      <Badge
-                                        key={index}
-                                        variant="outline"
-                                        className="text-xs font-mono"
-                                      >
+                                      <Badge key={index} variant="outline" className="text-xs font-mono">
                                         {file}
                                       </Badge>
                                     ))}
@@ -712,15 +684,11 @@ export function SecurityScannerTool(): JSX.Element {
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-2">
-                              <Badge
-                                className={`text-xs ${
-                                  rec.priority === 'high'
-                                    ? 'bg-red-100 text-red-700'
-                                    : rec.priority === 'medium'
-                                      ? 'bg-yellow-100 text-yellow-700'
-                                      : 'bg-blue-100 text-blue-700'
-                                }`}
-                              >
+                              <Badge className={`text-xs ${
+                                rec.priority === 'high' ? 'bg-red-100 text-red-700' :
+                                rec.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                                'bg-blue-100 text-blue-700'
+                              }`}>
                                 {rec.priority} priority
                               </Badge>
                               <Badge variant="outline" className="text-xs">
@@ -739,9 +707,7 @@ export function SecurityScannerTool(): JSX.Element {
                                 <div className="font-medium">{rec.implementation_effort}</div>
                               </div>
                               <div>
-                                <span className="text-[var(--ff-text-muted)]">
-                                  Security Impact:
-                                </span>
+                                <span className="text-[var(--ff-text-muted)]">Security Impact:</span>
                                 <div className="font-medium">{rec.security_impact}</div>
                               </div>
                             </div>
@@ -781,13 +747,12 @@ function generateMockScanResults(scanType: string, standards: string[]): Securit
       category: 'Injection',
       cwe_id: 'CWE-89',
       title: 'SQL Injection Vulnerability',
-      description:
-        'Application may be vulnerable to SQL injection attacks through user input fields',
+      description: 'Application may be vulnerable to SQL injection attacks through user input fields',
       affected_files: ['src/api/users.ts', 'src/api/auth.ts'],
       remediation: 'Use parameterized queries or ORM with built-in protection',
       references: ['https://owasp.org/www-community/attacks/SQL_Injection'],
       exploitability: 8,
-      impact: 9,
+      impact: 9
     },
     {
       id: '2',
@@ -800,19 +765,19 @@ function generateMockScanResults(scanType: string, standards: string[]): Securit
       remediation: 'Implement stronger password requirements (12+ characters, mixed case, symbols)',
       references: ['https://owasp.org/www-project-authentication-cheat-sheet/'],
       exploitability: 6,
-      impact: 7,
-    },
+      impact: 7
+    }
   ];
 
   return {
     overall_score: Math.floor(Math.random() * 30) + 60,
     vulnerabilities,
-    compliance: standards.map((standard) => ({
+    compliance: standards.map(standard => ({
       standard,
       status: Math.random() > 0.3 ? 'compliant' : 'partial',
       requirements_met: Math.floor(Math.random() * 10) + 15,
       total_requirements: 25,
-      details: [`${standard} assessment completed`],
+      details: [`${standard} assessment completed`]
     })),
     dependencies: [
       {
@@ -821,8 +786,8 @@ function generateMockScanResults(scanType: string, standards: string[]): Securit
         vulnerability: 'Prototype Pollution',
         severity: 'high',
         fix_available: true,
-        recommended_version: '4.17.21',
-      },
+        recommended_version: '4.17.21'
+      }
     ],
     recommendations: [
       {
@@ -831,7 +796,7 @@ function generateMockScanResults(scanType: string, standards: string[]): Securit
         title: 'Implement Multi-Factor Authentication',
         description: 'Add MFA to critical user accounts to prevent unauthorized access',
         implementation_effort: '1-2 weeks',
-        security_impact: 'High - Significantly reduces account takeover risk',
+        security_impact: 'High - Significantly reduces account takeover risk'
       },
       {
         priority: 'medium',
@@ -839,16 +804,16 @@ function generateMockScanResults(scanType: string, standards: string[]): Securit
         title: 'Enable Database Encryption at Rest',
         description: 'Encrypt sensitive data stored in the database',
         implementation_effort: '3-5 days',
-        security_impact: 'Medium - Protects data in case of database breach',
-      },
+        security_impact: 'Medium - Protects data in case of database breach'
+      }
     ],
     scan_metadata: {
       scan_type: scanType,
       duration: Math.floor(Math.random() * 300) + 60,
       files_scanned: Math.floor(Math.random() * 200) + 50,
       started_at: Date.now() - 300000,
-      completed_at: Date.now(),
-    },
+      completed_at: Date.now()
+    }
   };
 }
 

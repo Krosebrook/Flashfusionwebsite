@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import {
-  Mic,
-  MicOff,
-  Volume2,
+import { 
+  Mic, 
+  MicOff, 
+  Volume2, 
   VolumeX,
   Waveform,
   MessageSquare,
@@ -16,7 +16,7 @@ import {
   Settings,
   Headphones,
   Play,
-  Pause,
+  Pause
 } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { Agent, VoiceCommand } from '../../types/multi-agent-orchestration';
@@ -35,7 +35,7 @@ export function VoiceCommandInterface({
   onToggleListening,
   onCommand,
   recentCommands,
-  agents,
+  agents
 }: VoiceCommandInterfaceProps) {
   const [currentTranscript, setCurrentTranscript] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -50,10 +50,9 @@ export function VoiceCommandInterface({
   useEffect(() => {
     // Initialize Speech Recognition
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition =
-        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
-
+      
       recognitionRef.current.continuous = true;
       recognitionRef.current.interimResults = true;
       recognitionRef.current.lang = 'en-US';
@@ -61,11 +60,11 @@ export function VoiceCommandInterface({
       recognitionRef.current.onresult = (event: any) => {
         const transcript = Array.from(event.results)
           .map((result: any) => result[0])
-          .map((result) => result.transcript)
+          .map(result => result.transcript)
           .join('');
 
         setCurrentTranscript(transcript);
-
+        
         if (event.results[event.results.length - 1].isFinal) {
           processVoiceCommand(transcript);
         }
@@ -100,26 +99,26 @@ export function VoiceCommandInterface({
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       audioContextRef.current = new AudioContext();
       analyserRef.current = audioContextRef.current.createAnalyser();
-
+      
       const source = audioContextRef.current.createMediaStreamSource(stream);
       source.connect(analyserRef.current);
-
+      
       analyserRef.current.fftSize = 256;
       const bufferLength = analyserRef.current.frequencyBinCount;
       const dataArray = new Uint8Array(bufferLength);
 
       const updateVolume = () => {
         if (!analyserRef.current) return;
-
+        
         analyserRef.current.getByteFrequencyData(dataArray);
         const average = dataArray.reduce((a, b) => a + b) / bufferLength;
-        setVolumeLevel((average / 255) * 100);
-
+        setVolumeLevel(average / 255 * 100);
+        
         if (isListening) {
           requestAnimationFrame(updateVolume);
         }
       };
-
+      
       updateVolume();
     } catch (error) {
       console.error('Error accessing microphone:', error);
@@ -137,53 +136,50 @@ export function VoiceCommandInterface({
   const processVoiceCommand = async (transcript: string) => {
     setIsProcessing(true);
     setCurrentTranscript('');
-
+    
     // Simulate AI processing delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     const command = parseVoiceCommand(transcript);
     setConfidence(command.confidence);
-
+    
     if (command.confidence > 0.7) {
       onCommand(command);
-
+      
       // Provide voice feedback
       if (voiceEnabled) {
         speakResponse(command.response);
       }
     }
-
+    
     setIsProcessing(false);
   };
 
   const parseVoiceCommand = (transcript: string): VoiceCommand => {
     const lowerTranscript = transcript.toLowerCase();
-
+    
     // Simple pattern matching for demo
     let intent = 'unknown';
-    const entities: any[] = [];
+    let entities: any[] = [];
     let confidence = 0.5;
     let response = "I didn't understand that command.";
 
     if (lowerTranscript.includes('show') && lowerTranscript.includes('status')) {
       intent = 'show_agent_status';
       confidence = 0.9;
-      response = 'Showing agent status dashboard.';
+      response = "Showing agent status dashboard.";
     } else if (lowerTranscript.includes('schedule') && lowerTranscript.includes('handoff')) {
       intent = 'schedule_handoff';
       confidence = 0.85;
-      response = 'Scheduling agent handoff.';
-    } else if (
-      lowerTranscript.includes('progress') ||
-      lowerTranscript.includes('how are we doing')
-    ) {
+      response = "Scheduling agent handoff.";
+    } else if (lowerTranscript.includes('progress') || lowerTranscript.includes('how are we doing')) {
       intent = 'check_progress';
       confidence = 0.88;
       response = "Here's your project progress overview.";
     } else if (lowerTranscript.includes('resolve') && lowerTranscript.includes('conflict')) {
       intent = 'resolve_conflict';
       confidence = 0.82;
-      response = 'Initiating conflict resolution protocol.';
+      response = "Initiating conflict resolution protocol.";
     }
 
     return {
@@ -193,7 +189,7 @@ export function VoiceCommandInterface({
       entities,
       confidence,
       timestamp: new Date(),
-      response,
+      response
     };
   };
 
@@ -239,10 +235,10 @@ export function VoiceCommandInterface({
             <motion.button
               onClick={handleToggleListening}
               className={cn(
-                'relative w-32 h-32 rounded-full border-4 transition-all duration-300',
-                isListening
-                  ? 'border-red-500 bg-red-500/20 shadow-lg shadow-red-500/25'
-                  : 'border-primary bg-primary/20 hover:bg-primary/30'
+                "relative w-32 h-32 rounded-full border-4 transition-all duration-300",
+                isListening 
+                  ? "border-red-500 bg-red-500/20 shadow-lg shadow-red-500/25" 
+                  : "border-primary bg-primary/20 hover:bg-primary/30"
               )}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -277,7 +273,7 @@ export function VoiceCommandInterface({
                   className="absolute inset-0 rounded-full border-4 border-red-500"
                   animate={{
                     scale: 1 + (volumeLevel / 100) * 0.3,
-                    opacity: 0.6 + (volumeLevel / 100) * 0.4,
+                    opacity: 0.6 + (volumeLevel / 100) * 0.4
                   }}
                   transition={{ duration: 0.1 }}
                 />
@@ -287,13 +283,11 @@ export function VoiceCommandInterface({
 
           {/* Status Display */}
           <div className="space-y-3">
-            <div
-              className={cn(
-                'text-lg font-semibold',
-                isListening ? 'text-red-500' : 'text-muted-foreground'
-              )}
-            >
-              {isListening ? 'Listening...' : 'Click to Start'}
+            <div className={cn(
+              "text-lg font-semibold",
+              isListening ? "text-red-500" : "text-muted-foreground"
+            )}>
+              {isListening ? "Listening..." : "Click to Start"}
             </div>
 
             {/* Live Transcript */}
@@ -344,10 +338,10 @@ export function VoiceCommandInterface({
                 {voiceEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
               </Button>
             </div>
-
+            
             <div className="space-y-2">
               <label className="text-sm">Recognition Model</label>
-              <select
+              <select 
                 value={selectedModel}
                 onChange={(e) => setSelectedModel(e.target.value)}
                 className="w-full bg-card border border-border rounded-md px-3 py-1 text-sm"
@@ -364,27 +358,19 @@ export function VoiceCommandInterface({
           <h3 className="font-semibold mb-3">Quick Commands</h3>
           <div className="space-y-2 text-sm">
             <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="text-xs px-2">
-                Say:
-              </Badge>
+              <Badge variant="secondary" className="text-xs px-2">Say:</Badge>
               <span className="text-muted-foreground">"Show agent status"</span>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="text-xs px-2">
-                Say:
-              </Badge>
+              <Badge variant="secondary" className="text-xs px-2">Say:</Badge>
               <span className="text-muted-foreground">"Check progress"</span>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="text-xs px-2">
-                Say:
-              </Badge>
+              <Badge variant="secondary" className="text-xs px-2">Say:</Badge>
               <span className="text-muted-foreground">"Schedule handoff"</span>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="text-xs px-2">
-                Say:
-              </Badge>
+              <Badge variant="secondary" className="text-xs px-2">Say:</Badge>
               <span className="text-muted-foreground">"Resolve conflict"</span>
             </div>
           </div>
@@ -397,7 +383,7 @@ export function VoiceCommandInterface({
           <h3 className="font-semibold">Recent Commands</h3>
           <Badge variant="outline">{recentCommands.length} commands</Badge>
         </div>
-
+        
         <div className="space-y-3">
           {recentCommands.length === 0 ? (
             <div className="text-center py-6 text-muted-foreground">
@@ -417,7 +403,7 @@ export function VoiceCommandInterface({
                   {getCommandStatusIcon(command)}
                   <Clock className="h-3 w-3 text-muted-foreground" />
                 </div>
-
+                
                 <div className="flex-1 space-y-1">
                   <div className="text-sm font-medium">"{command.transcript}"</div>
                   <div className="text-xs text-muted-foreground">
@@ -428,15 +414,13 @@ export function VoiceCommandInterface({
                   </div>
                 </div>
 
-                <Badge
-                  variant="secondary"
+                <Badge 
+                  variant="secondary" 
                   className={cn(
-                    'text-xs',
-                    command.confidence > 0.8 && 'bg-green-500/20 text-green-700',
-                    command.confidence <= 0.8 &&
-                      command.confidence > 0.6 &&
-                      'bg-yellow-500/20 text-yellow-700',
-                    command.confidence <= 0.6 && 'bg-red-500/20 text-red-700'
+                    "text-xs",
+                    command.confidence > 0.8 && "bg-green-500/20 text-green-700",
+                    command.confidence <= 0.8 && command.confidence > 0.6 && "bg-yellow-500/20 text-yellow-700",
+                    command.confidence <= 0.6 && "bg-red-500/20 text-red-700"
                   )}
                 >
                   {command.intent.replace('_', ' ')}
@@ -455,8 +439,7 @@ export function VoiceCommandInterface({
             <div className="space-y-1">
               <h4 className="font-medium text-orange-800">Microphone Access Required</h4>
               <p className="text-sm text-orange-700">
-                Grant microphone permissions to use voice commands. Your voice data is processed
-                locally and never stored.
+                Grant microphone permissions to use voice commands. Your voice data is processed locally and never stored.
               </p>
             </div>
           </div>

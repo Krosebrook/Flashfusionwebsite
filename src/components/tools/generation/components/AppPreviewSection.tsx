@@ -2,17 +2,7 @@ import React from 'react';
 import { Button } from '../../../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../ui/card';
 import { Badge } from '../../../ui/badge';
-import {
-  FileText,
-  Package,
-  Copy,
-  Folder,
-  Server,
-  Globe,
-  Database,
-  Shield,
-  CloudUpload,
-} from 'lucide-react';
+import { FileText, Package, Copy, Folder, Server, Globe, Database, Shield, CloudUpload } from 'lucide-react';
 import type { GeneratedApp } from '../../../../types/full-stack-builder';
 
 interface AppPreviewSectionProps {
@@ -26,7 +16,7 @@ export function AppPreviewSection({
   generatedApp,
   selectedFile,
   setSelectedFile,
-  onCopyToClipboard,
+  onCopyToClipboard
 }: AppPreviewSectionProps) {
   return (
     <>
@@ -46,7 +36,7 @@ export function AppPreviewSection({
         </CardHeader>
         <CardContent className="space-y-6">
           <p className="text-muted-foreground">{generatedApp.description}</p>
-
+          
           {/* Tech Stack */}
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             <div className="text-center p-3 bg-muted/50 rounded-lg">
@@ -83,9 +73,7 @@ export function AppPreviewSection({
               <div className="text-xs text-muted-foreground">Files Generated</div>
             </div>
             <div className="text-center p-3 bg-gradient-to-r from-secondary/10 to-accent/10 rounded-lg">
-              <div className="text-xl font-bold text-secondary">
-                {generatedApp.endpoints.length}
-              </div>
+              <div className="text-xl font-bold text-secondary">{generatedApp.endpoints.length}</div>
               <div className="text-xs text-muted-foreground">API Endpoints</div>
             </div>
             <div className="text-center p-3 bg-gradient-to-r from-accent/10 to-warning/10 rounded-lg">
@@ -113,14 +101,12 @@ export function AppPreviewSection({
           </CardHeader>
           <CardContent className="p-0">
             <div className="space-y-1">
-              {generatedApp.files.map((file) => (
+              {generatedApp.files.map(file => (
                 <button
                   key={file.path}
                   onClick={() => setSelectedFile(file.path)}
                   className={`w-full text-left px-4 py-2 text-sm hover:bg-muted/50 transition-colors ff-hover-scale ${
-                    selectedFile === file.path
-                      ? 'bg-primary/10 text-primary border-r-2 border-primary'
-                      : ''
+                    selectedFile === file.path ? 'bg-primary/10 text-primary border-r-2 border-primary' : ''
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -147,7 +133,7 @@ export function AppPreviewSection({
                   size="sm"
                   variant="outline"
                   onClick={() => {
-                    const file = generatedApp.files.find((f) => f.path === selectedFile);
+                    const file = generatedApp.files.find(f => f.path === selectedFile);
                     if (file) onCopyToClipboard(file.content);
                   }}
                   className="ff-hover-scale"
@@ -161,7 +147,9 @@ export function AppPreviewSection({
           <CardContent className="p-0">
             {selectedFile ? (
               <pre className="bg-muted/30 p-4 rounded-lg overflow-auto max-h-[600px] text-sm">
-                <code>{generatedApp.files.find((f) => f.path === selectedFile)?.content}</code>
+                <code>
+                  {generatedApp.files.find(f => f.path === selectedFile)?.content}
+                </code>
               </pre>
             ) : (
               <div className="p-8 text-center text-muted-foreground">
@@ -183,21 +171,12 @@ export function AppPreviewSection({
         <CardContent>
           <div className="space-y-3">
             {generatedApp.endpoints.map((endpoint, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-3 bg-muted/30 rounded-lg"
-              >
+              <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <Badge
-                    variant={
-                      endpoint.method === 'GET'
-                        ? 'secondary'
-                        : endpoint.method === 'POST'
-                          ? 'default'
-                          : endpoint.method === 'PUT'
-                            ? 'outline'
-                            : 'destructive'
-                    }
+                  <Badge 
+                    variant={endpoint.method === 'GET' ? 'secondary' : 
+                           endpoint.method === 'POST' ? 'default' : 
+                           endpoint.method === 'PUT' ? 'outline' : 'destructive'}
                     className="font-mono text-xs"
                   >
                     {endpoint.method}

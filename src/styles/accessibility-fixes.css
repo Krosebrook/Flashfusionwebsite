@@ -13,17 +13,17 @@
 :root {
   /* Original: #94A3B8 (3.2:1 - FAILS)
      Fixed: #A8B5C8 (4.6:1 - PASSES) */
-  --ff-text-muted-accessible: #a8b5c8;
-
+  --ff-text-muted-accessible: #A8B5C8;
+  
   /* Ensure all text colors meet WCAG AA */
-  --ff-text-primary: #ffffff; /* 21:1 - Excellent */
-  --ff-text-secondary: #cbd5e1; /* 13.1:1 - Excellent */
-  --ff-text-muted: #a8b5c8; /* 4.6:1 - PASSES AA */
+  --ff-text-primary: #FFFFFF;    /* 21:1 - Excellent */
+  --ff-text-secondary: #CBD5E1;  /* 13.1:1 - Excellent */
+  --ff-text-muted: #A8B5C8;      /* 4.6:1 - PASSES AA */
 }
 
 /* Apply accessible colors */
 .ff-text-muted,
-[class*='text-muted'] {
+[class*="text-muted"] {
   color: var(--ff-text-muted-accessible) !important;
 }
 
@@ -96,9 +96,7 @@ select:focus-visible {
 .ff-card-interactive:focus-visible {
   outline: 3px solid var(--ff-primary);
   outline-offset: 4px;
-  box-shadow:
-    var(--ff-shadow-lg),
-    0 0 0 6px rgba(255, 123, 0, 0.2);
+  box-shadow: var(--ff-shadow-lg), 0 0 0 6px rgba(255, 123, 0, 0.2);
 }
 
 /* ============================================
@@ -161,12 +159,7 @@ select:focus-visible {
    ============================================ */
 
 /* Ensure headings are visually distinct */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--ff-font-primary);
   font-weight: var(--ff-weight-bold);
   line-height: var(--ff-leading-tight);
@@ -174,8 +167,8 @@ h6 {
 }
 
 /* Improve list accessibility */
-ul[role='list'],
-ol[role='list'] {
+ul[role="list"],
+ol[role="list"] {
   list-style: none;
 }
 
@@ -204,7 +197,7 @@ td {
 
 /* Minimum touch target size: 44x44px */
 button,
-[role='button'],
+[role="button"],
 a[href] {
   min-height: 44px;
   min-width: 44px;
@@ -217,14 +210,14 @@ a[href] {
 
 /* Disabled state must be visually distinct */
 button:disabled,
-[aria-disabled='true'] {
+[aria-disabled="true"] {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
 }
 
 /* Loading state must be announced to screen readers */
-[aria-busy='true'] {
+[aria-busy="true"] {
   cursor: wait;
 }
 
@@ -234,15 +227,15 @@ button:disabled,
 
 /* Required field indicator */
 .ff-required::after,
-[aria-required='true']::after {
-  content: ' *';
+[aria-required="true"]::after {
+  content: " *";
   color: var(--ff-error-500);
   font-weight: var(--ff-weight-bold);
 }
 
 /* Error messages must be visible and associated */
 .ff-error-message,
-[role='alert'] {
+[role="alert"] {
   color: var(--ff-error-500);
   font-size: var(--ff-text-sm);
   margin-top: var(--ff-space-1);
@@ -252,7 +245,7 @@ button:disabled,
 }
 
 .ff-error-message::before {
-  content: '⚠';
+  content: "⚠";
   flex-shrink: 0;
 }
 
@@ -279,7 +272,7 @@ label {
    ============================================ */
 
 /* Polite announcements (non-disruptive) */
-[aria-live='polite'] {
+[aria-live="polite"] {
   position: absolute;
   left: -10000px;
   width: 1px;
@@ -288,7 +281,7 @@ label {
 }
 
 /* Assertive announcements (important/urgent) */
-[aria-live='assertive'] {
+[aria-live="assertive"] {
   position: absolute;
   left: -10000px;
   width: 1px;
@@ -301,8 +294,8 @@ label {
    ============================================ */
 
 /* Modal backdrop must indicate modal state */
-[role='dialog'],
-[aria-modal='true'] {
+[role="dialog"],
+[aria-modal="true"] {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -318,7 +311,7 @@ label {
 
 /* Dialog overlay */
 .ff-dialog-overlay,
-[role='dialog']::backdrop {
+[role="dialog"]::backdrop {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.8);
@@ -330,20 +323,20 @@ label {
    ============================================ */
 
 /* Tab panels must indicate selected state */
-[role='tab'][aria-selected='true'] {
+[role="tab"][aria-selected="true"] {
   border-bottom: 3px solid var(--ff-primary);
   font-weight: var(--ff-weight-semibold);
 }
 
-[role='tab']:focus-visible {
+[role="tab"]:focus-visible {
   outline: 2px solid var(--ff-primary);
   outline-offset: -2px;
 }
 
 /* Menu items must be clearly focusable */
-[role='menuitem']:focus,
-[role='menuitemcheckbox']:focus,
-[role='menuitemradio']:focus {
+[role="menuitem"]:focus,
+[role="menuitemcheckbox"]:focus,
+[role="menuitemradio"]:focus {
   background: rgba(255, 123, 0, 0.1);
   outline: 2px solid var(--ff-primary);
   outline-offset: -2px;
@@ -362,7 +355,7 @@ label {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-
+  
   /* Keep essential animations for accessibility */
   .ff-focus-ring:focus-visible,
   *:focus-visible {
@@ -376,17 +369,17 @@ label {
 
 @media (prefers-contrast: high) {
   :root {
-    --ff-text-primary: #ffffff;
-    --ff-text-secondary: #ffffff;
-    --ff-text-muted: #e0e0e0;
+    --ff-text-primary: #FFFFFF;
+    --ff-text-secondary: #FFFFFF;
+    --ff-text-muted: #E0E0E0;
   }
-
+  
   .ff-focus-ring:focus-visible,
   *:focus-visible {
     outline-width: 4px;
     outline-color: var(--ff-primary);
   }
-
+  
   button,
   .ff-btn-primary,
   .ff-btn-secondary,
@@ -402,17 +395,17 @@ label {
 @media print {
   /* Ensure links are visible in print */
   a[href]::after {
-    content: ' (' attr(href) ')';
+    content: " (" attr(href) ")";
     font-size: 0.8em;
     color: var(--ff-text-secondary);
   }
-
+  
   /* Hide decorative content */
-  [aria-hidden='true'],
+  [aria-hidden="true"],
   .ff-sr-only {
     display: none !important;
   }
-
+  
   /* Ensure text is readable */
   body {
     color: #000;
@@ -427,13 +420,13 @@ label {
 @media (pointer: coarse) {
   /* Larger touch targets */
   button,
-  [role='button'],
+  [role="button"],
   a[href] {
     min-height: 48px;
     min-width: 48px;
     padding: var(--ff-space-4) var(--ff-space-6);
   }
-
+  
   /* Increase spacing for easier tapping */
   .ff-card-interactive {
     margin-bottom: var(--ff-space-4);
@@ -451,7 +444,7 @@ label {
 }
 
 .ff-status-success::before {
-  content: '✓';
+  content: "✓";
   position: absolute;
   left: 8px;
   top: 50%;
@@ -465,7 +458,7 @@ label {
 }
 
 .ff-status-error::before {
-  content: '✗';
+  content: "✗";
   position: absolute;
   left: 8px;
   top: 50%;
@@ -479,7 +472,7 @@ label {
 }
 
 .ff-status-warning::before {
-  content: '⚠';
+  content: "⚠";
   position: absolute;
   left: 8px;
   top: 50%;

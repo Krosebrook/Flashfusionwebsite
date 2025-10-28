@@ -19,7 +19,9 @@ export function TermsSection({ title, content, icon: Icon }: TermsSectionProps) 
       <div className="space-y-6">
         {content.map((item, index) => (
           <div key={index}>
-            {item.subtitle && <h3 className="text-lg font-semibold mb-2">{item.subtitle}</h3>}
+            {item.subtitle && (
+              <h3 className="text-lg font-semibold mb-2">{item.subtitle}</h3>
+            )}
             <p className="text-muted-foreground leading-relaxed">{item.text}</p>
           </div>
         ))}

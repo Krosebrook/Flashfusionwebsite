@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         xp: 1250,
         total_xp: 1250,
         current_streak: 3,
-      },
+      }
     };
 
     setUser(mockUser);
@@ -70,7 +70,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         xp: 0,
         total_xp: 0,
         current_streak: 0,
-      },
+      }
     };
 
     setUser(mockUser);
@@ -111,9 +111,7 @@ export function AuthButton() {
           </div>
           <div className="hidden md:block">
             <p className="text-sm font-medium">{user.user_metadata?.name || user.username}</p>
-            <p className="text-xs text-muted-foreground">
-              Level {user.stats?.level || user.level || 1}
-            </p>
+            <p className="text-xs text-muted-foreground">Level {user.stats?.level || user.level || 1}</p>
           </div>
         </div>
         <Button

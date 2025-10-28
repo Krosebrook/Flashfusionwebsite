@@ -10,17 +10,17 @@ import UserInteractionEngine from '../interactions/UserInteractionEngine';
 import InfrastructureValidator from '../validation/InfrastructureValidator';
 import WorkflowTest from '../ui/workflow-test';
 import PlatformVerification from '../ui/platform-verification';
-import {
-  Zap,
-  Users,
-  Target,
-  TrendingUp,
-  CheckCircle,
+import { 
+  Zap, 
+  Users, 
+  Target, 
+  TrendingUp, 
+  CheckCircle, 
   ArrowRight,
   Play,
   Settings,
   Monitor,
-  TestTube,
+  TestTube
 } from 'lucide-react';
 import type { PageType } from '../../types/core';
 
@@ -36,7 +36,7 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
   const [launchReadiness, setLaunchReadiness] = useState({
     infrastructure: 0,
     features: 0,
-    performance: 0,
+    performance: 0
   });
 
   // Check authentication status
@@ -45,15 +45,10 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
     setIsAuthenticated(!!authToken);
   }, []);
 
-  const handleValidationComplete = (results: {
-    passed: number;
-    failed: number;
-    warnings: number;
-  }) => {
+  const handleValidationComplete = (results: { passed: number; failed: number; warnings: number }) => {
     console.log('Validation completed:', results);
-    const successRate =
-      (results.passed / (results.passed + results.failed + results.warnings)) * 100;
-    setLaunchReadiness((prev) => ({ ...prev, infrastructure: successRate }));
+    const successRate = (results.passed / (results.passed + results.failed + results.warnings)) * 100;
+    setLaunchReadiness(prev => ({ ...prev, infrastructure: successRate }));
   };
 
   const handleCriticalFailure = (failures: any[]) => {
@@ -63,7 +58,7 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
 
   const handleActionTrigger = (action: string, context?: any) => {
     console.log('Action triggered:', action, context);
-
+    
     switch (action) {
       case 'search-open':
         onPageChange?.('search');
@@ -93,7 +88,7 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
     console.log('User signup:', email);
     // Enhanced user signup process with realistic onboarding flow
     localStorage.setItem('ff-signup-email', email);
-
+    
     // Create comprehensive new user profile
     const newUser = {
       id: `user_${Date.now()}`,
@@ -106,21 +101,21 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
       preferences: {
         notifications: true,
         theme: 'system',
-        language: 'en',
+        language: 'en'
       },
       stats: {
         projectsCreated: 0,
         toolsUsed: 0,
-        timeSpent: 0,
-      },
+        timeSpent: 0
+      }
     };
-
+    
     // Store user data and auth token
     localStorage.setItem('ff-user-profile', JSON.stringify(newUser));
     localStorage.setItem('ff-auth-token', `demo_${Date.now()}`);
     localStorage.setItem('ff-onboarding-completed', 'false'); // Ensure onboarding triggers
     setIsAuthenticated(true);
-
+    
     // Trigger page refresh to start workflow orchestrator
     // This will be picked up by the main App component's user check
     window.location.reload();
@@ -140,10 +135,14 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
           onCriticalFailure={handleCriticalFailure}
           autoStart={true}
         />
-
+        
         {/* Quick Navigation */}
         <div className="fixed top-6 left-6 z-50">
-          <Button variant="outline" onClick={() => setShowValidator(false)} className="ff-glass">
+          <Button
+            variant="outline"
+            onClick={() => setShowValidator(false)}
+            className="ff-glass"
+          >
             ← Back to Platform
           </Button>
         </div>
@@ -176,7 +175,7 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
                 </Badge>
               </CardTitle>
             </CardHeader>
-
+            
             <CardContent className="space-y-3">
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div className="text-center">
@@ -203,7 +202,7 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
                   <Settings className="w-3 h-3 mr-2" />
                   Run Infrastructure Validation
                 </Button>
-
+                
                 <Button
                   size="sm"
                   variant="outline"
@@ -213,7 +212,7 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
                   <Target className="w-3 h-3 mr-2" />
                   Test Core Features
                 </Button>
-
+                
                 <Button
                   size="sm"
                   variant="outline"
@@ -223,7 +222,7 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
                   <TestTube className="w-3 h-3 mr-2" />
                   UI Workflow Test
                 </Button>
-
+                
                 <Button
                   size="sm"
                   variant="outline"
@@ -244,8 +243,10 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
         <div className="fixed bottom-20 right-6 z-30">
           <Card className="ff-glass">
             <CardContent className="p-4 space-y-2">
-              <div className="text-xs font-medium text-muted-foreground mb-2">Quick Actions</div>
-
+              <div className="text-xs font-medium text-muted-foreground mb-2">
+                Quick Actions
+              </div>
+              
               <Button
                 size="sm"
                 className="w-full justify-start ff-btn-primary"
@@ -254,7 +255,7 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
                 <Zap className="w-3 h-3 mr-2" />
                 Start Building
               </Button>
-
+              
               <Button
                 size="sm"
                 variant="outline"
@@ -264,7 +265,7 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
                 <TrendingUp className="w-3 h-3 mr-2" />
                 View Dashboard
               </Button>
-
+              
               <Button
                 size="sm"
                 variant="outline"
@@ -280,8 +281,10 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
       )}
 
       {/* Workflow Test Modal */}
-      {showWorkflowTest && <WorkflowTest onClose={() => setShowWorkflowTest(false)} />}
-
+      {showWorkflowTest && (
+        <WorkflowTest onClose={() => setShowWorkflowTest(false)} />
+      )}
+      
       {/* Platform Verification Modal */}
       {showPlatformVerification && (
         <PlatformVerification onClose={() => setShowPlatformVerification(false)} />
@@ -292,26 +295,26 @@ export function HomePage({ onPageChange }: HomePageProps = {}) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <Tabs defaultValue="landing" className="w-full">
             <TabsList className="inline-flex h-10 items-center justify-center rounded-xl bg-muted/30 p-1 text-muted-foreground">
-              <TabsTrigger
-                value="landing"
+              <TabsTrigger 
+                value="landing" 
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-lg px-4 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm ff-hover-scale"
               >
                 Get Started
               </TabsTrigger>
-              <TabsTrigger
-                value="showcase"
+              <TabsTrigger 
+                value="showcase" 
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-lg px-4 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm ff-hover-scale"
               >
                 Platform Overview
               </TabsTrigger>
-              <TabsTrigger
+              <TabsTrigger 
                 value="demo"
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-lg px-4 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm ff-hover-scale"
               >
                 Live Demo
               </TabsTrigger>
               {process.env.NODE_ENV === 'development' && (
-                <TabsTrigger
+                <TabsTrigger 
                   value="validation"
                   className="inline-flex items-center justify-center whitespace-nowrap rounded-lg px-4 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm ff-hover-scale"
                 >

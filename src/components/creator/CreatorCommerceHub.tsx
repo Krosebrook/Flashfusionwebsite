@@ -8,15 +8,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Checkbox } from '../ui/checkbox';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  ShoppingCart,
-  Download,
-  Loader2,
-  CheckCircle,
-  Package,
+import { 
+  ShoppingCart, 
+  Download, 
+  Loader2, 
+  CheckCircle, 
+  Package, 
   CreditCard,
   Truck,
-  BarChart3,
+  BarChart3
 } from 'lucide-react';
 import { projectId, publicAnonKey } from '../../utils/supabase/info';
 
@@ -35,7 +35,7 @@ function CreatorCommerceHub() {
     description: '',
     productType: '',
     platform: '',
-    features: [] as string[],
+    features: [] as string[]
   });
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState<EcommerceResult | null>(null);
@@ -45,7 +45,7 @@ function CreatorCommerceHub() {
     { value: 'physical', label: 'Physical Products', icon: Package },
     { value: 'digital', label: 'Digital Products', icon: Download },
     { value: 'subscription', label: 'Subscription Service', icon: CreditCard },
-    { value: 'marketplace', label: 'Multi-vendor Marketplace', icon: ShoppingCart },
+    { value: 'marketplace', label: 'Multi-vendor Marketplace', icon: ShoppingCart }
   ];
 
   const platforms = [
@@ -53,7 +53,7 @@ function CreatorCommerceHub() {
     { value: 'woocommerce', label: 'WooCommerce' },
     { value: 'magento', label: 'Magento' },
     { value: 'bigcommerce', label: 'BigCommerce' },
-    { value: 'custom', label: 'Custom Solution' },
+    { value: 'custom', label: 'Custom Solution' }
   ];
 
   const availableFeatures = [
@@ -68,15 +68,15 @@ function CreatorCommerceHub() {
     'analytics',
     'seo-optimization',
     'mobile-app',
-    'social-integration',
+    'social-integration'
   ];
 
   const handleFeatureToggle = (feature: string) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       features: prev.features.includes(feature)
-        ? prev.features.filter((f) => f !== feature)
-        : [...prev.features, feature],
+        ? prev.features.filter(f => f !== feature)
+        : [...prev.features, feature]
     }));
   };
 
@@ -91,18 +91,15 @@ function CreatorCommerceHub() {
 
     try {
       const accessToken = localStorage.getItem('ff-auth-token');
-
-      const response = await fetch(
-        `https://${projectId}.supabase.co/functions/v1/make-server-88829a40/generate/ecommerce`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken || publicAnonKey}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      
+      const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-88829a40/generate/ecommerce`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken || publicAnonKey}`
+        },
+        body: JSON.stringify(formData)
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -169,7 +166,7 @@ function CreatorCommerceHub() {
                     id="storeName"
                     placeholder="My Amazing Store"
                     value={formData.name}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                     className="ff-focus-ring"
                   />
                 </div>
@@ -180,9 +177,7 @@ function CreatorCommerceHub() {
                     id="storeDescription"
                     placeholder="Describe your store and products..."
                     value={formData.description}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, description: e.target.value }))
-                    }
+                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                     className="ff-focus-ring"
                     rows={3}
                   />
@@ -196,9 +191,7 @@ function CreatorCommerceHub() {
                       return (
                         <div
                           key={type.value}
-                          onClick={() =>
-                            setFormData((prev) => ({ ...prev, productType: type.value }))
-                          }
+                          onClick={() => setFormData(prev => ({ ...prev, productType: type.value }))}
                           className={`p-3 border rounded-lg cursor-pointer transition-all ${
                             formData.productType === type.value
                               ? 'border-primary bg-primary/5'
@@ -217,10 +210,9 @@ function CreatorCommerceHub() {
 
                 <div className="space-y-2">
                   <Label>Platform</Label>
-                  <Select
-                    value={formData.platform}
-                    onValueChange={(value) => setFormData((prev) => ({ ...prev, platform: value }))}
-                  >
+                  <Select value={formData.platform} onValueChange={(value) => 
+                    setFormData(prev => ({ ...prev, platform: value }))
+                  }>
                     <SelectTrigger className="ff-focus-ring">
                       <SelectValue placeholder="Select a platform" />
                     </SelectTrigger>
@@ -244,7 +236,10 @@ function CreatorCommerceHub() {
                           checked={formData.features.includes(feature)}
                           onCheckedChange={() => handleFeatureToggle(feature)}
                         />
-                        <Label htmlFor={feature} className="text-sm capitalize cursor-pointer">
+                        <Label 
+                          htmlFor={feature} 
+                          className="text-sm capitalize cursor-pointer"
+                        >
                           {feature.replace('-', ' ')}
                         </Label>
                       </div>
@@ -258,11 +253,9 @@ function CreatorCommerceHub() {
                   </div>
                 )}
 
-                <Button
-                  onClick={handleGenerate}
-                  disabled={
-                    isGenerating || !formData.name || !formData.productType || !formData.platform
-                  }
+                <Button 
+                  onClick={handleGenerate} 
+                  disabled={isGenerating || !formData.name || !formData.productType || !formData.platform}
                   className="w-full ff-btn-primary"
                 >
                   {isGenerating ? (
@@ -324,10 +317,7 @@ function CreatorCommerceHub() {
                           {Object.keys(result.files).length} files generated
                         </p>
                       </div>
-                      <Badge
-                        variant="outline"
-                        className="bg-green-50 text-green-700 border-green-200"
-                      >
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
                         Ready to Deploy
                       </Badge>
                     </div>
@@ -360,10 +350,7 @@ function CreatorCommerceHub() {
                       <Label>Generated Files</Label>
                       <div className="bg-muted/50 rounded-lg p-3 max-h-40 overflow-y-auto">
                         {Object.keys(result.files).map((fileName) => (
-                          <div
-                            key={fileName}
-                            className="text-sm font-mono py-1 flex items-center gap-2"
-                          >
+                          <div key={fileName} className="text-sm font-mono py-1 flex items-center gap-2">
                             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                             {fileName}
                           </div>
@@ -371,14 +358,17 @@ function CreatorCommerceHub() {
                       </div>
                     </div>
 
-                    <Button onClick={handleDownload} className="w-full ff-btn-secondary">
+                    <Button 
+                      onClick={handleDownload}
+                      className="w-full ff-btn-secondary"
+                    >
                       <Download className="h-4 w-4 mr-2" />
                       Download Store Package ({result.fileName})
                     </Button>
 
                     <div className="text-xs text-muted-foreground text-center">
-                      Your store package includes theme files, configuration, payment setup, and
-                      deployment instructions.
+                      Your store package includes theme files, configuration, 
+                      payment setup, and deployment instructions.
                     </div>
                   </div>
                 )}
@@ -390,36 +380,12 @@ function CreatorCommerceHub() {
         <TabsContent value="templates" className="space-y-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              {
-                name: 'Fashion Store',
-                type: 'fashion',
-                features: ['inventory', 'reviews', 'wishlist'],
-              },
-              {
-                name: 'Digital Products',
-                type: 'digital',
-                features: ['instant-download', 'licensing'],
-              },
-              {
-                name: 'Subscription Box',
-                type: 'subscription',
-                features: ['recurring-billing', 'customization'],
-              },
-              {
-                name: 'B2B Marketplace',
-                type: 'b2b',
-                features: ['bulk-pricing', 'quotes', 'accounts'],
-              },
-              {
-                name: 'Food Delivery',
-                type: 'food',
-                features: ['location', 'scheduling', 'tracking'],
-              },
-              {
-                name: 'Electronics Store',
-                type: 'electronics',
-                features: ['specifications', 'comparisons'],
-              },
+              { name: 'Fashion Store', type: 'fashion', features: ['inventory', 'reviews', 'wishlist'] },
+              { name: 'Digital Products', type: 'digital', features: ['instant-download', 'licensing'] },
+              { name: 'Subscription Box', type: 'subscription', features: ['recurring-billing', 'customization'] },
+              { name: 'B2B Marketplace', type: 'b2b', features: ['bulk-pricing', 'quotes', 'accounts'] },
+              { name: 'Food Delivery', type: 'food', features: ['location', 'scheduling', 'tracking'] },
+              { name: 'Electronics Store', type: 'electronics', features: ['specifications', 'comparisons'] }
             ].map((template) => (
               <Card key={template.name} className="ff-card-interactive cursor-pointer">
                 <CardContent className="p-6">
@@ -456,7 +422,7 @@ function CreatorCommerceHub() {
               { name: 'FedEx', category: 'Shipping', icon: Truck },
               { name: 'UPS', category: 'Shipping', icon: Truck },
               { name: 'Google Analytics', category: 'Analytics', icon: BarChart3 },
-              { name: 'Mailchimp', category: 'Marketing', icon: Package },
+              { name: 'Mailchimp', category: 'Marketing', icon: Package }
             ].map((integration) => {
               const IconComponent = integration.icon;
               return (
@@ -481,7 +447,7 @@ function CreatorCommerceHub() {
               { label: 'Total Sales', value: '$12,345', change: '+12%' },
               { label: 'Orders', value: '156', change: '+8%' },
               { label: 'Conversion Rate', value: '3.2%', change: '+15%' },
-              { label: 'Avg Order Value', value: '$79', change: '+5%' },
+              { label: 'Avg Order Value', value: '$79', change: '+5%' }
             ].map((metric) => (
               <Card key={metric.label}>
                 <CardContent className="p-6">

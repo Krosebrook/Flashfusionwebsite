@@ -16,7 +16,7 @@ export function ConfigDebugPanel() {
       { name: 'AI Tools', enabled: true, status: 'active' },
       { name: 'Real-time Collaboration', enabled: true, status: 'beta' },
       { name: 'Advanced Analytics', enabled: false, status: 'dev' },
-    ],
+    ]
   };
 
   if (!isOpen) {
@@ -51,7 +51,7 @@ export function ConfigDebugPanel() {
             </Button>
           </div>
         </CardHeader>
-
+        
         <CardContent className="space-y-4 text-xs">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
@@ -63,13 +63,16 @@ export function ConfigDebugPanel() {
               <span>Environment: {debugInfo.environment}</span>
             </div>
           </div>
-
+          
           <div className="space-y-2">
             <h4 className="font-medium">Features</h4>
             {debugInfo.features.map((feature) => (
               <div key={feature.name} className="flex items-center justify-between">
                 <span>{feature.name}</span>
-                <Badge variant={feature.enabled ? 'default' : 'secondary'} className="text-xs">
+                <Badge 
+                  variant={feature.enabled ? "default" : "secondary"}
+                  className="text-xs"
+                >
                   {feature.status}
                 </Badge>
               </div>

@@ -6,17 +6,17 @@ import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Slider } from '../ui/slider';
-import {
-  Brain,
-  Heart,
-  MessageCircle,
-  Zap,
-  Users,
+import { 
+  Brain, 
+  Heart, 
+  MessageCircle, 
+  Zap, 
+  Users, 
   Target,
   TrendingUp,
   AlertTriangle,
   Settings,
-  RefreshCw,
+  RefreshCw
 } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { Agent, AgentPersonality } from '../../types/multi-agent-orchestration';
@@ -33,12 +33,12 @@ export function AgentPersonalityPanel({
   agents,
   selectedAgent,
   onAgentSelect,
-  onPersonalityUpdate,
+  onPersonalityUpdate
 }: AgentPersonalityPanelProps) {
   const [editMode, setEditMode] = useState(false);
   const [personalityForm, setPersonalityForm] = useState<AgentPersonality | null>(null);
 
-  const currentAgent = agents.find((a) => a.id === selectedAgent) || agents[0];
+  const currentAgent = agents.find(a => a.id === selectedAgent) || agents[0];
   const definition = AGENT_DEFINITIONS[currentAgent?.role];
 
   const startEdit = () => {
@@ -74,7 +74,7 @@ export function AgentPersonalityPanel({
     const communication = 20; // Base communication score
     const collaboration = agent.personality.collaboration === 'leader' ? 25 : 20;
     const adaptability = agent.personality.stressResponses.length < 3 ? 25 : 15;
-
+    
     return Math.min(100, traits + communication + collaboration + adaptability);
   };
 
@@ -87,23 +87,18 @@ export function AgentPersonalityPanel({
       collaborative: 'bg-teal-500',
       innovative: 'bg-pink-500',
       methodical: 'bg-indigo-500',
-      adaptable: 'bg-cyan-500',
+      adaptable: 'bg-cyan-500'
     };
     return colors[trait] || 'bg-gray-500';
   };
 
   const getCommunicationStyleIcon = (style: string) => {
     switch (style) {
-      case 'enthusiastic':
-        return <Zap className="h-4 w-4" />;
-      case 'precise':
-        return <Target className="h-4 w-4" />;
-      case 'diplomatic':
-        return <Users className="h-4 w-4" />;
-      case 'analytical':
-        return <Brain className="h-4 w-4" />;
-      default:
-        return <MessageCircle className="h-4 w-4" />;
+      case 'enthusiastic': return <Zap className="h-4 w-4" />;
+      case 'precise': return <Target className="h-4 w-4" />;
+      case 'diplomatic': return <Users className="h-4 w-4" />;
+      case 'analytical': return <Brain className="h-4 w-4" />;
+      default: return <MessageCircle className="h-4 w-4" />;
     }
   };
 
@@ -118,22 +113,27 @@ export function AgentPersonalityPanel({
               const agentDefinition = AGENT_DEFINITIONS[agent.role];
               const IconComponent = agentDefinition.icon;
               const score = getPersonalityScore(agent);
-
+              
               return (
-                <motion.div key={agent.id} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <motion.div
+                  key={agent.id}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
                   <Card
                     className={cn(
-                      'p-3 cursor-pointer transition-all duration-200',
-                      selectedAgent === agent.id
-                        ? 'ring-2 ring-primary bg-primary/10'
-                        : 'hover:bg-muted/50'
+                      "p-3 cursor-pointer transition-all duration-200",
+                      selectedAgent === agent.id 
+                        ? "ring-2 ring-primary bg-primary/10" 
+                        : "hover:bg-muted/50"
                     )}
                     onClick={() => onAgentSelect(agent.id)}
                   >
                     <div className="flex items-center gap-3">
-                      <div
-                        className={cn('p-2 rounded-lg bg-gradient-to-br', agentDefinition.color)}
-                      >
+                      <div className={cn(
+                        "p-2 rounded-lg bg-gradient-to-br",
+                        agentDefinition.color
+                      )}>
                         <IconComponent className="h-4 w-4 text-white" />
                       </div>
                       <div className="flex-1">
@@ -160,7 +160,10 @@ export function AgentPersonalityPanel({
             <Card className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-4">
-                  <div className={cn('p-4 rounded-xl bg-gradient-to-br', definition.color)}>
+                  <div className={cn(
+                    "p-4 rounded-xl bg-gradient-to-br",
+                    definition.color
+                  )}>
                     <definition.icon className="h-8 w-8 text-white" />
                   </div>
                   <div>
@@ -168,7 +171,7 @@ export function AgentPersonalityPanel({
                     <p className="text-muted-foreground">{definition.description}</p>
                   </div>
                 </div>
-
+                
                 <div className="flex items-center gap-2">
                   <Button
                     variant="outline"
@@ -183,7 +186,9 @@ export function AgentPersonalityPanel({
                       <Button variant="outline" onClick={cancelEdit}>
                         Cancel
                       </Button>
-                      <Button onClick={savePersonality}>Save Changes</Button>
+                      <Button onClick={savePersonality}>
+                        Save Changes
+                      </Button>
                     </div>
                   ) : (
                     <Button onClick={startEdit} className="flex items-center gap-2">
@@ -215,7 +220,9 @@ export function AgentPersonalityPanel({
                   <div className="text-sm text-muted-foreground">Tasks Done</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">{currentAgent.expertise}%</div>
+                  <div className="text-2xl font-bold text-primary">
+                    {currentAgent.expertise}%
+                  </div>
                   <div className="text-sm text-muted-foreground">Expertise</div>
                 </div>
               </div>
@@ -228,7 +235,7 @@ export function AgentPersonalityPanel({
                   <Brain className="h-5 w-5 text-primary" />
                   Personality Traits
                 </h3>
-
+                
                 {editMode ? (
                   <div className="space-y-3">
                     {/* Trait editing would go here */}
@@ -242,7 +249,10 @@ export function AgentPersonalityPanel({
                       <Badge
                         key={trait}
                         variant="secondary"
-                        className={cn('text-white', getTraitColor(trait))}
+                        className={cn(
+                          "text-white",
+                          getTraitColor(trait)
+                        )}
                       >
                         {trait.replace('_', ' ')}
                       </Badge>
@@ -256,7 +266,7 @@ export function AgentPersonalityPanel({
                   <MessageCircle className="h-5 w-5 text-secondary" />
                   Communication Style
                 </h3>
-
+                
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-secondary/20">
                     {getCommunicationStyleIcon(currentAgent.personality.communicationStyle)}
@@ -280,12 +290,14 @@ export function AgentPersonalityPanel({
                   <Zap className="h-5 w-5 text-accent" />
                   Working Style
                 </h3>
-
+                
                 <div className="text-center">
                   <div className="text-lg font-bold capitalize">
                     {currentAgent.personality.workingStyle}
                   </div>
-                  <div className="text-sm text-muted-foreground mt-1">Preferred work approach</div>
+                  <div className="text-sm text-muted-foreground mt-1">
+                    Preferred work approach
+                  </div>
                 </div>
               </Card>
 
@@ -294,12 +306,14 @@ export function AgentPersonalityPanel({
                   <Users className="h-5 w-5 text-primary" />
                   Collaboration
                 </h3>
-
+                
                 <div className="text-center">
                   <div className="text-lg font-bold capitalize">
                     {currentAgent.personality.collaboration}
                   </div>
-                  <div className="text-sm text-muted-foreground mt-1">Team role preference</div>
+                  <div className="text-sm text-muted-foreground mt-1">
+                    Team role preference
+                  </div>
                 </div>
               </Card>
 
@@ -308,12 +322,14 @@ export function AgentPersonalityPanel({
                   <Target className="h-5 w-5 text-secondary" />
                   Decision Making
                 </h3>
-
+                
                 <div className="text-center">
                   <div className="text-lg font-bold capitalize">
                     {currentAgent.personality.decisionMaking.replace('_', ' ')}
                   </div>
-                  <div className="text-sm text-muted-foreground mt-1">Decision approach</div>
+                  <div className="text-sm text-muted-foreground mt-1">
+                    Decision approach
+                  </div>
                 </div>
               </Card>
             </div>
@@ -324,7 +340,7 @@ export function AgentPersonalityPanel({
                 <AlertTriangle className="h-5 w-5 text-orange-500" />
                 Stress Response Patterns
               </h3>
-
+              
               <div className="grid grid-cols-2 gap-4">
                 {currentAgent.personality.stressResponses.map((response) => (
                   <div
@@ -332,15 +348,17 @@ export function AgentPersonalityPanel({
                     className="flex items-center gap-3 p-3 rounded-lg bg-orange-50 border border-orange-200"
                   >
                     <AlertTriangle className="h-4 w-4 text-orange-500" />
-                    <span className="capitalize text-sm">{response.replace('_', ' ')}</span>
+                    <span className="capitalize text-sm">
+                      {response.replace('_', ' ')}
+                    </span>
                   </div>
                 ))}
               </div>
-
+              
               <div className="mt-4 p-3 rounded-lg bg-blue-50 border border-blue-200">
                 <p className="text-sm text-blue-800">
-                  <strong>Mitigation:</strong> Monitor these patterns during high-stress periods and
-                  implement appropriate support mechanisms.
+                  <strong>Mitigation:</strong> Monitor these patterns during high-stress periods 
+                  and implement appropriate support mechanisms.
                 </p>
               </div>
             </Card>
@@ -351,7 +369,7 @@ export function AgentPersonalityPanel({
                 <TrendingUp className="h-5 w-5 text-primary" />
                 Personality Analytics
               </h3>
-
+              
               <div className="grid grid-cols-2 gap-6">
                 <div>
                   <h4 className="font-medium mb-3">Trait Distribution</h4>
@@ -370,7 +388,7 @@ export function AgentPersonalityPanel({
                     })}
                   </div>
                 </div>
-
+                
                 <div>
                   <h4 className="font-medium mb-3">Performance Correlation</h4>
                   <div className="space-y-3">

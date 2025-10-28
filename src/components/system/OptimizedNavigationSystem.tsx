@@ -2,7 +2,7 @@
  * @fileoverview Optimized Navigation System with Memory Leak Prevention
  * @category Fix Mode - Memory Leak Prevention & Navigation Optimization
  * @version 1.0.0
- *
+ * 
  * High-performance navigation system with event listener cleanup,
  * throttled updates, and memory-aware optimizations.
  */
@@ -153,7 +153,7 @@ class OptimizedNavigationManager {
     }
 
     const id = `listener_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
+    
     const listener: NavigationListener = {
       id,
       callback,
@@ -203,15 +203,14 @@ class OptimizedNavigationManager {
         if (!event) continue;
 
         // Get sorted listeners by priority
-        const sortedListeners = Array.from(this.listeners.values()).sort(
-          (a, b) => b.priority - a.priority
-        );
+        const sortedListeners = Array.from(this.listeners.values())
+          .sort((a, b) => b.priority - a.priority);
 
         // Process listeners
         for (const listener of sortedListeners) {
           try {
             await this.callListener(listener, event);
-
+            
             // Remove one-time listeners
             if (listener.once) {
               this.removeListener(listener.id);
@@ -223,15 +222,15 @@ class OptimizedNavigationManager {
 
         // Yield to prevent blocking
         if (this.eventQueue.length > 0) {
-          await new Promise((resolve) => setTimeout(resolve, 0));
+          await new Promise(resolve => setTimeout(resolve, 0));
         }
       }
     } finally {
       this.isProcessing = false;
-
+      
       // Update performance metrics
       const processingTime = performance.now() - startTime;
-      this.performanceMetrics.averageProcessingTime =
+      this.performanceMetrics.averageProcessingTime = 
         (this.performanceMetrics.averageProcessingTime + processingTime) / 2;
     }
   }
@@ -245,14 +244,14 @@ class OptimizedNavigationManager {
 
       try {
         const result = listener.callback(event);
-
+        
         if (result instanceof Promise) {
           result
             .then(() => {
               clearTimeout(timeout);
               resolve();
             })
-            .catch((error) => {
+            .catch(error => {
               clearTimeout(timeout);
               reject(error);
             });
@@ -279,26 +278,26 @@ class OptimizedNavigationManager {
    */
   destroy() {
     console.log('🧹 Destroying navigation manager...');
-
+    
     this.isDestroyed = true;
-
+    
     // Clear all listeners
     this.listeners.clear();
-
+    
     // Clear event queue
     this.eventQueue = [];
-
+    
     // Run all cleanup callbacks
-    this.cleanupCallbacks.forEach((cleanup) => {
+    this.cleanupCallbacks.forEach(cleanup => {
       try {
         cleanup();
       } catch (error) {
         console.error('Navigation cleanup error:', error);
       }
     });
-
+    
     this.cleanupCallbacks.clear();
-
+    
     // Reset singleton
     OptimizedNavigationManager.instance = null as any;
   }
@@ -320,7 +319,7 @@ export function useOptimizedNavigation() {
   useEffect(() => {
     return () => {
       // Remove all listeners registered by this hook
-      listenersRef.current.forEach((cleanup) => {
+      listenersRef.current.forEach(cleanup => {
         try {
           cleanup();
         } catch (error) {
@@ -331,24 +330,21 @@ export function useOptimizedNavigation() {
     };
   }, []);
 
-  const addListener = useCallback(
-    (
-      callback: (event: NavigationEvent) => void,
-      options?: { priority?: number; once?: boolean }
-    ) => {
-      if (!managerRef.current) return () => {};
+  const addListener = useCallback((
+    callback: (event: NavigationEvent) => void,
+    options?: { priority?: number; once?: boolean }
+  ) => {
+    if (!managerRef.current) return () => {};
 
-      const cleanup = managerRef.current.addListener(callback, options);
-      listenersRef.current.add(cleanup);
+    const cleanup = managerRef.current.addListener(callback, options);
+    listenersRef.current.add(cleanup);
 
-      // Return enhanced cleanup that also removes from our tracking
-      return () => {
-        cleanup();
-        listenersRef.current.delete(cleanup);
-      };
-    },
-    []
-  );
+    // Return enhanced cleanup that also removes from our tracking
+    return () => {
+      cleanup();
+      listenersRef.current.delete(cleanup);
+    };
+  }, []);
 
   const navigate = useCallback((path: string, options?: { replace?: boolean }) => {
     try {
@@ -392,10 +388,10 @@ export const NavigationDebugPanel: React.FC = () => {
 
   // Listen to navigation events for debugging
   const { addListener } = useOptimizedNavigation();
-
+  
   useEffect(() => {
     return addListener((event) => {
-      setEvents((prev) => [event, ...prev.slice(0, 9)]); // Keep last 10 events
+      setEvents(prev => [event, ...prev.slice(0, 9)]); // Keep last 10 events
     });
   }, [addListener]);
 
@@ -406,16 +402,13 @@ export const NavigationDebugPanel: React.FC = () => {
   return (
     <div className="fixed bottom-4 left-4 bg-black/90 text-white p-4 rounded-lg text-xs z-50 max-w-sm">
       <h3 className="font-semibold mb-2">🧭 Navigation Debug</h3>
-
+      
       {metrics && (
         <div className="space-y-1 mb-3">
           <div>Listeners: {metrics.listenerCount}</div>
           <div>Events: {metrics.eventCount}</div>
           <div>Avg Process: {metrics.averageProcessingTime.toFixed(2)}ms</div>
-          <div>
-            Last Event:{' '}
-            {metrics.lastEventTime ? new Date(metrics.lastEventTime).toLocaleTimeString() : 'None'}
-          </div>
+          <div>Last Event: {metrics.lastEventTime ? new Date(metrics.lastEventTime).toLocaleTimeString() : 'None'}</div>
         </div>
       )}
 
@@ -428,7 +421,9 @@ export const NavigationDebugPanel: React.FC = () => {
               <span className="ml-2">{event.path}</span>
             </div>
           ))}
-          {events.length === 0 && <div className="text-gray-400">No events yet</div>}
+          {events.length === 0 && (
+            <div className="text-gray-400">No events yet</div>
+          )}
         </div>
       </div>
     </div>

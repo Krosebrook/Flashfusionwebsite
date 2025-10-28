@@ -22,7 +22,7 @@ function CodeGenerator() {
     name: '',
     description: '',
     framework: '',
-    features: [] as string[],
+    features: [] as string[]
   });
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState<GenerationResult | null>(null);
@@ -33,7 +33,7 @@ function CodeGenerator() {
     { value: 'nextjs', label: 'Next.js' },
     { value: 'vue', label: 'Vue.js' },
     { value: 'angular', label: 'Angular' },
-    { value: 'svelte', label: 'Svelte' },
+    { value: 'svelte', label: 'Svelte' }
   ];
 
   const availableFeatures = [
@@ -44,15 +44,15 @@ function CodeGenerator() {
     'state-management',
     'testing',
     'deployment',
-    'responsive-design',
+    'responsive-design'
   ];
 
   const handleFeatureToggle = (feature: string) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       features: prev.features.includes(feature)
-        ? prev.features.filter((f) => f !== feature)
-        : [...prev.features, feature],
+        ? prev.features.filter(f => f !== feature)
+        : [...prev.features, feature]
     }));
   };
 
@@ -67,18 +67,15 @@ function CodeGenerator() {
 
     try {
       const accessToken = localStorage.getItem('ff-auth-token');
-
-      const response = await fetch(
-        `https://${projectId}.supabase.co/functions/v1/make-server-88829a40/generate/code`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken || publicAnonKey}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      
+      const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-88829a40/generate/code`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken || publicAnonKey}`
+        },
+        body: JSON.stringify(formData)
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -87,7 +84,7 @@ function CodeGenerator() {
 
       const result = await response.json();
       setResult(result);
-
+      
       // Show success animation
       const element = document.querySelector('.generation-result');
       if (element) {
@@ -143,7 +140,7 @@ function CodeGenerator() {
                 id="name"
                 placeholder="My Awesome App"
                 value={formData.name}
-                onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                 className="ff-focus-ring"
               />
             </div>
@@ -154,7 +151,7 @@ function CodeGenerator() {
                 id="description"
                 placeholder="A modern web application that..."
                 value={formData.description}
-                onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                 className="ff-focus-ring"
                 rows={3}
               />
@@ -162,10 +159,9 @@ function CodeGenerator() {
 
             <div className="space-y-2">
               <Label>Framework</Label>
-              <Select
-                value={formData.framework}
-                onValueChange={(value) => setFormData((prev) => ({ ...prev, framework: value }))}
-              >
+              <Select value={formData.framework} onValueChange={(value) => 
+                setFormData(prev => ({ ...prev, framework: value }))
+              }>
                 <SelectTrigger className="ff-focus-ring">
                   <SelectValue placeholder="Select a framework" />
                 </SelectTrigger>
@@ -189,7 +185,10 @@ function CodeGenerator() {
                       checked={formData.features.includes(feature)}
                       onCheckedChange={() => handleFeatureToggle(feature)}
                     />
-                    <Label htmlFor={feature} className="text-sm capitalize cursor-pointer">
+                    <Label 
+                      htmlFor={feature} 
+                      className="text-sm capitalize cursor-pointer"
+                    >
                       {feature.replace('-', ' ')}
                     </Label>
                   </div>
@@ -203,8 +202,8 @@ function CodeGenerator() {
               </div>
             )}
 
-            <Button
-              onClick={handleGenerate}
+            <Button 
+              onClick={handleGenerate} 
               disabled={isGenerating || !formData.name || !formData.framework}
               className="w-full ff-btn-primary"
             >
@@ -252,8 +251,7 @@ function CodeGenerator() {
                     <div className="h-full bg-primary ff-progress-bar"></div>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Creating {formData.framework} application with {formData.features.length}{' '}
-                    features
+                    Creating {formData.framework} application with {formData.features.length} features
                   </p>
                 </div>
               </div>
@@ -295,14 +293,17 @@ function CodeGenerator() {
                   </div>
                 </div>
 
-                <Button onClick={handleDownload} className="w-full ff-btn-secondary">
+                <Button 
+                  onClick={handleDownload}
+                  className="w-full ff-btn-secondary"
+                >
                   <Download className="h-4 w-4 mr-2" />
                   Download Project ({result.fileName})
                 </Button>
 
                 <div className="text-xs text-muted-foreground text-center">
-                  Your generated project includes all necessary files, dependencies, and
-                  configuration for immediate development.
+                  Your generated project includes all necessary files, dependencies, 
+                  and configuration for immediate development.
                 </div>
               </div>
             )}

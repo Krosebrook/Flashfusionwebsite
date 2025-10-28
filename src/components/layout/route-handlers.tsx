@@ -24,39 +24,39 @@ export function renderPublicRoutes(currentPage: PageType, props: RouteProps) {
     case 'home':
       const { HomePage } = require('../pages/HomePage');
       return <HomePage setCurrentPage={setCurrentPage} isAuthenticated={isAuthenticated} />;
-
+    
     case 'about':
       const { AboutPage } = require('../pages/AboutPage');
       return <AboutPage setCurrentPage={setCurrentPage} />;
-
+    
     case 'features':
       const { FeaturesPage } = require('../pages/FeaturesPage');
       return <FeaturesPage setCurrentPage={setCurrentPage} />;
-
+    
     case 'pricing':
       const { PricingPage } = require('../pages/PricingPage');
       return <PricingPage setCurrentPage={setCurrentPage} />;
-
+    
     case 'testimonials':
       const { TestimonialsPage } = require('../pages/TestimonialsPage');
       return <TestimonialsPage setCurrentPage={setCurrentPage} />;
-
+    
     case 'contact':
       const { ContactPage } = require('../pages/ContactPage');
       return <ContactPage />;
-
+    
     case 'faq':
       const { FAQPage } = require('../pages/FAQPage');
       return <FAQPage />;
-
+    
     case 'privacy':
       const { PrivacyPage } = require('../pages/PrivacyPage');
       return <PrivacyPage />;
-
+    
     case 'terms':
       const { TermsPage } = require('../pages/TermsPage');
       return <TermsPage />;
-
+    
     case 'demo':
       const { DemoPage } = require('../pages/DemoPage');
       return <DemoPage setCurrentPage={setCurrentPage} />;
@@ -73,14 +73,10 @@ export function renderPublicRoutes(currentPage: PageType, props: RouteProps) {
           userStats={userStats}
         />
       );
-
+    
     case 'tool-detail':
       const { ToolDetailPage } = require('../pages/ToolDetailPage');
-      const {
-        selectedTool: toolId,
-        onToolUsage: onToolUsageDetail,
-        userStats: userStatsDetail,
-      } = props;
+      const { selectedTool: toolId, onToolUsage: onToolUsageDetail, userStats: userStatsDetail } = props;
       return (
         <ToolDetailPage
           toolId={toolId}
@@ -96,15 +92,15 @@ export function renderPublicRoutes(currentPage: PageType, props: RouteProps) {
 }
 
 export function renderProtectedRoutes(currentPage: PageType, props: RouteProps) {
-  const {
-    setCurrentPage,
-    user,
-    userStats,
-    projects,
-    dailyTasks,
-    onProjectCreated,
-    onDeploy,
-    setShowWizard,
+  const { 
+    setCurrentPage, 
+    user, 
+    userStats, 
+    projects, 
+    dailyTasks, 
+    onProjectCreated, 
+    onDeploy, 
+    setShowWizard 
   } = props;
 
   switch (currentPage) {
@@ -120,7 +116,7 @@ export function renderProtectedRoutes(currentPage: PageType, props: RouteProps) 
           setShowWizard={setShowWizard}
         />
       );
-
+    
     case 'projects':
       const { ProjectsPage } = require('../pages/ProjectsPage');
       return (
@@ -132,31 +128,41 @@ export function renderProtectedRoutes(currentPage: PageType, props: RouteProps) 
           onProjectCreated={onProjectCreated}
         />
       );
-
+    
     case 'templates':
       const { TemplatesPage } = require('../pages/TemplatesPage');
       return <TemplatesPage setCurrentPage={setCurrentPage} />;
-
+    
     case 'deployments':
       const { DeploymentsPage } = require('../pages/DeploymentsPage');
-      return <DeploymentsPage projects={projects} userStats={userStats} />;
-
+      return (
+        <DeploymentsPage
+          projects={projects}
+          userStats={userStats}
+        />
+      );
+    
     case 'analytics':
       const { AnalyticsPage } = require('../pages/AnalyticsPage');
-      return <AnalyticsPage projects={projects} userStats={userStats} />;
-
+      return (
+        <AnalyticsPage
+          projects={projects}
+          userStats={userStats}
+        />
+      );
+    
     case 'collaboration':
       const { CollaborationPage } = require('../pages/CollaborationPage');
       return <CollaborationPage user={user} />;
-
+    
     case 'integrations':
       const { IntegrationsPage } = require('../pages/IntegrationsPage');
       return <IntegrationsPage userStats={userStats} />;
-
+    
     case 'cicd':
       const { CICDPage } = require('../pages/CICDPage');
       return <CICDPage projects={projects} />;
-
+    
     case 'settings':
       const { SettingsPage } = require('../pages/SettingsPage');
       return <SettingsPage user={user} userStats={userStats} />;
@@ -176,19 +182,20 @@ export function renderSpecializedRoutes(currentPage: PageType, props: RouteProps
 
     case 'multi-agent-orchestration':
       const { MultiAgentOrchestrationPage } = require('../pages/MultiAgentOrchestrationPage');
-      return <MultiAgentOrchestrationPage userStats={userStats} user={user} />;
+      return (
+        <MultiAgentOrchestrationPage
+          userStats={userStats}
+          user={user}
+        />
+      );
 
     // FlashFusion Studio Routes
     case 'studio-analytics-behavior':
-      const {
-        default: StudioUserBehaviorTracker,
-      } = require('../studio/analytics/StudioUserBehaviorTracker');
+      const { default: StudioUserBehaviorTracker } = require('../studio/analytics/StudioUserBehaviorTracker');
       return <StudioUserBehaviorTracker />;
 
     case 'studio-ai-optimization':
-      const {
-        default: AIModelOptimizationService,
-      } = require('../studio/ai/AIModelOptimizationService');
+      const { default: AIModelOptimizationService } = require('../studio/ai/AIModelOptimizationService');
       return <AIModelOptimizationService />;
 
     case 'gamification':
@@ -201,54 +208,115 @@ export function renderSpecializedRoutes(currentPage: PageType, props: RouteProps
           setCurrentPage={setCurrentPage}
         />
       );
-
+    
     case 'creator-mode':
       const { CreatorModeHub } = require('../creator/CreatorModeHub');
-      return <CreatorModeHub userStats={userStats} setCurrentPage={setCurrentPage} />;
-
+      return (
+        <CreatorModeHub
+          userStats={userStats}
+          setCurrentPage={setCurrentPage}
+        />
+      );
+    
     case 'influencer-suite':
       const { InfluencerSuite } = require('../influencer/InfluencerSuite');
-      return <InfluencerSuite userStats={userStats} setCurrentPage={setCurrentPage} />;
-
+      return (
+        <InfluencerSuite
+          userStats={userStats}
+          setCurrentPage={setCurrentPage}
+        />
+      );
+    
     case 'print-on-demand':
       const { PrintDesignSuite } = require('../print-on-demand/PrintDesignSuite');
-      return <PrintDesignSuite userStats={userStats} setCurrentPage={setCurrentPage} />;
-
+      return (
+        <PrintDesignSuite
+          userStats={userStats}
+          setCurrentPage={setCurrentPage}
+        />
+      );
+    
     case 'marketplace-manager':
       const { MarketplaceManager } = require('../print-on-demand/MarketplaceManager');
-      return <MarketplaceManager userStats={userStats} setCurrentPage={setCurrentPage} />;
-
+      return (
+        <MarketplaceManager
+          userStats={userStats}
+          setCurrentPage={setCurrentPage}
+        />
+      );
+    
     case 'agents':
       const { UniversalAgentDashboard } = require('../agents/UniversalAgentDashboard');
-      return <UniversalAgentDashboard userStats={userStats} setCurrentPage={setCurrentPage} />;
-
+      return (
+        <UniversalAgentDashboard
+          userStats={userStats}
+          setCurrentPage={setCurrentPage}
+        />
+      );
+    
     case 'community':
       const { CommunityHub } = require('../community/CommunityHub');
-      return <CommunityHub user={user} userStats={userStats} setCurrentPage={setCurrentPage} />;
-
+      return (
+        <CommunityHub
+          user={user}
+          userStats={userStats}
+          setCurrentPage={setCurrentPage}
+        />
+      );
+    
     case 'performance':
       const { PerformanceOptimizer } = require('../performance/PerformanceOptimizer');
-      return <PerformanceOptimizer projects={projects} userStats={userStats} />;
-
+      return (
+        <PerformanceOptimizer
+          projects={projects}
+          userStats={userStats}
+        />
+      );
+    
     case 'security':
       const { SecurityPostureDashboard } = require('../security/SecurityPostureDashboard');
-      return <SecurityPostureDashboard projects={projects} userStats={userStats} />;
-
+      return (
+        <SecurityPostureDashboard
+          projects={projects}
+          userStats={userStats}
+        />
+      );
+    
     case 'wellness':
       const { AIWellnessMonitor } = require('../wellness/AIWellnessMonitor');
-      return <AIWellnessMonitor user={user} userStats={userStats} />;
-
+      return (
+        <AIWellnessMonitor
+          user={user}
+          userStats={userStats}
+        />
+      );
+    
     case 'workflows':
       const { NoCodeWorkflowBuilder } = require('../automation/NoCodeWorkflowBuilder');
-      return <NoCodeWorkflowBuilder userStats={userStats} setCurrentPage={setCurrentPage} />;
-
+      return (
+        <NoCodeWorkflowBuilder
+          userStats={userStats}
+          setCurrentPage={setCurrentPage}
+        />
+      );
+    
     case 'content-rights':
       const { ContentRightsManager } = require('../creator/ContentRightsManager');
-      return <ContentRightsManager user={user} userStats={userStats} />;
-
+      return (
+        <ContentRightsManager
+          user={user}
+          userStats={userStats}
+        />
+      );
+    
     case 'ai-trust':
       const { AITrustVerificationSystem } = require('../ai/AITrustVerificationSystem');
-      return <AITrustVerificationSystem user={user} userStats={userStats} />;
+      return (
+        <AITrustVerificationSystem
+          user={user}
+          userStats={userStats}
+        />
+      );
 
     default:
       return null;

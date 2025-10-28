@@ -24,29 +24,29 @@ export function NewDeploymentForm({
   setNewDeployment,
   onDeploy,
   onCancel,
-  deploying,
+  deploying
 }: NewDeploymentFormProps) {
   return (
     <Card>
       <CardHeader>
         <CardTitle>Deploy New Project</CardTitle>
-        <CardDescription>Choose a project and platform to deploy</CardDescription>
+        <CardDescription>
+          Choose a project and platform to deploy
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="text-sm font-medium mb-2 block">Project</label>
-            <Select
-              value={newDeployment.project_id}
-              onValueChange={(value) =>
-                setNewDeployment((prev) => ({ ...prev, project_id: value }))
-              }
+            <Select 
+              value={newDeployment.project_id} 
+              onValueChange={(value) => setNewDeployment(prev => ({ ...prev, project_id: value }))}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select a project" />
               </SelectTrigger>
               <SelectContent>
-                {projects.map((project) => (
+                {projects.map(project => (
                   <SelectItem key={project.id} value={project.id}>
                     <div className="flex items-center gap-2">
                       <span>{project.framework.charAt(0)}</span>
@@ -60,15 +60,15 @@ export function NewDeploymentForm({
 
           <div>
             <label className="text-sm font-medium mb-2 block">Platform</label>
-            <Select
-              value={newDeployment.platform}
-              onValueChange={(value) => setNewDeployment((prev) => ({ ...prev, platform: value }))}
+            <Select 
+              value={newDeployment.platform} 
+              onValueChange={(value) => setNewDeployment(prev => ({ ...prev, platform: value }))}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Choose platform" />
               </SelectTrigger>
               <SelectContent>
-                {deploymentPlatforms.map((platform) => (
+                {deploymentPlatforms.map(platform => (
                   <SelectItem key={platform.id} value={platform.name}>
                     <div className="flex items-center gap-2">
                       <span>{platform.icon}</span>
@@ -83,11 +83,9 @@ export function NewDeploymentForm({
 
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Switch
+            <Switch 
               checked={newDeployment.auto_deploy}
-              onCheckedChange={(checked) =>
-                setNewDeployment((prev) => ({ ...prev, auto_deploy: checked }))
-              }
+              onCheckedChange={(checked) => setNewDeployment(prev => ({ ...prev, auto_deploy: checked }))}
             />
             <label className="text-sm font-medium">Enable auto-deploy</label>
           </div>
@@ -95,13 +93,9 @@ export function NewDeploymentForm({
             <Button variant="outline" onClick={onCancel}>
               Cancel
             </Button>
-            <Button
+            <Button 
               onClick={onDeploy}
-              disabled={
-                !newDeployment.project_id ||
-                !newDeployment.platform ||
-                deploying === newDeployment.project_id
-              }
+              disabled={!newDeployment.project_id || !newDeployment.platform || deploying === newDeployment.project_id}
               className="ff-btn-primary"
             >
               {deploying === newDeployment.project_id ? (

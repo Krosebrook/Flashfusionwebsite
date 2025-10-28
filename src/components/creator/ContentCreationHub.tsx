@@ -7,18 +7,18 @@ import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
-  FileText,
-  Download,
-  Loader2,
-  CheckCircle,
+import { 
+  FileText, 
+  Download, 
+  Loader2, 
+  CheckCircle, 
   Copy,
   Share2,
   Eye,
   Edit3,
   Image,
   Video,
-  Mic,
+  Mic
 } from 'lucide-react';
 import { projectId, publicAnonKey } from '../../utils/supabase/info';
 
@@ -34,43 +34,18 @@ function ContentCreationHub() {
     contentType: '',
     prompt: '',
     style: '',
-    length: 'medium',
+    length: 'medium'
   });
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState<ContentResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const contentTypes = [
-    {
-      value: 'blog-post',
-      label: 'Blog Post',
-      icon: FileText,
-      description: 'Long-form articles and blog content',
-    },
-    {
-      value: 'social-media',
-      label: 'Social Media',
-      icon: Share2,
-      description: 'Posts for Twitter, LinkedIn, Instagram',
-    },
-    {
-      value: 'product-description',
-      label: 'Product Description',
-      icon: Edit3,
-      description: 'E-commerce product descriptions',
-    },
-    {
-      value: 'email-campaign',
-      label: 'Email Campaign',
-      icon: Edit3,
-      description: 'Marketing emails and newsletters',
-    },
-    {
-      value: 'landing-page',
-      label: 'Landing Page',
-      icon: FileText,
-      description: 'Sales pages and landing content',
-    },
+    { value: 'blog-post', label: 'Blog Post', icon: FileText, description: 'Long-form articles and blog content' },
+    { value: 'social-media', label: 'Social Media', icon: Share2, description: 'Posts for Twitter, LinkedIn, Instagram' },
+    { value: 'product-description', label: 'Product Description', icon: Edit3, description: 'E-commerce product descriptions' },
+    { value: 'email-campaign', label: 'Email Campaign', icon: Edit3, description: 'Marketing emails and newsletters' },
+    { value: 'landing-page', label: 'Landing Page', icon: FileText, description: 'Sales pages and landing content' }
   ];
 
   const styles = [
@@ -79,13 +54,13 @@ function ContentCreationHub() {
     { value: 'creative', label: 'Creative' },
     { value: 'technical', label: 'Technical' },
     { value: 'persuasive', label: 'Persuasive' },
-    { value: 'informative', label: 'Informative' },
+    { value: 'informative', label: 'Informative' }
   ];
 
   const lengths = [
     { value: 'short', label: 'Short (300-500 words)' },
     { value: 'medium', label: 'Medium (500-1000 words)' },
-    { value: 'long', label: 'Long (1000-2000 words)' },
+    { value: 'long', label: 'Long (1000-2000 words)' }
   ];
 
   const handleGenerate = async () => {
@@ -99,18 +74,15 @@ function ContentCreationHub() {
 
     try {
       const accessToken = localStorage.getItem('ff-auth-token');
-
-      const response = await fetch(
-        `https://${projectId}.supabase.co/functions/v1/make-server-88829a40/generate/content`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken || publicAnonKey}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      
+      const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-88829a40/generate/content`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken || publicAnonKey}`
+        },
+        body: JSON.stringify(formData)
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -129,7 +101,7 @@ function ContentCreationHub() {
 
   const handleCopy = async () => {
     if (!result?.content) return;
-
+    
     try {
       await navigator.clipboard.writeText(result.content);
       // Show success feedback
@@ -188,9 +160,7 @@ function ContentCreationHub() {
                       return (
                         <div
                           key={type.value}
-                          onClick={() =>
-                            setFormData((prev) => ({ ...prev, contentType: type.value }))
-                          }
+                          onClick={() => setFormData(prev => ({ ...prev, contentType: type.value }))}
                           className={`p-3 border rounded-lg cursor-pointer transition-all ${
                             formData.contentType === type.value
                               ? 'border-primary bg-primary/5'
@@ -216,7 +186,7 @@ function ContentCreationHub() {
                     id="prompt"
                     placeholder="Describe what you want to create..."
                     value={formData.prompt}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, prompt: e.target.value }))}
+                    onChange={(e) => setFormData(prev => ({ ...prev, prompt: e.target.value }))}
                     className="ff-focus-ring"
                     rows={4}
                   />
@@ -225,10 +195,9 @@ function ContentCreationHub() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>Writing Style</Label>
-                    <Select
-                      value={formData.style}
-                      onValueChange={(value) => setFormData((prev) => ({ ...prev, style: value }))}
-                    >
+                    <Select value={formData.style} onValueChange={(value) => 
+                      setFormData(prev => ({ ...prev, style: value }))
+                    }>
                       <SelectTrigger className="ff-focus-ring">
                         <SelectValue placeholder="Select style" />
                       </SelectTrigger>
@@ -244,10 +213,9 @@ function ContentCreationHub() {
 
                   <div className="space-y-2">
                     <Label>Content Length</Label>
-                    <Select
-                      value={formData.length}
-                      onValueChange={(value) => setFormData((prev) => ({ ...prev, length: value }))}
-                    >
+                    <Select value={formData.length} onValueChange={(value) => 
+                      setFormData(prev => ({ ...prev, length: value }))
+                    }>
                       <SelectTrigger className="ff-focus-ring">
                         <SelectValue placeholder="Select length" />
                       </SelectTrigger>
@@ -268,8 +236,8 @@ function ContentCreationHub() {
                   </div>
                 )}
 
-                <Button
-                  onClick={handleGenerate}
+                <Button 
+                  onClick={handleGenerate} 
                   disabled={isGenerating || !formData.contentType || !formData.prompt}
                   className="w-full ff-btn-primary"
                 >
@@ -327,19 +295,12 @@ function ContentCreationHub() {
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold">
-                          {formData.contentType
-                            .replace('-', ' ')
-                            .replace(/\b\w/g, (l) => l.toUpperCase())}
-                        </h3>
+                        <h3 className="font-semibold">{formData.contentType.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</h3>
                         <p className="text-sm text-muted-foreground">
                           {result.wordCount} words • {formData.style} style
                         </p>
                       </div>
-                      <Badge
-                        variant="outline"
-                        className="bg-green-50 text-green-700 border-green-200"
-                      >
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
                         Ready
                       </Badge>
                     </div>
@@ -364,7 +325,9 @@ function ContentCreationHub() {
                     <div className="space-y-2">
                       <Label>Generated Content</Label>
                       <div className="bg-muted/50 rounded-lg p-4 max-h-96 overflow-y-auto">
-                        <div className="whitespace-pre-wrap text-sm">{result.content}</div>
+                        <div className="whitespace-pre-wrap text-sm">
+                          {result.content}
+                        </div>
                       </div>
                     </div>
 
@@ -386,7 +349,7 @@ function ContentCreationHub() {
               { name: 'Social Announcement', type: 'social-media', category: 'Social' },
               { name: 'Newsletter', type: 'email-campaign', category: 'Email' },
               { name: 'Sales Page', type: 'landing-page', category: 'Sales' },
-              { name: 'Feature Description', type: 'product-description', category: 'Product' },
+              { name: 'Feature Description', type: 'product-description', category: 'Product' }
             ].map((template) => (
               <Card key={template.name} className="ff-card-interactive cursor-pointer">
                 <CardContent className="p-6">
@@ -414,21 +377,9 @@ function ContentCreationHub() {
         <TabsContent value="assets" className="space-y-6">
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              {
-                name: 'AI Image Generator',
-                icon: Image,
-                description: 'Generate custom images for your content',
-              },
-              {
-                name: 'Video Creator',
-                icon: Video,
-                description: 'Create promotional videos and animations',
-              },
-              {
-                name: 'Voice Generator',
-                icon: Mic,
-                description: 'Convert text to speech for audio content',
-              },
+              { name: 'AI Image Generator', icon: Image, description: 'Generate custom images for your content' },
+              { name: 'Video Creator', icon: Video, description: 'Create promotional videos and animations' },
+              { name: 'Voice Generator', icon: Mic, description: 'Convert text to speech for audio content' }
             ].map((asset) => {
               const IconComponent = asset.icon;
               return (
@@ -453,7 +404,7 @@ function ContentCreationHub() {
               { label: 'Content Generated', value: '156', change: '+12%' },
               { label: 'Words Written', value: '45.2K', change: '+25%' },
               { label: 'Templates Used', value: '23', change: '+8%' },
-              { label: 'Downloads', value: '89', change: '+15%' },
+              { label: 'Downloads', value: '89', change: '+15%' }
             ].map((metric) => (
               <Card key={metric.label}>
                 <CardContent className="p-6">

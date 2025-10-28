@@ -6,7 +6,7 @@ import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Switch } from '../ui/switch';
-import {
+import { 
   Shield,
   ShieldCheck,
   AlertTriangle,
@@ -20,24 +20,24 @@ import {
   BarChart3,
   Activity,
   Key,
-  Eye,
+  Eye
 } from 'lucide-react';
 
 // Import our modular components and utilities
 import { SecurityMetricCard } from './SecurityMetricCard';
 import { SecurityThreatCard } from './SecurityThreatCard';
-import {
-  SECURITY_METRICS,
-  SECURITY_THREATS,
-  COMPLIANCE_FRAMEWORKS,
-  ACCESS_TOKENS,
+import { 
+  SECURITY_METRICS, 
+  SECURITY_THREATS, 
+  COMPLIANCE_FRAMEWORKS, 
+  ACCESS_TOKENS 
 } from './constants';
-import {
-  getSecurityOverview,
-  getScoreColor,
+import { 
+  getSecurityOverview, 
+  getScoreColor, 
   sortThreatsBySeverity,
   categorizeTokensByRisk,
-  generateSecurityRecommendations,
+  generateSecurityRecommendations
 } from './utils';
 
 export function SecurityPostureDashboard() {
@@ -45,9 +45,7 @@ export function SecurityPostureDashboard() {
   const [threats, setThreats] = useState(SECURITY_THREATS);
   const [frameworks] = useState(COMPLIANCE_FRAMEWORKS);
   const [tokens] = useState(ACCESS_TOKENS);
-  const [activeTab, setActiveTab] = useState<'overview' | 'threats' | 'compliance' | 'tokens'>(
-    'overview'
-  );
+  const [activeTab, setActiveTab] = useState<'overview' | 'threats' | 'compliance' | 'tokens'>('overview');
   const [autoRefresh, setAutoRefresh] = useState(true);
 
   const overview = getSecurityOverview(metrics, threats, frameworks, tokens);
@@ -57,25 +55,23 @@ export function SecurityPostureDashboard() {
 
   const handleRefreshMetric = (metricId: string) => {
     // Simulate refresh - in real app this would call API
-    setMetrics((prev) =>
-      prev.map((m) =>
-        m.id === metricId
-          ? { ...m, lastChecked: new Date(), score: Math.min(100, m.score + Math.random() * 5) }
-          : m
-      )
-    );
+    setMetrics(prev => prev.map(m => 
+      m.id === metricId 
+        ? { ...m, lastChecked: new Date(), score: Math.min(100, m.score + Math.random() * 5) }
+        : m
+    ));
   };
 
   const handleInvestigateThreat = (threatId: string) => {
-    setThreats((prev) =>
-      prev.map((t) => (t.id === threatId ? { ...t, status: 'investigating' as const } : t))
-    );
+    setThreats(prev => prev.map(t => 
+      t.id === threatId ? { ...t, status: 'investigating' as const } : t
+    ));
   };
 
   const handleResolveThreat = (threatId: string) => {
-    setThreats((prev) =>
-      prev.map((t) => (t.id === threatId ? { ...t, status: 'resolved' as const } : t))
-    );
+    setThreats(prev => prev.map(t => 
+      t.id === threatId ? { ...t, status: 'resolved' as const } : t
+    ));
   };
 
   return (
@@ -96,13 +92,13 @@ export function SecurityPostureDashboard() {
             <Switch checked={autoRefresh} onCheckedChange={setAutoRefresh} />
             <span className="text-sm text-gray-600">Auto-refresh</span>
           </div>
-
-          <Badge
+          
+          <Badge 
             className="text-lg px-4 py-2"
             style={{
               backgroundColor: `${getScoreColor(overview.overallScore)}15`,
               color: getScoreColor(overview.overallScore),
-              border: `1px solid ${getScoreColor(overview.overallScore)}30`,
+              border: `1px solid ${getScoreColor(overview.overallScore)}30`
             }}
           >
             <Shield className="h-5 w-5 mr-2" />
@@ -118,45 +114,45 @@ export function SecurityPostureDashboard() {
           <div className="text-sm text-gray-600">Security Score</div>
           <Progress value={overview.overallScore} className="mt-2" />
         </Card>
-
+        
         <Card className="p-6 text-center">
           <div className="text-3xl font-bold text-red-600">{overview.totalThreats}</div>
           <div className="text-sm text-gray-600">Active Threats</div>
-          <div className="text-xs text-gray-500 mt-1">{overview.resolvedThreats} resolved</div>
+          <div className="text-xs text-gray-500 mt-1">
+            {overview.resolvedThreats} resolved
+          </div>
         </Card>
-
+        
         <Card className="p-6 text-center">
           <div className="text-3xl font-bold text-blue-600">{overview.complianceScore}%</div>
           <div className="text-sm text-gray-600">Compliance</div>
-          <div className="text-xs text-gray-500 mt-1">{frameworks.length} frameworks</div>
+          <div className="text-xs text-gray-500 mt-1">
+            {frameworks.length} frameworks
+          </div>
         </Card>
-
+        
         <Card className="p-6 text-center">
           <div className="text-3xl font-bold text-orange-600">{overview.activeTokens}</div>
           <div className="text-sm text-gray-600">Active Tokens</div>
-          <div className="text-xs text-gray-500 mt-1">{tokensByRisk.high.length} high risk</div>
+          <div className="text-xs text-gray-500 mt-1">
+            {tokensByRisk.high.length} high risk
+          </div>
         </Card>
       </div>
 
       {/* Quick Recommendations */}
       {recommendations.length > 0 && (
-        <Card
-          className="p-6"
-          style={{
-            background:
-              'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%)',
-            border: '1px solid rgba(239, 68, 68, 0.2)',
-          }}
-        >
+        <Card className="p-6" style={{
+          background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%)',
+          border: '1px solid rgba(239, 68, 68, 0.2)'
+        }}>
           <div className="flex items-start space-x-3">
             <AlertTriangle className="h-6 w-6 text-red-500 mt-1" />
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Security Recommendations</h3>
               <ul className="list-disc list-inside space-y-1">
                 {recommendations.map((rec, index) => (
-                  <li key={index} className="text-sm text-gray-700">
-                    {rec}
-                  </li>
+                  <li key={index} className="text-sm text-gray-700">{rec}</li>
                 ))}
               </ul>
             </div>
@@ -179,7 +175,11 @@ export function SecurityPostureDashboard() {
         <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {metrics.map((metric) => (
-              <SecurityMetricCard key={metric.id} metric={metric} onRefresh={handleRefreshMetric} />
+              <SecurityMetricCard 
+                key={metric.id} 
+                metric={metric} 
+                onRefresh={handleRefreshMetric}
+              />
             ))}
           </div>
         </TabsContent>
@@ -198,11 +198,11 @@ export function SecurityPostureDashboard() {
               </Button>
             </div>
           </div>
-
+          
           <div className="space-y-4">
             {sortedThreats.map((threat) => (
-              <SecurityThreatCard
-                key={threat.id}
+              <SecurityThreatCard 
+                key={threat.id} 
                 threat={threat}
                 onInvestigate={handleInvestigateThreat}
                 onResolve={handleResolveThreat}
@@ -221,12 +221,9 @@ export function SecurityPostureDashboard() {
                     <p className="text-sm text-gray-600 mt-1">{framework.description}</p>
                   </div>
                   <div className="text-right">
-                    <div
-                      className="text-2xl font-bold"
-                      style={{
-                        color: getScoreColor(framework.overallCompliance),
-                      }}
-                    >
+                    <div className="text-2xl font-bold" style={{ 
+                      color: getScoreColor(framework.overallCompliance) 
+                    }}>
                       {framework.overallCompliance}%
                     </div>
                     <div className="text-xs text-gray-500">Compliant</div>
@@ -239,15 +236,11 @@ export function SecurityPostureDashboard() {
                   <div className="mb-4 p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium">Certification Status</span>
-                      <Badge
-                        className={
-                          framework.certification.status === 'certified'
-                            ? 'bg-green-100 text-green-700'
-                            : framework.certification.status === 'pending'
-                              ? 'bg-yellow-100 text-yellow-700'
-                              : 'bg-red-100 text-red-700'
-                        }
-                      >
+                      <Badge className={
+                        framework.certification.status === 'certified' ? 'bg-green-100 text-green-700' :
+                        framework.certification.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                        'bg-red-100 text-red-700'
+                      }>
                         {framework.certification.status}
                       </Badge>
                     </div>
@@ -263,17 +256,12 @@ export function SecurityPostureDashboard() {
                   {framework.requirements.slice(0, 3).map((req) => (
                     <div key={req.id} className="flex items-center justify-between">
                       <span className="text-sm text-gray-700">{req.title}</span>
-                      <Badge
-                        className={
-                          req.status === 'compliant'
-                            ? 'bg-green-100 text-green-700'
-                            : req.status === 'partial'
-                              ? 'bg-yellow-100 text-yellow-700'
-                              : req.status === 'non-compliant'
-                                ? 'bg-red-100 text-red-700'
-                                : 'bg-gray-100 text-gray-700'
-                        }
-                      >
+                      <Badge className={
+                        req.status === 'compliant' ? 'bg-green-100 text-green-700' :
+                        req.status === 'partial' ? 'bg-yellow-100 text-yellow-700' :
+                        req.status === 'non-compliant' ? 'bg-red-100 text-red-700' :
+                        'bg-gray-100 text-gray-700'
+                      }>
                         {req.status}
                       </Badge>
                     </div>
@@ -297,15 +285,11 @@ export function SecurityPostureDashboard() {
               <Card key={riskLevel} className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold capitalize">{riskLevel} Risk</h3>
-                  <Badge
-                    className={
-                      riskLevel === 'high'
-                        ? 'bg-red-100 text-red-700'
-                        : riskLevel === 'medium'
-                          ? 'bg-yellow-100 text-yellow-700'
-                          : 'bg-green-100 text-green-700'
-                    }
-                  >
+                  <Badge className={
+                    riskLevel === 'high' ? 'bg-red-100 text-red-700' :
+                    riskLevel === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                    'bg-green-100 text-green-700'
+                  }>
                     {tokenList.length} tokens
                   </Badge>
                 </div>
@@ -318,25 +302,19 @@ export function SecurityPostureDashboard() {
                           <div className="font-medium text-sm">{token.name}</div>
                           <div className="text-xs text-gray-500 capitalize">{token.type}</div>
                         </div>
-                        <Badge
-                          className={
-                            token.status === 'active'
-                              ? 'bg-green-100 text-green-700'
-                              : token.status === 'expired'
-                                ? 'bg-red-100 text-red-700'
-                                : 'bg-gray-100 text-gray-700'
-                          }
-                        >
+                        <Badge className={
+                          token.status === 'active' ? 'bg-green-100 text-green-700' :
+                          token.status === 'expired' ? 'bg-red-100 text-red-700' :
+                          'bg-gray-100 text-gray-700'
+                        }>
                           {token.status}
                         </Badge>
                       </div>
-
+                      
                       <div className="text-xs text-gray-500">
-                        {token.lastUsed
-                          ? `Used ${new Date(token.lastUsed).toLocaleDateString()}`
-                          : 'Never used'}
+                        {token.lastUsed ? `Used ${new Date(token.lastUsed).toLocaleDateString()}` : 'Never used'}
                       </div>
-
+                      
                       <div className="flex space-x-2 mt-2">
                         <Button size="sm" variant="outline" className="flex-1">
                           <Eye className="h-3 w-3 mr-1" />

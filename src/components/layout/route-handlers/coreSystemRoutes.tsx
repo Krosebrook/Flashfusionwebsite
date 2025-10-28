@@ -5,45 +5,44 @@ import type { PageType } from '../../../types/core';
 const NotificationCenter = lazy(() => import('../../notifications/NotificationCenter'));
 const UserProfileHub = lazy(() => import('../../user/UserProfileHub'));
 const GlobalSearchPalette = lazy(() => import('../../search/GlobalSearchPalette'));
-const FlashFusionBusinessIntelligenceHub = lazy(
-  () => import('../../analytics/FlashFusionBusinessIntelligenceHub')
-);
-const ExternalAppIntegrationHub = lazy(
-  () => import('../../integrations/ExternalAppIntegrationHub')
-);
+const FlashFusionBusinessIntelligenceHub = lazy(() => import('../../analytics/FlashFusionBusinessIntelligenceHub'));
+const ExternalAppIntegrationHub = lazy(() => import('../../integrations/ExternalAppIntegrationHub'));
 
-export function handleCoreSystemRoutes(currentPage: PageType, isAuthenticated: boolean) {
+export function handleCoreSystemRoutes(
+  currentPage: PageType,
+  isAuthenticated: boolean
+) {
   switch (currentPage) {
     case 'notifications':
       return <NotificationCenter />;
-
+    
     case 'profile':
       return <UserProfileHub />;
-
+    
     case 'search':
       return <GlobalSearchPalette />;
-
+    
     case 'plugins':
       return isAuthenticated ? <PluginManagerPlaceholder /> : null;
-
+    
     case 'data-hub':
       return isAuthenticated ? <DataImportExportHubPlaceholder /> : null;
-
+    
     case 'insights':
       return isAuthenticated ? <FlashFusionBusinessIntelligenceHub /> : null;
-
+    
     case 'business-intelligence':
       return isAuthenticated ? <FlashFusionBusinessIntelligenceHub /> : null;
-
+    
     case 'workspace':
       return isAuthenticated ? <CrossAppWorkspacePlaceholder /> : null;
-
+    
     case 'external-integrations':
       return isAuthenticated ? <ExternalAppIntegrationHub /> : null;
-
+    
     case 'repository-hub':
       return isAuthenticated ? <RepositoryServiceHubPlaceholder /> : null;
-
+    
     default:
       return null;
   }
@@ -51,7 +50,7 @@ export function handleCoreSystemRoutes(currentPage: PageType, isAuthenticated: b
 
 export const coreSystemRoutes: PageType[] = [
   'notifications',
-  'profile',
+  'profile', 
   'search',
   'plugins',
   'data-hub',
@@ -59,7 +58,7 @@ export const coreSystemRoutes: PageType[] = [
   'business-intelligence',
   'workspace',
   'external-integrations',
-  'repository-hub',
+  'repository-hub'
 ];
 
 // Placeholder components for missing core system apps
@@ -100,7 +99,9 @@ function AnalyticsInsightsDashboardPlaceholder() {
     <div className="max-w-6xl mx-auto p-6">
       <div className="text-center space-y-4">
         <h1 className="ff-text-gradient">Analytics & Insights Dashboard</h1>
-        <p className="text-muted-foreground">Advanced analytics and reporting for your projects.</p>
+        <p className="text-muted-foreground">
+          Advanced analytics and reporting for your projects.
+        </p>
         <div className="bg-muted/20 border border-dashed border-muted-foreground/25 rounded-lg p-8">
           <p className="text-muted-foreground">Analytics Dashboard component coming soon...</p>
         </div>
@@ -134,9 +135,7 @@ function RepositoryServiceHubPlaceholder() {
           Connect GitHub, Vercel, Supabase, Notion, and manage your development workflow.
         </p>
         <div className="bg-muted/20 border border-dashed border-muted-foreground/25 rounded-lg p-8">
-          <p className="text-muted-foreground">
-            Repository Service Hub available - check /components/repository/
-          </p>
+          <p className="text-muted-foreground">Repository Service Hub available - check /components/repository/</p>
         </div>
       </div>
     </div>

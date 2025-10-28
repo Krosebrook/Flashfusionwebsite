@@ -4,7 +4,7 @@
  * @category tools
  * @version 1.0.0
  * @author FlashFusion Team
- *
+ * 
  * Advanced image generation tool with multiple AI models, style presets,
  * and comprehensive customization options with real image output.
  */
@@ -24,11 +24,11 @@ import { Separator } from '../../ui/separator';
 import { ScrollArea } from '../../ui/scroll-area';
 import { Slider } from '../../ui/slider';
 import { Switch } from '../../ui/switch';
-import {
-  Image,
-  Download,
-  Share2,
-  Copy,
+import { 
+  Image, 
+  Download, 
+  Share2, 
+  Copy, 
   RefreshCw,
   Palette,
   Camera,
@@ -55,7 +55,7 @@ import {
   Crop,
   RotateCcw,
   ZoomIn,
-  Play,
+  Play
 } from 'lucide-react';
 import { unsplash_tool } from '../../../utils/unsplash-integration';
 
@@ -99,11 +99,7 @@ interface GeneratedImage {
 }
 
 const STYLE_PRESETS = [
-  {
-    id: 'realistic',
-    label: 'Photorealistic',
-    description: 'Highly detailed, photographic quality',
-  },
+  { id: 'realistic', label: 'Photorealistic', description: 'Highly detailed, photographic quality' },
   { id: 'artistic', label: 'Artistic', description: 'Creative, painterly style' },
   { id: 'digital-art', label: 'Digital Art', description: 'Modern digital illustration' },
   { id: 'anime', label: 'Anime/Manga', description: 'Japanese animation style' },
@@ -114,92 +110,35 @@ const STYLE_PRESETS = [
   { id: 'cyberpunk', label: 'Cyberpunk', description: 'Futuristic neon aesthetic' },
   { id: 'steampunk', label: 'Steampunk', description: 'Victorian-era technology' },
   { id: 'minimalist', label: 'Minimalist', description: 'Clean, simple design' },
-  { id: 'abstract', label: 'Abstract', description: 'Non-representational art' },
+  { id: 'abstract', label: 'Abstract', description: 'Non-representational art' }
 ];
 
 const AI_MODELS = [
-  {
-    id: 'dall-e-3',
-    label: 'DALL-E 3',
-    description: 'Latest OpenAI model',
-    capabilities: ['high-quality', 'text-coherent'],
-  },
-  {
-    id: 'midjourney',
-    label: 'Midjourney v6',
-    description: 'Artistic excellence',
-    capabilities: ['artistic', 'creative'],
-  },
-  {
-    id: 'stable-diffusion',
-    label: 'Stable Diffusion XL',
-    description: 'Open source flexibility',
-    capabilities: ['customizable', 'fast'],
-  },
-  {
-    id: 'leonardo',
-    label: 'Leonardo AI',
-    description: 'Gaming and fantasy focused',
-    capabilities: ['gaming', 'fantasy'],
-  },
-  {
-    id: 'firefly',
-    label: 'Adobe Firefly',
-    description: 'Commercial safe',
-    capabilities: ['commercial', 'safe'],
-  },
+  { id: 'dall-e-3', label: 'DALL-E 3', description: 'Latest OpenAI model', capabilities: ['high-quality', 'text-coherent'] },
+  { id: 'midjourney', label: 'Midjourney v6', description: 'Artistic excellence', capabilities: ['artistic', 'creative'] },
+  { id: 'stable-diffusion', label: 'Stable Diffusion XL', description: 'Open source flexibility', capabilities: ['customizable', 'fast'] },
+  { id: 'leonardo', label: 'Leonardo AI', description: 'Gaming and fantasy focused', capabilities: ['gaming', 'fantasy'] },
+  { id: 'firefly', label: 'Adobe Firefly', description: 'Commercial safe', capabilities: ['commercial', 'safe'] }
 ];
 
 const LIGHTING_OPTIONS = [
-  'Natural daylight',
-  'Golden hour',
-  'Blue hour',
-  'Studio lighting',
-  'Dramatic lighting',
-  'Soft lighting',
-  'Hard lighting',
-  'Backlit',
-  'Rim lighting',
-  'Volumetric lighting',
+  'Natural daylight', 'Golden hour', 'Blue hour', 'Studio lighting', 'Dramatic lighting',
+  'Soft lighting', 'Hard lighting', 'Backlit', 'Rim lighting', 'Volumetric lighting'
 ];
 
 const MOOD_OPTIONS = [
-  'Cheerful',
-  'Mysterious',
-  'Dramatic',
-  'Peaceful',
-  'Energetic',
-  'Melancholic',
-  'Romantic',
-  'Epic',
-  'Cozy',
-  'Surreal',
+  'Cheerful', 'Mysterious', 'Dramatic', 'Peaceful', 'Energetic',
+  'Melancholic', 'Romantic', 'Epic', 'Cozy', 'Surreal'
 ];
 
 const COLOR_SCHEMES = [
-  'Vibrant',
-  'Monochrome',
-  'Warm tones',
-  'Cool tones',
-  'Pastel',
-  'High contrast',
-  'Muted',
-  'Neon',
-  'Earth tones',
-  'Vintage',
+  'Vibrant', 'Monochrome', 'Warm tones', 'Cool tones', 'Pastel',
+  'High contrast', 'Muted', 'Neon', 'Earth tones', 'Vintage'
 ];
 
 const COMPOSITION_TYPES = [
-  'Rule of thirds',
-  'Center composition',
-  'Leading lines',
-  'Symmetrical',
-  'Dynamic diagonal',
-  'Close-up',
-  'Wide shot',
-  "Bird's eye view",
-  'Low angle',
-  'High angle',
+  'Rule of thirds', 'Center composition', 'Leading lines', 'Symmetrical',
+  'Dynamic diagonal', 'Close-up', 'Wide shot', 'Bird\'s eye view', 'Low angle', 'High angle'
 ];
 
 export function EnhancedImageGenerator() {
@@ -219,7 +158,7 @@ export function EnhancedImageGenerator() {
     colorScheme: 'Vibrant',
     artisticStyle: 'photorealistic',
     composition: 'Rule of thirds',
-    effects: [],
+    effects: []
   });
 
   const [isGenerating, setIsGenerating] = useState(false);
@@ -231,54 +170,44 @@ export function EnhancedImageGenerator() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Generate comprehensive prompt enhancement
-  const enhancePrompt = useCallback(
-    (basePrompt: string): string => {
-      const styleModifiers = {
-        realistic: 'photorealistic, high detail, professional photography',
-        artistic: 'artistic masterpiece, creative composition, expressive',
-        'digital-art': 'digital art, concept art, trending on artstation',
-        anime: 'anime style, manga illustration, cel shading',
-        cartoon: 'cartoon style, stylized illustration, vibrant colors',
-        watercolor: 'watercolor painting, soft blending, artistic texture',
-        'oil-painting': 'oil painting, classical technique, rich textures',
-        'pencil-sketch': 'pencil drawing, graphite sketch, detailed linework',
-        cyberpunk: 'cyberpunk aesthetic, neon lights, futuristic',
-        steampunk: 'steampunk style, brass gears, Victorian technology',
-        minimalist: 'minimalist design, clean lines, simple composition',
-        abstract: 'abstract art, non-representational, experimental',
-      };
+  const enhancePrompt = useCallback((basePrompt: string): string => {
+    const styleModifiers = {
+      'realistic': 'photorealistic, high detail, professional photography',
+      'artistic': 'artistic masterpiece, creative composition, expressive',
+      'digital-art': 'digital art, concept art, trending on artstation',
+      'anime': 'anime style, manga illustration, cel shading',
+      'cartoon': 'cartoon style, stylized illustration, vibrant colors',
+      'watercolor': 'watercolor painting, soft blending, artistic texture',
+      'oil-painting': 'oil painting, classical technique, rich textures',
+      'pencil-sketch': 'pencil drawing, graphite sketch, detailed linework',
+      'cyberpunk': 'cyberpunk aesthetic, neon lights, futuristic',
+      'steampunk': 'steampunk style, brass gears, Victorian technology',
+      'minimalist': 'minimalist design, clean lines, simple composition',
+      'abstract': 'abstract art, non-representational, experimental'
+    };
 
-      const qualityTerms = [
-        'high quality',
-        'detailed',
-        'sharp focus',
-        'professional',
-        '8k resolution',
-        'masterpiece',
-        'best quality',
-      ];
+    const qualityTerms = [
+      'high quality', 'detailed', 'sharp focus', 'professional',
+      '8k resolution', 'masterpiece', 'best quality'
+    ];
 
-      const lightingTerm = options.lighting.toLowerCase();
-      const moodTerm = options.mood.toLowerCase();
-      const colorTerm = options.colorScheme.toLowerCase();
-      const compositionTerm = options.composition.toLowerCase();
+    const lightingTerm = options.lighting.toLowerCase();
+    const moodTerm = options.mood.toLowerCase();
+    const colorTerm = options.colorScheme.toLowerCase();
+    const compositionTerm = options.composition.toLowerCase();
 
-      const enhancedPrompt = [
-        basePrompt,
-        styleModifiers[options.style as keyof typeof styleModifiers],
-        lightingTerm,
-        moodTerm + ' mood',
-        colorTerm + ' colors',
-        compositionTerm,
-        ...qualityTerms.slice(0, 3),
-      ]
-        .filter(Boolean)
-        .join(', ');
+    const enhancedPrompt = [
+      basePrompt,
+      styleModifiers[options.style as keyof typeof styleModifiers],
+      lightingTerm,
+      moodTerm + ' mood',
+      colorTerm + ' colors',
+      compositionTerm,
+      ...qualityTerms.slice(0, 3)
+    ].filter(Boolean).join(', ');
 
-      return enhancedPrompt;
-    },
-    [options]
-  );
+    return enhancedPrompt;
+  }, [options]);
 
   // AI-powered image generation simulation
   const generateImages = useCallback(async () => {
@@ -295,20 +224,20 @@ export function EnhancedImageGenerator() {
       const progressSteps = [15, 35, 55, 75, 90, 100];
       for (let i = 0; i < progressSteps.length; i++) {
         setProgress(progressSteps[i]);
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
       }
 
       // Generate batch of images
       const images: GeneratedImage[] = [];
-
+      
       for (let i = 0; i < options.batchSize; i++) {
         // Use Unsplash for demonstration with search terms from prompt
         const searchTerms = options.prompt.toLowerCase().split(' ').slice(0, 3).join(' ');
-
+        
         try {
           // Call the Unsplash tool to get a real image
           const imageUrl = await unsplash_tool(searchTerms || 'abstract art');
-
+          
           const image: GeneratedImage = {
             id: `img-${Date.now()}-${i}`,
             url: imageUrl,
@@ -319,19 +248,19 @@ export function EnhancedImageGenerator() {
               size: options.size,
               generationTime: 2.5 + Math.random() * 2,
               seed: Math.floor(Math.random() * 1000000),
-              timestamp: new Date(),
+              timestamp: new Date()
             },
             analytics: {
               views: 1,
               likes: 0,
-              downloads: 0,
-            },
+              downloads: 0
+            }
           };
-
+          
           images.push(image);
         } catch (error) {
           console.error('Failed to fetch image from Unsplash:', error);
-
+          
           // Fallback to placeholder
           const image: GeneratedImage = {
             id: `img-${Date.now()}-${i}`,
@@ -343,22 +272,22 @@ export function EnhancedImageGenerator() {
               size: options.size,
               generationTime: 2.5 + Math.random() * 2,
               seed: Math.floor(Math.random() * 1000000),
-              timestamp: new Date(),
+              timestamp: new Date()
             },
             analytics: {
               views: 1,
               likes: 0,
-              downloads: 0,
-            },
+              downloads: 0
+            }
           };
-
+          
           images.push(image);
         }
       }
 
-      setGeneratedImages((prev) => [...images, ...prev]);
+      setGeneratedImages(prev => [...images, ...prev]);
       setActiveTab('gallery');
-
+      
       console.log('✅ Generated', images.length, 'images successfully');
     } catch (error) {
       console.error('❌ Image generation failed:', error);
@@ -369,35 +298,32 @@ export function EnhancedImageGenerator() {
   }, [options, enhancePrompt]);
 
   // Download image functionality
-  const downloadImage = useCallback(
-    async (image: GeneratedImage, format: 'png' | 'jpg' | 'webp' = 'png') => {
-      try {
-        const response = await fetch(image.url);
-        const blob = await response.blob();
+  const downloadImage = useCallback(async (image: GeneratedImage, format: 'png' | 'jpg' | 'webp' = 'png') => {
+    try {
+      const response = await fetch(image.url);
+      const blob = await response.blob();
+      
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `flashfusion-generated-${image.id}.${format}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
 
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `flashfusion-generated-${image.id}.${format}`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
-        // Update analytics
-        setGeneratedImages((prev) =>
-          prev.map((img) =>
-            img.id === image.id
-              ? { ...img, analytics: { ...img.analytics, downloads: img.analytics.downloads + 1 } }
-              : img
-          )
-        );
-      } catch (error) {
-        console.error('Download failed:', error);
-      }
-    },
-    []
-  );
+      // Update analytics
+      setGeneratedImages(prev => 
+        prev.map(img => 
+          img.id === image.id 
+            ? { ...img, analytics: { ...img.analytics, downloads: img.analytics.downloads + 1 } }
+            : img
+        )
+      );
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
+  }, []);
 
   // Copy image URL to clipboard
   const copyImageUrl = useCallback(async (image: GeneratedImage) => {
@@ -411,9 +337,9 @@ export function EnhancedImageGenerator() {
 
   // Like image functionality
   const likeImage = useCallback((imageId: string) => {
-    setGeneratedImages((prev) =>
-      prev.map((img) =>
-        img.id === imageId
+    setGeneratedImages(prev => 
+      prev.map(img => 
+        img.id === imageId 
           ? { ...img, analytics: { ...img.analytics, likes: img.analytics.likes + 1 } }
           : img
       )
@@ -422,9 +348,9 @@ export function EnhancedImageGenerator() {
 
   // Apply style preset
   const applyStylePreset = useCallback((styleId: string) => {
-    const preset = STYLE_PRESETS.find((s) => s.id === styleId);
+    const preset = STYLE_PRESETS.find(s => s.id === styleId);
     if (preset) {
-      setOptions((prev) => ({ ...prev, style: styleId }));
+      setOptions(prev => ({ ...prev, style: styleId }));
     }
   }, []);
 
@@ -435,22 +361,22 @@ export function EnhancedImageGenerator() {
 
     try {
       const variationPrompt = `Variation of: ${sourceImage.prompt}`;
-
+      
       const progressSteps = [20, 40, 60, 80, 100];
       for (let i = 0; i < progressSteps.length; i++) {
         setProgress(progressSteps[i]);
-        await new Promise((resolve) => setTimeout(resolve, 400));
+        await new Promise(resolve => setTimeout(resolve, 400));
       }
 
       // Generate 3 variations
       const variations: GeneratedImage[] = [];
-
+      
       for (let i = 0; i < 3; i++) {
         const searchTerms = sourceImage.prompt.split(' ').slice(0, 3).join(' ');
-
+        
         try {
           const imageUrl = await unsplash_tool(searchTerms + ` variation ${i + 1}`);
-
+          
           const variation: GeneratedImage = {
             id: `var-${Date.now()}-${i}`,
             url: imageUrl,
@@ -459,22 +385,22 @@ export function EnhancedImageGenerator() {
             metadata: {
               ...sourceImage.metadata,
               timestamp: new Date(),
-              seed: Math.floor(Math.random() * 1000000),
+              seed: Math.floor(Math.random() * 1000000)
             },
             analytics: {
               views: 1,
               likes: 0,
-              downloads: 0,
-            },
+              downloads: 0
+            }
           };
-
+          
           variations.push(variation);
         } catch (error) {
           console.error('Failed to generate variation:', error);
         }
       }
 
-      setGeneratedImages((prev) => [...variations, ...prev]);
+      setGeneratedImages(prev => [...variations, ...prev]);
       console.log('✅ Generated', variations.length, 'variations');
     } catch (error) {
       console.error('❌ Variation generation failed:', error);
@@ -488,16 +414,12 @@ export function EnhancedImageGenerator() {
     <div className="space-y-6" style={{ fontFamily: 'var(--ff-font-secondary)' }}>
       <Card className="bg-[var(--ff-surface)] border-[var(--border)]">
         <CardHeader>
-          <CardTitle
-            className="flex items-center gap-3 text-[var(--ff-text-primary)]"
-            style={{ fontFamily: 'var(--ff-font-primary)' }}
-          >
+          <CardTitle className="flex items-center gap-3 text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
             <Image className="w-6 h-6 text-[var(--ff-primary)]" />
             Enhanced AI Image Generator
           </CardTitle>
           <CardDescription className="text-[var(--ff-text-secondary)]">
-            Create stunning images with advanced AI models, comprehensive style options, and
-            professional-grade customization controls.
+            Create stunning images with advanced AI models, comprehensive style options, and professional-grade customization controls.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -525,55 +447,39 @@ export function EnhancedImageGenerator() {
               <Alert className="border-[var(--ff-primary)] bg-[var(--ff-primary)]/10">
                 <Sparkles className="h-4 w-4 text-[var(--ff-primary)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-primary)]">Professional AI Generation:</strong>{' '}
-                  Advanced prompting, multiple models, and style control for production-quality
-                  images.
+                  <strong className="text-[var(--ff-primary)]">Professional AI Generation:</strong> Advanced prompting, multiple models, and style control for production-quality images.
                 </AlertDescription>
               </Alert>
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label
-                    className="text-[var(--ff-text-primary)]"
-                    style={{ fontFamily: 'var(--ff-font-primary)' }}
-                  >
+                  <Label className="text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>
                     Image Prompt
                   </Label>
                   <Textarea
                     placeholder="Describe the image you want to create in detail..."
                     value={options.prompt}
-                    onChange={(e) => setOptions((prev) => ({ ...prev, prompt: e.target.value }))}
+                    onChange={(e) => setOptions(prev => ({ ...prev, prompt: e.target.value }))}
                     className="min-h-[100px] bg-[var(--input-background)] border-[var(--border)] text-[var(--ff-text-primary)]"
                   />
                   <div className="text-xs text-[var(--ff-text-muted)]">
-                    Tip: Be specific about style, composition, lighting, and details for better
-                    results.
+                    Tip: Be specific about style, composition, lighting, and details for better results.
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label
-                      className="text-[var(--ff-text-primary)]"
-                      style={{ fontFamily: 'var(--ff-font-primary)' }}
-                    >
-                      AI Model
-                    </Label>
-                    <Select
-                      value={options.model}
-                      onValueChange={(value) => setOptions((prev) => ({ ...prev, model: value }))}
-                    >
+                    <Label className="text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>AI Model</Label>
+                    <Select value={options.model} onValueChange={(value) => setOptions(prev => ({ ...prev, model: value }))}>
                       <SelectTrigger className="bg-[var(--input-background)] border-[var(--border)] text-[var(--ff-text-primary)]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {AI_MODELS.map((model) => (
+                        {AI_MODELS.map(model => (
                           <SelectItem key={model.id} value={model.id}>
                             <div className="flex flex-col">
                               <span>{model.label}</span>
-                              <span className="text-xs text-[var(--ff-text-muted)]">
-                                {model.description}
-                              </span>
+                              <span className="text-xs text-[var(--ff-text-muted)]">{model.description}</span>
                             </div>
                           </SelectItem>
                         ))}
@@ -582,24 +488,17 @@ export function EnhancedImageGenerator() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label
-                      className="text-[var(--ff-text-primary)]"
-                      style={{ fontFamily: 'var(--ff-font-primary)' }}
-                    >
-                      Style Preset
-                    </Label>
+                    <Label className="text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>Style Preset</Label>
                     <Select value={options.style} onValueChange={applyStylePreset}>
                       <SelectTrigger className="bg-[var(--input-background)] border-[var(--border)] text-[var(--ff-text-primary)]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {STYLE_PRESETS.map((preset) => (
+                        {STYLE_PRESETS.map(preset => (
                           <SelectItem key={preset.id} value={preset.id}>
                             <div className="flex flex-col">
                               <span>{preset.label}</span>
-                              <span className="text-xs text-[var(--ff-text-muted)]">
-                                {preset.description}
-                              </span>
+                              <span className="text-xs text-[var(--ff-text-muted)]">{preset.description}</span>
                             </div>
                           </SelectItem>
                         ))}
@@ -608,16 +507,8 @@ export function EnhancedImageGenerator() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label
-                      className="text-[var(--ff-text-primary)]"
-                      style={{ fontFamily: 'var(--ff-font-primary)' }}
-                    >
-                      Image Size
-                    </Label>
-                    <Select
-                      value={options.size}
-                      onValueChange={(value) => setOptions((prev) => ({ ...prev, size: value }))}
-                    >
+                    <Label className="text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>Image Size</Label>
+                    <Select value={options.size} onValueChange={(value) => setOptions(prev => ({ ...prev, size: value }))}>
                       <SelectTrigger className="bg-[var(--input-background)] border-[var(--border)] text-[var(--ff-text-primary)]">
                         <SelectValue />
                       </SelectTrigger>
@@ -635,50 +526,28 @@ export function EnhancedImageGenerator() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label
-                      className="text-[var(--ff-text-primary)]"
-                      style={{ fontFamily: 'var(--ff-font-primary)' }}
-                    >
-                      Lighting
-                    </Label>
-                    <Select
-                      value={options.lighting}
-                      onValueChange={(value) =>
-                        setOptions((prev) => ({ ...prev, lighting: value }))
-                      }
-                    >
+                    <Label className="text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>Lighting</Label>
+                    <Select value={options.lighting} onValueChange={(value) => setOptions(prev => ({ ...prev, lighting: value }))}>
                       <SelectTrigger className="bg-[var(--input-background)] border-[var(--border)] text-[var(--ff-text-primary)]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {LIGHTING_OPTIONS.map((lighting) => (
-                          <SelectItem key={lighting} value={lighting}>
-                            {lighting}
-                          </SelectItem>
+                        {LIGHTING_OPTIONS.map(lighting => (
+                          <SelectItem key={lighting} value={lighting}>{lighting}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label
-                      className="text-[var(--ff-text-primary)]"
-                      style={{ fontFamily: 'var(--ff-font-primary)' }}
-                    >
-                      Mood
-                    </Label>
-                    <Select
-                      value={options.mood}
-                      onValueChange={(value) => setOptions((prev) => ({ ...prev, mood: value }))}
-                    >
+                    <Label className="text-[var(--ff-text-primary)]" style={{ fontFamily: 'var(--ff-font-primary)' }}>Mood</Label>
+                    <Select value={options.mood} onValueChange={(value) => setOptions(prev => ({ ...prev, mood: value }))}>
                       <SelectTrigger className="bg-[var(--input-background)] border-[var(--border)] text-[var(--ff-text-primary)]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {MOOD_OPTIONS.map((mood) => (
-                          <SelectItem key={mood} value={mood}>
-                            {mood}
-                          </SelectItem>
+                        {MOOD_OPTIONS.map(mood => (
+                          <SelectItem key={mood} value={mood}>{mood}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -692,19 +561,12 @@ export function EnhancedImageGenerator() {
                       checked={showAdvanced}
                       onCheckedChange={setShowAdvanced}
                     />
-                    <Label htmlFor="advanced" className="text-[var(--ff-text-primary)]">
-                      Advanced Options
-                    </Label>
+                    <Label htmlFor="advanced" className="text-[var(--ff-text-primary)]">Advanced Options</Label>
                   </div>
-
+                  
                   <div className="flex items-center gap-2">
                     <Label className="text-[var(--ff-text-primary)]">Batch Size:</Label>
-                    <Select
-                      value={options.batchSize.toString()}
-                      onValueChange={(value) =>
-                        setOptions((prev) => ({ ...prev, batchSize: parseInt(value) }))
-                      }
-                    >
+                    <Select value={options.batchSize.toString()} onValueChange={(value) => setOptions(prev => ({ ...prev, batchSize: parseInt(value) }))}>
                       <SelectTrigger className="w-20 bg-[var(--input-background)] border-[var(--border)] text-[var(--ff-text-primary)]">
                         <SelectValue />
                       </SelectTrigger>
@@ -721,28 +583,19 @@ export function EnhancedImageGenerator() {
                 {showAdvanced && (
                   <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
                     <CardHeader>
-                      <CardTitle className="text-sm text-[var(--ff-text-primary)]">
-                        Advanced Generation Settings
-                      </CardTitle>
+                      <CardTitle className="text-sm text-[var(--ff-text-primary)]">Advanced Generation Settings</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label className="text-[var(--ff-text-primary)]">Color Scheme</Label>
-                          <Select
-                            value={options.colorScheme}
-                            onValueChange={(value) =>
-                              setOptions((prev) => ({ ...prev, colorScheme: value }))
-                            }
-                          >
+                          <Select value={options.colorScheme} onValueChange={(value) => setOptions(prev => ({ ...prev, colorScheme: value }))}>
                             <SelectTrigger className="bg-[var(--input-background)] border-[var(--border)] text-[var(--ff-text-primary)]">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              {COLOR_SCHEMES.map((scheme) => (
-                                <SelectItem key={scheme} value={scheme}>
-                                  {scheme}
-                                </SelectItem>
+                              {COLOR_SCHEMES.map(scheme => (
+                                <SelectItem key={scheme} value={scheme}>{scheme}</SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
@@ -750,20 +603,13 @@ export function EnhancedImageGenerator() {
 
                         <div className="space-y-2">
                           <Label className="text-[var(--ff-text-primary)]">Composition</Label>
-                          <Select
-                            value={options.composition}
-                            onValueChange={(value) =>
-                              setOptions((prev) => ({ ...prev, composition: value }))
-                            }
-                          >
+                          <Select value={options.composition} onValueChange={(value) => setOptions(prev => ({ ...prev, composition: value }))}>
                             <SelectTrigger className="bg-[var(--input-background)] border-[var(--border)] text-[var(--ff-text-primary)]">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              {COMPOSITION_TYPES.map((comp) => (
-                                <SelectItem key={comp} value={comp}>
-                                  {comp}
-                                </SelectItem>
+                              {COMPOSITION_TYPES.map(comp => (
+                                <SelectItem key={comp} value={comp}>{comp}</SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
@@ -776,9 +622,7 @@ export function EnhancedImageGenerator() {
                         </Label>
                         <Slider
                           value={[options.guidance]}
-                          onValueChange={(value) =>
-                            setOptions((prev) => ({ ...prev, guidance: value[0] }))
-                          }
+                          onValueChange={(value) => setOptions(prev => ({ ...prev, guidance: value[0] }))}
                           max={20}
                           min={1}
                           step={0.5}
@@ -792,9 +636,7 @@ export function EnhancedImageGenerator() {
                         </Label>
                         <Slider
                           value={[options.steps]}
-                          onValueChange={(value) =>
-                            setOptions((prev) => ({ ...prev, steps: value[0] }))
-                          }
+                          onValueChange={(value) => setOptions(prev => ({ ...prev, steps: value[0] }))}
                           max={100}
                           min={10}
                           step={5}
@@ -807,9 +649,7 @@ export function EnhancedImageGenerator() {
                         <Textarea
                           placeholder="Things to avoid in the image..."
                           value={options.negativePrompt}
-                          onChange={(e) =>
-                            setOptions((prev) => ({ ...prev, negativePrompt: e.target.value }))
-                          }
+                          onChange={(e) => setOptions(prev => ({ ...prev, negativePrompt: e.target.value }))}
                           className="bg-[var(--input-background)] border-[var(--border)] text-[var(--ff-text-primary)]"
                           rows={2}
                         />
@@ -821,9 +661,7 @@ export function EnhancedImageGenerator() {
                 {isGenerating && (
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-[var(--ff-text-primary)]">
-                        Generating images with {options.model}...
-                      </span>
+                      <span className="text-[var(--ff-text-primary)]">Generating images with {options.model}...</span>
                       <span className="text-[var(--ff-text-muted)]">{progress}%</span>
                     </div>
                     <Progress value={progress} className="h-2" />
@@ -856,16 +694,11 @@ export function EnhancedImageGenerator() {
                 <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
                   <CardContent className="flex flex-col items-center justify-center py-12">
                     <Image className="w-12 h-12 text-[var(--ff-text-muted)] mb-4" />
-                    <h3 className="text-lg font-semibold text-[var(--ff-text-primary)] mb-2">
-                      No Images Generated Yet
-                    </h3>
+                    <h3 className="text-lg font-semibold text-[var(--ff-text-primary)] mb-2">No Images Generated Yet</h3>
                     <p className="text-[var(--ff-text-secondary)] text-center mb-4">
                       Create your first AI-generated image using the Generate tab.
                     </p>
-                    <Button
-                      onClick={() => setActiveTab('generate')}
-                      className="bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white"
-                    >
+                    <Button onClick={() => setActiveTab('generate')} className="bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white">
                       <Wand2 className="w-4 h-4 mr-2" />
                       Start Generating
                     </Button>
@@ -874,10 +707,7 @@ export function EnhancedImageGenerator() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {generatedImages.map((image) => (
-                    <Card
-                      key={image.id}
-                      className="bg-[var(--ff-surface-light)] border-[var(--border)] group"
-                    >
+                    <Card key={image.id} className="bg-[var(--ff-surface-light)] border-[var(--border)] group">
                       <CardContent className="p-0">
                         <div className="relative aspect-square">
                           <img
@@ -968,9 +798,7 @@ export function EnhancedImageGenerator() {
               <Alert className="border-[var(--ff-secondary)] bg-[var(--ff-secondary)]/10">
                 <Edit3 className="h-4 w-4 text-[var(--ff-secondary)]" />
                 <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-secondary)]">Image Editor:</strong> Basic
-                  editing tools for generated images. Select an image from the gallery to start
-                  editing.
+                  <strong className="text-[var(--ff-secondary)]">Image Editor:</strong> Basic editing tools for generated images. Select an image from the gallery to start editing.
                 </AlertDescription>
               </Alert>
 
@@ -998,9 +826,7 @@ export function EnhancedImageGenerator() {
                   <div className="space-y-4">
                     <Card className="bg-[var(--ff-surface)] border-[var(--border)]">
                       <CardHeader>
-                        <CardTitle className="text-sm text-[var(--ff-text-primary)]">
-                          Edit Tools
-                        </CardTitle>
+                        <CardTitle className="text-sm text-[var(--ff-text-primary)]">Edit Tools</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-3">
                         <Button className="w-full justify-start" variant="ghost">
@@ -1028,29 +854,27 @@ export function EnhancedImageGenerator() {
 
                     <Card className="bg-[var(--ff-surface)] border-[var(--border)]">
                       <CardHeader>
-                        <CardTitle className="text-sm text-[var(--ff-text-primary)]">
-                          Export Options
-                        </CardTitle>
+                        <CardTitle className="text-sm text-[var(--ff-text-primary)]">Export Options</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-3">
-                        <Button
+                        <Button 
                           onClick={() => downloadImage(selectedImage, 'png')}
                           className="w-full bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white"
                         >
                           <Download className="w-4 h-4 mr-2" />
                           Download PNG
                         </Button>
-                        <Button
+                        <Button 
                           onClick={() => downloadImage(selectedImage, 'jpg')}
-                          className="w-full"
+                          className="w-full" 
                           variant="outline"
                         >
                           <Download className="w-4 h-4 mr-2" />
                           Download JPG
                         </Button>
-                        <Button
+                        <Button 
                           onClick={() => generateVariations(selectedImage)}
-                          className="w-full"
+                          className="w-full" 
                           variant="outline"
                         >
                           <RefreshCw className="w-4 h-4 mr-2" />
@@ -1064,9 +888,7 @@ export function EnhancedImageGenerator() {
                 <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
                   <CardContent className="flex flex-col items-center justify-center py-12">
                     <Edit3 className="w-12 h-12 text-[var(--ff-text-muted)] mb-4" />
-                    <h3 className="text-lg font-semibold text-[var(--ff-text-primary)] mb-2">
-                      No Image Selected
-                    </h3>
+                    <h3 className="text-lg font-semibold text-[var(--ff-text-primary)] mb-2">No Image Selected</h3>
                     <p className="text-[var(--ff-text-secondary)] text-center mb-4">
                       Select an image from the gallery to start editing.
                     </p>
@@ -1086,9 +908,7 @@ export function EnhancedImageGenerator() {
                     <div className="flex items-center gap-3">
                       <Image className="w-8 h-8 text-[var(--ff-primary)]" />
                       <div>
-                        <p className="text-2xl font-bold text-[var(--ff-text-primary)]">
-                          {generatedImages.length}
-                        </p>
+                        <p className="text-2xl font-bold text-[var(--ff-text-primary)]">{generatedImages.length}</p>
                         <p className="text-sm text-[var(--ff-text-muted)]">Images Generated</p>
                       </div>
                     </div>
@@ -1129,15 +949,10 @@ export function EnhancedImageGenerator() {
                       <Zap className="w-8 h-8 text-[var(--ff-warning)]" />
                       <div>
                         <p className="text-2xl font-bold text-[var(--ff-text-primary)]">
-                          {generatedImages.length > 0
-                            ? (
-                                generatedImages.reduce(
-                                  (sum, img) => sum + img.metadata.generationTime,
-                                  0
-                                ) / generatedImages.length
-                              ).toFixed(1)
-                            : '0'}
-                          s
+                          {generatedImages.length > 0 ? 
+                            (generatedImages.reduce((sum, img) => sum + img.metadata.generationTime, 0) / generatedImages.length).toFixed(1)
+                            : '0'
+                          }s
                         </p>
                         <p className="text-sm text-[var(--ff-text-muted)]">Avg. Generation Time</p>
                       </div>
@@ -1154,22 +969,16 @@ export function EnhancedImageGenerator() {
                   <ScrollArea className="h-64">
                     <div className="space-y-3">
                       {generatedImages.slice(0, 10).map((image) => (
-                        <div
-                          key={image.id}
-                          className="flex items-center gap-3 p-2 bg-[var(--ff-surface-light)] rounded"
-                        >
-                          <img
-                            src={image.url}
+                        <div key={image.id} className="flex items-center gap-3 p-2 bg-[var(--ff-surface-light)] rounded">
+                          <img 
+                            src={image.url} 
                             alt={image.prompt}
                             className="w-12 h-12 object-cover rounded"
                           />
                           <div className="flex-1">
-                            <p className="text-sm text-[var(--ff-text-primary)] line-clamp-1">
-                              {image.prompt}
-                            </p>
+                            <p className="text-sm text-[var(--ff-text-primary)] line-clamp-1">{image.prompt}</p>
                             <p className="text-xs text-[var(--ff-text-muted)]">
-                              {image.metadata.model} •{' '}
-                              {image.metadata.timestamp.toLocaleDateString()}
+                              {image.metadata.model} • {image.metadata.timestamp.toLocaleDateString()}
                             </p>
                           </div>
                           <div className="text-xs text-[var(--ff-text-muted)]">
@@ -1188,7 +997,7 @@ export function EnhancedImageGenerator() {
 
       {/* Image Preview Modal */}
       {selectedImage && (
-        <div
+        <div 
           className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
           onClick={() => setSelectedImage(null)}
         >

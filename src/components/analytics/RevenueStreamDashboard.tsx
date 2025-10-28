@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import {
+import { 
   TrendingUp,
   TrendingDown,
   DollarSign,
@@ -20,7 +20,7 @@ import {
   ArrowDownRight,
   Crown,
   Star,
-  Sparkles,
+  Sparkles
 } from 'lucide-react';
 
 interface RevenueMetric {
@@ -61,7 +61,7 @@ const REVENUE_METRICS: RevenueMetric[] = [
     prefix: '$',
     trend: [145000, 156000, 162000, 171000, 178000, 184750],
     target: 200000,
-    category: 'subscription',
+    category: 'subscription'
   },
   {
     id: 'monthly-recurring',
@@ -72,7 +72,7 @@ const REVENUE_METRICS: RevenueMetric[] = [
     prefix: '$',
     trend: [38000, 41000, 43500, 45200, 46100, 47200],
     target: 60000,
-    category: 'subscription',
+    category: 'subscription'
   },
   {
     id: 'active-subscribers',
@@ -82,7 +82,7 @@ const REVENUE_METRICS: RevenueMetric[] = [
     changeType: 'positive',
     trend: [2100, 2300, 2450, 2600, 2720, 2847],
     target: 5000,
-    category: 'subscription',
+    category: 'subscription'
   },
   {
     id: 'marketplace-sales',
@@ -93,7 +93,7 @@ const REVENUE_METRICS: RevenueMetric[] = [
     prefix: '$',
     trend: [62000, 68000, 74000, 78000, 84000, 89350],
     target: 120000,
-    category: 'marketplace',
+    category: 'marketplace'
   },
   {
     id: 'avg-revenue-per-user',
@@ -102,9 +102,9 @@ const REVENUE_METRICS: RevenueMetric[] = [
     change: -3.2,
     changeType: 'negative',
     prefix: '$',
-    trend: [71.2, 69.5, 68.0, 66.8, 65.9, 64.85],
+    trend: [71.20, 69.50, 68.00, 66.80, 65.90, 64.85],
     target: 80,
-    category: 'subscription',
+    category: 'subscription'
   },
   {
     id: 'churn-rate',
@@ -115,8 +115,8 @@ const REVENUE_METRICS: RevenueMetric[] = [
     suffix: '%',
     trend: [3.8, 3.5, 3.2, 3.0, 2.9, 2.8],
     target: 2.0,
-    category: 'subscription',
-  },
+    category: 'subscription'
+  }
 ];
 
 const REVENUE_STREAMS: RevenueStream[] = [
@@ -132,8 +132,8 @@ const REVENUE_STREAMS: RevenueStream[] = [
       { name: 'Pro Monthly', value: 38600, percentage: 40.9 },
       { name: 'Pro Annual', value: 24800, percentage: 26.3 },
       { name: 'Enterprise Monthly', value: 18200, percentage: 19.3 },
-      { name: 'Enterprise Annual', value: 12800, percentage: 13.6 },
-    ],
+      { name: 'Enterprise Annual', value: 12800, percentage: 13.6 }
+    ]
   },
   {
     id: 'marketplace',
@@ -146,8 +146,8 @@ const REVENUE_STREAMS: RevenueStream[] = [
     breakdown: [
       { name: 'Print-on-Demand', value: 28700, percentage: 59.5 },
       { name: 'Digital Templates', value: 12300, percentage: 25.5 },
-      { name: 'Brand Assets', value: 7200, percentage: 14.9 },
-    ],
+      { name: 'Brand Assets', value: 7200, percentage: 14.9 }
+    ]
   },
   {
     id: 'services',
@@ -160,8 +160,8 @@ const REVENUE_STREAMS: RevenueStream[] = [
     breakdown: [
       { name: 'Custom Development', value: 18200, percentage: 63.9 },
       { name: 'Consulting', value: 6800, percentage: 23.9 },
-      { name: 'Training', value: 3500, percentage: 12.3 },
-    ],
+      { name: 'Training', value: 3500, percentage: 12.3 }
+    ]
   },
   {
     id: 'advertising',
@@ -174,9 +174,9 @@ const REVENUE_STREAMS: RevenueStream[] = [
     breakdown: [
       { name: 'Display Ads', value: 8200, percentage: 60.1 },
       { name: 'Sponsored Content', value: 3450, percentage: 25.3 },
-      { name: 'Affiliate Commission', value: 2000, percentage: 14.6 },
-    ],
-  },
+      { name: 'Affiliate Commission', value: 2000, percentage: 14.6 }
+    ]
+  }
 ];
 
 export function RevenueStreamDashboard() {
@@ -184,8 +184,8 @@ export function RevenueStreamDashboard() {
   const [selectedStream, setSelectedStream] = useState<string | null>(null);
   const [animationComplete, setAnimationComplete] = useState(false);
 
-  const totalRevenue = REVENUE_METRICS.find((m) => m.id === 'total-revenue')?.value || 0;
-  const totalGrowth = REVENUE_METRICS.find((m) => m.id === 'total-revenue')?.change || 0;
+  const totalRevenue = REVENUE_METRICS.find(m => m.id === 'total-revenue')?.value || 0;
+  const totalGrowth = REVENUE_METRICS.find(m => m.id === 'total-revenue')?.change || 0;
 
   useEffect(() => {
     const timer = setTimeout(() => setAnimationComplete(true), 800);
@@ -225,42 +225,42 @@ export function RevenueStreamDashboard() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
       >
-        <Card
+        <Card 
           className="relative overflow-hidden"
           style={{
             background: 'rgba(255, 255, 255, 0.95)',
             backdropFilter: 'blur(10px)',
             border: '1px solid rgba(255, 255, 255, 0.2)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
           }}
         >
           {/* Gradient overlay */}
-          <div
+          <div 
             className="absolute top-0 left-0 right-0 h-1"
             style={{
-              background: 'linear-gradient(90deg, #FF7B00 0%, #00B4D8 50%, #E91E63 100%)',
+              background: 'linear-gradient(90deg, #FF7B00 0%, #00B4D8 50%, #E91E63 100%)'
             }}
           />
 
           <div className="p-6">
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium text-gray-600 mb-1 truncate">{metric.title}</h3>
+                <h3 className="text-sm font-medium text-gray-600 mb-1 truncate">
+                  {metric.title}
+                </h3>
                 <div className="flex items-baseline space-x-2">
                   <span className="text-2xl font-bold text-gray-900">
-                    {metric.prefix}
-                    {metric.value.toLocaleString()}
-                    {metric.suffix}
+                    {metric.prefix}{metric.value.toLocaleString()}{metric.suffix}
                   </span>
                 </div>
               </div>
 
-              <Badge
+              <Badge 
                 className="flex items-center space-x-1"
                 style={{
                   backgroundColor: `${changeColor}15`,
                   color: changeColor,
-                  border: `1px solid ${changeColor}30`,
+                  border: `1px solid ${changeColor}30`
                 }}
               >
                 <ChangeIcon className="h-3 w-3" />
@@ -278,11 +278,10 @@ export function RevenueStreamDashboard() {
                       key={index}
                       className="flex-1 mx-0.5 rounded-t"
                       style={{
-                        background:
-                          index === metric.trend.length - 1
-                            ? 'linear-gradient(to top, #FF7B00, #00B4D8)'
-                            : '#E5E7EB',
-                        height: animationComplete ? `${height}%` : '0%',
+                        background: index === metric.trend.length - 1 
+                          ? 'linear-gradient(to top, #FF7B00, #00B4D8)'
+                          : '#E5E7EB',
+                        height: animationComplete ? `${height}%` : '0%'
                       }}
                       initial={{ height: 0 }}
                       animate={{ height: animationComplete ? `${height}%` : '0%' }}
@@ -306,15 +305,12 @@ export function RevenueStreamDashboard() {
                   <motion.div
                     className="h-full rounded-full"
                     style={{
-                      background:
-                        progressPercentage >= 100
-                          ? '#10B981'
-                          : 'linear-gradient(90deg, #FF7B00, #00B4D8)',
+                      background: progressPercentage >= 100 
+                        ? '#10B981'
+                        : 'linear-gradient(90deg, #FF7B00, #00B4D8)'
                     }}
                     initial={{ width: 0 }}
-                    animate={{
-                      width: animationComplete ? `${Math.min(progressPercentage, 100)}%` : 0,
-                    }}
+                    animate={{ width: animationComplete ? `${Math.min(progressPercentage, 100)}%` : 0 }}
                     transition={{ duration: 1, delay: 0.5 }}
                   />
                 </div>
@@ -337,43 +333,45 @@ export function RevenueStreamDashboard() {
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.3 }}
       >
-        <Card
+        <Card 
           className={`cursor-pointer transition-all duration-300 ${
             isSelected ? 'ring-2' : 'hover:shadow-lg'
           }`}
           style={{
             background: 'rgba(255, 255, 255, 0.95)',
             backdropFilter: 'blur(10px)',
-            border: isSelected ? `2px solid ${stream.color}` : '1px solid rgba(255, 255, 255, 0.2)',
+            border: isSelected 
+              ? `2px solid ${stream.color}` 
+              : '1px solid rgba(255, 255, 255, 0.2)',
             boxShadow: isSelected
               ? `0 8px 32px rgba(0, 0, 0, 0.15), 0 0 20px ${stream.color}30`
               : '0 8px 32px rgba(0, 0, 0, 0.1)',
-            ringColor: stream.color,
+            ringColor: stream.color
           }}
           onClick={() => setSelectedStream(isSelected ? null : stream.id)}
         >
           <div className="p-6">
             <div className="flex items-start justify-between mb-4">
-              <div
+              <div 
                 className="w-12 h-12 rounded-xl flex items-center justify-center"
-                style={{
+                style={{ 
                   backgroundColor: `${stream.color}15`,
-                  border: `2px solid ${stream.color}30`,
+                  border: `2px solid ${stream.color}30`
                 }}
               >
                 <stream.icon className="h-6 w-6" style={{ color: stream.color }} />
               </div>
-
+              
               <div className="text-right">
                 <div className="text-2xl font-bold text-gray-900">
                   {formatCurrency(stream.revenue)}
                 </div>
-                <Badge
+                <Badge 
                   className="flex items-center space-x-1 mt-1"
                   style={{
                     backgroundColor: '#10B98115',
                     color: '#10B981',
-                    border: '1px solid #10B98130',
+                    border: '1px solid #10B98130'
                   }}
                 >
                   <TrendingUp className="h-3 w-3" />
@@ -382,8 +380,12 @@ export function RevenueStreamDashboard() {
               </div>
             </div>
 
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">{stream.name}</h3>
-            <p className="text-sm text-gray-600 mb-4">{stream.description}</p>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              {stream.name}
+            </h3>
+            <p className="text-sm text-gray-600 mb-4">
+              {stream.description}
+            </p>
 
             {/* Revenue breakdown */}
             <AnimatePresence>
@@ -404,7 +406,7 @@ export function RevenueStreamDashboard() {
                       className="flex items-center justify-between"
                     >
                       <div className="flex items-center space-x-3">
-                        <div
+                        <div 
                           className="w-3 h-3 rounded-full"
                           style={{ backgroundColor: stream.color }}
                         />
@@ -414,7 +416,9 @@ export function RevenueStreamDashboard() {
                         <div className="text-sm font-medium text-gray-900">
                           {formatCurrency(item.value)}
                         </div>
-                        <div className="text-xs text-gray-500">{item.percentage}%</div>
+                        <div className="text-xs text-gray-500">
+                          {item.percentage}%
+                        </div>
                       </div>
                     </motion.div>
                   ))}
@@ -429,8 +433,10 @@ export function RevenueStreamDashboard() {
                   className="h-full rounded-full"
                   style={{ backgroundColor: stream.color }}
                   initial={{ width: 0 }}
-                  animate={{
-                    width: animationComplete ? `${(stream.revenue / totalRevenue) * 100}%` : 0,
+                  animate={{ 
+                    width: animationComplete 
+                      ? `${(stream.revenue / totalRevenue) * 100}%` 
+                      : 0 
                   }}
                   transition={{ duration: 1, delay: 0.3 }}
                 />
@@ -450,14 +456,14 @@ export function RevenueStreamDashboard() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <motion.h1
+          <motion.h1 
             className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             Revenue Dashboard
           </motion.h1>
-          <motion.p
+          <motion.p 
             className="text-muted-foreground mt-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -509,13 +515,12 @@ export function RevenueStreamDashboard() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
       >
-        <Card
+        <Card 
           className="relative overflow-hidden"
           style={{
-            background:
-              'linear-gradient(135deg, rgba(255, 123, 0, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)',
+            background: 'linear-gradient(135deg, rgba(255, 123, 0, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 123, 0, 0.2)',
+            border: '1px solid rgba(255, 123, 0, 0.2)'
           }}
         >
           <div className="p-6">
@@ -528,12 +533,12 @@ export function RevenueStreamDashboard() {
                   <span className="text-3xl font-bold text-gray-900">
                     {formatCurrency(totalRevenue)}
                   </span>
-                  <Badge
+                  <Badge 
                     className="flex items-center space-x-1"
                     style={{
                       backgroundColor: '#10B98115',
                       color: '#10B981',
-                      border: '1px solid #10B98130',
+                      border: '1px solid #10B98130'
                     }}
                   >
                     <TrendingUp className="h-3 w-3" />
@@ -555,10 +560,10 @@ export function RevenueStreamDashboard() {
           </div>
 
           {/* Decorative gradient line */}
-          <div
+          <div 
             className="absolute bottom-0 left-0 right-0 h-1"
             style={{
-              background: 'linear-gradient(90deg, #FF7B00 0%, #00B4D8 50%, #E91E63 100%)',
+              background: 'linear-gradient(90deg, #FF7B00 0%, #00B4D8 50%, #E91E63 100%)'
             }}
           />
         </Card>

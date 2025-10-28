@@ -3,18 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
-import {
-  CheckCircle,
-  Sparkles,
-  Rocket,
-  DollarSign,
-  Shield,
-  BarChart3,
-  FileCheck,
-  ArrowRight,
-  Play,
-  RotateCcw,
-} from 'lucide-react';
+import { CheckCircle, Sparkles, Rocket, DollarSign, Shield, BarChart3, FileCheck, ArrowRight, Play, RotateCcw } from 'lucide-react';
 import { AICreationWorkflow } from './AICreationWorkflow';
 import { OneClickPublishingWorkflow } from './OneClickPublishingWorkflow';
 import { CreatorCommerceWorkflow } from './CreatorCommerceWorkflow';
@@ -35,32 +24,29 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
     {
       id: 'ai-creation',
       name: 'AI-Powered Creation',
-      description:
-        'Generate stunning content, code, and creative assets in seconds with advanced AI models.',
+      description: 'Generate stunning content, code, and creative assets in seconds with advanced AI models.',
       icon: Sparkles,
       color: 'bg-gradient-to-r from-orange-500 to-red-500',
       estimatedTime: '2-5 minutes',
-      complexity: 'Simple',
+      complexity: 'Simple'
     },
     {
       id: 'one-click-publishing',
       name: 'One-Click Publishing',
-      description:
-        'Deploy your creations instantly across 20+ platforms with automated optimization.',
+      description: 'Deploy your creations instantly across 20+ platforms with automated optimization.',
       icon: Rocket,
       color: 'bg-gradient-to-r from-blue-500 to-cyan-500',
       estimatedTime: '1-3 minutes',
-      complexity: 'Simple',
+      complexity: 'Simple'
     },
     {
       id: 'creator-commerce',
       name: 'Creator Commerce',
-      description:
-        'Turn your creative work into revenue streams with integrated marketplace tools.',
+      description: 'Turn your creative work into revenue streams with integrated marketplace tools.',
       icon: DollarSign,
       color: 'bg-gradient-to-r from-green-500 to-emerald-500',
       estimatedTime: '3-5 minutes',
-      complexity: 'Medium',
+      complexity: 'Medium'
     },
     {
       id: 'enterprise-security',
@@ -69,7 +55,7 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
       icon: Shield,
       color: 'bg-gradient-to-r from-blue-600 to-purple-600',
       estimatedTime: '5-10 minutes',
-      complexity: 'Advanced',
+      complexity: 'Advanced'
     },
     {
       id: 'smart-analytics',
@@ -78,7 +64,7 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
       icon: BarChart3,
       color: 'bg-gradient-to-r from-purple-500 to-pink-500',
       estimatedTime: '3-7 minutes',
-      complexity: 'Medium',
+      complexity: 'Medium'
     },
     {
       id: 'quality-assurance',
@@ -87,14 +73,14 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
       icon: FileCheck,
       color: 'bg-gradient-to-r from-emerald-500 to-green-500',
       estimatedTime: '2-4 minutes',
-      complexity: 'Simple',
-    },
+      complexity: 'Simple'
+    }
   ];
 
   const handleWorkflowComplete = (workflowId: string, data?: any) => {
-    setCompletedWorkflows((prev) => [...prev, workflowId]);
+    setCompletedWorkflows(prev => [...prev, workflowId]);
     if (data) {
-      setWorkflowData((prev) => ({ ...prev, [workflowId]: data }));
+      setWorkflowData(prev => ({ ...prev, [workflowId]: data }));
     }
     setCurrentWorkflow('overview');
   };
@@ -113,20 +99,20 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
     switch (currentWorkflow) {
       case 'ai-creation':
         return (
-          <AICreationWorkflow
+          <AICreationWorkflow 
             onComplete={() => handleWorkflowComplete('ai-creation', { type: 'fullstack-app' })}
           />
         );
       case 'one-click-publishing':
         return (
-          <OneClickPublishingWorkflow
+          <OneClickPublishingWorkflow 
             createdContent={workflowData['ai-creation']}
             onComplete={() => handleWorkflowComplete('one-click-publishing', { platforms: 3 })}
           />
         );
       case 'creator-commerce':
         return (
-          <CreatorCommerceWorkflow
+          <CreatorCommerceWorkflow 
             createdContent={workflowData['ai-creation']}
             publishedContent={workflowData['one-click-publishing']}
             onComplete={() => handleWorkflowComplete('creator-commerce', { revenue: 2500 })}
@@ -134,19 +120,19 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
         );
       case 'enterprise-security':
         return (
-          <EnterpriseSecurityWorkflow
+          <EnterpriseSecurityWorkflow 
             onComplete={() => handleWorkflowComplete('enterprise-security', { score: 95 })}
           />
         );
       case 'smart-analytics':
         return (
-          <SmartAnalyticsWorkflow
+          <SmartAnalyticsWorkflow 
             onComplete={() => handleWorkflowComplete('smart-analytics', { metrics: 5 })}
           />
         );
       case 'quality-assurance':
         return (
-          <QualityAssuranceWorkflow
+          <QualityAssuranceWorkflow 
             onComplete={() => handleWorkflowComplete('quality-assurance', { score: 92 })}
           />
         );
@@ -158,23 +144,19 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
                 <Sparkles className="w-10 h-10 text-white" />
               </div>
               <div>
-                <h1 className="ff-text-display text-4xl lg:text-6xl">
-                  FlashFusion Complete Workflows
-                </h1>
+                <h1 className="ff-text-display text-4xl lg:text-6xl">FlashFusion Complete Workflows</h1>
                 <p className="ff-text-body text-lg max-w-3xl mx-auto">
-                  Experience the complete user journey through FlashFusion's six core features. Each
-                  workflow demonstrates real functionality and user interactions.
+                  Experience the complete user journey through FlashFusion's six core features. 
+                  Each workflow demonstrates real functionality and user interactions.
                 </p>
               </div>
-
+              
               {completedWorkflows.length > 0 && (
                 <Card className="ff-card max-w-md mx-auto">
                   <CardContent className="p-6">
                     <div className="text-center space-y-3">
                       <h3 className="ff-text-title">Workflow Progress</h3>
-                      <div className="text-3xl font-bold text-green-500">
-                        {getCompletionPercentage()}%
-                      </div>
+                      <div className="text-3xl font-bold text-green-500">{getCompletionPercentage()}%</div>
                       <Progress value={getCompletionPercentage()} className="h-2" />
                       <p className="text-sm text-gray-400">
                         {completedWorkflows.length} of {workflows.length} workflows completed
@@ -189,13 +171,13 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
               {workflows.map((workflow) => {
                 const Icon = workflow.icon;
                 const isCompleted = completedWorkflows.includes(workflow.id);
-
+                
                 return (
-                  <Card
+                  <Card 
                     key={workflow.id}
                     className={`ff-card-interactive cursor-pointer transition-all duration-200 ${
-                      isCompleted
-                        ? 'ring-2 ring-green-500 bg-green-500/10'
+                      isCompleted 
+                        ? 'ring-2 ring-green-500 bg-green-500/10' 
                         : 'hover:bg-white/5 hover:scale-105'
                     }`}
                     onClick={() => setCurrentWorkflow(workflow.id)}
@@ -212,14 +194,12 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
                             </div>
                           )}
                         </div>
-
+                        
                         <div className="space-y-3">
                           <h3 className="ff-text-title text-xl">{workflow.name}</h3>
-                          <p className="ff-text-body text-sm leading-relaxed">
-                            {workflow.description}
-                          </p>
+                          <p className="ff-text-body text-sm leading-relaxed">{workflow.description}</p>
                         </div>
-
+                        
                         <div className="space-y-3">
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-gray-500">Estimated Time:</span>
@@ -227,21 +207,16 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
                           </div>
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-gray-500">Complexity:</span>
-                            <Badge
-                              variant={
-                                workflow.complexity === 'Simple'
-                                  ? 'secondary'
-                                  : workflow.complexity === 'Medium'
-                                    ? 'outline'
-                                    : 'destructive'
-                              }
-                            >
+                            <Badge variant={
+                              workflow.complexity === 'Simple' ? 'secondary' :
+                              workflow.complexity === 'Medium' ? 'outline' : 'destructive'
+                            }>
                               {workflow.complexity}
                             </Badge>
                           </div>
                         </div>
-
-                        <Button
+                        
+                        <Button 
                           className={`w-full ${isCompleted ? 'ff-btn-success' : 'ff-btn-primary'}`}
                           onClick={() => setCurrentWorkflow(workflow.id)}
                         >
@@ -272,12 +247,8 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
                       <CheckCircle className="w-8 h-8 text-white" />
                     </div>
                     <div>
-                      <CardTitle className="ff-text-headline text-2xl">
-                        🎉 All Workflows Complete!
-                      </CardTitle>
-                      <p className="ff-text-body">
-                        You've experienced the complete FlashFusion creator journey
-                      </p>
+                      <CardTitle className="ff-text-headline text-2xl">🎉 All Workflows Complete!</CardTitle>
+                      <p className="ff-text-body">You've experienced the complete FlashFusion creator journey</p>
                     </div>
                   </div>
                 </CardHeader>
@@ -303,11 +274,18 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
                   <div className="text-center space-y-4">
                     <h3 className="ff-text-title text-lg">Ready to Start Your Creator Journey?</h3>
                     <div className="flex justify-center space-x-4">
-                      <Button onClick={resetDemo} variant="outline" className="ff-btn-outline">
+                      <Button 
+                        onClick={resetDemo}
+                        variant="outline"
+                        className="ff-btn-outline"
+                      >
                         <RotateCcw className="w-4 h-4 mr-2" />
                         Restart Demo
                       </Button>
-                      <Button onClick={onClose} className="ff-btn-primary ff-btn-lg">
+                      <Button 
+                        onClick={onClose}
+                        className="ff-btn-primary ff-btn-lg"
+                      >
                         <ArrowRight className="w-4 h-4 mr-2" />
                         Enter FlashFusion App
                       </Button>
@@ -319,18 +297,20 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
 
             {completedWorkflows.length > 0 && (
               <div className="flex justify-center space-x-4">
-                <Button onClick={resetDemo} variant="outline" className="ff-btn-outline">
+                <Button 
+                  onClick={resetDemo}
+                  variant="outline"
+                  className="ff-btn-outline"
+                >
                   <RotateCcw className="w-4 h-4 mr-2" />
                   Reset Demo
                 </Button>
-
+                
                 {completedWorkflows.length < workflows.length && (
-                  <Button
+                  <Button 
                     onClick={() => {
                       // Find next uncompleted workflow
-                      const nextWorkflow = workflows.find(
-                        (w) => !completedWorkflows.includes(w.id)
-                      );
+                      const nextWorkflow = workflows.find(w => !completedWorkflows.includes(w.id));
                       if (nextWorkflow) {
                         setCurrentWorkflow(nextWorkflow.id);
                       }
@@ -356,23 +336,24 @@ export function CompleteFeatureWorkflowDemo({ onClose }: CompleteFeatureWorkflow
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <Button
-          variant="outline"
+        <Button 
+          variant="outline" 
           onClick={() => setCurrentWorkflow('overview')}
           className="ff-btn-outline"
         >
           ← Back to Overview
         </Button>
-
+        
         <div className="flex items-center space-x-4">
           <div className="text-sm text-gray-400">
-            Workflow {workflows.findIndex((w) => w.id === currentWorkflow) + 1} of{' '}
-            {workflows.length}
+            Workflow {workflows.findIndex(w => w.id === currentWorkflow) + 1} of {workflows.length}
           </div>
-          <Badge variant="secondary">{completedWorkflows.length} completed</Badge>
+          <Badge variant="secondary">
+            {completedWorkflows.length} completed
+          </Badge>
         </div>
       </div>
-
+      
       {renderWorkflowContent()}
     </div>
   );

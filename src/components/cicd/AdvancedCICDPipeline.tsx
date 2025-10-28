@@ -5,7 +5,7 @@ import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Alert, AlertDescription } from '../ui/alert';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 // Pipeline Types
 interface PipelineStage {
@@ -65,7 +65,7 @@ const DEPLOYMENT_TARGETS: DeploymentTarget[] = [
     url: 'https://flashfusion.vercel.app',
     status: 'connected',
     lastDeployment: Date.now() - 3600000,
-    health: 'healthy',
+    health: 'healthy'
   },
   {
     id: 'netlify-staging',
@@ -75,7 +75,7 @@ const DEPLOYMENT_TARGETS: DeploymentTarget[] = [
     url: 'https://staging.flashfusion.app',
     status: 'connected',
     lastDeployment: Date.now() - 1800000,
-    health: 'healthy',
+    health: 'healthy'
   },
   {
     id: 'aws-dev',
@@ -84,43 +84,32 @@ const DEPLOYMENT_TARGETS: DeploymentTarget[] = [
     environment: 'development',
     url: 'https://dev.flashfusion.aws.com',
     status: 'disconnected',
-    health: 'unhealthy',
-  },
+    health: 'unhealthy'
+  }
 ];
 
 const PIPELINE_TEMPLATES = [
   {
     id: 'react-app',
     name: 'React Application',
-    stages: ['Install', 'Lint', 'Test', 'Build', 'Deploy', 'E2E Tests'],
+    stages: ['Install', 'Lint', 'Test', 'Build', 'Deploy', 'E2E Tests']
   },
   {
     id: 'full-stack',
     name: 'Full-Stack Application',
-    stages: [
-      'Install',
-      'Lint Backend',
-      'Lint Frontend',
-      'Test Backend',
-      'Test Frontend',
-      'Build',
-      'Deploy Backend',
-      'Deploy Frontend',
-      'Integration Tests',
-    ],
+    stages: ['Install', 'Lint Backend', 'Lint Frontend', 'Test Backend', 'Test Frontend', 'Build', 'Deploy Backend', 'Deploy Frontend', 'Integration Tests']
   },
   {
     id: 'mobile-app',
     name: 'Mobile Application',
-    stages: ['Install', 'Lint', 'Test', 'Build iOS', 'Build Android', 'Deploy Staging', 'UI Tests'],
-  },
+    stages: ['Install', 'Lint', 'Test', 'Build iOS', 'Build Android', 'Deploy Staging', 'UI Tests']
+  }
 ];
 
 const AdvancedCICDPipeline: React.FC = memo(() => {
   const [pipelines, setPipelines] = useState<Pipeline[]>([]);
   const [selectedPipeline, setSelectedPipeline] = useState<Pipeline | null>(null);
-  const [deploymentTargets, setDeploymentTargets] =
-    useState<DeploymentTarget[]>(DEPLOYMENT_TARGETS);
+  const [deploymentTargets, setDeploymentTargets] = useState<DeploymentTarget[]>(DEPLOYMENT_TARGETS);
   const [isCreatingPipeline, setIsCreatingPipeline] = useState<boolean>(false);
   const [selectedTemplate, setSelectedTemplate] = useState<string>('react-app');
   const [pipelineConfig, setPipelineConfig] = useState({
@@ -128,7 +117,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
     branch: 'main',
     environment: 'development' as Pipeline['environment'],
     autoTrigger: true,
-    notifications: true,
+    notifications: true
   });
 
   // Initialize with sample pipeline
@@ -141,7 +130,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
         hash: '7a3b2c1',
         message: 'feat: Add multi-model AI integration',
         author: 'Developer',
-        timestamp: Date.now() - 300000,
+        timestamp: Date.now() - 300000
       },
       status: 'running',
       environment: 'production',
@@ -156,8 +145,8 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
           logs: [
             'Installing dependencies...',
             'npm install completed successfully',
-            'Dependencies cached for future builds',
-          ],
+            'Dependencies cached for future builds'
+          ]
         },
         {
           id: 'lint',
@@ -166,7 +155,11 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
           duration: 30000,
           startTime: Date.now() - 255000,
           endTime: Date.now() - 225000,
-          logs: ['Running ESLint...', 'Running Prettier...', 'Code quality checks passed'],
+          logs: [
+            'Running ESLint...',
+            'Running Prettier...',
+            'Code quality checks passed'
+          ]
         },
         {
           id: 'test',
@@ -175,13 +168,17 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
           duration: 120000,
           startTime: Date.now() - 225000,
           endTime: Date.now() - 105000,
-          logs: ['Running unit tests...', 'Running integration tests...', 'All tests passed'],
+          logs: [
+            'Running unit tests...',
+            'Running integration tests...',
+            'All tests passed'
+          ],
           tests: {
             total: 156,
             passed: 156,
             failed: 0,
-            coverage: 92.5,
-          },
+            coverage: 92.5
+          }
         },
         {
           id: 'build',
@@ -191,23 +188,23 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
           logs: [
             'Building production bundle...',
             'Optimizing assets...',
-            'Generating source maps...',
-          ],
+            'Generating source maps...'
+          ]
         },
         {
           id: 'deploy',
           name: 'Deploy to Production',
           status: 'pending',
-          logs: [],
+          logs: []
         },
         {
           id: 'e2e',
           name: 'End-to-End Tests',
           status: 'pending',
-          logs: [],
-        },
+          logs: []
+        }
       ],
-      startTime: Date.now() - 300000,
+      startTime: Date.now() - 300000
     };
 
     setPipelines([samplePipeline]);
@@ -215,57 +212,48 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
 
     // Simulate pipeline progress
     const interval = setInterval(() => {
-      setPipelines((prev) =>
-        prev.map((pipeline) => {
-          if (pipeline.status === 'running') {
-            const updatedStages = pipeline.stages.map((stage) => {
-              if (stage.status === 'running') {
-                // Simulate stage completion
-                if (Math.random() > 0.7) {
-                  return {
-                    ...stage,
-                    status: 'success' as const,
-                    endTime: Date.now(),
-                    duration: Date.now() - (stage.startTime || Date.now()),
-                    logs: [...stage.logs, `${stage.name} completed successfully`],
-                  };
-                }
+      setPipelines(prev => prev.map(pipeline => {
+        if (pipeline.status === 'running') {
+          const updatedStages = pipeline.stages.map(stage => {
+            if (stage.status === 'running') {
+              // Simulate stage completion
+              if (Math.random() > 0.7) {
+                return {
+                  ...stage,
+                  status: 'success' as const,
+                  endTime: Date.now(),
+                  duration: Date.now() - (stage.startTime || Date.now()),
+                  logs: [...stage.logs, `${stage.name} completed successfully`]
+                };
               }
-              return stage;
-            });
-
-            // Move to next pending stage
-            const nextPendingIndex = updatedStages.findIndex((s) => s.status === 'pending');
-            if (
-              nextPendingIndex !== -1 &&
-              updatedStages[nextPendingIndex - 1]?.status === 'success'
-            ) {
-              updatedStages[nextPendingIndex] = {
-                ...updatedStages[nextPendingIndex],
-                status: 'running',
-                startTime: Date.now(),
-                logs: [`Starting ${updatedStages[nextPendingIndex].name}...`],
-              };
             }
+            return stage;
+          });
 
-            // Check if all stages are complete
-            const allComplete = updatedStages.every(
-              (s) => s.status === 'success' || s.status === 'failed'
-            );
-
-            return {
-              ...pipeline,
-              stages: updatedStages,
-              status: allComplete ? ('success' as const) : pipeline.status,
-              endTime: allComplete ? Date.now() : undefined,
-              totalDuration: allComplete
-                ? Date.now() - (pipeline.startTime || Date.now())
-                : undefined,
+          // Move to next pending stage
+          const nextPendingIndex = updatedStages.findIndex(s => s.status === 'pending');
+          if (nextPendingIndex !== -1 && updatedStages[nextPendingIndex - 1]?.status === 'success') {
+            updatedStages[nextPendingIndex] = {
+              ...updatedStages[nextPendingIndex],
+              status: 'running',
+              startTime: Date.now(),
+              logs: [`Starting ${updatedStages[nextPendingIndex].name}...`]
             };
           }
-          return pipeline;
-        })
-      );
+
+          // Check if all stages are complete
+          const allComplete = updatedStages.every(s => s.status === 'success' || s.status === 'failed');
+          
+          return {
+            ...pipeline,
+            stages: updatedStages,
+            status: allComplete ? 'success' as const : pipeline.status,
+            endTime: allComplete ? Date.now() : undefined,
+            totalDuration: allComplete ? Date.now() - (pipeline.startTime || Date.now()) : undefined
+          };
+        }
+        return pipeline;
+      }));
     }, 2000);
 
     return () => clearInterval(interval);
@@ -274,7 +262,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
   // Update selected pipeline when pipelines change
   useEffect(() => {
     if (selectedPipeline) {
-      const updated = pipelines.find((p) => p.id === selectedPipeline.id);
+      const updated = pipelines.find(p => p.id === selectedPipeline.id);
       if (updated) {
         setSelectedPipeline(updated);
       }
@@ -291,7 +279,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
     setIsCreatingPipeline(true);
 
     try {
-      const template = PIPELINE_TEMPLATES.find((t) => t.id === selectedTemplate);
+      const template = PIPELINE_TEMPLATES.find(t => t.id === selectedTemplate);
       if (!template) {
         throw new Error('Invalid template selected');
       }
@@ -304,7 +292,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
           hash: Math.random().toString(36).substr(2, 7),
           message: 'Latest commit',
           author: 'Developer',
-          timestamp: Date.now(),
+          timestamp: Date.now()
         },
         status: 'pending',
         environment: pipelineConfig.environment,
@@ -312,24 +300,25 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
           id: `stage-${index}`,
           name: stageName,
           status: index === 0 ? 'pending' : 'pending',
-          logs: [],
+          logs: []
         })),
-        startTime: Date.now(),
+        startTime: Date.now()
       };
 
-      setPipelines((prev) => [newPipeline, ...prev]);
+      setPipelines(prev => [newPipeline, ...prev]);
       setSelectedPipeline(newPipeline);
-
+      
       toast.success('Pipeline created successfully');
-
+      
       // Reset form
       setPipelineConfig({
         name: '',
         branch: 'main',
         environment: 'development',
         autoTrigger: true,
-        notifications: true,
+        notifications: true
       });
+
     } catch (error) {
       console.error('Pipeline creation failed:', error);
       toast.error('Failed to create pipeline');
@@ -340,51 +329,47 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
 
   // Trigger pipeline
   const triggerPipeline = useCallback(async (pipelineId: string) => {
-    setPipelines((prev) =>
-      prev.map((pipeline) => {
-        if (pipeline.id === pipelineId) {
-          const updatedStages = pipeline.stages.map((stage, index) => ({
-            ...stage,
-            status: index === 0 ? ('running' as const) : ('pending' as const),
-            startTime: index === 0 ? Date.now() : undefined,
-            logs: index === 0 ? [`Starting ${stage.name}...`] : [],
-          }));
+    setPipelines(prev => prev.map(pipeline => {
+      if (pipeline.id === pipelineId) {
+        const updatedStages = pipeline.stages.map((stage, index) => ({
+          ...stage,
+          status: index === 0 ? 'running' as const : 'pending' as const,
+          startTime: index === 0 ? Date.now() : undefined,
+          logs: index === 0 ? [`Starting ${stage.name}...`] : []
+        }));
 
-          return {
-            ...pipeline,
-            status: 'running' as const,
-            startTime: Date.now(),
-            endTime: undefined,
-            totalDuration: undefined,
-            stages: updatedStages,
-          };
-        }
-        return pipeline;
-      })
-    );
+        return {
+          ...pipeline,
+          status: 'running' as const,
+          startTime: Date.now(),
+          endTime: undefined,
+          totalDuration: undefined,
+          stages: updatedStages
+        };
+      }
+      return pipeline;
+    }));
 
     toast.success('Pipeline triggered successfully');
   }, []);
 
   // Cancel pipeline
   const cancelPipeline = useCallback((pipelineId: string) => {
-    setPipelines((prev) =>
-      prev.map((pipeline) => {
-        if (pipeline.id === pipelineId && pipeline.status === 'running') {
-          return {
-            ...pipeline,
-            status: 'cancelled' as const,
-            endTime: Date.now(),
-            totalDuration: Date.now() - (pipeline.startTime || Date.now()),
-            stages: pipeline.stages.map((stage) => ({
-              ...stage,
-              status: stage.status === 'running' ? ('cancelled' as const) : stage.status,
-            })),
-          };
-        }
-        return pipeline;
-      })
-    );
+    setPipelines(prev => prev.map(pipeline => {
+      if (pipeline.id === pipelineId && pipeline.status === 'running') {
+        return {
+          ...pipeline,
+          status: 'cancelled' as const,
+          endTime: Date.now(),
+          totalDuration: Date.now() - (pipeline.startTime || Date.now()),
+          stages: pipeline.stages.map(stage => ({
+            ...stage,
+            status: stage.status === 'running' ? 'cancelled' as const : stage.status
+          }))
+        };
+      }
+      return pipeline;
+    }));
 
     toast.info('Pipeline cancelled');
   }, []);
@@ -392,24 +377,18 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
   // Get status color
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'success':
-        return 'bg-success text-white';
-      case 'failed':
-        return 'bg-destructive text-white';
-      case 'running':
-        return 'bg-primary text-white';
-      case 'pending':
-        return 'bg-muted text-muted-foreground';
-      case 'cancelled':
-        return 'bg-warning text-black';
-      default:
-        return 'bg-muted text-muted-foreground';
+      case 'success': return 'bg-success text-white';
+      case 'failed': return 'bg-destructive text-white';
+      case 'running': return 'bg-primary text-white';
+      case 'pending': return 'bg-muted text-muted-foreground';
+      case 'cancelled': return 'bg-warning text-black';
+      default: return 'bg-muted text-muted-foreground';
     }
   };
 
   // Calculate pipeline progress
   const calculateProgress = (pipeline: Pipeline) => {
-    const completedStages = pipeline.stages.filter((s) => s.status === 'success').length;
+    const completedStages = pipeline.stages.filter(s => s.status === 'success').length;
     return (completedStages / pipeline.stages.length) * 100;
   };
 
@@ -428,10 +407,10 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
 
         <div className="flex items-center space-x-3">
           <Badge variant="outline" className="text-xs">
-            {pipelines.filter((p) => p.status === 'running').length} Running
+            {pipelines.filter(p => p.status === 'running').length} Running
           </Badge>
           <Badge variant="outline" className="text-xs">
-            {pipelines.filter((p) => p.status === 'success').length} Successful
+            {pipelines.filter(p => p.status === 'success').length} Successful
           </Badge>
         </div>
       </div>
@@ -451,7 +430,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
               <input
                 type="text"
                 value={pipelineConfig.name}
-                onChange={(e) => setPipelineConfig((prev) => ({ ...prev, name: e.target.value }))}
+                onChange={(e) => setPipelineConfig(prev => ({ ...prev, name: e.target.value }))}
                 placeholder="My Awesome Pipeline"
                 className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground"
               />
@@ -461,7 +440,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
               <label className="text-sm font-medium mb-2 block">Branch</label>
               <Select
                 value={pipelineConfig.branch}
-                onValueChange={(value) => setPipelineConfig((prev) => ({ ...prev, branch: value }))}
+                onValueChange={(value) => setPipelineConfig(prev => ({ ...prev, branch: value }))}
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -477,7 +456,10 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
 
             <div>
               <label className="text-sm font-medium mb-2 block">Template</label>
-              <Select value={selectedTemplate} onValueChange={setSelectedTemplate}>
+              <Select
+                value={selectedTemplate}
+                onValueChange={setSelectedTemplate}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -495,8 +477,8 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
               <label className="text-sm font-medium mb-2 block">Environment</label>
               <Select
                 value={pipelineConfig.environment}
-                onValueChange={(value: Pipeline['environment']) =>
-                  setPipelineConfig((prev) => ({ ...prev, environment: value }))
+                onValueChange={(value: Pipeline['environment']) => 
+                  setPipelineConfig(prev => ({ ...prev, environment: value }))
                 }
               >
                 <SelectTrigger>
@@ -548,9 +530,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
                   key={pipeline.id}
                   onClick={() => setSelectedPipeline(pipeline)}
                   className={`p-3 rounded-lg cursor-pointer transition-colors hover:bg-muted/50 ${
-                    selectedPipeline?.id === pipeline.id
-                      ? 'bg-primary/10 border border-primary/20'
-                      : 'border border-border'
+                    selectedPipeline?.id === pipeline.id ? 'bg-primary/10 border border-primary/20' : 'border border-border'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -559,21 +539,22 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
                       {pipeline.status}
                     </Badge>
                   </div>
-
+                  
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
                       <span>{pipeline.branch}</span>
                       <span>{pipeline.commit.hash}</span>
                     </div>
-
+                    
                     <Progress value={calculateProgress(pipeline)} className="h-1" />
-
+                    
                     <div className="text-xs text-muted-foreground">
-                      {pipeline.totalDuration
-                        ? `Completed in ${Math.floor(pipeline.totalDuration / 1000)}s`
-                        : pipeline.startTime
-                          ? `Running for ${Math.floor((Date.now() - pipeline.startTime) / 1000)}s`
-                          : 'Not started'}
+                      {pipeline.totalDuration ? 
+                        `Completed in ${Math.floor(pipeline.totalDuration / 1000)}s` :
+                        pipeline.startTime ? 
+                          `Running for ${Math.floor((Date.now() - pipeline.startTime) / 1000)}s` :
+                          'Not started'
+                      }
                     </div>
                   </div>
                 </div>
@@ -594,7 +575,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
                     {selectedPipeline.status}
                   </Badge>
                 </CardTitle>
-
+                
                 <div className="flex items-center space-x-2">
                   {selectedPipeline.status === 'pending' && (
                     <Button
@@ -605,7 +586,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
                       Trigger
                     </Button>
                   )}
-
+                  
                   {selectedPipeline.status === 'running' && (
                     <Button
                       onClick={() => cancelPipeline(selectedPipeline.id)}
@@ -621,7 +602,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
               <CardTitle>Select a pipeline to view details</CardTitle>
             )}
           </CardHeader>
-
+          
           {selectedPipeline && (
             <CardContent>
               {/* Pipeline Info */}
@@ -642,29 +623,22 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
                 </div>
                 <div>
                   <span className="text-sm font-medium">Environment:</span>
-                  <p className="text-sm text-muted-foreground capitalize">
-                    {selectedPipeline.environment}
-                  </p>
+                  <p className="text-sm text-muted-foreground capitalize">{selectedPipeline.environment}</p>
                 </div>
               </div>
 
               {/* Pipeline Stages */}
               <div className="space-y-4">
                 <h3 className="font-semibold mb-3">Pipeline Stages</h3>
-
+                
                 {selectedPipeline.stages.map((stage, index) => (
-                  <div
-                    key={stage.id}
-                    className="flex items-start space-x-4 p-4 border border-border rounded-lg"
-                  >
+                  <div key={stage.id} className="flex items-start space-x-4 p-4 border border-border rounded-lg">
                     <div className="flex-shrink-0">
-                      <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${getStatusColor(stage.status)}`}
-                      >
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${getStatusColor(stage.status)}`}>
                         {index + 1}
                       </div>
                     </div>
-
+                    
                     <div className="flex-1 space-y-2">
                       <div className="flex items-center justify-between">
                         <h4 className="font-medium">{stage.name}</h4>
@@ -679,38 +653,31 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
                           </Badge>
                         </div>
                       </div>
-
+                      
                       {/* Stage Tests */}
                       {stage.tests && (
                         <div className="grid grid-cols-3 gap-4 text-sm">
                           <div>
-                            <span className="font-medium">Tests:</span> {stage.tests.passed}/
-                            {stage.tests.total}
+                            <span className="font-medium">Tests:</span> {stage.tests.passed}/{stage.tests.total}
                           </div>
                           <div>
                             <span className="font-medium">Coverage:</span> {stage.tests.coverage}%
                           </div>
                           <div>
-                            <span className="font-medium">Status:</span>
-                            <Badge
-                              variant={stage.tests.failed === 0 ? 'default' : 'destructive'}
-                              className="ml-1 text-xs"
-                            >
+                            <span className="font-medium">Status:</span> 
+                            <Badge variant={stage.tests.failed === 0 ? 'default' : 'destructive'} className="ml-1 text-xs">
                               {stage.tests.failed === 0 ? 'Passed' : 'Failed'}
                             </Badge>
                           </div>
                         </div>
                       )}
-
+                      
                       {/* Stage Logs */}
                       {stage.logs.length > 0 && (
                         <div className="bg-muted/50 rounded p-3">
                           <div className="space-y-1">
                             {stage.logs.slice(-3).map((log, logIndex) => (
-                              <div
-                                key={logIndex}
-                                className="text-xs font-mono text-muted-foreground"
-                              >
+                              <div key={logIndex} className="text-xs font-mono text-muted-foreground">
                                 {log}
                               </div>
                             ))}
@@ -737,10 +704,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
         <CardContent>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {deploymentTargets.map((target) => (
-              <div
-                key={target.id}
-                className="p-4 border border-border rounded-lg hover:shadow-md transition-shadow"
-              >
+              <div key={target.id} className="p-4 border border-border rounded-lg hover:shadow-md transition-shadow">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="font-medium">{target.name}</h4>
                   <div className="flex items-center space-x-2">
@@ -758,7 +722,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
                     </Badge>
                   </div>
                 </div>
-
+                
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Provider:</span>
@@ -775,7 +739,7 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
                     </div>
                   )}
                 </div>
-
+                
                 {target.url && (
                   <Button
                     size="sm"
@@ -796,9 +760,8 @@ const AdvancedCICDPipeline: React.FC = memo(() => {
       {/* Integration Alert */}
       <Alert>
         <AlertDescription>
-          💡 <strong>Pro Tip:</strong> Connect your GitHub repository to enable automatic pipeline
-          triggers on commits. Set up webhooks in your repository settings to trigger builds on
-          push, pull requests, and releases.
+          💡 <strong>Pro Tip:</strong> Connect your GitHub repository to enable automatic pipeline triggers on commits. 
+          Set up webhooks in your repository settings to trigger builds on push, pull requests, and releases.
         </AlertDescription>
       </Alert>
     </div>

@@ -2,30 +2,13 @@ import { PageType } from '../types';
 import { Home, Zap, Folder, User, FileCode, Users as UsersIcon, GitBranch } from 'lucide-react';
 
 export const PROTECTED_PAGES: PageType[] = [
-  'dashboard',
-  'projects',
-  'analytics',
-  'settings',
-  'integrations',
-  'deployments',
-  'templates',
-  'collaboration',
-  'cicd',
+  'dashboard', 'projects', 'analytics', 'settings', 'integrations', 
+  'deployments', 'templates', 'collaboration', 'cicd'
 ];
 
 export const PUBLIC_PAGES: PageType[] = [
-  'home',
-  'features',
-  'pricing',
-  'testimonials',
-  'tools',
-  'tool-detail',
-  'about',
-  'contact',
-  'faq',
-  'privacy',
-  'terms',
-  'demo',
+  'home', 'features', 'pricing', 'testimonials', 'tools', 'tool-detail',
+  'about', 'contact', 'faq', 'privacy', 'terms', 'demo'
 ];
 
 export const MOBILE_NAV_ITEMS = [
@@ -35,7 +18,7 @@ export const MOBILE_NAV_ITEMS = [
   { id: 'templates' as PageType, label: 'Templates', icon: FileCode },
   { id: 'collaboration' as PageType, label: 'Team', icon: UsersIcon },
   { id: 'cicd' as PageType, label: 'Deploy', icon: GitBranch },
-  { id: 'settings' as PageType, label: 'Profile', icon: User },
+  { id: 'settings' as PageType, label: 'Profile', icon: User }
 ];
 
 export const XP_REWARDS = {
@@ -43,7 +26,7 @@ export const XP_REWARDS = {
   TOOL_USAGE: 25,
   PROJECT_DEPLOYMENT: 200,
   DEMO_COMPLETION: 50,
-  ONBOARDING_COMPLETION: 100,
+  ONBOARDING_COMPLETION: 100
 } as const;
 
 export const APP_TITLE = 'FlashFusion';
@@ -71,14 +54,13 @@ export const PAGE_TITLES: Record<PageType, string> = {
   faq: 'FAQ',
   privacy: 'Privacy Policy',
   terms: 'Terms of Service',
-  demo: 'Interactive Demo',
+  demo: 'Interactive Demo'
 };
 
 export const COMPANY_INFO = {
   name: 'FlashFusion',
   tagline: 'Build Apps with AI in Minutes, Not Months',
-  description:
-    'The comprehensive AI-powered platform that helps users generate web applications across multiple frameworks and platforms, featuring a complete gamification system with XP progression, achievement badges, daily flash tasks, and leaderboards.',
+  description: 'The comprehensive AI-powered platform that helps users generate web applications across multiple frameworks and platforms, featuring a complete gamification system with XP progression, achievement badges, daily flash tasks, and leaderboards.',
   email: 'hello@flashfusion.dev',
   support: 'support@flashfusion.dev',
   sales: 'sales@flashfusion.dev',
@@ -88,14 +70,14 @@ export const COMPANY_INFO = {
     city: 'San Francisco',
     state: 'CA',
     zip: '94105',
-    country: 'United States',
+    country: 'United States'
   },
   social: {
     twitter: 'https://twitter.com/flashfusion',
     github: 'https://github.com/flashfusion',
     linkedin: 'https://linkedin.com/company/flashfusion',
-    discord: 'https://discord.gg/flashfusion',
+    discord: 'https://discord.gg/flashfusion'
   },
   founded: '2024',
-  team_size: '50+',
+  team_size: '50+'
 } as const;

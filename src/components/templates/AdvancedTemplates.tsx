@@ -8,29 +8,13 @@ import { Textarea } from '../ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { Progress } from '../ui/progress';
-import {
-  FileCode,
-  Star,
-  Download,
-  Clock,
-  Users,
-  Zap,
-  Play,
-  Settings,
-  Plus,
-  Search,
-  Filter,
-  Layers,
-  GitBranch,
-  Workflow,
-  CheckCircle,
-  ArrowRight,
-  Code,
-  Database,
-  Layout,
-  Palette,
+import { 
+  FileCode, Star, Download, Clock, Users, Zap, 
+  Play, Settings, Plus, Search, Filter, 
+  Layers, GitBranch, Workflow, CheckCircle,
+  ArrowRight, Code, Database, Layout, Palette
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface ProjectTemplate {
   id: string;
@@ -104,8 +88,7 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
           id: 'react-dashboard',
           name: 'Modern React Dashboard',
           description: 'Full-featured admin dashboard with charts, tables, and authentication',
-          longDescription:
-            'A comprehensive React dashboard template with modern UI components, real-time analytics, user management, and responsive design. Perfect for business applications and SaaS products.',
+          longDescription: 'A comprehensive React dashboard template with modern UI components, real-time analytics, user management, and responsive design. Perfect for business applications and SaaS products.',
           category: 'dashboard',
           difficulty: 'intermediate',
           estimatedTime: '30 minutes',
@@ -113,101 +96,30 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
           downloads: 12450,
           author: 'FlashFusion Team',
           tags: ['react', 'dashboard', 'analytics', 'charts'],
-          features: [
-            'Authentication',
-            'Data Visualization',
-            'User Management',
-            'Responsive Design',
-            'Dark Mode',
-          ],
+          features: ['Authentication', 'Data Visualization', 'User Management', 'Responsive Design', 'Dark Mode'],
           techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Recharts', 'React Router'],
           isPopular: true,
           isNew: false,
           isFavorited: false,
           workflows: [
-            {
-              id: '1',
-              title: 'Project Setup',
-              description: 'Initialize React project structure',
-              type: 'setup',
-              duration: 30,
-              isAutomatic: true,
-            },
-            {
-              id: '2',
-              title: 'Install Dependencies',
-              description: 'Install required packages',
-              type: 'install',
-              duration: 60,
-              isAutomatic: true,
-            },
-            {
-              id: '3',
-              title: 'Configure Theme',
-              description: 'Apply custom theme and branding',
-              type: 'configure',
-              duration: 45,
-              isAutomatic: true,
-            },
-            {
-              id: '4',
-              title: 'Generate Components',
-              description: 'Create dashboard components',
-              type: 'generate',
-              duration: 120,
-              isAutomatic: true,
-            },
-            {
-              id: '5',
-              title: 'Setup Authentication',
-              description: 'Configure auth system',
-              type: 'configure',
-              duration: 90,
-              isAutomatic: false,
-            },
+            { id: '1', title: 'Project Setup', description: 'Initialize React project structure', type: 'setup', duration: 30, isAutomatic: true },
+            { id: '2', title: 'Install Dependencies', description: 'Install required packages', type: 'install', duration: 60, isAutomatic: true },
+            { id: '3', title: 'Configure Theme', description: 'Apply custom theme and branding', type: 'configure', duration: 45, isAutomatic: true },
+            { id: '4', title: 'Generate Components', description: 'Create dashboard components', type: 'generate', duration: 120, isAutomatic: true },
+            { id: '5', title: 'Setup Authentication', description: 'Configure auth system', type: 'configure', duration: 90, isAutomatic: false }
           ],
           customizations: [
-            {
-              id: 'name',
-              name: 'Project Name',
-              description: 'Name for your dashboard project',
-              type: 'text',
-              defaultValue: 'My Dashboard',
-              required: true,
-            },
-            {
-              id: 'theme',
-              name: 'Color Theme',
-              description: 'Primary color theme',
-              type: 'color',
-              defaultValue: '#FF7B00',
-              required: false,
-            },
-            {
-              id: 'auth',
-              name: 'Authentication Provider',
-              description: 'Choose auth method',
-              type: 'select',
-              options: ['Supabase', 'Auth0', 'Firebase'],
-              defaultValue: 'Supabase',
-              required: true,
-            },
-            {
-              id: 'charts',
-              name: 'Include Charts',
-              description: 'Add data visualization components',
-              type: 'boolean',
-              defaultValue: true,
-              required: false,
-            },
-          ],
+            { id: 'name', name: 'Project Name', description: 'Name for your dashboard project', type: 'text', defaultValue: 'My Dashboard', required: true },
+            { id: 'theme', name: 'Color Theme', description: 'Primary color theme', type: 'color', defaultValue: '#FF7B00', required: false },
+            { id: 'auth', name: 'Authentication Provider', description: 'Choose auth method', type: 'select', options: ['Supabase', 'Auth0', 'Firebase'], defaultValue: 'Supabase', required: true },
+            { id: 'charts', name: 'Include Charts', description: 'Add data visualization components', type: 'boolean', defaultValue: true, required: false }
+          ]
         },
         {
           id: 'ecommerce-store',
           name: 'E-commerce Store',
           description: 'Complete online store with cart, payments, and product management',
-          longDescription:
-            'A full-featured e-commerce solution with product catalog, shopping cart, payment processing, order management, and admin panel.',
+          longDescription: 'A full-featured e-commerce solution with product catalog, shopping cart, payment processing, order management, and admin panel.',
           category: 'ecommerce',
           difficulty: 'advanced',
           estimatedTime: '45 minutes',
@@ -215,93 +127,29 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
           downloads: 8920,
           author: 'Commerce Team',
           tags: ['ecommerce', 'payments', 'cart', 'products'],
-          features: [
-            'Product Catalog',
-            'Shopping Cart',
-            'Payment Integration',
-            'Order Management',
-            'Admin Panel',
-          ],
+          features: ['Product Catalog', 'Shopping Cart', 'Payment Integration', 'Order Management', 'Admin Panel'],
           techStack: ['Next.js', 'TypeScript', 'Stripe', 'Prisma', 'PostgreSQL'],
           isPopular: true,
           isNew: true,
           isFavorited: true,
           workflows: [
-            {
-              id: '1',
-              title: 'Store Setup',
-              description: 'Initialize e-commerce structure',
-              type: 'setup',
-              duration: 45,
-              isAutomatic: true,
-            },
-            {
-              id: '2',
-              title: 'Database Schema',
-              description: 'Create product and order tables',
-              type: 'configure',
-              duration: 60,
-              isAutomatic: true,
-            },
-            {
-              id: '3',
-              title: 'Payment Integration',
-              description: 'Setup Stripe payments',
-              type: 'configure',
-              duration: 90,
-              isAutomatic: false,
-            },
-            {
-              id: '4',
-              title: 'Product Management',
-              description: 'Generate admin interfaces',
-              type: 'generate',
-              duration: 120,
-              isAutomatic: true,
-            },
-            {
-              id: '5',
-              title: 'Deploy Store',
-              description: 'Deploy to production',
-              type: 'deploy',
-              duration: 180,
-              isAutomatic: false,
-            },
+            { id: '1', title: 'Store Setup', description: 'Initialize e-commerce structure', type: 'setup', duration: 45, isAutomatic: true },
+            { id: '2', title: 'Database Schema', description: 'Create product and order tables', type: 'configure', duration: 60, isAutomatic: true },
+            { id: '3', title: 'Payment Integration', description: 'Setup Stripe payments', type: 'configure', duration: 90, isAutomatic: false },
+            { id: '4', title: 'Product Management', description: 'Generate admin interfaces', type: 'generate', duration: 120, isAutomatic: true },
+            { id: '5', title: 'Deploy Store', description: 'Deploy to production', type: 'deploy', duration: 180, isAutomatic: false }
           ],
           customizations: [
-            {
-              id: 'storeName',
-              name: 'Store Name',
-              description: 'Name for your online store',
-              type: 'text',
-              defaultValue: 'My Store',
-              required: true,
-            },
-            {
-              id: 'currency',
-              name: 'Currency',
-              description: 'Store currency',
-              type: 'select',
-              options: ['USD', 'EUR', 'GBP'],
-              defaultValue: 'USD',
-              required: true,
-            },
-            {
-              id: 'categories',
-              name: 'Product Categories',
-              description: 'Comma-separated categories',
-              type: 'text',
-              defaultValue: 'Electronics, Clothing, Books',
-              required: false,
-            },
-          ],
+            { id: 'storeName', name: 'Store Name', description: 'Name for your online store', type: 'text', defaultValue: 'My Store', required: true },
+            { id: 'currency', name: 'Currency', description: 'Store currency', type: 'select', options: ['USD', 'EUR', 'GBP'], defaultValue: 'USD', required: true },
+            { id: 'categories', name: 'Product Categories', description: 'Comma-separated categories', type: 'text', defaultValue: 'Electronics, Clothing, Books', required: false }
+          ]
         },
         {
           id: 'blog-platform',
           name: 'Blog Platform',
           description: 'Modern blog with CMS, SEO optimization, and social features',
-          longDescription:
-            'A feature-rich blogging platform with content management, SEO optimization, social sharing, comments system, and author profiles.',
+          longDescription: 'A feature-rich blogging platform with content management, SEO optimization, social sharing, comments system, and author profiles.',
           category: 'blog',
           difficulty: 'beginner',
           estimatedTime: '20 minutes',
@@ -309,80 +157,25 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
           downloads: 15670,
           author: 'Content Team',
           tags: ['blog', 'cms', 'seo', 'content'],
-          features: [
-            'Content Management',
-            'SEO Optimization',
-            'Social Sharing',
-            'Comments',
-            'Author Profiles',
-          ],
+          features: ['Content Management', 'SEO Optimization', 'Social Sharing', 'Comments', 'Author Profiles'],
           techStack: ['Next.js', 'MDX', 'Tailwind CSS', 'Prisma', 'PostgreSQL'],
           isPopular: false,
           isNew: false,
           isFavorited: false,
           workflows: [
-            {
-              id: '1',
-              title: 'Blog Setup',
-              description: 'Initialize blog structure',
-              type: 'setup',
-              duration: 30,
-              isAutomatic: true,
-            },
-            {
-              id: '2',
-              title: 'CMS Configuration',
-              description: 'Setup content management',
-              type: 'configure',
-              duration: 60,
-              isAutomatic: true,
-            },
-            {
-              id: '3',
-              title: 'SEO Optimization',
-              description: 'Configure SEO features',
-              type: 'configure',
-              duration: 45,
-              isAutomatic: true,
-            },
-            {
-              id: '4',
-              title: 'Generate Pages',
-              description: 'Create blog pages and components',
-              type: 'generate',
-              duration: 90,
-              isAutomatic: true,
-            },
+            { id: '1', title: 'Blog Setup', description: 'Initialize blog structure', type: 'setup', duration: 30, isAutomatic: true },
+            { id: '2', title: 'CMS Configuration', description: 'Setup content management', type: 'configure', duration: 60, isAutomatic: true },
+            { id: '3', title: 'SEO Optimization', description: 'Configure SEO features', type: 'configure', duration: 45, isAutomatic: true },
+            { id: '4', title: 'Generate Pages', description: 'Create blog pages and components', type: 'generate', duration: 90, isAutomatic: true }
           ],
           customizations: [
-            {
-              id: 'blogName',
-              name: 'Blog Name',
-              description: 'Name for your blog',
-              type: 'text',
-              defaultValue: 'My Blog',
-              required: true,
-            },
-            {
-              id: 'author',
-              name: 'Author Name',
-              description: 'Primary author name',
-              type: 'text',
-              defaultValue: 'John Doe',
-              required: true,
-            },
-            {
-              id: 'categories',
-              name: 'Categories',
-              description: 'Blog post categories',
-              type: 'text',
-              defaultValue: 'Technology, Lifestyle, Travel',
-              required: false,
-            },
-          ],
-        },
+            { id: 'blogName', name: 'Blog Name', description: 'Name for your blog', type: 'text', defaultValue: 'My Blog', required: true },
+            { id: 'author', name: 'Author Name', description: 'Primary author name', type: 'text', defaultValue: 'John Doe', required: true },
+            { id: 'categories', name: 'Categories', description: 'Blog post categories', type: 'text', defaultValue: 'Technology, Lifestyle, Travel', required: false }
+          ]
+        }
       ];
-
+      
       setTemplates(mockTemplates);
     } catch (error) {
       console.error('Error loading templates:', error);
@@ -395,17 +188,16 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
     { id: 'ecommerce', name: 'E-commerce', icon: GitBranch },
     { id: 'blog', name: 'Blogs & CMS', icon: FileCode },
     { id: 'portfolio', name: 'Portfolio', icon: Palette },
-    { id: 'api', name: 'APIs', icon: Database },
+    { id: 'api', name: 'APIs', icon: Database }
   ];
 
-  const filteredTemplates = templates.filter((template) => {
-    const matchesSearch =
-      template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      template.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      template.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-
+  const filteredTemplates = templates.filter(template => {
+    const matchesSearch = template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         template.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         template.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+    
     const matchesCategory = selectedCategory === 'all' || template.category === selectedCategory;
-
+    
     return matchesSearch && matchesCategory;
   });
 
@@ -417,22 +209,22 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
 
     setIsCreating(true);
     setWorkflowProgress(0);
-
+    
     try {
       // Execute workflow steps
       for (let i = 0; i < template.workflows.length; i++) {
         const step = template.workflows[i];
         setCurrentWorkflowStep(step);
-
+        
         // Simulate step execution
-        await new Promise((resolve) => setTimeout(resolve, step.duration * 10)); // Speed up for demo
-
+        await new Promise(resolve => setTimeout(resolve, step.duration * 10)); // Speed up for demo
+        
         setWorkflowProgress(((i + 1) / template.workflows.length) * 100);
-
+        
         // Update step status
         step.status = 'completed';
       }
-
+      
       onCreateProject(template, customizations);
       toast.success(`${template.name} created successfully!`);
       setSelectedTemplate(null);
@@ -447,19 +239,15 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'beginner':
-        return 'text-green-500';
-      case 'intermediate':
-        return 'text-yellow-500';
-      case 'advanced':
-        return 'text-red-500';
-      default:
-        return 'text-gray-500';
+      case 'beginner': return 'text-green-500';
+      case 'intermediate': return 'text-yellow-500';
+      case 'advanced': return 'text-red-500';
+      default: return 'text-gray-500';
     }
   };
 
   const getCategoryIcon = (categoryId: string) => {
-    const category = categories.find((c) => c.id === categoryId);
+    const category = categories.find(c => c.id === categoryId);
     return category ? category.icon : Layers;
   };
 
@@ -469,9 +257,7 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">Project Templates</h2>
-          <p className="text-muted-foreground">
-            Start with professionally designed templates and workflows
-          </p>
+          <p className="text-muted-foreground">Start with professionally designed templates and workflows</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => setShowCustomTemplate(true)}>
@@ -548,26 +334,18 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
                           </div>
                         </div>
                         <div className="flex flex-col items-end gap-1">
-                          {template.isPopular && (
-                            <Badge variant="default" className="text-xs">
-                              Popular
-                            </Badge>
-                          )}
-                          {template.isNew && (
-                            <Badge variant="secondary" className="text-xs">
-                              New
-                            </Badge>
-                          )}
+                          {template.isPopular && <Badge variant="default" className="text-xs">Popular</Badge>}
+                          {template.isNew && <Badge variant="secondary" className="text-xs">New</Badge>}
                           {userRole === 'free' && template.difficulty === 'advanced' && (
-                            <Badge variant="outline" className="text-xs">
-                              Pro
-                            </Badge>
+                            <Badge variant="outline" className="text-xs">Pro</Badge>
                           )}
                         </div>
                       </div>
 
                       {/* Description */}
-                      <p className="text-sm text-muted-foreground flex-1">{template.description}</p>
+                      <p className="text-sm text-muted-foreground flex-1">
+                        {template.description}
+                      </p>
 
                       {/* Stats */}
                       <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -587,17 +365,15 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
 
                       {/* Difficulty */}
                       <div className="flex items-center gap-2">
-                        <Badge
-                          variant="outline"
+                        <Badge 
+                          variant="outline" 
                           className={`text-xs ${getDifficultyColor(template.difficulty)}`}
                         >
                           {template.difficulty}
                         </Badge>
                         <div className="flex gap-1">
                           {template.tags.slice(0, 3).map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
-                              {tag}
-                            </Badge>
+                            <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
                           ))}
                         </div>
                       </div>
@@ -605,14 +381,10 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
                       {/* Tech Stack */}
                       <div className="flex flex-wrap gap-1">
                         {template.techStack.slice(0, 4).map((tech) => (
-                          <Badge key={tech} variant="outline" className="text-xs">
-                            {tech}
-                          </Badge>
+                          <Badge key={tech} variant="outline" className="text-xs">{tech}</Badge>
                         ))}
                         {template.techStack.length > 4 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{template.techStack.length - 4}
-                          </Badge>
+                          <Badge variant="outline" className="text-xs">+{template.techStack.length - 4}</Badge>
                         )}
                       </div>
                     </div>
@@ -621,9 +393,9 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
                     <div className="flex gap-2 mt-4">
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button
-                            variant="outline"
-                            size="sm"
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
                             className="flex-1"
                             onClick={() => setSelectedTemplate(template)}
                           >
@@ -637,14 +409,12 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
                               {template.name}
                             </DialogTitle>
                           </DialogHeader>
-
+                          
                           {selectedTemplate && (
                             <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-4">
                               <div>
                                 <h3 className="font-semibold mb-2">Description</h3>
-                                <p className="text-muted-foreground">
-                                  {selectedTemplate.longDescription}
-                                </p>
+                                <p className="text-muted-foreground">{selectedTemplate.longDescription}</p>
                               </div>
 
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -664,23 +434,16 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
                                   <h3 className="font-semibold mb-2">Workflow Steps</h3>
                                   <div className="space-y-2">
                                     {selectedTemplate.workflows.map((step, index) => (
-                                      <div
-                                        key={step.id}
-                                        className="flex items-center gap-2 text-sm"
-                                      >
+                                      <div key={step.id} className="flex items-center gap-2 text-sm">
                                         <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs">
                                           {index + 1}
                                         </div>
                                         <div>
                                           <p className="font-medium">{step.title}</p>
-                                          <p className="text-muted-foreground text-xs">
-                                            {step.description}
-                                          </p>
+                                          <p className="text-muted-foreground text-xs">{step.description}</p>
                                         </div>
                                         {step.isAutomatic && (
-                                          <Badge variant="secondary" className="text-xs ml-auto">
-                                            Auto
-                                          </Badge>
+                                          <Badge variant="secondary" className="text-xs ml-auto">Auto</Badge>
                                         )}
                                       </div>
                                     ))}
@@ -696,66 +459,45 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
                                     <div key={customization.id} className="space-y-2">
                                       <label className="text-sm font-medium">
                                         {customization.name}
-                                        {customization.required && (
-                                          <span className="text-red-500 ml-1">*</span>
-                                        )}
+                                        {customization.required && <span className="text-red-500 ml-1">*</span>}
                                       </label>
-                                      <p className="text-xs text-muted-foreground">
-                                        {customization.description}
-                                      </p>
-
+                                      <p className="text-xs text-muted-foreground">{customization.description}</p>
+                                      
                                       {customization.type === 'text' && (
                                         <Input
                                           placeholder={customization.defaultValue}
-                                          value={
-                                            customizations[customization.id] ||
-                                            customization.defaultValue
-                                          }
-                                          onChange={(e) =>
-                                            setCustomizations((prev) => ({
-                                              ...prev,
-                                              [customization.id]: e.target.value,
-                                            }))
-                                          }
+                                          value={customizations[customization.id] || customization.defaultValue}
+                                          onChange={(e) => setCustomizations(prev => ({ 
+                                            ...prev, 
+                                            [customization.id]: e.target.value 
+                                          }))}
                                         />
                                       )}
-
+                                      
                                       {customization.type === 'select' && (
-                                        <select
+                                        <select 
                                           className="w-full p-2 rounded-md border bg-background"
-                                          value={
-                                            customizations[customization.id] ||
-                                            customization.defaultValue
-                                          }
-                                          onChange={(e) =>
-                                            setCustomizations((prev) => ({
-                                              ...prev,
-                                              [customization.id]: e.target.value,
-                                            }))
-                                          }
+                                          value={customizations[customization.id] || customization.defaultValue}
+                                          onChange={(e) => setCustomizations(prev => ({ 
+                                            ...prev, 
+                                            [customization.id]: e.target.value 
+                                          }))}
                                         >
-                                          {customization.options?.map((option) => (
-                                            <option key={option} value={option}>
-                                              {option}
-                                            </option>
+                                          {customization.options?.map(option => (
+                                            <option key={option} value={option}>{option}</option>
                                           ))}
                                         </select>
                                       )}
-
+                                      
                                       {customization.type === 'boolean' && (
                                         <label className="flex items-center gap-2">
                                           <input
                                             type="checkbox"
-                                            checked={
-                                              customizations[customization.id] ??
-                                              customization.defaultValue
-                                            }
-                                            onChange={(e) =>
-                                              setCustomizations((prev) => ({
-                                                ...prev,
-                                                [customization.id]: e.target.checked,
-                                              }))
-                                            }
+                                            checked={customizations[customization.id] ?? customization.defaultValue}
+                                            onChange={(e) => setCustomizations(prev => ({ 
+                                              ...prev, 
+                                              [customization.id]: e.target.checked 
+                                            }))}
                                           />
                                           <span className="text-sm">Enable this feature</span>
                                         </label>
@@ -768,11 +510,7 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
                               <div className="flex gap-2">
                                 <Button
                                   onClick={() => handleCreateProject(selectedTemplate)}
-                                  disabled={
-                                    isCreating ||
-                                    (userRole === 'free' &&
-                                      selectedTemplate.difficulty === 'advanced')
-                                  }
+                                  disabled={isCreating || (userRole === 'free' && selectedTemplate.difficulty === 'advanced')}
                                   className="ff-btn-primary flex-1"
                                 >
                                   {isCreating ? (
@@ -792,7 +530,7 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
                                   Favorite
                                 </Button>
                               </div>
-
+                              
                               {/* Workflow Progress */}
                               {isCreating && currentWorkflowStep && (
                                 <div className="space-y-2">
@@ -811,7 +549,7 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
                         </DialogContent>
                       </Dialog>
 
-                      <Button
+                      <Button 
                         size="sm"
                         onClick={() => handleCreateProject(template)}
                         disabled={userRole === 'free' && template.difficulty === 'advanced'}
@@ -835,30 +573,26 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
               Workflow Automation
             </h3>
             <p className="text-muted-foreground mb-6">
-              Automate your project setup with intelligent workflows that handle configuration,
-              dependencies, and deployment.
+              Automate your project setup with intelligent workflows that handle configuration, dependencies, and deployment.
             </p>
-
+            
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 {
                   title: 'Smart Dependencies',
-                  description:
-                    'Automatically install and configure required packages based on your selections',
-                  icon: <Zap className="h-8 w-8 text-primary" />,
+                  description: 'Automatically install and configure required packages based on your selections',
+                  icon: <Zap className="h-8 w-8 text-primary" />
                 },
                 {
                   title: 'Environment Setup',
-                  description:
-                    'Generate environment files, configuration, and setup scripts automatically',
-                  icon: <Settings className="h-8 w-8 text-secondary" />,
+                  description: 'Generate environment files, configuration, and setup scripts automatically',
+                  icon: <Settings className="h-8 w-8 text-secondary" />
                 },
                 {
                   title: 'Deployment Ready',
-                  description:
-                    'Pre-configured deployment settings for popular platforms like Vercel, Netlify',
-                  icon: <GitBranch className="h-8 w-8 text-accent" />,
-                },
+                  description: 'Pre-configured deployment settings for popular platforms like Vercel, Netlify',
+                  icon: <GitBranch className="h-8 w-8 text-accent" />
+                }
               ].map((feature, index) => (
                 <div key={index} className="text-center space-y-3">
                   <div className="mx-auto w-16 h-16 rounded-lg bg-muted/50 flex items-center justify-center">
@@ -917,9 +651,7 @@ export function AdvancedTemplates({ onCreateProject, userRole = 'free' }: Advanc
               </select>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setShowCustomTemplate(false)}>
-                Cancel
-              </Button>
+              <Button variant="outline" onClick={() => setShowCustomTemplate(false)}>Cancel</Button>
               <Button className="ff-btn-primary">Create Template</Button>
             </div>
           </div>
