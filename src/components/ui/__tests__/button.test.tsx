@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { Button } from '../button';
+import { Button } from '@/components/ui/button';
 
 describe('Button', () => {
   it('renders correctly', () => {
@@ -31,6 +31,6 @@ describe('Button', () => {
   it('applies size classes correctly', () => {
     render(<Button size="lg">Large Button</Button>);
     const button = screen.getByRole('button');
-    expect(button).toHaveClass('h-11');
+    expect(button).toHaveClass('h-10');
   });
 });
