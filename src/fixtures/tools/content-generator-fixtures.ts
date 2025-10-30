@@ -1,14 +1,13 @@
 /**
- * Mock data fixtures for ContentGeneratorTool variants
- * Sourced from components/tools/ContentGeneratorTool.tsx and
- * components/tools/generation/ContentGeneratorTool.tsx
+ * Mock data fixtures for ContentGeneratorTool
+ * Extracted from components/tools/generation/ContentGeneratorTool.tsx
  */
 
 export interface ContentTypeOption {
   value: string;
   label: string;
-  icon: string;
   description: string;
+  icon?: string;
 }
 
 export interface ToneOption {
@@ -26,11 +25,26 @@ export interface AudienceOption {
 export const CONTENT_TYPES: ContentTypeOption[] = [
   { value: 'blog-post', label: 'Blog Post', icon: '📝', description: 'Engaging blog articles' },
   { value: 'article', label: 'Article', icon: '📰', description: 'In-depth articles' },
-  { value: 'documentation', label: 'Documentation', icon: '📚', description: 'Technical documentation' },
-  { value: 'marketing-copy', label: 'Marketing Copy', icon: '📢', description: 'Sales and marketing content' },
+  {
+    value: 'documentation',
+    label: 'Documentation',
+    icon: '📚',
+    description: 'Technical documentation',
+  },
+  {
+    value: 'marketing-copy',
+    label: 'Marketing Copy',
+    icon: '📢',
+    description: 'Sales and marketing content',
+  },
   { value: 'social-media', label: 'Social Media', icon: '📱', description: 'Social media posts' },
   { value: 'email', label: 'Email', icon: '✉️', description: 'Email campaigns' },
-  { value: 'product-description', label: 'Product Description', icon: '🛍️', description: 'E-commerce descriptions' },
+  {
+    value: 'product-description',
+    label: 'Product Description',
+    icon: '🛍️',
+    description: 'E-commerce descriptions',
+  },
   { value: 'press-release', label: 'Press Release', icon: '📺', description: 'Media announcements' },
 ];
 
@@ -47,17 +61,25 @@ export const TONE_OPTIONS: ToneOption[] = [
 
 export const AUDIENCE_OPTIONS: AudienceOption[] = [
   { value: 'general', label: 'General Public', description: 'Broad audience appeal' },
-  { value: 'technical', label: 'Technical Professionals', description: 'Developers and engineers' },
+  {
+    value: 'technical',
+    label: 'Technical Professionals',
+    description: 'Developers and engineers',
+  },
   { value: 'business', label: 'Business Leaders', description: 'Executives and managers' },
   { value: 'consumers', label: 'Consumers', description: 'End customers' },
   { value: 'students', label: 'Students', description: 'Educational audience' },
   { value: 'experts', label: 'Industry Experts', description: 'Specialized professionals' },
 ];
 
-/**
- * Legacy fixtures kept for compatibility with the original ContentGenerator tool.
- */
-export const PLATFORMS = [
+export interface PlatformOption {
+  value: string;
+  label: string;
+  icon: string;
+  limit: number | null;
+}
+
+export const PLATFORMS: PlatformOption[] = [
   { value: 'twitter', label: 'Twitter/X', icon: '𝕏', limit: 280 },
   { value: 'instagram', label: 'Instagram', icon: '📸', limit: 2200 },
   { value: 'facebook', label: 'Facebook', icon: '👥', limit: 63206 },
@@ -68,10 +90,12 @@ export const PLATFORMS = [
   { value: 'email', label: 'Email', icon: '✉️', limit: 200 },
 ];
 
-export const TONES = TONE_OPTIONS;
-export const AUDIENCES = AUDIENCE_OPTIONS;
+export interface LanguageOption {
+  value: string;
+  label: string;
+}
 
-export const LANGUAGES = [
+export const LANGUAGES: LanguageOption[] = [
   { value: 'en', label: 'English' },
   { value: 'es', label: 'Spanish' },
   { value: 'fr', label: 'French' },

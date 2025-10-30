@@ -12,7 +12,7 @@ import {
   Layers, CloudUpload, Download, Monitor, Settings,
   Loader2, Zap
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 // Import constants and types
 import {

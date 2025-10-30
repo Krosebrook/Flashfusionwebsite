@@ -8,13 +8,13 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Rocket, 
-  Users, 
-  Share2, 
-  TrendingUp, 
-  Target, 
-  Calendar, 
+import {
+  Rocket,
+  Users,
+  Share2,
+  TrendingUp,
+  Target,
+  Calendar,
   MessageCircle,
   Mail,
   Twitter,
@@ -38,18 +38,24 @@ import {
   Pause,
   Settings
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { analyticsService } from '../../services/AnalyticsService';
 import {
-  CONTENT_TEMPLATES,
   SOCIAL_PLATFORMS,
-  createMarketingFixtures,
-  type CommunityMetrics,
-  type ContentPiece,
+  CONTENT_TEMPLATES,
+  MOCK_CAMPAIGNS,
+  MOCK_INFLUENCERS,
+  MOCK_CONTENT_PIECES,
+  MOCK_COMMUNITY_METRICS,
+  MOCK_LAUNCH_GOALS,
+  type MarketingCampaign,
   type InfluencerOutreach,
+  type ContentPiece,
+  type CommunityMetrics,
   type LaunchGoal,
-  type MarketingCampaign
 } from '../../fixtures/marketing/marketing-fixtures';
+
+const deepClone = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
 export function LaunchMarketingCampaign() {
   const [campaigns, setCampaigns] = useState<MarketingCampaign[]>([]);
@@ -73,19 +79,11 @@ export function LaunchMarketingCampaign() {
   useEffect(() => {
     const initializeMarketingData = async () => {
       try {
-        const {
-          campaigns: mockCampaigns,
-          influencers: mockInfluencers,
-          contentPieces: mockContentPieces,
-          communityMetrics: mockCommunityMetrics,
-          launchGoals: mockGoals
-        } = createMarketingFixtures();
-
-        setCampaigns(mockCampaigns);
-        setInfluencers(mockInfluencers);
-        setContentPieces(mockContentPieces);
-        setCommunityMetrics(mockCommunityMetrics);
-        setLaunchGoals(mockGoals);
+        setCampaigns(deepClone(MOCK_CAMPAIGNS));
+        setInfluencers(deepClone(MOCK_INFLUENCERS));
+        setContentPieces(deepClone(MOCK_CONTENT_PIECES));
+        setCommunityMetrics(deepClone(MOCK_COMMUNITY_METRICS));
+        setLaunchGoals(deepClone(MOCK_LAUNCH_GOALS));
 
       } catch (error) {
         console.error('Failed to load marketing data:', error);

@@ -53,12 +53,9 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import {
-  AUDIENCE_OPTIONS,
   CONTENT_TYPES,
   TONE_OPTIONS,
-  type AudienceOption,
-  type ContentTypeOption,
-  type ToneOption
+  AUDIENCE_OPTIONS,
 } from '../../../fixtures/tools/content-generator-fixtures';
 
 interface ContentConfig {

@@ -34,8 +34,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Switch } from '../../ui/switch';
 import { Slider } from '../../ui/slider';
 import { Separator } from '../../ui/separator';
-import { 
-  Bot, 
+import {
+  Bot,
   Zap, 
   Settings, 
   Workflow, 
@@ -79,9 +79,8 @@ import { toast } from 'sonner@2.0.3';
 import {
   AGENT_PLATFORMS,
   AGENT_TEMPLATES,
-  type AgentPlatform
+  type AgentPlatform,
 } from '../../../fixtures/tools/agent-designer-fixtures';
-
 
 /**
  * Agent Configuration Interface
@@ -158,7 +157,6 @@ interface WorkflowNode {
   data: Record<string, any>;
   connections: string[];
 }
-
 
 export function AgentDesignerTool(): JSX.Element {
   const [activeTab, setActiveTab] = useState<string>('platforms');
