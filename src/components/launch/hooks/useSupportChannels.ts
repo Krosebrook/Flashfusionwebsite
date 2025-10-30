@@ -8,8 +8,8 @@
  */
 
 import { useState, useCallback, useMemo } from 'react';
-import type { SupportChannel } from './LaunchPreparationHub.types';
-import { aggregateSupportMetrics } from './LaunchPreparationHub.logic';
+import type { SupportChannel } from '../LaunchPreparationHub.types';
+import { aggregateSupportMetrics } from '../LaunchPreparationHub.logic';
 
 /**
  * Custom hook for managing support channels
