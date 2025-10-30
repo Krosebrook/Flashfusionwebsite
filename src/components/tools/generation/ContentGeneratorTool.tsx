@@ -51,7 +51,12 @@ import {
   Check,
   AlertCircle
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
+import {
+  CONTENT_TYPES,
+  TONE_OPTIONS,
+  AUDIENCE_OPTIONS,
+} from '../../../fixtures/tools/content-generator-fixtures';
 
 interface ContentConfig {
   type: string;
@@ -81,37 +86,6 @@ interface GeneratedContent {
     estimatedReadTime: number;
   };
 }
-
-const CONTENT_TYPES = [
-  { value: 'blog-post', label: 'Blog Post', icon: '📝', description: 'Engaging blog articles' },
-  { value: 'article', label: 'Article', icon: '📰', description: 'In-depth articles' },
-  { value: 'documentation', label: 'Documentation', icon: '📚', description: 'Technical documentation' },
-  { value: 'marketing-copy', label: 'Marketing Copy', icon: '📢', description: 'Sales and marketing content' },
-  { value: 'social-media', label: 'Social Media', icon: '📱', description: 'Social media posts' },
-  { value: 'email', label: 'Email', icon: '✉️', description: 'Email campaigns' },
-  { value: 'product-description', label: 'Product Description', icon: '🛍️', description: 'E-commerce descriptions' },
-  { value: 'press-release', label: 'Press Release', icon: '📺', description: 'Media announcements' }
-];
-
-const TONE_OPTIONS = [
-  { value: 'professional', label: 'Professional', description: 'Formal business tone' },
-  { value: 'conversational', label: 'Conversational', description: 'Friendly and approachable' },
-  { value: 'authoritative', label: 'Authoritative', description: 'Expert and confident' },
-  { value: 'casual', label: 'Casual', description: 'Relaxed and informal' },
-  { value: 'persuasive', label: 'Persuasive', description: 'Compelling and action-oriented' },
-  { value: 'educational', label: 'Educational', description: 'Informative and teaching' },
-  { value: 'entertaining', label: 'Entertaining', description: 'Engaging and fun' },
-  { value: 'empathetic', label: 'Empathetic', description: 'Understanding and caring' }
-];
-
-const AUDIENCE_OPTIONS = [
-  { value: 'general', label: 'General Public', description: 'Broad audience appeal' },
-  { value: 'technical', label: 'Technical Professionals', description: 'Developers and engineers' },
-  { value: 'business', label: 'Business Leaders', description: 'Executives and managers' },
-  { value: 'consumers', label: 'Consumers', description: 'End customers' },
-  { value: 'students', label: 'Students', description: 'Educational audience' },
-  { value: 'experts', label: 'Industry Experts', description: 'Specialized professionals' }
-];
 
 export function ContentGeneratorTool(): JSX.Element {
   const [config, setConfig] = useState<ContentConfig>({

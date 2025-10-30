@@ -127,6 +127,12 @@ src/vitest.config.ts               → internal/debug/config/vitest.config.ts
 - ✅ **2 imports fixed** in PageRouter.tsx
 - ✅ **0 broken imports** detected
 
+#### Post-change test execution guidance
+
+- **Unit/component coverage (Vitest)**: `pnpm vitest --run` now traverses the canonical component filenames. Use this to validate that the renamed modules continue to satisfy the existing suite without relying on `*Fixed` aliases.
+- **End-to-end verification (Playwright)**: `pnpm playwright test` ensures lazy-loaded routes (e.g., LaunchDayCommand, ErrorRecoverySystem) resolve through the canonical entrypoints during browser automation.
+- **Failure triage**: When regressions appear, confirm the failing spec references the canonical module. Any `*Fixed` import in stack traces indicates an outdated path that must be migrated.
+
 #### Bundle Impact
 
 **Estimated size reduction**: ~200KB minified (from excluding 50 test/debug files in production builds)

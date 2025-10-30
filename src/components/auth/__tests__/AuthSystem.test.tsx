@@ -1,20 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { AuthProvider, AuthButton, useAuth } from '@/components/auth/AuthSystem';
 
-// Mock Supabase client
-vi.mock('../../lib/supabase', () => ({
-  supabase: {
-    auth: {
-      getSession: vi.fn().mockResolvedValue({ data: { session: null }, error: null }),
-      onAuthStateChange: vi.fn().mockImplementation(() => ({
-        data: { subscription: { unsubscribe: vi.fn() } },
-      })),
-    },
-  },
-}));
-
-// Test component to use the useAuth hook
 function TestComponent() {
   const { user, isAuthenticated, loading } = useAuth();
 
