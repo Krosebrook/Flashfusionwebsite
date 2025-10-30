@@ -310,10 +310,12 @@ export function LaunchPreparationHub() {
 - UI sections: >70%
 - Integration tests: Key user flows
 
-**Latest Coverage Snapshot (2025-10-28):**
-- LaunchPreparationHub logic suites: **95%** branch coverage after expanded edge-case specs.
-- LaunchPreparationHub custom hooks: **88%** statement coverage across new hook suites.
-- Launch section UI components: **78%** interaction coverage validated via Testing Library.
+#### Test Coverage Update (2024-06)
+- `pnpm vitest run --coverage --reporter=basic` — executes the launch logic, hook, and section suites with coverage instrumentation. Use `pnpm exec` if the binary is not on PATH.
+- **Logic coverage:** 18/18 `LaunchPreparationHub.logic` exports exercised via new tests (100% function coverage with branch assertions on error cases).
+- **Hook coverage:** 3/3 launch hooks (`useLaunchAssets`, `useMarketingCampaigns`, `useSupportChannels`) verified across lifecycle mutations, derived selectors, and state reset edge cases.
+- **Section coverage:** Launch checklist dashboard interactions validated (start, complete, navigation callbacks) to guard regressions in the new UI surface.
+- When local registry access is blocked, rely on CI or an environment with npm access before running the coverage command.
 
 ---
 

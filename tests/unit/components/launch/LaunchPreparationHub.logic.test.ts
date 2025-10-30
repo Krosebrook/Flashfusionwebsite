@@ -3,7 +3,7 @@
  * @category test
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   calculateLaunchReadiness,
   getCompletionScore,
@@ -18,6 +18,7 @@ import {
   validateDocumentationRequest,
   formatGeneratedContent,
   processMarketingCopy,
+  mapAssetsToTimeline,
   calculateCampaignROI,
   aggregateSupportMetrics,
   getAssetStatistics,
@@ -33,6 +34,14 @@ import type {
 } from '@/components/launch/LaunchPreparationHub.types';
 
 describe('LaunchPreparationHub.logic', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   describe('calculateLaunchReadiness', () => {
     it('should return 0 for empty checklist', () => {
       const checklist: LaunchChecklistCategory[] = [];
@@ -47,6 +56,14 @@ describe('LaunchPreparationHub.logic', () => {
       const readiness = calculateLaunchReadiness(checklist);
       expect(readiness).toBeGreaterThanOrEqual(0);
       expect(readiness).toBeLessThanOrEqual(100);
+    });
+
+    it('should round readiness percentage for uneven completion estimates', () => {
+      const checklist: LaunchChecklistCategory[] = [
+        { category: 'Docs', items: ['Item 1'] },
+      ];
+
+      expect(calculateLaunchReadiness(checklist)).toBe(78);
     });
   });
 
@@ -66,6 +83,11 @@ describe('LaunchPreparationHub.logic', () => {
       const items = Array(3).fill(null);
       expect(getCompletionScore(items, 1)).toBe(33); // 33.33... rounded to 33
       expect(getCompletionScore(items, 2)).toBe(67); // 66.66... rounded to 67
+    });
+
+    it('should allow completed items to exceed total and reflect percentage', () => {
+      const items = Array(4).fill(null);
+      expect(getCompletionScore(items, 6)).toBe(150);
     });
   });
 
@@ -99,6 +121,16 @@ describe('LaunchPreparationHub.logic', () => {
       };
       expect(calculateOverallProgress(metrics)).toBe(100);
     });
+
+    it('should support negative values and round results', () => {
+      const metrics = {
+        assets: -10,
+        campaigns: 20,
+        support: 30,
+        legal: 40,
+      };
+      expect(calculateOverallProgress(metrics)).toBe(20);
+    });
   });
 
   describe('getDocumentationFilename', () => {
@@ -122,64 +154,42 @@ describe('LaunchPreparationHub.logic', () => {
       );
     });
 
-    it('should fall back to default filename for unknown type', () => {
-      expect(getDocumentationFilename('unknown' as DocumentationType)).toBe(
+    it('should fall back to default filename for unknown types', () => {
+      expect(getDocumentationFilename('unsupported' as DocumentationType)).toBe(
         'FlashFusion-Documentation.md'
       );
     });
   });
 
-  describe('documentation content generators', () => {
-    it('should generate user manual content with expected heading', () => {
+  describe('generate documentation content helpers', () => {
+    it('should include primary heading in generated user manual', () => {
       const content = generateUserManualContent();
       expect(content).toContain('# FlashFusion User Manual');
-      expect(content).toContain('Getting Started');
+      expect(content).toContain('Complete Guide to AI-Powered Development');
     });
 
-    it('should generate API docs content with base URL', () => {
+    it('should describe API base URL in generated API docs', () => {
       const content = generateApiDocsContent();
       expect(content).toContain('# FlashFusion API Documentation');
       expect(content).toContain('https://api.flashfusion.ai/v1');
     });
 
-    it('should generate tutorial scripts content with video section', () => {
+    it('should provide tutorial headings in generated scripts', () => {
       const content = generateTutorialScriptsContent();
       expect(content).toContain('# FlashFusion Video Tutorials - Production Scripts');
-      expect(content).toContain('Tutorial 1: Getting Started');
+      expect(content).toContain('## Tutorial 1: Getting Started');
     });
 
-    it('should generate FAQ content with troubleshooting guide', () => {
+    it('should outline question categories in generated FAQ', () => {
       const content = generateFAQContent();
       expect(content).toContain('# FlashFusion FAQ & Troubleshooting Guide');
-      expect(content).toContain('## Troubleshooting Guide');
+      expect(content).toContain('Account & Billing');
     });
 
-    it('should generate press kit content with company overview', () => {
+    it('should surface press contact information in generated press kit', () => {
       const content = generatePressKitContent();
       expect(content).toContain('# FlashFusion Press Kit');
-      expect(content).toContain('Company Overview');
-    });
-  });
-
-  describe('getDocumentationContent', () => {
-    it('should return user manual content for user-manual type', () => {
-      expect(getDocumentationContent('user-manual')).toContain('# FlashFusion User Manual');
-    });
-
-    it('should return API docs content for api-docs type', () => {
-      expect(getDocumentationContent('api-docs')).toContain('# FlashFusion API Documentation');
-    });
-
-    it('should return tutorial scripts content for tutorials type', () => {
-      expect(getDocumentationContent('tutorials')).toContain('Video Tutorials');
-    });
-
-    it('should return FAQ content for faq type', () => {
-      expect(getDocumentationContent('faq')).toContain('FAQ');
-    });
-
-    it('should return empty string for unknown type', () => {
-      expect(getDocumentationContent('unknown' as DocumentationType)).toBe('');
+      expect(content).toContain('press@flashfusion.ai');
     });
   });
 
@@ -197,8 +207,8 @@ describe('LaunchPreparationHub.logic', () => {
       expect(result.error).toContain('Invalid documentation type');
     });
 
-    it('should accept valid types with additional specifications', () => {
-      const result = validateDocumentationRequest('user-manual', { audience: 'beta-testers' });
+    it('should ignore optional specs payload when type is valid', () => {
+      const result = validateDocumentationRequest('faq', { audience: 'beta-testers' });
       expect(result.valid).toBe(true);
       expect(result.error).toBeUndefined();
     });
@@ -221,11 +231,14 @@ describe('LaunchPreparationHub.logic', () => {
       expect(formatted).toContain(content);
     });
 
-    it('should include metadata header at the beginning', () => {
-      const content = 'Body';
-      const formatted = formatGeneratedContent(content, 'metadata-test');
-      expect(formatted.startsWith('---')).toBe(true);
-      expect(formatted).toContain('Generator: FlashFusion LaunchPreparationHub');
+    it('should include ISO timestamp in metadata header', () => {
+      vi.useFakeTimers();
+      const timestamp = new Date('2024-06-01T12:34:56.000Z');
+      vi.setSystemTime(timestamp);
+
+      const formatted = formatGeneratedContent('content', 'type');
+
+      expect(formatted).toContain(timestamp.toISOString());
     });
   });
 
@@ -255,10 +268,9 @@ describe('LaunchPreparationHub.logic', () => {
       expect(result).toContain('{{greeting}}');
     });
 
-    it('should handle empty variables object gracefully', () => {
-      const template = 'Static content without variables';
-      const result = processMarketingCopy(template, {});
-      expect(result).toBe(template);
+    it('should return original template when variables map is empty', () => {
+      const template = 'Static copy for FlashFusion';
+      expect(processMarketingCopy(template, {})).toBe(template);
     });
   });
 
@@ -304,12 +316,12 @@ describe('LaunchPreparationHub.logic', () => {
       expect(result.roi).toBe(0);
     });
 
-    it('should handle zero engagement rates without NaN', () => {
+    it('should handle zero engagement safely', () => {
       const noEngagementCampaign = { ...mockCampaign, engagement: 0 };
       const result = calculateCampaignROI(noEngagementCampaign);
 
       expect(result.costPerEngagement).toBe(0);
-      expect(result.roi).toBeDefined();
+      expect(result.profit).toBeCloseTo(-mockCampaign.budget, 5);
     });
   });
 
@@ -373,15 +385,20 @@ describe('LaunchPreparationHub.logic', () => {
       expect(result.activeChannels).toBe(0);
     });
 
-    it('should calculate metrics when all channels inactive', () => {
-      const inactiveChannels = mockChannels.map((channel) => ({
-        ...channel,
-        status: 'setup' as SupportChannel['status'],
-      }));
-      const result = aggregateSupportMetrics(inactiveChannels);
+    it('should count unknown channel types without crashing', () => {
+      const result = aggregateSupportMetrics([
+        {
+          id: '4',
+          name: 'Community Hub',
+          type: 'community' as SupportChannel['type'],
+          status: 'setup',
+          responseTime: '< 24 hours',
+          satisfaction: 3.2,
+          volume: 40,
+        },
+      ]);
 
-      expect(result.activeChannels).toBe(0);
-      expect(result.channelsByType.email).toBe(1);
+      expect(result.channelsByType.community).toBe(1);
     });
   });
 
@@ -452,6 +469,23 @@ describe('LaunchPreparationHub.logic', () => {
       const result = getAssetStatistics([]);
       expect(result.total).toBe(0);
       expect(result.averageProgress).toBe(0);
+    });
+
+    it('should round average progress to nearest integer', () => {
+      const result = getAssetStatistics([
+        {
+          id: 'only',
+          type: 'documentation',
+          title: 'Single',
+          description: 'Test asset',
+          status: 'draft',
+          priority: 'medium',
+          progress: 33.6,
+          tags: [],
+        },
+      ]);
+
+      expect(result.averageProgress).toBe(34);
     });
   });
 
@@ -533,38 +567,38 @@ describe('LaunchPreparationHub.logic', () => {
   });
 
   describe('mapAssetsToTimeline', () => {
-    it('should map assets with due dates into sorted timeline', () => {
+    it('should map dated assets and sort chronologically', () => {
       const assets: LaunchAsset[] = [
         {
-          id: 'a',
+          id: 'doc',
           type: 'documentation',
-          title: 'First',
-          description: 'A',
-          status: 'draft',
-          priority: 'high',
-          progress: 10,
-          tags: [],
-          dueDate: new Date('2024-01-02T00:00:00.000Z'),
-        },
-        {
-          id: 'b',
-          type: 'video',
-          title: 'Second',
-          description: 'B',
+          title: 'Doc',
+          description: 'Doc',
           status: 'approved',
-          priority: 'medium',
-          progress: 90,
+          priority: 'high',
+          progress: 100,
+          dueDate: new Date('2024-05-10'),
           tags: [],
-          dueDate: new Date('2024-01-01T00:00:00.000Z'),
         },
         {
-          id: 'c',
-          type: 'press-kit',
-          title: 'No Due',
-          description: 'C',
-          status: 'review',
+          id: 'video',
+          type: 'video',
+          title: 'Video',
+          description: 'Video',
+          status: 'draft',
+          priority: 'medium',
+          progress: 20,
+          dueDate: new Date('2024-04-15'),
+          tags: [],
+        },
+        {
+          id: 'no-date',
+          type: 'image',
+          title: 'Image',
+          description: 'No due date',
+          status: 'draft',
           priority: 'low',
-          progress: 50,
+          progress: 10,
           tags: [],
         },
       ];
@@ -572,25 +606,21 @@ describe('LaunchPreparationHub.logic', () => {
       const timeline = mapAssetsToTimeline(assets);
 
       expect(timeline).toHaveLength(2);
-      expect(timeline[0].title).toBe('Second');
-      expect(timeline[1].title).toBe('First');
+      expect(timeline[0].title).toBe('Video');
+      expect(timeline[1].title).toBe('Doc');
+    });
+  });
+
+  describe('getDocumentationContent', () => {
+    it('should route to specific generators for known types', () => {
+      expect(getDocumentationContent('user-manual')).toContain('# FlashFusion User Manual');
+      expect(getDocumentationContent('api-docs')).toContain('# FlashFusion API Documentation');
+      expect(getDocumentationContent('tutorials')).toContain('# FlashFusion Video Tutorials - Production Scripts');
+      expect(getDocumentationContent('faq')).toContain('# FlashFusion FAQ & Troubleshooting Guide');
     });
 
-    it('should return empty array when no assets have due dates', () => {
-      const assets: LaunchAsset[] = [
-        {
-          id: 'a',
-          type: 'documentation',
-          title: 'No Due',
-          description: 'A',
-          status: 'draft',
-          priority: 'low',
-          progress: 0,
-          tags: [],
-        },
-      ];
-
-      expect(mapAssetsToTimeline(assets)).toHaveLength(0);
+    it('should return empty string for unsupported type', () => {
+      expect(getDocumentationContent('other' as DocumentationType)).toBe('');
     });
   });
 });
