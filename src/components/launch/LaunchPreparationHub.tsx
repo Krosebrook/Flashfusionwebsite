@@ -10,97 +10,143 @@
  */
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { Button } from '../ui/button';
+import { Alert, AlertDescription } from '../ui/alert';
+import { Badge } from '../ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { Textarea } from '../ui/textarea';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Badge } from '../ui/badge';
-import { Alert, AlertDescription } from '../ui/alert';
 import { Progress } from '../ui/progress';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Separator } from '../ui/separator';
-import { ScrollArea } from '../ui/scroll-area';
-import { Switch } from '../ui/switch';
-import { 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import { Textarea } from '../ui/textarea';
+import {
   Rocket,
-  BookOpen,
-  Users,
   Shield,
-  Megaphone,
-  FileText,
-  Video,
-  HelpCircle,
-  CheckCircle,
-  AlertTriangle,
-  Clock,
-  Download,
-  Share2,
-  Mail,
-  MessageCircle,
-  Phone,
-  Globe,
-  Star,
-  TrendingUp,
-  Eye,
-  Heart,
-  ThumbsUp,
-  Camera,
-  Mic,
-  Edit,
-  Copy,
-  ExternalLink,
-  Play,
-  Pause,
-  RotateCcw,
-  Zap,
   Target,
-  Award,
-  Briefcase,
-  PieChart,
-  BarChart3,
-  Calendar,
-  Loader2
+  BookOpen,
+  Megaphone,
+  Users,
+  CheckCircle,
 } from 'lucide-react';
+import { DocumentationGeneratorSection } from './DocumentationGeneratorSection';
+import { AssetManagementSection } from './AssetManagementSection';
+import { MarketingCampaignSection } from './MarketingCampaignSection';
+import { SupportChannelSection } from './SupportChannelSection';
+import { LaunchChecklistSection } from './LaunchChecklistSection';
+import { useLaunchAssets } from './useLaunchAssets';
+import { useMarketingCampaigns } from './useMarketingCampaigns';
+import { useSupportChannels } from './useSupportChannels';
+import type {
+  LaunchAsset,
+  MarketingCampaign,
+  SupportChannel,
+  LaunchChecklistCategory,
+  DocumentationType,
+} from './LaunchPreparationHub.types';
+import { calculateLaunchReadiness } from './LaunchPreparationHub.logic';
 
-interface LaunchAsset {
-  id: string;
-  type: 'documentation' | 'video' | 'image' | 'press-kit' | 'legal' | 'tutorial';
-  title: string;
-  description: string;
-  status: 'draft' | 'review' | 'approved' | 'published';
-  priority: 'low' | 'medium' | 'high' | 'critical';
-  progress: number;
-  dueDate?: Date;
-  assignee?: string;
-  tags: string[];
-}
+const INITIAL_LAUNCH_ASSETS: LaunchAsset[] = [
+  {
+    id: 'user-manual',
+    type: 'documentation',
+    title: 'Complete User Manual',
+    description: 'Comprehensive guide covering all FlashFusion features',
+    status: 'approved',
+    priority: 'critical',
+    progress: 95,
+    tags: ['documentation', 'user-guide'],
+  },
+  {
+    id: 'api-docs',
+    type: 'documentation',
+    title: 'API Documentation',
+    description: 'Developer-focused API reference and examples',
+    status: 'review',
+    priority: 'high',
+    progress: 80,
+    tags: ['api', 'developers'],
+  },
+  {
+    id: 'launch-video',
+    type: 'video',
+    title: 'Product Launch Video',
+    description: '2-minute product demonstration and overview',
+    status: 'draft',
+    priority: 'high',
+    progress: 60,
+    tags: ['marketing', 'video'],
+  },
+  {
+    id: 'press-kit',
+    type: 'press-kit',
+    title: 'Media Press Kit',
+    description: 'Complete press kit with assets and information',
+    status: 'approved',
+    priority: 'medium',
+    progress: 100,
+    tags: ['press', 'media'],
+  },
+];
 
-interface MarketingCampaign {
-  id: string;
-  name: string;
-  type: 'social' | 'email' | 'press' | 'influencer' | 'content';
-  status: 'planning' | 'created' | 'scheduled' | 'active' | 'completed';
-  reach: number;
-  engagement: number;
-  budget: number;
-  roi: number;
-  startDate: Date;
-  endDate: Date;
-}
+const INITIAL_MARKETING_CAMPAIGNS: MarketingCampaign[] = [
+  {
+    id: 'social-launch',
+    name: 'Social Media Launch Campaign',
+    type: 'social',
+    status: 'scheduled',
+    reach: 50000,
+    engagement: 3.2,
+    budget: 5000,
+    roi: 145,
+    startDate: new Date(Date.now() + 86400000),
+    endDate: new Date(Date.now() + 604800000),
+  },
+  {
+    id: 'email-sequence',
+    name: 'Launch Email Sequence',
+    type: 'email',
+    status: 'created',
+    reach: 15000,
+    engagement: 12.5,
+    budget: 1200,
+    roi: 280,
+    startDate: new Date(Date.now() + 172800000),
+    endDate: new Date(Date.now() + 1209600000),
+  },
+];
 
-interface SupportChannel {
-  id: string;
-  name: string;
-  type: 'email' | 'chat' | 'phone' | 'docs' | 'community' | 'video';
-  status: 'active' | 'setup' | 'testing';
-  responseTime: string;
-  satisfaction: number;
-  volume: number;
-}
+const INITIAL_SUPPORT_CHANNELS: SupportChannel[] = [
+  {
+    id: 'email-support',
+    name: 'Email Support',
+    type: 'email',
+    status: 'active',
+    responseTime: '< 4 hours',
+    satisfaction: 4.7,
+    volume: 150,
+  },
+  {
+    id: 'live-chat',
+    name: 'Live Chat',
+    type: 'chat',
+    status: 'testing',
+    responseTime: '< 2 minutes',
+    satisfaction: 4.9,
+    volume: 89,
+  },
+  {
+    id: 'docs-portal',
+    name: 'Documentation Portal',
+    type: 'docs',
+    status: 'active',
+    responseTime: 'Instant',
+    satisfaction: 4.5,
+    volume: 2400,
+  },
+];
 
-const LAUNCH_CHECKLIST = [
+const LAUNCH_CHECKLIST: LaunchChecklistCategory[] = [
   {
     category: 'Documentation',
     items: [
@@ -148,113 +194,68 @@ const LAUNCH_CHECKLIST = [
 ];
 
 export function LaunchPreparationHub() {
-  const [assets, setAssets] = useState<LaunchAsset[]>([
-    {
-      id: 'user-manual',
-      type: 'documentation',
-      title: 'Complete User Manual',
-      description: 'Comprehensive guide covering all FlashFusion features',
-      status: 'approved',
-      priority: 'critical',
-      progress: 95,
-      tags: ['documentation', 'user-guide']
-    },
-    {
-      id: 'api-docs',
-      type: 'documentation', 
-      title: 'API Documentation',
-      description: 'Developer-focused API reference and examples',
-      status: 'review',
-      priority: 'high',
-      progress: 80,
-      tags: ['api', 'developers']
-    },
-    {
-      id: 'launch-video',
-      type: 'video',
-      title: 'Product Launch Video',
-      description: '2-minute product demonstration and overview',
-      status: 'draft',
-      priority: 'high',
-      progress: 60,
-      tags: ['marketing', 'video']
-    },
-    {
-      id: 'press-kit',
-      type: 'press-kit',
-      title: 'Media Press Kit',
-      description: 'Complete press kit with assets and information',
-      status: 'approved',
-      priority: 'medium',
-      progress: 100,
-      tags: ['press', 'media']
-    }
-  ]);
+  const {
+    assets,
+    selectedAsset,
+    setSelectedAsset,
+    addAsset,
+    updateAsset,
+    deleteAsset,
+  } = useLaunchAssets(INITIAL_LAUNCH_ASSETS);
 
-  const [campaigns, setCampaigns] = useState<MarketingCampaign[]>([
-    {
-      id: 'social-launch',
-      name: 'Social Media Launch Campaign',
-      type: 'social',
-      status: 'scheduled',
-      reach: 50000,
-      engagement: 3.2,
-      budget: 5000,
-      roi: 145,
-      startDate: new Date(Date.now() + 86400000),
-      endDate: new Date(Date.now() + 604800000)
-    },
-    {
-      id: 'email-sequence',
-      name: 'Launch Email Sequence',
-      type: 'email',
-      status: 'created',
-      reach: 15000,
-      engagement: 12.5,
-      budget: 1200,
-      roi: 280,
-      startDate: new Date(Date.now() + 172800000),
-      endDate: new Date(Date.now() + 1209600000)
-    }
-  ]);
+  const {
+    campaigns,
+    setSelectedCampaign,
+    updateCampaign,
+    deleteCampaign,
+  } = useMarketingCampaigns(INITIAL_MARKETING_CAMPAIGNS);
 
-  const [supportChannels, setSupportChannels] = useState<SupportChannel[]>([
-    {
-      id: 'email-support',
-      name: 'Email Support',
-      type: 'email',
-      status: 'active',
-      responseTime: '< 4 hours',
-      satisfaction: 4.7,
-      volume: 150
-    },
-    {
-      id: 'live-chat',
-      name: 'Live Chat',
-      type: 'chat',
-      status: 'testing',
-      responseTime: '< 2 minutes',
-      satisfaction: 4.9,
-      volume: 89
-    },
-    {
-      id: 'docs-portal',
-      name: 'Documentation Portal',
-      type: 'docs',
-      status: 'active',
-      responseTime: 'Instant',
-      satisfaction: 4.5,
-      volume: 2400
-    }
-  ]);
+  const {
+    channels: supportChannels,
+    setActiveChannel,
+    updateChannel,
+    deleteChannel,
+  } = useSupportChannels(INITIAL_SUPPORT_CHANNELS);
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
-  const [selectedAsset, setSelectedAsset] = useState<LaunchAsset | null>(null);
-  const [launchReadiness, setLaunchReadiness] = useState(78);
+  const [launchReadiness, setLaunchReadiness] = useState(0);
+
+  const handleSelectAsset = useCallback(
+    (asset: LaunchAsset) => {
+      setSelectedAsset(asset);
+    },
+    [setSelectedAsset]
+  );
+
+  const handleSelectCampaign = useCallback(
+    (campaign: MarketingCampaign) => {
+      setSelectedCampaign(campaign);
+    },
+    [setSelectedCampaign]
+  );
+
+  const handleSelectChannel = useCallback(
+    (channel: SupportChannel) => {
+      setActiveChannel(channel);
+    },
+    [setActiveChannel]
+  );
+
+  const handleScheduleLaunch = useCallback(() => {
+    console.log('Schedule launch action triggered');
+  }, []);
+
+  const handleExportChecklist = useCallback(() => {
+    console.log('Export launch checklist requested');
+  }, []);
+
+  const handleShareProgress = useCallback(() => {
+    console.log('Share launch progress requested');
+  }, []);
 
   // Generate comprehensive documentation
-  const generateDocumentation = useCallback(async (type: 'user-manual' | 'api-docs' | 'tutorials' | 'faq') => {
+  const generateDocumentation = useCallback(async (type: DocumentationType) => {
     setIsGenerating(true);
     setGenerationProgress(0);
 
@@ -1357,9 +1358,7 @@ https://flashfusion.ai/press-kit
 
   // Calculate overall launch readiness
   useEffect(() => {
-    const totalChecks = LAUNCH_CHECKLIST.reduce((total, category) => total + category.items.length, 0);
-    const completedChecks = Math.floor(totalChecks * 0.78); // 78% completion
-    setLaunchReadiness(Math.round((completedChecks / totalChecks) * 100));
+    setLaunchReadiness(calculateLaunchReadiness(LAUNCH_CHECKLIST));
   }, []);
 
   return (
@@ -1416,370 +1415,38 @@ https://flashfusion.ai/press-kit
             </TabsList>
 
             <TabsContent value="documentation" className="space-y-6">
-              <Alert className="border-[var(--ff-secondary)] bg-[var(--ff-secondary)]/10">
-                <FileText className="h-4 w-4 text-[var(--ff-secondary)]" />
-                <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-secondary)]">Documentation Generation:</strong> Create comprehensive user guides, API documentation, tutorials, and troubleshooting resources.
-                </AlertDescription>
-              </Alert>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
-                  <CardHeader>
-                    <CardTitle className="text-[var(--ff-text-primary)] flex items-center gap-2">
-                      <BookOpen className="w-5 h-5" />
-                      User Documentation
-                    </CardTitle>
-                    <CardDescription className="text-[var(--ff-text-secondary)]">
-                      Complete user guides and getting started resources
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <Button
-                      onClick={() => generateDocumentation('user-manual')}
-                      disabled={isGenerating}
-                      className="w-full bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white"
-                    >
-                      {isGenerating ? (
-                        <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Generating...
-                        </>
-                      ) : (
-                        <>
-                          <Download className="w-4 h-4 mr-2" />
-                          Generate User Manual
-                        </>
-                      )}
-                    </Button>
-                    <Button
-                      onClick={() => generateDocumentation('tutorials')}
-                      disabled={isGenerating}
-                      variant="outline"
-                      className="w-full border-[var(--border)]"
-                    >
-                      <Video className="w-4 h-4 mr-2" />
-                      Generate Tutorial Scripts
-                    </Button>
-                    <Button
-                      onClick={() => generateDocumentation('faq')}
-                      disabled={isGenerating}
-                      variant="outline"
-                      className="w-full border-[var(--border)]"
-                    >
-                      <HelpCircle className="w-4 h-4 mr-2" />
-                      Generate FAQ Guide
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
-                  <CardHeader>
-                    <CardTitle className="text-[var(--ff-text-primary)] flex items-center gap-2">
-                      <Code className="w-5 h-5" />
-                      Developer Resources
-                    </CardTitle>
-                    <CardDescription className="text-[var(--ff-text-secondary)]">
-                      Technical documentation and API references
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <Button
-                      onClick={() => generateDocumentation('api-docs')}
-                      disabled={isGenerating}
-                      className="w-full bg-[var(--ff-secondary)] hover:bg-[var(--ff-secondary-600)] text-white"
-                    >
-                      <FileText className="w-4 h-4 mr-2" />
-                      Generate API Documentation
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full border-[var(--border)]"
-                    >
-                      <Code className="w-4 h-4 mr-2" />
-                      SDK Documentation
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full border-[var(--border)]"
-                    >
-                      <Terminal className="w-4 h-4 mr-2" />
-                      CLI Documentation
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {isGenerating && (
-                <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-[var(--ff-text-primary)]">Generating documentation...</span>
-                      <span className="text-[var(--ff-text-muted)]">{generationProgress}%</span>
-                    </div>
-                    <Progress value={generationProgress} className="h-2" />
-                    <p className="text-sm text-[var(--ff-text-muted)] mt-2">
-                      Creating comprehensive documentation with examples and best practices...
-                    </p>
-                  </CardContent>
-                </Card>
-              )}
-
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {assets.filter(asset => asset.type === 'documentation').map((asset) => (
-                  <Card key={asset.id} className="bg-[var(--ff-surface)] border-[var(--border)]">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <Badge variant={asset.status === 'approved' ? 'default' : asset.status === 'review' ? 'secondary' : 'outline'}>
-                          {asset.status}
-                        </Badge>
-                        <Badge variant="outline" className="text-xs">
-                          {asset.priority}
-                        </Badge>
-                      </div>
-                      <h4 className="text-sm font-semibold text-[var(--ff-text-primary)] mb-1">{asset.title}</h4>
-                      <p className="text-xs text-[var(--ff-text-muted)] mb-3">{asset.description}</p>
-                      <Progress value={asset.progress} className="h-1 mb-2" />
-                      <p className="text-xs text-[var(--ff-text-muted)]">{asset.progress}% complete</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+              <DocumentationGeneratorSection
+                isGenerating={isGenerating}
+                generationProgress={generationProgress}
+                onGenerateDocumentation={generateDocumentation}
+              />
+              <AssetManagementSection
+                assets={assets}
+                selectedAssetId={selectedAsset?.id ?? null}
+                onSelectAsset={handleSelectAsset}
+                onUpdateAsset={updateAsset}
+                onDeleteAsset={deleteAsset}
+                onAddAsset={addAsset}
+              />
             </TabsContent>
 
             <TabsContent value="marketing" className="space-y-6">
-              <Alert className="border-[var(--ff-accent)] bg-[var(--ff-accent)]/10">
-                <Megaphone className="h-4 w-4 text-[var(--ff-accent)]" />
-                <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-accent)]">Marketing Campaign Management:</strong> Create and manage launch campaigns across multiple channels with performance tracking.
-                </AlertDescription>
-              </Alert>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
-                  <CardHeader>
-                    <CardTitle className="text-[var(--ff-text-primary)] flex items-center gap-2">
-                      <Camera className="w-5 h-5" />
-                      Visual Assets
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <Button variant="outline" className="w-full border-[var(--border)]">
-                      <Download className="w-4 h-4 mr-2" />
-                      Logo Package
-                    </Button>
-                    <Button variant="outline" className="w-full border-[var(--border)]">
-                      <Camera className="w-4 h-4 mr-2" />
-                      Screenshots
-                    </Button>
-                    <Button 
-                      onClick={generatePressKit}
-                      className="w-full bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white"
-                    >
-                      <FileText className="w-4 h-4 mr-2" />
-                      Press Kit
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
-                  <CardHeader>
-                    <CardTitle className="text-[var(--ff-text-primary)] flex items-center gap-2">
-                      <Share2 className="w-5 h-5" />
-                      Social Media
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <Button variant="outline" className="w-full border-[var(--border)]">
-                      <Edit className="w-4 h-4 mr-2" />
-                      Create Posts
-                    </Button>
-                    <Button variant="outline" className="w-full border-[var(--border)]">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      Schedule Campaign
-                    </Button>
-                    <Button variant="outline" className="w-full border-[var(--border)]">
-                      <BarChart3 className="w-4 h-4 mr-2" />
-                      Analytics
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
-                  <CardHeader>
-                    <CardTitle className="text-[var(--ff-text-primary)] flex items-center gap-2">
-                      <Mail className="w-5 h-5" />
-                      Email Marketing
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <Button variant="outline" className="w-full border-[var(--border)]">
-                      <Edit className="w-4 h-4 mr-2" />
-                      Create Sequence
-                    </Button>
-                    <Button variant="outline" className="w-full border-[var(--border)]">
-                      <Users className="w-4 h-4 mr-2" />
-                      Manage Lists
-                    </Button>
-                    <Button variant="outline" className="w-full border-[var(--border)]">
-                      <TrendingUp className="w-4 h-4 mr-2" />
-                      Track Performance
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-[var(--ff-text-primary)]">Active Campaigns</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {campaigns.map((campaign) => (
-                    <Card key={campaign.id} className="bg-[var(--ff-surface)] border-[var(--border)]">
-                      <CardContent className="p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <h4 className="font-semibold text-[var(--ff-text-primary)]">{campaign.name}</h4>
-                          <Badge variant={campaign.status === 'active' ? 'default' : campaign.status === 'scheduled' ? 'secondary' : 'outline'}>
-                            {campaign.status}
-                          </Badge>
-                        </div>
-                        
-                        <div className="grid grid-cols-2 gap-4 text-sm">
-                          <div>
-                            <p className="text-[var(--ff-text-muted)]">Reach</p>
-                            <p className="text-[var(--ff-text-primary)] font-semibold">{campaign.reach.toLocaleString()}</p>
-                          </div>
-                          <div>
-                            <p className="text-[var(--ff-text-muted)]">Engagement</p>
-                            <p className="text-[var(--ff-text-primary)] font-semibold">{campaign.engagement}%</p>
-                          </div>
-                          <div>
-                            <p className="text-[var(--ff-text-muted)]">Budget</p>
-                            <p className="text-[var(--ff-text-primary)] font-semibold">${campaign.budget.toLocaleString()}</p>
-                          </div>
-                          <div>
-                            <p className="text-[var(--ff-text-muted)]">ROI</p>
-                            <p className="text-[var(--ff-text-primary)] font-semibold">{campaign.roi}%</p>
-                          </div>
-                        </div>
-
-                        <div className="flex gap-2 mt-4">
-                          <Button size="sm" variant="outline" className="flex-1">
-                            <Edit className="w-3 h-3 mr-1" />
-                            Edit
-                          </Button>
-                          <Button size="sm" variant="outline" className="flex-1">
-                            <BarChart3 className="w-3 h-3 mr-1" />
-                            Analytics
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
+              <MarketingCampaignSection
+                campaigns={campaigns}
+                onGeneratePressKit={generatePressKit}
+                onSelectCampaign={handleSelectCampaign}
+                onUpdateCampaign={updateCampaign}
+                onDeleteCampaign={deleteCampaign}
+              />
             </TabsContent>
 
             <TabsContent value="support" className="space-y-6">
-              <Alert className="border-[var(--ff-warning)] bg-[var(--ff-warning)]/10">
-                <Users className="h-4 w-4 text-[var(--ff-warning)]" />
-                <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-warning)]">Support Systems:</strong> Configure help desk, community forums, knowledge base, and customer success tools for post-launch support.
-                </AlertDescription>
-              </Alert>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {supportChannels.map((channel) => (
-                  <Card key={channel.id} className="bg-[var(--ff-surface-light)] border-[var(--border)]">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-semibold text-[var(--ff-text-primary)]">{channel.name}</h4>
-                        <Badge variant={channel.status === 'active' ? 'default' : channel.status === 'testing' ? 'secondary' : 'outline'}>
-                          {channel.status}
-                        </Badge>
-                      </div>
-                      
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-[var(--ff-text-muted)]">Response Time</span>
-                          <span className="text-[var(--ff-text-primary)]">{channel.responseTime}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-[var(--ff-text-muted)]">Satisfaction</span>
-                          <div className="flex items-center gap-1">
-                            <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                            <span className="text-[var(--ff-text-primary)]">{channel.satisfaction}</span>
-                          </div>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-[var(--ff-text-muted)]">Monthly Volume</span>
-                          <span className="text-[var(--ff-text-primary)]">{channel.volume}</span>
-                        </div>
-                      </div>
-
-                      <Button size="sm" variant="outline" className="w-full mt-3">
-                        <Settings className="w-3 h-3 mr-1" />
-                        Configure
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-
-              <Card className="bg-[var(--ff-surface)] border-[var(--border)]">
-                <CardHeader>
-                  <CardTitle className="text-[var(--ff-text-primary)]">Support Configuration</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <Label className="text-[var(--ff-text-primary)]">24/7 Live Chat</Label>
-                        <Switch checked={true} />
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <Label className="text-[var(--ff-text-primary)]">Auto-Response</Label>
-                        <Switch checked={true} />
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <Label className="text-[var(--ff-text-primary)]">Ticket Escalation</Label>
-                        <Switch checked={true} />
-                      </div>
-                    </div>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <Label className="text-[var(--ff-text-primary)]">Community Forum</Label>
-                        <Switch checked={false} />
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <Label className="text-[var(--ff-text-primary)]">Video Support</Label>
-                        <Switch checked={false} />
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <Label className="text-[var(--ff-text-primary)]">Phone Support</Label>
-                        <Switch checked={false} />
-                      </div>
-                    </div>
-                  </div>
-
-                  <Separator className="bg-[var(--border)]" />
-
-                  <div className="space-y-2">
-                    <Label className="text-[var(--ff-text-primary)]">Support Team Email</Label>
-                    <Input 
-                      defaultValue="support@flashfusion.ai" 
-                      className="bg-[var(--input-background)] border-[var(--border)]"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label className="text-[var(--ff-text-primary)]">Auto-Response Message</Label>
-                    <Textarea 
-                      defaultValue="Thank you for contacting FlashFusion support. We've received your message and will respond within 4 hours."
-                      className="bg-[var(--input-background)] border-[var(--border)]"
-                      rows={3}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
+              <SupportChannelSection
+                channels={supportChannels}
+                onSelectChannel={handleSelectChannel}
+                onUpdateChannel={updateChannel}
+                onDeleteChannel={deleteChannel}
+              />
             </TabsContent>
 
             <TabsContent value="legal" className="space-y-6">
@@ -1898,76 +1565,12 @@ https://flashfusion.ai/press-kit
             </TabsContent>
 
             <TabsContent value="checklist" className="space-y-6">
-              <Alert className="border-[var(--ff-success)] bg-[var(--ff-success)]/10">
-                <CheckCircle className="h-4 w-4 text-[var(--ff-success)]" />
-                <AlertDescription className="text-[var(--ff-text-secondary)]">
-                  <strong className="text-[var(--ff-success)]">Launch Checklist:</strong> Track completion of all essential launch preparation tasks across documentation, marketing, support, and legal requirements.
-                </AlertDescription>
-              </Alert>
-
-              <div className="space-y-6">
-                {LAUNCH_CHECKLIST.map((category, categoryIndex) => (
-                  <Card key={categoryIndex} className="bg-[var(--ff-surface)] border-[var(--border)]">
-                    <CardHeader>
-                      <CardTitle className="text-[var(--ff-text-primary)] flex items-center gap-2">
-                        {categoryIndex === 0 && <BookOpen className="w-5 h-5" />}
-                        {categoryIndex === 1 && <Megaphone className="w-5 h-5" />}
-                        {categoryIndex === 2 && <Shield className="w-5 h-5" />}
-                        {categoryIndex === 3 && <Users className="w-5 h-5" />}
-                        {category.category}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        {category.items.map((item, itemIndex) => (
-                          <div key={itemIndex} className="flex items-center gap-3">
-                            <div className="flex-shrink-0">
-                              {Math.random() > 0.3 ? (
-                                <CheckCircle className="w-4 h-4 text-[var(--ff-success)]" />
-                              ) : Math.random() > 0.5 ? (
-                                <Clock className="w-4 h-4 text-[var(--ff-warning)]" />
-                              ) : (
-                                <AlertTriangle className="w-4 h-4 text-[var(--ff-error)]" />
-                              )}
-                            </div>
-                            <span className="text-[var(--ff-text-primary)]">{item}</span>
-                            <div className="ml-auto">
-                              {Math.random() > 0.3 && (
-                                <Badge variant="default" className="bg-[var(--ff-success)] text-white">Done</Badge>
-                              )}
-                              {Math.random() > 0.7 && (
-                                <Badge variant="secondary">In Progress</Badge>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-
-              <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
-                <CardHeader>
-                  <CardTitle className="text-[var(--ff-text-primary)]">Launch Actions</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <Button className="bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white">
-                      <Rocket className="w-4 h-4 mr-2" />
-                      Schedule Launch
-                    </Button>
-                    <Button variant="outline" className="border-[var(--border)]">
-                      <Download className="w-4 h-4 mr-2" />
-                      Export Checklist
-                    </Button>
-                    <Button variant="outline" className="border-[var(--border)]">
-                      <Share2 className="w-4 h-4 mr-2" />
-                      Share Progress
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <LaunchChecklistSection
+                checklist={LAUNCH_CHECKLIST}
+                onScheduleLaunch={handleScheduleLaunch}
+                onExportChecklist={handleExportChecklist}
+                onShareProgress={handleShareProgress}
+              />
             </TabsContent>
           </Tabs>
         </CardContent>
