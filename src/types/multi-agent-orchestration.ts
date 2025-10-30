@@ -1,3 +1,28 @@
+/**
+ * @fileoverview Multi-agent orchestration type definitions
+ * @module types/multi-agent-orchestration
+ */
+
+/**
+ * AI agent with role, status, and capabilities
+ * @interface Agent
+ * @property {string} id - Unique agent identifier
+ * @property {string} name - Agent name
+ * @property {AgentRole} role - Agent role/specialization
+ * @property {AgentStatus} status - Current status
+ * @property {AgentPersonality} personality - Personality traits
+ * @property {string} [currentTask] - Current task being worked on
+ * @property {number} workload - Current workload (0-100)
+ * @property {number} efficiency - Efficiency rating (0-100)
+ * @property {CanvasPosition} location - Position on canvas
+ * @property {string} avatar - Avatar image URL
+ * @property {string[]} capabilities - List of capabilities
+ * @property {string[]} connectedAgents - Connected agent IDs
+ * @property {Date} lastActive - Last activity timestamp
+ * @property {number} totalTasksCompleted - Total tasks completed
+ * @property {number} averageTaskTime - Average task completion time
+ * @property {number} expertise - Expertise level (0-100)
+ */
 export interface Agent {
   id: string;
   name: string;
@@ -17,6 +42,13 @@ export interface Agent {
   expertise: number; // 0-100
 }
 
+/**
+ * Agent role specialization types
+ * @typedef {'visionary' | 'product_manager' | 'ui_designer' | 'ux_designer' | 
+ *           'frontend_developer' | 'backend_developer' | 'qa_engineer' | 
+ *           'devops_engineer' | 'project_manager' | 'marketing_specialist' | 
+ *           'data_analyst'} AgentRole
+ */
 export type AgentRole = 
   | 'visionary'
   | 'product_manager' 
@@ -30,6 +62,11 @@ export type AgentRole =
   | 'marketing_specialist'
   | 'data_analyst';
 
+/**
+ * Agent current status types
+ * @typedef {'active' | 'busy' | 'idle' | 'offline' | 'collaborating' | 
+ *           'problem_solving' | 'reviewing'} AgentStatus
+ */
 export type AgentStatus = 
   | 'active'
   | 'busy'
@@ -39,6 +76,16 @@ export type AgentStatus =
   | 'problem_solving'
   | 'reviewing';
 
+/**
+ * Agent personality configuration
+ * @interface AgentPersonality
+ * @property {PersonalityTrait[]} traits - Personality traits
+ * @property {CommunicationStyle} communicationStyle - Communication style
+ * @property {StressResponse[]} stressResponses - Stress responses
+ * @property {WorkingStyle} workingStyle - Working style preference
+ * @property {CollaborationStyle} collaboration - Collaboration approach
+ * @property {DecisionMakingStyle} decisionMaking - Decision-making style
+ */
 export interface AgentPersonality {
   traits: PersonalityTrait[];
   communicationStyle: CommunicationStyle;
@@ -48,14 +95,28 @@ export interface AgentPersonality {
   decisionMaking: DecisionMakingStyle;
 }
 
+/**
+ * Personality trait types for agents
+ * @typedef {('optimistic' | 'realistic' | 'analytical' | 'creative' | 'detail_oriented' |
+ *            'big_picture' | 'inspirational' | 'methodical' | 'adaptable' | 'skeptical' |
+ *            'thorough' | 'innovative' | 'collaborative' | 'independent' | 'focused')} PersonalityTrait
+ */
 export type PersonalityTrait = 
   | 'optimistic' | 'realistic' | 'analytical' | 'creative' | 'detail_oriented'
   | 'big_picture' | 'inspirational' | 'methodical' | 'adaptable' | 'skeptical'
   | 'thorough' | 'innovative' | 'collaborative' | 'independent' | 'focused';
 
+/**
+ * Communication style types for agents
+ * @typedef {('enthusiastic' | 'precise' | 'diplomatic' | 'direct' | 'supportive' | 'analytical')} CommunicationStyle
+ */
 export type CommunicationStyle = 
   | 'enthusiastic' | 'precise' | 'diplomatic' | 'direct' | 'supportive' | 'analytical';
 
+/**
+ * Stress response types for agents
+ * @typedef {('tunnel_vision' | 'over_promising' | 'perfectionism' | 'bottlenecking')} StressResponse
+ */
 export type StressResponse = 
   | 'tunnel_vision' | 'over_promising' | 'perfectionism' | 'bottlenecking'
   | 'scope_creep' | 'analysis_paralysis' | 'rushed_decisions' | 'isolation';
