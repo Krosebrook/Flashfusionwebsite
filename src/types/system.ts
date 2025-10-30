@@ -1,4 +1,26 @@
-// System, subscription, and business logic types
+/**
+ * @fileoverview System, subscription, and business logic type definitions
+ * @module types/system
+ */
+
+/**
+ * Subscription plan information with features and limits
+ * @interface SubscriptionPlan
+ * @property {string} id - Unique plan identifier
+ * @property {'free' | 'pro' | 'enterprise'} name - Plan tier name
+ * @property {string} display_name - Display name for UI
+ * @property {number} price - Price per billing interval
+ * @property {'month' | 'year'} interval - Billing interval
+ * @property {string[]} features - List of included features
+ * @property {Object} limits - Usage limits for the plan
+ * @property {number} limits.projects - Maximum number of projects
+ * @property {number} limits.ai_tools_per_month - Monthly AI tool usage limit
+ * @property {number} limits.storage_gb - Storage limit in GB
+ * @property {number} limits.collaborators - Maximum collaborators
+ * @property {number} limits.deployments_per_month - Monthly deployment limit
+ * @property {boolean} [popular] - Whether plan is marked as popular
+ * @property {string[]} [enterprise_features] - Additional enterprise features
+ */
 export interface SubscriptionPlan {
   id: string;
   name: 'free' | 'pro' | 'enterprise';
@@ -17,6 +39,26 @@ export interface SubscriptionPlan {
   enterprise_features?: string[];
 }
 
+/**
+ * Launch campaign for project marketing
+ * @interface LaunchCampaign
+ * @property {string} id - Unique campaign identifier
+ * @property {string} user_id - Owner user ID
+ * @property {string} project_id - Associated project ID
+ * @property {string} name - Campaign name
+ * @property {string} description - Campaign description
+ * @property {string} launch_date - Scheduled launch date
+ * @property {'planning' | 'active' | 'completed' | 'paused'} status - Campaign status
+ * @property {LaunchChannel[]} channels - Marketing channels
+ * @property {Object} metrics - Campaign performance metrics
+ * @property {number} metrics.impressions - Total impressions
+ * @property {number} metrics.clicks - Total clicks
+ * @property {number} metrics.conversions - Total conversions
+ * @property {number} metrics.engagement_rate - Engagement rate percentage
+ * @property {number} [budget] - Campaign budget
+ * @property {string} created_at - Creation timestamp
+ * @property {string} updated_at - Last update timestamp
+ */
 export interface LaunchCampaign {
   id: string;
   user_id: string;
@@ -37,6 +79,19 @@ export interface LaunchCampaign {
   updated_at: string;
 }
 
+/**
+ * Launch channel configuration and metrics
+ * @interface LaunchChannel
+ * @property {string} platform - Platform name (e.g., Twitter, LinkedIn)
+ * @property {string} content - Content to be published
+ * @property {string} scheduled_time - Scheduled publication time
+ * @property {'draft' | 'scheduled' | 'published'} status - Publication status
+ * @property {Object} [performance_metrics] - Channel performance metrics
+ * @property {number} performance_metrics.reach - Total reach
+ * @property {number} performance_metrics.engagement - Engagement count
+ * @property {number} performance_metrics.clicks - Click count
+ * @property {number} performance_metrics.conversions - Conversion count
+ */
 export interface LaunchChannel {
   platform: string;
   content: string;
