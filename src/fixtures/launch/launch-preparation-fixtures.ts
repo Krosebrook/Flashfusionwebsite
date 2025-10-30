@@ -3,6 +3,12 @@
  * Extracted from components/launch/LaunchPreparationHub.tsx
  */
 
+import type {
+  LaunchAsset,
+  MarketingCampaign,
+  SupportChannel,
+} from '../../components/launch/LaunchPreparationHub.types';
+
 export const LAUNCH_CHECKLIST = [
   {
     category: 'Documentation',
@@ -48,107 +54,105 @@ export const LAUNCH_CHECKLIST = [
       'Feedback Collection System',
     ],
   },
-];
+] as const;
 
-export const INITIAL_ASSETS = [
+export const INITIAL_ASSETS: LaunchAsset[] = [
   {
     id: 'user-manual',
-    type: 'documentation' as const,
+    type: 'documentation',
     title: 'Complete User Manual',
     description: 'Comprehensive guide covering all FlashFusion features',
-    status: 'approved' as const,
-    priority: 'critical' as const,
+    status: 'approved',
+    priority: 'critical',
     progress: 95,
     tags: ['documentation', 'user-guide'],
   },
   {
     id: 'api-docs',
-    type: 'documentation' as const,
+    type: 'documentation',
     title: 'API Documentation',
     description: 'Developer-focused API reference and examples',
-    status: 'review' as const,
-    priority: 'high' as const,
+    status: 'review',
+    priority: 'high',
     progress: 80,
     tags: ['api', 'developers'],
   },
   {
     id: 'launch-video',
-    type: 'video' as const,
+    type: 'video',
     title: 'Product Launch Video',
     description: '2-minute product demonstration and overview',
-    status: 'draft' as const,
-    priority: 'high' as const,
+    status: 'draft',
+    priority: 'high',
     progress: 60,
-    tags: ['video', 'marketing'],
+    tags: ['marketing', 'video'],
+  },
+  {
+    id: 'press-kit',
+    type: 'press-kit',
+    title: 'Media Press Kit',
+    description: 'Complete press kit with assets and information',
+    status: 'approved',
+    priority: 'medium',
+    progress: 100,
+    tags: ['press', 'media'],
   },
 ];
 
-export const INITIAL_CAMPAIGNS = [
+export const INITIAL_CAMPAIGNS: MarketingCampaign[] = [
   {
     id: 'social-launch',
     name: 'Social Media Launch Campaign',
-    type: 'social' as const,
-    status: 'active' as const,
-    reach: 125_000,
-    engagement: 8.5,
-    budget: 5_000,
-    roi: 162,
-    startDate: new Date('2024-02-01'),
-    endDate: new Date('2024-03-15'),
+    type: 'social',
+    status: 'scheduled',
+    reach: 50000,
+    engagement: 3.2,
+    budget: 5000,
+    roi: 145,
+    startDate: new Date('2024-04-15T00:00:00.000Z'),
+    endDate: new Date('2024-04-22T00:00:00.000Z'),
   },
   {
     id: 'email-sequence',
     name: 'Launch Email Sequence',
-    type: 'email' as const,
-    status: 'scheduled' as const,
-    reach: 42_000,
-    engagement: 12.4,
-    budget: 2_400,
-    roi: 118,
-    startDate: new Date('2024-02-05'),
-    endDate: new Date('2024-02-25'),
-  },
-  {
-    id: 'influencer-program',
-    name: 'Influencer Partnership Program',
-    type: 'influencer' as const,
-    status: 'planning' as const,
-    reach: 250_000,
-    engagement: 6.1,
-    budget: 10_000,
-    roi: 95,
-    startDate: new Date('2024-02-10'),
-    endDate: new Date('2024-04-05'),
+    type: 'email',
+    status: 'created',
+    reach: 15000,
+    engagement: 12.5,
+    budget: 1200,
+    roi: 280,
+    startDate: new Date('2024-04-16T00:00:00.000Z'),
+    endDate: new Date('2024-04-30T00:00:00.000Z'),
   },
 ];
 
-export const INITIAL_SUPPORT_CHANNELS = [
+export const INITIAL_SUPPORT_CHANNELS: SupportChannel[] = [
   {
     id: 'email-support',
     name: 'Email Support',
-    type: 'email' as const,
-    status: 'active' as const,
+    type: 'email',
+    status: 'active',
     responseTime: '< 4 hours',
     satisfaction: 4.7,
-    volume: 250,
+    volume: 150,
   },
   {
     id: 'live-chat',
     name: 'Live Chat',
-    type: 'chat' as const,
-    status: 'testing' as const,
+    type: 'chat',
+    status: 'testing',
     responseTime: '< 2 minutes',
     satisfaction: 4.9,
-    volume: 180,
+    volume: 89,
   },
   {
-    id: 'community-forum',
-    name: 'Community Forum',
-    type: 'community' as const,
-    status: 'setup' as const,
-    responseTime: '12 hours',
-    satisfaction: 4.1,
-    volume: 420,
+    id: 'docs-portal',
+    name: 'Documentation Portal',
+    type: 'docs',
+    status: 'active',
+    responseTime: 'Instant',
+    satisfaction: 4.5,
+    volume: 2400,
   },
 ];
 

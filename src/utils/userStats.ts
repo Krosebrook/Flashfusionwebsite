@@ -1,6 +1,19 @@
+/**
+ * @fileoverview User statistics utilities for FlashFusion platform
+ * @module utils/userStats
+ */
+
 import { UserStats } from '../types';
 
-// Realistic startup statistics for FlashFusion platform
+/**
+ * Creates user statistics based on user role and credits
+ * @param {string} [userRole] - User role ('pro' or undefined for free users)
+ * @param {number} [credits] - Initial credit amount (defaults to 150)
+ * @returns {UserStats} User statistics object with realistic startup values
+ * @example
+ * const stats = createUserStats('pro', 200);
+ * // Returns pro user stats with 200 credits
+ */
 export const createUserStats = (userRole?: string, credits?: number): UserStats => ({
   level: userRole === 'pro' ? 8 : 3, // More realistic levels for startup
   xp: userRole === 'pro' ? 2450 : 820, // Realistic XP progression
@@ -14,6 +27,15 @@ export const createUserStats = (userRole?: string, credits?: number): UserStats 
   streak: userRole === 'pro' ? 7 : 3 // Achievable streak counts
 });
 
+/**
+ * Updates user statistics based on user role and credits
+ * @param {UserStats} userStats - Existing user statistics to update
+ * @param {string} [userRole] - User role ('pro' or undefined for free users)
+ * @param {number} [credits] - Credit amount to set
+ * @returns {UserStats} Updated user statistics object
+ * @example
+ * const updated = updateUserStatsFromUser(currentStats, 'pro', 300);
+ */
 export const updateUserStatsFromUser = (userStats: UserStats, userRole?: string, credits?: number): UserStats => ({
   ...userStats,
   level: userRole === 'pro' ? 8 : 3,
@@ -27,7 +49,22 @@ export const updateUserStatsFromUser = (userStats: UserStats, userRole?: string,
   streak: userRole === 'pro' ? 7 : 3
 });
 
-// Platform-wide realistic startup statistics
+/**
+ * Retrieves platform-wide statistics for FlashFusion
+ * @returns {Object} Platform statistics including user counts, projects, and performance metrics
+ * @property {number} totalUsers - Total registered users
+ * @property {number} activeToday - Daily active users
+ * @property {number} projectsGenerated - Total projects generated
+ * @property {number} appsDeployed - Total applications deployed
+ * @property {number} totalAIRequests - Total AI requests processed
+ * @property {number} averageResponseTime - Average response time in seconds
+ * @property {number} uptimePercentage - Platform uptime percentage
+ * @property {number} conversionRate - User conversion rate percentage
+ * @property {number} customerSatisfaction - Customer satisfaction score (1-5)
+ * @property {number} monthlyGrowthRate - Monthly growth rate percentage
+ * @property {number} retentionRate - User retention rate percentage
+ * @property {number} averageSessionTime - Average session time in minutes
+ */
 export const getPlatformStats = () => ({
   totalUsers: 8247, // Growing startup user base
   activeToday: 1834, // Healthy daily active users
@@ -43,7 +80,21 @@ export const getPlatformStats = () => ({
   averageSessionTime: 24.5 // Minutes - good engagement
 });
 
-// Growth metrics for realistic startup analytics
+/**
+ * Retrieves growth metrics for startup analytics
+ * @returns {Object} Growth metrics including user acquisition and feature usage
+ * @property {number} newUsersToday - New users registered today
+ * @property {number} newUsersThisWeek - New users registered this week
+ * @property {number} newUsersThisMonth - New users registered this month
+ * @property {number} weekOverWeekGrowth - Week-over-week growth percentage
+ * @property {number} monthOverMonthGrowth - Month-over-month growth percentage
+ * @property {number} quarterOverQuarterGrowth - Quarter-over-quarter growth percentage
+ * @property {string} topUserSegment - Most active user segment
+ * @property {string} topFeature - Most used feature
+ * @property {string} mostActiveTimeUTC - Peak activity time in UTC
+ * @property {number} peakConcurrentUsers - Peak concurrent users
+ * @property {number} averageProjectsPerUser - Average projects per user
+ */
 export const getGrowthMetrics = () => ({
   newUsersToday: 127,
   newUsersThisWeek: 842,
@@ -58,7 +109,21 @@ export const getGrowthMetrics = () => ({
   averageProjectsPerUser: 1.9
 });
 
-// Feature usage statistics for product analytics
+/**
+ * Retrieves feature usage statistics for product analytics
+ * @returns {Object} Feature usage data with usage counts and conversion rates
+ * @property {Object} fullStackBuilder - Full-stack builder usage statistics
+ * @property {Object} contentGenerator - Content generator usage statistics
+ * @property {Object} multiAgent - Multi-agent system usage statistics
+ * @property {Object} deployment - Deployment feature usage statistics
+ * @property {Object} analytics - Analytics feature usage statistics
+ * @property {Object} collaboration - Collaboration feature usage statistics
+ * @property {Object} brandKit - Brand kit feature usage statistics
+ * @property {Object} aiTools - AI tools usage statistics
+ * @example
+ * const featureStats = getFeatureUsageStats();
+ * console.log(featureStats.fullStackBuilder.usage); // 4892
+ */
 export const getFeatureUsageStats = () => ({
   fullStackBuilder: { usage: 4892, conversionRate: 89.2 },
   contentGenerator: { usage: 3456, conversionRate: 72.8 },
@@ -70,7 +135,20 @@ export const getFeatureUsageStats = () => ({
   aiTools: { usage: 6742, conversionRate: 91.2 }
 });
 
-// Revenue metrics for business analytics
+/**
+ * Retrieves revenue metrics for business analytics
+ * @returns {Object} Revenue metrics including MRR, ARR, and conversion rates
+ * @property {number} mrr - Monthly Recurring Revenue in USD
+ * @property {number} arr - Annual Recurring Revenue in USD
+ * @property {number} averageRevenuePerUser - Average revenue per user in USD
+ * @property {number} lifetimeValue - Customer lifetime value in USD
+ * @property {number} churnRate - Customer churn rate percentage
+ * @property {number} expansionRevenue - Expansion revenue in USD
+ * @property {number} paidConversionRate - Paid conversion rate percentage
+ * @property {number} trialToPayConversion - Trial to paid conversion rate percentage
+ * @property {number} revenueGrowthRate - Revenue growth rate percentage
+ * @property {number} customerAcquisitionCost - Customer acquisition cost in USD
+ */
 export const getRevenueMetrics = () => ({
   mrr: 28450, // Monthly Recurring Revenue in USD
   arr: 341400, // Annual Recurring Revenue
@@ -84,6 +162,15 @@ export const getRevenueMetrics = () => ({
   customerAcquisitionCost: 12.40
 });
 
+/**
+ * Marks a task as completed and updates user statistics with XP rewards
+ * @param {UserStats} userStats - Current user statistics
+ * @param {string} taskId - ID of the task to complete
+ * @param {Array} tasks - Array of available tasks
+ * @returns {UserStats} Updated user statistics with XP reward and incremented daily tasks
+ * @example
+ * const updated = completeTask(currentStats, 'task-123', allTasks);
+ */
 export const completeTask = (userStats: UserStats, taskId: string, tasks: any[]): UserStats => {
   const task = tasks.find(t => t.id === taskId);
   if (task && !task.completed) {

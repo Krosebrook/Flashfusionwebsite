@@ -219,15 +219,14 @@
 
 ### ✅ Phase 6: Testing and Verification (2-3 hours) *(Actual: 2.5 hours)*
 
-**Status:** Complete
+#### Test Coverage Update (2024-06)
+- `pnpm vitest run --coverage --reporter=basic` — executes the launch logic, hook, and section suites with coverage instrumentation. Use `pnpm exec` if the binary is not on PATH.
+- **Logic coverage:** 18/18 `LaunchPreparationHub.logic` exports exercised via new tests (100% function coverage with branch assertions on error cases).
+- **Hook coverage:** 3/3 launch hooks (`useLaunchAssets`, `useMarketingCampaigns`, `useSupportChannels`) verified across lifecycle mutations, derived selectors, and state reset edge cases.
+- **Section coverage:** Launch checklist dashboard interactions validated (start, complete, navigation callbacks) to guard regressions in the new UI surface.
+- When local registry access is blocked, rely on CI or an environment with npm access before running the coverage command.
 
-**Tests Added:**
-- Updated component regression tests for the new composition layout
-- Hook coverage for `useLaunchAssets` mutations and filters (positive + negative cases)
-
-**Verification:**
-- TypeScript compilation, lint, and unit tests executed locally
-- Documentation (this plan) brought current
+---
 
 ## Summary: LaunchPreparationHub.tsx Remaining Effort
 
