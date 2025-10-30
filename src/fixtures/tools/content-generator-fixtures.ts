@@ -1,23 +1,62 @@
 /**
- * Mock data fixtures for ContentGeneratorTool
- * Extracted from components/tools/ContentGeneratorTool.tsx
+ * Mock data fixtures for ContentGeneratorTool variants
+ * Sourced from components/tools/ContentGeneratorTool.tsx and
+ * components/tools/generation/ContentGeneratorTool.tsx
  */
 
-export const CONTENT_TYPES = [
-  { value: 'social-post', label: 'Social Media Post', description: 'Engaging social content' },
-  { value: 'blog-article', label: 'Blog Article', description: 'Long-form blog content' },
-  {
-    value: 'product-description',
-    label: 'Product Description',
-    description: 'E-commerce product copy',
-  },
-  { value: 'email-campaign', label: 'Email Campaign', description: 'Email marketing content' },
-  { value: 'ad-copy', label: 'Advertisement Copy', description: 'Promotional ad content' },
-  { value: 'video-script', label: 'Video Script', description: 'Video content script' },
-  { value: 'newsletter', label: 'Newsletter', description: 'Weekly/monthly newsletter' },
-  { value: 'press-release', label: 'Press Release', description: 'Official announcements' },
+export interface ContentTypeOption {
+  value: string;
+  label: string;
+  icon: string;
+  description: string;
+}
+
+export interface ToneOption {
+  value: string;
+  label: string;
+  description: string;
+}
+
+export interface AudienceOption {
+  value: string;
+  label: string;
+  description: string;
+}
+
+export const CONTENT_TYPES: ContentTypeOption[] = [
+  { value: 'blog-post', label: 'Blog Post', icon: '📝', description: 'Engaging blog articles' },
+  { value: 'article', label: 'Article', icon: '📰', description: 'In-depth articles' },
+  { value: 'documentation', label: 'Documentation', icon: '📚', description: 'Technical documentation' },
+  { value: 'marketing-copy', label: 'Marketing Copy', icon: '📢', description: 'Sales and marketing content' },
+  { value: 'social-media', label: 'Social Media', icon: '📱', description: 'Social media posts' },
+  { value: 'email', label: 'Email', icon: '✉️', description: 'Email campaigns' },
+  { value: 'product-description', label: 'Product Description', icon: '🛍️', description: 'E-commerce descriptions' },
+  { value: 'press-release', label: 'Press Release', icon: '📺', description: 'Media announcements' },
 ];
 
+export const TONE_OPTIONS: ToneOption[] = [
+  { value: 'professional', label: 'Professional', description: 'Formal business tone' },
+  { value: 'conversational', label: 'Conversational', description: 'Friendly and approachable' },
+  { value: 'authoritative', label: 'Authoritative', description: 'Expert and confident' },
+  { value: 'casual', label: 'Casual', description: 'Relaxed and informal' },
+  { value: 'persuasive', label: 'Persuasive', description: 'Compelling and action-oriented' },
+  { value: 'educational', label: 'Educational', description: 'Informative and teaching' },
+  { value: 'entertaining', label: 'Entertaining', description: 'Engaging and fun' },
+  { value: 'empathetic', label: 'Empathetic', description: 'Understanding and caring' },
+];
+
+export const AUDIENCE_OPTIONS: AudienceOption[] = [
+  { value: 'general', label: 'General Public', description: 'Broad audience appeal' },
+  { value: 'technical', label: 'Technical Professionals', description: 'Developers and engineers' },
+  { value: 'business', label: 'Business Leaders', description: 'Executives and managers' },
+  { value: 'consumers', label: 'Consumers', description: 'End customers' },
+  { value: 'students', label: 'Students', description: 'Educational audience' },
+  { value: 'experts', label: 'Industry Experts', description: 'Specialized professionals' },
+];
+
+/**
+ * Legacy fixtures kept for compatibility with the original ContentGenerator tool.
+ */
 export const PLATFORMS = [
   { value: 'twitter', label: 'Twitter/X', icon: '𝕏', limit: 280 },
   { value: 'instagram', label: 'Instagram', icon: '📸', limit: 2200 },
@@ -29,27 +68,8 @@ export const PLATFORMS = [
   { value: 'email', label: 'Email', icon: '✉️', limit: 200 },
 ];
 
-export const TONES = [
-  { value: 'professional', label: 'Professional', description: 'Formal and business-like' },
-  { value: 'casual', label: 'Casual', description: 'Relaxed and friendly' },
-  { value: 'humorous', label: 'Humorous', description: 'Light-hearted and funny' },
-  { value: 'inspirational', label: 'Inspirational', description: 'Motivating and uplifting' },
-  { value: 'educational', label: 'Educational', description: 'Informative and teaching' },
-  { value: 'conversational', label: 'Conversational', description: 'Natural dialogue style' },
-  { value: 'urgent', label: 'Urgent', description: 'Time-sensitive and pressing' },
-  { value: 'luxury', label: 'Luxury', description: 'Premium and sophisticated' },
-];
-
-export const AUDIENCES = [
-  { value: 'general', label: 'General Audience', description: 'Broad appeal' },
-  { value: 'millennials', label: 'Millennials', description: '25-40 years old' },
-  { value: 'gen-z', label: 'Gen Z', description: '18-25 years old' },
-  { value: 'professionals', label: 'Professionals', description: 'Business audience' },
-  { value: 'entrepreneurs', label: 'Entrepreneurs', description: 'Business owners' },
-  { value: 'tech-enthusiasts', label: 'Tech Enthusiasts', description: 'Technology interested' },
-  { value: 'creatives', label: 'Creatives', description: 'Artists and designers' },
-  { value: 'parents', label: 'Parents', description: 'Family-focused audience' },
-];
+export const TONES = TONE_OPTIONS;
+export const AUDIENCES = AUDIENCE_OPTIONS;
 
 export const LANGUAGES = [
   { value: 'en', label: 'English' },

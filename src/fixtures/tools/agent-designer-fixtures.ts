@@ -6,7 +6,7 @@
 export interface AgentPlatform {
   id: string;
   name: string;
-  type: 'assistant' | 'chatbot' | 'voice' | 'automation';
+  type: 'assistant' | 'chatbot' | 'voice' | 'automation' | 'multimodal';
   icon: string;
   description: string;
   pricing: string;
