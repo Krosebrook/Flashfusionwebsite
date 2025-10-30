@@ -18,7 +18,7 @@ import {
 /**
  * Generated document metadata
  */
-interface GeneratedDocument {
+export interface GeneratedDocument {
   id: string;
   type: DocumentationType | 'press-kit';
   filename: string;

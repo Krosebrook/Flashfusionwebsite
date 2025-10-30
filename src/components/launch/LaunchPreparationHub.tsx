@@ -1,12 +1,5 @@
 /**
- * @fileoverview Launch Preparation Hub - Step 9 Implementation
- * @chunk launch
- * @category marketing
- * @version 1.0.0
- * @author FlashFusion Team
- * 
- * Comprehensive launch preparation system with documentation generation,
- * marketing materials, support systems, and legal compliance tools.
+ * @fileoverview Launch Preparation Hub - decomposed composition layer
  */
 
 import React, { useMemo } from 'react';
