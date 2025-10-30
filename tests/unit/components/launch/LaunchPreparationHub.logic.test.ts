@@ -9,6 +9,12 @@ import {
   getCompletionScore,
   calculateOverallProgress,
   getDocumentationFilename,
+  generateUserManualContent,
+  generateApiDocsContent,
+  generateTutorialScriptsContent,
+  generateFAQContent,
+  generatePressKitContent,
+  getDocumentationContent,
   validateDocumentationRequest,
   formatGeneratedContent,
   processMarketingCopy,
@@ -16,6 +22,7 @@ import {
   aggregateSupportMetrics,
   getAssetStatistics,
   filterAssets,
+  mapAssetsToTimeline,
   type DocumentationType,
 } from '@/components/launch/LaunchPreparationHub.logic';
 import type {
@@ -114,6 +121,66 @@ describe('LaunchPreparationHub.logic', () => {
         'FlashFusion-FAQ-and-Troubleshooting.md'
       );
     });
+
+    it('should fall back to default filename for unknown type', () => {
+      expect(getDocumentationFilename('unknown' as DocumentationType)).toBe(
+        'FlashFusion-Documentation.md'
+      );
+    });
+  });
+
+  describe('documentation content generators', () => {
+    it('should generate user manual content with expected heading', () => {
+      const content = generateUserManualContent();
+      expect(content).toContain('# FlashFusion User Manual');
+      expect(content).toContain('Getting Started');
+    });
+
+    it('should generate API docs content with base URL', () => {
+      const content = generateApiDocsContent();
+      expect(content).toContain('# FlashFusion API Documentation');
+      expect(content).toContain('https://api.flashfusion.ai/v1');
+    });
+
+    it('should generate tutorial scripts content with video section', () => {
+      const content = generateTutorialScriptsContent();
+      expect(content).toContain('# FlashFusion Video Tutorials - Production Scripts');
+      expect(content).toContain('Tutorial 1: Getting Started');
+    });
+
+    it('should generate FAQ content with troubleshooting guide', () => {
+      const content = generateFAQContent();
+      expect(content).toContain('# FlashFusion FAQ & Troubleshooting Guide');
+      expect(content).toContain('## Troubleshooting Guide');
+    });
+
+    it('should generate press kit content with company overview', () => {
+      const content = generatePressKitContent();
+      expect(content).toContain('# FlashFusion Press Kit');
+      expect(content).toContain('Company Overview');
+    });
+  });
+
+  describe('getDocumentationContent', () => {
+    it('should return user manual content for user-manual type', () => {
+      expect(getDocumentationContent('user-manual')).toContain('# FlashFusion User Manual');
+    });
+
+    it('should return API docs content for api-docs type', () => {
+      expect(getDocumentationContent('api-docs')).toContain('# FlashFusion API Documentation');
+    });
+
+    it('should return tutorial scripts content for tutorials type', () => {
+      expect(getDocumentationContent('tutorials')).toContain('Video Tutorials');
+    });
+
+    it('should return FAQ content for faq type', () => {
+      expect(getDocumentationContent('faq')).toContain('FAQ');
+    });
+
+    it('should return empty string for unknown type', () => {
+      expect(getDocumentationContent('unknown' as DocumentationType)).toBe('');
+    });
   });
 
   describe('validateDocumentationRequest', () => {
@@ -128,6 +195,12 @@ describe('LaunchPreparationHub.logic', () => {
       const result = validateDocumentationRequest('invalid-type' as DocumentationType);
       expect(result.valid).toBe(false);
       expect(result.error).toContain('Invalid documentation type');
+    });
+
+    it('should accept valid types with additional specifications', () => {
+      const result = validateDocumentationRequest('user-manual', { audience: 'beta-testers' });
+      expect(result.valid).toBe(true);
+      expect(result.error).toBeUndefined();
     });
   });
 
@@ -146,6 +219,13 @@ describe('LaunchPreparationHub.logic', () => {
       const content = 'Test content with special characters: !@#$%';
       const formatted = formatGeneratedContent(content, 'test');
       expect(formatted).toContain(content);
+    });
+
+    it('should include metadata header at the beginning', () => {
+      const content = 'Body';
+      const formatted = formatGeneratedContent(content, 'metadata-test');
+      expect(formatted.startsWith('---')).toBe(true);
+      expect(formatted).toContain('Generator: FlashFusion LaunchPreparationHub');
     });
   });
 
@@ -173,6 +253,12 @@ describe('LaunchPreparationHub.logic', () => {
 
       expect(result).toContain('Hello John');
       expect(result).toContain('{{greeting}}');
+    });
+
+    it('should handle empty variables object gracefully', () => {
+      const template = 'Static content without variables';
+      const result = processMarketingCopy(template, {});
+      expect(result).toBe(template);
     });
   });
 
@@ -216,6 +302,14 @@ describe('LaunchPreparationHub.logic', () => {
       const result = calculateCampaignROI(zeroBudgetCampaign);
 
       expect(result.roi).toBe(0);
+    });
+
+    it('should handle zero engagement rates without NaN', () => {
+      const noEngagementCampaign = { ...mockCampaign, engagement: 0 };
+      const result = calculateCampaignROI(noEngagementCampaign);
+
+      expect(result.costPerEngagement).toBe(0);
+      expect(result.roi).toBeDefined();
     });
   });
 
@@ -277,6 +371,17 @@ describe('LaunchPreparationHub.logic', () => {
       expect(result.totalVolume).toBe(0);
       expect(result.averageSatisfaction).toBe(0);
       expect(result.activeChannels).toBe(0);
+    });
+
+    it('should calculate metrics when all channels inactive', () => {
+      const inactiveChannels = mockChannels.map((channel) => ({
+        ...channel,
+        status: 'setup' as SupportChannel['status'],
+      }));
+      const result = aggregateSupportMetrics(inactiveChannels);
+
+      expect(result.activeChannels).toBe(0);
+      expect(result.channelsByType.email).toBe(1);
     });
   });
 
@@ -419,6 +524,73 @@ describe('LaunchPreparationHub.logic', () => {
     it('should return all assets with empty criteria', () => {
       const filtered = filterAssets(mockAssets, {});
       expect(filtered).toHaveLength(3);
+    });
+
+    it('should return empty array when no assets match criteria', () => {
+      const filtered = filterAssets(mockAssets, { status: ['archived' as LaunchAsset['status']] });
+      expect(filtered).toHaveLength(0);
+    });
+  });
+
+  describe('mapAssetsToTimeline', () => {
+    it('should map assets with due dates into sorted timeline', () => {
+      const assets: LaunchAsset[] = [
+        {
+          id: 'a',
+          type: 'documentation',
+          title: 'First',
+          description: 'A',
+          status: 'draft',
+          priority: 'high',
+          progress: 10,
+          tags: [],
+          dueDate: new Date('2024-01-02T00:00:00.000Z'),
+        },
+        {
+          id: 'b',
+          type: 'video',
+          title: 'Second',
+          description: 'B',
+          status: 'approved',
+          priority: 'medium',
+          progress: 90,
+          tags: [],
+          dueDate: new Date('2024-01-01T00:00:00.000Z'),
+        },
+        {
+          id: 'c',
+          type: 'press-kit',
+          title: 'No Due',
+          description: 'C',
+          status: 'review',
+          priority: 'low',
+          progress: 50,
+          tags: [],
+        },
+      ];
+
+      const timeline = mapAssetsToTimeline(assets);
+
+      expect(timeline).toHaveLength(2);
+      expect(timeline[0].title).toBe('Second');
+      expect(timeline[1].title).toBe('First');
+    });
+
+    it('should return empty array when no assets have due dates', () => {
+      const assets: LaunchAsset[] = [
+        {
+          id: 'a',
+          type: 'documentation',
+          title: 'No Due',
+          description: 'A',
+          status: 'draft',
+          priority: 'low',
+          progress: 0,
+          tags: [],
+        },
+      ];
+
+      expect(mapAssetsToTimeline(assets)).toHaveLength(0);
     });
   });
 });
