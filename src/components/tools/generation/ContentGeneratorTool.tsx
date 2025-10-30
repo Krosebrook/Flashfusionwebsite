@@ -32,11 +32,11 @@ import { Badge } from '../../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../ui/tabs';
 import { Slider } from '../../ui/slider';
 import { Progress } from '../../ui/progress';
-import { 
-  FileText, 
-  PenTool, 
-  Globe, 
-  Target, 
+import {
+  FileText,
+  PenTool,
+  Globe,
+  Target,
   TrendingUp,
   Zap,
   Download,
@@ -203,9 +203,13 @@ export function ContentGeneratorTool(): JSX.Element {
     toast.success('Content downloaded successfully');
   }, [generatedContent]);
 
-  const selectedContentType = CONTENT_TYPES.find(type => type.value === config.type);
-  const selectedTone = TONE_OPTIONS.find(tone => tone.value === config.tone);
-  const selectedAudience = AUDIENCE_OPTIONS.find(audience => audience.value === config.audience);
+  const selectedContentType: ContentTypeOption | undefined = CONTENT_TYPES.find(
+    type => type.value === config.type
+  );
+  const selectedTone: ToneOption | undefined = TONE_OPTIONS.find(tone => tone.value === config.tone);
+  const selectedAudience: AudienceOption | undefined = AUDIENCE_OPTIONS.find(
+    audience => audience.value === config.audience
+  );
 
   return (
     <div className="space-y-6 ff-fade-in-up">
