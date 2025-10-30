@@ -21,7 +21,7 @@ import {
   Clock,
   Target
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import AIService from '../../../services/AIService';
 
 interface IntegrationTesterProps {
