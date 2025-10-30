@@ -8,8 +8,8 @@
  */
 
 import { useState, useCallback, useMemo } from 'react';
-import type { MarketingCampaign } from './LaunchPreparationHub.types';
-import { calculateCampaignROI } from './LaunchPreparationHub.logic';
+import type { MarketingCampaign } from '../LaunchPreparationHub.types';
+import { calculateCampaignROI } from '../LaunchPreparationHub.logic';
 
 /**
  * Custom hook for managing marketing campaigns

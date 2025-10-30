@@ -8,8 +8,8 @@
  */
 
 import { useState, useCallback, useMemo } from 'react';
-import type { LaunchAsset } from './LaunchPreparationHub.types';
-import { filterAssets, getAssetStatistics } from './LaunchPreparationHub.logic';
+import type { LaunchAsset } from '../LaunchPreparationHub.types';
+import { filterAssets, getAssetStatistics } from '../LaunchPreparationHub.logic';
 
 /**
  * Custom hook for managing launch assets

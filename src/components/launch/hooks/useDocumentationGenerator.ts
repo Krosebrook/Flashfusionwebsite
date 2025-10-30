@@ -13,7 +13,7 @@ import {
   getDocumentationFilename,
   generatePressKitContent,
   type DocumentationType,
-} from './LaunchPreparationHub.logic';
+} from '../LaunchPreparationHub.logic';
 
 /**
  * Generated document metadata
