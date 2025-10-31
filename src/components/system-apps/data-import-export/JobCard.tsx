@@ -17,7 +17,7 @@ import {
 } from '../../../utils/data-import-export';
 import type { JobCardProps, ImportJob, ExportJob } from '../../../types/data-import-export';
 
-export function JobCard({ job, type, onCancel, onRetry, onDownload, onViewDetails }: JobCardProps) {
+export const JobCard = React.memo(function JobCard({ job, type, onCancel, onRetry, onDownload, onViewDetails }: JobCardProps) {
   const statusIconInfo = getStatusIcon(job.status);
   const isImportJob = 'source' in job;
   const sourceOrDestination = isImportJob ? (job as ImportJob).source : (job as ExportJob).destination;
@@ -137,4 +137,4 @@ export function JobCard({ job, type, onCancel, onRetry, onDownload, onViewDetail
       </CardContent>
     </Card>
   );
-}
+});
