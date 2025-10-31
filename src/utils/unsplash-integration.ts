@@ -9,6 +9,8 @@
  * used as placeholders for AI-generated images in demo mode.
  */
 
+import { generateShortId } from './id-generator';
+
 /**
  * Fetches a high-quality image from Unsplash based on search query
  * This is used as a demonstration of real image generation capabilities
@@ -46,8 +48,7 @@ export async function unsplash_tool(query: string): Promise<string> {
     console.warn('⚠️ Unsplash fetch failed, using fallback:', error);
     
     // Fallback to a random abstract image with a cache-busting parameter
-    const cacheBust = Math.random().toString(36).substring(2, 11);
-    return `https://source.unsplash.com/1024x1024/?abstract,art&sig=${cacheBust}`;
+    return `https://source.unsplash.com/1024x1024/?abstract,art&sig=${generateShortId()}`;
   }
 }
 
@@ -73,8 +74,7 @@ export async function unsplash_tool_batch(query: string, count: number = 4): Pro
     } catch (error) {
       console.error(`Failed to fetch image ${i + 1}:`, error);
       // Add fallback image with variation
-      const cacheBust = Math.random().toString(36).substring(2, 11);
-      images.push(`https://source.unsplash.com/1024x1024/?random&sig=${cacheBust}-${i}`);
+      images.push(`https://source.unsplash.com/1024x1024/?random&sig=${generateShortId()}-${i}`);
     }
   }
   
@@ -113,8 +113,7 @@ export async function unsplash_tool_sized(query: string, width: number = 1024, h
     }
   } catch (error) {
     console.warn('⚠️ Sized Unsplash fetch failed, using fallback:', error);
-    const cacheBust = Math.random().toString(36).substring(2, 11);
-    return `https://source.unsplash.com/${width}x${height}/?abstract,art&sig=${cacheBust}`;
+    return `https://source.unsplash.com/${width}x${height}/?abstract,art&sig=${generateShortId()}`;
   }
 }
 
