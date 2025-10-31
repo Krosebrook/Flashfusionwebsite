@@ -48,6 +48,7 @@ import {
   type GenerationError,
   type ImageGenerationPreferences
 } from '../types/image-generation';
+import { generateId, generateSessionId } from '../utils/id-generator';
 import { projectId, publicAnonKey } from '../utils/supabase/info';
 
 /**
@@ -341,7 +342,7 @@ export function useImageGeneration(config: UseImageGenerationConfig = {}): UseIm
       // Add to history
       if (finalConfig.saveHistory) {
         const historyEntry: GenerationHistoryEntry = {
-          id: generateId(),
+          id: generateId('img'),
           request: finalRequest,
           images,
           timestamp: Date.now(),
@@ -401,7 +402,7 @@ export function useImageGeneration(config: UseImageGenerationConfig = {}): UseIm
    */
   const generateBatch = useCallback(async (requests: ImageGenerationRequest[]): Promise<BatchGenerationJob> => {
     const job: BatchGenerationJob = {
-      id: generateId(),
+      id: generateId('batch'),
       name: `Batch Generation ${new Date().toLocaleString()}`,
       baseRequest: requests[0],
       promptVariations: requests.map(r => r.prompt),
@@ -556,20 +557,6 @@ export function useImageGeneration(config: UseImageGenerationConfig = {}): UseIm
 /**
  * Utility Functions
  */
-
-/**
- * Generate unique ID
- */
-function generateId(): string {
-  return `img_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
-}
-
-/**
- * Generate session ID
- */
-function generateSessionId(): string {
-  return `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
-}
 
 /**
  * Extract tags from prompt

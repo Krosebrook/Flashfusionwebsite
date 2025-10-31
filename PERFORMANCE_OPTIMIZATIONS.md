@@ -125,18 +125,20 @@ export const DataSourceCard = React.memo(function DataSourceCard({ source, onCon
 
 ### For Future Optimization:
 
-1. **Lazy Loading**: Consider lazy loading heavy components using `React.lazy()`
-2. **Code Splitting**: Implement route-based code splitting for faster initial load
-3. **Image Optimization**: Use WebP format with fallbacks for better image loading
-4. **Bundle Analysis**: Run `rollup-plugin-visualizer` to identify large dependencies
-5. **Service Worker**: Add service worker for offline capabilities and faster repeat visits
+1. **Console.log Migration**: Complete migration of remaining console statements to use the `logger.ts` utility (many instances remain across the codebase)
+2. **Lazy Loading**: Consider lazy loading heavy components using `React.lazy()`
+3. **Code Splitting**: Implement route-based code splitting for faster initial load
+4. **Image Optimization**: Use WebP format with fallbacks for better image loading
+5. **Bundle Analysis**: Run `rollup-plugin-visualizer` to identify large dependencies
+6. **Service Worker**: Add service worker for offline capabilities and faster repeat visits
 
-### Files with High Console.log Usage:
+### Remaining Work:
 
-These files still have console statements that could be migrated to use the logger utility:
+While 40+ files were updated with `substr()` → `substring()` replacements, there are still some files that could benefit from:
 
-- Various component files (451 instances found)
-- Consider batch migration using the new `logger.ts` utility
+- Migration of console.log statements to the new logger utility
+- Additional React.memo opportunities in other presentational components
+- Batch replacing substr() in remaining component files
 
 ## Testing Recommendations
 
