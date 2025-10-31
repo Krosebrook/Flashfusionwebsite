@@ -197,7 +197,7 @@ class ComponentPool {
     props: P,
     poolKey: string
   ): PooledComponent {
-    const id = `${poolKey}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const id = `${poolKey}_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
     const now = Date.now();
     
     return {

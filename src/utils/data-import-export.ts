@@ -75,7 +75,7 @@ export const calculateProgress = (processed: number, total: number): number => {
 };
 
 export const generateJobId = (type: 'import' | 'export'): string => {
-  return `${type}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  return `${type}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
 };
 
 export const validateJobName = (name: string): boolean => {
