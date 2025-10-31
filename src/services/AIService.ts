@@ -1,5 +1,6 @@
 import { toast } from 'sonner';
 import { APIKeyService, type APIProvider } from './APIKeyService';
+import { generateRequestId } from '../utils/id-generator';
 
 /**
  * FlashFusion AI Service
@@ -584,7 +585,7 @@ Generate production-ready code that follows these guidelines exactly.`;
     }
 
     const startTime = Date.now();
-    const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const requestId = generateRequestId();
 
     try {
       let response: Response;

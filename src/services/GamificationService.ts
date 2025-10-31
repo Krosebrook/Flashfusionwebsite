@@ -283,7 +283,7 @@ class GamificationServiceClass {
       const events = JSON.parse(localStorage.getItem(key) || '[]');
       const newEvent: XPEvent = {
         ...event,
-        id: `local_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        id: `local_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
         created_at: new Date().toISOString()
       };
       events.unshift(newEvent);

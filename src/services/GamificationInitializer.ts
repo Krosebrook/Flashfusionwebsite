@@ -62,7 +62,7 @@ export class GamificationInitializer {
     let userId = localStorage.getItem('ff_user_id');
     
     if (!userId) {
-      userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      userId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
       localStorage.setItem('ff_user_id', userId);
       localStorage.setItem('user_id', userId); // Backwards compatibility
       console.log('🆔 Created new user ID:', userId);

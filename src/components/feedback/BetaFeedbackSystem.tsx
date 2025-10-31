@@ -905,15 +905,15 @@ export function BetaFeedbackSystem(): JSX.Element {
  * Helper functions
  */
 function generateSessionId(): string {
-  return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 }
 
 function generateUserId(): string {
-  return `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `user_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 }
 
 function generateFeedbackId(): string {
-  return `feedback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `feedback_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 }
 
 async function submitFeedbackToAPI(feedback: Partial<FeedbackItem>): Promise<void> {

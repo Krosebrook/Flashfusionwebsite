@@ -3,6 +3,8 @@
  * Privacy-focused analytics and user behavior tracking
  */
 
+import { generateSessionId } from './id-generator';
+
 interface AnalyticsEvent {
   event: string;
   properties?: Record<string, any>;
@@ -53,7 +55,7 @@ class FlashFusionAnalytics {
   }
 
   private generateSessionId(): string {
-    return `ff_session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+    return generateSessionId();
   }
 
   private initializeSession(): UserSession {

@@ -561,14 +561,14 @@ export function useImageGeneration(config: UseImageGenerationConfig = {}): UseIm
  * Generate unique ID
  */
 function generateId(): string {
-  return `img_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `img_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 }
 
 /**
  * Generate session ID
  */
 function generateSessionId(): string {
-  return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 }
 
 /**

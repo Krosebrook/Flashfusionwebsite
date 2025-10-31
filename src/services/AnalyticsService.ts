@@ -29,7 +29,7 @@ class AnalyticsService {
   public isDevelopment: boolean;
 
   constructor() {
-    this.sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    this.sessionId = `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
     
     // Safe environment detection using simpler method
     this.isDevelopment = this.isSimpleDevMode();

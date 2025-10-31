@@ -105,7 +105,7 @@ export class AIServiceManager {
 
   async generateContent(request: AIRequest, preferredProvider?: string): Promise<AIResponse> {
     const startTime = Date.now();
-    const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const requestId = `req_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 
     try {
       // Select optimal provider
