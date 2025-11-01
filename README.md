@@ -2,6 +2,26 @@
 
 FlashFusion delivers a branded marketing experience, demo sandbox, and authenticated app shell for an AI-assisted product building platform. The repository currently hosts the front-end, extensive product documentation, deployment scripts, and Supabase edge function prototypes.
 
+## 🚀 New Here? Start With These:
+- **[QUICK_START_GUIDE.md](./QUICK_START_GUIDE.md)** - First 30 minutes orientation
+- **[NEEDED_TASKS.md](./NEEDED_TASKS.md)** - What to work on (16 prioritized tasks)
+- **[docs/ops/senior-snapshot.md](./docs/ops/senior-snapshot.md)** - Executive context
+
+## ⚠️ Current Status: NEEDS ATTENTION
+
+**Health Score**: 🟠 **REQUIRES IMMEDIATE FIXES** (see [COMPREHENSIVE_AUDIT_2025.md](./COMPREHENSIVE_AUDIT_2025.md))
+
+**Critical Blockers**:
+- ❌ Cannot install dependencies (wildcard versions + Storybook conflicts)
+- ❌ Build system untested
+- ❌ No CI/CD pipeline
+- **Next Step**: See `NEEDED_TASKS.md` Task 1.1 (Fix Dependencies)
+
+**What's Working**:
+- ✅ Excellent documentation and planning
+- ✅ Clear architectural patterns established
+- ✅ LaunchPreparationHub.tsx fully decomposed (example to follow)
+
 ## Status Snapshot
 - **Runtime**: React 18 + Vite + TypeScript targeting modern browsers.
 - **Styling**: Custom design system implemented through CSS variables and utility classes in `src/styles/globals.css`.
@@ -11,13 +31,15 @@ FlashFusion delivers a branded marketing experience, demo sandbox, and authentic
 
 ## Getting Started
 
+⚠️ **KNOWN ISSUE**: Dependency installation currently fails. See `NEEDED_TASKS.md` Task 1.1 for details and fix plan.
+
 ### Prerequisites
-- Node.js 20 LTS (or newer) and pnpm 8+.
+- Node.js 20 LTS (or newer) and pnpm 8+ (or npm).
 - Access to internal `@flashfusion/*` packages if running the full experience; without them the app runs in demo mode with mocked services.
 
-### Installation
+### Installation (Currently Blocked - See Task 1.1)
 ```bash
-pnpm install
+pnpm install  # OR: npm install
 ```
 > The command will warn/fail if the proprietary `@flashfusion/*` packages are unreachable. When that happens either provide the internal registry credentials or stub the packages locally before continuing.
 
@@ -54,11 +76,24 @@ pnpm exec playwright test --project=chromium  # Run smoke E2E suite
 ```
 
 ## Documentation & Planning
+
+### 🎯 For Contributors
+- **[QUICK_START_GUIDE.md](./QUICK_START_GUIDE.md)** - New team member orientation (start here!)
+- **[NEEDED_TASKS.md](./NEEDED_TASKS.md)** - Prioritized task list with effort estimates
+- **[docs/DEVELOPER_HANDOFF_GUIDE.md](./docs/DEVELOPER_HANDOFF_GUIDE.md)** - How to contribute
+- **[docs/COMPONENT_DECOMPOSITION_GUIDE.md](./docs/COMPONENT_DECOMPOSITION_GUIDE.md)** - Refactoring pattern
+
+### 📊 Project Status
 - **Executive snapshot** – `docs/ops/senior-snapshot.md`
 - **Roadmap** – `docs/ops/roadmap.md`
+- **Audit Report** – `COMPREHENSIVE_AUDIT_2025.md`
+- **Refactoring Progress** – `STEP_3_DECOMPOSITION_PLAN.md`
+
+### 📚 Reference Documentation
 - **Operational runbooks** – `docs/ops/new-feature-rollout.md`
 - **API & integration specs** – `docs/api/`
 - **Testing references** – `docs/testing/`
+- **Analysis reports** – `reports/*.json` (machine-readable)
 
 Keep documentation changes synchronized with code updates. Any new module or major decision should be reflected in `docs/` and cross-linked from the snapshot or roadmap where appropriate.
 
