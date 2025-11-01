@@ -55,6 +55,7 @@ import {
   Heart
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { generateSessionId, generateUserId, generateId } from '../../utils/id-generator';
 
 interface FeedbackItem {
   id: string;
@@ -904,16 +905,8 @@ export function BetaFeedbackSystem(): JSX.Element {
 /**
  * Helper functions
  */
-function generateSessionId(): string {
-  return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-}
-
-function generateUserId(): string {
-  return `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-}
-
 function generateFeedbackId(): string {
-  return `feedback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return generateId('feedback');
 }
 
 async function submitFeedbackToAPI(feedback: Partial<FeedbackItem>): Promise<void> {

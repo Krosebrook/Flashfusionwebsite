@@ -25,7 +25,7 @@ export function useGamification(userId?: string): UseGamificationReturn {
     const existing = localStorage.getItem('user_id');
     if (existing) return existing;
     
-    const newId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const newId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
     localStorage.setItem('user_id', newId);
     return newId;
   })();

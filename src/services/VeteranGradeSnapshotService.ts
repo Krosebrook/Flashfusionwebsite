@@ -5,6 +5,7 @@
  * @author FlashFusion Team
  */
 
+import { generateId } from '../utils/id-generator';
 import type {
   VeteranGradeSnapshot,
   MetricData,
@@ -147,7 +148,7 @@ class VeteranGradeSnapshotServiceClass {
 
       // Create snapshot
       const snapshot: VeteranGradeSnapshot = {
-        id: `snapshot_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        id: generateId('snapshot'),
         userId: request.userId,
         experienceLevel: request.experienceLevel || 'veteran',
         timestamp: new Date(),

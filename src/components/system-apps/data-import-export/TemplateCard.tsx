@@ -5,7 +5,7 @@ import { Badge } from '../../ui/badge';
 import { Eye, Play, FileText } from 'lucide-react';
 import type { TemplateCardProps } from '../../../types/data-import-export';
 
-export function TemplateCard({ template, onUse, onPreview }: TemplateCardProps) {
+export const TemplateCard = React.memo(function TemplateCard({ template, onUse, onPreview }: TemplateCardProps) {
   const getTypeColor = (type: string) => {
     return type === 'import' 
       ? 'bg-primary/10 text-primary border-primary/20'
@@ -92,4 +92,4 @@ export function TemplateCard({ template, onUse, onPreview }: TemplateCardProps) 
       </CardContent>
     </Card>
   );
-}
+});

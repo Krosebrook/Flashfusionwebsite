@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -183,6 +183,27 @@ export function AIProductContentGenerator() {
       )
     );
   };
+
+  // Memoize filtered content to avoid re-filtering on every render
+  const titleContent = useMemo(
+    () => generatedContent.filter(item => item.type === 'title'),
+    [generatedContent]
+  );
+
+  const descriptionContent = useMemo(
+    () => generatedContent.filter(item => item.type === 'description'),
+    [generatedContent]
+  );
+
+  const tagsContent = useMemo(
+    () => generatedContent.filter(item => item.type === 'tags'),
+    [generatedContent]
+  );
+
+  const priceContent = useMemo(
+    () => generatedContent.filter(item => item.type === 'price'),
+    [generatedContent]
+  );
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
@@ -392,7 +413,7 @@ export function AIProductContentGenerator() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {generatedContent.filter(item => item.type === 'title').map((item, index) => (
+                  {titleContent.map((item, index) => (
                     <motion.div
                       key={item.id}
                       initial={{ opacity: 0, x: -20 }}
@@ -436,7 +457,7 @@ export function AIProductContentGenerator() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {generatedContent.filter(item => item.type === 'description').map((item, index) => (
+                  {descriptionContent.map((item, index) => (
                     <motion.div
                       key={item.id}
                       initial={{ opacity: 0, x: -20 }}
@@ -481,7 +502,7 @@ export function AIProductContentGenerator() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    {generatedContent.filter(item => item.type === 'tags').map(item => (
+                    {tagsContent.map(item => (
                       <div key={item.id} className="space-y-3">
                         <div className="flex flex-wrap gap-2">
                           {item.content.split(', ').map((tag, index) => (
@@ -514,7 +535,7 @@ export function AIProductContentGenerator() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    {generatedContent.filter(item => item.type === 'price').map(item => (
+                    {priceContent.map(item => (
                       <div key={item.id} className="space-y-3">
                         <div className="text-2xl font-bold text-primary">{item.content}</div>
                         <p className="text-sm text-muted-foreground">

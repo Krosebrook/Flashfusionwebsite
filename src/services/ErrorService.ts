@@ -230,7 +230,7 @@ export class ErrorService {
   private getSessionId(): string {
     let sessionId = sessionStorage.getItem('ff-session-id');
     if (!sessionId) {
-      sessionId = `sess-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      sessionId = `sess-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
       sessionStorage.setItem('ff-session-id', sessionId);
     }
     return sessionId;
