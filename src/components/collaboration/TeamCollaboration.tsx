@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../auth/AuthSystem';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface TeamMember {
   id: string;

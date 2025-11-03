@@ -45,7 +45,7 @@ export function useAppConfiguration() {
       
       // Set session ID for analytics
       if (!sessionStorage.getItem('ff-session-id')) {
-        sessionStorage.setItem('ff-session-id', `ff-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`);
+        sessionStorage.setItem('ff-session-id', `ff-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
       }
       
     } catch (error) {

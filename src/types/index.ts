@@ -1,19 +1,4 @@
-/**
- * @fileoverview Core application type definitions for FlashFusion platform
- * @module types/index
- */
-
-/**
- * User account information
- * @interface User
- * @property {string} id - Unique user identifier
- * @property {string} email - User email address
- * @property {string} [name] - User display name
- * @property {string} [avatar] - User avatar URL
- * @property {'free' | 'pro' | 'enterprise'} [subscription] - User subscription tier
- * @property {Date} createdAt - Account creation timestamp
- * @property {Date} lastLogin - Last login timestamp
- */
+// Core application types
 export interface User {
   id: string;
   email: string;
@@ -24,23 +9,6 @@ export interface User {
   lastLogin: Date;
 }
 
-/**
- * User statistics and progress tracking
- * @interface UserStats
- * @property {number} level - User level
- * @property {number} xp - Current experience points
- * @property {number} xpToNext - XP required for next level
- * @property {number} totalProjects - Total number of projects created
- * @property {number} activeProjects - Number of active projects
- * @property {number} completedTasks - Number of completed tasks
- * @property {number} streak - Current daily streak
- * @property {number} credits - Available credits
- * @property {'free' | 'pro' | 'enterprise'} subscription - Subscription tier
- * @property {Date} joinDate - Account join date
- * @property {Achievement[]} achievements - Unlocked achievements
- * @property {number} weeklyProgress - Weekly progress percentage
- * @property {number} monthlyProgress - Monthly progress percentage
- */
 export interface UserStats {
   level: number;
   xp: number;
@@ -57,19 +25,6 @@ export interface UserStats {
   monthlyProgress: number;
 }
 
-/**
- * User achievement badge
- * @interface Achievement
- * @property {string} id - Unique achievement identifier
- * @property {string} name - Achievement name
- * @property {string} description - Achievement description
- * @property {string} icon - Icon identifier or URL
- * @property {'creation' | 'collaboration' | 'mastery' | 'community'} category - Achievement category
- * @property {'common' | 'rare' | 'epic' | 'legendary'} rarity - Achievement rarity level
- * @property {Date} [unlockedAt] - Timestamp when achievement was unlocked
- * @property {number} [progress] - Current progress towards achievement
- * @property {number} [maxProgress] - Maximum progress required
- */
 export interface Achievement {
   id: string;
   name: string;
@@ -82,26 +37,6 @@ export interface Achievement {
   maxProgress?: number;
 }
 
-/**
- * Project information and metadata
- * @interface Project
- * @property {string} id - Unique project identifier
- * @property {string} name - Project name
- * @property {string} description - Project description
- * @property {'web-app' | 'mobile-app' | 'api' | 'bot' | 'extension'} type - Project type
- * @property {string} framework - Framework or technology used
- * @property {'draft' | 'generating' | 'completed' | 'deployed'} status - Project status
- * @property {number} progress - Completion progress (0-100)
- * @property {Date} createdAt - Project creation timestamp
- * @property {Date} updatedAt - Last update timestamp
- * @property {string} [deployUrl] - Deployment URL
- * @property {string} [thumbnail] - Project thumbnail URL
- * @property {string[]} tags - Project tags
- * @property {boolean} isPublic - Whether project is public
- * @property {number} likes - Number of likes
- * @property {number} views - Number of views
- * @property {number} forks - Number of forks
- */
 export interface Project {
   id: string;
   name: string;
@@ -121,19 +56,6 @@ export interface Project {
   forks: number;
 }
 
-/**
- * Daily task for user engagement
- * @interface DailyTask
- * @property {string} id - Unique task identifier
- * @property {string} name - Task name
- * @property {string} description - Task description
- * @property {'create' | 'explore' | 'share' | 'learn'} type - Task type
- * @property {number} xpReward - XP reward for completion
- * @property {boolean} completed - Whether task is completed
- * @property {Date} deadline - Task deadline
- * @property {'easy' | 'medium' | 'hard'} difficulty - Task difficulty level
- * @property {string} estimatedTime - Estimated time to complete
- */
 export interface DailyTask {
   id: string;
   name: string;
@@ -146,20 +68,6 @@ export interface DailyTask {
   estimatedTime: string;
 }
 
-/**
- * Platform tool or feature
- * @interface Tool
- * @property {string} id - Unique tool identifier
- * @property {string} name - Tool name
- * @property {string} description - Tool description
- * @property {'generation' | 'design' | 'optimization' | 'analysis' | 'automation' | 'collaboration'} category - Tool category
- * @property {string} icon - Icon identifier or URL
- * @property {'free' | 'pro' | 'enterprise'} tier - Required subscription tier
- * @property {number} popularity - Popularity score
- * @property {number} usageCount - Total usage count
- * @property {boolean} featured - Whether tool is featured
- * @property {boolean} [comingSoon] - Whether tool is coming soon
- */
 export interface Tool {
   id: string;
   name: string;
@@ -173,20 +81,6 @@ export interface Tool {
   comingSoon?: boolean;
 }
 
-/**
- * Deployment configuration and status
- * @interface Deployment
- * @property {string} id - Unique deployment identifier
- * @property {string} projectId - Associated project ID
- * @property {string} platform - Deployment platform (e.g., Vercel, Netlify)
- * @property {string} url - Deployment URL
- * @property {'pending' | 'deploying' | 'success' | 'failed'} status - Deployment status
- * @property {Date} createdAt - Deployment initiation timestamp
- * @property {string} branch - Git branch deployed
- * @property {string} [commit] - Git commit hash
- * @property {number} [buildTime] - Build time in seconds
- * @property {string} [size] - Deployment size
- */
 export interface Deployment {
   id: string;
   projectId: string;
@@ -200,10 +94,6 @@ export interface Deployment {
   size?: string;
 }
 
-/**
- * Third-party integration configuration
- * @interface Integration
- */
 export interface Integration {
   id: string;
   name: string;

@@ -22,7 +22,7 @@ import {
   Bug,
   Wrench
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface ErrorEvent {
   id: string;

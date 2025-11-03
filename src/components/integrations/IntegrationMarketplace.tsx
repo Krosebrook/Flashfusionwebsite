@@ -14,7 +14,7 @@ import {
   MessageSquare, Mail, Calendar, FileText, 
   BarChart3, ShoppingCart, Camera, Music
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface Integration {
   id: string;

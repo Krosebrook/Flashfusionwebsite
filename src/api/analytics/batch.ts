@@ -1,23 +1,6 @@
-/**
- * @fileoverview Batch analytics endpoint for processing multiple events
- * @module api/analytics/batch
- */
-
+// Simple fallback analytics batch endpoint for development
 import { isDevelopmentMode } from '../../utils/environment';
 
-/**
- * Batch analytics event processing request handler
- * Processes multiple analytics events in a single request
- * Validates event array and logs in development mode
- * Handles CORS for development environments
- * @param {any} req - HTTP request object with events array in body
- * @param {any} res - HTTP response object
- * @returns {void} Responds with success status and count of processed events
- * @example
- * // POST /api/analytics/batch
- * // Body: { events: [{ event: 'page_view', properties: {...} }, { event: 'click', properties: {...} }] }
- * // Response: { success: true, processed: 2, message: 'Batch processed successfully' }
- */
 export default function handler(req: any, res: any) {
   // Handle CORS for development
   if (req.method === 'OPTIONS') {

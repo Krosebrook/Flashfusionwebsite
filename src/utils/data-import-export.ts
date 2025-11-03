@@ -1,5 +1,4 @@
 import type { ImportJob, ExportJob, JobStatus, DataSourceType } from '../types/data-import-export';
-import { generateId } from './id-generator';
 
 export const getStatusIcon = (status: JobStatus) => {
   switch (status) {
@@ -76,7 +75,7 @@ export const calculateProgress = (processed: number, total: number): number => {
 };
 
 export const generateJobId = (type: 'import' | 'export'): string => {
-  return generateId(type);
+  return `${type}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 };
 
 export const validateJobName = (name: string): boolean => {

@@ -1,17 +1,7 @@
-/**
- * @fileoverview Storybook configuration for FlashFusion components
- * @module main
- */
-
 import type { StorybookConfig } from '@storybook/react-vite';
 import { mergeConfig } from 'vite';
 import path from 'path';
 
-/**
- * Storybook configuration object
- * Configures story locations, addons, framework, and build settings
- * @type {StorybookConfig}
- */
 const config: StorybookConfig = {
   stories: [
     '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)',

@@ -1,27 +1,4 @@
-/**
- * @fileoverview Project and gamification related type definitions
- * @module types/project
- */
-
-/**
- * Project information with deployment and technology details
- * @interface Project
- * @property {string} id - Unique project identifier
- * @property {string} name - Project name
- * @property {string} type - Project type
- * @property {string} framework - Framework used
- * @property {string} description - Project description
- * @property {string} created_at - Creation timestamp
- * @property {string} updated_at - Last update timestamp
- * @property {string} user_id - Owner user ID
- * @property {'active' | 'completed' | 'archived'} status - Project status
- * @property {string} [deployment_url] - Deployment URL
- * @property {string} [repository_url] - Repository URL
- * @property {string} [preview_image] - Preview image URL
- * @property {string[]} technologies - List of technologies used
- * @property {string[]} features - List of features
- * @property {number} [performance_score] - Performance score (0-100)
- */
+// Project and gamification related types
 export interface Project {
   id: string;
   name: string;
@@ -40,18 +17,6 @@ export interface Project {
   performance_score?: number;
 }
 
-/**
- * Daily task for user engagement and progression
- * @interface DailyTask
- * @property {string} id - Unique task identifier
- * @property {string} title - Task title
- * @property {string} description - Task description
- * @property {'create_project' | 'use_ai_tools' | 'deploy_project' | 'collaborate' | 'learn'} type - Task type
- * @property {boolean} completed - Whether task is completed
- * @property {number} xp_reward - XP reward for completion
- * @property {string} created_at - Creation timestamp
- * @property {string} due_date - Task due date
- */
 export interface DailyTask {
   id: string;
   title: string;
@@ -63,20 +28,6 @@ export interface DailyTask {
   due_date: string;
 }
 
-/**
- * User achievement badge with progress tracking
- * @interface Achievement
- * @property {string} id - Unique achievement identifier
- * @property {string} name - Achievement name
- * @property {string} description - Achievement description
- * @property {string} icon - Icon identifier or URL
- * @property {'beginner' | 'intermediate' | 'advanced' | 'expert'} category - Achievement category
- * @property {number} xp_reward - XP reward for unlocking
- * @property {boolean} unlocked - Whether achievement is unlocked
- * @property {string} [unlocked_at] - Unlock timestamp
- * @property {number} [progress] - Current progress
- * @property {number} [max_progress] - Maximum progress required
- */
 export interface Achievement {
   id: string;
   name: string;
@@ -90,16 +41,6 @@ export interface Achievement {
   max_progress?: number;
 }
 
-/**
- * Platform tool or feature definition
- * @interface Tool
- * @property {string} id - Unique tool identifier
- * @property {string} name - Tool name
- * @property {string} description - Tool description
- * @property {string} category - Tool category
- * @property {string} icon - Icon identifier or URL
- * @property {'free' | 'pro' | 'enterprise'} tier - Required subscription tier
- */
 export interface Tool {
   id: string;
   name: string;

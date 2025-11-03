@@ -12,7 +12,7 @@ import {
   Download,
   Sparkles
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 import { awardXP } from '../../services/GamificationInitializer';
 
 interface Achievement {

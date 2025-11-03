@@ -32,7 +32,7 @@ import {
   Accessibility
 } from 'lucide-react';
 import { analyticsService } from '../../services/AnalyticsService';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface DeviceMetrics {
   device: 'mobile' | 'tablet' | 'desktop';

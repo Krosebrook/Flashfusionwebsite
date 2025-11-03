@@ -168,7 +168,7 @@ export function useAppState() {
       const newAuthState = !isAuthenticated;
       
       if (newAuthState) {
-        const demoToken = `ff-demo-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+        const demoToken = `ff-demo-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
         localStorage.setItem(APP_CONFIG.STORAGE_KEYS.AUTH_TOKEN, demoToken);
         setIsAuthenticated(true);
         

@@ -9,8 +9,6 @@
  * used as placeholders for AI-generated images in demo mode.
  */
 
-import { generateShortId } from './id-generator';
-
 /**
  * Fetches a high-quality image from Unsplash based on search query
  * This is used as a demonstration of real image generation capabilities
@@ -37,9 +35,7 @@ export async function unsplash_tool(query: string): Promise<string> {
     const response = await fetch(imageUrl, { method: 'HEAD' });
     
     if (response.ok) {
-      if (import.meta.env.DEV) {
-        console.log(`✅ Fetched Unsplash image for: "${searchTerm}"`);
-      }
+      console.log(`✅ Fetched Unsplash image for: "${searchTerm}"`);
       return imageUrl;
     } else {
       throw new Error('Image not accessible');
@@ -47,8 +43,8 @@ export async function unsplash_tool(query: string): Promise<string> {
   } catch (error) {
     console.warn('⚠️ Unsplash fetch failed, using fallback:', error);
     
-    // Fallback to a random abstract image with a cache-busting parameter
-    return `https://source.unsplash.com/1024x1024/?abstract,art&sig=${generateShortId()}`;
+    // Fallback to a random abstract image
+    return `https://source.unsplash.com/1024x1024/?abstract,art&${Date.now()}`;
   }
 }
 
@@ -73,8 +69,8 @@ export async function unsplash_tool_batch(query: string, count: number = 4): Pro
       await new Promise(resolve => setTimeout(resolve, 200));
     } catch (error) {
       console.error(`Failed to fetch image ${i + 1}:`, error);
-      // Add fallback image with variation
-      images.push(`https://source.unsplash.com/1024x1024/?random&sig=${generateShortId()}-${i}`);
+      // Add fallback image
+      images.push(`https://source.unsplash.com/1024x1024/?random&${Date.now() + i}`);
     }
   }
   
@@ -104,16 +100,14 @@ export async function unsplash_tool_sized(query: string, width: number = 1024, h
     const response = await fetch(imageUrl, { method: 'HEAD' });
     
     if (response.ok) {
-      if (import.meta.env.DEV) {
-        console.log(`✅ Fetched ${width}x${height} Unsplash image for: "${searchTerm}"`);
-      }
+      console.log(`✅ Fetched ${width}x${height} Unsplash image for: "${searchTerm}"`);
       return imageUrl;
     } else {
       throw new Error('Image not accessible');
     }
   } catch (error) {
     console.warn('⚠️ Sized Unsplash fetch failed, using fallback:', error);
-    return `https://source.unsplash.com/${width}x${height}/?abstract,art&sig=${generateShortId()}`;
+    return `https://source.unsplash.com/${width}x${height}/?abstract,art&${Date.now()}`;
   }
 }
 

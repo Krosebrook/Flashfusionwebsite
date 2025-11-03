@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface CollaboratorPresence {
   id: string;

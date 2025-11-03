@@ -4,7 +4,7 @@
  */
 
 import { GamificationService } from './GamificationService';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 export class GamificationInitializer {
   private static initialized = false;
@@ -62,7 +62,7 @@ export class GamificationInitializer {
     let userId = localStorage.getItem('ff_user_id');
     
     if (!userId) {
-      userId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+      userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       localStorage.setItem('ff_user_id', userId);
       localStorage.setItem('user_id', userId); // Backwards compatibility
       console.log('🆔 Created new user ID:', userId);

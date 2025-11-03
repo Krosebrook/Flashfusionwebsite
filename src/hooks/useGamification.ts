@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { GamificationService, type UserStats, type Achievement } from '../services/GamificationService';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface UseGamificationReturn {
   userStats: UserStats | null;
@@ -25,7 +25,7 @@ export function useGamification(userId?: string): UseGamificationReturn {
     const existing = localStorage.getItem('user_id');
     if (existing) return existing;
     
-    const newId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+    const newId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     localStorage.setItem('user_id', newId);
     return newId;
   })();

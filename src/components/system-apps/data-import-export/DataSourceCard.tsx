@@ -6,7 +6,7 @@ import { Settings, Globe, X } from 'lucide-react';
 import { formatDuration } from '../../../utils/data-import-export';
 import type { DataSourceCardProps } from '../../../types/data-import-export';
 
-export const DataSourceCard = React.memo(function DataSourceCard({ source, onConnect, onDisconnect, onConfigure }: DataSourceCardProps) {
+export function DataSourceCard({ source, onConnect, onDisconnect, onConfigure }: DataSourceCardProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
@@ -101,4 +101,4 @@ export const DataSourceCard = React.memo(function DataSourceCard({ source, onCon
       </CardContent>
     </Card>
   );
-});
+}

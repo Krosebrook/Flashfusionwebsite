@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 /**
  * FlashFusion Gamification Service
@@ -283,7 +283,7 @@ class GamificationServiceClass {
       const events = JSON.parse(localStorage.getItem(key) || '[]');
       const newEvent: XPEvent = {
         ...event,
-        id: `local_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+        id: `local_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         created_at: new Date().toISOString()
       };
       events.unshift(newEvent);

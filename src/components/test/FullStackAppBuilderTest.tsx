@@ -5,7 +5,7 @@ import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { FullStackAppBuilder } from '../tools/generation/FullStackAppBuilder';
 import { Zap, TestTube, CheckCircle, XCircle } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface TestResult {
   test: string;

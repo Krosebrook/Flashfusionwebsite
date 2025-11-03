@@ -1,5 +1,5 @@
 import { APIKeyService, type APIProvider } from './APIKeyService';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 /**
  * FlashFusion Integration Service

@@ -14,7 +14,7 @@ import {
   Layers, GitBranch, Workflow, CheckCircle,
   ArrowRight, Code, Database, Layout, Palette
 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 interface ProjectTemplate {
   id: string;

@@ -1,4 +1,4 @@
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 
 export interface AppError {
   type: 'initialization' | 'authentication' | 'network' | 'component' | 'permission' | 'api' | 'validation';
@@ -230,7 +230,7 @@ export class ErrorService {
   private getSessionId(): string {
     let sessionId = sessionStorage.getItem('ff-session-id');
     if (!sessionId) {
-      sessionId = `sess-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+      sessionId = `sess-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       sessionStorage.setItem('ff-session-id', sessionId);
     }
     return sessionId;
