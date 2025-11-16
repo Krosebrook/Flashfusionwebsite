@@ -60,6 +60,11 @@ export interface LaunchChecklistCategory {
 }
 
 /**
+ * Documentation generation types supported by the hub
+ */
+export type DocumentationType = 'user-manual' | 'api-docs' | 'tutorials' | 'faq';
+
+/**
  * Content request for marketing materials
  */
 export interface ContentRequest {

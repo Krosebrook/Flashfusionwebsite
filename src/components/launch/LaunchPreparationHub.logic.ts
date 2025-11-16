@@ -12,12 +12,8 @@ import type {
   MarketingCampaign,
   SupportChannel,
   LaunchChecklistCategory,
+  DocumentationType,
 } from './LaunchPreparationHub.types';
-
-/**
- * Documentation type for generation
- */
-export type DocumentationType = 'user-manual' | 'api-docs' | 'tutorials' | 'faq';
 
 /**
  * Calculate overall launch readiness percentage
