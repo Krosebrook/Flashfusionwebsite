@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Alert, AlertDescription } from '../ui/alert';
+import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Progress } from '../ui/progress';
+import type { DocumentationGeneratorSectionProps } from './LaunchPreparationHub.types';
 import {
   BookOpen,
   Code,
@@ -13,18 +15,20 @@ import {
   Terminal,
   Video,
 } from 'lucide-react';
-import type { DocumentationGeneratorSectionProps } from './LaunchPreparationHub.types';
 
-/**
- * Documentation generation controls and progress tracking.
- */
 export function DocumentationGeneratorSection({
   isGenerating,
   generationProgress,
   onGenerateDocumentation,
+  getAssetsByType,
 }: DocumentationGeneratorSectionProps) {
+  const documentationAssets = useMemo(
+    () => getAssetsByType('documentation'),
+    [getAssetsByType]
+  );
+
   return (
-    <>
+    <div className="space-y-6">
       <Alert className="border-[var(--ff-secondary)] bg-[var(--ff-secondary)]/10">
         <FileText className="h-4 w-4 text-[var(--ff-secondary)]" />
         <AlertDescription className="text-[var(--ff-text-secondary)]">
@@ -128,6 +132,29 @@ export function DocumentationGeneratorSection({
           </CardContent>
         </Card>
       )}
-    </>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {documentationAssets.map((asset) => (
+          <Card key={asset.id} className="bg-[var(--ff-surface)] border-[var(--border)]">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-2">
+                <Badge variant={asset.status === 'approved' ? 'default' : asset.status === 'review' ? 'secondary' : 'outline'}>
+                  {asset.status}
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  {asset.priority}
+                </Badge>
+              </div>
+              <h4 className="text-sm font-semibold text-[var(--ff-text-primary)] mb-1">{asset.title}</h4>
+              <p className="text-xs text-[var(--ff-text-muted)] mb-3">{asset.description}</p>
+              <Progress value={asset.progress} className="h-1 mb-2" />
+              <p className="text-xs text-[var(--ff-text-muted)]">{asset.progress}% complete</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
   );
 }
+
+export default DocumentationGeneratorSection;

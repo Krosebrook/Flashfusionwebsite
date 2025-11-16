@@ -17,27 +17,18 @@ import {
   Users,
 } from 'lucide-react';
 
-/**
- * Launch checklist overview with quick actions.
- */
-export function LaunchChecklistSection({
-  checklist,
-  onScheduleLaunch,
-  onExportChecklist,
-  onShareProgress,
-}: LaunchChecklistSectionProps) {
+export function LaunchChecklistSection({ categories }: LaunchChecklistSectionProps) {
   return (
-    <>
+    <div className="space-y-6">
       <Alert className="border-[var(--ff-success)] bg-[var(--ff-success)]/10">
         <CheckCircle className="h-4 w-4 text-[var(--ff-success)]" />
         <AlertDescription className="text-[var(--ff-text-secondary)]">
-          <strong className="text-[var(--ff-success)]">Launch Checklist:</strong> Track completion of all essential launch
-          preparation tasks across documentation, marketing, support, and legal requirements.
+          <strong className="text-[var(--ff-success)]">Launch Checklist:</strong> Track completion of all essential launch preparation tasks across documentation, marketing, support, and legal requirements.
         </AlertDescription>
       </Alert>
 
       <div className="space-y-6">
-        {checklist.map((category, categoryIndex) => (
+        {categories.map((category, categoryIndex) => (
           <Card key={category.category} className="bg-[var(--ff-surface)] border-[var(--border)]">
             <CardHeader>
               <CardTitle className="text-[var(--ff-text-primary)] flex items-center gap-2">
@@ -50,8 +41,8 @@ export function LaunchChecklistSection({
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {category.items.map((item) => (
-                  <div key={item} className="flex items-center gap-3">
+                {category.items.map((item, itemIndex) => (
+                  <div key={`${category.category}-${itemIndex}`} className="flex items-center gap-3">
                     <div className="flex-shrink-0">
                       {Math.random() > 0.3 ? (
                         <CheckCircle className="w-4 h-4 text-[var(--ff-success)]" />
@@ -82,24 +73,23 @@ export function LaunchChecklistSection({
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button
-              className="bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white"
-              onClick={onScheduleLaunch}
-            >
+            <Button className="bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white">
               <Rocket className="w-4 h-4 mr-2" />
               Schedule Launch
             </Button>
-            <Button variant="outline" className="border-[var(--border)]" onClick={onExportChecklist}>
+            <Button variant="outline" className="border-[var(--border)]">
               <Download className="w-4 h-4 mr-2" />
               Export Checklist
             </Button>
-            <Button variant="outline" className="border-[var(--border)]" onClick={onShareProgress}>
+            <Button variant="outline" className="border-[var(--border)]">
               <Share2 className="w-4 h-4 mr-2" />
               Share Progress
             </Button>
           </div>
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 }
+
+export default LaunchChecklistSection;

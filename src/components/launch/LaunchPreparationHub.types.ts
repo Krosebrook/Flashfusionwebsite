@@ -77,24 +77,29 @@ export interface ContentRequest {
 }
 
 /**
+ * ROI calculation result for marketing campaigns
+ */
+export interface CampaignROIResult {
+  roi: number;
+  profit: number;
+  costPerEngagement: number;
+}
+
+/**
  * Props for the documentation generator section
  */
 export interface DocumentationGeneratorSectionProps {
   isGenerating: boolean;
   generationProgress: number;
-  onGenerateDocumentation: (type: DocumentationType) => Promise<void> | void;
+  onGenerateDocumentation: (type: string) => void;
+  getAssetsByType: (type: LaunchAsset['type']) => LaunchAsset[];
 }
 
 /**
  * Props for the asset management section
  */
 export interface AssetManagementSectionProps {
-  assets: LaunchAsset[];
-  selectedAssetId?: string | null;
-  onSelectAsset?: (asset: LaunchAsset) => void;
-  onUpdateAsset?: (id: string, updates: Partial<LaunchAsset>) => void;
-  onDeleteAsset?: (id: string) => void;
-  onAddAsset?: (asset: LaunchAsset) => void;
+  onGeneratePressKit: () => void;
 }
 
 /**
@@ -102,10 +107,7 @@ export interface AssetManagementSectionProps {
  */
 export interface MarketingCampaignSectionProps {
   campaigns: MarketingCampaign[];
-  onGeneratePressKit: () => void;
-  onSelectCampaign?: (campaign: MarketingCampaign) => void;
-  onUpdateCampaign?: (id: string, updates: Partial<MarketingCampaign>) => void;
-  onDeleteCampaign?: (id: string) => void;
+  onGetCampaignROI: (campaign: MarketingCampaign) => CampaignROIResult;
 }
 
 /**
@@ -113,17 +115,17 @@ export interface MarketingCampaignSectionProps {
  */
 export interface SupportChannelSectionProps {
   channels: SupportChannel[];
-  onSelectChannel?: (channel: SupportChannel) => void;
-  onUpdateChannel?: (id: string, updates: Partial<SupportChannel>) => void;
-  onDeleteChannel?: (id: string) => void;
+  onGetChannelStatus: (channel: SupportChannel) => {
+    isHealthy: boolean;
+    needsAttention: boolean;
+    inProgress: boolean;
+    statusLabel: string;
+  };
 }
 
 /**
  * Props for the launch checklist section
  */
 export interface LaunchChecklistSectionProps {
-  checklist: LaunchChecklistCategory[];
-  onScheduleLaunch?: () => void;
-  onExportChecklist?: () => void;
-  onShareProgress?: () => void;
+  categories: LaunchChecklistCategory[];
 }
