@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Progress } from '../ui/progress';
+import { formatTimeAgo } from '../../lib/format-utils';
 import { 
   Layers, Users, Zap, Globe, Calendar, Clock, 
   Plus, MoreHorizontal, Play, Pause, Settings,
@@ -231,22 +232,6 @@ export function CrossAppWorkspaceDashboard({ onClose }: CrossAppWorkspaceDashboa
         return '👥';
       default:
         return '📝';
-    }
-  };
-
-  const formatTimeAgo = (date: Date) => {
-    const now = new Date();
-    const diff = now.getTime() - date.getTime();
-    const minutes = Math.floor(diff / (60 * 1000));
-    const hours = Math.floor(diff / (60 * 60 * 1000));
-    const days = Math.floor(diff / (24 * 60 * 60 * 1000));
-
-    if (minutes < 60) {
-      return `${minutes}m ago`;
-    } else if (hours < 24) {
-      return `${hours}h ago`;
-    } else {
-      return `${days}d ago`;
     }
   };
 
