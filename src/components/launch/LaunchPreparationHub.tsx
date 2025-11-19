@@ -107,11 +107,13 @@ export function LaunchPreparationHub() {
     []
   );
 
-  const marketingEngagementScore = Math.round(
-    Math.min(100, campaignStatistics.averageEngagement)
+  const marketingEngagementScore = useMemo(
+    () => Math.round(Math.min(100, campaignStatistics.averageEngagement)),
+    [campaignStatistics.averageEngagement]
   );
-  const supportHealthScore = Math.round(
-    Math.min(1, supportMetrics.averageSatisfaction / 5) * 100
+  const supportHealthScore = useMemo(
+    () => Math.round(Math.min(1, supportMetrics.averageSatisfaction / 5) * 100),
+    [supportMetrics.averageSatisfaction]
   );
 
   const overallProgress = useMemo(
