@@ -107,6 +107,17 @@ export function LaunchPreparationHub() {
     []
   );
 
+  // NOTE: `campaignStatistics.averageEngagement` is expected to be a percentage (0-100).
+  // If engagement values are stored as decimals (0-1), convert to percentage before using.
+  if (
+    campaignStatistics.averageEngagement < 0 ||
+    campaignStatistics.averageEngagement > 100
+  ) {
+    console.warn(
+      '[LaunchPreparationHub] averageEngagement is outside expected range (0-100):',
+      campaignStatistics.averageEngagement
+    );
+  }
   const marketingEngagementScore = Math.round(
     Math.min(100, campaignStatistics.averageEngagement)
   );
@@ -228,9 +239,9 @@ export function LaunchPreparationHub() {
                     </div>
                     {assetTimeline.length > 0 ? (
                       <div className="space-y-2">
-                        {assetTimeline.slice(0, 3).map((item) => (
+                        {assetTimeline.slice(0, 3).map((item, idx) => (
                           <div
-                            key={`${item.title}-${item.date.toISOString()}`}
+                            key={`${item.title}-${item.date.toISOString()}-${idx}`}
                             className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--ff-surface)]/80 px-3 py-2"
                           >
                             <div>
