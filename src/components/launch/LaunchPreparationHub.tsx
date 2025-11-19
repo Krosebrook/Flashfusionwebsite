@@ -237,7 +237,7 @@ export function LaunchPreparationHub() {
                           >
                             <div>
                               <p className="font-medium text-[var(--ff-text-primary)]">{item.title}</p>
-                              <p className="text-xs text-[var(--ff-text-muted)] capitalize">{item.type.replace('-', ' ')}</p>
+                              <p className="text-xs text-[var(--ff-text-muted)] capitalize">{item.type.replace(/-/g, ' ')}</p>
                             </div>
                             <span className="text-sm text-[var(--ff-text-secondary)]">{item.date.toLocaleDateString()}</span>
                           </div>
