@@ -107,22 +107,13 @@ export function LaunchPreparationHub() {
     []
   );
 
-  // NOTE: `campaignStatistics.averageEngagement` is expected to be a percentage (0-100).
-  // If engagement values are stored as decimals (0-1), convert to percentage before using.
-  if (
-    campaignStatistics.averageEngagement < 0 ||
-    campaignStatistics.averageEngagement > 100
-  ) {
-    console.warn(
-      '[LaunchPreparationHub] averageEngagement is outside expected range (0-100):',
-      campaignStatistics.averageEngagement
-    );
-  }
-  const marketingEngagementScore = Math.round(
-    Math.min(100, campaignStatistics.averageEngagement)
+  const marketingEngagementScore = useMemo(
+    () => Math.round(Math.min(100, campaignStatistics.averageEngagement)),
+    [campaignStatistics.averageEngagement]
   );
-  const supportHealthScore = Math.round(
-    Math.min(1, supportMetrics.averageSatisfaction / 5) * 100
+  const supportHealthScore = useMemo(
+    () => Math.round(Math.min(1, supportMetrics.averageSatisfaction / 5) * 100),
+    [supportMetrics.averageSatisfaction]
   );
 
   const overallProgress = useMemo(
