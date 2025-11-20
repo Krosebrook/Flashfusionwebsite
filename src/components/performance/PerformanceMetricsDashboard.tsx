@@ -100,7 +100,7 @@ const MetricCard = memo(({
               {status.toUpperCase()}
             </Badge>
             <span className="ff-text-xs text-muted-foreground font-inter">
-              Goal: <{threshold.good}{unit}
+              Goal: &lt;{threshold.good}{unit}
             </span>
           </div>
         </div>

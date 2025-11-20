@@ -452,7 +452,6 @@ const FlashFusionBusinessIntelligenceHub: React.FC = () => {
                   Enterprise Operations Command Center | Real-Time Analytics & Intelligence
                 </p>
               </div>
-              </div>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 ff-stagger-fade">
                 <Badge className="ff-badge-success ff-hover-glow">
                   <ProfessionalIcon 
@@ -528,6 +527,7 @@ const FlashFusionBusinessIntelligenceHub: React.FC = () => {
             {isLoading ? (
               <LoadingState message="Updating dashboard..." />
             ) : (
+              <>
               {/* SYSTEM OVERVIEW */}
               {activeView === 'overview' && (
                 <section className="space-y-6 ff-stagger-fade" aria-labelledby="overview-heading">
@@ -567,43 +567,6 @@ const FlashFusionBusinessIntelligenceHub: React.FC = () => {
                       variant="success"
                     />
                   </div>
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="ff-text-caption uppercase tracking-wide text-muted-foreground">Average ROI</h3>
-                    <BarChart3 className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="ff-text-title text-2xl">{businessMetrics.averageROI}%</div>
-                    <div className="text-sm text-primary">Cross-platform performance</div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="ff-card-interactive">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="ff-text-caption uppercase tracking-wide text-muted-foreground">Active Projects</h3>
-                    <Briefcase className="w-5 h-5 text-secondary" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="ff-text-title text-2xl">{businessMetrics.activeProjects}</div>
-                    <div className="text-sm text-secondary">Client engagements</div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="ff-card-interactive">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="ff-text-caption uppercase tracking-wide text-muted-foreground">Security Score</h3>
-                    <Shield className="w-5 h-5 text-accent" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="ff-text-title text-2xl">{businessMetrics.securityScore}%</div>
-                    <div className="text-sm text-accent">Enterprise grade</div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
 
                   {/* ERP SYSTEMS STATUS */}
                   <Card className="ff-card ff-hover-lift">
@@ -1116,6 +1079,7 @@ const FlashFusionBusinessIntelligenceHub: React.FC = () => {
               </Card>
               </div>
             )}
+          </>
           )}
         </Suspense>
       </main>

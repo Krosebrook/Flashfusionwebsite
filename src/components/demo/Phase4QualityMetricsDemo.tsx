@@ -296,7 +296,7 @@ export function Phase4QualityMetricsDemo() {
                   </div>
                   <div>
                     <div className="ff-text-sm text-[var(--ff-text-primary)]">Performance Monitoring</div>
-                    <div className="ff-text-xs text-[var(--ff-text-muted)]">2.1s load time (target: <3s)</div>
+                    <div className="ff-text-xs text-[var(--ff-text-muted)]">2.1s load time (target: &lt;3s)</div>
                   </div>
                 </div>
                 
@@ -316,7 +316,7 @@ export function Phase4QualityMetricsDemo() {
                   </div>
                   <div>
                     <div className="ff-text-sm text-[var(--ff-text-primary)]">Mobile Optimization</div>
-                    <div className="ff-text-xs text-[var(--ff-text-muted)]">1.7s mobile load time (target: <2s)</div>
+                    <div className="ff-text-xs text-[var(--ff-text-muted)]">1.7s mobile load time (target: &lt;2s)</div>
                   </div>
                 </div>
               </div>

@@ -546,7 +546,7 @@ export const PerformanceBenchmarkingSystem: React.FC = () => {
               <div className="text-2xl font-bold text-white mb-1">
                 {metrics.get('lcp')?.currentValue?.toFixed(0)}ms
               </div>
-              <div className="text-sm text-gray-400">Target: <2.5s</div>
+              <div className="text-sm text-gray-400">Target: &lt;2.5s</div>
               <Progress 
                 value={(metrics.get('lcp')?.currentValue || 0) / 25} 
                 className="mt-2 h-2"
@@ -565,7 +565,7 @@ export const PerformanceBenchmarkingSystem: React.FC = () => {
               <div className="text-2xl font-bold text-white mb-1">
                 {metrics.get('memory-used')?.currentValue?.toFixed(1)}MB
               </div>
-              <div className="text-sm text-gray-400">Target: <50MB</div>
+              <div className="text-sm text-gray-400">Target: &lt;50MB</div>
               <Progress 
                 value={(metrics.get('memory-used')?.currentValue || 0) / 1.5} 
                 className="mt-2 h-2"
