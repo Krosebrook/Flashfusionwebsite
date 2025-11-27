@@ -77,7 +77,6 @@
           "tailwind-merge": "*",
           "tailwindcss": "*",
           "vaul": "^1.1.2",
-          "vite": "*",
           "vite-plugin-compression2": "*",
           "vitest": "*",
           "web-vitals": "*",
@@ -91,6 +90,10 @@
       },
       "scripts": {
           "dev": "vite",
-          "build": "vite build"
+          "build": "vite build",
+          "preview": "vite preview",
+          "type-check": "tsc --noEmit",
+          "lint": "eslint . --ext .ts,.tsx",
+          "test": "vitest"
       }
   }

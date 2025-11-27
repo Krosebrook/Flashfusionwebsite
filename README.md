@@ -36,8 +36,12 @@ The development server will start at http://localhost:3000.
 ### Available Scripts
 
 ```bash
-npm run dev      # Start development server
-npm run build    # Build for production
+npm run dev        # Start development server
+npm run build      # Build for production
+npm run preview    # Preview production build
+npm run type-check # Run TypeScript type checking
+npm run lint       # Run ESLint
+npm run test       # Run tests with Vitest
 ```
 
 ## Project Structure
