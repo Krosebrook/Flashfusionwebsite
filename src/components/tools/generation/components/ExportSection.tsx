@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../../ui/card';
 import { Badge } from '../../../ui/badge';
 import { Separator } from '../../../ui/separator';
 import { Download, Package, GitBranch, Terminal, Check, Sparkles } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { MultiFormatDownloadSelector } from '../../../ui/multi-format-download-selector';
 import type { GeneratedApp } from '../../../../types/full-stack-builder';
 

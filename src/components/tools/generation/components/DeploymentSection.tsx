@@ -22,7 +22,7 @@ import {
   Trash2,
   Plus
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import type { GeneratedApp } from '../../../../types/full-stack-builder';
 import { deployProject, deploymentService } from '../../../../services/deployment';
 import type { DeploymentResult, DeploymentStatus } from '../../../../services/deployment';

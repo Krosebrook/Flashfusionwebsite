@@ -38,7 +38,7 @@ import {
   Pause,
   Settings
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { analyticsService } from '../../services/AnalyticsService';
 
 interface MarketingCampaign {

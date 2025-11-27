@@ -18,7 +18,7 @@ import {
   Zap,
   Download
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 const ENV_TEMPLATE = `# FlashFusion AI Configuration
 # Copy this template to your .env file and add your API keys

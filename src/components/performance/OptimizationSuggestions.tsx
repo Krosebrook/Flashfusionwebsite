@@ -7,7 +7,7 @@ import { Progress } from '../ui/progress';
 import { CheckCircle, Lightbulb, Zap, ArrowRight } from 'lucide-react';
 import { OptimizationSuggestion } from './types';
 import { getImpactColor, getEffortColor, getCategoryIcon, prioritizeSuggestions } from './utils';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 interface OptimizationSuggestionsProps {
   suggestions: OptimizationSuggestion[];

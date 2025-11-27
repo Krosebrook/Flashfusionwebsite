@@ -1,4 +1,4 @@
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 export interface AppError {
   type: 'initialization' | 'authentication' | 'network' | 'component' | 'permission' | 'api' | 'validation';

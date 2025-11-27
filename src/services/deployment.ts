@@ -1,5 +1,5 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import type { GeneratedApp } from '../types/full-stack-builder';
 
 export interface DeploymentConfig {

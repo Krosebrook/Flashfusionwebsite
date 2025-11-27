@@ -31,7 +31,7 @@ import {
   Eye,
   Trash2
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { MultiFormatDownloadSelector } from '../ui/multi-format-download-selector';
 import type { GeneratedApp } from '../../types/full-stack-builder';
 import type { DownloadFormat, DownloadOptions } from '../../utils/multi-format-download';

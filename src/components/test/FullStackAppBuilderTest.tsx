@@ -5,7 +5,7 @@ import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { FullStackAppBuilder } from '../tools/generation/FullStackAppBuilder';
 import { Zap, TestTube, CheckCircle, XCircle } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 interface TestResult {
   test: string;
@@ -93,7 +93,7 @@ export function FullStackAppBuilderTest() {
       case 'file_generation':
         // Test file generation utilities
         try {
-          const { generateDownloadableProject } = await import('../../utils/file-generators');
+          const { generateDownloadableProject } = await import('../../utils/generators');
           if (typeof generateDownloadableProject !== 'function') {
             throw new Error('File generation utilities not available');
           }

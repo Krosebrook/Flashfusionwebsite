@@ -29,7 +29,7 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import AIService, { type AIProvider, type AIModel, AI_MODELS } from '../../services/AIService';
 
 interface WizardStep {

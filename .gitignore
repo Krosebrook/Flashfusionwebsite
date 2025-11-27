@@ -40,3 +40,6 @@ pnpm-debug.log*
 
 # OS
 Thumbs.db
+
+# Broken components backup (needs manual fixing)
+.broken-backup/

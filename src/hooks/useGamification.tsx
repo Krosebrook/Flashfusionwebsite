@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { GamificationService, type UserStats, type Achievement } from '../services/GamificationService';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 interface UseGamificationReturn {
   userStats: UserStats | null;

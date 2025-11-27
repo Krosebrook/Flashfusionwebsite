@@ -43,7 +43,7 @@ import { Label } from '../../ui/label';
 import { Separator } from '../../ui/separator';
 import { Progress } from '../../ui/progress';
 import { ScrollArea } from '../../ui/scroll-area';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { 
   Image, 
   Download, 
