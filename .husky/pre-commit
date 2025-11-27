@@ -1,3 +1,4 @@
-# Temporarily disabled for infrastructure changes
-exit 0
-# npx lint-staged
+# Run lint-staged only if the command exists
+if command -v npx &> /dev/null; then
+  npx lint-staged --allow-empty || true
+fi
