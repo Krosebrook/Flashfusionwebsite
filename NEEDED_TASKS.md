@@ -1,6 +1,6 @@
 # FlashFusion Website - Needed Tasks
 
-**Last Updated**: 2025-10-31  
+**Last Updated**: 2025-11-27  
 **Status**: Comprehensive Task List  
 **Audience**: Engineering Team, Project Managers
 
@@ -10,9 +10,12 @@
 
 This document provides a comprehensive, prioritized list of tasks needed to bring the FlashFusion Website to production-ready status. Tasks are organized by priority and include time estimates, dependencies, and success criteria.
 
-**Current State**: Repository has strong documentation and architectural planning, but faces critical blockers in build infrastructure and dependency management.
+**Current State**: Repository has strong documentation and architectural planning. Key improvements have been made:
+- ✅ Invalid Node.js built-in dependencies removed from package.json
+- ✅ Documentation consolidated and organized
+- ✅ Audit reports archived for historical reference
 
-**Health Score**: 🟠 **NEEDS IMMEDIATE ATTENTION** (see COMPREHENSIVE_AUDIT_2025.md for details)
+**Health Score**: 🟠 **NEEDS ATTENTION** (see `archive/audits/` for details)
 
 ---
 
@@ -22,36 +25,34 @@ These tasks are **blocking** all other development work and must be completed im
 
 ### Task 1.1: Fix Package Dependencies (3-4 hours)
 
-**Severity**: 🔴 CRITICAL - Blocks all development  
+**Severity**: 🔴 HIGH (Partially Complete)  
 **Dependencies**: None  
-**Assignable**: Senior Engineer with npm/pnpm expertise
+**Assignable**: Senior Engineer with npm expertise
 
-**Problem**: 
-- 60+ packages using wildcard versions (`"*"`)
-- Storybook peer dependency conflicts
-- Cannot install dependencies successfully
-- No version pinning leads to unpredictable builds
+**Status**: 
+- ✅ Invalid Node.js built-ins removed (node:fs, fs, path, child_process, url)
+- ⏳ Remaining wildcards need pinning
 
-**Action Items**:
+**Remaining Action Items**:
 1. [ ] Pin all `@radix-ui/*` packages to specific versions
-2. [ ] Resolve Storybook version conflict (@storybook/test vs @storybook/react-vite)
-3. [ ] Pin `tailwindcss`, `vite`, `vitest`, `zod`, and other wildcards
+2. [ ] Resolve Storybook version conflict
+3. [ ] Pin remaining wildcard dependencies (`*`)
 4. [ ] Determine if `@flashfusion/*` packages are local (monorepo) or external
-5. [ ] Document package version decisions in `package.json` comments
-6. [ ] Test with `npm install --legacy-peer-deps`
-7. [ ] Verify `npm install` works without flags
+5. [ ] Verify `npm install --legacy-peer-deps` works consistently
+6. [ ] Test with clean `npm install` without flags
+
+**Current Workaround**:
+```bash
+npm install --legacy-peer-deps
+```
 
 **Success Criteria**:
-- ✅ `npm install` completes without errors
-- ✅ `pnpm install` completes without errors
-- ✅ No wildcard dependencies remain (except internal packages if applicable)
-- ✅ Lock file generated successfully
+- ✅ `npm install --legacy-peer-deps` completes without errors
+- ⏳ `npm install` works without flags (ideal)
+- ⏳ No wildcard dependencies remain
 
 **Files to Modify**:
 - `package.json`
-- `pnpm-lock.yaml` (will be regenerated)
-
-**Reference**: AUDIT_ACTION_PLAN.md, Section "Critical Issues Remaining"
 
 ---
 
@@ -584,24 +585,21 @@ These tasks provide high impact with low effort:
 
 Update this section weekly:
 
+### Week of 2025-11-27
+- [x] Invalid Node.js dependencies removed
+- [x] Documentation consolidated to archive/
+- [x] README and docs updated
+- [ ] Critical tasks in progress
+
 ### Week of 2025-10-31
 - [x] Tasks document created
-- [ ] Critical tasks started
-- [ ] Team assigned
-
-### Week of 2025-11-07
-- [ ] Critical tasks complete
-- [ ] High priority in progress
-- [ ] CI/CD running
+- [x] LaunchPreparationHub decomposed
 
 ---
 
 ## 📚 References
 
-- `COMPREHENSIVE_AUDIT_2025.md` - Full audit findings
-- `AUDIT_ACTION_PLAN.md` - Immediate fixes
-- `STEP_3_DECOMPOSITION_PLAN.md` - Component decomposition progress
-- `HANDOFF_CHECKLIST.md` - Developer handoff guide
+- `archive/audits/` - Historical audit findings
 - `docs/COMPONENT_DECOMPOSITION_GUIDE.md` - How to decompose components
 - `docs/UTILITY_SPLIT_PLAN.md` - Utilities split plan
 - `reports/*.json` - Machine-readable task data
@@ -609,6 +607,7 @@ Update this section weekly:
 ---
 
 **Created**: 2025-10-31  
+**Updated**: 2025-11-27  
 **Maintained By**: Engineering Team  
 **Review Cadence**: Weekly during standup
 

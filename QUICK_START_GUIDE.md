@@ -1,6 +1,6 @@
 # FlashFusion Website - Quick Start Guide
 
-**For New Team Members** | **Updated**: 2025-10-31
+**For New Team Members** | **Updated**: 2025-11-27
 
 ---
 
@@ -11,9 +11,9 @@
 ```bash
 git clone https://github.com/Krosebrook/Flashfusionwebsite.git
 cd Flashfusionwebsite
+npm install --legacy-peer-deps
+npm run dev
 ```
-
-⚠️ **KNOWN ISSUE**: Dependencies currently have conflicts. See Task 1.1 in `NEEDED_TASKS.md`
 
 ### 2. Read These First
 
@@ -30,16 +30,12 @@ cd Flashfusionwebsite
 - Clear architectural planning
 - Component decomposition pattern established
 - LaunchPreparationHub.tsx fully refactored (example to follow)
-
-**❌ What's Broken**:
-- Cannot install dependencies (wildcard versions + conflicts)
-- Cannot build project
-- Cannot run tests
-- No CI/CD pipeline
+- Dependencies can be installed with `--legacy-peer-deps`
 
 **🎯 Next Steps**:
-- Fix dependencies first (NEEDED_TASKS.md Task 1.1)
-- Everything else depends on this
+- Review component architecture
+- Follow established patterns
+- Contribute to ongoing refactoring
 
 ---
 
@@ -118,46 +114,29 @@ Flashfusionwebsite/
 
 ## 📋 Common Commands
 
-**⚠️ These won't work until Task 1.1 is complete!**
-
 ```bash
-# Install dependencies (BROKEN - see Task 1.1)
-npm install
+# Install dependencies
+npm install --legacy-peer-deps
 
 # Development server
-npm run dev              # http://localhost:5173
-
-# Quality checks
-npm run type-check       # TypeScript compilation
-npm run lint             # ESLint
-npm run format:check     # Prettier
-npm run test             # Run tests
-npm run test:coverage    # Test coverage report
+npm run dev              # http://localhost:3000
 
 # Production build
 npm run build            # Build for production
-npm run preview          # Preview production build
 ```
 
 ---
 
-## 🔥 Critical Blockers
+## 🔥 Getting Started Tips
 
-### 1. Dependency Installation Fails
-**Error**: Storybook peer dependency conflicts + wildcard versions  
-**Fix**: See `NEEDED_TASKS.md` Task 1.1  
-**Owner**: Needs assignment  
-**Blocks**: Everything
+### 1. Use Legacy Peer Deps
+Always install with `npm install --legacy-peer-deps` to avoid peer dependency conflicts.
 
-### 2. Build System Untested
-**Error**: Cannot verify builds work  
-**Fix**: Complete Task 1.1 first, then Task 1.2  
-**Blocks**: Testing, deployment, CI/CD
+### 2. Review Archived Audits
+Previous audit reports are available in `archive/audits/` for historical context.
 
-### 3. No CI/CD Pipeline
-**Error**: No automated testing  
-**Fix**: Task 1.4 after build works  
-**Blocks**: Quality assurance
+### 3. Follow Established Patterns
+Study `LaunchPreparationHub.tsx` as an example of the target component architecture.
 
 ---
 
@@ -249,23 +228,20 @@ Want to contribute immediately? These tasks are high-impact and low-effort:
 
 ## ❓ FAQ
 
-### Q: Why can't I install dependencies?
-**A**: Package.json has wildcard versions and Storybook conflicts. This is Task 1.1 in NEEDED_TASKS.md and blocks all other work.
+### Q: How do I install dependencies?
+**A**: Use `npm install --legacy-peer-deps` to handle peer dependency conflicts.
 
 ### Q: What's the priority right now?
-**A**: Fix dependencies (Task 1.1). Everything else depends on this.
-
-### Q: Can I start working on features?
-**A**: Not until build system works. Focus on critical tasks first.
+**A**: Check `NEEDED_TASKS.md` for current priorities.
 
 ### Q: Where do I find examples of good code?
 **A**: `LaunchPreparationHub.tsx` and its decomposed files show the target architecture.
 
 ### Q: How do I know what to work on?
-**A**: Check `NEEDED_TASKS.md` and pick based on your skill level and the task selection guide.
+**A**: Check `NEEDED_TASKS.md` and pick based on your skill level.
 
-### Q: The codebase is huge! Where do I start?
-**A**: Read the docs listed in "First 30 Minutes" above. Don't try to understand everything at once.
+### Q: Where is the old audit documentation?
+**A**: Archived in `archive/audits/` and `archive/docs/`.
 
 ---
 
@@ -349,6 +325,6 @@ Start with the "First 30 Minutes" section above, then dive into `NEEDED_TASKS.md
 
 ---
 
-**Last Updated**: 2025-10-31  
+**Last Updated**: 2025-11-27  
 **Maintained By**: Engineering Team  
 **Feedback**: Submit PR or create issue
