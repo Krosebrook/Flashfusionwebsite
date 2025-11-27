@@ -24,7 +24,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
   },
   global: {
     headers: {
-      'X-Client-Info': 'flashfusion-web@1.0.0'
+      'X-Client-Info': 'flashfusion-web'
     }
   }
 });

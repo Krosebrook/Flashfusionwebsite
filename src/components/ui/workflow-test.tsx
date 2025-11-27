@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from './button';
 import { Card, CardContent, CardHeader, CardTitle } from './card';
 import { Badge } from './badge';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { 
   CheckCircle, 
   AlertTriangle, 
