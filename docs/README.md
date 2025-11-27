@@ -1,11 +1,12 @@
 # FlashFusion Documentation Hub
 
-**Last Updated**: 2024-11-24
-**Documentation Status**: Snapshot alignment complete
+**Last Updated**: 2025-11-27  
+**Documentation Status**: Consolidated and updated
 
 ---
 
 ## Directory Overview
+
 ```
 docs/
 ├── README.md                 # You are here – documentation index
@@ -16,22 +17,37 @@ docs/
 └── ui/                       # Visual and UX guidance
 ```
 
-Historical, high-volume documentation from earlier phases still lives in `src/` (for example `src/COMPLETE_DOCUMENTATION_INDEX.md`). Treat those files as archival references until they are triaged into the structure above.
+Archived audit reports and historical documentation can be found in `archive/audits/` and `archive/docs/`.
 
 ---
 
 ## Quick Links
-- **Executive Snapshot**: [`docs/ops/senior-snapshot.md`](./ops/senior-snapshot.md)
-- **Roadmap**: [`docs/ops/roadmap.md`](./ops/roadmap.md)
-- **Operational Runbooks**: [`docs/ops/new-feature-rollout.md`](./ops/new-feature-rollout.md)
-- **API Specifications**: [`docs/api/`](./api/)
-- **Testing References**: [`docs/testing/`](./testing/)
-- **UI Standards**: [`docs/ui/`](./ui/)
+
+### Getting Started
+- [Main README](../README.md) - Project overview and setup
+- [Quick Start Guide](../QUICK_START_GUIDE.md) - Onboarding for new team members
+- [Needed Tasks](../NEEDED_TASKS.md) - Current priorities
+
+### Operations
+- [Executive Snapshot](./ops/senior-snapshot.md) - High-level project status
+- [Roadmap](./ops/roadmap.md) - Product roadmap
+- [Feature Rollout Guide](./ops/new-feature-rollout.md) - Deployment procedures
+
+### Development
+- [Developer Handoff Guide](./DEVELOPER_HANDOFF_GUIDE.md) - Contribution guidelines
+- [Component Decomposition](./COMPONENT_DECOMPOSITION_GUIDE.md) - Refactoring patterns
+- [Testing Infrastructure](./TESTING_INFRA_SUMMARY.md) - Test setup and practices
+
+### Technical References
+- [API Documentation](./api/) - API specifications
+- [UI Standards](./ui/) - Design system and components
 
 ---
 
 ## Documentation Standards
+
 Every new or updated document should follow this header block:
+
 ```markdown
 # Title
 
@@ -54,10 +70,20 @@ Every new or updated document should follow this header block:
 
 ---
 
-## Migration Backlog
-- ✅ Executive snapshot + roadmap refreshed (November 2024)
-- 🔄 Migrate critical guides from `src/` into `docs/` (in progress)
-- ⏳ Audit testing documentation for parity with current tooling (Vitest + Playwright)
-- ⏳ Consolidate Supabase setup instructions into a single deployment guide
+## Archived Documentation
+
+Previous audit reports and historical documentation are preserved in the `archive/` directory:
+
+- `archive/audits/` - Previous code audits and analysis reports
+- `archive/docs/` - Historical project documentation and progress reports
+
+---
+
+## Migration Status
+
+- ✅ Documentation structure consolidated (November 2025)
+- ✅ Audit reports archived
+- ✅ Root-level docs cleaned up
+- ⏳ Migrate remaining guides from `src/` into `docs/`
 
 Please log additional documentation gaps in the engineering backlog and link them here once scheduled.
