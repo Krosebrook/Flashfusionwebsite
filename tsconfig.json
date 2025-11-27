@@ -27,5 +27,15 @@
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules", "dist", "build", "archive", "internal", "src/Dockerfile", "src/**/*.md", "src/**/*.json"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "archive",
+    "internal",
+    "src/Dockerfile",
+    "src/_env_example.tsx",
+    "src/**/*.md",
+    "src/**/*.json"
+  ]
 }
