@@ -1,6 +1,6 @@
 # FlashFusion Website - Quick Start Guide
 
-**For New Team Members** | **Updated**: 2025-11-27
+**For New Team Members** | **Updated**: 2025-11-28
 
 ---
 
