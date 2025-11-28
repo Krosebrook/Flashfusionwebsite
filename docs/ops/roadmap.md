@@ -1,6 +1,6 @@
 # FlashFusion Roadmap
 
-**Last Updated**: 2024-11-24  
+**Last Updated**: 2025-11-28  
 **Status**: Published  
 **Audience**: Product, Engineering, Ops
 
@@ -68,4 +68,5 @@
 ---
 
 ## Change Log
+- **2025-11-28**: Documentation refresh and date updates.
 - **2024-11-24**: Initial roadmap aligned with senior snapshot and documentation overhaul.
