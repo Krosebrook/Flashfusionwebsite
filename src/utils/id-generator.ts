@@ -21,8 +21,8 @@ export function generateId(prefix?: string): string {
   
   // Fallback for older browsers
   const timestamp = Date.now();
-  const random = Math.random().toString(36).substring(2, 11);
-  return prefix ? `${prefix}_${timestamp}_${random}` : `${timestamp}_${random}`;
+  const randomSuffix = Math.random().toString(36).substring(2, 11);
+  return prefix ? `${prefix}_${timestamp}_${randomSuffix}` : `${timestamp}_${randomSuffix}`;
 }
 
 /**
@@ -33,9 +33,9 @@ export function generateId(prefix?: string): string {
  */
 export function generateShortId(length: number = 8): string {
   if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
-    const array = new Uint8Array(length);
-    crypto.getRandomValues(array);
-    return Array.from(array, byte => byte.toString(36)).join('').substring(0, length);
+    const randomBytes = new Uint8Array(length);
+    crypto.getRandomValues(randomBytes);
+    return Array.from(randomBytes, byte => byte.toString(36)).join('').substring(0, length);
   }
   
   // Fallback

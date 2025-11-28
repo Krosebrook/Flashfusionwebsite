@@ -11,11 +11,11 @@
 export const formatBytes = (bytes: number, decimals: number = 2): string => {
   if (bytes === 0) return '0 Bytes';
   
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const bytesPerUnit = 1024;
+  const sizeUnits = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  const unitIndex = Math.floor(Math.log(bytes) / Math.log(bytesPerUnit));
   
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
+  return parseFloat((bytes / Math.pow(bytesPerUnit, unitIndex)).toFixed(decimals)) + ' ' + sizeUnits[unitIndex];
 };
 
 /**
@@ -25,14 +25,14 @@ export const formatBytes = (bytes: number, decimals: number = 2): string => {
  */
 export const formatTimeAgo = (date: Date): string => {
   const now = new Date();
-  const diff = now.getTime() - date.getTime();
+  const timeDifferenceMs = now.getTime() - date.getTime();
   
-  const minutes = Math.floor(diff / (1000 * 60));
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const minutesElapsed = Math.floor(timeDifferenceMs / (1000 * 60));
+  const hoursElapsed = Math.floor(timeDifferenceMs / (1000 * 60 * 60));
+  const daysElapsed = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24));
   
-  if (minutes < 1) return 'Just now';
-  if (minutes < 60) return `${minutes}m ago`;
-  if (hours < 24) return `${hours}h ago`;
-  return `${days}d ago`;
+  if (minutesElapsed < 1) return 'Just now';
+  if (minutesElapsed < 60) return `${minutesElapsed}m ago`;
+  if (hoursElapsed < 24) return `${hoursElapsed}h ago`;
+  return `${daysElapsed}d ago`;
 };
