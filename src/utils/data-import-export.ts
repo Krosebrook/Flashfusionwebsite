@@ -49,19 +49,24 @@ import { formatBytes } from '../lib/format-utils';
 
 export const formatFileSize = (bytes: number): string => formatBytes(bytes, 1);
 
-export const formatDuration = (start: Date, end?: Date): string => {
-  const endTime = end || new Date();
-  const diff = endTime.getTime() - start.getTime();
-  const hours = Math.floor(diff / (60 * 60 * 1000));
-  const minutes = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000));
-  const seconds = Math.floor((diff % (60 * 1000)) / 1000);
+export const formatDuration = (startTime: Date, endTime?: Date): string => {
+  const completionTime = endTime || new Date();
+  const durationMs = completionTime.getTime() - startTime.getTime();
   
-  if (hours > 0) {
-    return `${hours}h ${minutes}m`;
-  } else if (minutes > 0) {
-    return `${minutes}m ${seconds}s`;
+  const MILLISECONDS_PER_SECOND = 1000;
+  const MILLISECONDS_PER_MINUTE = 60 * MILLISECONDS_PER_SECOND;
+  const MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
+  
+  const hoursElapsed = Math.floor(durationMs / MILLISECONDS_PER_HOUR);
+  const minutesElapsed = Math.floor((durationMs % MILLISECONDS_PER_HOUR) / MILLISECONDS_PER_MINUTE);
+  const secondsElapsed = Math.floor((durationMs % MILLISECONDS_PER_MINUTE) / MILLISECONDS_PER_SECOND);
+  
+  if (hoursElapsed > 0) {
+    return `${hoursElapsed}h ${minutesElapsed}m`;
+  } else if (minutesElapsed > 0) {
+    return `${minutesElapsed}m ${secondsElapsed}s`;
   } else {
-    return `${seconds}s`;
+    return `${secondsElapsed}s`;
   }
 };
 
