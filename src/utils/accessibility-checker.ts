@@ -16,17 +16,17 @@
 function getLuminance(color: string): number {
   // Convert hex to RGB
   const hex = color.replace('#', '');
-  const r = parseInt(hex.slice(0, 2), 16) / 255;
-  const g = parseInt(hex.slice(2, 4), 16) / 255;
-  const b = parseInt(hex.slice(4, 6), 16) / 255;
+  const redChannel = parseInt(hex.slice(0, 2), 16) / 255;
+  const greenChannel = parseInt(hex.slice(2, 4), 16) / 255;
+  const blueChannel = parseInt(hex.slice(4, 6), 16) / 255;
   
   // Apply gamma correction
-  const [rs, gs, bs] = [r, g, b].map((c) => {
-    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  const [redLinear, greenLinear, blueLinear] = [redChannel, greenChannel, blueChannel].map((channelValue) => {
+    return channelValue <= 0.03928 ? channelValue / 12.92 : Math.pow((channelValue + 0.055) / 1.055, 2.4);
   });
   
   // Calculate relative luminance
-  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+  return 0.2126 * redLinear + 0.7152 * greenLinear + 0.0722 * blueLinear;
 }
 
 /**
@@ -34,13 +34,13 @@ function getLuminance(color: string): number {
  * Returns ratio from 1:1 (no contrast) to 21:1 (maximum contrast)
  */
 export function getContrastRatio(foreground: string, background: string): number {
-  const l1 = getLuminance(foreground);
-  const l2 = getLuminance(background);
+  const foregroundLuminance = getLuminance(foreground);
+  const backgroundLuminance = getLuminance(background);
   
-  const lighter = Math.max(l1, l2);
-  const darker = Math.min(l1, l2);
+  const lighterLuminance = Math.max(foregroundLuminance, backgroundLuminance);
+  const darkerLuminance = Math.min(foregroundLuminance, backgroundLuminance);
   
-  return (lighter + 0.05) / (darker + 0.05);
+  return (lighterLuminance + 0.05) / (darkerLuminance + 0.05);
 }
 
 /**
@@ -107,17 +107,17 @@ export function validateFlashFusionPalette() {
   
   // Test critical combinations
   const testCombinations = [
-    { fg: palette.textPrimary, bg: palette.bgDark, name: 'Primary text on dark bg' },
-    { fg: palette.textSecondary, bg: palette.bgDark, name: 'Secondary text on dark bg' },
-    { fg: palette.textMuted, bg: palette.bgDark, name: 'Muted text on dark bg' },
-    { fg: palette.textPrimary, bg: palette.surface, name: 'Primary text on surface' },
-    { fg: palette.textPrimary, bg: palette.primary, name: 'White on primary' },
-    { fg: palette.textPrimary, bg: palette.secondary, name: 'White on secondary' },
-    { fg: palette.textPrimary, bg: palette.accent, name: 'White on accent' },
+    { foregroundColor: palette.textPrimary, backgroundColor: palette.bgDark, name: 'Primary text on dark bg' },
+    { foregroundColor: palette.textSecondary, backgroundColor: palette.bgDark, name: 'Secondary text on dark bg' },
+    { foregroundColor: palette.textMuted, backgroundColor: palette.bgDark, name: 'Muted text on dark bg' },
+    { foregroundColor: palette.textPrimary, backgroundColor: palette.surface, name: 'Primary text on surface' },
+    { foregroundColor: palette.textPrimary, backgroundColor: palette.primary, name: 'White on primary' },
+    { foregroundColor: palette.textPrimary, backgroundColor: palette.secondary, name: 'White on secondary' },
+    { foregroundColor: palette.textPrimary, backgroundColor: palette.accent, name: 'White on accent' },
   ];
   
-  testCombinations.forEach(({ fg, bg, name }) => {
-    const result = meetsContrastRequirement(fg, bg, 'AA');
+  testCombinations.forEach(({ foregroundColor, backgroundColor, name }) => {
+    const result = meetsContrastRequirement(foregroundColor, backgroundColor, 'AA');
     results.push({
       combination: name,
       ...result,
@@ -459,19 +459,19 @@ export function trapFocus(container: HTMLElement): () => void {
   const firstFocusable = focusableElements[0];
   const lastFocusable = focusableElements[focusableElements.length - 1];
   
-  function handleKeyDown(e: KeyboardEvent) {
-    if (e.key !== 'Tab') return;
+  function handleKeyDown(keyboardEvent: KeyboardEvent) {
+    if (keyboardEvent.key !== 'Tab') return;
     
-    if (e.shiftKey) {
+    if (keyboardEvent.shiftKey) {
       // Shift + Tab
       if (document.activeElement === firstFocusable) {
-        e.preventDefault();
+        keyboardEvent.preventDefault();
         lastFocusable.focus();
       }
     } else {
       // Tab
       if (document.activeElement === lastFocusable) {
-        e.preventDefault();
+        keyboardEvent.preventDefault();
         firstFocusable.focus();
       }
     }
