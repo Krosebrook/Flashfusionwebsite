@@ -1,6 +1,6 @@
 # FlashFusion Senior Snapshot
 
-**Last Updated**: 2024-11-24  
+**Last Updated**: 2025-11-28  
 **Status**: Published  
 **Audience**: Executives, Engineering Leads, Product, Ops
 
