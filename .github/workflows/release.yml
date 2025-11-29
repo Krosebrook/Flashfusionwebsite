@@ -46,8 +46,8 @@ jobs:
             IS_PRERELEASE="${{ github.event.inputs.prerelease }}"
           else
             VERSION="${GITHUB_REF#refs/tags/v}"
-            # Check if it's a prerelease (contains alpha, beta, rc, etc.)
-            if [[ "$VERSION" =~ (alpha|beta|rc|pre) ]]; then
+            # Check if it's a prerelease (contains alpha, beta, rc, dev, snapshot, etc.)
+            if [[ "$VERSION" =~ (alpha|beta|rc|pre|dev|snapshot|canary|next|nightly) ]]; then
               IS_PRERELEASE="true"
             else
               IS_PRERELEASE="false"
