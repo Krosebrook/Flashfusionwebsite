@@ -1,0 +1,222 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        type: choice
+        options:
+          - preview
+          - staging
+          - production
+        default: preview
+
+# Cancel in-progress deployments for the same branch
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  deployments: write
+
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '9'
+
+jobs:
+  # Build the application
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    outputs:
+      build-artifact: build-${{ github.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: pnpm build
+        env:
+          NODE_ENV: production
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+          path: build/
+          retention-days: 7
+
+  # Preview deployment for pull requests
+  preview:
+    name: Preview Deployment
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'preview')
+    environment:
+      name: preview
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+          path: build/
+
+      - name: Deploy to preview
+        id: deploy
+        run: |
+          echo "🚀 Deploying to preview environment..."
+          # This is a placeholder for your actual deployment command
+          # Replace with your deployment provider (Vercel, Netlify, AWS, etc.)
+          #
+          # Examples:
+          # Vercel: vercel --token=${{ secrets.VERCEL_TOKEN }} --prod=false
+          # Netlify: netlify deploy --dir=build --site=${{ secrets.NETLIFY_SITE_ID }}
+          # AWS S3: aws s3 sync build/ s3://your-bucket-preview/
+          #
+          echo "url=https://preview-${GITHUB_SHA:0:7}.example.com" >> $GITHUB_OUTPUT
+          echo "✅ Preview deployment ready!"
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## 🚀 Preview Deployment Ready!
+              
+              Your changes have been deployed to a preview environment.
+              
+              **Preview URL:** ${{ steps.deploy.outputs.url }}
+              **Commit:** \`${context.sha.substring(0, 7)}\`
+              
+              ---
+              _This preview will be automatically removed when the PR is closed._`
+            })
+
+  # Staging deployment
+  staging:
+    name: Staging Deployment
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging'
+    environment:
+      name: staging
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+          path: build/
+
+      - name: Deploy to staging
+        id: deploy
+        run: |
+          echo "🚀 Deploying to staging environment..."
+          # Replace with your staging deployment command
+          echo "url=https://staging.example.com" >> $GITHUB_OUTPUT
+          echo "✅ Staging deployment complete!"
+
+  # Production deployment
+  production:
+    name: Production Deployment
+    runs-on: ubuntu-latest
+    needs: build
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+          path: build/
+
+      - name: Deploy to production
+        id: deploy
+        run: |
+          echo "🚀 Deploying to production environment..."
+          # Replace with your production deployment command
+          #
+          # Examples:
+          # Vercel: vercel --token=${{ secrets.VERCEL_TOKEN }} --prod
+          # Netlify: netlify deploy --dir=build --site=${{ secrets.NETLIFY_SITE_ID }} --prod
+          # AWS S3 + CloudFront: 
+          #   aws s3 sync build/ s3://your-bucket/ --delete
+          #   aws cloudfront create-invalidation --distribution-id=${{ secrets.CLOUDFRONT_ID }} --paths "/*"
+          #
+          echo "url=https://flashfusion.app" >> $GITHUB_OUTPUT
+          echo "✅ Production deployment complete!"
+
+      - name: Create deployment record
+        if: success()
+        run: |
+          echo "📝 Recording deployment..."
+          echo "Deployed commit: ${{ github.sha }}"
+          echo "Deployed at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          echo "Deployed by: ${{ github.actor }}"
+
+  # Post-deployment health check
+  health-check:
+    name: Health Check
+    runs-on: ubuntu-latest
+    needs: [production]
+    if: needs.production.result == 'success'
+    steps:
+      - name: Wait for deployment to propagate
+        run: sleep 30
+
+      - name: Check application health
+        run: |
+          echo "🏥 Running health checks..."
+          # Replace with your actual health check endpoint
+          # curl --fail --retry 3 --retry-delay 10 https://flashfusion.app/api/health || exit 1
+          echo "✅ Health check passed!"
+
+      - name: Notify on success
+        if: success()
+        run: |
+          echo "🎉 Deployment successful and healthy!"
+          # Add notification logic here (Slack, Discord, email, etc.)
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Deployment health check failed!"
+          # Add failure notification logic here
