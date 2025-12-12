@@ -22,12 +22,12 @@ export function useGamification(userId?: string): UseGamificationReturn {
 
   // Get or create user ID
   const currentUserId = userId || (() => {
-    const existing = localStorage.getItem('user_id');
-    if (existing) return existing;
+    const storedUserId = localStorage.getItem('user_id');
+    if (storedUserId) return storedUserId;
     
-    const newId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    localStorage.setItem('user_id', newId);
-    return newId;
+    const generatedUserId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    localStorage.setItem('user_id', generatedUserId);
+    return generatedUserId;
   })();
 
   // Load user stats
@@ -60,9 +60,9 @@ export function useGamification(userId?: string): UseGamificationReturn {
         };
         setUserStats(initialStats);
       }
-    } catch (err) {
+    } catch (caughtError) {
       // Don't show error for demo mode, just use fallback
-      const errorMessage = err instanceof Error ? err.message : 'Failed to load gamification data';
+      const errorMessage = caughtError instanceof Error ? caughtError.message : 'Failed to load gamification data';
       if (!errorMessage.includes('Demo mode')) {
         setError(errorMessage);
       }
@@ -133,8 +133,8 @@ export function useGamification(userId?: string): UseGamificationReturn {
       if (updatedStats) {
         setUserStats(updatedStats);
       }
-    } catch (err) {
-      console.error('Failed to add XP:', err);
+    } catch (xpUpdateError) {
+      console.error('Failed to add XP:', xpUpdateError);
       toast.error('Failed to update XP. Please try again.');
     }
   }, [currentUserId]);
@@ -144,8 +144,8 @@ export function useGamification(userId?: string): UseGamificationReturn {
     try {
       await GamificationService.recordToolUsage(currentUserId, toolName, isFirstTime);
       await refreshStats();
-    } catch (err) {
-      console.error('Failed to record tool usage:', err);
+    } catch (toolUsageError) {
+      console.error('Failed to record tool usage:', toolUsageError);
     }
   }, [currentUserId, refreshStats]);
 
@@ -154,8 +154,8 @@ export function useGamification(userId?: string): UseGamificationReturn {
     try {
       await GamificationService.recordProjectCompletion(currentUserId, projectName, projectType);
       await refreshStats();
-    } catch (err) {
-      console.error('Failed to record project completion:', err);
+    } catch (projectCompletionError) {
+      console.error('Failed to record project completion:', projectCompletionError);
     }
   }, [currentUserId, refreshStats]);
 
@@ -164,8 +164,8 @@ export function useGamification(userId?: string): UseGamificationReturn {
     try {
       await GamificationService.recordCodeGeneration(currentUserId, codeType, linesGenerated);
       await refreshStats();
-    } catch (err) {
-      console.error('Failed to record code generation:', err);
+    } catch (codeGenerationError) {
+      console.error('Failed to record code generation:', codeGenerationError);
     }
   }, [currentUserId, refreshStats]);
 
@@ -174,8 +174,8 @@ export function useGamification(userId?: string): UseGamificationReturn {
     try {
       await GamificationService.recordDailyLogin(currentUserId);
       await refreshStats();
-    } catch (err) {
-      console.error('Failed to record daily login:', err);
+    } catch (dailyLoginError) {
+      console.error('Failed to record daily login:', dailyLoginError);
     }
   }, [currentUserId, refreshStats]);
 
@@ -187,8 +187,8 @@ export function useGamification(userId?: string): UseGamificationReturn {
         await refreshStats();
       }
       return success;
-    } catch (err) {
-      console.error('Failed to unlock achievement:', err);
+    } catch (achievementUnlockError) {
+      console.error('Failed to unlock achievement:', achievementUnlockError);
       return false;
     }
   }, [currentUserId, refreshStats]);

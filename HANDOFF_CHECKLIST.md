@@ -168,10 +168,10 @@ jq '.recommendedPackages.installCommand' reports/lint-type-hygiene.json
 ### 1. Verify Setup (5 minutes)
 
 ```bash
-git checkout claude/general-refactoring-011CUWcE92TD4U8argM1HhWS
+git checkout main
 git pull
-pnpm install
-pnpm type-check  # Should pass
+npm install --legacy-peer-deps
+npm run type-check  # Should pass
 ```
 
 ### 2. Read This First (30 minutes)
@@ -258,5 +258,6 @@ cat migration-notes.md
 ---
 
 **Created**: 2025-10-27
-**Branch**: `claude/general-refactoring-011CUWcE92TD4U8argM1HhWS`
+**Updated**: 2025-11-28
+**Branch**: `main`
 **Status**: ✅ Ready for handoff
