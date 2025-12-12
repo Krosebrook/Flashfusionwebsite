@@ -21,9 +21,8 @@ import { Badge } from '../ui/badge';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Progress } from '../ui/progress';
 import { Separator } from '../ui/separator';
-import { ScrollArea } from '../ui/scroll-area';
 import { Switch } from '../ui/switch';
-import { 
+import {
   Rocket,
   BookOpen,
   Users,
@@ -38,30 +37,20 @@ import {
   Download,
   Share2,
   Mail,
-  MessageCircle,
-  Phone,
-  Globe,
   Star,
   TrendingUp,
-  Eye,
-  Heart,
-  ThumbsUp,
   Camera,
-  Mic,
   Edit,
-  Copy,
-  ExternalLink,
-  Play,
-  Pause,
-  RotateCcw,
-  Zap,
   Target,
   Award,
   Briefcase,
   PieChart,
   BarChart3,
   Calendar,
-  Loader2
+  Code,
+  Loader2,
+  Settings,
+  Terminal
 } from 'lucide-react';
 
 interface LaunchAsset {
@@ -1362,6 +1351,39 @@ https://flashfusion.ai/press-kit
     setLaunchReadiness(Math.round((completedChecks / totalChecks) * 100));
   }, []);
 
+  // NOTE: `campaignStatistics.averageEngagement` is expected to be a percentage (0-100).
+  // If engagement values are stored as decimals (0-1), convert to percentage before using.
+  const marketingEngagementScore = useMemo(() => {
+    const engagement = campaignStatistics.averageEngagement;
+    if (engagement < 0 || engagement > 100) {
+      console.warn(
+        '[LaunchPreparationHub] averageEngagement is outside expected range (0-100):',
+        engagement
+      );
+    }
+    return Math.round(Math.min(100, engagement));
+  }, [campaignStatistics.averageEngagement]);
+  const supportHealthScore = useMemo(
+    () => Math.round(Math.min(1, supportMetrics.averageSatisfaction / 5) * 100),
+    [supportMetrics.averageSatisfaction]
+  );
+
+  const overallProgress = useMemo(
+    () =>
+      calculateOverallProgress({
+        assets: assetStatistics.averageProgress,
+        campaigns: marketingEngagementScore,
+        support: supportHealthScore,
+        legal: launchReadiness,
+      }),
+    [
+      assetStatistics.averageProgress,
+      marketingEngagementScore,
+      supportHealthScore,
+      launchReadiness,
+    ]
+  );
+
   return (
     <div className="space-y-6" style={{ fontFamily: 'var(--ff-font-secondary)' }}>
       <Card className="bg-[var(--ff-surface)] border-[var(--border)]">
@@ -1388,6 +1410,10 @@ https://flashfusion.ai/press-kit
                 </Badge>
               </div>
               <Progress value={launchReadiness} className="h-2 mt-2" />
+              <div className="mt-3 text-xs text-[var(--ff-text-muted)]">
+                Operational progress across assets, marketing, support, and legal preparation is tracking at
+                <span className="font-semibold text-[var(--ff-text-primary)]"> {overallProgress}%</span>.
+              </div>
             </AlertDescription>
           </Alert>
 
@@ -1422,6 +1448,61 @@ https://flashfusion.ai/press-kit
                   <strong className="text-[var(--ff-secondary)]">Documentation Generation:</strong> Create comprehensive user guides, API documentation, tutorials, and troubleshooting resources.
                 </AlertDescription>
               </Alert>
+
+              <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
+                <CardHeader>
+                  <CardTitle className="text-[var(--ff-text-primary)] flex items-center gap-2">
+                    <PieChart className="w-5 h-5" />
+                    Asset Overview
+                  </CardTitle>
+                  <CardDescription className="text-[var(--ff-text-secondary)]">
+                    Metrics aggregated via LaunchPreparationHub.logic utilities
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div className="p-4 rounded-lg bg-[var(--ff-surface)]/70 border border-[var(--border)]">
+                      <p className="text-[var(--ff-text-muted)]">Total Assets</p>
+                      <p className="text-2xl font-semibold text-[var(--ff-text-primary)]">{assetStatistics.total}</p>
+                    </div>
+                    <div className="p-4 rounded-lg bg-[var(--ff-surface)]/70 border border-[var(--border)]">
+                      <p className="text-[var(--ff-text-muted)]">Average Progress</p>
+                      <p className="text-2xl font-semibold text-[var(--ff-text-primary)]">{assetStatistics.averageProgress}%</p>
+                    </div>
+                    <div className="p-4 rounded-lg bg-[var(--ff-surface)]/70 border border-[var(--border)]">
+                      <p className="text-[var(--ff-text-muted)]">Approved Assets</p>
+                      <p className="text-2xl font-semibold text-[var(--ff-text-primary)]">{assetStatistics.byStatus.approved ?? 0}</p>
+                    </div>
+                  </div>
+                  <Separator className="bg-[var(--border)]" />
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm text-[var(--ff-text-secondary)]">
+                      <Target className="w-4 h-4 text-[var(--ff-primary)]" />
+                      Upcoming Asset Deadlines
+                    </div>
+                    {assetTimeline.length > 0 ? (
+                      <div className="space-y-2">
+                        {assetTimeline.slice(0, 3).map((item, idx) => (
+                          <div
+                            key={`${item.title}-${item.date.toISOString()}-${idx}`}
+                            className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--ff-surface)]/80 px-3 py-2"
+                          >
+                            <div>
+                              <p className="font-medium text-[var(--ff-text-primary)]">{item.title}</p>
+                              <p className="text-xs text-[var(--ff-text-muted)] capitalize">{item.type.replace(/-/g, ' ')}</p>
+                            </div>
+                            <span className="text-sm text-[var(--ff-text-secondary)]">{item.date.toLocaleDateString()}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-[var(--ff-text-muted)]">
+                        No upcoming asset deadlines yet. Assign due dates to highlight key milestones.
+                      </p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
@@ -1526,7 +1607,7 @@ https://flashfusion.ai/press-kit
               )}
 
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {assets.filter(asset => asset.type === 'documentation').map((asset) => (
+                {documentationAssets.map((asset) => (
                   <Card key={asset.id} className="bg-[var(--ff-surface)] border-[var(--border)]">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between mb-2">
@@ -1554,6 +1635,36 @@ https://flashfusion.ai/press-kit
                   <strong className="text-[var(--ff-accent)]">Marketing Campaign Management:</strong> Create and manage launch campaigns across multiple channels with performance tracking.
                 </AlertDescription>
               </Alert>
+
+              <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
+                <CardHeader>
+                  <CardTitle className="text-[var(--ff-text-primary)] flex items-center gap-2">
+                    <Briefcase className="w-5 h-5" />
+                    Campaign Portfolio Overview
+                  </CardTitle>
+                  <CardDescription className="text-[var(--ff-text-secondary)]">
+                    Aggregated ROI and performance metrics generated via LaunchPreparationHub.logic helpers
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                  <div className="p-4 rounded-lg bg-[var(--ff-surface)]/70 border border-[var(--border)]">
+                    <p className="text-[var(--ff-text-muted)]">Total Campaigns</p>
+                    <p className="text-2xl font-semibold text-[var(--ff-text-primary)]">{campaignStatistics.total}</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-[var(--ff-surface)]/70 border border-[var(--border)]">
+                    <p className="text-[var(--ff-text-muted)]">Active Campaigns</p>
+                    <p className="text-2xl font-semibold text-[var(--ff-text-primary)]">{campaignStatistics.active}</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-[var(--ff-surface)]/70 border border-[var(--border)]">
+                    <p className="text-[var(--ff-text-muted)]">Portfolio ROI</p>
+                    <p className="text-2xl font-semibold text-[var(--ff-text-primary)]">{Math.round(campaignStatistics.portfolioROI)}%</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-[var(--ff-surface)]/70 border border-[var(--border)]">
+                    <p className="text-[var(--ff-text-muted)]">Total Budget</p>
+                    <p className="text-2xl font-semibold text-[var(--ff-text-primary)]">${campaignStatistics.totalBudget.toLocaleString()}</p>
+                  </div>
+                </CardContent>
+              </Card>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
@@ -1685,6 +1796,50 @@ https://flashfusion.ai/press-kit
                   <strong className="text-[var(--ff-warning)]">Support Systems:</strong> Configure help desk, community forums, knowledge base, and customer success tools for post-launch support.
                 </AlertDescription>
               </Alert>
+
+              <Card className="bg-[var(--ff-surface-light)] border-[var(--border)]">
+                <CardHeader>
+                  <CardTitle className="text-[var(--ff-text-primary)] flex items-center gap-2">
+                    <Users className="w-5 h-5" />
+                    Support Operations Overview
+                  </CardTitle>
+                  <CardDescription className="text-[var(--ff-text-secondary)]">
+                    Aggregated satisfaction and volume insights calculated via LaunchPreparationHub.logic helpers
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4 text-sm">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="p-4 rounded-lg bg-[var(--ff-surface)]/70 border border-[var(--border)]">
+                      <p className="text-[var(--ff-text-muted)]">Monthly Volume</p>
+                      <p className="text-2xl font-semibold text-[var(--ff-text-primary)]">{supportMetrics.totalVolume.toLocaleString()}</p>
+                    </div>
+                    <div className="p-4 rounded-lg bg-[var(--ff-surface)]/70 border border-[var(--border)]">
+                      <p className="text-[var(--ff-text-muted)]">Avg. Satisfaction</p>
+                      <p className="text-2xl font-semibold text-[var(--ff-text-primary)]">
+                        <span className="flex items-center gap-2">
+                          <Award className="w-4 h-4 text-[var(--ff-success)]" />
+                          {supportMetrics.averageSatisfaction.toFixed(1)} / 5.0
+                        </span>
+                      </p>
+                    </div>
+                    <div className="p-4 rounded-lg bg-[var(--ff-surface)]/70 border border-[var(--border)]">
+                      <p className="text-[var(--ff-text-muted)]">Active Channels</p>
+                      <p className="text-2xl font-semibold text-[var(--ff-text-primary)]">{supportStatistics.active}</p>
+                    </div>
+                  </div>
+                  <Separator className="bg-[var(--border)]" />
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-[var(--ff-text-muted)]">Channels by Type</p>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {Object.entries(supportMetrics.channelsByType).map(([type, count]) => (
+                        <Badge key={type} variant="outline" className="capitalize">
+                          {type} ({count})
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {supportChannels.map((channel) => (
