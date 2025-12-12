@@ -16,13 +16,29 @@ interface EnvironmentConfig {
   VITE_GOOGLE_ANALYTICS_ID?: string;
   VITE_MIXPANEL_TOKEN?: string;
   VITE_HOTJAR_ID?: string;
+  VITE_GA_MEASUREMENT_ID?: string;
   
   // Supabase Configuration
   VITE_SUPABASE_URL?: string;
   VITE_SUPABASE_ANON_KEY?: string;
+  SUPABASE_SERVICE_ROLE_KEY?: string; // Server-side only
   
   // API Configuration
   VITE_API_BASE_URL?: string;
+  
+  // AI Tools
+  VITE_OPENAI_API_KEY?: string;
+  VITE_ANTHROPIC_API_KEY?: string;
+  VITE_GOOGLE_AI_API_KEY?: string;
+  VITE_HUGGINGFACE_API_KEY?: string;
+  VITE_STABILITY_API_KEY?: string;
+  
+  // Monitoring
+  VITE_SENTRY_DSN?: string;
+  
+  // Integrations
+  VITE_STRIPE_PUBLISHABLE_KEY?: string;
+  VITE_GITHUB_TOKEN?: string;
   
   // Feature Flags
   VITE_ENABLE_ANALYTICS?: string;
@@ -35,6 +51,10 @@ function safeGetEnvVar(key: string, fallback: string = ''): string {
   try {
     // Check if we're in a browser environment
     if (typeof window !== 'undefined' && typeof import.meta !== 'undefined' && import.meta.env) {
+      // Check both with and without VITE_ prefix if the key starts with VITE_
+      if (key.startsWith('VITE_')) {
+          return import.meta.env[key] || import.meta.env[key.replace('VITE_', '')] || fallback;
+      }
       return import.meta.env[key] || fallback;
     }
     
@@ -104,13 +124,29 @@ function getEnvironmentConfig(): EnvironmentConfig {
     VITE_GOOGLE_ANALYTICS_ID: safeGetEnvVar('VITE_GOOGLE_ANALYTICS_ID'),
     VITE_MIXPANEL_TOKEN: safeGetEnvVar('VITE_MIXPANEL_TOKEN'),
     VITE_HOTJAR_ID: safeGetEnvVar('VITE_HOTJAR_ID'),
+    VITE_GA_MEASUREMENT_ID: safeGetEnvVar('VITE_GA_MEASUREMENT_ID'),
     
     // Supabase
     VITE_SUPABASE_URL: safeGetEnvVar('VITE_SUPABASE_URL'),
     VITE_SUPABASE_ANON_KEY: safeGetEnvVar('VITE_SUPABASE_ANON_KEY'),
+    SUPABASE_SERVICE_ROLE_KEY: safeGetEnvVar('SUPABASE_SERVICE_ROLE_KEY'),
     
     // API
     VITE_API_BASE_URL: safeGetEnvVar('VITE_API_BASE_URL', '/api'),
+    
+    // AI Tools
+    VITE_OPENAI_API_KEY: safeGetEnvVar('VITE_OPENAI_API_KEY'),
+    VITE_ANTHROPIC_API_KEY: safeGetEnvVar('VITE_ANTHROPIC_API_KEY'),
+    VITE_GOOGLE_AI_API_KEY: safeGetEnvVar('VITE_GOOGLE_AI_API_KEY'),
+    VITE_HUGGINGFACE_API_KEY: safeGetEnvVar('VITE_HUGGINGFACE_API_KEY'),
+    VITE_STABILITY_API_KEY: safeGetEnvVar('VITE_STABILITY_API_KEY'),
+    
+    // Monitoring
+    VITE_SENTRY_DSN: safeGetEnvVar('VITE_SENTRY_DSN'),
+    
+    // Integrations
+    VITE_STRIPE_PUBLISHABLE_KEY: safeGetEnvVar('VITE_STRIPE_PUBLISHABLE_KEY'),
+    VITE_GITHUB_TOKEN: safeGetEnvVar('VITE_GITHUB_TOKEN'),
     
     // Feature flags
     VITE_ENABLE_ANALYTICS: safeGetEnvVar('VITE_ENABLE_ANALYTICS', 'true'),
@@ -200,6 +236,11 @@ export function validateRequiredEnvVars(): { isValid: boolean; missing: string[]
       'VITE_SUPABASE_URL',
       'VITE_SUPABASE_ANON_KEY'
     ];
+    
+    // Only require these if features are enabled or in production
+    if (isProduction()) {
+       requiredVars.push('VITE_OPENAI_API_KEY');
+    }
     
     const missing = requiredVars.filter(varName => {
       const value = config[varName as keyof EnvironmentConfig];
