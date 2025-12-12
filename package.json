@@ -42,7 +42,6 @@
           "@radix-ui/react-toggle-group": "^1.1.2",
           "@radix-ui/react-tooltip": "^1.1.8",
           "@storybook/react": "*",
-          "@storybook/react-vite": "*",
           "@storybook/test": "*",
           "@supabase/supabase-js": "^2",
           "@testing-library/jest-dom": "*",

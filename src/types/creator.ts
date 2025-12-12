@@ -1,23 +1,4 @@
-/**
- * @fileoverview Creator Mode specific type definitions
- * @module types/creator
- */
-
-/**
- * Content idea for creator inspiration
- * @interface ContentIdea
- * @property {string} id - Unique idea identifier
- * @property {string} title - Idea title
- * @property {string} description - Detailed description
- * @property {string[]} platform - Target platforms (e.g., YouTube, TikTok)
- * @property {string} category - Content category
- * @property {'easy' | 'medium' | 'hard'} difficulty - Difficulty level
- * @property {string} estimated_time - Estimated time to create
- * @property {'high' | 'medium' | 'low'} engagement_potential - Expected engagement level
- * @property {boolean} trending - Whether idea is currently trending
- * @property {string[]} keywords - Related keywords
- * @property {string} created_at - Creation timestamp
- */
+// Creator Mode specific types
 export interface ContentIdea {
   id: string;
   title: string;
@@ -32,21 +13,6 @@ export interface ContentIdea {
   created_at: string;
 }
 
-/**
- * AI-generated social media caption
- * @interface GeneratedCaption
- * @property {string} id - Unique caption identifier
- * @property {string} text - Caption text
- * @property {string} platform - Target platform
- * @property {string} category - Content category
- * @property {string[]} hooks - Attention-grabbing hooks
- * @property {string} cta - Call-to-action text
- * @property {string[]} hashtags - Suggested hashtags
- * @property {number} character_count - Character count
- * @property {number} engagement_score - Predicted engagement score (0-100)
- * @property {number} brand_alignment_score - Brand alignment score (0-100)
- * @property {string} created_at - Creation timestamp
- */
 export interface GeneratedCaption {
   id: string;
   text: string;
@@ -61,25 +27,6 @@ export interface GeneratedCaption {
   created_at: string;
 }
 
-/**
- * Content calendar event for scheduling posts
- * @interface ContentCalendarEvent
- * @property {string} id - Unique event identifier
- * @property {string} user_id - Owner user ID
- * @property {string} title - Event title
- * @property {string} content - Content to be published
- * @property {string[]} platform - Target platforms
- * @property {string} scheduled_time - Scheduled publication time
- * @property {'draft' | 'scheduled' | 'published' | 'failed'} status - Publication status
- * @property {Object} [engagement_metrics] - Post engagement metrics
- * @property {number} engagement_metrics.views - View count
- * @property {number} engagement_metrics.likes - Like count
- * @property {number} engagement_metrics.comments - Comment count
- * @property {number} engagement_metrics.shares - Share count
- * @property {number} engagement_metrics.saves - Save count
- * @property {string} created_at - Creation timestamp
- * @property {string} updated_at - Last update timestamp
- */
 export interface ContentCalendarEvent {
   id: string;
   user_id: string;
@@ -99,10 +46,6 @@ export interface ContentCalendarEvent {
   updated_at: string;
 }
 
-/**
- * Creator mode module configuration
- * @interface CreatorModule
- */
 export interface CreatorModule {
   id: string;
   name: string;

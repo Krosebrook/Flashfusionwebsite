@@ -27,7 +27,7 @@ const createEnhancedFallback = (name: string, message: string, action?: () => vo
   const FallbackComponent = React.memo(() => (
     <div className="min-h-screen bg-[var(--ff-bg-dark)] flex items-center justify-center ff-fade-in-up">
       <div className="p-8 text-center text-white max-w-md space-y-6">
-        <div className="w-20 h-20 bg-gradient-to-br from-orange-500/20 to-orange-600/30 rounded-2xl flex items-center justify-center mx-auto mb-6 ff-pulse-glow">
+        <div className="w-20 h-20 bg-gradient-to-br from-[var(--ff-primary)]/20 to-[var(--ff-primary-600)]/30 rounded-2xl flex items-center justify-center mx-auto mb-6 ff-pulse-glow">
           <span className="text-3xl">⚡</span>
         </div>
         <h2 className="ff-text-title">{message}</h2>
@@ -557,12 +557,12 @@ export function AppCoreOptimized(): JSX.Element {
           {/* Enhanced development debug info */}
           {process.env.NODE_ENV === 'development' && (
             <div className="fixed bottom-4 right-4 bg-black/90 text-white p-3 rounded-lg text-xs space-y-1 max-w-xs">
-              <div>Mode: <span className="text-orange-400">{appState.mode}</span></div>
-              <div>User: <span className="text-cyan-400">{auth.user.email}</span></div>
-              <div>Device: <span className="text-purple-400">
+              <div>Mode: <span className="text-[var(--ff-primary)]">{appState.mode}</span></div>
+              <div>User: <span className="text-[var(--ff-secondary)]">{auth.user.email}</span></div>
+              <div>Device: <span className="text-[var(--ff-accent)]">
                 {deviceDetection.isMobile ? 'Mobile' : deviceDetection.isTablet ? 'Tablet' : 'Desktop'}
               </span></div>
-              <div>Renders: <span className="text-green-400">{performanceMetrics.renderCount}</span></div>
+              <div>Renders: <span className="text-[var(--ff-success)]">{performanceMetrics.renderCount}</span></div>
             </div>
           )}
         </div>
@@ -589,10 +589,10 @@ export function AppCoreOptimized(): JSX.Element {
         {/* Enhanced development debug info */}
         {process.env.NODE_ENV === 'development' && (
           <div className="fixed bottom-4 right-4 bg-black/90 text-white p-3 rounded-lg text-xs space-y-1 max-w-xs">
-            <div>Mode: <span className="text-orange-400">{appState.mode}</span></div>
-            <div>Auth: <span className="text-cyan-400">{auth.isInitialized ? 'Ready' : 'Loading'}</span></div>
-            <div>Route: <span className="text-purple-400">{routeState.currentPath}</span></div>
-            <div>Connection: <span className="text-green-400">{systemInfo.connection}</span></div>
+            <div>Mode: <span className="text-[var(--ff-primary)]">{appState.mode}</span></div>
+            <div>Auth: <span className="text-[var(--ff-secondary)]">{auth.isInitialized ? 'Ready' : 'Loading'}</span></div>
+            <div>Route: <span className="text-[var(--ff-accent)]">{routeState.currentPath}</span></div>
+            <div>Connection: <span className="text-[var(--ff-success)]">{systemInfo.connection}</span></div>
           </div>
         )}
       </div>
