@@ -165,11 +165,11 @@ export function useAppState() {
   // Enhanced authentication handler
   const handleAuthToggle = useCallback(() => {
     try {
-      const isLoggingIn = !isAuthenticated;
+      const newAuthState = !isAuthenticated;
       
-      if (isLoggingIn) {
-        const demoAuthToken = `ff-demo-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-        localStorage.setItem(APP_CONFIG.STORAGE_KEYS.AUTH_TOKEN, demoAuthToken);
+      if (newAuthState) {
+        const demoToken = `ff-demo-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        localStorage.setItem(APP_CONFIG.STORAGE_KEYS.AUTH_TOKEN, demoToken);
         setIsAuthenticated(true);
         
         document.body.classList.add('ff-level-up');
@@ -190,10 +190,10 @@ export function useAppState() {
         
         // Clear application caches
         if ('caches' in window) {
-          caches.keys().then(cacheNames => {
-            cacheNames.forEach(cacheName => {
-              if (cacheName.includes('ff-') || cacheName.includes('flashfusion')) {
-                caches.delete(cacheName);
+          caches.keys().then(names => {
+            names.forEach(name => {
+              if (name.includes('ff-') || name.includes('flashfusion')) {
+                caches.delete(name);
               }
             });
           }).catch(console.warn);
@@ -201,12 +201,12 @@ export function useAppState() {
         
         setError(null);
       }
-    } catch (authError) {
-      console.error('Authentication error:', authError);
+    } catch (error) {
+      console.error('Authentication error:', error);
       setError({
         type: 'authentication',
         message: 'Authentication process failed',
-        details: authError instanceof Error ? authError.message : 'Unknown authentication error',
+        details: error instanceof Error ? error.message : 'Unknown authentication error',
         recoverable: true,
         code: 'AUTH_PROCESS_ERROR',
         timestamp: new Date().toISOString()
@@ -295,20 +295,20 @@ export function useAppState() {
       }, APP_CONFIG.ANIMATION_DELAYS.PAGE_TRANSITION);
       
       // Announce page change to screen readers
-      const accessibilityAnnouncement = document.createElement('div');
-      accessibilityAnnouncement.setAttribute('aria-live', 'polite');
-      accessibilityAnnouncement.setAttribute('aria-atomic', 'true');
-      accessibilityAnnouncement.className = 'sr-only';
-      accessibilityAnnouncement.textContent = `Navigated to ${page.replace('-', ' ')} page`;
-      document.body.appendChild(accessibilityAnnouncement);
-      setTimeout(() => document.body.removeChild(accessibilityAnnouncement), 1000);
+      const announcement = document.createElement('div');
+      announcement.setAttribute('aria-live', 'polite');
+      announcement.setAttribute('aria-atomic', 'true');
+      announcement.className = 'sr-only';
+      announcement.textContent = `Navigated to ${page.replace('-', ' ')} page`;
+      document.body.appendChild(announcement);
+      setTimeout(() => document.body.removeChild(announcement), 1000);
       
-    } catch (navigationError) {
-      console.error('Page change error:', navigationError);
+    } catch (error) {
+      console.error('Page change error:', error);
       setError({
         type: 'component',
         message: 'Navigation failed',
-        details: navigationError instanceof Error ? navigationError.message : 'Unknown navigation error',
+        details: error instanceof Error ? error.message : 'Unknown navigation error',
         recoverable: true,
         code: 'NAVIGATION_ERROR',
         timestamp: new Date().toISOString()

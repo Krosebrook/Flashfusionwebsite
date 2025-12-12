@@ -1,28 +1,253 @@
--- Enable Row Level Security
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO postgres, anon, authenticated, service_role;
+-- FlashFusion Production Database Schema
+-- This schema supports the full gamification system, analytics, and user management
 
--- Create custom types
-CREATE TYPE user_role AS ENUM ('free', 'pro', 'enterprise');
-CREATE TYPE project_status AS ENUM ('draft', 'active', 'completed', 'archived');
-CREATE TYPE deployment_status AS ENUM ('deploying', 'deployed', 'failed', 'paused');
-CREATE TYPE integration_status AS ENUM ('connected', 'disconnected', 'error');
+-- Enable necessary extensions
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pg_stat_statements";
 
--- Users table (extends Supabase auth.users)
+-- Users table with comprehensive gamification fields
 CREATE TABLE users (
-  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   email TEXT UNIQUE NOT NULL,
+  username TEXT UNIQUE,
   full_name TEXT,
   avatar_url TEXT,
-  role user_role DEFAULT 'free',
-  credits INTEGER DEFAULT 100,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  
+  -- Gamification fields
+  level INTEGER DEFAULT 1,
+  xp INTEGER DEFAULT 0,
+  xp_to_next_level INTEGER DEFAULT 1000,
+  total_xp INTEGER DEFAULT 0,
+  current_streak INTEGER DEFAULT 0,
+  longest_streak INTEGER DEFAULT 0,
+  last_activity_date DATE DEFAULT CURRENT_DATE,
+  
+  -- User preferences
+  theme TEXT DEFAULT 'dark',
+  notification_preferences JSONB DEFAULT '{"email": true, "push": true, "achievements": true}',
+  preferred_tools TEXT[] DEFAULT '{}',
+  
+  -- Subscription and limits
+  subscription_tier TEXT DEFAULT 'free' CHECK (subscription_tier IN ('free', 'pro', 'enterprise')),
+  api_calls_used INTEGER DEFAULT 0,
+  api_calls_limit INTEGER DEFAULT 100,
+  storage_used BIGINT DEFAULT 0,
+  storage_limit BIGINT DEFAULT 1073741824, -- 1GB in bytes
+  
+  -- Timestamps
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  last_login TIMESTAMPTZ,
+  email_verified BOOLEAN DEFAULT FALSE,
+  
+  -- Analytics
+  total_projects INTEGER DEFAULT 0,
+  total_deployments INTEGER DEFAULT 0,
+  favorite_ai_tools TEXT[] DEFAULT '{}'
 );
 
--- User statistics
+-- User achievements table
+CREATE TABLE user_achievements (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  achievement_id TEXT NOT NULL,
+  achievement_name TEXT NOT NULL,
+  achievement_description TEXT,
+  achievement_category TEXT NOT NULL,
+  xp_reward INTEGER DEFAULT 0,
+  earned_at TIMESTAMPTZ DEFAULT NOW(),
+  progress_data JSONB DEFAULT '{}',
+  
+  UNIQUE(user_id, achievement_id)
+);
+
+-- Daily tasks table
+CREATE TABLE daily_tasks (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  task_type TEXT NOT NULL,
+  task_title TEXT NOT NULL,
+  task_description TEXT,
+  xp_reward INTEGER DEFAULT 50,
+  target_value INTEGER DEFAULT 1,
+  current_progress INTEGER DEFAULT 0,
+  completed BOOLEAN DEFAULT FALSE,
+  expires_at DATE DEFAULT (CURRENT_DATE + INTERVAL '1 day'),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  completed_at TIMESTAMPTZ
+);
+
+-- Projects table with comprehensive metadata
+CREATE TABLE projects (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  description TEXT,
+  project_type TEXT DEFAULT 'web-app',
+  
+  -- Project configuration
+  framework TEXT DEFAULT 'react',
+  styling TEXT DEFAULT 'tailwind',
+  features TEXT[] DEFAULT '{}',
+  ai_tools_used TEXT[] DEFAULT '{}',
+  
+  -- Content and files
+  project_data JSONB DEFAULT '{}',
+  file_structure JSONB DEFAULT '{}',
+  generated_code TEXT,
+  
+  -- Deployment info
+  deployment_url TEXT,
+  deployment_platform TEXT,
+  deployment_status TEXT DEFAULT 'not_deployed',
+  
+  -- Analytics
+  views INTEGER DEFAULT 0,
+  likes INTEGER DEFAULT 0,
+  forks INTEGER DEFAULT 0,
+  
+  -- Timestamps
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  deployed_at TIMESTAMPTZ,
+  
+  -- Visibility and sharing
+  is_public BOOLEAN DEFAULT FALSE,
+  is_featured BOOLEAN DEFAULT FALSE,
+  tags TEXT[] DEFAULT '{}'
+);
+
+-- AI tool usage analytics
+CREATE TABLE ai_tool_usage (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  tool_id TEXT NOT NULL,
+  tool_category TEXT NOT NULL,
+  
+  -- Usage details
+  prompt_text TEXT,
+  generated_output TEXT,
+  tokens_used INTEGER DEFAULT 0,
+  processing_time_ms INTEGER,
+  success BOOLEAN DEFAULT TRUE,
+  error_message TEXT,
+  
+  -- Context
+  user_level INTEGER,
+  session_id TEXT,
+  ip_address INET,
+  user_agent TEXT,
+  
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Deployments table
+CREATE TABLE deployments (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  
+  -- Deployment details
+  platform TEXT NOT NULL,
+  deployment_url TEXT,
+  deployment_id TEXT, -- External platform ID
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'building', 'success', 'failed', 'cancelled')),
+  
+  -- Configuration
+  environment_variables JSONB DEFAULT '{}',
+  build_command TEXT,
+  output_directory TEXT DEFAULT 'dist',
+  
+  -- Logs and metadata
+  build_logs TEXT,
+  error_logs TEXT,
+  deployment_size BIGINT,
+  build_time_seconds INTEGER,
+  
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  deployed_at TIMESTAMPTZ
+);
+
+-- User sessions for analytics
+CREATE TABLE user_sessions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  session_id TEXT UNIQUE NOT NULL,
+  
+  -- Session data
+  started_at TIMESTAMPTZ DEFAULT NOW(),
+  ended_at TIMESTAMPTZ,
+  duration_seconds INTEGER,
+  
+  -- Context
+  ip_address INET,
+  user_agent TEXT,
+  referrer TEXT,
+  
+  -- Activity tracking
+  pages_visited TEXT[] DEFAULT '{}',
+  tools_used TEXT[] DEFAULT '{}',
+  projects_worked_on UUID[] DEFAULT '{}',
+  actions_performed JSONB DEFAULT '[]'
+);
+
+-- Community features
+CREATE TABLE project_likes (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  
+  UNIQUE(user_id, project_id)
+);
+
+CREATE TABLE project_comments (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  content TEXT NOT NULL,
+  parent_comment_id UUID REFERENCES project_comments(id) ON DELETE CASCADE,
+  
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- User API keys for external integrations
+CREATE TABLE user_api_keys (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  service_name TEXT NOT NULL,
+  encrypted_key TEXT NOT NULL,
+  key_hint TEXT, -- Last 4 characters for display
+  
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  last_used TIMESTAMPTZ,
+  
+  UNIQUE(user_id, service_name)
+);
+
+-- Integrations table for platform connections
+CREATE TABLE integrations (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  service TEXT NOT NULL, -- vercel, netlify, railway, etc.
+  status TEXT DEFAULT 'disconnected' CHECK (status IN ('connected', 'disconnected', 'error')),
+  config JSONB DEFAULT '{}', -- API keys, tokens, settings
+  
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  
+  UNIQUE(user_id, service)
+);
+
+-- User stats table for detailed analytics
 CREATE TABLE user_stats (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE UNIQUE,
+  
+  -- XP and level tracking
   level INTEGER DEFAULT 1,
   xp INTEGER DEFAULT 0,
   total_projects INTEGER DEFAULT 0,
@@ -30,269 +255,209 @@ CREATE TABLE user_stats (
   total_code INTEGER DEFAULT 0,
   daily_tasks_completed INTEGER DEFAULT 0,
   streak INTEGER DEFAULT 0,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Projects
-CREATE TABLE projects (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-  name TEXT NOT NULL,
-  description TEXT,
-  framework TEXT NOT NULL,
-  status project_status DEFAULT 'draft',
-  image_url TEXT,
-  config JSONB DEFAULT '{}',
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- User badges (tracks which badges users have earned)
+-- User badges table
 CREATE TABLE user_badges (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-  badge_id TEXT NOT NULL,
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  badge_id TEXT NOT NULL, -- identifier for the badge type
   earned BOOLEAN DEFAULT FALSE,
-  earned_at TIMESTAMP WITH TIME ZONE,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  earned_at TIMESTAMPTZ,
+  
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  
   UNIQUE(user_id, badge_id)
 );
 
--- Daily tasks tracking
-CREATE TABLE daily_tasks (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-  task_id TEXT NOT NULL,
-  completed BOOLEAN DEFAULT FALSE,
-  completed_at TIMESTAMP WITH TIME ZONE,
-  date DATE NOT NULL DEFAULT CURRENT_DATE,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(user_id, task_id, date)
-);
-
--- Tool usage tracking
+-- Tool usage tracking table
 CREATE TABLE tool_usage (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
   tool_id TEXT NOT NULL,
-  credits_used INTEGER NOT NULL,
+  credits_used INTEGER DEFAULT 0,
   config JSONB DEFAULT '{}',
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Deployments
-CREATE TABLE deployments (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-  project_id UUID REFERENCES projects(id) ON DELETE CASCADE NOT NULL,
-  platform TEXT NOT NULL,
-  url TEXT,
-  status deployment_status DEFAULT 'deploying',
-  build_time TEXT,
-  auto_deploy BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
+-- Leaderboard materialized view for performance
+CREATE MATERIALIZED VIEW leaderboard AS
+SELECT 
+  u.id,
+  u.username,
+  u.full_name,
+  u.avatar_url,
+  u.level,
+  u.total_xp,
+  u.current_streak,
+  u.total_projects,
+  u.total_deployments,
+  ROW_NUMBER() OVER (ORDER BY u.total_xp DESC) as rank
+FROM users u
+WHERE u.total_xp > 0
+ORDER BY u.total_xp DESC
+LIMIT 1000;
 
--- Integrations
-CREATE TABLE integrations (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-  service TEXT NOT NULL,
-  status integration_status DEFAULT 'disconnected',
-  config JSONB DEFAULT '{}',
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(user_id, service)
-);
-
--- Create indexes for better performance
-CREATE INDEX idx_user_stats_user_id ON user_stats(user_id);
+-- Create indexes for performance
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_users_level_xp ON users(level, total_xp);
+CREATE INDEX idx_user_achievements_user_id ON user_achievements(user_id);
+CREATE INDEX idx_daily_tasks_user_expires ON daily_tasks(user_id, expires_at);
 CREATE INDEX idx_projects_user_id ON projects(user_id);
-CREATE INDEX idx_projects_status ON projects(status);
-CREATE INDEX idx_user_badges_user_id ON user_badges(user_id);
-CREATE INDEX idx_daily_tasks_user_id ON daily_tasks(user_id);
-CREATE INDEX idx_daily_tasks_date ON daily_tasks(date);
-CREATE INDEX idx_tool_usage_user_id ON tool_usage(user_id);
-CREATE INDEX idx_tool_usage_tool_id ON tool_usage(tool_id);
-CREATE INDEX idx_deployments_user_id ON deployments(user_id);
-CREATE INDEX idx_deployments_project_id ON deployments(project_id);
-CREATE INDEX idx_integrations_user_id ON integrations(user_id);
+CREATE INDEX idx_projects_public_featured ON projects(is_public, is_featured);
+CREATE INDEX idx_ai_tool_usage_user_tool ON ai_tool_usage(user_id, tool_id);
+CREATE INDEX idx_ai_tool_usage_created ON ai_tool_usage(created_at);
+CREATE INDEX idx_deployments_project_status ON deployments(project_id, status);
+CREATE INDEX idx_user_sessions_user_started ON user_sessions(user_id, started_at);
+CREATE INDEX idx_integrations_user_service ON integrations(user_id, service);
+CREATE INDEX idx_user_stats_user_id ON user_stats(user_id);
+CREATE INDEX idx_user_badges_user_earned ON user_badges(user_id, earned);
+CREATE INDEX idx_tool_usage_user_tool ON tool_usage(user_id, tool_id);
 
--- Row Level Security Policies
-
--- Users table
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view own profile" ON users FOR SELECT USING (auth.uid() = id);
-CREATE POLICY "Users can update own profile" ON users FOR UPDATE USING (auth.uid() = id);
-CREATE POLICY "Users can insert own profile" ON users FOR INSERT WITH CHECK (auth.uid() = id);
-
--- User stats
-ALTER TABLE user_stats ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view own stats" ON user_stats FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "Users can update own stats" ON user_stats FOR UPDATE USING (auth.uid() = user_id);
-CREATE POLICY "Users can insert own stats" ON user_stats FOR INSERT WITH CHECK (auth.uid() = user_id);
-
--- Projects
-ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view own projects" ON projects FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "Users can insert own projects" ON projects FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "Users can update own projects" ON projects FOR UPDATE USING (auth.uid() = user_id);
-CREATE POLICY "Users can delete own projects" ON projects FOR DELETE USING (auth.uid() = user_id);
-
--- User badges
-ALTER TABLE user_badges ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view own badges" ON user_badges FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "Users can insert own badges" ON user_badges FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "Users can update own badges" ON user_badges FOR UPDATE USING (auth.uid() = user_id);
-
--- Daily tasks
-ALTER TABLE daily_tasks ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view own tasks" ON daily_tasks FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "Users can insert own tasks" ON daily_tasks FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "Users can update own tasks" ON daily_tasks FOR UPDATE USING (auth.uid() = user_id);
-
--- Tool usage
-ALTER TABLE tool_usage ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view own tool usage" ON tool_usage FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "Users can insert own tool usage" ON tool_usage FOR INSERT WITH CHECK (auth.uid() = user_id);
-
--- Deployments
-ALTER TABLE deployments ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view own deployments" ON deployments FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "Users can insert own deployments" ON deployments FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "Users can update own deployments" ON deployments FOR UPDATE USING (auth.uid() = user_id);
-CREATE POLICY "Users can delete own deployments" ON deployments FOR DELETE USING (auth.uid() = user_id);
-
--- Integrations
-ALTER TABLE integrations ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view own integrations" ON integrations FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "Users can insert own integrations" ON integrations FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "Users can update own integrations" ON integrations FOR UPDATE USING (auth.uid() = user_id);
-CREATE POLICY "Users can delete own integrations" ON integrations FOR DELETE USING (auth.uid() = user_id);
-
--- Functions for automatic timestamp updates
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
+-- Refresh leaderboard function
+CREATE OR REPLACE FUNCTION refresh_leaderboard()
+RETURNS VOID AS $$
 BEGIN
-  NEW.updated_at = NOW();
-  RETURN NEW;
+  REFRESH MATERIALIZED VIEW leaderboard;
 END;
-$$ language 'plpgsql';
+$$ LANGUAGE plpgsql;
 
--- Add triggers for updated_at
-CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-CREATE TRIGGER update_user_stats_updated_at BEFORE UPDATE ON user_stats FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-CREATE TRIGGER update_projects_updated_at BEFORE UPDATE ON projects FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-CREATE TRIGGER update_deployments_updated_at BEFORE UPDATE ON deployments FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-CREATE TRIGGER update_integrations_updated_at BEFORE UPDATE ON integrations FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-
--- Function to handle new user registration
-CREATE OR REPLACE FUNCTION handle_new_user()
+-- Trigger to update user stats
+CREATE OR REPLACE FUNCTION update_user_stats()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO users (id, email, full_name, avatar_url)
-  VALUES (NEW.id, NEW.email, NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'avatar_url');
-  
-  INSERT INTO user_stats (user_id)
-  VALUES (NEW.id);
+  -- Update project count
+  UPDATE users 
+  SET total_projects = (
+    SELECT COUNT(*) FROM projects WHERE user_id = NEW.user_id
+  )
+  WHERE id = NEW.user_id;
   
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql;
 
--- Trigger for new user registration
-CREATE TRIGGER on_auth_user_created
-  AFTER INSERT ON auth.users
-  FOR EACH ROW EXECUTE FUNCTION handle_new_user();
+CREATE TRIGGER trigger_update_user_project_stats
+  AFTER INSERT ON projects
+  FOR EACH ROW
+  EXECUTE FUNCTION update_user_stats();
 
--- Function to calculate user level based on XP
-CREATE OR REPLACE FUNCTION calculate_user_level(xp_amount INTEGER)
+-- Function to calculate XP for next level
+CREATE OR REPLACE FUNCTION calculate_xp_for_level(level INTEGER)
 RETURNS INTEGER AS $$
 BEGIN
-  -- Level formula: level = floor(xp / 1000) + 1, max level 50
-  RETURN LEAST(FLOOR(xp_amount / 1000.0) + 1, 50);
+  -- Exponential XP curve: 1000 * 1.5^(level-1)
+  RETURN FLOOR(1000 * POWER(1.5, level - 1));
 END;
-$$ LANGUAGE plpgsql IMMUTABLE;
+$$ LANGUAGE plpgsql;
 
--- Function to add XP and update level
-CREATE OR REPLACE FUNCTION add_user_xp(user_uuid UUID, xp_to_add INTEGER)
-RETURNS VOID AS $$
+-- Function to level up user
+CREATE OR REPLACE FUNCTION check_level_up(user_uuid UUID)
+RETURNS BOOLEAN AS $$
 DECLARE
+  current_level INTEGER;
+  current_xp INTEGER;
+  xp_needed INTEGER;
+  leveled_up BOOLEAN := FALSE;
+BEGIN
+  SELECT level, total_xp INTO current_level, current_xp
+  FROM users WHERE id = user_uuid;
+  
+  LOOP
+    xp_needed := calculate_xp_for_level(current_level + 1);
+    
+    IF current_xp >= xp_needed THEN
+      current_level := current_level + 1;
+      leveled_up := TRUE;
+    ELSE
+      EXIT;
+    END IF;
+  END LOOP;
+  
+  IF leveled_up THEN
+    UPDATE users 
+    SET 
+      level = current_level,
+      xp_to_next_level = calculate_xp_for_level(current_level + 1) - current_xp
+    WHERE id = user_uuid;
+  END IF;
+  
+  RETURN leveled_up;
+END;
+$$ LANGUAGE plpgsql;
+
+-- RLS (Row Level Security) policies
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_achievements ENABLE ROW LEVEL SECURITY;
+ALTER TABLE daily_tasks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ai_tool_usage ENABLE ROW LEVEL SECURITY;
+ALTER TABLE deployments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_api_keys ENABLE ROW LEVEL SECURITY;
+ALTER TABLE integrations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_stats ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_badges ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tool_usage ENABLE ROW LEVEL SECURITY;
+
+-- Basic RLS policies (can be expanded based on needs)
+CREATE POLICY "Users can view own data" ON users
+  FOR ALL USING (auth.uid() = id);
+
+CREATE POLICY "Users can view own achievements" ON user_achievements
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can view own tasks" ON daily_tasks
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can manage own projects" ON projects
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Public projects are viewable" ON projects
+  FOR SELECT USING (is_public = TRUE);
+
+CREATE POLICY "Users can manage own integrations" ON integrations
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can view own stats" ON user_stats
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can view own badges" ON user_badges
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can view own tool usage" ON tool_usage
+  FOR ALL USING (auth.uid() = user_id);
+
+-- Function to increment user XP
+CREATE OR REPLACE FUNCTION increment_user_xp(user_uuid UUID, xp_amount INTEGER)
+RETURNS VOID AS $
+DECLARE
+  current_xp INTEGER;
   new_xp INTEGER;
-  new_level INTEGER;
 BEGIN
-  UPDATE user_stats 
-  SET xp = xp + xp_to_add
-  WHERE user_id = user_uuid
-  RETURNING xp INTO new_xp;
+  -- Get current XP
+  SELECT xp INTO current_xp FROM user_stats WHERE user_id = user_uuid;
   
-  new_level := calculate_user_level(new_xp);
-  
-  UPDATE user_stats
-  SET level = new_level
-  WHERE user_id = user_uuid;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
--- Function to complete daily task
-CREATE OR REPLACE FUNCTION complete_daily_task(user_uuid UUID, task_uuid TEXT, xp_reward INTEGER)
-RETURNS BOOLEAN AS $$
-DECLARE
-  task_exists BOOLEAN;
-BEGIN
-  -- Check if task already completed today
-  SELECT EXISTS(
-    SELECT 1 FROM daily_tasks 
-    WHERE user_id = user_uuid 
-    AND task_id = task_uuid 
-    AND date = CURRENT_DATE 
-    AND completed = TRUE
-  ) INTO task_exists;
-  
-  IF task_exists THEN
-    RETURN FALSE;
+  -- If no stats record exists, create one
+  IF current_xp IS NULL THEN
+    INSERT INTO user_stats (user_id, xp) VALUES (user_uuid, xp_amount);
+    current_xp := 0;
   END IF;
   
-  -- Insert or update daily task
-  INSERT INTO daily_tasks (user_id, task_id, completed, completed_at, date)
-  VALUES (user_uuid, task_uuid, TRUE, NOW(), CURRENT_DATE)
-  ON CONFLICT (user_id, task_id, date) 
-  DO UPDATE SET completed = TRUE, completed_at = NOW();
+  new_xp := current_xp + xp_amount;
   
-  -- Add XP reward
-  PERFORM add_user_xp(user_uuid, xp_reward);
-  
-  -- Update daily tasks completed count
+  -- Update user stats
   UPDATE user_stats 
-  SET daily_tasks_completed = daily_tasks_completed + 1
+  SET 
+    xp = new_xp,
+    updated_at = NOW()
   WHERE user_id = user_uuid;
   
-  RETURN TRUE;
+  -- Check if user leveled up
+  PERFORM check_level_up(user_uuid);
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
--- Function to use tool credits
-CREATE OR REPLACE FUNCTION use_tool_credits(user_uuid UUID, tool_id_param TEXT, credits_needed INTEGER, tool_config JSONB DEFAULT '{}')
-RETURNS BOOLEAN AS $$
-DECLARE
-  user_credits INTEGER;
-BEGIN
-  -- Get user's current credits
-  SELECT credits INTO user_credits FROM users WHERE id = user_uuid;
-  
-  IF user_credits < credits_needed THEN
-    RETURN FALSE;
-  END IF;
-  
-  -- Deduct credits
-  UPDATE users SET credits = credits - credits_needed WHERE id = user_uuid;
-  
-  -- Log tool usage
-  INSERT INTO tool_usage (user_id, tool_id, credits_used, config)
-  VALUES (user_uuid, tool_id_param, credits_needed, tool_config);
-  
-  RETURN TRUE;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$ LANGUAGE plpgsql;

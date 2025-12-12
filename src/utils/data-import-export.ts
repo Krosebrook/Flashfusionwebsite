@@ -45,28 +45,27 @@ export const getTypeIcon = (type: DataSourceType) => {
   }
 };
 
-import { formatBytes } from '../lib/format-utils';
+export const formatFileSize = (bytes: number): string => {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+};
 
-export const formatFileSize = (bytes: number): string => formatBytes(bytes, 1);
-
-export const formatDuration = (startTime: Date, endTime?: Date): string => {
-  const completionTime = endTime || new Date();
-  const durationMs = completionTime.getTime() - startTime.getTime();
+export const formatDuration = (start: Date, end?: Date): string => {
+  const endTime = end || new Date();
+  const diff = endTime.getTime() - start.getTime();
+  const hours = Math.floor(diff / (60 * 60 * 1000));
+  const minutes = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000));
+  const seconds = Math.floor((diff % (60 * 1000)) / 1000);
   
-  const MILLISECONDS_PER_SECOND = 1000;
-  const MILLISECONDS_PER_MINUTE = 60 * MILLISECONDS_PER_SECOND;
-  const MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
-  
-  const hoursElapsed = Math.floor(durationMs / MILLISECONDS_PER_HOUR);
-  const minutesElapsed = Math.floor((durationMs % MILLISECONDS_PER_HOUR) / MILLISECONDS_PER_MINUTE);
-  const secondsElapsed = Math.floor((durationMs % MILLISECONDS_PER_MINUTE) / MILLISECONDS_PER_SECOND);
-  
-  if (hoursElapsed > 0) {
-    return `${hoursElapsed}h ${minutesElapsed}m`;
-  } else if (minutesElapsed > 0) {
-    return `${minutesElapsed}m ${secondsElapsed}s`;
+  if (hours > 0) {
+    return `${hours}h ${minutes}m`;
+  } else if (minutes > 0) {
+    return `${minutes}m ${seconds}s`;
   } else {
-    return `${secondsElapsed}s`;
+    return `${seconds}s`;
   }
 };
 

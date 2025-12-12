@@ -105,12 +105,12 @@ const FlashFusionPlatformShowcase = createLazyComponent(() => import('../showcas
 // Launch-ready optimization components
 const OptimizedOnboardingFlow = createLazyComponent(() => import('../onboarding/OptimizedOnboardingFlow'), 'OptimizedOnboardingFlow');
 const LaunchPerformanceDashboard = createLazyComponent(() => import('../performance/LaunchPerformanceDashboard'), 'LaunchPerformanceDashboard');
-const ErrorRecoverySystem = createLazyComponent(() => import('../stability/ErrorRecoverySystem'), 'ErrorRecoverySystem');
+const ErrorRecoverySystem = createLazyComponent(() => import('../stability/ErrorRecoverySystemFixed'), 'ErrorRecoverySystem');
 const UserEngagementHub = createLazyComponent(() => import('../engagement/UserEngagementHub'), 'UserEngagementHub');
 const MobileOptimizationCenter = createLazyComponent(() => import('../mobile/MobileOptimizationCenter'), 'MobileOptimizationCenter');
 const SEOOptimizationSuite = createLazyComponent(() => import('../seo/SEOOptimizationSuite'), 'SEOOptimizationSuite');
 const CommunityFeedbackHub = createLazyComponent(() => import('../community/CommunityFeedbackHub'), 'CommunityFeedbackHub');
-const LaunchDayCommand = createLazyComponent(() => import('../launch/LaunchDayCommand'), 'LaunchDayCommand');
+const LaunchDayCommand = createLazyComponent(() => import('../launch/LaunchDayCommandFixed'), 'LaunchDayCommand');
 
 // Testing, monitoring, and launch preparation components
 const LaunchStabilityTester = createLazyComponent(() => import('../testing/LaunchStabilityTester'), 'LaunchStabilityTester');
