@@ -42,9 +42,10 @@ import { WaitlistSystem } from '../waitlist/WaitlistSystem';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { PricingDropdownMenu } from '../pricing/PricingDropdownMenu';
 import { FAQDropdownSection } from '../faq/FAQDropdownSection';
+import { NextFiveFeaturesSection } from '../roadmap/NextFiveFeatures';
 import type { AuthUser } from '../../hooks/useAuthentication';
-import { 
-  Star, 
+import {
+  Star,
   ArrowRight, 
   Check, 
   Play, 
@@ -1010,6 +1011,9 @@ export function FlashFusionLandingPage() {
             />
           </div>
         </section>
+
+        {/* Execution roadmap */}
+        <NextFiveFeaturesSection />
 
         {/* FAQ Section */}
         <section id="faq" className="py-32 px-4 sm:px-6 lg:px-8 bg-[var(--ff-surface)]/30 backdrop-blur-sm">
