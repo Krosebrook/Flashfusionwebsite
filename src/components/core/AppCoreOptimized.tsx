@@ -22,6 +22,8 @@ import { ErrorState } from './app-states/ErrorState';
 import { useAuthentication } from '../../hooks/useAuthentication';
 import { initializeApp, type AppMode } from '../../utils/system-detection';
 
+import { ENV } from '../../lib/env';
+
 // Enhanced component creation with error boundaries and performance optimization
 const createEnhancedFallback = (name: string, message: string, action?: () => void) => {
   const FallbackComponent = React.memo(() => (
@@ -101,7 +103,7 @@ const FlashFusionInterface = createLazyComponentWithPreload(
 );
 
 const FlashFusionLandingPage = createLazyComponentWithPreload(
-  () => import('../landing/FlashFusionLandingPage'),
+  () => import('../landing/VeteranLandingPage'),
   LandingFallback,
   'landing'
 );
@@ -110,6 +112,12 @@ const TryDemoInterface = createLazyComponentWithPreload(
   () => import('../demo/TryDemoInterface'),
   DemoFallback,
   'demo'
+);
+
+const InfrastructureValidator = createLazyComponentWithPreload(
+  () => import('../validation/InfrastructureValidator'),
+  createEnhancedFallback('InfrastructureValidator', 'System Validator Unavailable'),
+  'validator'
 );
 
 // Enhanced device detection with caching
@@ -338,7 +346,7 @@ function usePerformanceMonitoring() {
     performanceRef.current.lastRender = Date.now();
 
     // Log performance metrics in development
-    if (process.env.NODE_ENV === 'development') {
+    if (ENV.NODE_ENV === 'development') {
       console.log('🔄 Performance metrics:', {
         mounts: performanceRef.current.componentMounts,
         renders: performanceRef.current.renderCount,
@@ -366,7 +374,7 @@ export function AppCoreOptimized(): JSX.Element {
     console.error('🚨 Application Error:', error, errorInfo);
     
     // Send error to monitoring service
-    if (process.env.NODE_ENV === 'production') {
+    if (ENV.NODE_ENV === 'production') {
       // Analytics.track('app_error', { error: error.message, stack: error.stack });
     }
   }, []);
@@ -435,6 +443,23 @@ export function AppCoreOptimized(): JSX.Element {
         onRetry={retryInitialization}
         mode={appState.mode}
       />
+    );
+  }
+
+  // Infrastructure Validation Route
+  if (routeState.currentPath === '/validate') {
+    return (
+      <ErrorBoundary fallback={<InterfaceFallback />} onError={handleError}>
+        <div className="min-h-screen bg-[var(--ff-bg-dark)]">
+          <Suspense fallback={<LoadingState message="Initializing Validator" />}>
+            <InfrastructureValidator 
+              autoStart={true} 
+              onValidationComplete={(results) => console.log('Validation complete:', results)}
+              onCriticalFailure={(failures) => console.error('Critical failures:', failures)}
+            />
+          </Suspense>
+        </div>
+      </ErrorBoundary>
     );
   }
 

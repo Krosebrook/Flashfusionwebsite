@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import './styles/globals.css';
 
+import { ENV } from './src/lib/env';
+
 // Initialize app with error handling
 try {
   // Get root element
@@ -21,7 +23,9 @@ try {
     </StrictMode>
   );
   
-  console.log('FlashFusion initialized successfully');
+  if (ENV.NODE_ENV === 'development') {
+    console.log('FlashFusion initialized successfully');
+  }
   
 } catch (error) {
   console.error('Failed to initialize FlashFusion:', error);

@@ -19,6 +19,8 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { LoadingState } from './components/core/app-states/LoadingState';
 import { AuthProvider } from './components/auth/AuthProvider';
 
+import { ENV } from '../lib/env';
+
 /**
  * FlashFusion Application Error Boundary
  * Provides graceful error handling with proper styling
@@ -30,7 +32,7 @@ function FlashFusionErrorBoundary({ children }: { children: React.ReactNode }) {
     console.error('Error Info:', errorInfo);
     
     // Track errors in production for monitoring
-    if (process.env.NODE_ENV === 'production') {
+    if (ENV.NODE_ENV === 'production') {
       // Analytics error tracking would go here
       try {
         // Example: analytics.track('app_error', { error: error.message, stack: error.stack });
@@ -289,7 +291,7 @@ function App(): JSX.Element {
         }
 
         // Set up performance monitoring in development
-        if (process.env.NODE_ENV === 'development') {
+        if (ENV.NODE_ENV === 'development') {
           console.log('%c🚀 FlashFusion v6.0.0', 'color: #FF7B00; font-size: 16px; font-weight: bold;');
           console.log('%c✨ AI Development Platform Ready', 'color: #00B4D8; font-size: 12px;');
           console.log('%c🎯 Design System: FlashFusion Brand Colors Active', 'color: #E91E63; font-size: 12px;');
@@ -354,7 +356,7 @@ function App(): JSX.Element {
 App.displayName = 'FlashFusionApp';
 
 // Development debugging utilities
-if (process.env.NODE_ENV === 'development') {
+if (ENV.NODE_ENV === 'development') {
   (window as any).ffDebug = {
     version: '6.0.0',
     designSystem: 'FlashFusion Brand Colors',

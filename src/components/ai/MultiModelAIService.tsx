@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, memo } from 'react';
+import { ENV } from '../../lib/env';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -166,11 +167,11 @@ const MultiModelAIService: React.FC = memo(() => {
 
     try {
       // Call the AI service through Supabase Edge Function
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/make-server-88829a40/ai/generate`, {
+      const response = await fetch(`${ENV.VITE_SUPABASE_URL}/functions/v1/make-server-88829a40/ai/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+          'Authorization': `Bearer ${ENV.VITE_SUPABASE_ANON_KEY}`
         },
         body: JSON.stringify({
           model: modelToUse,
@@ -244,11 +245,11 @@ const MultiModelAIService: React.FC = memo(() => {
       const promises = activeModels.map(async (model) => {
         const startTime = Date.now();
         
-        const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/make-server-88829a40/ai/generate`, {
+        const response = await fetch(`${ENV.VITE_SUPABASE_URL}/functions/v1/make-server-88829a40/ai/generate`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+            'Authorization': `Bearer ${ENV.VITE_SUPABASE_ANON_KEY}`
           },
           body: JSON.stringify({
             model: model.id,

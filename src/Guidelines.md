@@ -1,117 +1,94 @@
-# FlashFusion: Veteran Full-Stack Developer Playbook (v6.0)
+# FlashFusion Design & Engineering Guidelines (v6.0)
 
 ---
 
-## 1. Core Philosophy & Vision 🎯
-Build a **production-grade, AI-powered development platform** that rivals top-tier SaaS products. We prioritize **type safety, performance, accessibility, and scalability**.
-*   **Quality Target**: ≥95% parity with veteran UI/UX studio quality.
-*   **Architecture**: High-performance Turborepo, React, TypeScript, Vite.
-*   **Design System**: Strict adherence to FlashFusion Identity (Orange/Cyan/Magenta).
+## 1. Purpose & Vision 🎯
+Build **FlashFusion**, a high-performance AI-powered development platform.
+**Core Philosophy**: "Veteran Full-Stack Developer" playbook.
+- **Zero Redundancy**: Every file must have a purpose.
+- **Strict Type Safety**: No `any` types. Strict strictness.
+- **Production-Ready**: Robust error boundaries, optimized loading states, and studio-grade UX.
 
 ---
 
-## 2. FlashFusion Design System 🎨
+## 2. Architecture & Code Standards ⚙️
 
-### 2.1 Brand Identity
-*   **Primary (Innovation Orange)**: `#FF7B00` (Actions, CTAs, Highlights)
-*   **Secondary (Cyan Future)**: `#00B4D8` (Information, Secondary Actions)
-*   **Accent (Magenta Bold)**: `#E91E63` (Special Features, Alerts)
-*   **Backgrounds**: Dark Navy `#0F172A` (Main), Slate `#1E293B` (Surface)
-*   **Typography**:
-    *   **Headings**: `Sora` (Weights: 600, 700) - Modern, geometric, accessible.
-    *   **Body**: `Inter` (Weights: 400, 500) - Clean, legible, standardized.
-    *   **Monospace**: `JetBrains Mono` or system mono.
+### 2.1 "Veteran" Playbook Rules
+- **Explicit Shadcn Overrides**: Do not use default Shadcn styles blindly. Override with FlashFusion design tokens (`--ff-primary`, etc.).
+- **Robust Error Boundaries**: Wrap all major features in `FlashFusionErrorBoundary`. Never let the app crash to a white screen.
+- **Zero Redundant Files**: Prune unused components immediately.
+- **Type-Compliant**: Ensure strict TypeScript compliance before implementing new features.
 
-### 2.2 Global CSS Variables
-We adhere to a strict CSS Variable system in `/styles/globals.css`.
-*   **DO NOT** hardcode hex values in components. Use `var(--ff-primary)`, `var(--ff-bg-dark)`, etc.
-*   **Tailwind Mapping**:
-    *   `bg-primary` → `var(--ff-primary)`
-    *   `bg-background` → `var(--ff-bg-dark)`
-    *   `text-foreground` → `var(--ff-text-primary)`
+### 2.2 Environment & Configuration
+- **Centralized Env**: ALWAYS use `src/lib/env.ts` and the `ENV` object.
+  - ✅ Correct: `import { ENV } from '@/lib/env'; const key = ENV.VITE_SUPABASE_URL;`
+  - ❌ Incorrect: `process.env.VITE_SUPABASE_URL` or `import.meta.env.VITE_SUPABASE_URL`.
+- **Syncing**: Keep `lib/env.ts` and `packages/config/src/env.ts` in sync with `API_KEYS_REQUIRED.md`.
 
-### 2.3 Layout & Grid
-*   **Base Grid**: 4px / 8px spacing.
-*   **Container**: `max-w-7xl` centered.
-*   **Responsiveness**: Mobile First. Breakpoints: `sm: 640px`, `md: 768px`, `lg: 1024px`, `xl: 1280px`.
+### 2.3 Core Application Structure
+- **Entry Point**: `App.tsx` wraps `AppCoreOptimized`.
+- **Core Logic**: `AppCoreOptimized.tsx` handles routing, auth, and global states.
+- **Performance**: Use `React.memo`, `useMemo`, and `React.lazy` for all heavy components.
+- **Authentication**: Centralized `AuthProvider`.
 
 ---
 
-## 3. Production-Ready Development Patterns ⚙️
+## 3. Visual System (FlashFusion Brand) 🎨
 
-### 3.1 Component Architecture
-*   **Strict Typing**: No `any`. Define interfaces for all props.
-*   **Error Boundaries**: Wrap all major route segments and complex widgets in `<ErrorBoundary>`.
-    *   Use `components/ui/error-boundary-enhanced.tsx` for granular recovery.
-*   **Suspense**: Use `<Suspense>` with skeleton loaders (`components/ui/skeleton.tsx`) for async data.
+### 3.1 Color Palette (Strict)
+Enforce the **Orange / Cyan / Magenta** triad.
+- **Primary (Orange)**: `var(--ff-primary)` (approx `#FF7B00`) → Main Actions, Brand Identity.
+- **Secondary (Cyan)**: `var(--ff-secondary)` (approx `#00B4D8`) → Information, Tech Accents.
+- **Accent (Magenta)**: `var(--ff-accent)` (approx `#E91E63`) → Highlights, "Magic" AI moments.
+- **Backgrounds**: `var(--ff-bg-dark)` (Dark Mode Default), `var(--ff-surface)`.
 
-### 3.2 State Management
-*   **Local State**: `useState` for simple UI state.
-*   **Server State**: React Query (TanStack Query) for data fetching (if applicable) or strict `useEffect` + local cache patterns.
-*   **Global State**: Minimal context usage. Prefer composition.
+### 3.2 Typography
+- **Headings / Display**: **Sora** (Weights: 600, 700). Use for hero text and major headers.
+- **Body / UI**: **Inter** (Weights: 400, 500). Use for density and readability.
+- **Code**: `var(--ff-font-mono)` (e.g., JetBrains Mono or Fira Code).
 
-### 3.3 Performance Optimization
-*   **Code Splitting**: Lazy load routes and heavy components.
-*   **Asset Optimization**: Use `figma:asset` imports. WebP format preferred.
-*   **Memoization**: Use `useMemo` and `useCallback` for expensive computations or referential equality in dependency arrays.
-
----
-
-## 4. Shadcn & Component Overrides 🛠️
-
-We use Shadcn UI as a base, but **strictly override** styling to match FlashFusion.
-
-### 4.1 Button Overrides
-*   **Base**: Rounded corners (`rounded-xl`), explicit padding.
-*   **Primary**: `bg-[var(--ff-primary)] hover:bg-[var(--ff-primary-600)] text-white shadow-lg shadow-orange-500/20`.
-*   **Secondary**: `bg-[var(--ff-secondary)] hover:bg-[var(--ff-secondary-600)] text-white`.
-*   **Outline**: `border-2 border-[var(--ff-surface-light)] hover:border-[var(--ff-primary)]`.
-
-### 4.2 Card Overrides
-*   **Background**: `bg-[var(--ff-surface)]` (Slate).
-*   **Border**: `border border-[var(--ff-surface-light)]`.
-*   **Shadow**: `shadow-xl`.
-
-### 4.3 Animation & Micro-Interactions
-*   **Hover**: `transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200`.
-*   **Transitions**: Use `ease-out` curves.
-*   **Motion**: `framer-motion` (Motion) for complex page transitions and entrance animations.
+### 3.3 Styling Implementation
+- Use CSS Variables for everything:
+  - Spacing: `var(--ff-space-4)`, `var(--ff-space-8)`
+  - Radius: `var(--ff-radius-lg)`
+  - Shadows: `var(--ff-shadow-xl)`, `var(--ff-glow)`
+- **Tailwind**: Map Tailwind config to these variables (e.g., `bg-primary` -> `var(--ff-primary)`).
 
 ---
 
-## 5. Security & Reliability 🛡️
+## 4. UI/UX Patterns 📊
 
-### 5.1 Authentication
-*   **Supabase Auth**: Strictly adhere to the Supabase implementation in `/components/auth`.
-*   **Protected Routes**: Use `AuthGuard` or `ProtectedPageRouter` to wrap private content.
-*   **Secrets**: Access environment variables via `import.meta.env` or `Deno.env` (server-side).
+### 4.1 Interaction Logic
+- **Loading States**: Use `LoadingState` component with branded animations (pulse, shimmer).
+- **Error States**: Use `ErrorState` with clear recovery actions (Retry, Safe Mode).
+- **Feedback**: Immediate visual feedback for all user actions (< 100ms).
 
-### 5.2 Error Handling
-*   **Graceful Degradation**: UI should not crash completely. Show fallback UI.
-*   **Logging**: `console.error` with structural context in dev; logging service in prod.
-
----
-
-## 6. Testing & Quality Assurance 🧪
-*   **Unit Tests**: Vitest for utility functions and hooks.
-*   **Component Tests**: React Testing Library for critical UI components.
-*   **E2E**: Playwright for critical user flows (Sign Up, Checkout, Core Workflow).
-*   **Accessibility**: WCAG 2.1 AA compliance. Keyboard navigable. Screen reader friendly.
+### 4.2 Responsiveness
+- **Mobile First**: Design for touch targets (≥ 44px).
+- **Adaptive Layouts**:
+  - Desktop: Multi-pane, high density.
+  - Mobile: Focused single-column, bottom navigation.
 
 ---
 
-## 7. Workflow & CI/CD 🚀
-*   **Commit**: Semantic commits (`feat:`, `fix:`, `chore:`).
-*   **Linting**: ESLint + Prettier.
-*   **Build**: `vite build` must pass without warnings.
+## 5. Quality Assurance 🧪
+
+### 5.1 Validation
+- **Infrastructure**: Use `InfrastructureValidator` (powered by `ENV`) to verify setup on boot.
+- **Linting**: Strict ESLint rules. No unused vars, no console logs in production.
+- **Accessibility**: WCAG 2.1 AA compliance (Contrast check on Orange/Cyan against Dark backgrounds is critical).
+
+### 5.2 Performance
+- **Metrics**: Monitor First Contentful Paint (FCP) and Time to Interactive (TTI).
+- **Optimization**: Lazy load all non-critical routes.
 
 ---
 
-## 8. Summary Checklist ✅
-1.  **Brand**: Is it Orange/Cyan/Magenta? Are fonts Sora/Inter?
-2.  **Type Safe**: Are all props typed?
-3.  **Resilient**: Is it wrapped in an Error Boundary?
-4.  **Responsive**: Does it work on mobile?
-5.  **Performant**: Are images optimized and heavy codesplit?
+## 6. Summary ✅
 
-**"Build it once, build it right. Production quality from Day 1."**
+**Design Principles:**
+1. **FlashFusion Identity**: Bold, Dark, Neon (Orange/Cyan/Magenta).
+2. **Engineering Excellence**: Type-safe, Robust, Optimized.
+3. **User Trust**: No crashes, clear errors, predictable auth.
+
+**Quality Target**: Production-ready code that looks and feels like a top-tier SaaS product.
