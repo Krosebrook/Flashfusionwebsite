@@ -368,11 +368,11 @@ export class SSOService {
   }
 
   private generateId(): string {
-    return `sso_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `sso_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
   }
 
   private generateToken(): string {
-    return `token_${Date.now()}_${Math.random().toString(36).substr(2, 16)}`;
+    return `token_${Date.now()}_${Math.random().toString(36).substring(2, 18)}`;
   }
 }
 

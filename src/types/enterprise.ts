@@ -5,6 +5,7 @@
 
 // SSO & Identity Management
 export type IdentityProvider = 'saml' | 'oidc' | 'ldap' | 'ad' | 'oauth';
+// Note: 'ad' is kept separate from 'ldap' to distinguish Microsoft AD-specific features
 export type AuthenticationMethod = 'password' | 'mfa' | 'biometric' | 'sso';
 
 export interface SSOConfiguration {

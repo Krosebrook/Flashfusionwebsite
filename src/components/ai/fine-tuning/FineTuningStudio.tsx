@@ -326,4 +326,4 @@ const MonitoringSection: React.FC<{
   );
 };
 
-export default FineTuningStudio;
+export { FineTuningStudio as default };
