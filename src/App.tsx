@@ -13,13 +13,12 @@
  * - Production-ready monitoring and debugging tools
  */
 
-import React, { Suspense, useEffect, useCallback, useState } from 'react';
-import { AppCoreOptimized } from './components/core/AppCoreOptimized';
+import React, { Suspense, useEffect, useState, useCallback } from 'react';
+import { FlashFusionCore } from './src/core/FlashFusionCore';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { LoadingState } from './components/core/app-states/LoadingState';
 import { AuthProvider } from './components/auth/AuthProvider';
 
-import { ENV } from '../lib/env';
+import { ENV } from './lib/env';
 
 /**
  * FlashFusion Application Error Boundary
@@ -344,7 +343,7 @@ function App(): JSX.Element {
               fontFamily: 'var(--ff-font-secondary)'
             }}
           >
-            <AppCoreOptimized />
+            <FlashFusionCore />
           </div>
         </Suspense>
       </AuthProvider>
