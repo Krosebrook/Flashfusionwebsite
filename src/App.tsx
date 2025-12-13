@@ -18,6 +18,7 @@ import { AppCoreOptimized } from './components/core/AppCoreOptimized';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { LoadingState } from './components/core/app-states/LoadingState';
 import { AuthProvider } from './components/auth/AuthProvider';
+import { Toaster } from './components/ui/sonner';
 
 import { ENV } from '../lib/env';
 
@@ -336,7 +337,7 @@ function App(): JSX.Element {
     <FlashFusionErrorBoundary>
       <AuthProvider>
         <Suspense fallback={<FlashFusionLoader />}>
-          <div 
+          <div
             className="min-h-screen"
             style={{
               backgroundColor: 'var(--ff-bg-dark)',
@@ -347,6 +348,16 @@ function App(): JSX.Element {
             <AppCoreOptimized />
           </div>
         </Suspense>
+        <Toaster
+          position="bottom-right"
+          richColors
+          closeButton
+          toastOptions={{
+            style: {
+              fontFamily: 'var(--ff-font-secondary)',
+            },
+          }}
+        />
       </AuthProvider>
     </FlashFusionErrorBoundary>
   );
