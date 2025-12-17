@@ -114,7 +114,8 @@ class CodebaseAuditor {
       
       if (viteVersion && viteLegacy) {
         const viteVersionNum = viteVersion.match(/[\d.]+/)?.[0];
-        if (viteVersionNum && parseFloat(viteVersionNum) < 7) {
+        // Simple major version check (comparing first digit is sufficient for major versions)
+        if (viteVersionNum && parseInt(viteVersionNum.split('.')[0]) < 7) {
           this.addFinding('critical', 'dependency',
             `Dependency conflict: @vitejs/plugin-legacy@7.2.1 requires vite@^7.0.0 but vite@${viteVersion} is installed`,
             'Either upgrade vite to ^7.0.0 or downgrade @vitejs/plugin-legacy to match your vite version'
@@ -352,6 +353,8 @@ class CodebaseAuditor {
     
     try {
       // Check for environment variables handling
+      // Note: Using synchronous file reads for simplicity in audit script
+      // For very large codebases (10k+ files), consider async/await with Promise.all
       if (fs.existsSync('./src')) {
         const envFiles = this.getAllFiles('./src', ['.ts', '.tsx', '.js', '.jsx'])
           .filter(file => {
