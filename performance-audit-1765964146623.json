@@ -1,0 +1,33 @@
+{
+  "timestamp": "2025-12-17T09:35:46.622Z",
+  "score": 98,
+  "metrics": {
+    "bundleSize": 0,
+    "componentCount": 0,
+    "heavyComponents": [],
+    "unusedDependencies": [],
+    "optimizationOpportunities": []
+  },
+  "issues": [
+    {
+      "type": "bundle",
+      "severity": "info",
+      "message": "No dist folder found. Run build first for accurate analysis.",
+      "recommendation": "Run: npm run build:prod"
+    }
+  ],
+  "recommendations": [
+    {
+      "type": "build",
+      "message": "Configure Rollup options for better bundling",
+      "implementation": "Add manual chunk configuration in vite.config.ts"
+    }
+  ],
+  "summary": {
+    "bundleSize": 0,
+    "componentCount": 0,
+    "heavyComponents": 0,
+    "unusedDependencies": 0,
+    "totalIssues": 1
+  }
+}
