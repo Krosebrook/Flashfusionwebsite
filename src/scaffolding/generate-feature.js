@@ -173,7 +173,7 @@ function processTemplate(templateDir, targetDir, options) {
     const sourcePath = path.join(templateDir, entry.name);
     const targetPath = path.join(
       targetDir,
-      entry.name.replace('FeatureTemplate', options.name).replace('Feature', options.name)
+      entry.name.replace(/FeatureTemplate/g, options.name)
     );
 
     if (entry.isDirectory()) {
