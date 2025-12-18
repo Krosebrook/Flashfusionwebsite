@@ -47,8 +47,10 @@ jobs:
               pull_number: prNumber
             });
             
-            // Check if PR is from Copilot
-            const isFromCopilot = pr.user.login === 'Copilot';
+            // Check if PR is from Copilot or trusted automation
+            const isFromCopilot = pr.user.login === 'Copilot' || 
+                                  pr.user.type === 'Bot' ||
+                                  (pr.user.id && pr.user.id === 198982749); // Copilot's user ID
             
             // Check if PR has been approved
             const { data: reviews } = await github.rest.pulls.listReviews({
@@ -66,7 +68,8 @@ jobs:
               ref: pr.head.sha
             });
             
-            const allChecksPassed = checks.check_runs.length === 0 || 
+            // Only pass if checks have run AND all passed
+            const allChecksPassed = checks.check_runs.length > 0 && 
               checks.check_runs.every(check => 
                 check.conclusion === 'success' || 
                 check.conclusion === 'skipped' ||
@@ -91,7 +94,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const prNumber = ${{ steps.pr.outputs.pr_number }};
+            const prNumber = '${{ steps.pr.outputs.pr_number }}';
             
             try {
               await github.rest.pulls.merge({

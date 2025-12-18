@@ -80,10 +80,27 @@ jobs:
     name: Auto-approve PR
     runs-on: ubuntu-latest
     needs: validate
-    if: github.event.pull_request.draft == false && github.event.pull_request.user.login == 'Copilot'
+    if: github.event.pull_request.draft == false && (github.event.pull_request.user.login == 'Copilot' || github.event.pull_request.user.type == 'Bot')
     
     steps:
+      - name: Check PR author
+        id: check_author
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            
+            // Check if PR is from Copilot or GitHub Apps
+            const isCopilotPR = pr.user.login === 'Copilot' || 
+                                pr.user.type === 'Bot' ||
+                                (pr.user.id && pr.user.id === 198982749); // Copilot's user ID
+            
+            core.setOutput('is_copilot', isCopilotPR);
+            return { is_copilot: isCopilotPR };
+      
       - name: Approve PR
+        if: steps.check_author.outputs.is_copilot == 'true'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -96,7 +113,7 @@ jobs:
                 repo: context.repo.repo,
                 pull_number: prNumber,
                 event: 'APPROVE',
-                body: '✅ Automatically approved based on successful validation checks.'
+                body: '✅ Automatically approved based on successful validation checks. This PR is from a trusted automation source.'
               });
               console.log('PR approved successfully');
             } catch (error) {

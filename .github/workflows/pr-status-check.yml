@@ -23,7 +23,7 @@ jobs:
             const pr = context.payload.pull_request;
             
             const checklist = {
-              hasdescription: pr.body && pr.body.length > 50,
+              hasDescription: pr.body && pr.body.length > 50,
               hasLabels: pr.labels && pr.labels.length > 0,
               isNotDraft: !pr.draft,
               hasReviewer: pr.requested_reviewers && pr.requested_reviewers.length > 0
