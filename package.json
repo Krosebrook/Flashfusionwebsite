@@ -3,14 +3,16 @@
       "name": "FlashFusionWebsite",
       "version": "0.1.0",
       "private": true,
+      "workspaces": [
+          "src/packages/*"
+      ],
       "dependencies": {
-          "@flashfusion/api-client": "^1.0.0",
-          "@flashfusion/config": "^1.0.0",
-          "@flashfusion/hooks": "^1.0.0",
-          "@flashfusion/services": "^1.0.0",
-          "@flashfusion/types": "^1.0.0",
-          "@flashfusion/ui": "^1.0.0",
-          "@flashfusion/utils": "^1.0.0",
+          "@flashfusion/config": "*",
+          "@flashfusion/hooks": "*",
+          "@flashfusion/services": "*",
+          "@flashfusion/types": "*",
+          "@flashfusion/ui": "*",
+          "@flashfusion/utils": "*",
           "@jsr/supabase__supabase-js": "^2.49.8",
           "@octokit/webhooks-methods": "^7.0.0",
           "@playwright/test": "^1.48.0",
