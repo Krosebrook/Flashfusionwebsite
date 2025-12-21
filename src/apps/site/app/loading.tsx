@@ -44,29 +44,15 @@ export default function Loading() {
           }}
         >
           <div 
-            className="h-full rounded-full animate-loading-bar"
+            className="h-full rounded-full"
             style={{
               background: 'linear-gradient(90deg, var(--ff-primary) 0%, var(--ff-secondary) 100%)',
               width: '40%',
+              animation: 'loading-bar 1.5s ease-in-out infinite'
             }}
           />
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes loading-bar {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(500%);
-          }
-        }
-
-        .animate-loading-bar {
-          animation: loading-bar 1.5s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 }

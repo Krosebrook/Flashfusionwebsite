@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import BackButton from '../../components/BackButton';
 import { BookOpen, Video, Code, Clock, Tag, ArrowRight, Sparkles } from 'lucide-react';
+import React from 'react';
 
 export const metadata: Metadata = {
   title: 'Tutorials | FlashFusion - Learn AI-Powered Development',
