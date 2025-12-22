@@ -10,7 +10,7 @@ import {
   CheckCircle, 
   ExternalLink,
   ChevronDown,
-  Linux,
+  Laptop,
   Chrome
 } from 'lucide-react';
 
@@ -73,7 +73,7 @@ export default function DownloadPage() {
     },
     linux: {
       name: 'Linux',
-      icon: Linux,
+      icon: Laptop,
       downloadUrl: 'https://github.com/flashfusion/desktop/releases/download/v1.0.0/FlashFusion-1.0.0.AppImage',
       fileSize: '88 MB',
       version: '1.0.0',
