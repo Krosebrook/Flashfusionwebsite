@@ -1,0 +1,26 @@
+# CODEOWNERS file for automatic reviewer assignment
+# Automatically assigns reviewers to PRs based on file patterns
+
+# Default owners for everything in the repo
+* @Krosebrook
+
+# GitHub Actions workflows
+/.github/workflows/ @Krosebrook
+
+# Dependencies and package management
+/package.json @Krosebrook
+/package-lock.json @Krosebrook
+
+# Build configuration
+/vite.config.ts @Krosebrook
+/tsconfig.json @Krosebrook
+/eslint.config.js @Krosebrook
+
+# CI/CD and automation
+/.github/ @Krosebrook
+
+# Source code
+/src/ @Krosebrook
+
+# Documentation
+/*.md @Krosebrook
