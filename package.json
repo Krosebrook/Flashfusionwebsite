@@ -90,6 +90,10 @@
       },
       "scripts": {
           "dev": "vite",
-          "build": "vite build"
+          "build": "vite build",
+          "scaffold": "node src/scaffolding/generate-feature.js",
+          "scaffold:tool": "node src/scaffolding/generate-feature.js --type tool",
+          "scaffold:page": "node src/scaffolding/generate-feature.js --type page",
+          "scaffold:widget": "node src/scaffolding/generate-feature.js --type widget"
       }
   }
