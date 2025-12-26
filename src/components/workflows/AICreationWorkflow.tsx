@@ -446,8 +446,8 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
                     
                     <TabsContent value="files" className="space-y-4">
                       <div className="space-y-2">
-                        {result.files.map((file: any, index: number) => (
-                          <div key={index} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg border">
+                        {result.files.map((file, index) => (
+                          <div key={`${file.name}-${index}`} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg border">
                             <div className="flex items-center space-x-3">
                               {file.type === 'folder' ? (
                                 <div className="w-4 h-4 text-yellow-500">📁</div>
@@ -471,8 +471,8 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
                             <div>
                               <h4 className="ff-text-title mb-3">Features Included:</h4>
                               <div className="grid grid-cols-2 gap-2">
-                                {result.preview.features.map((feature: string, index: number) => (
-                                  <div key={index} className="flex items-center space-x-2 p-2 bg-green-500/10 border border-green-500/20 rounded">
+                                {result.preview.features.map((feature, index) => (
+                                  <div key={`feature-${feature}-${index}`} className="flex items-center space-x-2 p-2 bg-green-500/10 border border-green-500/20 rounded">
                                     <CheckCircle className="w-4 h-4 text-green-500" />
                                     <span className="text-sm">{feature}</span>
                                   </div>
@@ -485,8 +485,8 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
                             <div>
                               <h4 className="ff-text-title mb-3">Technology Stack:</h4>
                               <div className="flex flex-wrap gap-2">
-                                {result.preview.techStack.map((tech: string, index: number) => (
-                                  <Badge key={index} className="ff-badge-primary">
+                                {result.preview.techStack.map((tech, index) => (
+                                  <Badge key={`tech-${tech}-${index}`} className="ff-badge-primary">
                                     {tech}
                                   </Badge>
                                 ))}
@@ -498,8 +498,8 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
                             <div>
                               <h4 className="ff-text-title mb-3">Content Pieces:</h4>
                               <div className="grid grid-cols-1 gap-2">
-                                {result.preview.pieces.map((piece: string, index: number) => (
-                                  <div key={index} className="flex items-center space-x-2 p-2 bg-cyan-500/10 border border-cyan-500/20 rounded">
+                                {result.preview.pieces.map((piece, index) => (
+                                  <div key={`piece-${piece}-${index}`} className="flex items-center space-x-2 p-2 bg-cyan-500/10 border border-cyan-500/20 rounded">
                                     <FileText className="w-4 h-4 text-cyan-500" />
                                     <span className="text-sm">{piece}</span>
                                   </div>

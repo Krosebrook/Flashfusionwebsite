@@ -12,13 +12,30 @@ export interface GenerationConfig {
   options?: Record<string, any>;
 }
 
+export interface GeneratedFile {
+  name: string;
+  type: 'file' | 'folder';
+  size: string;
+}
+
+export interface GenerationPreview {
+  type: 'app' | 'content' | 'visual' | 'code';
+  features?: string[];
+  techStack?: string[];
+  pieces?: string[];
+  platforms?: string[];
+  assets?: string[];
+  formats?: string[];
+  components?: string[];
+}
+
 export interface GenerationResult {
   id: string;
   type: string;
   title: string;
   description: string;
-  files: Array<{ name: string; type: string; size: string }>;
-  preview: any;
+  files: GeneratedFile[];
+  preview: GenerationPreview | null;
   timestamp: Date;
   model: string;
   prompt: string;
@@ -42,7 +59,12 @@ export function useAIGeneration() {
   const abortControllerRef = useRef<AbortController | null>(null);
 
   const generate = useCallback(async (config: GenerationConfig): Promise<GenerationResult | null> => {
-    // Create abort controller for cancellation support
+    // Clean up previous abort controller if it exists
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    
+    // Create new abort controller for cancellation support
     abortControllerRef.current = new AbortController();
     
     setState({
@@ -154,8 +176,8 @@ function generateDescription(type: string): string {
   return descriptions[type] || 'AI-generated creation ready for use.';
 }
 
-function generateFiles(type: string) {
-  const fileStructures: Record<string, Array<{ name: string; type: string; size: string }>> = {
+function generateFiles(type: string): GeneratedFile[] {
+  const fileStructures: Record<string, GeneratedFile[]> = {
     'fullstack-app': [
       { name: 'frontend/', type: 'folder', size: '15 files' },
       { name: 'backend/', type: 'folder', size: '12 files' },
@@ -190,8 +212,8 @@ function generateFiles(type: string) {
   return fileStructures[type] || [];
 }
 
-function generatePreview(type: string) {
-  const previews: Record<string, any> = {
+function generatePreview(type: string): GenerationPreview | null {
+  const previews: Record<string, GenerationPreview> = {
     'fullstack-app': {
       type: 'app',
       features: ['User Authentication', 'Project Dashboard', 'Real-time Chat', 'File Upload', 'API Integration', 'Responsive Design'],

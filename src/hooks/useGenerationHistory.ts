@@ -22,16 +22,22 @@ export function useGenerationHistory() {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
-        const parsed = JSON.parse(stored);
-        // Convert timestamp strings back to Date objects
-        const historyWithDates = parsed.map((item: any) => ({
-          ...item,
-          timestamp: new Date(item.timestamp),
-        }));
+        const parsed: GenerationHistoryItem[] = JSON.parse(stored);
+        // Convert timestamp strings back to Date objects and validate structure
+        const historyWithDates = parsed
+          .filter((item): item is GenerationHistoryItem => 
+            item && typeof item === 'object' && 'id' in item && 'timestamp' in item
+          )
+          .map((item) => ({
+            ...item,
+            timestamp: new Date(item.timestamp),
+          }));
         setHistory(historyWithDates);
       }
     } catch (error) {
       console.error('Failed to load generation history:', error);
+      // Clear corrupted data
+      localStorage.removeItem(STORAGE_KEY);
     } finally {
       setIsLoading(false);
     }
@@ -44,6 +50,18 @@ export function useGenerationHistory() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
       } catch (error) {
         console.error('Failed to save generation history:', error);
+        // Handle quota exceeded error specifically
+        if (error instanceof Error && error.name === 'QuotaExceededError') {
+          console.warn('localStorage quota exceeded. Clearing old history...');
+          // Keep only the most recent 10 items
+          const reducedHistory = history.slice(0, 10);
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(reducedHistory));
+            setHistory(reducedHistory);
+          } catch (retryError) {
+            console.error('Failed to save even reduced history:', retryError);
+          }
+        }
       }
     }
   }, [history, isLoading]);
