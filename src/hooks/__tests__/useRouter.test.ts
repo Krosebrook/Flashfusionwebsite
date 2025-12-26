@@ -5,7 +5,7 @@
 
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { useRouter } from '../../src/core/router/useRouter';
+import { useRouter } from '../../../src/core/router/useRouter';
 
 describe('useRouter', () => {
   beforeEach(() => {

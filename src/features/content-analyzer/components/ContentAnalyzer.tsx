@@ -38,7 +38,7 @@ import type {
 /**
  * Feature component props interface
  */
-export interface FeatureTemplateProps {
+export interface ContentAnalyzerProps {
   /**
    * Initial configuration for the feature
    */
@@ -161,7 +161,7 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
  * />
  * ```
  */
-export const FeatureTemplate: React.FC<FeatureTemplateProps> = ({
+export const ContentAnalyzer: React.FC<ContentAnalyzerProps> = ({
   config = {},
   onComplete,
   onError,
@@ -385,4 +385,4 @@ export const FeatureTemplate: React.FC<FeatureTemplateProps> = ({
 };
 
 // Export memoized version for performance
-export default React.memo(FeatureTemplate);
+export default React.memo(ContentAnalyzer);

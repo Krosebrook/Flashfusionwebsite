@@ -14,7 +14,7 @@
         open: false,
         gzipSize: true,
         brotliSize: true,
-      }) as any,
+      }),
       // Compression for production builds
       compression({
         algorithm: 'gzip',

@@ -281,7 +281,7 @@ export const useFeatureStore = create<FeatureStore>()(
     ),
     {
       name: 'FeatureStore', // Name for Redux DevTools
-      enabled: process.env.NODE_ENV === 'development'
+      enabled: import.meta.env.DEV
     }
   )
 );
