@@ -2,7 +2,7 @@
 
 <div align="center">
   <img src="https://img.shields.io/badge/Status-Production%20Ready-brightgreen" alt="Production Ready"/>
-  <img src="https://img.shields.io/badge/Version-2.0.0-ff7b00" alt="Version"/>
+  <img src="https://img.shields.io/badge/Version-0.1.0-ff7b00" alt="Version"/>
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"/>
   <img src="https://img.shields.io/badge/React-18+-61dafb" alt="React"/>
   <img src="https://img.shields.io/badge/TypeScript-5+-3178c6" alt="TypeScript"/>
