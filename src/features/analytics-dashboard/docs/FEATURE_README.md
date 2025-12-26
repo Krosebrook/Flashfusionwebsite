@@ -24,15 +24,15 @@ This feature provides a complete, production-ready implementation following Flas
 ### Basic Usage
 
 ```tsx
-import { FeatureTemplate } from './components/FeatureTemplate';
+import { AnalyticsDashboard } from '@/features/analytics-dashboard';
 
 function MyApp() {
   const handleComplete = (result) => {
-    console.log('Feature completed:', result);
+    console.log('Analytics dashboard completed:', result);
   };
   
   return (
-    <FeatureTemplate
+    <AnalyticsDashboard
       onComplete={handleComplete}
       initialData={myData}
     />
@@ -43,7 +43,7 @@ function MyApp() {
 ### With Configuration
 
 ```tsx
-<FeatureTemplate
+<AnalyticsDashboard
   config={{
     enabled: {
       autoProcess: true,
@@ -63,7 +63,7 @@ function MyApp() {
 ### With Custom Styling
 
 ```tsx
-<FeatureTemplate
+<AnalyticsDashboard
   className="my-custom-class"
   debug={process.env.NODE_ENV === 'development'}
 />
