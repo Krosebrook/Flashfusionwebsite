@@ -6,57 +6,140 @@ This directory contains templates and tools for scaffolding complete, production
 
 ## Feature Structure
 
-A complete FlashFusion feature includes:
+A complete FlashFusion feature can use one of three specialized templates:
 
-### 1. **Component Layer** (`components/`)
+### 1. **Tool Template** (`tool-template/`)
+Optimized for interactive tools and utilities
+
+**Best for:**
+- Code generators
+- Image processors
+- Data converters
+- AI-powered tools
+- Interactive calculators
+
+**Includes:**
+- Component with input/output UI
+- Real-time processing
+- Export/download functionality
+- Copy to clipboard
+- Advanced options panel
+- Service layer for API integration
+- Zustand store for state management
+- Comprehensive types
+- Tests
+- Documentation
+
+### 2. **Page Template** (`page-template/`)
+Optimized for full-page experiences
+
+**Best for:**
+- Dashboard pages
+- Settings pages
+- Analytics views
+- Profile pages
+- Documentation pages
+
+**Includes:**
+- Full-page layout component
+- SEO metadata handling
+- Breadcrumb navigation
+- Page header with actions
+- Responsive grid sections
+- Loading skeletons
+- Error boundaries
+- Service layer for data loading
+- Zustand store for state management
+- Comprehensive types
+- Tests
+- Documentation
+
+### 3. **Widget Template** (`widget-template/`)
+Optimized for reusable UI components
+
+**Best for:**
+- Stat cards
+- Chart widgets
+- List components
+- Summary cards
+- Notification widgets
+
+**Includes:**
+- Lightweight component
+- Multiple size variants
+- Composable props
+- Grid container helper
+- Minimal dependencies (no service/store)
+- Comprehensive types
+- Tests
+- Documentation
+
+### Core Feature Layers
+
+All templates include:
+
+#### **Component Layer** (`components/`)
 - Main feature component (e.g., `MyFeature.tsx`)
 - Sub-components for complex UI elements
 - Loading and error states
 - Responsive design patterns
 
-### 2. **Service Layer** (`services/`)
+#### **Types** (`types/`)
+- TypeScript interfaces and types
+- API request/response types
+- Component prop types
+
+#### **Tests** (`__tests__/`)
+- Unit tests for components
+- Service integration tests (tool/page only)
+- Store behavior tests (tool/page only)
+
+#### **Documentation** (`docs/`)
+- Feature overview and user guide
+- API documentation
+- Development notes
+
+#### **Service Layer** (`services/`) - Tool & Page only
 - API integration logic
 - Business logic and data transformations
 - Error handling and retry logic
 - Caching strategies
 
-### 3. **State Management** (`stores/`)
+#### **State Management** (`stores/`) - Tool & Page only
 - Zustand store for feature state
 - Computed values and selectors
 - Actions and side effects
-
-### 4. **Types** (`types/`)
-- TypeScript interfaces and types
-- API request/response types
-- Component prop types
-
-### 5. **Tests** (`__tests__/`)
-- Unit tests for components
-- Service integration tests
-- Store behavior tests
-
-### 6. **Documentation** (`docs/`)
-- Feature overview and user guide
-- API documentation
-- Development notes
 
 ## Quick Start
 
 ### Using the Feature Generator
 
 ```bash
-# Generate a new feature
-npm run scaffold:feature -- --name MyFeature --type tool
+# Generate a tool feature (interactive tools)
+node src/scaffolding/generate-feature.js --name ImageEditor --type tool
 
-# Generate with all options
-npm run scaffold:feature -- --name MyFeature --type page --with-service --with-store --with-tests
+# Generate a page feature (full-page experience)
+node src/scaffolding/generate-feature.js --name Dashboard --type page
+
+# Generate a widget feature (reusable component)
+node src/scaffolding/generate-feature.js --name StatCard --type widget
+
+# Interactive mode (prompts for all options)
+node src/scaffolding/generate-feature.js
 ```
 
 ### Manual Scaffolding
 
-1. Copy the feature template:
+1. Copy the appropriate template:
    ```bash
-   cp -r src/scaffolding/templates/feature-template src/features/my-feature
+   # For a tool
+   cp -r src/scaffolding/templates/tool-template src/features/my-tool
+   
+   # For a page
+   cp -r src/scaffolding/templates/page-template src/features/my-page
+   
+   # For a widget
+   cp -r src/scaffolding/templates/widget-template src/features/my-widget
    ```
 
 2. Rename and customize files:
@@ -72,38 +155,86 @@ npm run scaffold:feature -- --name MyFeature --type page --with-service --with-s
 
 ## Feature Types
 
-### Tool Feature
-Interactive tools and utilities (code generators, image processors, etc.)
+### Tool Feature (`tool-template/`)
+Interactive tools and utilities with AI integration and export capabilities
 
-**Template:** `templates/tool-feature/`
-
-**Characteristics:**
-- Lazy-loaded for performance
-- Integrated with AI services
-- Export/download capabilities
-- Real-time previews
-
-### Page Feature
-Full-page experiences (dashboards, settings, analytics)
-
-**Template:** `templates/page-feature/`
+**Template:** `templates/tool-template/`
 
 **Characteristics:**
-- Route-based navigation
-- Page-level state management
-- SEO optimization
-- Analytics tracking
+- ✨ Input/output processing interface
+- 📥 Export and download capabilities
+- 📋 Copy to clipboard functionality
+- ⚙️ Advanced configuration options
+- 🤖 AI service integration ready
+- 💾 Result caching and history
+- 🔄 Retry logic and error recovery
+- ⚡ Real-time processing support
 
-### Widget Feature
-Reusable UI components (cards, charts, forms)
+**Use cases:**
+- Code generators
+- Image processors
+- Text analyzers
+- Data converters
+- AI-powered tools
 
-**Template:** `templates/widget-feature/`
+**Example:**
+```bash
+node src/scaffolding/generate-feature.js --name CodeGenerator --type tool
+```
+
+### Page Feature (`page-template/`)
+Full-page experiences with SEO, routing, and analytics
+
+**Template:** `templates/page-template/`
 
 **Characteristics:**
-- Highly composable
-- Prop-driven configuration
-- Minimal dependencies
-- Storybook documentation
+- 🎯 SEO-optimized metadata
+- 🧭 Breadcrumb navigation
+- 📊 Analytics integration
+- 🔍 Loading skeletons
+- 📱 Responsive layouts
+- 🎨 Section-based organization
+- 🔄 Auto-refresh capabilities
+- 🚨 Error boundaries
+
+**Use cases:**
+- Dashboard pages
+- Settings pages
+- Analytics views
+- Profile pages
+- Documentation pages
+
+**Example:**
+```bash
+node src/scaffolding/generate-feature.js --name AnalyticsDashboard --type page
+```
+
+### Widget Feature (`widget-template/`)
+Reusable UI components with minimal dependencies
+
+**Template:** `templates/widget-template/`
+
+**Characteristics:**
+- 🎨 Multiple size variants (sm, md, lg, xl)
+- 🔧 Highly composable
+- 📦 Minimal dependencies
+- ⚡ Lightweight bundle size
+- 🎯 Prop-driven configuration
+- 🔄 Loading states
+- ♿ Accessibility built-in
+- 📐 Grid layout helper
+
+**Use cases:**
+- Stat cards
+- Chart widgets
+- List components
+- Summary cards
+- Notification widgets
+
+**Example:**
+```bash
+node src/scaffolding/generate-feature.js --name MetricCard --type widget
+```
 
 ## Best Practices
 
@@ -301,11 +432,72 @@ describe('MyFeatureService', () => {
 
 ## Examples
 
-See the following features for reference implementations:
+### Tool Example: Image Processor
 
-- **Tool Feature**: `src/components/tools/FullStackBuilderTool.tsx`
-- **Page Feature**: `src/components/pages/AnalyticsPage.tsx`
-- **Widget Feature**: `src/components/ui/Card.tsx`
+```bash
+node src/scaffolding/generate-feature.js --name ImageProcessor --type tool --category generation
+```
+
+**Generated structure:**
+```
+src/features/image-processor/
+├── components/
+│   └── ImageProcessor.tsx       # Tool UI with input/output
+├── services/
+│   └── ImageProcessorService.ts # Image processing API
+├── stores/
+│   └── ImageProcessorStore.ts   # State management
+├── types/
+│   └── feature.types.ts         # Types
+├── __tests__/
+│   └── ImageProcessor.test.tsx  # Tests
+└── docs/
+    └── FEATURE_README.md        # Documentation
+```
+
+### Page Example: Analytics Dashboard
+
+```bash
+node src/scaffolding/generate-feature.js --name AnalyticsDashboard --type page --category analytics
+```
+
+**Generated structure:**
+```
+src/features/analytics-dashboard/
+├── components/
+│   └── AnalyticsDashboard.tsx   # Full-page layout
+├── services/
+│   └── AnalyticsDashboardService.ts # Data fetching
+├── stores/
+│   └── AnalyticsDashboardStore.ts # State management
+├── types/
+│   └── feature.types.ts         # Types with SEO metadata
+├── __tests__/
+│   └── AnalyticsDashboard.test.tsx # Tests
+└── docs/
+    └── FEATURE_README.md        # Documentation
+```
+
+### Widget Example: Stat Card
+
+```bash
+node src/scaffolding/generate-feature.js --name StatCard --type widget --category ui
+```
+
+**Generated structure:**
+```
+src/features/stat-card/
+├── components/
+│   └── StatCard.tsx             # Lightweight widget
+├── types/
+│   └── feature.types.ts         # Prop types
+├── __tests__/
+│   └── StatCard.test.tsx        # Tests
+└── docs/
+    └── FEATURE_README.md        # Documentation
+```
+
+**Note:** Widgets don't include services or stores by default for minimal dependencies.
 
 ## Support
 

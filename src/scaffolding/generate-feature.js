@@ -191,16 +191,35 @@ function processTemplate(templateDir, targetDir, options) {
   }
 }
 
+// Get template directory based on type
+function getTemplateDir(type) {
+  const validTypes = ['tool', 'page', 'widget'];
+  
+  if (!validTypes.includes(type)) {
+    throw new Error(`Invalid feature type: ${type}. Must be one of: ${validTypes.join(', ')}`);
+  }
+  
+  // Map type to template directory
+  const templateMap = {
+    'tool': 'tool-template',
+    'page': 'page-template',
+    'widget': 'widget-template'
+  };
+  
+  return templateMap[type];
+}
+
 // Generate feature
 async function generateFeature(options) {
   try {
-    console.log(`\n${colors.bright}Generating feature: ${colors.green}${options.name}${colors.reset}\n`);
+    console.log(`\n${colors.bright}Generating ${colors.cyan}${options.type}${colors.reset} feature: ${colors.green}${options.name}${colors.reset}\n`);
 
     // Validate
     validateFeatureName(options.name);
 
-    // Paths
-    const templateDir = path.join(__dirname, 'templates', 'feature-template');
+    // Paths - select template based on type
+    const templateName = getTemplateDir(options.type);
+    const templateDir = path.join(__dirname, 'templates', templateName);
     const featuresDir = path.join(__dirname, '..', 'features');
     const featureDir = path.join(featuresDir, toKebabCase(options.name));
 
@@ -220,8 +239,9 @@ async function generateFeature(options) {
     processTemplate(templateDir, featureDir, options);
 
     // Summary
-    console.log(`\n${colors.green}✅ Feature generated successfully!${colors.reset}\n`);
+    console.log(`\n${colors.green}✅ ${options.type.charAt(0).toUpperCase() + options.type.slice(1)} feature generated successfully!${colors.reset}\n`);
     console.log(`${colors.bright}Location:${colors.reset} ${featureDir}`);
+    console.log(`${colors.bright}Type:${colors.reset} ${colors.cyan}${options.type}${colors.reset}`);
     console.log(`\n${colors.bright}Generated files:${colors.reset}`);
     console.log(`  ${colors.green}✓${colors.reset} Component: components/${options.name}.tsx`);
     if (options.withStore) console.log(`  ${colors.green}✓${colors.reset} Store: stores/${options.name}Store.ts`);
