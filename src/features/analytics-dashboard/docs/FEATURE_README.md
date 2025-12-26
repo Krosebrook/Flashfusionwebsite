@@ -177,13 +177,13 @@ Run tests with:
 
 ```bash
 # Run all tests
-npm test FeatureTemplate.test.tsx
+npm test AnalyticsDashboard.test.tsx
 
 # Run with coverage
-npm test -- --coverage FeatureTemplate.test.tsx
+npm test -- --coverage AnalyticsDashboard.test.tsx
 
 # Watch mode
-npm test -- --watch FeatureTemplate.test.tsx
+npm test -- --watch AnalyticsDashboard.test.tsx
 ```
 
 ### Test Coverage
@@ -274,8 +274,8 @@ VITE_FEATURE_ANALYTICS_ENABLED=true
 ```typescript
 // Add to router
 {
-  path: '/feature',
-  element: <FeatureTemplate />
+  path: '/analytics-dashboard',
+  element: <AnalyticsDashboard />
 }
 ```
 
@@ -305,7 +305,7 @@ useEffect(() => {
 
 ```typescript
 // Enable debug mode
-<FeatureTemplate debug={true} />
+<AnalyticsDashboard debug={true} />
 ```
 
 #### Processing Fails
@@ -367,5 +367,5 @@ Part of FlashFusion Platform - Proprietary License
 
 For issues or questions:
 - Check the [troubleshooting section](#troubleshooting)
-- Review [test examples](./__tests__/FeatureTemplate.test.tsx)
+- Review [test examples](./__tests__/AnalyticsDashboard.test.tsx)
 - Consult team in #feature-support Slack channel
