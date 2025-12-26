@@ -23,7 +23,8 @@ import {
   TrendingUp,
   Rocket,
   BarChart3,
-  Brain
+  Brain,
+  LineChart
 } from 'lucide-react';
 import { 
   ProfessionalIcon, 
@@ -63,7 +64,7 @@ export function Navigation({
     { id: 'projects', label: 'Projects', icon: Wrench },
     { id: 'business-intelligence', label: 'Business Intelligence', icon: BarChart3, badge: 'New' },
     { id: 'insights', label: 'Analytics', icon: Activity },
-    { id: 'analytics-dashboard', label: 'Analytics Dashboard', icon: TrendingUp, badge: 'New' },
+    { id: 'analytics-dashboard', label: 'Analytics Dashboard', icon: LineChart, badge: 'New' },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'notifications', label: 'Notifications', icon: Bell, badge: '3' }
   ] as const;
