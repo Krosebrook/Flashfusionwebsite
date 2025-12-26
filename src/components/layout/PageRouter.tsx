@@ -133,6 +133,9 @@ const IntelligentAnalyticsDashboard = createLazyComponent(() => import('../analy
 const SmartOptimizationEngine = createLazyComponent(() => import('../performance/SmartOptimizationEngine'), 'SmartOptimizationEngine');
 const PerformanceSecurityShowcase = createLazyComponent(() => import('../pages/PerformanceSecurityShowcase'), 'PerformanceSecurityShowcase');
 
+// New feature: Analytics Dashboard
+const AnalyticsDashboard = createLazyComponent(() => import('../../features/analytics-dashboard/components/AnalyticsDashboard'), 'AnalyticsDashboard');
+
 // Fallback component for missing pages
 const MissingPageComponent = ({ pageName }: { pageName: string }) => (
   <div className="flex items-center justify-center min-h-[60vh]">
@@ -385,6 +388,19 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
           return (
             <ErrorBoundary>
               <AnalyticsPage />
+            </ErrorBoundary>
+          );
+        case 'analytics-dashboard':
+          if (!isAuthenticated) {
+            return (
+              <ErrorBoundary>
+                <HomePage onPageChange={onPageChange} />
+              </ErrorBoundary>
+            );
+          }
+          return (
+            <ErrorBoundary>
+              <AnalyticsDashboard />
             </ErrorBoundary>
           );
         case 'demo':
