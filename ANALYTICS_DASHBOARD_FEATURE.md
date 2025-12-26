@@ -27,7 +27,7 @@ A complete, production-ready analytics dashboard feature that includes:
 #### Navigation
 - Added navigation link in `src/components/layout/Navigation.tsx`
 - Displayed in the protected items menu with a "New" badge
-- Uses TrendingUp icon from lucide-react
+- Uses LineChart icon from lucide-react for clear visual distinction
 
 ### 3. Feature Structure
 
