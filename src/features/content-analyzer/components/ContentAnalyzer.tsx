@@ -154,7 +154,7 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
  * 
  * @example
  * ```tsx
- * <FeatureTemplate
+ * <ContentAnalyzer
  *   config={{ option1: true }}
  *   onComplete={(result) => console.log('Done!', result)}
  *   initialData={myData}

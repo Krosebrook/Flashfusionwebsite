@@ -38,7 +38,7 @@ export function mockLocalStorage() {
 }
 
 // Mock fetch for API tests
-export function mockFetch(response: any, status = 200) {
+export function mockFetch<T = unknown>(response: T, status = 200) {
   return vi.fn(() =>
     Promise.resolve({
       ok: status >= 200 && status < 300,
@@ -46,7 +46,7 @@ export function mockFetch(response: any, status = 200) {
       json: async () => response,
       text: async () => JSON.stringify(response),
     })
-  ) as any;
+  );
 }
 
 // Wait for async operations

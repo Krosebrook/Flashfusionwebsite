@@ -50,17 +50,17 @@ beforeEach(() => {
   });
 });
 
-describe('FeatureTemplate Component', () => {
+describe('ContentAnalyzer Component', () => {
   describe('Rendering', () => {
     it('renders with default props', () => {
-      render(<FeatureTemplate />);
+      render(<ContentAnalyzer />);
       
       expect(screen.getByText(/ContentAnalyzer/i)).toBeInTheDocument();
       expect(screen.getByText(/AI-powered content analysis and insights/i)).toBeInTheDocument();
     });
     
     it('renders with initial data', () => {
-      render(<FeatureTemplate initialData={mockData} />);
+      render(<ContentAnalyzer initialData={mockData} />);
       
       // Should display the initial data
       waitFor(() => {
@@ -69,7 +69,7 @@ describe('FeatureTemplate Component', () => {
     });
     
     it('displays status badge', () => {
-      render(<FeatureTemplate />);
+      render(<ContentAnalyzer />);
       
       // Initial status should be idle
       expect(screen.getByText(/IDLE/i)).toBeInTheDocument();
@@ -78,7 +78,7 @@ describe('FeatureTemplate Component', () => {
   
   describe('User Interactions', () => {
     it('handles input change', () => {
-      render(<FeatureTemplate />);
+      render(<ContentAnalyzer />);
       
       const input = screen.getByLabelText(/input data/i) as HTMLInputElement;
       
@@ -89,7 +89,7 @@ describe('FeatureTemplate Component', () => {
     
     it('submits form with valid input', async () => {
       const onComplete = jest.fn();
-      render(<FeatureTemplate onComplete={onComplete} />);
+      render(<ContentAnalyzer onComplete={onComplete} />);
       
       const input = screen.getByLabelText(/input data/i);
       const submitButton = screen.getByRole('button', { name: /process/i });
@@ -103,7 +103,7 @@ describe('FeatureTemplate Component', () => {
     });
     
     it('disables submit button when processing', async () => {
-      render(<FeatureTemplate />);
+      render(<ContentAnalyzer />);
       
       const input = screen.getByLabelText(/input data/i);
       const submitButton = screen.getByRole('button', { name: /process/i });
@@ -116,7 +116,7 @@ describe('FeatureTemplate Component', () => {
     });
     
     it('resets state when reset button clicked', async () => {
-      render(<FeatureTemplate initialData={mockData} />);
+      render(<ContentAnalyzer initialData={mockData} />);
       
       const resetButton = screen.getByRole('button', { name: /reset/i });
       
@@ -138,7 +138,7 @@ describe('FeatureTemplate Component', () => {
       );
       
       const onError = jest.fn();
-      render(<FeatureTemplate onError={onError} />);
+      render(<ContentAnalyzer onError={onError} />);
       
       const input = screen.getByLabelText(/input data/i);
       const submitButton = screen.getByRole('button', { name: /process/i });
@@ -158,7 +158,7 @@ describe('FeatureTemplate Component', () => {
         new Error('Processing failed')
       );
       
-      render(<FeatureTemplate />);
+      render(<ContentAnalyzer />);
       
       const input = screen.getByLabelText(/input data/i);
       const submitButton = screen.getByRole('button', { name: /process/i });
@@ -175,7 +175,7 @@ describe('FeatureTemplate Component', () => {
   describe('Callbacks', () => {
     it('calls onComplete when processing succeeds', async () => {
       const onComplete = jest.fn();
-      render(<FeatureTemplate onComplete={onComplete} />);
+      render(<ContentAnalyzer onComplete={onComplete} />);
       
       const input = screen.getByLabelText(/input data/i);
       const submitButton = screen.getByRole('button', { name: /process/i });
@@ -201,7 +201,7 @@ describe('FeatureTemplate Component', () => {
       );
       
       const onError = jest.fn();
-      render(<FeatureTemplate onError={onError} />);
+      render(<ContentAnalyzer onError={onError} />);
       
       const input = screen.getByLabelText(/input data/i);
       const submitButton = screen.getByRole('button', { name: /process/i });
@@ -218,13 +218,13 @@ describe('FeatureTemplate Component', () => {
   
   describe('Debug Mode', () => {
     it('shows debug information when debug prop is true', () => {
-      render(<FeatureTemplate debug={true} />);
+      render(<ContentAnalyzer debug={true} />);
       
       expect(screen.getByText(/debug information/i)).toBeInTheDocument();
     });
     
     it('hides debug information when debug prop is false', () => {
-      render(<FeatureTemplate debug={false} />);
+      render(<ContentAnalyzer debug={false} />);
       
       expect(screen.queryByText(/debug information/i)).not.toBeInTheDocument();
     });
