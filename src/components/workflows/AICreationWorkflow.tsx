@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -8,7 +8,14 @@ import { Progress } from '../ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Separator } from '../ui/separator';
-import { CheckCircle, Sparkles, Code, Image, FileText, Download, Share2, Wand2, Zap, Brain, Palette } from 'lucide-react';
+import { 
+  CheckCircle, Sparkles, Code, FileText, Download, Share2, Wand2, Zap, 
+  Brain, Palette, X, History, Star, StarOff, Search, Trash2, Clock, AlertCircle 
+} from 'lucide-react';
+import { useAIGeneration } from '../../hooks/useAIGeneration';
+import { useGenerationHistory } from '../../hooks/useGenerationHistory';
+import { GENERATION_TEMPLATES, getTemplatesByType, getPopularTemplates } from '../../data/generation-templates';
+import type { CreationType } from '../../types/generation';
 
 interface AICreationWorkflowProps {
   onComplete?: () => void;
@@ -19,11 +26,23 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
   const [selectedCreationType, setSelectedCreationType] = useState<string>('');
   const [userPrompt, setUserPrompt] = useState('');
   const [selectedModel, setSelectedModel] = useState('');
-  const [generationProgress, setGenerationProgress] = useState(0);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedContent, setGeneratedContent] = useState<any>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const [showHistory, setShowHistory] = useState(false);
+  const [historySearchQuery, setHistorySearchQuery] = useState('');
+  
+  // Use custom hooks
+  const { isGenerating, progress, error, result, generate, cancel, reset } = useAIGeneration();
+  const { 
+    history, 
+    addToHistory, 
+    removeFromHistory, 
+    clearHistory, 
+    toggleFavorite,
+    searchHistory,
+    getFavorites 
+  } = useGenerationHistory();
 
-  const creationTypes = [
+  const creationTypes: CreationType[] = [
     {
       id: 'fullstack-app',
       title: 'Full-Stack Application',
@@ -31,7 +50,9 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
       icon: Code,
       color: 'bg-gradient-to-r from-orange-500 to-red-500',
       models: ['GPT-4 Turbo', 'Claude 3.5 Sonnet', 'Gemini Pro'],
-      estimatedTime: '2-5 minutes'
+      estimatedTime: '2-5 minutes',
+      category: 'code',
+      features: ['Authentication', 'Database', 'API', 'Responsive UI']
     },
     {
       id: 'content-suite',
@@ -40,7 +61,9 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
       icon: FileText,
       color: 'bg-gradient-to-r from-cyan-500 to-blue-500',
       models: ['GPT-4 Turbo', 'Claude 3.5 Sonnet', 'Gemini Pro'],
-      estimatedTime: '30 seconds - 2 minutes'
+      estimatedTime: '30 seconds - 2 minutes',
+      category: 'content',
+      features: ['Blog Posts', 'Social Media', 'Email Templates', 'SEO']
     },
     {
       id: 'visual-assets',
@@ -49,7 +72,9 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
       icon: Palette,
       color: 'bg-gradient-to-r from-pink-500 to-purple-500',
       models: ['DALL-E 3', 'Midjourney', 'Stable Diffusion XL'],
-      estimatedTime: '1-3 minutes'
+      estimatedTime: '1-3 minutes',
+      category: 'design',
+      features: ['Logos', 'Brand Colors', 'Typography', 'Templates']
     },
     {
       id: 'code-components',
@@ -58,136 +83,77 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
       icon: Brain,
       color: 'bg-gradient-to-r from-green-500 to-teal-500',
       models: ['GPT-4 Turbo', 'Claude 3.5 Sonnet', 'CodeLlama'],
-      estimatedTime: '1-2 minutes'
+      estimatedTime: '1-2 minutes',
+      category: 'code',
+      features: ['Components', 'Hooks', 'Tests', 'Documentation']
     }
   ];
 
   const selectedType = creationTypes.find(type => type.id === selectedCreationType);
+  const availableTemplates = selectedCreationType ? getTemplatesByType(selectedCreationType) : [];
+  const displayHistory = historySearchQuery ? searchHistory(historySearchQuery) : history;
 
-  const handleGenerate = async () => {
-    setIsGenerating(true);
+  // Handle generation
+  const handleGenerate = useCallback(async () => {
+    if (!selectedCreationType || !userPrompt.trim() || !selectedModel) return;
+    
     setCurrentStep(3);
-    
-    // Simulate AI generation process
-    for (let i = 0; i <= 100; i += 5) {
-      setGenerationProgress(i);
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
-    
-    // Simulate completion
-    setGeneratedContent({
+    const generationResult = await generate({
       type: selectedCreationType,
-      title: getGeneratedTitle(),
-      description: getGeneratedDescription(),
-      files: getGeneratedFiles(),
-      preview: getGeneratedPreview()
+      prompt: userPrompt,
+      model: selectedModel,
     });
-    
-    setIsGenerating(false);
-    setCurrentStep(4);
-  };
 
-  const getGeneratedTitle = () => {
-    switch (selectedCreationType) {
-      case 'fullstack-app':
-        return 'TaskFlow Pro - Project Management App';
-      case 'content-suite':
-        return 'Content Marketing Campaign - "AI Revolution 2024"';
-      case 'visual-assets':
-        return 'TechStart Brand Identity Package';
-      case 'code-components':
-        return 'Advanced React Component Library';
-      default:
-        return 'Generated Creation';
+    if (generationResult) {
+      addToHistory(generationResult);
+      setCurrentStep(4);
     }
-  };
+  }, [selectedCreationType, userPrompt, selectedModel, generate, addToHistory]);
 
-  const getGeneratedDescription = () => {
-    switch (selectedCreationType) {
-      case 'fullstack-app':
-        return 'Complete project management application with React frontend, Node.js backend, PostgreSQL database, and real-time collaboration features.';
-      case 'content-suite':
-        return 'Complete marketing campaign including blog posts, social media content, email templates, and promotional materials focused on AI innovation.';
-      case 'visual-assets':
-        return 'Professional brand identity package including logo variations, color palette, typography guide, and marketing materials.';
-      case 'code-components':
-        return 'Production-ready React component library with TypeScript, Storybook documentation, and comprehensive testing suite.';
-      default:
-        return 'AI-generated creation ready for use.';
+  // Handle template selection
+  const handleTemplateSelect = useCallback((templateId: string) => {
+    const template = GENERATION_TEMPLATES.find(t => t.id === templateId);
+    if (template) {
+      setSelectedTemplate(templateId);
+      setUserPrompt(template.prompt);
+      setSelectedModel(template.model);
     }
-  };
+  }, []);
 
-  const getGeneratedFiles = () => {
-    switch (selectedCreationType) {
-      case 'fullstack-app':
-        return [
-          { name: 'frontend/', type: 'folder', size: '15 files' },
-          { name: 'backend/', type: 'folder', size: '12 files' },
-          { name: 'database/', type: 'folder', size: '5 files' },
-          { name: 'docker-compose.yml', type: 'file', size: '2.1 KB' },
-          { name: 'README.md', type: 'file', size: '4.3 KB' },
-          { name: 'package.json', type: 'file', size: '1.8 KB' }
-        ];
-      case 'content-suite':
-        return [
-          { name: 'blog-posts/', type: 'folder', size: '8 files' },
-          { name: 'social-media/', type: 'folder', size: '15 files' },
-          { name: 'email-templates/', type: 'folder', size: '6 files' },
-          { name: 'content-calendar.xlsx', type: 'file', size: '156 KB' },
-          { name: 'brand-guidelines.pdf', type: 'file', size: '2.3 MB' }
-        ];
-      case 'visual-assets':
-        return [
-          { name: 'logos/', type: 'folder', size: '12 files' },
-          { name: 'brand-colors.pdf', type: 'file', size: '890 KB' },
-          { name: 'typography-guide.pdf', type: 'file', size: '1.2 MB' },
-          { name: 'marketing-materials/', type: 'folder', size: '8 files' },
-          { name: 'social-media-templates/', type: 'folder', size: '20 files' }
-        ];
-      case 'code-components':
-        return [
-          { name: 'src/components/', type: 'folder', size: '25 files' },
-          { name: 'src/hooks/', type: 'folder', size: '8 files' },
-          { name: 'src/utils/', type: 'folder', size: '12 files' },
-          { name: 'storybook/', type: 'folder', size: '15 files' },
-          { name: 'tests/', type: 'folder', size: '30 files' },
-          { name: 'package.json', type: 'file', size: '3.2 KB' }
-        ];
-      default:
-        return [];
+  // Handle history item restore
+  const handleRestoreFromHistory = useCallback((historyId: string) => {
+    const historyItem = history.find(h => h.id === historyId);
+    if (historyItem) {
+      setSelectedCreationType(historyItem.type);
+      setUserPrompt(historyItem.prompt);
+      setSelectedModel(historyItem.model);
+      setShowHistory(false);
+      setCurrentStep(2);
     }
-  };
+  }, [history]);
 
-  const getGeneratedPreview = () => {
-    switch (selectedCreationType) {
-      case 'fullstack-app':
-        return {
-          type: 'app',
-          features: ['User Authentication', 'Project Dashboard', 'Real-time Chat', 'File Upload', 'API Integration', 'Responsive Design'],
-          techStack: ['React', 'Node.js', 'PostgreSQL', 'WebSocket', 'JWT Auth', 'Docker']
-        };
-      case 'content-suite':
-        return {
-          type: 'content',
-          pieces: ['5 Blog Posts', '20 Social Media Posts', '6 Email Templates', '1 Content Calendar', '1 Brand Guide'],
-          platforms: ['LinkedIn', 'Twitter', 'Instagram', 'Facebook', 'Medium', 'Newsletter']
-        };
-      case 'visual-assets':
-        return {
-          type: 'visual',
-          assets: ['Primary Logo', '6 Logo Variations', 'Color Palette', 'Typography System', '8 Marketing Templates', '20 Social Templates'],
-          formats: ['SVG', 'PNG', 'PDF', 'AI', 'PSD', 'Figma']
-        };
-      case 'code-components':
-        return {
-          type: 'code',
-          components: ['UI Components', 'Custom Hooks', 'Utility Functions', 'Test Suite', 'Storybook Docs', 'TypeScript Types'],
-          features: ['TypeScript', 'Responsive', 'Accessible', 'Tested', 'Documented', 'Tree-shakable']
-        };
-      default:
-        return null;
+  // Cancel generation
+  const handleCancel = useCallback(() => {
+    cancel();
+    setCurrentStep(2);
+  }, [cancel]);
+
+  // Reset workflow
+  const handleReset = useCallback(() => {
+    setCurrentStep(1);
+    setSelectedCreationType('');
+    setUserPrompt('');
+    setSelectedModel('');
+    setSelectedTemplate(null);
+    reset();
+  }, [reset]);
+
+  // Auto-advance when generation completes
+  useEffect(() => {
+    if (result && !isGenerating) {
+      setCurrentStep(4);
     }
-  };
+  }, [result, isGenerating]);
 
   const renderStepContent = () => {
     switch (currentStep) {
@@ -288,6 +254,46 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
                     </p>
                   </div>
 
+                  {/* Templates Section */}
+                  {availableTemplates.length > 0 && (
+                    <div className="space-y-3">
+                      <label className="ff-text-title text-sm flex items-center space-x-2">
+                        <Sparkles className="w-4 h-4 text-orange-500" />
+                        <span>Quick Start Templates</span>
+                      </label>
+                      <div className="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto">
+                        {availableTemplates.slice(0, 3).map((template) => (
+                          <div
+                            key={template.id}
+                            onClick={() => handleTemplateSelect(template.id)}
+                            className={`p-3 rounded-lg border cursor-pointer transition-all ${
+                              selectedTemplate === template.id
+                                ? 'border-orange-500 bg-orange-500/10'
+                                : 'border-gray-700 hover:border-gray-600 hover:bg-gray-800/50'
+                            }`}
+                          >
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <h4 className="text-sm font-medium text-white">{template.name}</h4>
+                                <p className="text-xs text-gray-400 mt-1">{template.description}</p>
+                                <div className="flex flex-wrap gap-1 mt-2">
+                                  {template.tags.slice(0, 3).map((tag) => (
+                                    <Badge key={tag} variant="secondary" className="text-xs">
+                                      {tag}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                              {selectedTemplate === template.id && (
+                                <CheckCircle className="w-4 h-4 text-orange-500 flex-shrink-0 ml-2" />
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="space-y-3">
                     <label className="ff-text-title text-sm">AI Model</label>
                     <Select value={selectedModel} onValueChange={setSelectedModel}>
@@ -356,9 +362,9 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="ff-text-title text-sm">Generation Progress</span>
-                    <span className="ff-text-title text-sm">{generationProgress}%</span>
+                    <span className="ff-text-title text-sm">{progress}%</span>
                   </div>
-                  <Progress value={generationProgress} className="h-3" />
+                  <Progress value={progress} className="h-3" />
                 </div>
 
                 <div className="space-y-3">
@@ -378,6 +384,29 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
                     <div className="text-sm text-gray-300">{selectedType?.title}</div>
                   </div>
                 </div>
+
+                {/* Cancel Button */}
+                <div className="flex justify-center">
+                  <Button
+                    variant="outline"
+                    onClick={handleCancel}
+                    className="ff-btn-outline"
+                  >
+                    <X className="w-4 h-4 mr-2" />
+                    Cancel Generation
+                  </Button>
+                </div>
+
+                {/* Error Display */}
+                {error && (
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                    <div className="flex items-center space-x-2 text-red-400">
+                      <AlertCircle className="w-4 h-4" />
+                      <span className="text-sm font-medium">Generation Error</span>
+                    </div>
+                    <p className="text-sm text-red-300 mt-2">{error.message}</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -396,16 +425,16 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
               </div>
             </div>
 
-            {generatedContent && (
+            {result && (
               <Card className="ff-card">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-3">
                     {selectedType?.icon && (
                       <selectedType.icon className="w-6 h-6 text-orange-500" />
                     )}
-                    <span>{generatedContent.title}</span>
+                    <span>{result.title}</span>
                   </CardTitle>
-                  <p className="ff-text-body">{generatedContent.description}</p>
+                  <p className="ff-text-body">{result.description}</p>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <Tabs defaultValue="files" className="w-full">
@@ -417,8 +446,8 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
                     
                     <TabsContent value="files" className="space-y-4">
                       <div className="space-y-2">
-                        {generatedContent.files.map((file: any, index: number) => (
-                          <div key={index} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg border">
+                        {result.files.map((file, index) => (
+                          <div key={`${file.name}-${index}`} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg border">
                             <div className="flex items-center space-x-3">
                               {file.type === 'folder' ? (
                                 <div className="w-4 h-4 text-yellow-500">📁</div>
@@ -436,14 +465,14 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
                     </TabsContent>
                     
                     <TabsContent value="preview" className="space-y-4">
-                      {generatedContent.preview && (
+                      {result.preview && (
                         <div className="space-y-4">
-                          {generatedContent.preview.features && (
+                          {result.preview.features && (
                             <div>
                               <h4 className="ff-text-title mb-3">Features Included:</h4>
                               <div className="grid grid-cols-2 gap-2">
-                                {generatedContent.preview.features.map((feature: string, index: number) => (
-                                  <div key={index} className="flex items-center space-x-2 p-2 bg-green-500/10 border border-green-500/20 rounded">
+                                {result.preview.features.map((feature, index) => (
+                                  <div key={`feature-${feature}-${index}`} className="flex items-center space-x-2 p-2 bg-green-500/10 border border-green-500/20 rounded">
                                     <CheckCircle className="w-4 h-4 text-green-500" />
                                     <span className="text-sm">{feature}</span>
                                   </div>
@@ -452,12 +481,12 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
                             </div>
                           )}
                           
-                          {generatedContent.preview.techStack && (
+                          {result.preview.techStack && (
                             <div>
                               <h4 className="ff-text-title mb-3">Technology Stack:</h4>
                               <div className="flex flex-wrap gap-2">
-                                {generatedContent.preview.techStack.map((tech: string, index: number) => (
-                                  <Badge key={index} className="ff-badge-primary">
+                                {result.preview.techStack.map((tech, index) => (
+                                  <Badge key={`tech-${tech}-${index}`} className="ff-badge-primary">
                                     {tech}
                                   </Badge>
                                 ))}
@@ -465,12 +494,12 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
                             </div>
                           )}
                           
-                          {generatedContent.preview.pieces && (
+                          {result.preview.pieces && (
                             <div>
                               <h4 className="ff-text-title mb-3">Content Pieces:</h4>
                               <div className="grid grid-cols-1 gap-2">
-                                {generatedContent.preview.pieces.map((piece: string, index: number) => (
-                                  <div key={index} className="flex items-center space-x-2 p-2 bg-cyan-500/10 border border-cyan-500/20 rounded">
+                                {result.preview.pieces.map((piece, index) => (
+                                  <div key={`piece-${piece}-${index}`} className="flex items-center space-x-2 p-2 bg-cyan-500/10 border border-cyan-500/20 rounded">
                                     <FileText className="w-4 h-4 text-cyan-500" />
                                     <span className="text-sm">{piece}</span>
                                   </div>
@@ -510,14 +539,7 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
             <div className="flex justify-center space-x-4">
               <Button 
                 variant="outline" 
-                onClick={() => {
-                  setCurrentStep(1);
-                  setSelectedCreationType('');
-                  setUserPrompt('');
-                  setSelectedModel('');
-                  setGenerationProgress(0);
-                  setGeneratedContent(null);
-                }}
+                onClick={handleReset}
                 className="ff-btn-outline"
               >
                 Create Another
@@ -540,6 +562,132 @@ export function AICreationWorkflow({ onComplete }: AICreationWorkflowProps) {
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
+      {/* Header with History Button */}
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h1 className="ff-text-headline">AI Creation Workflow</h1>
+          <p className="ff-text-body text-sm">Generate content, code, and creative assets with AI</p>
+        </div>
+        <Button
+          variant="outline"
+          onClick={() => setShowHistory(!showHistory)}
+          className="ff-btn-outline"
+        >
+          <History className="w-4 h-4 mr-2" />
+          History ({history.length})
+        </Button>
+      </div>
+
+      {/* History Panel */}
+      {showHistory && (
+        <Card className="ff-card mb-6">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center space-x-2">
+                <History className="w-5 h-5" />
+                <span>Generation History</span>
+              </CardTitle>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowHistory(false)}
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <Search className="w-4 h-4 text-gray-400" />
+              <Input
+                placeholder="Search history..."
+                value={historySearchQuery}
+                onChange={(e) => setHistorySearchQuery(e.target.value)}
+                className="ff-input"
+              />
+            </div>
+
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {displayHistory.length === 0 ? (
+                <p className="text-center text-gray-400 py-8">
+                  No generation history yet. Create something to get started!
+                </p>
+              ) : (
+                displayHistory.map((item) => (
+                  <div
+                    key={item.id}
+                    className="p-4 bg-gray-800 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors"
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <h4 className="font-medium text-white">{item.title}</h4>
+                          <Badge variant="secondary" className="text-xs">
+                            {creationTypes.find(t => t.id === item.type)?.title || item.type}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-gray-400 mb-2 line-clamp-2">{item.description}</p>
+                        <div className="flex items-center space-x-4 text-xs text-gray-500">
+                          <span className="flex items-center space-x-1">
+                            <Clock className="w-3 h-3" />
+                            <span>{new Date(item.timestamp).toLocaleDateString()}</span>
+                          </span>
+                          <span>{item.model}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2 ml-4">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => toggleFavorite(item.id)}
+                        >
+                          {item.favorite ? (
+                            <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
+                          ) : (
+                            <StarOff className="w-4 h-4" />
+                          )}
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleRestoreFromHistory(item.id)}
+                        >
+                          <Wand2 className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeFromHistory(item.id)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            {history.length > 0 && (
+              <div className="flex justify-between items-center pt-4 border-t border-gray-700">
+                <span className="text-sm text-gray-400">
+                  {history.length} generations saved
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={clearHistory}
+                  className="text-red-400 border-red-400/20 hover:bg-red-400/10"
+                >
+                  <Trash2 className="w-3 h-3 mr-2" />
+                  Clear All
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
       {/* Progress indicator */}
       <div className="flex items-center justify-center space-x-4 mb-8">
         {[1, 2, 3, 4].map((step) => (
