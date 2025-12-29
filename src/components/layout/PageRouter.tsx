@@ -75,6 +75,7 @@ const FAQPage = createLazyComponent(() => import('../pages/FAQPage'), 'FAQPage')
 const PrivacyPage = createLazyComponent(() => import('../pages/PrivacyPage'), 'PrivacyPage');
 const TermsPage = createLazyComponent(() => import('../pages/TermsPage'), 'TermsPage');
 const NotFoundPage = createLazyComponent(() => import('../pages/NotFoundPage'), 'NotFoundPage');
+const RepositoriesPage = createLazyComponent(() => import('../pages/RepositoriesPage'), 'RepositoriesPage');
 
 // Tool components with enhanced error handling
 const CodeGenerator = createLazyComponent(() => import('../generation/CodeGenerator'), 'CodeGenerator');
@@ -339,6 +340,12 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
           return (
             <ErrorBoundary>
               <TermsPage />
+            </ErrorBoundary>
+          );
+        case 'repositories':
+          return (
+            <ErrorBoundary>
+              <RepositoriesPage />
             </ErrorBoundary>
           );
         
