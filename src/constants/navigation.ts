@@ -332,6 +332,13 @@ export const publicNavigation: NavigationSection = {
       description: 'Subscription plans'
     },
     {
+      id: 'repositories',
+      label: 'Repositories',
+      page: 'repositories',
+      icon: 'Github',
+      description: 'Open source projects'
+    },
+    {
       id: 'demo',
       label: 'Live Demo',
       page: 'demo',

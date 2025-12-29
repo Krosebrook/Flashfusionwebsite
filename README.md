@@ -67,6 +67,19 @@ npm run test         # Run tests
 npm run lint         # Lint code
 ```
 
+## 🌐 Featured Repositories
+
+Explore our collection of 10+ open-source projects across various categories:
+
+- **AI Tools**: Agent-K, AetherAgentsOS
+- **Music**: HarmoniQ-Music-Theory
+- **Productivity**: INTincRoadmap, PoDGen, Bringittolife, LuminaJournal
+- **Automation**: AutoArchtect
+- **UI Framework**: Flash-UI
+- **Development**: Metropolisv2.0
+
+View all repositories and their details on the **Repositories** page in the app or visit [github.com/Krosebrook](https://github.com/Krosebrook).
+
 ## 🤖 Pull Request Automation
 
 This repository has automated workflows to handle pull requests without manual intervention:
