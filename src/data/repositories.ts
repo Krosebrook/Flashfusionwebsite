@@ -261,8 +261,17 @@ export const getRepositoriesByCategory = (category: Repository['category']) => {
 export const getAllCategories = (): Repository['category'][] => {
   const categories: Repository['category'][] = [];
   featuredRepositories.forEach(repo => {
-    if (repo.category && !categories.includes(repo.category)) {
-      categories.push(repo.category);
+    if (repo.category) {
+      let found = false;
+      for (let i = 0; i < categories.length; i++) {
+        if (categories[i] === repo.category) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        categories.push(repo.category);
+      }
     }
   });
   return categories;
