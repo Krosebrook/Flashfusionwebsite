@@ -276,3 +276,21 @@ export const getAllCategories = (): Repository['category'][] => {
   });
   return categories;
 };
+
+export const getLanguageColor = (language: string): string => {
+  const languageColors: { [key: string]: string } = {
+    'TypeScript': 'bg-blue-500',
+    'JavaScript': 'bg-yellow-500',
+    'Python': 'bg-green-500',
+    'Java': 'bg-orange-600',
+    'Go': 'bg-cyan-500',
+    'Rust': 'bg-orange-500',
+    'C++': 'bg-pink-500',
+    'C#': 'bg-purple-600',
+    'Ruby': 'bg-red-500',
+    'PHP': 'bg-indigo-500',
+    'Swift': 'bg-orange-400',
+    'Kotlin': 'bg-purple-500',
+  };
+  return languageColors[language] || 'bg-gray-500';
+};

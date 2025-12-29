@@ -14,7 +14,7 @@ import {
   Filter,
   Github
 } from 'lucide-react';
-import { featuredRepositories, getCategoryColor, getCategoryLabel, getAllCategories, type Repository } from '../../data/repositories';
+import { featuredRepositories, getCategoryColor, getCategoryLabel, getAllCategories, getLanguageColor, type Repository } from '../../data/repositories';
 import { motion } from 'motion/react';
 
 export default function RepositoriesPage() {
@@ -172,7 +172,7 @@ export default function RepositoriesPage() {
                   <div className="space-y-3 mb-4">
                     {/* Language */}
                     <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                      <div className="w-3 h-3 rounded-full bg-blue-500" />
+                      <div className={`w-3 h-3 rounded-full ${getLanguageColor(repo.language)}`} />
                       <span>{repo.language}</span>
                     </div>
 
