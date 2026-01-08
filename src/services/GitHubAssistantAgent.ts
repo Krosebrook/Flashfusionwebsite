@@ -19,7 +19,7 @@ import {
   type CICDAnalysis,
   type Recommendation,
 } from '../types/github-assistant';
-import { AIService, type AIRequest } from './AIService';
+import { AIService, type AIRequest, type AIResponse } from './AIService';
 
 export class GitHubAssistantAgent {
   private static instance: GitHubAssistantAgent;

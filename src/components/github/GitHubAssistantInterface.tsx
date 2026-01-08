@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 import { githubAssistant } from '../../services/GitHubAssistantAgent';
 import type { AgentModule, AgentResponse, ModuleCapability } from '../../types/github-assistant';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 const moduleIcons: Record<AgentModule, React.ReactNode> = {
   'repo-understander': <Book className="h-5 w-5" />,
