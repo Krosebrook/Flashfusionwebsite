@@ -1,5 +1,9 @@
 # GitHub Repositories Showcase Feature
 
+**Created:** December 2025  
+**Last Updated:** January 8, 2026  
+**Status:** Active
+
 ## Overview
 
 A new feature has been added to the FlashFusion website that showcases the next 10 priority repositories from the Krosebrook GitHub account.
