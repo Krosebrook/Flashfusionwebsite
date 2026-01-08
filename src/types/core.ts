@@ -5,4 +5,4 @@ export type PageType = 'home' | 'dashboard' | 'tools' | 'projects' | 'deployment
                        'live-collaboration' | 'cicd-pipeline' | 'responsive-ui-kit' | 'backend-architecture' | 'infrastructure-strategy' |
                        'notifications' | 'profile' | 'search' | 'plugins' | 'data-hub' | 'insights' | 'business-intelligence' | 'workspace' | 'external-integrations' | 'repository-hub' |
                        'creator-hub' | 'creator-content-pipeline' | 'creator-commerce' | 'brand-kit' | 'content-creation' | 'education' |
-                       'studio-analytics-behavior' | 'studio-ai-optimization' | 'repositories' | 'features' | 'testimonials' | 'faq' | 'privacy' | 'terms' | 'demo' | 'multi-agent' | 'security' | 'tool-detail' | 'not-found';
+                       'studio-analytics-behavior' | 'studio-ai-optimization' | 'repositories' | 'features' | 'testimonials' | 'faq' | 'privacy' | 'terms' | 'demo' | 'multi-agent' | 'security' | 'tool-detail' | 'not-found' | 'github-assistant';
