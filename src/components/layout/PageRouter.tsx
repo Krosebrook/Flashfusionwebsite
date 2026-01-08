@@ -99,6 +99,7 @@ const IntegrationsPage = createLazyComponent(() => import('../pages/Integrations
 const MultiAgentOrchestrationPage = createLazyComponent(() => import('../pages/MultiAgentOrchestrationPage'), 'MultiAgentOrchestrationPage');
 const TemplatesPage = createLazyComponent(() => import('../pages/TemplatesPage'), 'TemplatesPage');
 const ToolDetailPage = createLazyComponent(() => import('../pages/ToolDetailPage'), 'ToolDetailPage');
+const GitHubAssistantPage = createLazyComponent(() => import('../pages/GitHubAssistantPage'), 'GitHubAssistantPage');
 
 // Showcase components
 const FlashFusionPlatformShowcase = createLazyComponent(() => import('../showcase/FlashFusionPlatformShowcase'), 'FlashFusionPlatformShowcase');
@@ -471,6 +472,12 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
           return (
             <ErrorBoundary>
               <ToolDetailPage />
+            </ErrorBoundary>
+          );
+        case 'github-assistant':
+          return (
+            <ErrorBoundary>
+              <GitHubAssistantPage />
             </ErrorBoundary>
           );
         case 'showcase':
