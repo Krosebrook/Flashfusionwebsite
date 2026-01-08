@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist', 'build', 'node_modules', 'internal', 'archive', '.broken-backup', 'src/packages', 'src/src', 'src/supabase', 'src/tests', 'src/Dockerfile', 'src/apps', 'tests', 'src/scripts'] },
+  { ignores: ['dist', 'build', 'node_modules', 'internal/debug', 'archive', 'src/Dockerfile/**', 'src/_env_example.tsx'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['src/**/*.{ts,tsx}'],
@@ -18,25 +18,21 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
     },
     rules: {
-      // Disable strict rules for existing codebase compatibility
-      'react-refresh/only-export-components': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
+      ...reactHooks.configs.recommended.rules,
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
       '@typescript-eslint/no-unused-expressions': 'off',
-      '@typescript-eslint/no-empty-object-type': 'off',
-      '@typescript-eslint/no-require-imports': 'off',
-      '@typescript-eslint/no-unsafe-function-type': 'off',
-      'no-console': 'off',
-      'no-useless-escape': 'off',
-      'no-case-declarations': 'off',
-      'no-empty-pattern': 'off',
-      'no-prototype-builtins': 'off',
-      'prefer-rest-params': 'off',
-      'prefer-const': 'off',
-      'no-shadow-restricted-names': 'off',
-      // React hooks - keep as warnings only
-      'react-hooks/rules-of-hooks': 'warn',
-      'react-hooks/exhaustive-deps': 'warn',
+      'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
     },
   }
 );

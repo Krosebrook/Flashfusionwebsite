@@ -47,14 +47,8 @@
     "archive",
     "internal",
     "src/Dockerfile",
+    "src/_env_example.tsx",
     "src/**/*.md",
-    "src/**/*.json",
-    "src/**/*.sql",
-    "src/_env_example.txt",
-    "src/preview.tsx",
-    "src/packages/**",
-    "src/src/**",
-    "src/supabase/**",
-    "src/tests/**"
+    "src/**/*.json"
   ]
 }
