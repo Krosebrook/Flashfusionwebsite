@@ -17,7 +17,7 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "@flashfusion/types": "workspace:*"
+    "@flashfusion/types": "*"
   },
   "devDependencies": {
     "@types/react": "^18.2.48",
