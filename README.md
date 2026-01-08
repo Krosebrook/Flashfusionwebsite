@@ -3,7 +3,7 @@
 A modern, production-ready web application built with React 18, TypeScript, Vite 6, and Tailwind CSS. FlashFusion provides a comprehensive platform for AI-powered development tools and workflows.
 
 **Version:** 0.1.0  
-**Last Updated:** December 26, 2025
+**Last Updated:** January 8, 2026
 
 ## 🚀 Quick Start
 
@@ -31,17 +31,25 @@ npm run build
 - **[START HERE](./src/START_HERE.md)** - Complete setup guide
 - **[PDR Start Here](./PDR_START_HERE.md)** - Comprehensive audit overview
 - **[Contributing Guide](./src/CONTRIBUTING.md)** - How to contribute
+- **[CHANGELOG](./CHANGELOG.md)** - Version history and changes
 
 ### Development
 - **[Development Setup](./src/DEVELOPMENT_QUICK_START.md)** - Local development guide
 - **[Deployment Guide](./src/DEPLOYMENT.md)** - Production deployment
 - **[Style Guide](./src/FLASHFUSION_STYLING_GUIDE.md)** - Design system
+- **[Testing Strategy](./docs/TESTING_STRATEGY.md)** - Testing guidelines
 
 ### Architecture & Audits
+- **[Architecture Overview](./src/docs/ARCHITECTURE_OVERVIEW.md)** - Complete system architecture
+- **[Core Architecture](./src/components/core/ARCHITECTURE.md)** - Modular core design
 - **[Comprehensive PDR Audit](./COMPREHENSIVE_PDR_AUDIT.md)** - Complete technical audit
 - **[Executive Summary](./PDR_EXECUTIVE_SUMMARY.md)** - Business overview
 - **[Action Checklist](./PDR_ACTION_CHECKLIST.md)** - Implementation tasks
 - **[Audit Index](./PDR_AUDIT_INDEX.md)** - Documentation navigation
+
+### Performance & Security
+- **[Bundle Optimization](./docs/BUNDLE_OPTIMIZATION.md)** - Performance optimization
+- **[Security Summary](./docs/SECURITY_SUMMARY.md)** - Security practices
 
 ## 🏗️ Project Structure
 
