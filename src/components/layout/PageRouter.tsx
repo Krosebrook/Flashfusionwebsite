@@ -75,6 +75,7 @@ const FAQPage = createLazyComponent(() => import('../pages/FAQPage'), 'FAQPage')
 const PrivacyPage = createLazyComponent(() => import('../pages/PrivacyPage'), 'PrivacyPage');
 const TermsPage = createLazyComponent(() => import('../pages/TermsPage'), 'TermsPage');
 const NotFoundPage = createLazyComponent(() => import('../pages/NotFoundPage'), 'NotFoundPage');
+const RepositoriesPage = createLazyComponent(() => import('../pages/RepositoriesPage'), 'RepositoriesPage');
 
 // Tool components with enhanced error handling
 const CodeGenerator = createLazyComponent(() => import('../generation/CodeGenerator'), 'CodeGenerator');
@@ -98,6 +99,7 @@ const IntegrationsPage = createLazyComponent(() => import('../pages/Integrations
 const MultiAgentOrchestrationPage = createLazyComponent(() => import('../pages/MultiAgentOrchestrationPage'), 'MultiAgentOrchestrationPage');
 const TemplatesPage = createLazyComponent(() => import('../pages/TemplatesPage'), 'TemplatesPage');
 const ToolDetailPage = createLazyComponent(() => import('../pages/ToolDetailPage'), 'ToolDetailPage');
+const GitHubAssistantPage = createLazyComponent(() => import('../pages/GitHubAssistantPage'), 'GitHubAssistantPage');
 
 // Showcase components
 const FlashFusionPlatformShowcase = createLazyComponent(() => import('../showcase/FlashFusionPlatformShowcase'), 'FlashFusionPlatformShowcase');
@@ -105,12 +107,12 @@ const FlashFusionPlatformShowcase = createLazyComponent(() => import('../showcas
 // Launch-ready optimization components
 const OptimizedOnboardingFlow = createLazyComponent(() => import('../onboarding/OptimizedOnboardingFlow'), 'OptimizedOnboardingFlow');
 const LaunchPerformanceDashboard = createLazyComponent(() => import('../performance/LaunchPerformanceDashboard'), 'LaunchPerformanceDashboard');
-const ErrorRecoverySystem = createLazyComponent(() => import('../stability/ErrorRecoverySystem'), 'ErrorRecoverySystem');
+const ErrorRecoverySystem = createLazyComponent(() => import('../stability/ErrorRecoverySystemFixed'), 'ErrorRecoverySystem');
 const UserEngagementHub = createLazyComponent(() => import('../engagement/UserEngagementHub'), 'UserEngagementHub');
 const MobileOptimizationCenter = createLazyComponent(() => import('../mobile/MobileOptimizationCenter'), 'MobileOptimizationCenter');
 const SEOOptimizationSuite = createLazyComponent(() => import('../seo/SEOOptimizationSuite'), 'SEOOptimizationSuite');
 const CommunityFeedbackHub = createLazyComponent(() => import('../community/CommunityFeedbackHub'), 'CommunityFeedbackHub');
-const LaunchDayCommand = createLazyComponent(() => import('../launch/LaunchDayCommand'), 'LaunchDayCommand');
+const LaunchDayCommand = createLazyComponent(() => import('../launch/LaunchDayCommandFixed'), 'LaunchDayCommand');
 
 // Testing, monitoring, and launch preparation components
 const LaunchStabilityTester = createLazyComponent(() => import('../testing/LaunchStabilityTester'), 'LaunchStabilityTester');
@@ -132,6 +134,9 @@ const PremiumMicroInteractions = createLazyComponent(() => import('../ui/Premium
 const IntelligentAnalyticsDashboard = createLazyComponent(() => import('../analytics/IntelligentAnalyticsDashboard'), 'IntelligentAnalyticsDashboard');
 const SmartOptimizationEngine = createLazyComponent(() => import('../performance/SmartOptimizationEngine'), 'SmartOptimizationEngine');
 const PerformanceSecurityShowcase = createLazyComponent(() => import('../pages/PerformanceSecurityShowcase'), 'PerformanceSecurityShowcase');
+
+// New feature: Analytics Dashboard
+const AnalyticsDashboard = createLazyComponent(() => import('../../features/analytics-dashboard/components/AnalyticsDashboard'), 'AnalyticsDashboard');
 
 // Fallback component for missing pages
 const MissingPageComponent = ({ pageName }: { pageName: string }) => (
@@ -338,6 +343,12 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
               <TermsPage />
             </ErrorBoundary>
           );
+        case 'repositories':
+          return (
+            <ErrorBoundary>
+              <RepositoriesPage />
+            </ErrorBoundary>
+          );
         
         // System Components
         case 'search':
@@ -385,6 +396,19 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
           return (
             <ErrorBoundary>
               <AnalyticsPage />
+            </ErrorBoundary>
+          );
+        case 'analytics-dashboard':
+          if (!isAuthenticated) {
+            return (
+              <ErrorBoundary>
+                <HomePage onPageChange={onPageChange} />
+              </ErrorBoundary>
+            );
+          }
+          return (
+            <ErrorBoundary>
+              <AnalyticsDashboard />
             </ErrorBoundary>
           );
         case 'demo':
@@ -448,6 +472,12 @@ export function PageRouter({ currentPage, isAuthenticated, onPageChange }: PageR
           return (
             <ErrorBoundary>
               <ToolDetailPage />
+            </ErrorBoundary>
+          );
+        case 'github-assistant':
+          return (
+            <ErrorBoundary>
+              <GitHubAssistantPage />
             </ErrorBoundary>
           );
         case 'showcase':

@@ -1,72 +1,46 @@
-/**
- * Global Vitest setup configuring DOM matchers and shared mocks.
- */
-import '@testing-library/jest-dom/vitest';
-import { afterEach, beforeEach, vi } from 'vitest';
+import '@testing-library/jest-dom';
+import { expect, afterEach } from 'vitest';
 import { cleanup } from '@testing-library/react';
-import type { ReactNode } from 'react';
-import { resetSupabaseClientMock, supabaseClientMock } from './mocks/supabaseClient';
+import * as matchers from '@testing-library/jest-dom/matchers';
 
-vi.mock('@/lib/supabase', () => ({
-  supabase: supabaseClientMock,
-}));
+// Extend Vitest's expect method with methods from react-testing-library
+expect.extend(matchers);
 
-vi.mock('@/utils/supabase/client', () => ({
-  supabase: supabaseClientMock,
-}));
-
-vi.mock('motion/react', () => ({
-  motion: {
-    div: 'div',
-    section: 'section',
-    h1: 'h1',
-    h2: 'h2',
-    p: 'p',
-    button: 'button',
-    img: 'img',
-    span: 'span',
-  },
-  AnimatePresence: ({ children }: { children: ReactNode }) => children,
-}));
-
-beforeEach(() => {
-  resetSupabaseClientMock();
-});
-
+// Cleanup after each test case
 afterEach(() => {
   cleanup();
-  vi.clearAllMocks();
 });
 
-if (!globalThis.IntersectionObserver) {
-  globalThis.IntersectionObserver = vi.fn().mockImplementation(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  }));
-}
+// Mock window.matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: (query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => {},
+  }),
+});
 
-if (!globalThis.ResizeObserver) {
-  class ResizeObserverMock {
-    observe = vi.fn();
-    unobserve = vi.fn();
-    disconnect = vi.fn();
+// Mock IntersectionObserver
+global.IntersectionObserver = class IntersectionObserver {
+  constructor() {}
+  disconnect() {}
+  observe() {}
+  takeRecords() {
+    return [];
   }
-  globalThis.ResizeObserver = ResizeObserverMock as unknown as typeof ResizeObserver;
-}
+  unobserve() {}
+} as any;
 
-if (typeof window !== 'undefined' && !window.matchMedia) {
-  Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: vi.fn().mockImplementation((query: string) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    })),
-  });
-}
+// Mock ResizeObserver
+global.ResizeObserver = class ResizeObserver {
+  constructor() {}
+  disconnect() {}
+  observe() {}
+  unobserve() {}
+} as any;

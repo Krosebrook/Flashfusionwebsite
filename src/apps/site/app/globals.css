@@ -200,6 +200,15 @@ input, textarea, select {
   animation: fadeIn 0.6s ease-out;
 }
 
+@keyframes loading-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(500%);
+  }
+}
+
 /* Responsive Typography */
 @media (max-width: 768px) {
   h1 {

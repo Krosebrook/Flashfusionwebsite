@@ -1,9 +1,0 @@
-{
-  "*.{ts,tsx}": [
-    "pnpm exec eslint --max-warnings=0",
-    "prettier --write"
-  ],
-  "*.{json,md,css}": [
-    "prettier --write"
-  ]
-}

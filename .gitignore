@@ -1,42 +1,66 @@
 # Dependencies
 node_modules/
-package-lock.json
-
-# Build outputs
-dist/
-build/
-.vite/
-.turbo/
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
+.pnp
+.pnp.js
 
 # Testing
-coverage/
-.nyc_output/
+/coverage
+*.lcov
 
-# Logs
-logs/
+# Production builds
+/build
+/dist
+/.next/
+/out/
+
+# Development
+.cache/
+.vscode/
+.idea/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Temporary files
-*.tmp
-.cache/
-.temp/
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# OS
+# OS files
+.DS_Store
 Thumbs.db
+*~
+
+# Audit and temporary files
+audit-report.json
+AUDIT_REPORT.md
+performance-audit-*.json
+*.tmp
+*.temp
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# Vercel
+.vercel
+
+# Turbo
+.turbo
+
+# Storybook
+storybook-static/
+
+# TypeScript
+*.tsbuildinfo
+
+# PWA
+/public/sw.js
+/public/workbox-*.js
+/public/sw.js.map
+/public/workbox-*.js.map

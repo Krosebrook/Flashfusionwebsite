@@ -21,7 +21,7 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "@flashfusion/types": "workspace:*"
+    "@flashfusion/types": "*"
   },
   "devDependencies": {
     "eslint": "^8.56.0",
