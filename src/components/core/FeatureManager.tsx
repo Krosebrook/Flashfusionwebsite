@@ -1,4 +1,5 @@
 import { createContext, useContext, ReactNode } from 'react';
+import { ENV } from '../../lib/env';
 import { useConfiguration } from './ConfigurationManager';
 
 interface FeatureFlags {
@@ -65,7 +66,7 @@ export function FeatureManager({ children }: FeatureManagerProps) {
     realTimeSync: true,
     
     // Experimental Features
-    betaFeatures: process.env.NODE_ENV === 'development',
+    betaFeatures: ENV.VITE_ENABLE_BETA_FEATURES || ENV.NODE_ENV === 'development',
     advancedAnalytics: configFeatures.analytics,
     customThemes: false, // Coming soon
   };

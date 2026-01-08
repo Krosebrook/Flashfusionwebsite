@@ -1,35 +1,12 @@
-# Dependencies
 node_modules
-.pnpm-store
-
-# Build outputs
 dist
 build
-.next
-.turbo
-out
-
-# Cache
-.cache
-.vite
-.eslintcache
-
-# Debug
-internal/debug
-archive
-
-# Generated
-*.generated.*
-*-generated.*
-
-# Lock files
-pnpm-lock.yaml
+coverage
+*.min.js
+*.min.css
+.git
+.github
+.vscode
 package-lock.json
 yarn.lock
-
-# Logs
-*.log
-
-# Environment
-.env
-.env.*
+pnpm-lock.yaml

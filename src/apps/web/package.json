@@ -14,12 +14,12 @@
     "clean": "rm -rf dist .turbo node_modules"
   },
   "dependencies": {
-    "@flashfusion/ui": "workspace:*",
-    "@flashfusion/utils": "workspace:*",
-    "@flashfusion/types": "workspace:*",
-    "@flashfusion/services": "workspace:*",
-    "@flashfusion/hooks": "workspace:*",
-    "@flashfusion/config": "workspace:*",
+    "@flashfusion/ui": "*",
+    "@flashfusion/utils": "*",
+    "@flashfusion/types": "*",
+    "@flashfusion/services": "*",
+    "@flashfusion/hooks": "*",
+    "@flashfusion/config": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.3",

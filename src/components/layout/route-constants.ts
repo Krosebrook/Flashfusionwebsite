@@ -527,6 +527,16 @@ export const ROUTE_CONFIGS: Record<PageType, RouteConfig> = {
     description: 'Detailed information about AI tools and capabilities',
     requiresAuth: false,
     category: 'tools'
+  },
+
+  // GitHub Assistant Agent
+  'github-assistant': {
+    page: 'github-assistant',
+    path: '/github-assistant',
+    title: 'GitHub Assistant Agent - FlashFusion',
+    description: 'AI-powered GitHub repository analysis, code review, and project planning assistant',
+    requiresAuth: false,
+    category: 'tools'
   }
 };
 

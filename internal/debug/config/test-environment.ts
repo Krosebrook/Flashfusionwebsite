@@ -1,1 +1,0 @@
-// Test file removed - environment detection is working correctly

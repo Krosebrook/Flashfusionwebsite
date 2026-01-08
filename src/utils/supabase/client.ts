@@ -9,10 +9,10 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
-import { projectId, publicAnonKey } from './info';
+import { ENV } from '../../src/lib/env';
 
-const supabaseUrl = `https://${projectId}.supabase.co`;
-const supabaseKey = publicAnonKey;
+const supabaseUrl = ENV.VITE_SUPABASE_URL;
+const supabaseKey = ENV.VITE_SUPABASE_ANON_KEY;
 
 // Create Supabase client
 export const supabase = createClient(supabaseUrl, supabaseKey, {
@@ -33,7 +33,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
 export const supabaseConfig = {
   url: supabaseUrl,
   key: supabaseKey,
-  projectId
+  projectId: supabaseUrl.split('.')[0].replace('https://', '')
 };
 
 export default supabase;

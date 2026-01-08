@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import BackButton from '../../components/BackButton';
-import { Eye, EyeOff, Mail, Lock, AlertCircle, CheckCircle, ArrowRight, Sparkles } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, AlertCircle, CheckCircle, ArrowRight, Sparkles, Loader } from 'lucide-react';
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
@@ -277,7 +277,7 @@ export default function SignInPage() {
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader className="w-5 h-5 animate-spin" />
                   Signing in...
                 </>
               ) : (

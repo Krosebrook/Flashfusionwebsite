@@ -12,8 +12,9 @@ console.log('🚀 FlashFusion v6.0.0 Optimization Validation\n');
 
 // Test file existence
 const testFiles = [
-  { file: '/components/core/AppCoreOptimized.tsx', desc: 'Enhanced App Core' },
-  { file: '/hooks/useEnhancedRouting.ts', desc: 'Advanced Routing System' },
+  { file: '/src/core/FlashFusionCore.tsx', desc: 'FlashFusion Core' },
+  { file: '/src/core/router/useRouter.ts', desc: 'Core Router' },
+  { file: '/src/core/system/useSystem.ts', desc: 'System Hook' },
   { file: '/components/core/FlashFusionInterfaceOptimized.tsx', desc: 'Optimized Interface' },
   { file: '/components/core/PerformanceOptimizationManager.tsx', desc: 'Performance Manager' },
   { file: '/components/core/EnhancedErrorRecoverySystem.tsx', desc: 'Error Recovery System' },
@@ -49,10 +50,9 @@ if (fs.existsSync(appPath)) {
   const appContent = fs.readFileSync(appPath, 'utf8');
   
   const checks = [
-    { pattern: 'AppCoreOptimized', desc: 'Optimized App Core import' },
-    { pattern: 'EnhancedErrorRecoverySystem', desc: 'Error Recovery integration' },
+    { pattern: 'FlashFusionCore', desc: 'FlashFusion Core import' },
     { pattern: 'version.*6\\.0\\.0', desc: 'Version 6.0.0 identifier' },
-    { pattern: 'Enhanced.*Optimized', desc: 'Enhancement indicators' }
+    { pattern: 'FlashFusion.*Core', desc: 'Enhancement indicators' }
   ];
   
   checks.forEach(({ pattern, desc }, index) => {

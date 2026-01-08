@@ -9,7 +9,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Progress } from './progress';
 import { Alert, AlertDescription } from './alert';
 import { Input } from './input';
-import { formatBytes } from '../../lib/format-utils';
 import { 
   Download, 
   Archive, 
@@ -636,6 +635,14 @@ async function getStringContent(content: string | Blob | ArrayBuffer): Promise<s
     return new TextDecoder().decode(content);
   }
   return '';
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
 function generateFilename(

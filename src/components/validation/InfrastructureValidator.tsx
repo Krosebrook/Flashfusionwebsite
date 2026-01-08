@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { ENV } from '../../lib/env';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -340,8 +341,8 @@ export function InfrastructureValidator({
   const validateDatabaseConnection = async () => {
     try {
       // Check if Supabase client can be created
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const supabaseUrl = ENV.VITE_SUPABASE_URL;
+      const supabaseKey = ENV.VITE_SUPABASE_ANON_KEY;
       
       if (!supabaseUrl || !supabaseKey) {
         return { success: false, error: 'Missing Supabase configuration' };
@@ -368,7 +369,7 @@ export function InfrastructureValidator({
   };
 
   const validateOpenAIAPI = async () => {
-    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+    const apiKey = ENV.VITE_OPENAI_API_KEY;
     
     if (!apiKey) {
       return { success: false, error: 'OpenAI API key not configured' };
@@ -383,7 +384,7 @@ export function InfrastructureValidator({
   };
 
   const validateAnthropicAPI = async () => {
-    const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
+    const apiKey = ENV.VITE_ANTHROPIC_API_KEY;
     
     if (!apiKey) {
       return { success: false, warning: true, error: 'Anthropic API key not configured (fallback)' };
@@ -415,7 +416,7 @@ export function InfrastructureValidator({
 
   const validateDeploymentPipeline = async () => {
     // Test deployment configuration
-    const vercelToken = import.meta.env.VITE_VERCEL_TOKEN;
+    const vercelToken = ENV.VITE_VERCEL_TOKEN;
     
     if (!vercelToken) {
       return { success: false, warning: true, error: 'Vercel token not configured' };

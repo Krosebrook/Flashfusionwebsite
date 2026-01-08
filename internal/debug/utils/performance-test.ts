@@ -1,1 +1,0 @@
-// Test file removed - performance utilities are working correctly
