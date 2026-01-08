@@ -1,5 +1,9 @@
 # Pull Request Automation
 
+**Last Updated:** January 8, 2026  
+**Status:** Active  
+**Automation Level:** Full
+
 This repository has been configured with automated workflows to handle pull requests without manual intervention.
 
 ## Overview
