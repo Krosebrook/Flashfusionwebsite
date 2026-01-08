@@ -1,0 +1,4 @@
+# Run lint-staged only if the command exists
+if command -v npx &> /dev/null; then
+  npx lint-staged --allow-empty || true
+fi

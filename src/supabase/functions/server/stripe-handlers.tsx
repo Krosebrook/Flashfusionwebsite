@@ -8,7 +8,7 @@
  * FlashFusion promotional pricing with comprehensive security.
  */
 
-import Stripe from 'https://esm.sh/stripe@13.10.0';
+import Stripe from 'https://esm.sh/stripe';
 import * as kv from './kv_store.tsx';
 
 // Initialize Stripe with secret key
