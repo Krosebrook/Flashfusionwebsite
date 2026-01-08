@@ -35,5 +35,15 @@
     "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"],
-  "exclude": ["node_modules", "dist", "build"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "archive",
+    "internal",
+    "src/Dockerfile",
+    "src/_env_example.tsx",
+    "src/**/*.md",
+    "src/**/*.json"
+  ]
 }
