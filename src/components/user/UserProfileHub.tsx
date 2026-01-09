@@ -11,25 +11,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { 
   User, 
-  Settings,
   Shield,
   CreditCard,
-  Bell,
   Palette,
   Globe,
   Lock,
   Eye,
-  EyeOff,
   Upload,
   Save,
   RefreshCw,
   Trash2,
   Crown,
   Zap,
-  Calendar,
-  Mail,
-  Phone,
-  MapPin,
   Github,
   Twitter,
   Linkedin,
@@ -42,12 +35,11 @@ import {
   Loader2
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import type { User as UserType, UserPreferences, Subscription } from '../../types/core';
+import type { User as UserType, UserPreferences } from '../../types/core';
 import { 
   fetchUserProfile, 
   updateUserProfile, 
   uploadProfilePicture, 
-  updateUserPreferences,
   exportUserData,
   validateProfilePicture,
   UPLOAD_CONSTRAINTS
@@ -105,7 +97,7 @@ export default function UserProfileHub() {
           setError(response.error || 'Failed to load profile');
           toast.error(response.error || 'Failed to load profile');
         }
-      } catch (err) {
+      } catch {
         const errorMsg = 'An unexpected error occurred';
         setError(errorMsg);
         toast.error(errorMsg);
@@ -137,7 +129,7 @@ export default function UserProfileHub() {
         setError(response.error || 'Failed to update profile');
         toast.error(response.error || 'Failed to update profile');
       }
-    } catch (err) {
+    } catch {
       const errorMsg = 'An unexpected error occurred';
       setError(errorMsg);
       toast.error(errorMsg);
@@ -177,7 +169,7 @@ export default function UserProfileHub() {
         setError(response.error || 'Failed to upload picture');
         toast.error(response.error || 'Failed to upload picture');
       }
-    } catch (err) {
+    } catch {
       const errorMsg = 'An unexpected error occurred';
       setError(errorMsg);
       toast.error(errorMsg);
@@ -201,7 +193,7 @@ export default function UserProfileHub() {
       } else {
         toast.error(response.error || 'Failed to export data');
       }
-    } catch (err) {
+    } catch {
       toast.error('An unexpected error occurred');
     }
   };
@@ -627,7 +619,7 @@ export default function UserProfileHub() {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label>Theme</Label>
-                    <Select value={preferences.theme} onValueChange={(value: any) => 
+                    <Select value={preferences.theme} onValueChange={(value: 'light' | 'dark' | 'auto') => 
                       setPreferences(prev => ({ ...prev, theme: value }))
                     }>
                       <SelectTrigger>
@@ -643,7 +635,7 @@ export default function UserProfileHub() {
 
                   <div className="space-y-2">
                     <Label>Font Size</Label>
-                    <Select value={preferences.accessibility.fontSize} onValueChange={(value: any) =>
+                    <Select value={preferences.accessibility.fontSize} onValueChange={(value: 'small' | 'medium' | 'large') =>
                       setPreferences(prev => ({ 
                         ...prev, 
                         accessibility: { ...prev.accessibility, fontSize: value }
@@ -782,7 +774,7 @@ export default function UserProfileHub() {
                     <p className="font-medium">Profile Visibility</p>
                     <p className="text-sm text-muted-foreground">Control who can see your profile</p>
                   </div>
-                  <Select value={preferences.privacy.profileVisibility} onValueChange={(value: any) =>
+                  <Select value={preferences.privacy.profileVisibility} onValueChange={(value: 'public' | 'team' | 'private') =>
                     setPreferences(prev => ({
                       ...prev,
                       privacy: { ...prev.privacy, profileVisibility: value }
