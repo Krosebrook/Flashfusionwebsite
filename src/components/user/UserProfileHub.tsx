@@ -272,7 +272,9 @@ export default function UserProfileHub() {
                 <div className="relative">
                   <Avatar className="w-20 h-20">
                     <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback>{user.name?.split(' ').map(n => n[0]).join('') || 'U'}</AvatarFallback>
+                    <AvatarFallback>
+                      {user.name?.split(' ').filter(n => n.length > 0).map(n => n[0]).join('').toUpperCase() || 'U'}
+                    </AvatarFallback>
                   </Avatar>
                   <input
                     ref={fileInputRef}
@@ -619,9 +621,12 @@ export default function UserProfileHub() {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label>Theme</Label>
-                    <Select value={preferences.theme} onValueChange={(value: 'light' | 'dark' | 'auto') => 
-                      setPreferences(prev => ({ ...prev, theme: value }))
-                    }>
+                    <Select 
+                      value={preferences.theme} 
+                      onValueChange={(value) => 
+                        setPreferences(prev => ({ ...prev, theme: value as 'light' | 'dark' | 'auto' }))
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
@@ -635,12 +640,15 @@ export default function UserProfileHub() {
 
                   <div className="space-y-2">
                     <Label>Font Size</Label>
-                    <Select value={preferences.accessibility.fontSize} onValueChange={(value: 'small' | 'medium' | 'large') =>
-                      setPreferences(prev => ({ 
-                        ...prev, 
-                        accessibility: { ...prev.accessibility, fontSize: value }
-                      }))
-                    }>
+                    <Select 
+                      value={preferences.accessibility.fontSize} 
+                      onValueChange={(value) =>
+                        setPreferences(prev => ({ 
+                          ...prev, 
+                          accessibility: { ...prev.accessibility, fontSize: value as 'small' | 'medium' | 'large' }
+                        }))
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
@@ -774,12 +782,15 @@ export default function UserProfileHub() {
                     <p className="font-medium">Profile Visibility</p>
                     <p className="text-sm text-muted-foreground">Control who can see your profile</p>
                   </div>
-                  <Select value={preferences.privacy.profileVisibility} onValueChange={(value: 'public' | 'team' | 'private') =>
-                    setPreferences(prev => ({
-                      ...prev,
-                      privacy: { ...prev.privacy, profileVisibility: value }
-                    }))
-                  }>
+                  <Select 
+                    value={preferences.privacy.profileVisibility} 
+                    onValueChange={(value) =>
+                      setPreferences(prev => ({
+                        ...prev,
+                        privacy: { ...prev.privacy, profileVisibility: value as 'public' | 'team' | 'private' }
+                      }))
+                    }
+                  >
                     <SelectTrigger className="w-32">
                       <SelectValue />
                     </SelectTrigger>

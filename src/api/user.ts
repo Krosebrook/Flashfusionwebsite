@@ -200,6 +200,12 @@ export async function uploadProfilePicture(
     // For now, create a local URL for preview
     const avatarUrl = URL.createObjectURL(file);
 
+    // Note: In production, this URL should be revoked after the file is uploaded to the server
+    // For now, we'll set a timeout to clean it up (in production, do this after successful upload)
+    setTimeout(() => {
+      URL.revokeObjectURL(avatarUrl);
+    }, 60000); // Clean up after 1 minute
+
     // Simulate upload delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
