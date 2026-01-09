@@ -4,6 +4,7 @@
  */
 
 import type { User, UserPreferences } from '../types/core';
+import { getCacheItem, setCacheItem, removeCacheItem, CACHE_CONFIG } from '../utils/cache';
 
 // API response wrapper type
 export interface ApiResponse<T> {
@@ -45,12 +46,23 @@ export function validateProfilePicture(file: File): { valid: boolean; error?: st
 }
 
 /**
- * Fetches user profile data
+ * Fetches user profile data with caching
  * @param userId - User ID to fetch
  * @returns User profile data or error
  */
 export async function fetchUserProfile(userId: string): Promise<ApiResponse<User>> {
   try {
+    // Check cache first
+    const cacheKey = `${CACHE_CONFIG.USER_PROFILE.key}_${userId}`;
+    const cachedUser = getCacheItem<User>(cacheKey);
+    
+    if (cachedUser) {
+      console.info('Returning cached user profile');
+      return {
+        data: cachedUser,
+        success: true,
+      };
+    }
     // TODO: Replace with actual API endpoint when backend is ready
     // For now, return mock data
     const mockUser: User = {
@@ -94,6 +106,9 @@ export async function fetchUserProfile(userId: string): Promise<ApiResponse<User
       },
     };
 
+    // Cache the user data
+    setCacheItem(cacheKey, mockUser, CACHE_CONFIG.USER_PROFILE.ttl);
+
     return {
       data: mockUser,
       success: true,
@@ -108,7 +123,7 @@ export async function fetchUserProfile(userId: string): Promise<ApiResponse<User
 }
 
 /**
- * Updates user profile data
+ * Updates user profile data and invalidates cache
  * @param userId - User ID to update
  * @param updates - Partial user data to update
  * @returns Updated user data or error
@@ -137,6 +152,11 @@ export async function updateUserProfile(
     }
 
     const updatedUser = { ...currentUser.data, ...updates };
+
+    // Invalidate and update cache
+    const cacheKey = `${CACHE_CONFIG.USER_PROFILE.key}_${userId}`;
+    removeCacheItem(cacheKey);
+    setCacheItem(cacheKey, updatedUser, CACHE_CONFIG.USER_PROFILE.ttl);
 
     return {
       data: updatedUser,
@@ -182,6 +202,10 @@ export async function uploadProfilePicture(
 
     // Simulate upload delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Invalidate user profile cache to force refresh
+    const cacheKey = `${CACHE_CONFIG.USER_PROFILE.key}_${userId}`;
+    removeCacheItem(cacheKey);
 
     return {
       data: { avatarUrl },
