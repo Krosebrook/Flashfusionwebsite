@@ -1085,35 +1085,6 @@ Format as JSON:
       };
     }
   }
-
-  public async generateCodeWithRepository(request: CodeGenerationRequest & { repositoryContext?: any }): Promise<string> {
-    // Enhanced code generation with repository context
-    const enhancedRequest = { ...request };
-    
-    if (request.options?.analyzeRepository && request.context?.repository) {
-      try {
-        const repoAnalysis = await this.analyzeRepository(
-          request.context.repository.url,
-          request.context.repository.branch,
-          request.context.repository.accessToken
-        );
-        
-        // Add repository context to the request
-        enhancedRequest.context = {
-          ...enhancedRequest.context,
-          existingCode: enhancedRequest.context?.existingCode || '',
-          repositoryStructure: repoAnalysis.structure,
-          detectedTechnologies: repoAnalysis.technologies,
-          codebaseSummary: repoAnalysis.codebase_summary,
-        };
-      } catch (error) {
-        console.warn('Repository analysis failed, proceeding without repository context:', error);
-        toast.error('Repository analysis failed, generating code without repository context');
-      }
-    }
-    
-    return this.generateCode(enhancedRequest);
-  }
 }
 
 // Export singleton instance

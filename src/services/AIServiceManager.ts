@@ -404,7 +404,7 @@ Requirements:
     });
   }
 
-  async generateContent(prompt: string, contentType: string = 'blog'): Promise<AIResponse> {
+  async generateContentByType(prompt: string, contentType: string = 'blog'): Promise<AIResponse> {
     const systemPrompt = `You are a professional content creator specializing in ${contentType} content. Create engaging, high-quality content that:
 
 - Is well-structured and easy to read
