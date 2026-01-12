@@ -1,5 +1,5 @@
 import { toast } from 'sonner';
-import { APIKeyService, type APIProvider } from './APIKeyService';
+import { APIKeyService } from './APIKeyService';
 
 /**
  * FlashFusion AI Service
@@ -773,7 +773,7 @@ Generate production-ready code that follows these guidelines exactly.`;
       case 'openai':
       case 'xai':
       case 'deepseek':
-      case 'github':
+      case 'github': {
         // OpenAI-compatible format
         const usage = data.usage || { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 };
         return {
@@ -787,8 +787,9 @@ Generate production-ready code that follows these guidelines exactly.`;
             estimatedCost: (usage.total_tokens / 1000) * model.costPer1k
           }
         };
+      }
 
-      case 'anthropic':
+      case 'anthropic': {
         const anthropicUsage = data.usage || { input_tokens: 0, output_tokens: 0 };
         const totalTokens = anthropicUsage.input_tokens + anthropicUsage.output_tokens;
         return {
@@ -802,8 +803,9 @@ Generate production-ready code that follows these guidelines exactly.`;
             estimatedCost: (totalTokens / 1000) * model.costPer1k
           }
         };
+      }
 
-      case 'google':
+      case 'google': {
         // Google's response structure
         const content = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
         const estimatedTokens = Math.ceil(content.length / 4); // Rough estimate
@@ -818,6 +820,7 @@ Generate production-ready code that follows these guidelines exactly.`;
             estimatedCost: (estimatedTokens / 1000) * model.costPer1k
           }
         };
+      }
 
       default:
         throw new Error(`Provider ${provider} response parsing not implemented`);
@@ -912,13 +915,13 @@ Generate production-ready code that follows these guidelines exactly.`;
 
   private parseRepositoryUrl(url: string): { owner: string; repo: string; provider: 'github' | 'gitlab' | 'bitbucket' } {
     // Handle GitHub URLs
-    const githubMatch = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+    const githubMatch = url.match(/github\.com\/([^/]+)\/([^/]+)/);
     if (githubMatch) {
       return { owner: githubMatch[1], repo: githubMatch[2].replace('.git', ''), provider: 'github' };
     }
     
     // Handle GitLab URLs
-    const gitlabMatch = url.match(/gitlab\.com\/([^\/]+)\/([^\/]+)/);
+    const gitlabMatch = url.match(/gitlab\.com\/([^/]+)\/([^/]+)/);
     if (gitlabMatch) {
       return { owner: gitlabMatch[1], repo: gitlabMatch[2].replace('.git', ''), provider: 'gitlab' };
     }
@@ -1071,7 +1074,7 @@ Format as JSON:
       });
 
       return JSON.parse(response.content);
-    } catch (error) {
+    } catch {
       // Fallback if AI analysis fails
       return {
         summary: `This appears to be a ${technologies.join(', ')} project with ${structure.length} files/directories in the root.`,
@@ -1084,35 +1087,6 @@ Format as JSON:
         ]
       };
     }
-  }
-
-  public async generateCodeWithRepository(request: CodeGenerationRequest & { repositoryContext?: any }): Promise<string> {
-    // Enhanced code generation with repository context
-    const enhancedRequest = { ...request };
-    
-    if (request.options?.analyzeRepository && request.context?.repository) {
-      try {
-        const repoAnalysis = await this.analyzeRepository(
-          request.context.repository.url,
-          request.context.repository.branch,
-          request.context.repository.accessToken
-        );
-        
-        // Add repository context to the request
-        enhancedRequest.context = {
-          ...enhancedRequest.context,
-          existingCode: enhancedRequest.context?.existingCode || '',
-          repositoryStructure: repoAnalysis.structure,
-          detectedTechnologies: repoAnalysis.technologies,
-          codebaseSummary: repoAnalysis.codebase_summary,
-        };
-      } catch (error) {
-        console.warn('Repository analysis failed, proceeding without repository context:', error);
-        toast.error('Repository analysis failed, generating code without repository context');
-      }
-    }
-    
-    return this.generateCode(enhancedRequest);
   }
 }
 
