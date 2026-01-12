@@ -1,0 +1,54 @@
+name: Copilot Setup Steps
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - '.github/workflows/copilot-setup-steps.yml'
+  pull_request:
+    paths:
+      - '.github/workflows/copilot-setup-steps.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  setup-and-validate:
+    name: Setup and Validate Codebase
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install JavaScript dependencies
+        run: npm ci
+
+      - name: Run type check
+        run: npm run typecheck
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Check code formatting
+        run: npm run format:check
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run tests
+        run: npm test
