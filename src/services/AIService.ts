@@ -1074,7 +1074,7 @@ Format as JSON:
       });
 
       return JSON.parse(response.content);
-    } catch (_error) {
+    } catch {
       // Fallback if AI analysis fails
       return {
         summary: `This appears to be a ${technologies.join(', ')} project with ${structure.length} files/directories in the root.`,
