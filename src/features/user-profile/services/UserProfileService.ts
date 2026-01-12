@@ -4,7 +4,6 @@
  */
 
 import type { UserProfile, UserPreferences, Activity, UserStats } from '../types/user-profile.types';
-import { GamificationService } from '@/services/GamificationService';
 
 class UserProfileServiceClass {
   private cache: Map<string, { data: any; timestamp: number }> = new Map();
@@ -20,7 +19,7 @@ class UserProfileServiceClass {
 
     try {
       // In production, this would call a real API
-      // For now, return mock data
+      // For now, return mock data compatible with actual services
       const profile: UserProfile = {
         id: userId,
         email: 'user@example.com',
@@ -36,8 +35,8 @@ class UserProfileServiceClass {
           streak: 7,
           joinedDate: new Date('2024-01-15')
         },
-        badges: GamificationService.getUserBadges(userId),
-        achievements: await GamificationService.getUserAchievements(userId),
+        badges: [], // TODO: Implement when badge system is ready
+        achievements: [], // TODO: Implement when achievement system is ready
         preferences: await this.getUserPreferences(userId),
         recentActivity: await this.getUserActivity(userId)
       };
