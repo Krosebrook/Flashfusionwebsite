@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **User Profile Enhancement System** (Feature scaffold and foundation)
+  - Created comprehensive user profile feature using scaffolding system
+  - Added TypeScript types for user profiles, badges, achievements, preferences
+  - Implemented UserProfileService with full CRUD operations
+  - Added caching layer for profile data (5-minute TTL)
+  - Preference management (theme, notifications, privacy, editor settings)
+  - User activity timeline support
+  - Avatar upload functionality
+  - Integration points with existing GamificationService
+  - Service layer supports stats, badges, achievements, activity history
+
+### Fixed
+
+- **Critical Build Issues**
+  - Fixed duplicate `generateContent` method in AIServiceManager (renamed to `generateContentByType`)
+  - Fixed duplicate `generateCodeWithRepository` method in AIService (removed redundant implementation)
+  - Fixed ESLint errors: unused imports (APIProvider in AIService)
+  - Fixed ESLint errors: lexical declarations in case blocks (added proper block scoping)
+  - Fixed ESLint errors: unnecessary escape characters in regex patterns
+  - Fixed ESLint errors: unused error variables in catch blocks
+
+### Changed
+
+- Improved error handling in AIService with proper block scoping for switch cases
+- Enhanced code quality by removing unused imports and variables
+
 ## [0.2.0] - 2026-01-12
 
 ### Added

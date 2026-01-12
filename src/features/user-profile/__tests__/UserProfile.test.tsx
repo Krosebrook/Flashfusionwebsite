@@ -266,7 +266,7 @@ describe('FeatureStore', () => {
       await result.current.initialize(mockConfig);
       try {
         await result.current.processData({ input: 'test' });
-      } catch (error) {
+      } catch {
         // Expected error
       }
     });
