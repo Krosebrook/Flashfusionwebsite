@@ -317,8 +317,8 @@ export function AdvancedSearchSystem({
   const highlightText = (text: string, searchTerm: string): string => {
     if (!searchTerm) return escapeHtml(text);
     const escapedText = escapeHtml(text);
+    // Escape regex special characters (not HTML entities) to safely use in RegExp
     const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    // Don't double-escape the search term for regex - we need the original escaped characters for matching
     const regex = new RegExp(`(${escapedSearchTerm})`, 'gi');
     return escapedText.replace(regex, '<mark class="bg-primary/20 text-primary">$1</mark>');
   };

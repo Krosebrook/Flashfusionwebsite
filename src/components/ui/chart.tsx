@@ -82,18 +82,43 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const isValidCssColor = (value: string): boolean => {
     // Check for common CSS color formats:
     // - Hex colors: #RGB, #RRGGBB, #RRGGBBAA
-    // - RGB/RGBA: rgb(r,g,b), rgba(r,g,b,a)
-    // - HSL/HSLA: hsl(h,s,l), hsla(h,s,l,a)
-    // - Named colors (basic validation - alphanumeric only)
     const hexPattern = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
-    const rgbPattern = /^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*[\d.]+\s*)?\)$/;
-    const hslPattern = /^hsla?\(\s*\d+\s*,\s*\d+%\s*,\s*\d+%\s*(,\s*[\d.]+\s*)?\)$/;
-    const namedColorPattern = /^[a-z]+$/i;
+    
+    // - RGB/RGBA: rgb(0-255,0-255,0-255), rgba(0-255,0-255,0-255,0-1)
+    const rgbPattern = /^rgba?\(\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*(,\s*(0|0?\.[0-9]+|1(\.0)?)\s*)?\)$/;
+    
+    // - HSL/HSLA: hsl(0-360,0-100%,0-100%), hsla(0-360,0-100%,0-100%,0-1)
+    const hslPattern = /^hsla?\(\s*([0-2]?[0-9]{1,2}|3[0-5][0-9]|360)\s*,\s*([0-9]{1,2}|100)%\s*,\s*([0-9]{1,2}|100)%\s*(,\s*(0|0?\.[0-9]+|1(\.0)?)\s*)?\)$/;
+    
+    // - Named colors (whitelist of standard CSS colors)
+    const validNamedColors = [
+      'aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure', 'beige', 'bisque', 'black',
+      'blanchedalmond', 'blue', 'blueviolet', 'brown', 'burlywood', 'cadetblue', 'chartreuse',
+      'chocolate', 'coral', 'cornflowerblue', 'cornsilk', 'crimson', 'cyan', 'darkblue', 'darkcyan',
+      'darkgoldenrod', 'darkgray', 'darkgrey', 'darkgreen', 'darkkhaki', 'darkmagenta', 'darkolivegreen',
+      'darkorange', 'darkorchid', 'darkred', 'darksalmon', 'darkseagreen', 'darkslateblue', 'darkslategray',
+      'darkslategrey', 'darkturquoise', 'darkviolet', 'deeppink', 'deepskyblue', 'dimgray', 'dimgrey',
+      'dodgerblue', 'firebrick', 'floralwhite', 'forestgreen', 'fuchsia', 'gainsboro', 'ghostwhite',
+      'gold', 'goldenrod', 'gray', 'grey', 'green', 'greenyellow', 'honeydew', 'hotpink', 'indianred',
+      'indigo', 'ivory', 'khaki', 'lavender', 'lavenderblush', 'lawngreen', 'lemonchiffon', 'lightblue',
+      'lightcoral', 'lightcyan', 'lightgoldenrodyellow', 'lightgray', 'lightgrey', 'lightgreen', 'lightpink',
+      'lightsalmon', 'lightseagreen', 'lightskyblue', 'lightslategray', 'lightslategrey', 'lightsteelblue',
+      'lightyellow', 'lime', 'limegreen', 'linen', 'magenta', 'maroon', 'mediumaquamarine', 'mediumblue',
+      'mediumorchid', 'mediumpurple', 'mediumseagreen', 'mediumslateblue', 'mediumspringgreen', 'mediumturquoise',
+      'mediumvioletred', 'midnightblue', 'mintcream', 'mistyrose', 'moccasin', 'navajowhite', 'navy',
+      'oldlace', 'olive', 'olivedrab', 'orange', 'orangered', 'orchid', 'palegoldenrod', 'palegreen',
+      'paleturquoise', 'palevioletred', 'papayawhip', 'peachpuff', 'peru', 'pink', 'plum', 'powderblue',
+      'purple', 'rebeccapurple', 'red', 'rosybrown', 'royalblue', 'saddlebrown', 'salmon', 'sandybrown',
+      'seagreen', 'seashell', 'sienna', 'silver', 'skyblue', 'slateblue', 'slategray', 'slategrey', 'snow',
+      'springgreen', 'steelblue', 'tan', 'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'wheat', 'white',
+      'whitesmoke', 'yellow', 'yellowgreen', 'transparent', 'currentcolor'
+    ];
+    const isNamedColor = validNamedColors.includes(value.toLowerCase());
     
     return hexPattern.test(value) || 
            rgbPattern.test(value) || 
            hslPattern.test(value) || 
-           namedColorPattern.test(value);
+           isNamedColor;
   };
 
   // Sanitize CSS variable names (alphanumeric and hyphens only)
