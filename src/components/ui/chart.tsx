@@ -78,11 +78,27 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
     return null;
   }
 
-  // Sanitize CSS values to prevent injection attacks
-  const sanitizeCssValue = (value: string): string => {
-    // Only allow safe characters for CSS color values
-    // Allows: alphanumeric, #, %, (), spaces, commas, and hyphens
-    return value.replace(/[^a-zA-Z0-9#%(),\s-]/g, '');
+  // Validate CSS color values to prevent injection attacks
+  const isValidCssColor = (value: string): boolean => {
+    // Check for common CSS color formats:
+    // - Hex colors: #RGB, #RRGGBB, #RRGGBBAA
+    // - RGB/RGBA: rgb(r,g,b), rgba(r,g,b,a)
+    // - HSL/HSLA: hsl(h,s,l), hsla(h,s,l,a)
+    // - Named colors (basic validation - alphanumeric only)
+    const hexPattern = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
+    const rgbPattern = /^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*[\d.]+\s*)?\)$/;
+    const hslPattern = /^hsla?\(\s*\d+\s*,\s*\d+%\s*,\s*\d+%\s*(,\s*[\d.]+\s*)?\)$/;
+    const namedColorPattern = /^[a-z]+$/i;
+    
+    return hexPattern.test(value) || 
+           rgbPattern.test(value) || 
+           hslPattern.test(value) || 
+           namedColorPattern.test(value);
+  };
+
+  // Sanitize CSS variable names (alphanumeric and hyphens only)
+  const sanitizeCssVarName = (name: string): string => {
+    return name.replace(/[^a-zA-Z0-9-]/g, '');
   };
 
   return (
@@ -97,8 +113,12 @@ ${colorConfig
     const color =
       itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
       itemConfig.color;
-    return color ? `  --color-${sanitizeCssValue(key)}: ${sanitizeCssValue(color)};` : null;
+    // Only include valid CSS colors
+    return color && isValidCssColor(color) 
+      ? `  --color-${sanitizeCssVarName(key)}: ${color};` 
+      : null;
   })
+  .filter(Boolean)
   .join("\n")}
 }
 `,

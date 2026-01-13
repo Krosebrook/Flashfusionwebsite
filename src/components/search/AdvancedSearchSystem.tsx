@@ -318,7 +318,8 @@ export function AdvancedSearchSystem({
     if (!searchTerm) return escapeHtml(text);
     const escapedText = escapeHtml(text);
     const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`(${escapeHtml(escapedSearchTerm)})`, 'gi');
+    // Don't double-escape the search term for regex - we need the original escaped characters for matching
+    const regex = new RegExp(`(${escapedSearchTerm})`, 'gi');
     return escapedText.replace(regex, '<mark class="bg-primary/20 text-primary">$1</mark>');
   };
 
