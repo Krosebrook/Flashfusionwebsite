@@ -307,10 +307,19 @@ export function AdvancedSearchSystem({
     setIsSearching(false);
   }, [maxResults]);
 
+  // Helper function to escape HTML entities to prevent XSS
+  const escapeHtml = (text: string): string => {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  };
+
   const highlightText = (text: string, searchTerm: string): string => {
-    if (!searchTerm) return text;
-    const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-    return text.replace(regex, '<mark class="bg-primary/20 text-primary">$1</mark>');
+    if (!searchTerm) return escapeHtml(text);
+    const escapedText = escapeHtml(text);
+    const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escapeHtml(escapedSearchTerm)})`, 'gi');
+    return escapedText.replace(regex, '<mark class="bg-primary/20 text-primary">$1</mark>');
   };
 
   // Debounced search
