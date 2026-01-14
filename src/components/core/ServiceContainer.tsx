@@ -79,8 +79,14 @@ export function ServiceContainer({ children }: ServiceContainerProps) {
           return false;
         }
         try {
-          // Attempt a simple query to verify connection
-          const { error } = await supabase.from('users').select('id').limit(1);
+          // Attempt a simple query to verify connection using a lightweight system check
+          const { error } = await supabase.rpc('version');
+          // If version() RPC doesn't exist, fallback to a simpler check
+          if (error && error.message?.includes('Could not find the function')) {
+            const { error: healthError } = await supabase.from('_health_check').select('*').limit(0);
+            // If _health_check table doesn't exist, that's still a valid connection
+            return !healthError || healthError.code === 'PGRST116';
+          }
           return !error;
         } catch {
           return false;

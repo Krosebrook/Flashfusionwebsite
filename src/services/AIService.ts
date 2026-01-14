@@ -849,8 +849,15 @@ Generate production-ready code that follows these guidelines exactly.`;
 
   private async callOpenAICompatible(request: AIRequest, apiKey: string, provider: string): Promise<Response> {
     // Generic OpenAI-compatible endpoint for custom providers
-    const endpoint = import.meta.env[`VITE_${provider.toUpperCase()}_API_ENDPOINT`] ||
-                     `https://api.${provider}.com/v1/chat/completions`;
+    // Use environment variable if defined, otherwise throw error to avoid invalid URLs
+    const endpoint = import.meta.env[`VITE_${provider.toUpperCase()}_API_ENDPOINT`];
+    
+    if (!endpoint) {
+      throw new Error(
+        `No API endpoint configured for provider '${provider}'. ` +
+        `Please set VITE_${provider.toUpperCase()}_API_ENDPOINT environment variable.`
+      );
+    }
 
     return fetch(endpoint, {
       method: 'POST',
