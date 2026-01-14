@@ -608,8 +608,16 @@ Generate production-ready code that follows these guidelines exactly.`;
         case 'deepseek':
           response = await this.callDeepSeek(request, apiKey);
           break;
+        case 'meta':
+          response = await this.callMeta(request, apiKey);
+          break;
+        case 'local':
+          response = await this.callLocal(request, apiKey);
+          break;
         default:
-          throw new Error(`Provider ${request.provider} not implemented`);
+          // Fallback to OpenAI-compatible format for unknown providers
+          console.warn(`Unknown provider ${request.provider}, attempting OpenAI-compatible request`);
+          response = await this.callOpenAICompatible(request, apiKey, request.provider);
       }
 
       if (!response.ok) {
@@ -768,13 +776,109 @@ Generate production-ready code that follows these guidelines exactly.`;
     });
   }
 
+  private async callMeta(request: AIRequest, apiKey: string): Promise<Response> {
+    // Meta Llama API (via Together.ai or similar provider)
+    // Note: Meta doesn't have a direct consumer API, so we use Together.ai as the default endpoint
+    const endpoint = import.meta.env.VITE_META_API_ENDPOINT || 'https://api.together.xyz/v1/chat/completions';
+
+    return fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: request.model.includes('llama') ? request.model : `meta-llama/${request.model}`,
+        messages: [
+          ...(request.systemPrompt ? [{ role: 'system', content: request.systemPrompt }] : []),
+          { role: 'user', content: request.prompt }
+        ],
+        temperature: request.temperature || 0.7,
+        max_tokens: request.maxTokens || 2000,
+        stream: false
+      })
+    });
+  }
+
+  private async callLocal(request: AIRequest, apiKey: string): Promise<Response> {
+    // Local LLM server (Ollama, LM Studio, or similar)
+    const endpoint = import.meta.env.VITE_LOCAL_LLM_ENDPOINT || 'http://localhost:11434/api/chat';
+    const isOllama = endpoint.includes('11434');
+
+    if (isOllama) {
+      // Ollama format
+      return fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: request.model,
+          messages: [
+            ...(request.systemPrompt ? [{ role: 'system', content: request.systemPrompt }] : []),
+            { role: 'user', content: request.prompt }
+          ],
+          stream: false,
+          options: {
+            temperature: request.temperature || 0.7,
+            num_predict: request.maxTokens || 2000
+          }
+        })
+      });
+    }
+
+    // OpenAI-compatible local server (LM Studio, Text Generation WebUI, etc.)
+    return fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Authorization': apiKey ? `Bearer ${apiKey}` : '',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: request.model,
+        messages: [
+          ...(request.systemPrompt ? [{ role: 'system', content: request.systemPrompt }] : []),
+          { role: 'user', content: request.prompt }
+        ],
+        temperature: request.temperature || 0.7,
+        max_tokens: request.maxTokens || 2000,
+        stream: false
+      })
+    });
+  }
+
+  private async callOpenAICompatible(request: AIRequest, apiKey: string, provider: string): Promise<Response> {
+    // Generic OpenAI-compatible endpoint for custom providers
+    const endpoint = import.meta.env[`VITE_${provider.toUpperCase()}_API_ENDPOINT`] ||
+                     `https://api.${provider}.com/v1/chat/completions`;
+
+    return fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: request.model,
+        messages: [
+          ...(request.systemPrompt ? [{ role: 'system', content: request.systemPrompt }] : []),
+          { role: 'user', content: request.prompt }
+        ],
+        temperature: request.temperature || 0.7,
+        max_tokens: request.maxTokens || 2000,
+        stream: false
+      })
+    });
+  }
+
   private parseProviderResponse(data: any, provider: AIProvider, model: AIModel): Omit<AIResponse, 'metadata'> {
     switch (provider) {
       case 'openai':
       case 'xai':
       case 'deepseek':
-      case 'github': {
-        // OpenAI-compatible format
+      case 'github':
+      case 'meta': {
+        // OpenAI-compatible format (used by most providers including Together.ai for Meta)
         const usage = data.usage || { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 };
         return {
           content: data.choices?.[0]?.message?.content || '',
@@ -807,23 +911,74 @@ Generate production-ready code that follows these guidelines exactly.`;
 
       case 'google': {
         // Google's response structure
-        const content = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        const estimatedTokens = Math.ceil(content.length / 4); // Rough estimate
+        const googleContent = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        const googleEstimatedTokens = Math.ceil(googleContent.length / 4); // Rough estimate
         return {
-          content,
+          content: googleContent,
           model: model.id,
           provider,
           usage: {
             promptTokens: 0, // Google doesn't provide detailed usage
-            completionTokens: estimatedTokens,
-            totalTokens: estimatedTokens,
-            estimatedCost: (estimatedTokens / 1000) * model.costPer1k
+            completionTokens: googleEstimatedTokens,
+            totalTokens: googleEstimatedTokens,
+            estimatedCost: (googleEstimatedTokens / 1000) * model.costPer1k
+          }
+        };
+
+      case 'local':
+        // Handle both Ollama and OpenAI-compatible local server responses
+        if (data.message) {
+          // Ollama format
+          const localContent = data.message?.content || '';
+          const ollamaTokens = data.eval_count || Math.ceil(localContent.length / 4);
+          return {
+            content: localContent,
+            model: model.id,
+            provider,
+            usage: {
+              promptTokens: data.prompt_eval_count || 0,
+              completionTokens: ollamaTokens,
+              totalTokens: (data.prompt_eval_count || 0) + ollamaTokens,
+              estimatedCost: 0 // Local models are free
+            }
+          };
+        }
+        // OpenAI-compatible format for local servers
+        const localUsage = data.usage || { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 };
+        return {
+          content: data.choices?.[0]?.message?.content || '',
+          model: model.id,
+          provider,
+          usage: {
+            promptTokens: localUsage.prompt_tokens,
+            completionTokens: localUsage.completion_tokens,
+            totalTokens: localUsage.total_tokens,
+            estimatedCost: 0 // Local models are free
           }
         };
       }
 
       default:
-        throw new Error(`Provider ${provider} response parsing not implemented`);
+        // Attempt OpenAI-compatible parsing as fallback
+        console.warn(`Using fallback parsing for provider: ${provider}`);
+        const fallbackUsage = data.usage || { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 };
+        const fallbackContent = data.choices?.[0]?.message?.content ||
+                               data.content?.[0]?.text ||
+                               data.message?.content ||
+                               '';
+        return {
+          content: fallbackContent,
+          model: model.id,
+          provider,
+          usage: {
+            promptTokens: fallbackUsage.prompt_tokens || fallbackUsage.input_tokens || 0,
+            completionTokens: fallbackUsage.completion_tokens || fallbackUsage.output_tokens || 0,
+            totalTokens: fallbackUsage.total_tokens ||
+                        (fallbackUsage.prompt_tokens || 0) + (fallbackUsage.completion_tokens || 0) ||
+                        Math.ceil(fallbackContent.length / 4),
+            estimatedCost: 0
+          }
+        };
     }
   }
 

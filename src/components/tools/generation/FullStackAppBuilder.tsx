@@ -427,7 +427,7 @@ export const corsMiddleware = cors({
 };
 
 const generateUserModel = (database: string): string => {
-  return `export interface User {
+  const baseInterface = `export interface User {
   id: string;
   email: string;
   name: string;
@@ -449,34 +449,398 @@ export interface UpdateUserData {
   name?: string;
   email?: string;
   avatar?: string;
+}`;
+
+  // Generate database-specific implementations
+  const implementations: Record<string, string> = {
+    postgresql: `import { query } from '../config/database';
+import bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
+
+${baseInterface}
+
+export class UserModel {
+  static async create(userData: CreateUserData): Promise<User> {
+    const id = uuidv4();
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+    const now = new Date();
+
+    const result = await query(
+      \`INSERT INTO users (id, email, name, password, is_active, email_verified, created_at, updated_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       RETURNING *\`,
+      [id, userData.email, userData.name, hashedPassword, true, false, now, now]
+    );
+
+    return this.mapRowToUser(result.rows[0]);
+  }
+
+  static async findById(id: string): Promise<User | null> {
+    const result = await query('SELECT * FROM users WHERE id = $1', [id]);
+    return result.rows[0] ? this.mapRowToUser(result.rows[0]) : null;
+  }
+
+  static async findByEmail(email: string): Promise<User | null> {
+    const result = await query('SELECT * FROM users WHERE email = $1', [email]);
+    return result.rows[0] ? this.mapRowToUser(result.rows[0]) : null;
+  }
+
+  static async update(id: string, data: UpdateUserData): Promise<User> {
+    const updates: string[] = [];
+    const values: any[] = [];
+    let paramCount = 1;
+
+    if (data.name !== undefined) {
+      updates.push(\`name = $\${paramCount++}\`);
+      values.push(data.name);
+    }
+    if (data.email !== undefined) {
+      updates.push(\`email = $\${paramCount++}\`);
+      values.push(data.email);
+    }
+    if (data.avatar !== undefined) {
+      updates.push(\`avatar = $\${paramCount++}\`);
+      values.push(data.avatar);
+    }
+
+    updates.push(\`updated_at = $\${paramCount++}\`);
+    values.push(new Date());
+    values.push(id);
+
+    const result = await query(
+      \`UPDATE users SET \${updates.join(', ')} WHERE id = $\${paramCount} RETURNING *\`,
+      values
+    );
+
+    if (!result.rows[0]) {
+      throw new Error('User not found');
+    }
+
+    return this.mapRowToUser(result.rows[0]);
+  }
+
+  static async delete(id: string): Promise<void> {
+    const result = await query('DELETE FROM users WHERE id = $1', [id]);
+    if (result.rowCount === 0) {
+      throw new Error('User not found');
+    }
+  }
+
+  static async verifyPassword(email: string, password: string): Promise<User | null> {
+    const user = await this.findByEmail(email);
+    if (!user) return null;
+
+    const isValid = await bcrypt.compare(password, user.password);
+    return isValid ? user : null;
+  }
+
+  private static mapRowToUser(row: any): User {
+    return {
+      id: row.id,
+      email: row.email,
+      name: row.name,
+      password: row.password,
+      avatar: row.avatar,
+      isActive: row.is_active,
+      emailVerified: row.email_verified,
+      createdAt: new Date(row.created_at),
+      updatedAt: new Date(row.updated_at)
+    };
+  }
+}`,
+
+    mongodb: `import mongoose, { Schema, Document } from 'mongoose';
+import bcrypt from 'bcrypt';
+
+${baseInterface}
+
+interface UserDocument extends Document, Omit<User, 'id'> {}
+
+const userSchema = new Schema<UserDocument>({
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+  name: { type: String, required: true, trim: true },
+  password: { type: String, required: true },
+  avatar: { type: String },
+  isActive: { type: Boolean, default: true },
+  emailVerified: { type: Boolean, default: false }
+}, {
+  timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
+});
+
+userSchema.pre('save', async function(next) {
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  next();
+});
+
+const UserDoc = mongoose.model<UserDocument>('User', userSchema);
+
+export class UserModel {
+  static async create(userData: CreateUserData): Promise<User> {
+    const user = new UserDoc(userData);
+    await user.save();
+    return this.mapDocToUser(user);
+  }
+
+  static async findById(id: string): Promise<User | null> {
+    const user = await UserDoc.findById(id);
+    return user ? this.mapDocToUser(user) : null;
+  }
+
+  static async findByEmail(email: string): Promise<User | null> {
+    const user = await UserDoc.findOne({ email: email.toLowerCase() });
+    return user ? this.mapDocToUser(user) : null;
+  }
+
+  static async update(id: string, data: UpdateUserData): Promise<User> {
+    const user = await UserDoc.findByIdAndUpdate(
+      id,
+      { $set: data },
+      { new: true, runValidators: true }
+    );
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return this.mapDocToUser(user);
+  }
+
+  static async delete(id: string): Promise<void> {
+    const result = await UserDoc.findByIdAndDelete(id);
+    if (!result) {
+      throw new Error('User not found');
+    }
+  }
+
+  static async verifyPassword(email: string, password: string): Promise<User | null> {
+    const user = await UserDoc.findOne({ email: email.toLowerCase() });
+    if (!user) return null;
+
+    const isValid = await bcrypt.compare(password, user.password);
+    return isValid ? this.mapDocToUser(user) : null;
+  }
+
+  private static mapDocToUser(doc: UserDocument): User {
+    return {
+      id: doc._id.toString(),
+      email: doc.email,
+      name: doc.name,
+      password: doc.password,
+      avatar: doc.avatar,
+      isActive: doc.isActive,
+      emailVerified: doc.emailVerified,
+      createdAt: doc.createdAt,
+      updatedAt: doc.updatedAt
+    };
+  }
+}`,
+
+    mysql: `import { pool } from '../config/database';
+import bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
+import { RowDataPacket, ResultSetHeader } from 'mysql2';
+
+${baseInterface}
+
+interface UserRow extends RowDataPacket, Omit<User, 'createdAt' | 'updatedAt' | 'isActive' | 'emailVerified'> {
+  is_active: boolean;
+  email_verified: boolean;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export class UserModel {
   static async create(userData: CreateUserData): Promise<User> {
-    // Database-specific implementation for ${database}
-    throw new Error('Not implemented');
+    const id = uuidv4();
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+    const now = new Date();
+
+    await pool.execute<ResultSetHeader>(
+      \`INSERT INTO users (id, email, name, password, is_active, email_verified, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)\`,
+      [id, userData.email, userData.name, hashedPassword, true, false, now, now]
+    );
+
+    return this.findById(id) as Promise<User>;
   }
 
   static async findById(id: string): Promise<User | null> {
-    // Database-specific implementation for ${database}
-    throw new Error('Not implemented');
+    const [rows] = await pool.execute<UserRow[]>('SELECT * FROM users WHERE id = ?', [id]);
+    return rows[0] ? this.mapRowToUser(rows[0]) : null;
   }
 
   static async findByEmail(email: string): Promise<User | null> {
-    // Database-specific implementation for ${database}
-    throw new Error('Not implemented');
+    const [rows] = await pool.execute<UserRow[]>('SELECT * FROM users WHERE email = ?', [email]);
+    return rows[0] ? this.mapRowToUser(rows[0]) : null;
   }
 
   static async update(id: string, data: UpdateUserData): Promise<User> {
-    // Database-specific implementation for ${database}
-    throw new Error('Not implemented');
+    const updates: string[] = [];
+    const values: any[] = [];
+
+    if (data.name !== undefined) {
+      updates.push('name = ?');
+      values.push(data.name);
+    }
+    if (data.email !== undefined) {
+      updates.push('email = ?');
+      values.push(data.email);
+    }
+    if (data.avatar !== undefined) {
+      updates.push('avatar = ?');
+      values.push(data.avatar);
+    }
+
+    updates.push('updated_at = ?');
+    values.push(new Date());
+    values.push(id);
+
+    const [result] = await pool.execute<ResultSetHeader>(
+      \`UPDATE users SET \${updates.join(', ')} WHERE id = ?\`,
+      values
+    );
+
+    if (result.affectedRows === 0) {
+      throw new Error('User not found');
+    }
+
+    return this.findById(id) as Promise<User>;
   }
 
   static async delete(id: string): Promise<void> {
-    // Database-specific implementation for ${database}
-    throw new Error('Not implemented');
+    const [result] = await pool.execute<ResultSetHeader>('DELETE FROM users WHERE id = ?', [id]);
+    if (result.affectedRows === 0) {
+      throw new Error('User not found');
+    }
   }
-}`;
+
+  static async verifyPassword(email: string, password: string): Promise<User | null> {
+    const user = await this.findByEmail(email);
+    if (!user) return null;
+
+    const isValid = await bcrypt.compare(password, user.password);
+    return isValid ? user : null;
+  }
+
+  private static mapRowToUser(row: UserRow): User {
+    return {
+      id: row.id,
+      email: row.email,
+      name: row.name,
+      password: row.password,
+      avatar: row.avatar,
+      isActive: row.is_active,
+      emailVerified: row.email_verified,
+      createdAt: new Date(row.created_at),
+      updatedAt: new Date(row.updated_at)
+    };
+  }
+}`,
+
+    supabase: `import { supabase } from '../config/supabase';
+import bcrypt from 'bcrypt';
+
+${baseInterface}
+
+export class UserModel {
+  static async create(userData: CreateUserData): Promise<User> {
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+
+    const { data, error } = await supabase
+      .from('users')
+      .insert({
+        email: userData.email,
+        name: userData.name,
+        password: hashedPassword,
+        is_active: true,
+        email_verified: false
+      })
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    return this.mapRowToUser(data);
+  }
+
+  static async findById(id: string): Promise<User | null> {
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) return null;
+    return this.mapRowToUser(data);
+  }
+
+  static async findByEmail(email: string): Promise<User | null> {
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .single();
+
+    if (error) return null;
+    return this.mapRowToUser(data);
+  }
+
+  static async update(id: string, data: UpdateUserData): Promise<User> {
+    const { data: user, error } = await supabase
+      .from('users')
+      .update({ ...data, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    if (!user) throw new Error('User not found');
+
+    return this.mapRowToUser(user);
+  }
+
+  static async delete(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('users')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw new Error(error.message);
+  }
+
+  static async verifyPassword(email: string, password: string): Promise<User | null> {
+    const user = await this.findByEmail(email);
+    if (!user) return null;
+
+    const isValid = await bcrypt.compare(password, user.password);
+    return isValid ? user : null;
+  }
+
+  private static mapRowToUser(row: any): User {
+    return {
+      id: row.id,
+      email: row.email,
+      name: row.name,
+      password: row.password,
+      avatar: row.avatar,
+      isActive: row.is_active,
+      emailVerified: row.email_verified,
+      createdAt: new Date(row.created_at),
+      updatedAt: new Date(row.updated_at)
+    };
+  }
+}`
+  };
+
+  // Map database types to implementations
+  const dbKey = database.toLowerCase().includes('postgres') ? 'postgresql'
+    : database.toLowerCase().includes('mongo') ? 'mongodb'
+    : database.toLowerCase().includes('mysql') ? 'mysql'
+    : database.toLowerCase().includes('supabase') ? 'supabase'
+    : 'postgresql'; // Default to PostgreSQL
+
+  return implementations[dbKey] || implementations.postgresql;
 };
 
 const generateValidationUtils = (): string => {
