@@ -17,6 +17,7 @@ import React, { Suspense, useEffect, useState, useCallback } from 'react';
 import { FlashFusionCore } from './src/core/FlashFusionCore';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthProvider } from './components/auth/AuthProvider';
+import { Toaster } from './components/ui/sonner';
 
 import { ENV } from './lib/env';
 
@@ -335,7 +336,7 @@ function App(): JSX.Element {
     <FlashFusionErrorBoundary>
       <AuthProvider>
         <Suspense fallback={<FlashFusionLoader />}>
-          <div 
+          <div
             className="min-h-screen"
             style={{
               backgroundColor: 'var(--ff-bg-dark)',
@@ -346,6 +347,16 @@ function App(): JSX.Element {
             <FlashFusionCore />
           </div>
         </Suspense>
+        <Toaster
+          position="bottom-right"
+          richColors
+          closeButton
+          toastOptions={{
+            style: {
+              fontFamily: 'var(--ff-font-secondary)',
+            },
+          }}
+        />
       </AuthProvider>
     </FlashFusionErrorBoundary>
   );
