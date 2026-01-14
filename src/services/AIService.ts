@@ -926,7 +926,7 @@ Generate production-ready code that follows these guidelines exactly.`;
         };
       }
 
-      case 'local':
+      case 'local': {
         // Handle both Ollama and OpenAI-compatible local server responses
         if (data.message) {
           // Ollama format
@@ -959,7 +959,7 @@ Generate production-ready code that follows these guidelines exactly.`;
         };
       }
 
-      default:
+      default: {
         // Attempt OpenAI-compatible parsing as fallback
         console.warn(`Using fallback parsing for provider: ${provider}`);
         const fallbackUsage = data.usage || { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 };
@@ -980,6 +980,7 @@ Generate production-ready code that follows these guidelines exactly.`;
             estimatedCost: 0
           }
         };
+      }
     }
   }
 
