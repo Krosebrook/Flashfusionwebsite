@@ -924,6 +924,7 @@ Generate production-ready code that follows these guidelines exactly.`;
             estimatedCost: (googleEstimatedTokens / 1000) * model.costPer1k
           }
         };
+      }
 
       case 'local':
         // Handle both Ollama and OpenAI-compatible local server responses
