@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, List, Optional
 
 from ..config import OrchestratorConfig
 from ..llm_client import LLMClient
@@ -17,9 +17,9 @@ class PRDInput:
     Input parameters for the PRD generation workflow.
     """
     feature_idea: str
-    product_name: str | None = None
-    target_users: str | None = None
-    business_context: str | None = None
+    product_name: Optional[str] = None
+    target_users: Optional[str] = None
+    business_context: Optional[str] = None
 
 
 @dataclass
@@ -115,11 +115,11 @@ class PRDGeneratorWorkflow:
             chain_state=state,
         )
 
-    def _build_steps(self) -> list[ChainStep]:
+    def _build_steps(self) -> List[ChainStep]:
         """
         Construct the sequence of ChainStep instances for PRD generation.
         """
-        steps: list[ChainStep] = []
+        steps: List[ChainStep] = []
         
         # 1. Executive Summary
         steps.append(
