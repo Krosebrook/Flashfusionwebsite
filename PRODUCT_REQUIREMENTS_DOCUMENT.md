@@ -97,8 +97,27 @@ _This is an example PRD generated to demonstrate the structure and content. The 
 
 For a complete, production-ready PRD, use the PRD Generator tool:
 
-```bash
-python -m cli prd-generate "Your feature idea here" --output PRODUCT_REQUIREMENTS_DOCUMENT.md
+```python
+#!/usr/bin/env python3
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from config import OrchestratorConfig
+from workflows import PRDGeneratorWorkflow, PRDInput
+
+config = OrchestratorConfig.from_env()
+workflow = PRDGeneratorWorkflow(config)
+
+prd_input = PRDInput(
+    feature_idea="Your feature idea here",
+    product_name="Product Name",
+)
+
+result = workflow.run(prd_input)
+
+with open('PRODUCT_REQUIREMENTS_DOCUMENT.md', 'w') as f:
+    f.write(result.full_document)
 ```
 
 ---

@@ -35,14 +35,70 @@ The PRD Generator is part of the FlashFusion orchestrator package. No additional
 
 ### Command Line Interface
 
-Generate a PRD using the CLI:
+The PRD Generator can be invoked via the Python package interface. The root directory contains the `orchestrator` package.
+
+#### From the repository root:
 
 ```bash
-python -m cli prd-generate "Your feature idea here" \
-  --product-name "Product Name" \
-  --target-users "Description of target users" \
-  --business-context "Business objectives" \
-  --output "PRODUCT_REQUIREMENTS_DOCUMENT.md"
+# Set up Python path to recognize the orchestrator package
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+
+# Generate a PRD
+python -c "
+import sys
+from cli import main
+sys.argv = ['cli', 'prd-generate', 'Your feature idea here',
+            '--product-name', 'Product Name',
+            '--target-users', 'Description of target users',
+            '--business-context', 'Business objectives',
+            '--output', 'PRODUCT_REQUIREMENTS_DOCUMENT.md']
+main()
+"
+```
+
+#### Using a Python script:
+
+Create a file `generate_prd.py`:
+
+```python
+#!/usr/bin/env python3
+import sys
+import os
+
+# Ensure orchestrator package can be imported
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from config import OrchestratorConfig
+from workflows import PRDGeneratorWorkflow, PRDInput
+
+# Load configuration from environment
+config = OrchestratorConfig.from_env()
+
+# Create workflow
+workflow = PRDGeneratorWorkflow(config)
+
+# Generate PRD
+prd_input = PRDInput(
+    feature_idea="Your feature idea here",
+    product_name="Product Name",
+    target_users="Target user description",
+    business_context="Business context",
+)
+
+result = workflow.run(prd_input)
+
+# Save to file
+with open('PRODUCT_REQUIREMENTS_DOCUMENT.md', 'w') as f:
+    f.write(result.full_document)
+
+print("PRD generated successfully!")
+```
+
+Then run:
+
+```bash
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+python generate_prd.py
 ```
 
 #### Arguments
@@ -58,10 +114,17 @@ python -m cli prd-generate "Your feature idea here" \
 You can also use the PRD Generator programmatically:
 
 ```python
-from orchestrator.config import OrchestratorConfig
-from orchestrator.workflows import PRDGeneratorWorkflow, PRDInput
+#!/usr/bin/env python3
+import sys
+import os
 
-# Load configuration from environment
+# Ensure the orchestrator package is in the Python path
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from config import OrchestratorConfig
+from workflows import PRDGeneratorWorkflow, PRDInput
+
+# Load configuration from environment (requires ANTHROPIC_API_KEY)
 config = OrchestratorConfig.from_env()
 
 # Create workflow instance
@@ -95,13 +158,40 @@ with open('PRD.md', 'w') as f:
 
 ### Input
 
+Create a script `example_prd.py`:
+
+```python
+#!/usr/bin/env python3
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from config import OrchestratorConfig
+from workflows import PRDGeneratorWorkflow, PRDInput
+
+config = OrchestratorConfig.from_env()
+workflow = PRDGeneratorWorkflow(config)
+
+prd_input = PRDInput(
+    feature_idea="Real-time collaborative document editor with AI writing assistance",
+    product_name="DocFlow Pro",
+    target_users="Content creators, technical writers, and remote teams",
+    business_context="Enable seamless collaboration and improve writing quality",
+)
+
+result = workflow.run(prd_input)
+
+with open('PRODUCT_REQUIREMENTS_DOCUMENT.md', 'w') as f:
+    f.write(result.full_document)
+
+print("PRD generated and saved to PRODUCT_REQUIREMENTS_DOCUMENT.md")
+```
+
+Run it:
+
 ```bash
-python -m cli prd-generate \
-  "Real-time collaborative document editor with AI writing assistance" \
-  --product-name "DocFlow Pro" \
-  --target-users "Content creators, technical writers, and remote teams" \
-  --business-context "Enable seamless collaboration and improve writing quality" \
-  --output "PRODUCT_REQUIREMENTS_DOCUMENT.md"
+export ANTHROPIC_API_KEY=your_key_here
+python example_prd.py
 ```
 
 ### Output Structure
