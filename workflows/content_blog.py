@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from ..config import OrchestratorConfig
 from ..llm_client import LLMClient
@@ -20,7 +20,7 @@ class BlogInput:
     primary_audience: str
     target_length_words: int = 2000
     tone: str = "conversational, authoritative"
-    brand_voice: str | None = None
+    brand_voice: Optional[str] = None
 
 
 @dataclass
@@ -387,7 +387,7 @@ class ContentBlogWorkflow:
         if "## " not in sections_markdown:
             return {}
         result: Dict[str, str] = {}
-        current_title: str | None = None
+        current_title: Optional[str] = None
         current_lines: List[str] = []
         for line in sections_markdown.splitlines():
             if line.startswith("## "):

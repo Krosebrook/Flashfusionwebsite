@@ -4,7 +4,7 @@ import argparse
 import asyncio
 
 from .config import OrchestratorConfig
-from .workflows import SaaSResearchWorkflow, ContentBlogWorkflow, BlogInput
+from .workflows import SaaSResearchWorkflow, ContentBlogWorkflow, BlogInput, PRDGeneratorWorkflow, PRDInput
 
 
 def _run_saas_research(args: argparse.Namespace) -> None:
@@ -55,6 +55,30 @@ def _run_blog_generate(args: argparse.Namespace) -> None:
     print(result.conclusion)
 
 
+def _run_prd_generate(args: argparse.Namespace) -> None:
+    """
+    CLI handler for PRD generation.
+    """
+    config = OrchestratorConfig.from_env()
+    workflow = PRDGeneratorWorkflow(config)
+    prd_input = PRDInput(
+        feature_idea=args.feature_idea,
+        product_name=args.product_name or None,
+        target_users=args.target_users or None,
+        business_context=args.business_context or None,
+    )
+    result = workflow.run(prd_input)
+
+    print("\n===== PRODUCT REQUIREMENTS DOCUMENT =====\n")
+    print(result.full_document)
+    
+    # Save to file if requested
+    if args.output:
+        with open(args.output, 'w') as f:
+            f.write(result.full_document)
+        print(f"\n===== PRD saved to {args.output} =====\n")
+
+
 def main() -> None:
     """
     Entry point for the orchestrator CLI.
@@ -102,6 +126,37 @@ def main() -> None:
         help="Optional brand voice to guide the copy.",
     )
     blog_parser.set_defaults(func=_run_blog_generate)
+
+    # PRD generation subcommand
+    prd_parser = subparsers.add_parser(
+        "prd-generate", help="Generate a Product Requirements Document (PRD)."
+    )
+    prd_parser.add_argument(
+        "feature_idea",
+        type=str,
+        help="Feature or product idea to generate PRD for.",
+    )
+    prd_parser.add_argument(
+        "--product-name",
+        type=str,
+        help="Name of the product or feature.",
+    )
+    prd_parser.add_argument(
+        "--target-users",
+        type=str,
+        help="Description of target users or personas.",
+    )
+    prd_parser.add_argument(
+        "--business-context",
+        type=str,
+        help="Business context and strategic objectives.",
+    )
+    prd_parser.add_argument(
+        "--output",
+        type=str,
+        help="Output file path to save the PRD (e.g., 'PRODUCT_REQUIREMENTS_DOCUMENT.md').",
+    )
+    prd_parser.set_defaults(func=_run_prd_generate)
 
     args = parser.parse_args()
     if hasattr(args, "func"):
