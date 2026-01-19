@@ -4,9 +4,7 @@ import argparse
 import asyncio
 
 from .config import OrchestratorConfig
-from .saas_research import SaaSResearchWorkflow
-from .content_blog import ContentBlogWorkflow, BlogInput
-from .prd_generator import PRDGeneratorWorkflow, PRDInput
+from .workflows import SaaSResearchWorkflow, ContentBlogWorkflow, BlogInput, PRDGeneratorWorkflow, PRDInput
 
 
 def _run_saas_research(args: argparse.Namespace) -> None:
@@ -65,27 +63,20 @@ def _run_prd_generate(args: argparse.Namespace) -> None:
     workflow = PRDGeneratorWorkflow(config)
     prd_input = PRDInput(
         feature_idea=args.feature_idea,
-        product_name=args.product_name or "Product",
-        target_industry=args.industry or "",
-        company_context=args.context or "",
+        product_name=args.product_name or None,
+        target_users=args.target_users or None,
+        business_context=args.business_context or None,
     )
     result = workflow.run(prd_input)
 
-    # Save to file if output path provided
-    if args.output:
-        with open(args.output, 'w', encoding='utf-8') as f:
-            f.write(result.final_document)
-        print(f"\n✅ PRD generated successfully and saved to: {args.output}")
-    else:
-        print("\n===== PRODUCT REQUIREMENTS DOCUMENT =====\n")
-        print(result.final_document)
+    print("\n===== PRODUCT REQUIREMENTS DOCUMENT =====\n")
+    print(result.full_document)
     
-    # Print summary
-    print("\n===== GENERATION SUMMARY =====\n")
-    print(f"Feature Idea: {result.feature_idea}")
-    print(f"Sections Generated: 13")
-    print(f"Executive Summary Length: {len(result.executive_summary)} chars")
-    print(f"Total Document Length: {len(result.final_document)} chars")
+    # Save to file if requested
+    if args.output:
+        with open(args.output, 'w') as f:
+            f.write(result.full_document)
+        print(f"\n===== PRD saved to {args.output} =====\n")
 
 
 def main() -> None:
@@ -138,33 +129,32 @@ def main() -> None:
 
     # PRD generation subcommand
     prd_parser = subparsers.add_parser(
-        "prd-generate", help="Generate a comprehensive Product Requirements Document."
+        "prd-generate", help="Generate a Product Requirements Document (PRD)."
     )
     prd_parser.add_argument(
         "feature_idea",
         type=str,
-        help="The product/feature idea to generate a PRD for.",
+        help="Feature or product idea to generate PRD for.",
     )
     prd_parser.add_argument(
         "--product-name",
         type=str,
-        help="Name of the product (default: 'Product').",
+        help="Name of the product or feature.",
     )
     prd_parser.add_argument(
-        "--industry",
+        "--target-users",
         type=str,
-        help="Target industry for the product.",
+        help="Description of target users or personas.",
     )
     prd_parser.add_argument(
-        "--context",
+        "--business-context",
         type=str,
-        help="Additional company or product context.",
+        help="Business context and strategic objectives.",
     )
     prd_parser.add_argument(
         "--output",
-        "-o",
         type=str,
-        help="Output file path to save the PRD (if not specified, prints to stdout).",
+        help="Output file path to save the PRD (e.g., 'PRODUCT_REQUIREMENTS_DOCUMENT.md').",
     )
     prd_parser.set_defaults(func=_run_prd_generate)
 
