@@ -7,6 +7,7 @@ from .resilience import RetryConfig, execute_with_retry
 from .cost import CostRouter, TaskType
 from .agents import BaseAgent, ManagerAgent, WorkerAgent, StatefulAgentMixin
 from .chaining import ChainStep, ChainRunner
+from .prd_generator import PRDGeneratorWorkflow, PRDInput, PRDOutput
 
 __all__ = [
     "OrchestratorConfig",
@@ -29,4 +30,7 @@ __all__ = [
     "StatefulAgentMixin",
     "ChainStep",
     "ChainRunner",
+    "PRDGeneratorWorkflow",
+    "PRDInput",
+    "PRDOutput",
 ]
