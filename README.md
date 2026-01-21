@@ -36,6 +36,7 @@ npm run build
 - **[Development Setup](./src/DEVELOPMENT_QUICK_START.md)** - Local development guide
 - **[Deployment Guide](./src/DEPLOYMENT.md)** - Production deployment
 - **[Style Guide](./src/FLASHFUSION_STYLING_GUIDE.md)** - Design system
+- **[Code Generation Engine](./src/docs/CODE_GENERATION_ENGINE.md)** - AI code generation export pipeline
 
 ### Architecture & Audits
 - **[Comprehensive PDR Audit](./COMPREHENSIVE_PDR_AUDIT.md)** - Complete technical audit

@@ -11,37 +11,42 @@ import { Switch } from '../../ui/switch';
 import { Separator } from '../../ui/separator';
 import { Progress } from '../../ui/progress';
 import { Alert, AlertDescription } from '../../ui/alert';
-import { 
-  Code, Download, Copy, Play, Settings, FileText, Folder, 
-  Loader2, Check, AlertCircle, Sparkles, Zap, RefreshCw,
-  GitBranch, Package, Terminal, Globe, Brain, Key, TestTube,
-  CheckCircle2, Rocket
+import {
+  Code,
+  Download,
+  Copy,
+  FileText,
+  Folder,
+  Loader2,
+  Check,
+  AlertCircle,
+  Sparkles,
+  Zap,
+  RefreshCw,
+  GitBranch,
+  Package,
+  Terminal,
+  Globe,
+  Brain,
+  Rocket
 } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 import AIService, { type AIModel } from '../../../services/AIService';
 import { AISetupWizard } from '../../onboarding/AISetupWizard';
-import { RepositoryIntegrationCard } from './RepositoryIntegrationCard';
+import { useProjectExport } from '../../../hooks/useProjectExport';
+import type { CodeProject } from '../../../types/code-generation';
+import {
+  generateDependencies,
+  generateEslintConfig,
+  generatePackageJson,
+  generateScripts,
+  generateTsConfig,
+  getMainFileName,
+  getTestFileName
+} from '../../../services/codeGenerationTemplates';
 
 interface CodeGeneratorToolProps {
   onBack?: () => void;
-}
-
-interface GeneratedFile {
-  path: string;
-  content: string;
-  language: string;
-  size: number;
-}
-
-interface CodeProject {
-  name: string;
-  description: string;
-  files: GeneratedFile[];
-  dependencies: string[];
-  scripts: Record<string, string>;
-  framework: string;
-  language: string;
-  features: string[];
 }
 
 const PROGRAMMING_LANGUAGES = [
@@ -108,6 +113,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
   const [activeTab, setActiveTab] = useState('generate');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
+  const { isExporting, downloadProjectZip } = useProjectExport();
   
   // Form state
   const [description, setDescription] = useState('');
@@ -180,6 +186,13 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
     setAiModelAvailable(!!model && models.length > 0);
   };
 
+  const normalizeProjectName = useCallback((name: string) => {
+    const trimmed = name.trim();
+    const baseName = trimmed || `${codeType}-${Date.now()}`;
+    const sanitized = baseName.replace(/[^a-z0-9-_]/gi, '-').replace(/-+/g, '-');
+    return sanitized || `${codeType}-${Date.now()}`;
+  }, [codeType]);
+
   const generateCode = useCallback(async () => {
     if (!description.trim()) {
       toast.error('Please provide a description of what you want to generate');
@@ -244,10 +257,11 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
       setGenerationProgress(90);
 
       // Generate additional files based on type and features
-      const files: GeneratedFile[] = [];
+      const files = [];
       
       // Main file
-      const mainFileName = getMainFileName(codeType, projectName || 'component', language);
+      const safeProjectName = normalizeProjectName(projectName);
+      const mainFileName = getMainFileName(codeType, safeProjectName, language);
       files.push({
         path: mainFileName,
         content: mainCode,
@@ -270,7 +284,7 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
         });
 
         files.push({
-          path: getTestFileName(codeType, projectName || 'component', language),
+          path: getTestFileName(codeType, safeProjectName, language),
           content: testCode,
           language: language === 'typescript' ? 'typescript' : 'javascript',
           size: new Blob([testCode]).size
@@ -310,13 +324,13 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
       // Generate package.json
       files.push({
         path: 'package.json',
-        content: generatePackageJson(projectName || 'ai-generated-project', framework, selectedFeatures),
+        content: generatePackageJson(safeProjectName || 'ai-generated-project', framework, selectedFeatures),
         language: 'json',
         size: 512
       });
 
       const project: CodeProject = {
-        name: projectName || `ai-${codeType}-${Date.now()}`,
+        name: safeProjectName,
         description,
         files,
         dependencies: generateDependencies(framework, selectedFeatures),
@@ -340,279 +354,18 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
       setIsGenerating(false);
       setGenerationProgress(0);
     }
-  }, [description, language, codeType, framework, projectName, selectedFeatures, includeTests, includeDocs, aiModelAvailable, currentModel]);
+  }, [description, language, codeType, framework, projectName, selectedFeatures, includeTests, includeDocs, aiModelAvailable, currentModel, normalizeProjectName]);
 
-  // Helper functions for generating config files and project structure
-  const generateEslintConfig = () => {
-    return JSON.stringify({
-      "extends": ["eslint:recommended", "@typescript-eslint/recommended"],
-      "parser": "@typescript-eslint/parser",
-      "plugins": ["@typescript-eslint"],
-      "rules": {
-        "@typescript-eslint/no-unused-vars": "error",
-        "@typescript-eslint/no-explicit-any": "warn"
-      }
-    }, null, 2);
-  };
-
-  const generateTsConfig = () => {
-    return JSON.stringify({
-      "compilerOptions": {
-        "target": "ES2020",
-        "useDefineForClassFields": true,
-        "lib": ["ES2020", "DOM", "DOM.Iterable"],
-        "module": "ESNext",
-        "skipLibCheck": true,
-        "moduleResolution": "bundler",
-        "allowImportingTsExtensions": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "jsx": "react-jsx",
-        "strict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true
-      },
-      "include": ["src"],
-      "references": [{ "path": "./tsconfig.node.json" }]
-    }, null, 2);
-  };
-
-  const generatePackageJson = (name: string, framework: string, features: string[]) => {
-    const dependencies: Record<string, string> = {
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0"
-    };
-
-    if (features.includes('TypeScript Support')) {
-      dependencies["typescript"] = "^5.0.0";
-      dependencies["@types/react"] = "^18.2.0";
-      dependencies["@types/react-dom"] = "^18.2.0";
-    }
-
-    const scripts: Record<string, string> = {
-      "dev": framework === 'nextjs' ? 'next dev' : 'vite',
-      "build": framework === 'nextjs' ? 'next build' : 'vite build',
-      "preview": framework === 'nextjs' ? 'next start' : 'vite preview'
-    };
-
-    if (features.includes('Unit Tests')) {
-      scripts["test"] = "vitest";
-      dependencies["vitest"] = "^0.34.0";
-    }
-
-    return JSON.stringify({
-      "name": name.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
-      "private": true,
-      "version": "0.0.0",
-      "type": "module",
-      "scripts": scripts,
-      "dependencies": dependencies,
-      "devDependencies": {
-        "@vitejs/plugin-react": "^4.0.3",
-        "vite": "^4.4.5"
-      }
-    }, null, 2);
-  };
-
-  const generateDependencies = (framework: string, features: string[]): string[] => {
-    const deps = ['react', 'react-dom'];
-    
-    if (features.includes('TypeScript Support')) {
-      deps.push('typescript', '@types/react', '@types/react-dom');
-    }
-    
-    if (framework === 'nextjs') {
-      deps.push('next');
-    }
-    
-    if (features.includes('Unit Tests')) {
-      deps.push('vitest', '@testing-library/react');
-    }
-    
-    return deps;
-  };
-
-  const generateScripts = (framework: string): Record<string, string> => {
-    const scripts: Record<string, string> = {
-      "dev": framework === 'nextjs' ? 'next dev' : 'vite',
-      "build": framework === 'nextjs' ? 'next build' : 'vite build',
-      "preview": framework === 'nextjs' ? 'next start' : 'vite preview'
-    };
-    
-    return scripts;
-  };
-
-  const generateZipContent = (project: CodeProject): string => {
-    // Simple text-based "zip" content for demonstration
-    let zipContent = `# ${project.name}\n\n`;
-    zipContent += `${project.description}\n\n`;
-    zipContent += `## Files:\n\n`;
-    
-    project.files.forEach(file => {
-      zipContent += `### ${file.path}\n`;
-      zipContent += `\`\`\`${file.language}\n`;
-      zipContent += file.content;
-      zipContent += `\n\`\`\`\n\n`;
-    });
-    
-    return zipContent;
-  };
-
-  const getMainFileName = (type: string, name: string, lang: string): string => {
-    const ext = lang === 'typescript' ? 'ts' : 'js';
-    const jsxExt = lang === 'typescript' ? 'tsx' : 'jsx';
-    
-    switch (type) {
-      case 'component':
-        return `src/components/${name}.${jsxExt}`;
-      case 'hook':
-        return `src/hooks/use${name}.${ext}`;
-      case 'api':
-        return `src/api/${name}.${ext}`;
-      case 'function':
-        return `src/utils/${name}.${ext}`;
-      case 'class':
-        return `src/classes/${name}.${ext}`;
-      default:
-        return `src/${name}.${ext}`;
-    }
-  };
-
-  const getTestFileName = (type: string, name: string, lang: string): string => {
-    const ext = lang === 'typescript' ? 'ts' : 'js';
-    const jsxExt = lang === 'typescript' ? 'tsx' : 'jsx';
-    
-    const testExt = type === 'component' ? jsxExt : ext;
-    return `src/__tests__/${name}.test.${testExt}`;
-  };
-
-  const generateMockProject = useCallback((): CodeProject => {
-    const name = projectName || `${codeType}-${Date.now()}`;
-    
-    // Generate files based on selection
-    const files: GeneratedFile[] = [];
-    
-    // Main component/file
-    if (codeType === 'component' && framework === 'react') {
-      files.push({
-        path: `src/components/${name}.tsx`,
-        content: generateReactComponent(name, description, selectedFeatures),
-        language: 'typescript',
-        size: 1024
-      });
-      
-      files.push({
-        path: `src/components/${name}.module.css`,
-        content: generateComponentStyles(name),
-        language: 'css',
-        size: 512
-      });
-    }
-    
-    if (codeType === 'api') {
-      files.push({
-        path: `src/api/${name}.ts`,
-        content: generateAPIEndpoint(name, description, selectedFeatures),
-        language: 'typescript',
-        size: 2048
-      });
-    }
-    
-    if (codeType === 'hook') {
-      files.push({
-        path: `src/hooks/use${name}.ts`,
-        content: generateReactHook(name, description),
-        language: 'typescript',
-        size: 756
-      });
-    }
-
-    // Configuration files
-    files.push({
-      path: 'package.json',
-      content: generatePackageJson(name, framework, selectedFeatures),
-      language: 'json',
-      size: 512
-    });
-
-    files.push({
-      path: 'tsconfig.json',
-      content: generateTsConfig(),
-      language: 'json',
-      size: 256
-    });
-
-    // Tests if requested
-    if (includeTests) {
-      files.push({
-        path: `src/__tests__/${name}.test.tsx`,
-        content: generateTestFile(name, codeType),
-        language: 'typescript',
-        size: 1024
-      });
-    }
-
-    // Documentation if requested
-    if (includeDocs) {
-      files.push({
-        path: 'README.md',
-        content: generateReadme(name, description, framework),
-        language: 'markdown',
-        size: 2048
-      });
-    }
-
-    // Additional config files based on features
-    if (selectedFeatures.includes('ESLint Configuration')) {
-      files.push({
-        path: '.eslintrc.json',
-        content: generateEslintConfig(),
-        language: 'json',
-        size: 256
-      });
-    }
-
-    if (selectedFeatures.includes('Docker Support')) {
-      files.push({
-        path: 'Dockerfile',
-        content: generateDockerfile(framework),
-        language: 'dockerfile',
-        size: 512
-      });
-    }
-
-    return {
-      name,
-      description,
-      files,
-      dependencies: generateDependencies(framework, selectedFeatures),
-      scripts: generateScripts(framework),
-      framework,
-      language,
-      features: selectedFeatures
-    };
-  }, [codeType, framework, projectName, description, selectedFeatures, includeTests, includeDocs]);
-
-  const downloadProject = useCallback(() => {
+  const downloadProject = useCallback(async () => {
     if (!generatedProject) return;
 
-    // Create zip file content
-    const zipContent = generateZipContent(generatedProject);
-    const blob = new Blob([zipContent], { type: 'application/zip' });
-    const url = URL.createObjectURL(blob);
-    
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${generatedProject.name}.zip`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    
-    toast.success('Project downloaded successfully!');
-  }, [generatedProject]);
+    const result = await downloadProjectZip(generatedProject);
+    if (result.success) {
+      toast.success('Project downloaded successfully!');
+    } else {
+      toast.error(result.error.message);
+    }
+  }, [generatedProject, downloadProjectZip]);
 
   const copyToClipboard = useCallback((content: string) => {
     navigator.clipboard.writeText(content);
@@ -1076,9 +829,18 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Download Options</h3>
                     
-                    <Button onClick={downloadProject} className="w-full ff-btn-primary">
-                      <Package className="w-4 h-4 mr-2" />
-                      Download as ZIP
+                    <Button onClick={downloadProject} className="w-full ff-btn-primary" disabled={isExporting}>
+                      {isExporting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Preparing ZIP...
+                        </>
+                      ) : (
+                        <>
+                          <Package className="w-4 h-4 mr-2" />
+                          Download as ZIP
+                        </>
+                      )}
                     </Button>
                     
                     <Button variant="outline" className="w-full">
@@ -1137,618 +899,6 @@ export function CodeGeneratorTool({ onBack }: CodeGeneratorToolProps) {
       </Tabs>
     </div>
   );
-}
-
-// Helper functions for generating code
-function generateReactComponent(name: string, description: string, features: string[]): string {
-  const componentName = name.charAt(0).toUpperCase() + name.slice(1);
-  const hasTypeScript = features.includes('TypeScript Support');
-  
-  return `import React${features.includes('React Hook') ? ', { useState, useEffect }' : ''} from 'react';
-${features.includes('CSS Modules') ? `import styles from './${name}.module.css';` : ''}
-
-interface ${componentName}Props {
-  children?: React.ReactNode;
-  className?: string;
-  variant?: 'primary' | 'secondary' | 'destructive';
-  disabled?: boolean;
-  onClick?: () => void;
-}
-
-/**
- * ${description}
- * 
- * @param props - Component props
- * @returns JSX element
- */
-export function ${componentName}({
-  children,
-  className = '',
-  variant = 'primary',
-  disabled = false,
-  onClick
-}: ${componentName}Props) {
-  ${features.includes('React Hook') ? `
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const handleClick = async () => {
-    if (disabled || isLoading) return;
-    
-    setIsLoading(true);
-    try {
-      await onClick?.();
-    } finally {
-      setIsLoading(false);
-    }
-  };` : ''}
-
-  return (
-    <button
-      className={\`\${styles.button} \${styles[variant]} \${className}\`}
-      disabled={disabled${features.includes('React Hook') ? ' || isLoading' : ''}}
-      onClick={${features.includes('React Hook') ? 'handleClick' : 'onClick'}}
-      ${features.includes('Accessibility') ? `
-      aria-label="${componentName}"
-      role="button"` : ''}
-    >
-      ${features.includes('React Hook') ? '{isLoading ? "Loading..." : children}' : '{children}'}
-    </button>
-  );
-}
-
-export default ${componentName};`;
-}
-
-function generateComponentStyles(name: string): string {
-  return `.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  transition: all 0.2s ease-in-out;
-  cursor: pointer;
-  border: 1px solid transparent;
-  outline: none;
-}
-
-.button:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-}
-
-.button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.primary {
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-}
-
-.primary:hover:not(:disabled) {
-  background-color: var(--primary-hover);
-  transform: translateY(-1px);
-}
-
-.secondary {
-  background-color: var(--secondary);
-  color: var(--secondary-foreground);
-}
-
-.secondary:hover:not(:disabled) {
-  background-color: var(--secondary-hover);
-}
-
-.destructive {
-  background-color: var(--destructive);
-  color: var(--destructive-foreground);
-}
-
-.destructive:hover:not(:disabled) {
-  background-color: var(--destructive-hover);
-}`;
-}
-
-function generateAPIEndpoint(name: string, description: string, features: string[]): string {
-  return `import { Request, Response, NextFunction } from 'express';
-${features.includes('Database Integration') ? "import { db } from '../config/database';" : ''}
-${features.includes('Validation') ? "import { z } from 'zod';" : ''}
-${features.includes('Authentication') ? "import { authenticate } from '../middleware/auth';" : ''}
-
-${features.includes('Validation') ? `
-// Request validation schema
-const ${name}Schema = z.object({
-  // Add your validation rules here
-  name: z.string().min(1),
-  email: z.string().email(),
-});
-
-type ${name.charAt(0).toUpperCase() + name.slice(1)}Request = z.infer<typeof ${name}Schema>;
-` : ''}
-
-/**
- * ${description}
- */
-export class ${name.charAt(0).toUpperCase() + name.slice(1)}Controller {
-  ${features.includes('Authentication') ? '@authenticate' : ''}
-  async create(req: Request, res: Response, next: NextFunction) {
-    try {
-      ${features.includes('Validation') ? `
-      // Validate request body
-      const validatedData = ${name}Schema.parse(req.body);
-      ` : 'const data = req.body;'}
-      
-      ${features.includes('Database Integration') ? `
-      // Save to database
-      const result = await db.${name}.create({
-        data: ${features.includes('Validation') ? 'validatedData' : 'data'}
-      });
-      ` : `
-      // Process the data
-      const result = { id: Date.now(), ...${features.includes('Validation') ? 'validatedData' : 'data'} };
-      `}
-      
-      ${features.includes('Logging') ? `console.log(\`Created new ${name}: \${result.id}\`);` : ''}
-      
-      res.status(201).json({
-        success: true,
-        data: result
-      });
-    } catch (error) {
-      ${features.includes('Error Handling') ? `
-      console.error('Error creating ${name}:', error);
-      
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({
-          success: false,
-          error: 'Validation failed',
-          details: error.errors
-        });
-      }
-      
-      res.status(500).json({
-        success: false,
-        error: 'Internal server error'
-      });
-      ` : 'next(error);'}
-    }
-  }
-
-  async getAll(req: Request, res: Response, next: NextFunction) {
-    try {
-      ${features.includes('Database Integration') ? `
-      const items = await db.${name}.findMany({
-        orderBy: { createdAt: 'desc' }
-      });
-      ` : `
-      const items = []; // Mock data
-      `}
-      
-      res.json({
-        success: true,
-        data: items
-      });
-    } catch (error) {
-      ${features.includes('Error Handling') ? `
-      console.error('Error fetching ${name}s:', error);
-      res.status(500).json({
-        success: false,
-        error: 'Internal server error'
-      });
-      ` : 'next(error);'}
-    }
-  }
-
-  async getById(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id } = req.params;
-      
-      ${features.includes('Database Integration') ? `
-      const item = await db.${name}.findUnique({
-        where: { id: parseInt(id) }
-      });
-      ` : `
-      const item = null; // Mock data
-      `}
-      
-      if (!item) {
-        return res.status(404).json({
-          success: false,
-          error: '${name.charAt(0).toUpperCase() + name.slice(1)} not found'
-        });
-      }
-      
-      res.json({
-        success: true,
-        data: item
-      });
-    } catch (error) {
-      ${features.includes('Error Handling') ? `
-      console.error('Error fetching ${name}:', error);
-      res.status(500).json({
-        success: false,
-        error: 'Internal server error'
-      });
-      ` : 'next(error);'}
-    }
-  }
-}
-
-export default new ${name.charAt(0).toUpperCase() + name.slice(1)}Controller();`;
-}
-
-function generateReactHook(name: string, description: string): string {
-  const hookName = `use${name.charAt(0).toUpperCase() + name.slice(1)}`;
-  
-  return `import { useState, useEffect, useCallback } from 'react';
-
-interface ${hookName}Options {
-  initialValue?: any;
-  onSuccess?: (data: any) => void;
-  onError?: (error: Error) => void;
-}
-
-interface ${hookName}Return {
-  data: any;
-  loading: boolean;
-  error: Error | null;
-  refetch: () => void;
-  reset: () => void;
-}
-
-/**
- * ${description}
- * 
- * @param options - Hook configuration options
- * @returns Hook state and methods
- */
-export function ${hookName}(options: ${hookName}Options = {}): ${hookName}Return {
-  const { initialValue = null, onSuccess, onError } = options;
-  
-  const [data, setData] = useState(initialValue);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      // Implement your data fetching logic here
-      const response = await fetch('/api/${name}');
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-      
-      const result = await response.json();
-      setData(result);
-      onSuccess?.(result);
-    } catch (err) {
-      const error = err instanceof Error ? err : new Error('Unknown error');
-      setError(error);
-      onError?.(error);
-    } finally {
-      setLoading(false);
-    }
-  }, [onSuccess, onError]);
-
-  const reset = useCallback(() => {
-    setData(initialValue);
-    setError(null);
-    setLoading(false);
-  }, [initialValue]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  return {
-    data,
-    loading,
-    error,
-    refetch: fetchData,
-    reset
-  };
-}
-
-export default ${hookName};`;
-}
-
-function generatePackageJson(name: string, framework: string, features: string[]): string {
-  const dependencies: Record<string, string> = {
-    react: "^18.2.0",
-    "react-dom": "^18.2.0"
-  };
-
-  const devDependencies: Record<string, string> = {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "typescript": "^5.0.0",
-    "vite": "^4.4.0"
-  };
-
-  if (framework === 'nextjs') {
-    dependencies.next = "^13.4.0";
-    delete dependencies["react-dom"];
-  }
-
-  if (features.includes('ESLint Configuration')) {
-    devDependencies.eslint = "^8.45.0";
-    devDependencies["@typescript-eslint/eslint-plugin"] = "^6.0.0";
-  }
-
-  if (features.includes('Unit Tests')) {
-    devDependencies.vitest = "^0.34.0";
-    devDependencies["@testing-library/react"] = "^13.4.0";
-  }
-
-  return JSON.stringify({
-    name,
-    version: "1.0.0",
-    description: "Generated by FlashFusion AI Code Generator",
-    main: "index.js",
-    scripts: {
-      dev: framework === 'nextjs' ? "next dev" : "vite",
-      build: framework === 'nextjs' ? "next build" : "vite build",
-      start: framework === 'nextjs' ? "next start" : "vite preview",
-      test: features.includes('Unit Tests') ? "vitest" : "echo 'No tests specified'",
-      lint: features.includes('ESLint Configuration') ? "eslint . --ext .ts,.tsx" : "echo 'No linting configured'"
-    },
-    dependencies,
-    devDependencies,
-    keywords: ["react", framework, "typescript", "generated"],
-    author: "FlashFusion AI",
-    license: "MIT"
-  }, null, 2);
-}
-
-function generateTsConfig(): string {
-  return JSON.stringify({
-    compilerOptions: {
-      target: "ES2020",
-      useDefineForClassFields: true,
-      lib: ["ES2020", "DOM", "DOM.Iterable"],
-      module: "ESNext",
-      skipLibCheck: true,
-      moduleResolution: "bundler",
-      allowImportingTsExtensions: true,
-      resolveJsonModule: true,
-      isolatedModules: true,
-      noEmit: true,
-      jsx: "react-jsx",
-      strict: true,
-      noUnusedLocals: true,
-      noUnusedParameters: true,
-      noFallthroughCasesInSwitch: true
-    },
-    include: ["src"],
-    references: [{ path: "./tsconfig.node.json" }]
-  }, null, 2);
-}
-
-function generateTestFile(name: string, codeType: string): string {
-  const componentName = name.charAt(0).toUpperCase() + name.slice(1);
-  
-  return `import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import ${componentName} from './${name}';
-
-describe('${componentName}', () => {
-  it('renders correctly', () => {
-    render(<${componentName}>Test Content</${componentName}>);
-    
-    expect(screen.getByText('Test Content')).toBeInTheDocument();
-  });
-
-  it('handles click events', () => {
-    const handleClick = vi.fn();
-    
-    render(
-      <${componentName} onClick={handleClick}>
-        Click me
-      </${componentName}>
-    );
-    
-    fireEvent.click(screen.getByRole('button'));
-    expect(handleClick).toHaveBeenCalledTimes(1);
-  });
-
-  it('respects disabled state', () => {
-    const handleClick = vi.fn();
-    
-    render(
-      <${componentName} disabled onClick={handleClick}>
-        Disabled
-      </${componentName}>
-    );
-    
-    const button = screen.getByRole('button');
-    expect(button).toBeDisabled();
-    
-    fireEvent.click(button);
-    expect(handleClick).not.toHaveBeenCalled();
-  });
-
-  it('applies variant classes correctly', () => {
-    render(<${componentName} variant="secondary">Secondary</${componentName}>);
-    
-    const button = screen.getByRole('button');
-    expect(button).toHaveClass('secondary');
-  });
-});`;
-}
-
-function generateReadme(name: string, description: string, framework: string): string {
-  return `# ${name}
-
-${description}
-
-## Overview
-
-This project was generated using FlashFusion AI Code Generator with ${framework} framework.
-
-## Features
-
-- 🚀 Built with ${framework}
-- 💎 TypeScript support
-- 🎨 Modern CSS styling
-- 🧪 Test suite included
-- 📦 Ready for production
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm or yarn
-
-### Installation
-
-1. Install dependencies:
-\`\`\`bash
-npm install
-\`\`\`
-
-2. Start the development server:
-\`\`\`bash
-npm run dev
-\`\`\`
-
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Available Scripts
-
-- \`npm run dev\` - Start development server
-- \`npm run build\` - Build for production
-- \`npm run start\` - Start production server
-- \`npm test\` - Run test suite
-- \`npm run lint\` - Run linter
-
-## Project Structure
-
-\`\`\`
-${name}/
-├── src/
-│   ├── components/     # React components
-│   ├── hooks/          # Custom hooks
-│   ├── api/           # API endpoints
-│   └── __tests__/     # Test files
-├── public/            # Static assets
-├── package.json       # Dependencies and scripts
-└── README.md         # This file
-\`\`\`
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (\`git checkout -b feature/amazing-feature\`)
-3. Commit your changes (\`git commit -m 'Add some amazing feature'\`)
-4. Push to the branch (\`git push origin feature/amazing-feature\`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License.
-
-## Generated by FlashFusion
-
-This project was generated using [FlashFusion AI Code Generator](https://flashfusion.ai) - Build faster with AI-powered development tools.
-`;
-}
-
-function generateEslintConfig(): string {
-  return JSON.stringify({
-    env: {
-      browser: true,
-      es2020: true,
-      node: true
-    },
-    extends: [
-      "eslint:recommended",
-      "@typescript-eslint/recommended",
-      "plugin:react/recommended",
-      "plugin:react-hooks/recommended"
-    ],
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
-      ecmaFeatures: {
-        jsx: true
-      }
-    },
-    plugins: ["react", "@typescript-eslint"],
-    rules: {
-      "react/react-in-jsx-scope": "off",
-      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
-      "prefer-const": "error",
-      "no-var": "error"
-    },
-    settings: {
-      react: {
-        version: "detect"
-      }
-    }
-  }, null, 2);
-}
-
-function generateDockerfile(framework: string): string {
-  return `# Use official Node.js runtime as base image
-FROM node:18-alpine
-
-# Set working directory
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm ci --only=production
-
-# Copy source code
-COPY . .
-
-# Build the application
-RUN npm run build
-
-# Expose port
-EXPOSE 3000
-
-# Start the application
-CMD ["npm", "start"]
-`;
-}
-
-function generateDependencies(framework: string, features: string[]): string[] {
-  const deps = ['react', 'react-dom'];
-  
-  if (framework === 'nextjs') deps.push('next');
-  if (framework === 'express') deps.push('express');
-  if (features.includes('TypeScript Support')) deps.push('typescript');
-  if (features.includes('Database Integration')) deps.push('prisma');
-  if (features.includes('Authentication')) deps.push('jsonwebtoken');
-  if (features.includes('Validation')) deps.push('zod');
-  
-  return deps;
-}
-
-function generateScripts(framework: string): Record<string, string> {
-  const scripts: Record<string, string> = {
-    dev: framework === 'nextjs' ? 'next dev' : 'vite',
-    build: framework === 'nextjs' ? 'next build' : 'vite build',
-    start: framework === 'nextjs' ? 'next start' : 'vite preview'
-  };
-  
-  return scripts;
-}
-
-function generateZipContent(project: CodeProject): string {
-  // This would generate actual zip content in a real implementation
-  return `Generated project: ${project.name}\nFiles: ${project.files.length}`;
 }
 
 export default CodeGeneratorTool;
