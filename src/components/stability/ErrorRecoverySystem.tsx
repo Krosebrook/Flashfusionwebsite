@@ -5,6 +5,7 @@ import { Badge } from '../ui/badge';
 import { Progress } from '../ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Shield, 
   AlertTriangle, 
@@ -18,11 +19,12 @@ import {
   Database,
   Network,
   Cpu,
+  HardDrive,
   Users,
   Bug,
   Wrench
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 interface ErrorEvent {
   id: string;
@@ -50,8 +52,8 @@ interface RecoveryAction {
   description: string;
   icon: React.ComponentType<any>;
   automated: boolean;
-  estimatedTime: number;
-  successRate: number;
+  estimatedTime: number; // in seconds
+  successRate: number; // percentage
   execute: () => Promise<boolean>;
 }
 
@@ -99,6 +101,7 @@ export function ErrorRecoverySystem() {
   const [isMonitoring, setIsMonitoring] = useState(true);
   
   const errorQueueRef = useRef<ErrorEvent[]>([]);
+  const recoveryIntervalRef = useRef<NodeJS.Timeout>();
 
   // Recovery actions available
   const recoveryActions: RecoveryAction[] = [
@@ -135,6 +138,7 @@ export function ErrorRecoverySystem() {
       successRate: 90,
       execute: async () => {
         try {
+          // Simulate service restart
           await new Promise(resolve => setTimeout(resolve, 2000));
           return true;
         } catch (error) {
@@ -153,10 +157,51 @@ export function ErrorRecoverySystem() {
       successRate: 95,
       execute: async () => {
         try {
+          // Simulate database reconnection
           await new Promise(resolve => setTimeout(resolve, 1500));
           return true;
         } catch (error) {
           console.error('Database reconnection failed:', error);
+          return false;
+        }
+      }
+    },
+    {
+      id: 'memory-cleanup',
+      name: 'Memory Cleanup',
+      description: 'Free up memory and optimize performance',
+      icon: Cpu,
+      automated: true,
+      estimatedTime: 3,
+      successRate: 75,
+      execute: async () => {
+        try {
+          // Force garbage collection if available
+          if ('gc' in window) {
+            (window as any).gc();
+          }
+          return true;
+        } catch (error) {
+          console.error('Memory cleanup failed:', error);
+          return false;
+        }
+      }
+    },
+    {
+      id: 'failover-switch',
+      name: 'Failover Switch',
+      description: 'Switch to backup systems and redundant services',
+      icon: Network,
+      automated: false,
+      estimatedTime: 30,
+      successRate: 98,
+      execute: async () => {
+        try {
+          // Simulate failover
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          return true;
+        } catch (error) {
+          console.error('Failover switch failed:', error);
           return false;
         }
       }
@@ -183,8 +228,14 @@ export function ErrorRecoverySystem() {
       autoResolved: false
     };
 
-    setErrors(prev => [errorEvent, ...prev.slice(0, 49)]);
+    setErrors(prev => [errorEvent, ...prev.slice(0, 49)]); // Keep last 50 errors
     errorQueueRef.current.push(errorEvent);
+    
+    // Track error in analytics
+    analyticsService.trackError(errorEvent.type, errorEvent.message, {
+      severity: errorEvent.severity,
+      component: errorEvent.context.component
+    });
 
     // Trigger immediate recovery for critical errors
     if (errorEvent.severity === 'critical') {
@@ -195,13 +246,16 @@ export function ErrorRecoverySystem() {
   // Automatic error recovery
   const handleAutomaticRecovery = useCallback(async (error: ErrorEvent) => {
     const applicableActions = recoveryActions.filter(action => {
+      // Logic to determine which actions apply to specific error types
       switch (error.type) {
         case 'client':
-          return ['cache-clear'].includes(action.id);
+          return ['cache-clear', 'memory-cleanup'].includes(action.id);
         case 'server':
-          return ['service-restart'].includes(action.id);
+          return ['service-restart', 'failover-switch'].includes(action.id);
         case 'database':
-          return ['database-reconnect'].includes(action.id);
+          return ['database-reconnect', 'service-restart'].includes(action.id);
+        case 'network':
+          return ['failover-switch', 'service-restart'].includes(action.id);
         default:
           return action.automated;
       }
@@ -242,12 +296,14 @@ export function ErrorRecoverySystem() {
       if (success) {
         toast.success(`${action.name} completed successfully`);
         
+        // Mark related errors as resolved
         if (error) {
           setErrors(prev => prev.map(e => 
             e.id === error.id ? { ...e, resolved: true, autoResolved: true } : e
           ));
         }
         
+        // Update system status
         setSystemStatus(prev => ({
           ...prev,
           metrics: {
@@ -272,16 +328,17 @@ export function ErrorRecoverySystem() {
 
     const healthCheckInterval = setInterval(async () => {
       try {
+        // Simulate health checks
         const components = {
-          frontend: Math.random() > 0.05 ? 'healthy' as const : 'degraded' as const,
-          backend: Math.random() > 0.03 ? 'healthy' as const : 'degraded' as const,
-          database: Math.random() > 0.02 ? 'healthy' as const : 'degraded' as const,
-          auth: Math.random() > 0.01 ? 'healthy' as const : 'degraded' as const,
-          cdn: Math.random() > 0.01 ? 'healthy' as const : 'degraded' as const
-        };
+          frontend: Math.random() > 0.05 ? 'healthy' : 'degraded',
+          backend: Math.random() > 0.03 ? 'healthy' : 'degraded',
+          database: Math.random() > 0.02 ? 'healthy' : 'degraded',
+          auth: Math.random() > 0.01 ? 'healthy' : 'degraded',
+          cdn: Math.random() > 0.01 ? 'healthy' : 'degraded'
+        } as const;
 
         const degradedComponents = Object.values(components).filter(status => status !== 'healthy').length;
-        const overall: SystemStatus['overall'] = degradedComponents === 0 ? 'healthy' : 
+        const overall = degradedComponents === 0 ? 'healthy' : 
                         degradedComponents <= 1 ? 'degraded' : 'critical';
 
         setSystemStatus(prev => ({
@@ -317,6 +374,40 @@ export function ErrorRecoverySystem() {
 
     return () => clearInterval(healthCheckInterval);
   }, [isMonitoring, detectError]);
+
+  // Global error handler
+  useEffect(() => {
+    const handleGlobalError = (event: ErrorEvent) => {
+      detectError({
+        type: 'client',
+        severity: 'medium',
+        message: event.error?.message || 'Global JavaScript error',
+        stack: event.error?.stack,
+        context: {
+          component: 'global-handler'
+        }
+      });
+    };
+
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      detectError({
+        type: 'client',
+        severity: 'high',
+        message: `Unhandled promise rejection: ${event.reason}`,
+        context: {
+          component: 'promise-handler'
+        }
+      });
+    };
+
+    window.addEventListener('error', handleGlobalError);
+    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+
+    return () => {
+      window.removeEventListener('error', handleGlobalError);
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+    };
+  }, [detectError]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -404,7 +495,7 @@ export function ErrorRecoverySystem() {
       )}
 
       {/* System Status Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {Object.entries(systemStatus.components).map(([component, status]) => {
           const StatusIcon = getStatusIcon(status);
           return (
@@ -474,7 +565,7 @@ export function ErrorRecoverySystem() {
 
       {/* Detailed Tabs */}
       <Tabs defaultValue="errors" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="errors" className="ff-focus-ring">
             Active Errors ({unresolvedErrors.length})
           </TabsTrigger>
@@ -483,6 +574,9 @@ export function ErrorRecoverySystem() {
           </TabsTrigger>
           <TabsTrigger value="history" className="ff-focus-ring">
             Recovery History
+          </TabsTrigger>
+          <TabsTrigger value="prevention" className="ff-focus-ring">
+            Prevention
           </TabsTrigger>
         </TabsList>
 
@@ -518,6 +612,17 @@ export function ErrorRecoverySystem() {
                           <p className="text-sm text-muted-foreground">
                             Component: {error.context.component}
                           </p>
+                        )}
+                        
+                        {error.stack && (
+                          <details className="text-xs">
+                            <summary className="cursor-pointer text-muted-foreground">
+                              Stack trace
+                            </summary>
+                            <pre className="mt-2 p-2 bg-muted rounded text-xs overflow-x-auto">
+                              {error.stack}
+                            </pre>
+                          </details>
                         )}
                       </div>
                       
@@ -647,6 +752,62 @@ export function ErrorRecoverySystem() {
               ))}
             </div>
           )}
+        </TabsContent>
+
+        <TabsContent value="prevention" className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="ff-card-interactive">
+              <CardHeader>
+                <CardTitle className="text-lg">Proactive Monitoring</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Global Error Handling</span>
+                    <Badge variant="default">Active</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Performance Monitoring</span>
+                    <Badge variant="default">Active</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Health Checks</span>
+                    <Badge variant="default">Active</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Auto-Recovery</span>
+                    <Badge variant="default">Active</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="ff-card-interactive">
+              <CardHeader>
+                <CardTitle className="text-lg">Prevention Metrics</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Issues Prevented</span>
+                    <span className="font-medium">{systemStatus.metrics.preventedOutages}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Auto-Recoveries</span>
+                    <span className="font-medium">{systemStatus.metrics.recoveredErrors}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Detection Speed</span>
+                    <span className="font-medium"><5s</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Recovery Speed</span>
+                    <span className="font-medium"><30s</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

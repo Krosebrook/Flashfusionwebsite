@@ -232,4 +232,4 @@ Ready to transform your development workflow? Start with our [Quick Start Guide]
 
 ---
 
-*FlashFusion Documentation - Version 2.0 | Last Updated: December 2024*
+*FlashFusion Documentation - Version 2.0 | Last Updated: December 2025*

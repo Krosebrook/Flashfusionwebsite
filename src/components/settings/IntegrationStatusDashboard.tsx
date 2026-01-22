@@ -24,7 +24,7 @@ import {
   TrendingUp,
   Activity
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { APIKeyService, type APIProvider } from '../../services/APIKeyService';
 import { IntegrationService, type IntegrationStatus } from '../../services/IntegrationService';
 

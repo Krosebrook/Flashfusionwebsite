@@ -7,7 +7,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { ScrollArea } from '../ui/scroll-area';
 import { Separator } from '../ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../ui/dialog';
-import { formatTimeAgo as formatTimeAgoUtil } from '../../lib/format-utils';
 import { 
   Bell, 
   X, 
@@ -29,7 +28,7 @@ import {
   Clock,
   ExternalLink
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 interface Notification {
   id: string;
@@ -241,7 +240,20 @@ export function NotificationBell() {
     return colors[priority as keyof typeof colors] || 'text-muted-foreground';
   };
 
-  const formatTimeAgo = (dateString: string) => formatTimeAgoUtil(new Date(dateString));
+  const formatTimeAgo = (dateString: string) => {
+    const now = new Date();
+    const date = new Date(dateString);
+    const diffMs = now.getTime() - date.getTime();
+    
+    const minutes = Math.floor(diffMs / (1000 * 60));
+    const hours = Math.floor(diffMs / (1000 * 60 * 60));
+    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return `${minutes}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    return `${days}d ago`;
+  };
 
   return (
     <>

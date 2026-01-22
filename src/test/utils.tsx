@@ -1,36 +1,66 @@
 /**
- * @fileoverview Custom test utilities and helpers
- * Provides custom render function with providers and common test utilities
+ * @fileoverview Test utilities and helpers
+ * @module test/utils
  */
 
-import { render, type RenderOptions } from '@testing-library/react';
-import { ReactElement, ReactNode } from 'react';
-import type { RenderResult } from '@testing-library/react';
+import { ReactElement } from 'react';
+import { render, RenderOptions } from '@testing-library/react';
+import { vi } from 'vitest';
 
-/**
- * Test wrapper component that provides necessary context providers
- */
-function TestProviders({ children }: { children: ReactNode }) {
-  // Add any global providers here (ThemeProvider, Router, etc.)
-  return <>{children}</>;
-}
-
-/**
- * Custom render function with test providers
- */
-function customRender(
+// Create a custom render function that includes providers
+export function renderWithProviders(
   ui: ReactElement,
   options?: Omit<RenderOptions, 'wrapper'>
-): RenderResult {
-  return render(ui, {
-    wrapper: TestProviders,
-    ...options,
-  });
+) {
+  return render(ui, { ...options });
 }
 
-// Re-export everything from testing library
+// Mock localStorage for tests
+export function mockLocalStorage() {
+  const storage: Record<string, string> = {};
+
+  return {
+    getItem: (key: string) => storage[key] || null,
+    setItem: (key: string, value: string) => {
+      storage[key] = value;
+    },
+    removeItem: (key: string) => {
+      delete storage[key];
+    },
+    clear: () => {
+      Object.keys(storage).forEach(key => delete storage[key]);
+    },
+    key: (index: number) => Object.keys(storage)[index] || null,
+    get length() {
+      return Object.keys(storage).length;
+    },
+  };
+}
+
+// Mock fetch for API tests
+export function mockFetch<T = unknown>(response: T, status = 200) {
+  return vi.fn(() =>
+    Promise.resolve({
+      ok: status >= 200 && status < 300,
+      status,
+      json: async () => response,
+      text: async () => JSON.stringify(response),
+    })
+  );
+}
+
+// Wait for async operations
+export const waitForAsync = () => new Promise(resolve => setTimeout(resolve, 0));
+
+// Mock user object for auth tests
+export const mockAuthUser = {
+  id: 'test-user-123',
+  email: 'test@example.com',
+  name: 'Test User',
+  role: 'user' as const,
+  subscription: 'free' as const,
+};
+
+// Re-export testing library utilities
 export * from '@testing-library/react';
 export { default as userEvent } from '@testing-library/user-event';
-
-// Override render with custom render
-export { customRender as render };

@@ -11,7 +11,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Separator } from '../ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Progress } from '../ui/progress';
-import { formatBytes } from '../../lib/format-utils';
 import { 
   User, Settings, Palette, Bell, Shield, CreditCard, 
   Key, Globe, Moon, Sun, Monitor, Upload, Download,
@@ -338,6 +337,14 @@ export function UserProfileSettingsHub({ onClose }: UserProfileSettingsHubProps)
       default:
         return <Laptop className="w-4 h-4" />;
     }
+  };
+
+  const formatBytes = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
   const getUsagePercentage = (used: number, limit: number) => {

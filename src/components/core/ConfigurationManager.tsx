@@ -1,4 +1,5 @@
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { ENV } from '../../lib/env';
 import { config } from '../../lib/config';
 import { monitorPerformance } from '../../lib/monitoring';
 
@@ -57,9 +58,9 @@ export function ConfigurationManager({ children }: ConfigurationManagerProps) {
     const initializeConfiguration = async () => {
       try {
         // Determine environment
-        const environment = process.env.NODE_ENV === 'production' 
+        const environment = ENV.NODE_ENV === 'production' 
           ? 'production' 
-          : process.env.NODE_ENV === 'staging' 
+          : ENV.NODE_ENV === 'staging' 
             ? 'staging' 
             : 'development';
 
