@@ -40,8 +40,7 @@ import {
   Network,
   Monitor
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
-import { analyticsService } from '../../services/AnalyticsService';
+import { toast } from 'sonner';
 
 interface LaunchChecklist {
   id: string;
@@ -476,29 +475,25 @@ export function LaunchDayCommand() {
     setIsLiveMonitoring(true);
     setLaunchStatus('monitoring');
     toast.success('Live monitoring started!');
-    analyticsService.trackLaunchEvent('monitoring-started');
   }, []);
 
   const handleStopLiveMonitoring = useCallback(() => {
     setIsLiveMonitoring(false);
     toast.info('Live monitoring stopped');
-    analyticsService.trackLaunchEvent('monitoring-stopped');
   }, []);
 
   const handleCompleteChecklistItem = useCallback((itemId: string) => {
-    setLaunchChecklist(prev => prev.map(item => 
+    setLaunchChecklist(prev => prev.map(item =>
       item.id === itemId ? { ...item, status: 'completed' } : item
     ));
     toast.success('Checklist item completed!');
-    analyticsService.trackLaunchChecklistComplete(itemId);
   }, []);
 
   const handleLaunchCampaign = useCallback((campaignId: string) => {
-    setMarketingCampaigns(prev => prev.map(campaign => 
+    setMarketingCampaigns(prev => prev.map(campaign =>
       campaign.id === campaignId ? { ...campaign, status: 'active' } : campaign
     ));
     toast.success('Marketing campaign launched!');
-    analyticsService.trackMarketingCampaignLaunch(campaignId);
   }, []);
 
   const formatTime = useCallback((ms: number) => {

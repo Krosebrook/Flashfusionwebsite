@@ -7,11 +7,13 @@ Complete guide to setting up a development environment for FlashFusion, whether 
 ### System Requirements
 
 **Operating System Support**
+
 - **macOS**: 10.15+ (Catalina or later)
 - **Windows**: 10/11 with WSL2 recommended
 - **Linux**: Ubuntu 18.04+, Debian 10+, or equivalent
 
 **Required Software**
+
 ```bash
 # Node.js 18+ (LTS recommended)
 node --version  # Should be 18.0.0 or higher
@@ -27,6 +29,7 @@ git --version   # Should be 2.20.0 or higher
 ### Development Tools
 
 **Essential Tools**
+
 - **Visual Studio Code** (recommended) with extensions:
   - TypeScript and JavaScript Language Features
   - ES7+ React/Redux/React-Native snippets
@@ -38,6 +41,7 @@ git --version   # Should be 2.20.0 or higher
   - Bracket Pair Colorizer
 
 **Alternative Editors**
+
 - **WebStorm/IntelliJ IDEA**: Full IDE with TypeScript support
 - **Neovim/Vim**: With appropriate TypeScript and React plugins
 - **Sublime Text**: With TypeScript and React packages
@@ -70,6 +74,7 @@ code .env.local  # or your preferred editor
 ```
 
 **Essential Environment Variables:**
+
 ```env
 # Core Configuration
 NODE_ENV=development
@@ -95,6 +100,7 @@ VITE_DEV_MODE=true
 ### 3. Database Setup
 
 **Supabase Setup:**
+
 ```bash
 # Option 1: Use Supabase Cloud (Recommended for beginners)
 # 1. Sign up at https://supabase.com
@@ -128,6 +134,7 @@ pnpm dev:docs    # Documentation site
 ```
 
 **Development URLs:**
+
 - **Main App**: http://localhost:5173
 - **Supabase Studio**: http://localhost:54323 (if using local)
 - **API Server**: http://localhost:3001
@@ -157,6 +164,7 @@ flashfusion/
 ### Package Management
 
 **Working with Packages:**
+
 ```bash
 # Add dependency to specific package
 pnpm add lodash --filter @flashfusion/utils
@@ -175,6 +183,7 @@ pnpm list --depth=0
 ```
 
 **Turborepo Commands:**
+
 ```bash
 # Build all packages in correct order
 pnpm build
@@ -235,6 +244,7 @@ pnpm preview          # Preview production build
 ### Custom Scripts
 
 **Adding Custom Scripts:**
+
 ```json
 {
   "scripts": {
@@ -252,12 +262,14 @@ pnpm preview          # Preview production build
 FlashFusion uses a comprehensive testing setup:
 
 **Test Types:**
+
 - **Unit Tests**: Vitest for component and utility testing
 - **Integration Tests**: Testing API endpoints and services
 - **E2E Tests**: Playwright for end-to-end user workflows
 - **Visual Tests**: Chromatic for visual regression testing
 
 **Testing Configuration:**
+
 ```typescript
 // vitest.config.ts
 import { defineConfig } from 'vitest/config';
@@ -296,6 +308,7 @@ pnpm test:visual:approve    # Approve visual changes
 ### Writing Tests
 
 **Component Test Example:**
+
 ```typescript
 // Button.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react';
@@ -310,7 +323,7 @@ describe('Button Component', () => {
   it('calls onClick when clicked', () => {
     const handleClick = vi.fn();
     render(<Button onClick={handleClick}>Click me</Button>);
-    
+
     fireEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -323,6 +336,7 @@ describe('Button Component', () => {
 ```
 
 **E2E Test Example:**
+
 ```typescript
 // auth.spec.ts
 import { test, expect } from '@playwright/test';
@@ -331,21 +345,21 @@ test.describe('Authentication Flow', () => {
   test('user can sign up and log in', async ({ page }) => {
     // Navigate to sign up page
     await page.goto('/auth/signup');
-    
+
     // Fill out sign up form
     await page.fill('[data-testid="email-input"]', 'test@example.com');
     await page.fill('[data-testid="password-input"]', 'password123');
     await page.click('[data-testid="signup-button"]');
-    
+
     // Verify successful signup
     await expect(page.locator('[data-testid="welcome-message"]')).toBeVisible();
-    
+
     // Test login flow
     await page.goto('/auth/login');
     await page.fill('[data-testid="email-input"]', 'test@example.com');
     await page.fill('[data-testid="password-input"]', 'password123');
     await page.click('[data-testid="login-button"]');
-    
+
     // Verify successful login
     await expect(page.locator('[data-testid="dashboard"]')).toBeVisible();
   });
@@ -357,6 +371,7 @@ test.describe('Authentication Flow', () => {
 ### TypeScript Configuration
 
 **tsconfig.json:**
+
 ```json
 {
   "compilerOptions": {
@@ -391,6 +406,7 @@ test.describe('Authentication Flow', () => {
 ### ESLint Configuration
 
 **eslintrc.json:**
+
 ```json
 {
   "extends": [
@@ -421,6 +437,7 @@ test.describe('Authentication Flow', () => {
 ### Prettier Configuration
 
 **.prettierrc.json:**
+
 ```json
 {
   "semi": true,
@@ -438,6 +455,7 @@ test.describe('Authentication Flow', () => {
 ### Code Style Guidelines
 
 **Component Structure:**
+
 ```typescript
 // ComponentName.tsx
 import React, { useState, useCallback, useMemo } from 'react';
@@ -454,17 +472,17 @@ interface Props {
 export function ComponentName({ title, onSubmit, isLoading = false }: Props) {
   // State
   const [formData, setFormData] = useState<FormData>({});
-  
+
   // Callbacks
   const handleSubmit = useCallback(() => {
     onSubmit(formData);
   }, [formData, onSubmit]);
-  
+
   // Memoized values
   const isValid = useMemo(() => {
     return formData.name && formData.email;
   }, [formData]);
-  
+
   return (
     <Card className="ff-card-interactive">
       <CardHeader>
@@ -472,7 +490,7 @@ export function ComponentName({ title, onSubmit, isLoading = false }: Props) {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Component content */}
-        <Button 
+        <Button
           onClick={handleSubmit}
           disabled={!isValid || isLoading}
           className="ff-btn-primary"
@@ -486,6 +504,7 @@ export function ComponentName({ title, onSubmit, isLoading = false }: Props) {
 ```
 
 **Hook Structure:**
+
 ```typescript
 // useCustomHook.ts
 import { useState, useEffect, useCallback } from 'react';
@@ -495,11 +514,11 @@ export function useCustomHook(options: HookOptions): HookReturn {
   const [state, setState] = useState(options.initialValue);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  
+
   const execute = useCallback(async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const result = await someAsyncOperation();
       setState(result);
@@ -509,13 +528,13 @@ export function useCustomHook(options: HookOptions): HookReturn {
       setLoading(false);
     }
   }, []);
-  
+
   useEffect(() => {
     if (options.autoExecute) {
       execute();
     }
   }, [execute, options.autoExecute]);
-  
+
   return {
     state,
     loading,
@@ -530,6 +549,7 @@ export function useCustomHook(options: HookOptions): HookReturn {
 ### VS Code Extensions
 
 **Essential Extensions:**
+
 ```json
 {
   "recommendations": [
@@ -545,6 +565,7 @@ export function useCustomHook(options: HookOptions): HookReturn {
 ```
 
 **VS Code Settings:**
+
 ```json
 {
   "editor.formatOnSave": true,
@@ -562,18 +583,21 @@ export function useCustomHook(options: HookOptions): HookReturn {
 ### Browser DevTools
 
 **Chrome Extensions:**
+
 - **React Developer Tools**: Debug React components
 - **Redux DevTools**: Debug state management (if using Redux)
 - **Web Vitals**: Monitor Core Web Vitals
 - **Lighthouse**: Performance auditing
 
 **Firefox Extensions:**
+
 - **React Developer Tools**: React debugging for Firefox
 - **Vue.js devtools**: If working with Vue components
 
 ### Performance Monitoring
 
 **Development Performance Tools:**
+
 ```bash
 # Bundle analysis
 pnpm analyze
@@ -589,6 +613,7 @@ pnpm lighthouse
 ```
 
 **Performance Configuration:**
+
 ```typescript
 // vite.config.ts
 import { defineConfig } from 'vite';
@@ -623,6 +648,7 @@ export default defineConfig({
 ### Debug Configuration
 
 **VS Code Debug Configuration:**
+
 ```json
 {
   "version": "0.2.0",
@@ -652,6 +678,7 @@ export default defineConfig({
 ### Common Debug Scenarios
 
 **React Component Debugging:**
+
 ```typescript
 // Add debug logging
 useEffect(() => {
@@ -672,19 +699,20 @@ function onRenderCallback(id, phase, actualDuration) {
 ```
 
 **API Debugging:**
+
 ```typescript
 // Add request/response logging
 const api = {
   async request(url: string, options: RequestInit) {
     console.log('API Request:', { url, options });
-    
+
     try {
       const response = await fetch(url, options);
       console.log('API Response:', {
         status: response.status,
         headers: Object.fromEntries(response.headers),
       });
-      
+
       return response;
     } catch (error) {
       console.error('API Error:', error);
@@ -699,6 +727,7 @@ const api = {
 ### Creating New Packages
 
 **Package Structure:**
+
 ```bash
 # Create new package
 mkdir packages/my-package
@@ -715,10 +744,11 @@ touch tsconfig.json
 ```
 
 **Package.json Template:**
+
 ```json
 {
   "name": "@flashfusion/my-package",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Description of the package",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -746,6 +776,7 @@ touch tsconfig.json
 ### Package Linking
 
 **Local Package Development:**
+
 ```bash
 # Link package for development
 pnpm link packages/my-package
@@ -762,6 +793,7 @@ pnpm install
 ### Environment-Specific Configuration
 
 **Development Environment:**
+
 ```bash
 # .env.development
 NODE_ENV=development
@@ -771,6 +803,7 @@ VITE_HOT_RELOAD=true
 ```
 
 **Production Environment:**
+
 ```bash
 # .env.production
 NODE_ENV=production
@@ -782,6 +815,7 @@ VITE_CDN_URL=https://cdn.flashfusion.com
 ### Build Configuration
 
 **Production Build:**
+
 ```bash
 # Build for production
 pnpm build
@@ -804,6 +838,7 @@ pnpm deploy:production
 ### Common Issues
 
 **Node Modules Issues:**
+
 ```bash
 # Clear node_modules and reinstall
 rm -rf node_modules pnpm-lock.yaml
@@ -817,6 +852,7 @@ pnpm --version
 ```
 
 **TypeScript Issues:**
+
 ```bash
 # Clear TypeScript cache
 rm -rf node_modules/.cache/
@@ -827,6 +863,7 @@ pnpm tsc --build --clean
 ```
 
 **Build Issues:**
+
 ```bash
 # Clear build cache
 rm -rf dist .vite .turbo
@@ -837,6 +874,7 @@ pnpm build --force
 ```
 
 **Port Conflicts:**
+
 ```bash
 # Find process using port 5173
 lsof -i :5173
@@ -851,20 +889,23 @@ pnpm dev --port 3000
 ### Getting Help
 
 **Internal Resources:**
+
 1. Check the [troubleshooting guide](./support/COMMON_ISSUES.md)
 2. Search [existing issues](https://github.com/your-org/flashfusion/issues)
 3. Review [development logs](./logs/)
 
 **Community Support:**
+
 1. [GitHub Discussions](https://github.com/your-org/flashfusion/discussions)
 2. [Discord Community](https://discord.gg/flashfusion)
 3. [Stack Overflow](https://stackoverflow.com/questions/tagged/flashfusion)
 
 **Professional Support:**
+
 - Enterprise customers: support@flashfusion.com
 - Priority support through Pro/Enterprise plans
 - Custom development services available
 
 ---
 
-*Ready to contribute to FlashFusion? Check out our [Contributing Guidelines](./CONTRIBUTING.md) to get started!*
+_Ready to contribute to FlashFusion? Check out our [Contributing Guidelines](./CONTRIBUTING.md) to get started!_

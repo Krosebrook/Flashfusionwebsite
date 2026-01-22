@@ -2,12 +2,13 @@
 
 A modern, production-ready web application built with React 18, TypeScript, Vite 6, and Tailwind CSS. FlashFusion provides a comprehensive platform for AI-powered development tools and workflows.
 
-**Version:** 0.1.0  
-**Last Updated:** December 26, 2025
+**Version:** 0.2.0  
+**Last Updated:** January 12, 2026
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18 or higher
 - npm or pnpm
 - Git
@@ -28,21 +29,32 @@ npm run build
 ## 📖 Documentation
 
 ### Getting Started
+
 - **[START HERE](./src/START_HERE.md)** - Complete setup guide
 - **[PDR Start Here](./PDR_START_HERE.md)** - Comprehensive audit overview
 - **[Contributing Guide](./src/CONTRIBUTING.md)** - How to contribute
+- **[CHANGELOG](./CHANGELOG.md)** - Version history and changes
 
 ### Development
+
 - **[Development Setup](./src/DEVELOPMENT_QUICK_START.md)** - Local development guide
 - **[Deployment Guide](./src/DEPLOYMENT.md)** - Production deployment
 - **[Style Guide](./src/FLASHFUSION_STYLING_GUIDE.md)** - Design system
-- **[Code Generation Engine](./src/docs/CODE_GENERATION_ENGINE.md)** - AI code generation export pipeline
+- **[Testing Strategy](./docs/TESTING_STRATEGY.md)** - Testing guidelines
 
 ### Architecture & Audits
+
+- **[Architecture Overview](./src/docs/ARCHITECTURE_OVERVIEW.md)** - Complete system architecture
+- **[Core Architecture](./src/components/core/ARCHITECTURE.md)** - Modular core design
 - **[Comprehensive PDR Audit](./COMPREHENSIVE_PDR_AUDIT.md)** - Complete technical audit
 - **[Executive Summary](./PDR_EXECUTIVE_SUMMARY.md)** - Business overview
 - **[Action Checklist](./PDR_ACTION_CHECKLIST.md)** - Implementation tasks
 - **[Audit Index](./PDR_AUDIT_INDEX.md)** - Documentation navigation
+
+### Performance & Security
+
+- **[Bundle Optimization](./docs/BUNDLE_OPTIMIZATION.md)** - Performance optimization
+- **[Security Summary](./docs/SECURITY_SUMMARY.md)** - Security practices
 
 ## 🏗️ Project Structure
 
@@ -96,6 +108,7 @@ For detailed information about the automation system, see [.github/PR_AUTOMATION
 ## 👥 For Contributors
 
 When creating a PR:
+
 1. Use the provided PR template
 2. Ensure your code passes all checks
 3. Wait for automated validation to complete
@@ -106,6 +119,7 @@ See [CONTRIBUTING.md](./src/CONTRIBUTING.md) for detailed contribution guideline
 ## 🔒 Security
 
 This project follows security best practices:
+
 - No exposed secrets or credentials
 - Automated security scanning via GitHub Actions
 - Regular dependency audits
@@ -132,4 +146,3 @@ Private - All rights reserved
 ---
 
 **Built with ❤️ using FlashFusion**
-  

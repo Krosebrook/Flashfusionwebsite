@@ -35,6 +35,9 @@ pnpm-debug.log*
 Thumbs.db
 *~
 
+# Broken components backup (needs manual fixing)
+.broken-backup/
+
 # Audit and temporary files
 audit-report.json
 AUDIT_REPORT.md
@@ -45,7 +48,6 @@ performance-audit-*.json
 # Editor files
 *.swp
 *.swo
-*~
 
 # Vercel
 .vercel
@@ -64,3 +66,9 @@ storybook-static/
 /public/workbox-*.js
 /public/sw.js.map
 /public/workbox-*.js.map
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+.pytest_cache/

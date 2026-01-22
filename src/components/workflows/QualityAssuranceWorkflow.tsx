@@ -199,7 +199,7 @@ export function QualityAssuranceWorkflow({ onComplete }: QualityAssuranceWorkflo
         'Images not optimized for web delivery'
       ],
       'security': [
-        'Dependency with known vulnerability: lodash@4.17.19',
+        'Dependency with known vulnerability: lodash',
         'Missing Content Security Policy header',
         'Sensitive data logged in console'
       ],

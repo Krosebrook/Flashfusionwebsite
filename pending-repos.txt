@@ -1,0 +1,49 @@
+# Pending MCP Deployments - Priority Order
+# Update this file as you complete deployments
+
+## HIGH PRIORITY (Revenue-generating)
+FlashFusion-Unified
+OAuth
+cui
+flashfusion-ide
+
+## MEDIUM PRIORITY (Active development)
+claude-flow
+SuperClaude
+genkit
+servers
+agents
+
+## ACTIVE REPOS (Regular commits)
+ai-doc-gen
+claude-code-by-agents
+anthropic-quickstarts
+awesome-claude-code
+prompts4me
+
+## LIBRARIES & TOOLS
+adk-python
+playwright-mcp
+firebase-tools
+pipedream
+
+## CONTENT & RESOURCES  
+awesometopics
+promptomatix
+snippets-web
+
+## FORKS (Lower priority)
+mem0
+stagehand
+agentops
+glide
+lottie-android
+
+## ARCHIVES (If time permits)
+# Add any archived repos here
+
+# Notes:
+# - Mark completed repos with ✅
+# - Add any new repos discovered
+# - Update priority based on business needs
+# - Check CURRENT-STATE.json for real-time status

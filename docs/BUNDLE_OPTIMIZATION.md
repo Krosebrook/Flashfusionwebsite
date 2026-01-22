@@ -1,5 +1,8 @@
 # Bundle Optimization Guide
 
+**Last Updated:** January 8, 2026  
+**Status:** Active
+
 ## Overview
 
 This document describes the bundle optimization strategies implemented in the FlashFusion project.

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -11,35 +11,40 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { 
   User, 
-  Settings,
   Shield,
   CreditCard,
-  Bell,
   Palette,
   Globe,
   Lock,
   Eye,
-  EyeOff,
   Upload,
   Save,
   RefreshCw,
   Trash2,
   Crown,
   Zap,
-  Calendar,
-  Mail,
-  Phone,
-  MapPin,
   Github,
   Twitter,
   Linkedin,
   Award,
   Activity,
   Download,
-  Key
+  Key,
+  CheckCircle,
+  AlertCircle,
+  Loader2
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import type { User as UserType, UserPreferences, Subscription } from '../../types/core';
+import type { User as UserType, UserPreferences } from '../../types/core';
+import { 
+  fetchUserProfile, 
+  updateUserProfile, 
+  uploadProfilePicture, 
+  exportUserData,
+  validateProfilePicture,
+  UPLOAD_CONSTRAINTS
+} from '../../api/user';
+import { toast } from 'sonner';
 
 export default function UserProfileHub() {
   const [activeTab, setActiveTab] = useState('profile');
@@ -68,47 +73,164 @@ export default function UserProfileHub() {
       screenReader: false
     }
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Initialize user data
+  // Initialize user data with error handling
   useEffect(() => {
-    const mockUser: UserType = {
-      id: 'user-123',
-      email: 'sarah.chen@example.com',
-      name: 'Sarah Chen',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b1e5?w=150&h=150&fit=crop&crop=face',
-      plan: 'pro',
-      credits: 2400,
-      joinedAt: '2024-01-15',
-      lastActive: '2 hours ago',
-      preferences,
-      subscription: {
-        id: 'sub-456',
-        plan: 'FlashFusion Pro',
-        status: 'active',
-        currentPeriodEnd: '2024-04-15',
-        features: ['Unlimited AI Generation', 'Advanced Analytics', 'Priority Support', 'Custom Branding']
+    const loadUserProfile = async () => {
+      setIsLoading(true);
+      setError(null);
+      
+      try {
+        const response = await fetchUserProfile('user-123');
+        
+        if (response.success && response.data) {
+          setUser(response.data);
+          if (response.data.preferences) {
+            setPreferences(response.data.preferences);
+          }
+        } else {
+          setError(response.error || 'Failed to load profile');
+          toast.error(response.error || 'Failed to load profile');
+        }
+      } catch {
+        const errorMsg = 'An unexpected error occurred';
+        setError(errorMsg);
+        toast.error(errorMsg);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    setUser(mockUser);
+    loadUserProfile();
   }, []);
 
-  const handleSaveProfile = () => {
-    // Save profile logic here
-    setIsEditing(false);
+  const handleSaveProfile = async () => {
+    if (!user) return;
+    
+    setIsSaving(true);
+    setError(null);
+
+    try {
+      const response = await updateUserProfile(user.id, {
+        name: user.name,
+        email: user.email,
+      });
+
+      if (response.success && response.data) {
+        setUser(response.data);
+        setIsEditing(false);
+        toast.success('Profile updated successfully');
+      } else {
+        setError(response.error || 'Failed to update profile');
+        toast.error(response.error || 'Failed to update profile');
+      }
+    } catch {
+      const errorMsg = 'An unexpected error occurred';
+      setError(errorMsg);
+      toast.error(errorMsg);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const handleUploadAvatar = () => {
-    // Avatar upload logic here
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    handleUploadAvatar(file);
   };
 
-  const handleExportData = () => {
-    // Export user data logic here
+  const handleUploadAvatar = async (file: File) => {
+    if (!user) return;
+
+    // Validate file before upload
+    const validation = validateProfilePicture(file);
+    if (!validation.valid) {
+      toast.error(validation.error || 'Invalid file');
+      return;
+    }
+
+    setIsUploading(true);
+    setError(null);
+
+    try {
+      const response = await uploadProfilePicture(user.id, file);
+
+      if (response.success && response.data) {
+        // Update user avatar with new URL
+        setUser({ ...user, avatar: response.data.avatarUrl });
+        toast.success('Profile picture updated successfully');
+      } else {
+        setError(response.error || 'Failed to upload picture');
+        toast.error(response.error || 'Failed to upload picture');
+      }
+    } catch {
+      const errorMsg = 'An unexpected error occurred';
+      setError(errorMsg);
+      toast.error(errorMsg);
+    } finally {
+      setIsUploading(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  const handleExportData = async () => {
+    if (!user) return;
+
+    try {
+      const response = await exportUserData(user.id);
+      
+      if (response.success) {
+        toast.success('Data exported successfully');
+      } else {
+        toast.error(response.error || 'Failed to export data');
+      }
+    } catch {
+      toast.error('An unexpected error occurred');
+    }
   };
 
   const handleDeleteAccount = () => {
-    // Account deletion logic here
+    // Account deletion requires confirmation dialog
+    // This is a critical action and should be implemented with proper confirmation
+    toast.warning('Account deletion requires confirmation. Please contact support.');
   };
+
+  if (isLoading) {
+    return (
+      <div className="max-w-6xl mx-auto p-6">
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error && !user) {
+    return (
+      <div className="max-w-6xl mx-auto p-6">
+        <Card className="border-red-500/20 bg-red-500/5">
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-3">
+              <AlertCircle className="w-6 h-6 text-red-500" />
+              <div>
+                <h3 className="font-medium text-red-500">Error Loading Profile</h3>
+                <p className="text-sm text-muted-foreground">{error}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (!user) {
     return (
@@ -150,15 +272,29 @@ export default function UserProfileHub() {
                 <div className="relative">
                   <Avatar className="w-20 h-20">
                     <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                    <AvatarFallback>
+                      {user.name?.split(' ').filter(n => n.length > 0).map(n => n[0]).join('').toUpperCase() || 'U'}
+                    </AvatarFallback>
                   </Avatar>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept={UPLOAD_CONSTRAINTS.ALLOWED_TYPES.join(',')}
+                    onChange={handleFileSelect}
+                    className="hidden"
+                  />
                   <Button
                     size="sm"
                     variant="outline"
                     className="absolute -bottom-2 -right-2 rounded-full w-8 h-8 p-0"
-                    onClick={handleUploadAvatar}
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isUploading}
                   >
-                    <Upload className="w-3 h-3" />
+                    {isUploading ? (
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                    ) : (
+                      <Upload className="w-3 h-3" />
+                    )}
                   </Button>
                 </div>
                 <div className="flex-1">
@@ -193,6 +329,7 @@ export default function UserProfileHub() {
               <Button
                 onClick={() => setIsEditing(!isEditing)}
                 className="ff-btn-primary"
+                disabled={isSaving}
               >
                 {isEditing ? 'Cancel' : 'Edit Profile'}
               </Button>
@@ -291,11 +428,20 @@ export default function UserProfileHub() {
 
                 {isEditing && (
                   <div className="flex space-x-4">
-                    <Button onClick={handleSaveProfile} className="ff-btn-primary">
-                      <Save className="w-4 h-4 mr-2" />
-                      Save Changes
+                    <Button onClick={handleSaveProfile} className="ff-btn-primary" disabled={isSaving}>
+                      {isSaving ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Saving...
+                        </>
+                      ) : (
+                        <>
+                          <Save className="w-4 h-4 mr-2" />
+                          Save Changes
+                        </>
+                      )}
                     </Button>
-                    <Button variant="outline" onClick={() => setIsEditing(false)}>
+                    <Button variant="outline" onClick={() => setIsEditing(false)} disabled={isSaving}>
                       Cancel
                     </Button>
                   </div>
@@ -475,9 +621,12 @@ export default function UserProfileHub() {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label>Theme</Label>
-                    <Select value={preferences.theme} onValueChange={(value: any) => 
-                      setPreferences(prev => ({ ...prev, theme: value }))
-                    }>
+                    <Select 
+                      value={preferences.theme} 
+                      onValueChange={(value) => 
+                        setPreferences(prev => ({ ...prev, theme: value as 'light' | 'dark' | 'auto' }))
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
@@ -491,12 +640,15 @@ export default function UserProfileHub() {
 
                   <div className="space-y-2">
                     <Label>Font Size</Label>
-                    <Select value={preferences.accessibility.fontSize} onValueChange={(value: any) =>
-                      setPreferences(prev => ({ 
-                        ...prev, 
-                        accessibility: { ...prev.accessibility, fontSize: value }
-                      }))
-                    }>
+                    <Select 
+                      value={preferences.accessibility.fontSize} 
+                      onValueChange={(value) =>
+                        setPreferences(prev => ({ 
+                          ...prev, 
+                          accessibility: { ...prev.accessibility, fontSize: value as 'small' | 'medium' | 'large' }
+                        }))
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
@@ -630,12 +782,15 @@ export default function UserProfileHub() {
                     <p className="font-medium">Profile Visibility</p>
                     <p className="text-sm text-muted-foreground">Control who can see your profile</p>
                   </div>
-                  <Select value={preferences.privacy.profileVisibility} onValueChange={(value: any) =>
-                    setPreferences(prev => ({
-                      ...prev,
-                      privacy: { ...prev.privacy, profileVisibility: value }
-                    }))
-                  }>
+                  <Select 
+                    value={preferences.privacy.profileVisibility} 
+                    onValueChange={(value) =>
+                      setPreferences(prev => ({
+                        ...prev,
+                        privacy: { ...prev.privacy, profileVisibility: value as 'public' | 'team' | 'private' }
+                      }))
+                    }
+                  >
                     <SelectTrigger className="w-32">
                       <SelectValue />
                     </SelectTrigger>

@@ -1,0 +1,181 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-09T17:00:00Z",
+  "lastDeveloper": "Krosebrook",
+  "systemHealth": {
+    "overall": "operational",
+    "services": {
+      "supabase": {
+        "status": "running",
+        "port": 54323,
+        "url": "http://localhost:54323",
+        "lastChecked": "2025-01-09T16:45:00Z"
+      },
+      "n8n": {
+        "status": "installed",
+        "version": "1.108.2",
+        "running": false,
+        "note": "PATH issue - use full path"
+      },
+      "langflow": {
+        "status": "installed",
+        "version": "1.5.0.post2",
+        "running": false,
+        "port": 7860
+      },
+      "claudeCode": {
+        "status": "active",
+        "version": "1.0.98",
+        "authenticated": true
+      },
+      "github": {
+        "status": "authenticated",
+        "rateLimit": {
+          "remaining": 4892,
+          "reset": "2025-01-09T18:00:00Z"
+        }
+      }
+    }
+  },
+  "repositories": {
+    "total": 40,
+    "organizations": {
+      "Krosebrook": {
+        "total": 33,
+        "mcpDeployed": 5,
+        "inProgress": 2,
+        "pending": 26
+      },
+      "ChaosClubCo": {
+        "total": 5,
+        "mcpDeployed": 0,
+        "inProgress": 0,
+        "pending": 5
+      },
+      "FlashFusionv1": {
+        "total": 2,
+        "mcpDeployed": 0,
+        "inProgress": 0,
+        "pending": 2
+      }
+    },
+    "deployedRepos": [
+      "test-repo-sandbox",
+      "anthropic-quickstarts",
+      "claude-code",
+      "SuperClaude",
+      "flashfusion-ide"
+    ],
+    "inProgressRepos": [
+      "mem0",
+      "stagehand"
+    ],
+    "priorityPendingRepos": [
+      "FlashFusion-Unified",
+      "OAuth",
+      "cui",
+      "claude-flow",
+      "genkit"
+    ],
+    "failedDeployments": [
+      {
+        "repo": "anthropic-quickstarts",
+        "reason": "GitHub push protection - API key detected",
+        "date": "2025-01-09T16:30:00Z",
+        "resolved": true
+      }
+    ]
+  },
+  "apiUsage": {
+    "anthropic": {
+      "requestsToday": 342,
+      "tokensToday": 158420,
+      "costToday": "$6.42",
+      "monthlyTotal": "$187.30"
+    },
+    "openai": {
+      "requestsToday": 127,
+      "tokensToday": 84200,
+      "costToday": "$4.21",
+      "monthlyTotal": "$142.50"
+    },
+    "github": {
+      "requestsToday": 523,
+      "remaining": 4477,
+      "resetTime": "2025-01-09T18:00:00Z"
+    }
+  },
+  "metrics": {
+    "automationCoverage": "30%",
+    "manualTaskReduction": "40%",
+    "mcpCoverage": "12.5%",
+    "averageResponseTime": "1.8s",
+    "uptime": "99.2%",
+    "errorsLast24h": 3,
+    "deploymentsLast24h": 5
+  },
+  "blockers": [
+    {
+      "id": 1,
+      "severity": "medium",
+      "issue": "n8n PATH not properly configured",
+      "workaround": "Use full path to binary",
+      "assignee": null
+    },
+    {
+      "id": 2,
+      "severity": "low",
+      "issue": "LangFlow not configured",
+      "workaround": "Not currently needed",
+      "assignee": null
+    }
+  ],
+  "nextActions": [
+    {
+      "priority": 1,
+      "action": "Deploy MCP to FlashFusion-Unified repo",
+      "estimatedTime": "30 minutes",
+      "dependencies": []
+    },
+    {
+      "priority": 2,
+      "action": "Set up Pinecone vector database",
+      "estimatedTime": "2 hours",
+      "dependencies": ["Get Pinecone API key"]
+    },
+    {
+      "priority": 3,
+      "action": "Configure n8n workflows",
+      "estimatedTime": "4 hours",
+      "dependencies": ["Fix n8n PATH issue"]
+    },
+    {
+      "priority": 4,
+      "action": "Implement monitoring dashboard",
+      "estimatedTime": "1 day",
+      "dependencies": ["Choose monitoring platform"]
+    },
+    {
+      "priority": 5,
+      "action": "Deploy to production",
+      "estimatedTime": "2 days",
+      "dependencies": ["Complete testing", "Set up CI/CD"]
+    }
+  ],
+  "notes": {
+    "lastDeployment": "2025-01-09T16:30:00Z",
+    "lastError": "GitHub push protection blocked deployment",
+    "lastSuccess": "Deployed MCP to test-repo-sandbox",
+    "mainBranch": "main",
+    "activeBranch": "feature/mcp-deployment"
+  },
+  "environment": {
+    "os": "Windows 11",
+    "shell": "Git Bash",
+    "node": "v22.18.0",
+    "python": "3.13.7",
+    "workingDirectory": "C:\\Users\\kyler",
+    "enterpriseAIPath": "C:\\Users\\kyler\\enterprise-ai",
+    "configPath": "C:\\Users\\kyler\\.env.enterprise"
+  }
+}
