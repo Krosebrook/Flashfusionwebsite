@@ -1,24 +1,24 @@
 /**
  * @fileoverview Analytics Dashboard Feature - Public API
- * @version 1.0.0
- * 
- * Entry point for the Analytics Dashboard feature
+ * @version 2.0.0
  */
 
-// Export main component
 export { AnalyticsDashboard, default } from './components/AnalyticsDashboard';
+export { useAnalyticsDashboard } from './hooks/useAnalyticsDashboard';
 
-// Export store
-export { useFeatureStore } from './stores/FeatureStore';
+export {
+  useAnalyticsDashboardStore,
+  analyticsSelectors,
+  useAnalyticsDashboardSelector,
+  useAnalyticsDashboardSelectors
+} from './stores/AnalyticsDashboardStore';
 
-// Export service
-export { FeatureService } from './services/FeatureService';
+export { AnalyticsDashboardService } from './services/AnalyticsDashboardService';
 
-// Export types
 export type {
-  FeatureData,
-  FeatureConfig,
-  FeatureResult,
-  FeatureError,
-  FeatureStatus
+  AnalyticsDashboardData,
+  AnalyticsDashboardConfig,
+  AnalyticsFilters,
+  AnalyticsStatus,
+  AnalyticsError
 } from './types/feature.types';

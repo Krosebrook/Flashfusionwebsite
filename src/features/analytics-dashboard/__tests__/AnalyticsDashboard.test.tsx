@@ -1,370 +1,132 @@
 /**
  * @fileoverview Tests for AnalyticsDashboard
- * @version 1.0.0
- * 
- * Comprehensive test suite covering:
- * - Component rendering
- * - User interactions
- * - State management
- * - Service integration
- * - Error handling
  */
 
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import { renderHook } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { vi } from 'vitest';
 
 import { AnalyticsDashboard } from '../components/AnalyticsDashboard';
-import { useFeatureStore, featureSelectors } from '../stores/FeatureStore';
-import { FeatureService } from '../services/FeatureService';
+import { AnalyticsDashboardService } from '../services/AnalyticsDashboardService';
+import { useAnalyticsDashboardStore } from '../stores/AnalyticsDashboardStore';
 
-import type { FeatureConfig, FeatureData } from '../types/feature.types';
+vi.mock('@/hooks/useAuthentication', () => ({
+  useAuthentication: () => ({
+    user: { id: 'user-123', email: 'test@example.com', name: 'Test User' }
+  })
+}));
 
-// Mock data
-const mockConfig: Partial<FeatureConfig> = {
-  enabled: {
-    autoProcess: false,
-    caching: true,
-    analytics: false,
-    debugging: true
-  }
+const mockAnalyticsData = {
+  overview: {
+    totalProjects: 12,
+    totalDeployments: 7,
+    totalXP: 980,
+    currentStreak: 4,
+    totalToolRuns: 42,
+    successRate: 96
+  },
+  activity: [
+    { date: '2024-01-01', projects: 2, deployments: 1, xp: 120 },
+    { date: '2024-01-02', projects: 3, deployments: 1, xp: 180 }
+  ],
+  toolUsage: [
+    { tool: 'Code Generator', usage: 12, successRate: 94, trend: 'up', lastUsedAt: '2024-01-02' }
+  ],
+  deploymentStats: [
+    { platform: 'vercel', count: 4, share: 57.1 },
+    { platform: 'netlify', count: 3, share: 42.9 }
+  ],
+  usageHistory: [
+    { date: '2024-01-01', tool: 'Code Generator', usage: 3, successRate: 94 }
+  ],
+  insights: [
+    { id: 'insight-1', title: 'Momentum', description: 'Strong usage trend.', type: 'success' }
+  ]
 };
 
-const mockData: FeatureData = {
-  id: 'test-id',
-  input: 'test input',
+const mockServiceResponse = {
+  data: mockAnalyticsData,
   metadata: {
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    version: 1,
-    tags: ['test']
+    requestId: 'request-1',
+    fetchedAt: '2024-01-03T00:00:00.000Z',
+    processingTimeMs: 120
   }
 };
 
-// Reset store before each test
 beforeEach(() => {
-  const { result } = renderHook(() => useFeatureStore());
+  const { result } = renderHook(() => useAnalyticsDashboardStore());
   act(() => {
     result.current.reset();
   });
+  vi.spyOn(AnalyticsDashboardService.getInstance(), 'initialize').mockResolvedValue();
+  vi.spyOn(AnalyticsDashboardService.getInstance(), 'fetchAnalytics').mockResolvedValue(mockServiceResponse);
 });
 
 describe('AnalyticsDashboard Component', () => {
-  describe('Rendering', () => {
-    it('renders with default props', () => {
-      render(<AnalyticsDashboard />);
-      
-      expect(screen.getByText(/AnalyticsDashboard/i)).toBeInTheDocument();
-      expect(screen.getByText(/Comprehensive analytics and insights dashboard/i)).toBeInTheDocument();
-    });
-    
-    it('renders with initial data', () => {
-      render(<AnalyticsDashboard initialData={mockData} />);
-      
-      // Should display the initial data
-      waitFor(() => {
-        expect(screen.getByText(/test input/i)).toBeInTheDocument();
-      });
-    });
-    
-    it('displays status badge', () => {
-      render(<AnalyticsDashboard />);
-      
-      // Initial status should be idle
-      expect(screen.getByText(/IDLE/i)).toBeInTheDocument();
+  it('renders dashboard header and metrics', async () => {
+    render(<AnalyticsDashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Analytics Dashboard')).toBeInTheDocument();
+      expect(screen.getByText('Projects')).toBeInTheDocument();
+      expect(screen.getByText('12')).toBeInTheDocument();
     });
   });
-  
-  describe('User Interactions', () => {
-    it('handles input change', () => {
-      render(<AnalyticsDashboard />);
-      
-      const input = screen.getByLabelText(/input data/i) as HTMLInputElement;
-      
-      fireEvent.change(input, { target: { value: 'new input' } });
-      
-      expect(input.value).toBe('new input');
-    });
-    
-    it('submits form with valid input', async () => {
-      const onComplete = jest.fn();
-      render(<AnalyticsDashboard onComplete={onComplete} />);
-      
-      const input = screen.getByLabelText(/input data/i);
-      const submitButton = screen.getByRole('button', { name: /process/i });
-      
-      fireEvent.change(input, { target: { value: 'test input' } });
-      fireEvent.click(submitButton);
-      
-      await waitFor(() => {
-        expect(onComplete).toHaveBeenCalled();
-      });
-    });
-    
-    it('disables submit button when processing', async () => {
-      render(<AnalyticsDashboard />);
-      
-      const input = screen.getByLabelText(/input data/i);
-      const submitButton = screen.getByRole('button', { name: /process/i });
-      
-      fireEvent.change(input, { target: { value: 'test input' } });
-      fireEvent.click(submitButton);
-      
-      // Button should be disabled while processing
-      expect(submitButton).toBeDisabled();
-    });
-    
-    it('resets state when reset button clicked', async () => {
-      render(<AnalyticsDashboard initialData={mockData} />);
-      
-      const resetButton = screen.getByRole('button', { name: /reset/i });
-      
-      fireEvent.click(resetButton);
-      
-      await waitFor(() => {
-        const { result } = renderHook(() => useFeatureStore());
-        expect(result.current.status).toBe('idle');
-        expect(result.current.data).toBeNull();
-      });
+
+  it('updates time range filter when clicked', async () => {
+    render(<AnalyticsDashboard />);
+
+    const button = await screen.findByRole('button', { name: '30D' });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      const store = useAnalyticsDashboardStore.getState();
+      expect(store.filters.timeRange).toBe('30d');
     });
   });
-  
-  describe('Error Handling', () => {
-    it('displays error message when processing fails', async () => {
-      // Mock service to throw error
-      jest.spyOn(FeatureService.getInstance(), 'processData').mockRejectedValueOnce(
-        new Error('Processing failed')
-      );
-      
-      const onError = jest.fn();
-      render(<AnalyticsDashboard onError={onError} />);
-      
-      const input = screen.getByLabelText(/input data/i);
-      const submitButton = screen.getByRole('button', { name: /process/i });
-      
-      fireEvent.change(input, { target: { value: 'test input' } });
-      fireEvent.click(submitButton);
-      
-      await waitFor(() => {
-        expect(screen.getByText(/error/i)).toBeInTheDocument();
-        expect(onError).toHaveBeenCalled();
-      });
-    });
-    
-    it('shows retry button on error', async () => {
-      // Mock service to throw error
-      jest.spyOn(FeatureService.getInstance(), 'processData').mockRejectedValueOnce(
-        new Error('Processing failed')
-      );
-      
-      render(<AnalyticsDashboard />);
-      
-      const input = screen.getByLabelText(/input data/i);
-      const submitButton = screen.getByRole('button', { name: /process/i });
-      
-      fireEvent.change(input, { target: { value: 'test input' } });
-      fireEvent.click(submitButton);
-      
-      await waitFor(() => {
-        expect(screen.getByRole('button', { name: /retry/i })).toBeInTheDocument();
-      });
-    });
-  });
-  
-  describe('Callbacks', () => {
-    it('calls onComplete when processing succeeds', async () => {
-      const onComplete = jest.fn();
-      render(<AnalyticsDashboard onComplete={onComplete} />);
-      
-      const input = screen.getByLabelText(/input data/i);
-      const submitButton = screen.getByRole('button', { name: /process/i });
-      
-      fireEvent.change(input, { target: { value: 'test input' } });
-      fireEvent.click(submitButton);
-      
-      await waitFor(() => {
-        expect(onComplete).toHaveBeenCalled();
-        expect(onComplete).toHaveBeenCalledWith(
-          expect.objectContaining({
-            success: true,
-            data: expect.any(Object)
-          })
-        );
-      });
-    });
-    
-    it('calls onError when processing fails', async () => {
-      // Mock service to throw error
-      jest.spyOn(FeatureService.getInstance(), 'processData').mockRejectedValueOnce(
-        new Error('Processing failed')
-      );
-      
-      const onError = jest.fn();
-      render(<AnalyticsDashboard onError={onError} />);
-      
-      const input = screen.getByLabelText(/input data/i);
-      const submitButton = screen.getByRole('button', { name: /process/i });
-      
-      fireEvent.change(input, { target: { value: 'test input' } });
-      fireEvent.click(submitButton);
-      
-      await waitFor(() => {
-        expect(onError).toHaveBeenCalled();
-        expect(onError).toHaveBeenCalledWith(expect.any(Error));
-      });
-    });
-  });
-  
-  describe('Debug Mode', () => {
-    it('shows debug information when debug prop is true', () => {
-      render(<AnalyticsDashboard debug={true} />);
-      
-      expect(screen.getByText(/debug information/i)).toBeInTheDocument();
-    });
-    
-    it('hides debug information when debug prop is false', () => {
-      render(<AnalyticsDashboard debug={false} />);
-      
-      expect(screen.queryByText(/debug information/i)).not.toBeInTheDocument();
+
+  it('shows error state when service fails', async () => {
+    vi.spyOn(AnalyticsDashboardService.getInstance(), 'fetchAnalytics').mockRejectedValueOnce(
+      new Error('Fetch failed')
+    );
+
+    render(<AnalyticsDashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Fetch failed')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /retry/i })).toBeInTheDocument();
     });
   });
 });
 
-describe('FeatureStore', () => {
-  it('initializes with default state', () => {
-    const { result } = renderHook(() => useFeatureStore());
-    
-    expect(result.current.status).toBe('idle');
-    expect(result.current.data).toBeNull();
-    expect(result.current.error).toBeNull();
-    expect(result.current.result).toBeNull();
-  });
-  
-  it('processes data successfully', async () => {
-    const { result } = renderHook(() => useFeatureStore());
-    
+describe('AnalyticsDashboardStore', () => {
+  it('loads analytics data successfully', async () => {
+    const { result } = renderHook(() => useAnalyticsDashboardStore());
+
     await act(async () => {
-      await result.current.initialize(mockConfig);
-      await result.current.processData({ input: 'test' });
+      await result.current.initialize();
+      await result.current.loadAnalytics('user-123');
     });
-    
-    expect(result.current.status).toBe('success');
-    expect(result.current.data).toBeDefined();
-    expect(result.current.result).toBeDefined();
+
+    expect(result.current.status).toBe('ready');
+    expect(result.current.data?.overview.totalProjects).toBe(12);
   });
-  
-  it('handles errors during processing', async () => {
-    const { result } = renderHook(() => useFeatureStore());
-    
-    // Mock service to throw error
-    jest.spyOn(FeatureService.getInstance(), 'processData').mockRejectedValueOnce(
-      new Error('Processing failed')
+
+  it('handles service errors', async () => {
+    vi.spyOn(AnalyticsDashboardService.getInstance(), 'fetchAnalytics').mockRejectedValueOnce(
+      new Error('Service failure')
     );
-    
+
+    const { result } = renderHook(() => useAnalyticsDashboardStore());
+
     await act(async () => {
-      await result.current.initialize(mockConfig);
-      try {
-        await result.current.processData({ input: 'test' });
-      } catch (error) {
-        // Expected error
-      }
+      await result.current.initialize();
+      await result.current.loadAnalytics('user-123');
     });
-    
+
     expect(result.current.status).toBe('error');
-    expect(result.current.error).toBeDefined();
-  });
-  
-  it('resets to initial state', async () => {
-    const { result } = renderHook(() => useFeatureStore());
-    
-    await act(async () => {
-      await result.current.initialize(mockConfig);
-      await result.current.processData({ input: 'test' });
-      result.current.reset();
-    });
-    
-    expect(result.current.status).toBe('idle');
-    expect(result.current.data).toBeNull();
-    expect(result.current.error).toBeNull();
-  });
-  
-  describe('Selectors', () => {
-    it('isProcessing selector works correctly', () => {
-      const { result } = renderHook(() => useFeatureStore());
-      
-      expect(featureSelectors.isProcessing(result.current)).toBe(false);
-      
-      act(() => {
-        result.current.initialize(mockConfig);
-      });
-      
-      // Status should change during initialization
-    });
-    
-    it('successRate selector calculates correctly', async () => {
-      const { result } = renderHook(() => useFeatureStore());
-      
-      await act(async () => {
-        await result.current.initialize(mockConfig);
-        await result.current.processData({ input: 'test1' });
-        await result.current.processData({ input: 'test2' });
-      });
-      
-      const successRate = featureSelectors.successRate(result.current);
-      expect(successRate).toBeGreaterThan(0);
-    });
-  });
-});
-
-describe('FeatureService', () => {
-  let service: FeatureService;
-  
-  beforeEach(() => {
-    service = FeatureService.getInstance();
-  });
-  
-  it('is a singleton', () => {
-    const service1 = FeatureService.getInstance();
-    const service2 = FeatureService.getInstance();
-    
-    expect(service1).toBe(service2);
-  });
-  
-  it('processes data successfully', async () => {
-    const result = await service.processData(
-      { input: 'test' },
-      mockConfig as FeatureConfig
-    );
-    
-    expect(result.success).toBe(true);
-    expect(result.data).toBeDefined();
-    expect(result.data.input).toBe('test');
-  });
-  
-  it('validates data before processing', async () => {
-    await expect(
-      service.processData({ input: '' }, mockConfig as FeatureConfig)
-    ).rejects.toThrow();
-  });
-  
-  it('caches results when caching is enabled', async () => {
-    const config: FeatureConfig = {
-      ...mockConfig,
-      enabled: { ...mockConfig.enabled!, caching: true }
-    } as FeatureConfig;
-    
-    const result1 = await service.processData({ input: 'test' }, config);
-    const result2 = await service.processData({ input: 'test' }, config);
-    
-    // Second call should return cached result
-    expect(result1).toEqual(result2);
-  });
-  
-  it('clears cache', () => {
-    service.clearCache();
-    
-    // Cache should be empty
-    expect(() => service.clearCache()).not.toThrow();
+    expect(result.current.error?.message).toBe('Service failure');
   });
 });
