@@ -1,0 +1,47 @@
+# Audit Command Log
+
+Commands executed to inspect repository content during this audit:
+
+- `ls`
+- `find .. -name AGENTS.md -print`
+- `ls docs`
+- `ls src`
+- `ls src/docs`
+- `rg -n "analytics" -S *.md src docs | head`
+- `find src/features -maxdepth 2 -type f -name "*.md" -print`
+- `ls src/features/analytics-dashboard`
+- `ls src/features/analytics-dashboard/docs`
+- `sed -n '1,200p' src/features/analytics-dashboard/docs/FEATURE_README.md`
+- `sed -n '1,200p' src/features/analytics-dashboard/components/AnalyticsDashboard.tsx`
+- `ls src/features/content-analyzer`
+- `ls src/features/content-analyzer/docs`
+- `sed -n '1,200p' src/features/content-analyzer/docs/FEATURE_README.md`
+- `sed -n '1,200p' src/features/content-analyzer/components/ContentAnalyzer.tsx`
+- `ls src/features/user-profile`
+- `ls src/features/user-profile/docs`
+- `sed -n '1,200p' src/features/user-profile/docs/FEATURE_README.md`
+- `sed -n '1,200p' src/features/user-profile/components/UserProfile.tsx`
+- `sed -n '1,200p' README.md`
+- `sed -n '1,200p' src/docs/API_REFERENCE.md`
+- `sed -n '1,120p' src/docs/ARCHITECTURE_OVERVIEW.md`
+- `sed -n '1,200p' docs/TESTING_STRATEGY.md`
+- `sed -n '1,200p' docs/SECURITY_SUMMARY.md`
+- `sed -n '1,120p' CHANGELOG.md`
+- `cat package.json`
+- `python - <<'PY' ... PY`
+- `nl -ba README.md | sed -n '1,200p'`
+- `nl -ba src/docs/API_REFERENCE.md | sed -n '1,200p'`
+- `nl -ba src/docs/ARCHITECTURE_OVERVIEW.md | sed -n '1,200p'`
+- `nl -ba docs/TESTING_STRATEGY.md | sed -n '1,200p'`
+- `nl -ba docs/SECURITY_SUMMARY.md | sed -n '1,200p'`
+- `nl -ba src/features/analytics-dashboard/docs/FEATURE_README.md | sed -n '1,200p'`
+- `nl -ba src/features/content-analyzer/docs/FEATURE_README.md | sed -n '1,200p'`
+- `nl -ba src/features/user-profile/docs/FEATURE_README.md | sed -n '1,200p'`
+- `nl -ba src/features/analytics-dashboard/components/AnalyticsDashboard.tsx | sed -n '1,220p'`
+- `nl -ba src/features/content-analyzer/components/ContentAnalyzer.tsx | sed -n '1,200p'`
+- `nl -ba src/features/user-profile/components/UserProfile.tsx | sed -n '1,200p'`
+- `nl -ba src/features/studio/README.md | sed -n '1,200p'`
+- `nl -ba package.json | sed -n '1,120p'`
+- `nl -ba CHANGELOG.md | sed -n '1,200p'`
+- `nl -ba docs/DOCUMENTATION_INVENTORY.md | sed -n '1,200p'`
+- `wc -l docs/DOCUMENTATION_INVENTORY.md`
