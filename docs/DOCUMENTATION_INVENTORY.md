@@ -1,0 +1,295 @@
+# Documentation Inventory
+
+Status definitions:
+
+- **Complete**: Documentation is verified, current, and traceable to code.
+- **Incomplete**: Documentation exists but is missing required sections, traceability, or validation.
+- **Outdated**: Documentation conflicts with code or references deprecated behavior.
+
+## Inventory
+
+- `broken-components/README.md` — Status: Incomplete
+- `github/PR_AUTOMATION.md` — Status: Incomplete
+- `github/PULL_REQUEST_TEMPLATE.md` — Status: Incomplete
+- `ANALYTICS_DASHBOARD_FEATURE.md` — Status: Incomplete
+- `AUDIT_README.md` — Status: Incomplete
+- `BRANCH_CLEANUP_INDEX.md` — Status: Incomplete
+- `BRANCH_CLEANUP_README.md` — Status: Incomplete
+- `BRANCH_CLEANUP_SUMMARY.md` — Status: Incomplete
+- `BRANCH_MERGE_STATUS.md` — Status: Incomplete
+- `CHANGELOG.md` — Status: Incomplete
+- `CODEBASE_AUDIT_SUMMARY.md` — Status: Incomplete
+- `COMPREHENSIVE_PDR_AUDIT.md` — Status: Incomplete
+- `COPY-PASTE-COMMANDS.md` — Status: Incomplete
+- `DAILY-CHECKLIST.md` — Status: Incomplete
+- `DESIGN_SYSTEM_IMPLEMENTATION.md` — Status: Incomplete
+- `DOCUMENTATION_UPDATE_SUMMARY.md` — Status: Incomplete
+- `FEATURE_EXPANSION_SUMMARY.md` — Status: Incomplete
+- `FEATURE_IMPLEMENTATION_SUMMARY.md` — Status: Incomplete
+- `FEATURE_SCAFFOLDING_SUMMARY.md` — Status: Incomplete
+- `GITHUB_ASSISTANT_IMPLEMENTATION.md` — Status: Incomplete
+- `HANDOFF-NOTES.md` — Status: Incomplete
+- `IMPLEMENTATION_SUMMARY.md` — Status: Incomplete
+- `INDEX.md` — Status: Incomplete
+- `MANUAL_BRANCH_DELETION.md` — Status: Incomplete
+- `PDR_ACTION_CHECKLIST.md` — Status: Incomplete
+- `PDR_AUDIT_INDEX.md` — Status: Incomplete
+- `PDR_EXECUTIVE_SUMMARY.md` — Status: Incomplete
+- `PDR_LOW_LEVEL_COMPONENT_AUDIT.md` — Status: Incomplete
+- `PDR_START_HERE.md` — Status: Incomplete
+- `PRODUCT_REQUIREMENTS_DOCUMENT.md` — Status: Incomplete
+- `PR_SOLUTION_SUMMARY.md` — Status: Incomplete
+- `QUICK-START.md` — Status: Incomplete
+- `README.md` — Status: Incomplete
+- `REFACTOR_COMPLETE.md` — Status: Incomplete
+- `REFACTOR_SUMMARY.md` — Status: Incomplete
+- `REPOSITORIES_FEATURE.md` — Status: Incomplete
+- `SECURITY_FIXES_SUMMARY.md` — Status: Incomplete
+- `SECURITY_SUMMARY.md` — Status: Incomplete
+- `START-HERE.md` — Status: Incomplete
+- `TASK_COMPLETION_SUMMARY.md` — Status: Incomplete
+- `TROUBLESHOOTING.md` — Status: Incomplete
+- `USER_PROFILE_IMPROVEMENTS_SUMMARY.md` — Status: Incomplete
+- `docs/AUDIT_COMMANDS.md` — Status: Incomplete
+- `docs/BRAND_GUIDELINES.md` — Status: Incomplete
+- `docs/BUNDLE_OPTIMIZATION.md` — Status: Incomplete
+- `docs/DOCUMENTATION_INVENTORY.md` — Status: Incomplete
+- `docs/PRD_GENERATOR.md` — Status: Incomplete
+- `docs/PRD_GENERATOR_README.md` — Status: Incomplete
+- `docs/PYTHON_PACKAGE_STRUCTURE.md` — Status: Incomplete
+- `docs/SECURITY_SUMMARY.md` — Status: Incomplete
+- `docs/TESTING_STRATEGY.md` — Status: Incomplete
+- `docs/[ACCESS_CONTROL_MATRIX.md - Not Started]` — Status: Incomplete
+- `docs/[ALERTING_RUNBOOK.md - Not Started]` — Status: Incomplete
+- `docs/[API_AUTHORIZATION_MODEL.md - Not Started]` — Status: Incomplete
+- `docs/[API_ERROR_HANDLING.md - Not Started]` — Status: Incomplete
+- `docs/[ARCHITECTURE_DECISIONS.md - Not Started]` — Status: Incomplete
+- `docs/[CICD_PIPELINE.md - Not Started]` — Status: Incomplete
+- `docs/[DEPLOYMENT_ARCHITECTURE.md - Not Started]` — Status: Incomplete
+- `docs/[EDGE_CASES_AND_FAILURE_MODES.md - Not Started]` — Status: Incomplete
+- `docs/[ENVIRONMENT_CONFIGURATION_MATRIX.md - Not Started]` — Status: Incomplete
+- `docs/[FEATURE_CATALOG.md - Not Started]` — Status: Incomplete
+- `docs/[OBSERVABILITY_STRATEGY.md - Not Started]` — Status: Incomplete
+- `docs/[OPENAPI_SPEC.md - Not Started]` — Status: Incomplete
+- `docs/[OWNERSHIP_AND_ESCALATION.md - Not Started]` — Status: Incomplete
+- `docs/[RELEASE_PROCESS.md - Not Started]` — Status: Incomplete
+- `docs/[REPOSITORY_CONVENTIONS.md - Not Started]` — Status: Incomplete
+- `docs/[SECURITY_MODEL.md - Not Started]` — Status: Incomplete
+- `docs/[SYSTEM_CONTEXT_DIAGRAM.md - Not Started]` — Status: Incomplete
+- `docs/[TEST_SUITE_MATRIX.md - Not Started]` — Status: Incomplete
+- `src/ADVANCED_PLATFORM_EVOLUTION_COMPLETE.md` — Status: Incomplete
+- `src/AI_TOOLS_COMPLETE_INVENTORY.md` — Status: Incomplete
+- `src/API_KEYS_REQUIRED.md` — Status: Incomplete
+- `src/APP_DEBUGGING_GUIDE.md` — Status: Incomplete
+- `src/AUTHENTICATION_SYSTEM_IMPLEMENTATION_COMPLETE.md` — Status: Incomplete
+- `src/Attributions.md` — Status: Incomplete
+- `src/BACK_NAVIGATION_ADDED.md` — Status: Incomplete
+- `src/BACK_NAVIGATION_COMPLETE.md` — Status: Incomplete
+- `src/BUSINESS_INTELLIGENCE_HUB_GUIDE.md` — Status: Incomplete
+- `src/BUSINESS_INTELLIGENCE_REFACTOR_SUMMARY.md` — Status: Incomplete
+- `src/CLAUDE_IMPLEMENTATION_INSTRUCTIONS.md` — Status: Incomplete
+- `src/COMMUNITY_BUILDING_STRATEGY.md` — Status: Incomplete
+- `src/COMPLETE_DOCUMENTATION_INDEX.md` — Status: Incomplete
+- `src/COMPLETE_FEATURE_LIST.md` — Status: Incomplete
+- `src/COMPLETE_USER_WORKFLOWS_AND_DELIVERABLES.md` — Status: Incomplete
+- `src/COMPLETE_USER_WORKFLOW_TEST.md` — Status: Incomplete
+- `src/COMPLETE_WORKFLOW_TEST.md` — Status: Incomplete
+- `src/COMPONENT_CHUNKS_INDEX.md` — Status: Incomplete
+- `src/COMPONENT_PROMPTS_COMPLETE.md` — Status: Incomplete
+- `src/COMPREHENSIVE_DEBUG_OPTIMIZATION_GUIDE.md` — Status: Incomplete
+- `src/COMPREHENSIVE_UI_FIX_COMPLETE.md` — Status: Incomplete
+- `src/COMPREHENSIVE_WORKFLOW_STATUS_REPORT.md` — Status: Incomplete
+- `src/CONTRIBUTING.md` — Status: Incomplete
+- `src/CONVERSATION_TO_DELIVERABLES_MAPPING.md` — Status: Incomplete
+- `src/CRITICAL_ISSUES_FIXED.md` — Status: Incomplete
+- `src/CURRENT_FEATURE_ROADMAP.md` — Status: Incomplete
+- `src/DAILY_EXECUTION_GUIDE.md` — Status: Incomplete
+- `src/DEBUG_FIXES_COMPLETE.md` — Status: Incomplete
+- `src/DEBUG_REFACTOR_COMPLETE.md` — Status: Incomplete
+- `src/DEBUG_REFACTOR_SUMMARY.md` — Status: Incomplete
+- `src/DEPLOYMENT.md` — Status: Incomplete
+- `src/DEPLOYMENT_CHECKLIST.md` — Status: Incomplete
+- `src/DEPLOYMENT_COMMANDS_GUIDE.md` — Status: Incomplete
+- `src/DEPLOYMENT_COMPLETE_GUIDE.md` — Status: Incomplete
+- `src/DEPLOYMENT_ERROR_FIX.md` — Status: Incomplete
+- `src/DEPLOYMENT_FILES_SUMMARY.md` — Status: Incomplete
+- `src/DEPLOYMENT_PIPELINE_COMPLETE.md` — Status: Incomplete
+- `src/DEPLOYMENT_QUICKSTART.md` — Status: Incomplete
+- `src/DEVELOPMENT_QUICK_START.md` — Status: Incomplete
+- `src/DEVELOPMENT_TROUBLESHOOTING.md` — Status: Incomplete
+- `src/DOWNLOAD_SYSTEM_COMPLETE.md` — Status: Incomplete
+- `src/EMAIL_SETUP_COMPLETE_GUIDE.md` — Status: Incomplete
+- `src/ENTER_APP_NAVIGATION_FIX.md` — Status: Incomplete
+- `src/ENVIRONMENT_VARIABLES_SETUP.md` — Status: Incomplete
+- `src/EXPORT_COMMANDS.md` — Status: Incomplete
+- `src/EXPORT_GUIDE.md` — Status: Incomplete
+- `src/EXTERNAL_APP_INTEGRATION_GUIDE.md` — Status: Incomplete
+- `src/FAQ_PAGE_COMPLETE.md` — Status: Incomplete
+- `src/FIGMA_PROTOTYPE_COMPLETE_ANALYSIS.md` — Status: Incomplete
+- `src/FIGMA_SITE_COMPLETE_FIX_SUMMARY.md` — Status: Incomplete
+- `src/FINAL_LAUNCH_CHECKLIST.md` — Status: Incomplete
+- `src/FINAL_TESTING_SUMMARY.md` — Status: Incomplete
+- `src/FIND_YOUR_PROJECT.md` — Status: Incomplete
+- `src/FIX_ALL_COMPONENTS_GUIDE.md` — Status: Incomplete
+- `src/FLASHFUSION_DEPLOYMENT_STATUS.md` — Status: Incomplete
+- `src/FLASHFUSION_PROFESSIONAL_WEB_APP_PROMPT.md` — Status: Incomplete
+- `src/FLASHFUSION_PWA_REPLICATION_PROMPT.md` — Status: Incomplete
+- `src/FLASHFUSION_QUICK_REFERENCE_CARD.md` — Status: Incomplete
+- `src/FLASHFUSION_STYLE_GUIDE_COMPLETE.md` — Status: Incomplete
+- `src/FLASHFUSION_STYLING_GUIDE.md` — Status: Incomplete
+- `src/FLASH_FUSION_DEBUG_COMPLETE.md` — Status: Incomplete
+- `src/FORWARDREF_FIXES_COMPLETE.md` — Status: Incomplete
+- `src/GITHUB_INTEGRATION_SETUP.md` — Status: Incomplete
+- `src/GITHUB_SECRETS_SETUP.md` — Status: Incomplete
+- `src/GITHUB_SETUP_GUIDE.md` — Status: Incomplete
+- `src/Guidelines.md` — Status: Incomplete
+- `src/HOMEPAGE_LANDING_IMPLEMENTATION.md` — Status: Incomplete
+- `src/HOW_TO_FIX_UI_UX_ISSUES.md` — Status: Incomplete
+- `src/HOW_TO_MAKE_CHANGES.md` — Status: Incomplete
+- `src/IMPLEMENTATION_COMPLETE.md` — Status: Incomplete
+- `src/IMPLEMENTATION_SUMMARY.md` — Status: Incomplete
+- `src/INTERACTIVE_DEMO_COMPLETE_FIX.md` — Status: Incomplete
+- `src/ISSUE_TEMPLATE/bug_report.md` — Status: Incomplete
+- `src/ISSUE_TEMPLATE/feature_request.md` — Status: Incomplete
+- `src/LAUNCH_TESTING_GUIDE.md` — Status: Incomplete
+- `src/LOCAL_SETUP_GUIDE.md` — Status: Incomplete
+- `src/LUCIDE_REACT_ICON_FIXES_COMPLETE.md` — Status: Incomplete
+- `src/MEMORY_OPTIMIZATION_CHECKLIST.md` — Status: Incomplete
+- `src/MERGE_STRATEGY.md` — Status: Incomplete
+- `src/MOBILE_AUTHENTICATION_FIX.md` — Status: Incomplete
+- `src/MONOREPO_CHECKLIST.md` — Status: Incomplete
+- `src/MONOREPO_MIGRATION_GUIDE.md` — Status: Incomplete
+- `src/MULTI_AGENT_ORCHESTRATION_GUIDE.md` — Status: Incomplete
+- `src/NAVIGATION_DEBUG_FIX_COMPLETE.md` — Status: Incomplete
+- `src/NAVIGATION_SYSTEM_FIXED_COMPLETE.md` — Status: Incomplete
+- `src/NEXT_10_STEPS_ROADMAP.md` — Status: Incomplete
+- `src/NEXT_5_PRIORITY_STEPS.md` — Status: Incomplete
+- `src/NEXT_6_STEPS.md` — Status: Incomplete
+- `src/NEXT_ACTIONS_PHASE_5.md` — Status: Incomplete
+- `src/ONE_WEEK_LAUNCH_PLAN.md` — Status: Incomplete
+- `src/OPTIMIZATION_BUILD_FIXES.md` — Status: Incomplete
+- `src/OPTIMIZATION_COMPLETE_SUMMARY.md` — Status: Incomplete
+- `src/OPTIMIZATION_IMPLEMENTATION_COMPLETE.md` — Status: Incomplete
+- `src/OPTIMIZATION_IMPLEMENTATION_PLAN.md` — Status: Incomplete
+- `src/OPTIMIZATION_QUICK_START.md` — Status: Incomplete
+- `src/OPTIMIZATION_TEST_COMPLETION_REPORT.md` — Status: Incomplete
+- `src/PAGE_IMPLEMENTATIONS_COMPLETE.md` — Status: Incomplete
+- `src/PAGE_IMPLEMENTATIONS_PAGES_4_8.md` — Status: Incomplete
+- `src/PERFORMANCE_ERRORS_FIXED.md` — Status: Incomplete
+- `src/PERFORMANCE_OPTIMIZATION_SUMMARY.md` — Status: Incomplete
+- `src/PHASE_1_BUSINESS_INTELLIGENCE_COMPLETE.md` — Status: Incomplete
+- `src/PHASE_1_IMPLEMENTATION_COMPLETE.md` — Status: Incomplete
+- `src/PHASE_1_VERIFICATION_TEST.md` — Status: Incomplete
+- `src/PHASE_2_TECHNICAL_ARCHITECTURE_COMPLETE.md` — Status: Incomplete
+- `src/PHASE_3_DESIGN_DEV_COORDINATION_COMPLETE.md` — Status: Incomplete
+- `src/PHASE_4_QUALITY_METRICS_COMPLETE.md` — Status: Incomplete
+- `src/PHASE_5_IMPLEMENTATION_COMPLETE_SUMMARY.md` — Status: Incomplete
+- `src/PHASE_5_RISK_MITIGATION_COMPLETE.md` — Status: Incomplete
+- `src/PHASE_6_TEAM_COORDINATION_COMPLETE.md` — Status: Incomplete
+- `src/PHASE_7_IMPLEMENTATION_ROADMAP_COMPLETE.md` — Status: Incomplete
+- `src/PHASE_8_BLINDSPOT_MITIGATION_COMPLETE.md` — Status: Incomplete
+- `src/POST_LAUNCH_ROADMAP.md` — Status: Incomplete
+- `src/PREMIUM_LANDING_PAGE_GUIDE.md` — Status: Incomplete
+- `src/PRICING_FAQ_DROPDOWN_IMPLEMENTATION.md` — Status: Incomplete
+- `src/PRICING_WIREFRAME_ACCESS_GUIDE.md` — Status: Incomplete
+- `src/PRODUCTION_LAUNCH_CHECKLIST.md` — Status: Incomplete
+- `src/PRODUCTION_LAUNCH_FINAL_CHECKLIST.md` — Status: Incomplete
+- `src/PROFESSIONAL_ICON_SYSTEM_GUIDE.md` — Status: Incomplete
+- `src/PUSH_TO_GITHUB_INSTRUCTIONS.md` — Status: Incomplete
+- `src/QUICK_ACTION_CHECKLIST.md` — Status: Incomplete
+- `src/QUICK_REFERENCE_REPO_HARDENING.md` — Status: Incomplete
+- `src/QUICK_SETUP_GUIDE.md` — Status: Incomplete
+- `src/QUICK_START_FIGMA_IMPLEMENTATION.md` — Status: Incomplete
+- `src/README.md` — Status: Incomplete
+- `src/ROADMAP.md` — Status: Incomplete
+- `src/SECRETS_SETUP_GUIDE.md` — Status: Incomplete
+- `src/SETUP.md` — Status: Incomplete
+- `src/SHADCN_OVERRIDE_TEMPLATE.md` — Status: Incomplete
+- `src/SITE_NAVIGATION_ADDED.md` — Status: Incomplete
+- `src/SITE_QUICK_FIX_GUIDE.md` — Status: Incomplete
+- `src/SITE_UI_FIXES_COMPLETE.md` — Status: Incomplete
+- `src/START_HERE.md` — Status: Incomplete
+- `src/STEP_10_BRANCH_PROTECTION_QUALITY_GATES.md` — Status: Incomplete
+- `src/STEP_11_PRODUCTION_LAUNCH_GO_LIVE.md` — Status: Incomplete
+- `src/STEP_12_USER_ONBOARDING_ADOPTION.md` — Status: Incomplete
+- `src/STEP_13_PERFORMANCE_MONITORING_SCALING.md` — Status: Incomplete
+- `src/STEP_14_COMMUNITY_BUILDING_FEEDBACK.md` — Status: Incomplete
+- `src/STEP_15_REVENUE_OPTIMIZATION_GROWTH.md` — Status: Incomplete
+- `src/STEP_16_ENTERPRISE_SALES_PARTNERSHIPS.md` — Status: Incomplete
+- `src/STEP_17_AI_INNOVATION_COMPETITIVE_MOAT.md` — Status: Incomplete
+- `src/STEP_18_GLOBAL_EXPANSION_LOCALIZATION.md` — Status: Incomplete
+- `src/STEP_19_PLATFORM_ECOSYSTEM_MARKETPLACE.md` — Status: Incomplete
+- `src/STEP_1_IMPLEMENTATION_GUIDE.md` — Status: Incomplete
+- `src/STEP_20_SUSTAINABILITY_EXIT_STRATEGY.md` — Status: Incomplete
+- `src/STEP_6_TEAM_COLLABORATION_SETUP.md` — Status: Incomplete
+- `src/STEP_7_MILESTONE_PROJECT_BOARD.md` — Status: Incomplete
+- `src/STEP_8_MONITORING_ANALYTICS_SETUP.md` — Status: Incomplete
+- `src/STEP_9_WEBHOOKS_INTEGRATIONS.md` — Status: Incomplete
+- `src/STRATEGIC_NEXT_STEPS.md` — Status: Incomplete
+- `src/SUPABASE_AUTH_INTEGRATION_COMPLETE.md` — Status: Incomplete
+- `src/SUPABASE_STATUS_CHECK.md` — Status: Incomplete
+- `src/SUPABASE_STUDIO_BACKEND_DEPLOYED.md` — Status: Incomplete
+- `src/TECHNICAL_ARCHITECTURE_MATRIX_GUIDE.md` — Status: Incomplete
+- `src/TIMEOUT_FIX_COMPLETE_GUIDE.md` — Status: Incomplete
+- `src/TIMEOUT_FIX_GUIDE.md` — Status: Incomplete
+- `src/TURBOREPO_QUICK_START.md` — Status: Incomplete
+- `src/UI_COMPLIANCE_ANALYSIS_REPORT.md` — Status: Incomplete
+- `src/UI_COMPONENTS_FIXED_SUMMARY.md` — Status: Incomplete
+- `src/UI_WORKFLOW_IMPROVEMENTS.md` — Status: Incomplete
+- `src/USER_PERSONA_CARDS_GUIDE.md` — Status: Incomplete
+- `src/USER_WORKFLOW_VERIFICATION.md` — Status: Incomplete
+- `src/VERCEL_MULTI_DOMAIN_SETUP.md` — Status: Incomplete
+- `src/WORKFLOW_COMPONENTS_STATUS.md` — Status: Incomplete
+- `src/WORKFLOW_TESTING_EXECUTION_GUIDE.md` — Status: Incomplete
+- `src/components/core/ARCHITECTURE.md` — Status: Incomplete
+- `src/components/core/README.md` — Status: Incomplete
+- `src/components/github/README.md` — Status: Incomplete
+- `src/components/pages/README.md` — Status: Incomplete
+- `src/components/ui/README.md` — Status: Incomplete
+- `src/comprehensive-feature-test.md` — Status: Incomplete
+- `src/design-system/README.md` — Status: Incomplete
+- `src/design-system/accessibility-report.md` — Status: Incomplete
+- `src/docs/API_REFERENCE.md` — Status: Incomplete
+- `src/docs/ARCHITECTURE_OVERVIEW.md` — Status: Incomplete
+- `src/docs/CODE_ARCHITECTURE.md` — Status: Incomplete
+- `src/docs/DEPLOYMENT_GUIDE.md` — Status: Incomplete
+- `src/docs/DEVELOPER_NAVIGATION_GUIDE.md` — Status: Incomplete
+- `src/docs/DEVELOPMENT_SETUP.md` — Status: Incomplete
+- `src/docs/PLATFORM_OVERVIEW.md` — Status: Incomplete
+- `src/docs/QUICK_START.md` — Status: Incomplete
+- `src/docs/README.md` — Status: Incomplete
+- `src/docs/REFACTORING_GUIDE.md` — Status: Incomplete
+- `src/docs/USER_FLOW_COMPLETE.md` — Status: Incomplete
+- `src/docs/USER_MANUAL.md` — Status: Incomplete
+- `src/features/analytics-dashboard/docs/FEATURE_README.md` — Status: Incomplete
+- `src/features/content-analyzer/docs/FEATURE_README.md` — Status: Incomplete
+- `src/features/studio/COMPLETE_PACKAGE_SUMMARY.md` — Status: Incomplete
+- `src/features/studio/CONTRACTS.md` — Status: Incomplete
+- `src/features/studio/GIT_PUSH_GUIDE.md` — Status: Incomplete
+- `src/features/studio/IMPLEMENTATION_SUMMARY.md` — Status: Incomplete
+- `src/features/studio/INDEX.md` — Status: Incomplete
+- `src/features/studio/PHASE_5_IMPLEMENTATION_GUIDE.md` — Status: Incomplete
+- `src/features/studio/PHASE_5_STEPS_1-5_COMPLETE.md` — Status: Incomplete
+- `src/features/studio/PRIVACY_BASELINE.md` — Status: Incomplete
+- `src/features/studio/PRODUCT_CHARTER.md` — Status: Incomplete
+- `src/features/studio/PWA_WORKBOX_SPEC.md` — Status: Incomplete
+- `src/features/studio/QUICK_REFERENCE.md` — Status: Incomplete
+- `src/features/studio/QUICK_START_INTEGRATION.md` — Status: Incomplete
+- `src/features/studio/README.md` — Status: Incomplete
+- `src/features/studio/SECURITY_BASELINE.md` — Status: Incomplete
+- `src/features/studio/SLO_SLI_ERROR_BUDGETS.md` — Status: Incomplete
+- `src/features/user-profile/docs/FEATURE_README.md` — Status: Incomplete
+- `src/final-validation-summary.md` — Status: Incomplete
+- `src/fix-summary.md` — Status: Incomplete
+- `src/guidelines/Guidelines.md` — Status: Incomplete
+- `src/integration/manual-analysis.md` — Status: Incomplete
+- `src/integration/quick-start-checklist.md` — Status: Incomplete
+- `src/integration/simple-merge-guide.md` — Status: Incomplete
+- `src/scaffolding/EXAMPLES.md` — Status: Incomplete
+- `src/scaffolding/EXPANSION_SUMMARY.md` — Status: Incomplete
+- `src/scaffolding/README.md` — Status: Incomplete
+- `src/scaffolding/templates/feature-template/docs/FEATURE_README.md` — Status: Incomplete
+- `src/scaffolding/templates/page-template/docs/FEATURE_README.md` — Status: Incomplete
+- `src/scaffolding/templates/tool-template/docs/FEATURE_README.md` — Status: Incomplete
+- `src/scaffolding/templates/widget-template/docs/FEATURE_README.md` — Status: Incomplete
+- `src/ui-compliance-report.md` — Status: Incomplete
