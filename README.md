@@ -50,6 +50,7 @@ npm run build
 - **[Executive Summary](./PDR_EXECUTIVE_SUMMARY.md)** - Business overview
 - **[Action Checklist](./PDR_ACTION_CHECKLIST.md)** - Implementation tasks
 - **[Audit Index](./PDR_AUDIT_INDEX.md)** - Documentation navigation
+- **[ADR-0001](./docs/ADR-0001-frontend-boundaries.md)** - Frontend boundary consolidation decision
 
 ### Performance & Security
 
