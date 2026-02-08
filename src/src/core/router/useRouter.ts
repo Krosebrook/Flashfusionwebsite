@@ -5,6 +5,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
+import { computeRouteState } from '../../../lib/routing-state';
 
 export interface RouteState {
   currentPath: string;
@@ -29,39 +30,12 @@ export function useRouter() {
     }
     
     const url = new URL(window.location.href);
-    const isMobileDevice = /Android|webOS|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
-    
-    // For mobile devices, we require explicit intent to enter the app
-    const shouldShowApp = isMobileDevice 
-      ? url.searchParams.has('app') && url.searchParams.get('app') === 'true'
-      : url.searchParams.has('app') || localStorage.getItem('ff-show-app') === 'true';
-    
-    return {
-      currentPath: url.pathname,
-      searchParams: url.searchParams,
-      isDemoMode: url.searchParams.has('demo') || url.pathname.includes('/demo'),
-      isAuthRoute: url.pathname.includes('/auth/') || url.pathname.includes('/verify-') || url.pathname.includes('/reset-'),
-      shouldShowApp,
-      isValidatorRoute: url.pathname === '/validate'
-    };
+    return computeRouteState(url, navigator.userAgent, window.innerWidth, localStorage.getItem('ff-show-app'));
   });
 
   const updateRouteState = useCallback(() => {
     const url = new URL(window.location.href);
-    const isMobileDevice = /Android|webOS|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
-    
-    const shouldShowApp = isMobileDevice 
-      ? url.searchParams.has('app') && url.searchParams.get('app') === 'true'
-      : url.searchParams.has('app') || localStorage.getItem('ff-show-app') === 'true';
-    
-    setRouteState({
-      currentPath: url.pathname,
-      searchParams: url.searchParams,
-      isDemoMode: url.searchParams.has('demo') || url.pathname.includes('/demo'),
-      isAuthRoute: url.pathname.includes('/auth/') || url.pathname.includes('/verify-') || url.pathname.includes('/reset-'),
-      shouldShowApp,
-      isValidatorRoute: url.pathname === '/validate'
-    });
+    setRouteState(computeRouteState(url, navigator.userAgent, window.innerWidth, localStorage.getItem('ff-show-app')));
   }, []);
 
   useEffect(() => {

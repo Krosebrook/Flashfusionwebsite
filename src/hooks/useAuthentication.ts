@@ -9,6 +9,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
+import { isDemoAuthFallbackEnabled } from '../lib/auth-policy';
 
 export interface AuthUser {
   id: string;
@@ -154,6 +155,17 @@ export function useAuthentication() {
         projectId = supabaseInfo.projectId;
         publicAnonKey = supabaseInfo.publicAnonKey;
       } catch (importError) {
+        if (!isDemoAuthFallbackEnabled()) {
+          const errorMessage = 'Authentication provider configuration is unavailable.';
+          setAuthState(prev => ({
+            ...prev,
+            isLoading: false,
+            error: errorMessage,
+            isInitialized: true
+          }));
+          return { success: false, error: errorMessage };
+        }
+
         console.warn('⚠️ Supabase info not available, using fallback auth');
         
         // Simulate successful login for demo purposes
@@ -223,6 +235,17 @@ export function useAuthentication() {
 
         return { success: true, user };
       } catch (fetchError) {
+        if (!isDemoAuthFallbackEnabled()) {
+          const errorMessage = fetchError instanceof Error ? fetchError.message : 'Login failed';
+          setAuthState(prev => ({
+            ...prev,
+            isLoading: false,
+            error: errorMessage,
+            isInitialized: true
+          }));
+          return { success: false, error: errorMessage };
+        }
+
         // If API fails, fall back to demo mode
         console.warn('⚠️ API login failed, using demo mode:', fetchError);
         
