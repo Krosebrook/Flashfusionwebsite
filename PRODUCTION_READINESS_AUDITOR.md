@@ -2,6 +2,11 @@
 
 A strict, evidence-based auditor that evaluates software readiness for Employee/Internal Use, Public Beta, and Production-Grade Launch.
 
+## Quick Links
+
+- [Full Example Output](./docs/PRODUCTION_READINESS_AUDIT_EXAMPLE.md) - See what the audit generates
+- [GitHub Actions Workflow](./.github/workflows/production-readiness-audit.yml) - Automated audits in CI/CD
+
 ## Overview
 
 The Production Readiness Auditor performs comprehensive assessments of software systems based on **evidence only**. If something cannot be verified from the repository, deployment configuration, or runtime behavior, it is marked as **"UNVERIFIED — ASSUME MISSING."**

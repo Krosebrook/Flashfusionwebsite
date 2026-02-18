@@ -42,6 +42,8 @@ Thumbs.db
 audit-report.json
 AUDIT_REPORT.md
 performance-audit-*.json
+production-readiness-audit-*.txt
+audit-output.txt
 *.tmp
 *.temp
 
