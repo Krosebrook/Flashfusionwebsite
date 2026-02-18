@@ -1256,7 +1256,7 @@ function printUsage() {
 Production Readiness Auditor - Strict Mode
 
 Usage:
-  node production-readiness-auditor.js [options]
+  node production-readiness-auditor.cjs [options]
 
 Options:
   --repo <path>              Repository path (default: current directory)
@@ -1269,16 +1269,16 @@ Options:
 
 Examples:
   # Audit current repository
-  node production-readiness-auditor.js
+  node production-readiness-auditor.cjs
 
   # Audit with deployment URL
-  node production-readiness-auditor.js --deployment https://example.com
+  node production-readiness-auditor.cjs --deployment https://example.com
 
   # Audit for public launch with PII
-  node production-readiness-auditor.js --audience Public --pii
+  node production-readiness-auditor.cjs --audience Public --pii
 
   # Full audit
-  node production-readiness-auditor.js \\
+  node production-readiness-auditor.cjs \\
     --repo /path/to/repo \\
     --deployment https://app.example.com \\
     --audience Both \\

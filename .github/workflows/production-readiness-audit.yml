@@ -113,14 +113,16 @@ jobs:
             const readiness = readinessMatch ? readinessMatch[1] : 'Unknown';
             
             // Create comment
-            const comment = `## 🔍 Production Readiness Audit
-            
-            **Score:** ${score}/50
-            **Readiness Level:** ${readiness}
-            
-            📄 Full report available in the workflow artifacts.
-            
-            Run \`npm run audit:readiness\` locally for detailed findings.`;
+            const comment = [
+              '## 🔍 Production Readiness Audit',
+              '',
+              `**Score:** ${score}/50`,
+              `**Readiness Level:** ${readiness}`,
+              '',
+              '📄 Full report available in the workflow artifacts.',
+              '',
+              'Run `npm run audit:readiness` locally for detailed findings.'
+            ].join('\n');
             
             github.rest.issues.createComment({
               issue_number: context.issue.number,
