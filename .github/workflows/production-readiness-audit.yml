@@ -1,0 +1,168 @@
+name: Production Readiness Audit
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+    inputs:
+      deployment_url:
+        description: 'Deployment URL for runtime checks (optional)'
+        required: false
+        type: string
+      audience:
+        description: 'Intended audience'
+        required: false
+        type: choice
+        options:
+          - Both
+          - Employee
+          - Public
+        default: 'Both'
+      handles_pii:
+        description: 'System handles PII data'
+        required: false
+        type: boolean
+        default: false
+      handles_payments:
+        description: 'System handles payments'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  audit:
+    name: Run Production Readiness Audit
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pull-requests: write
+      actions: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Run Production Readiness Audit
+        id: audit
+        run: |
+          echo "Running production readiness audit..."
+          
+          # Build command with optional parameters
+          CMD="node production-readiness-auditor.cjs"
+          
+          if [ -n "${{ inputs.deployment_url }}" ]; then
+            CMD="$CMD --deployment ${{ inputs.deployment_url }}"
+          fi
+          
+          if [ -n "${{ inputs.audience }}" ]; then
+            CMD="$CMD --audience ${{ inputs.audience }}"
+          fi
+          
+          if [ "${{ inputs.handles_pii }}" = "true" ]; then
+            CMD="$CMD --pii"
+          fi
+          
+          if [ "${{ inputs.handles_payments }}" = "true" ]; then
+            CMD="$CMD --payments"
+          fi
+          
+          # Run audit
+          $CMD
+        continue-on-error: true
+      
+      - name: Upload Audit Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: production-readiness-audit-report
+          path: production-readiness-audit-*.txt
+          retention-days: 90
+      
+      - name: Comment on PR (if applicable)
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Find the most recent audit report
+            const files = fs.readdirSync('.')
+              .filter(f => f.startsWith('production-readiness-audit-') && f.endsWith('.txt'))
+              .sort()
+              .reverse();
+            
+            if (files.length === 0) {
+              console.log('No audit report found');
+              return;
+            }
+            
+            const reportContent = fs.readFileSync(files[0], 'utf8');
+            
+            // Extract key metrics from report
+            const scoreMatch = reportContent.match(/TOTAL SCORE: (\d+)\/50/);
+            const readinessMatch = reportContent.match(/READINESS: (.+)/);
+            
+            const score = scoreMatch ? scoreMatch[1] : 'Unknown';
+            const readiness = readinessMatch ? readinessMatch[1] : 'Unknown';
+            
+            // Create comment
+            const comment = [
+              '## 🔍 Production Readiness Audit',
+              '',
+              `**Score:** ${score}/50`,
+              `**Readiness Level:** ${readiness}`,
+              '',
+              '📄 Full report available in the workflow artifacts.',
+              '',
+              'Run `npm run audit:readiness` locally for detailed findings.'
+            ].join('\n');
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+      - name: Create Summary
+        if: always()
+        run: |
+          echo "## Production Readiness Audit Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Find the most recent audit report
+          REPORT=$(ls -t production-readiness-audit-*.txt 2>/dev/null | head -1)
+          
+          if [ -n "$REPORT" ]; then
+            echo "✅ Audit completed successfully" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            # Extract score
+            SCORE=$(grep "TOTAL SCORE:" "$REPORT" | head -1)
+            READINESS=$(grep "READINESS:" "$REPORT" | head -1)
+            
+            if [ -n "$SCORE" ]; then
+              echo "**$SCORE**" >> $GITHUB_STEP_SUMMARY
+            fi
+            
+            if [ -n "$READINESS" ]; then
+              echo "**$READINESS**" >> $GITHUB_STEP_SUMMARY
+            fi
+            
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "📄 Full report available in workflow artifacts" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Audit failed to generate report" >> $GITHUB_STEP_SUMMARY
+          fi

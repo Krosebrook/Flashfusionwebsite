@@ -20,6 +20,7 @@
     "test:e2e": "playwright test",
     "validate": "npm run typecheck && npm run lint && npm run test",
     "scaffold:feature": "node src/scaffolding/generate-feature.js",
+    "audit:readiness": "node production-readiness-auditor.cjs",
     "prepare": "husky install"
   },
   "dependencies": {

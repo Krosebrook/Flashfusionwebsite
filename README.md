@@ -75,11 +75,30 @@ Flashfusionwebsite/
 ## 🛠️ Available Scripts
 
 ```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run test         # Run tests
-npm run lint         # Lint code
+npm run dev              # Start development server
+npm run build            # Build for production
+npm run test             # Run tests
+npm run lint             # Lint code
+npm run audit:readiness  # Run production readiness audit
 ```
+
+## 🔍 Production Readiness Auditor
+
+A comprehensive auditor that evaluates software readiness for Employee/Internal Use, Public Beta, and Production-Grade Launch. The auditor scores your repository across 10 categories (0-5 each) and provides actionable recommendations.
+
+**Quick Start:**
+
+```bash
+npm run audit:readiness
+```
+
+**With Deployment URL:**
+
+```bash
+node production-readiness-auditor.cjs --deployment https://your-app.com
+```
+
+For complete documentation, see [PRODUCTION_READINESS_AUDITOR.md](./PRODUCTION_READINESS_AUDITOR.md).
 
 ## 🌐 Featured Repositories
 
