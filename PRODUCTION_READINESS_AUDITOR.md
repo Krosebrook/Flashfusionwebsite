@@ -4,6 +4,7 @@ A strict, evidence-based auditor that evaluates software readiness for Employee/
 
 ## Quick Links
 
+- **[Quick Start Guide](./PRODUCTION_READINESS_QUICK_START.md)** - Get started in 5 minutes ⚡
 - [Full Example Output](./docs/PRODUCTION_READINESS_AUDIT_EXAMPLE.md) - See what the audit generates
 - [GitHub Actions Workflow](./.github/workflows/production-readiness-audit.yml) - Automated audits in CI/CD
 
